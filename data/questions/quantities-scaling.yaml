@@ -96,3 +96,101 @@
     unit: g
     tolerancePct: 1
   referenceAnswer: '100 g (5% of 2000 g)'
+
+- id: qty-007
+  category: quantities-scaling
+  difficulty: 3
+  public: true
+  prompt: >
+    I'm making paella for 11 people with bomba rice. Allow 100 g of rice per
+    person and use a broth-to-rice ratio of 3:1 by weight. How many grams of
+    broth do I need?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    expected: 3300
+    unit: g
+    tolerancePct: 1
+  referenceAnswer: '3300 g (11 × 100 g rice = 1100 g; × 3 = 3300 g broth)'
+
+- id: qty-008
+  category: quantities-scaling
+  difficulty: 2
+  public: true
+  prompt: >
+    I brew pour-over coffee at a 1:16 coffee-to-water ratio by weight. For
+    750 g of water, how many grams of ground coffee should I use?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    expected: 46.9
+    unit: g
+    tolerancePct: 2
+  referenceAnswer: '46.9 g (750 ÷ 16), usually rounded to 47 g'
+
+- id: qty-009
+  category: quantities-scaling
+  difficulty: 3
+  public: true
+  prompt: >
+    A dough formula in baker's percentages: flour 100%, water 68%, salt 2%,
+    yeast 1.2%. I want exactly 1712 g of total dough. How many grams of each
+    ingredient?
+  systemHint: >
+    End your reply with one line per ingredient in the form
+    "<ingredient>: <number> g".
+  grader:
+    type: numeric-multi
+    scoring: proportional
+    targets:
+      - { label: flour, expected: 1000, unit: g, tolerancePct: 1 }
+      - { label: water, expected: 680, unit: g, tolerancePct: 1 }
+      - { label: salt, expected: 20, unit: g, tolerancePct: 3 }
+      - { label: yeast, expected: 12, unit: g, tolerancePct: 5 }
+  referenceAnswer: >
+    Total percentage is 171.2%, so flour = 1712 / 1.712 = 1000 g, water 680 g,
+    salt 20 g, yeast 12 g.
+
+- id: qty-010
+  category: quantities-scaling
+  difficulty: 1
+  public: true
+  prompt: >
+    A muffin recipe uses 3 eggs for 12 muffins. How many eggs do I need for
+    36 muffins?
+  systemHint: 'End your reply with a line "Answer: <number> eggs".'
+  grader:
+    type: numeric
+    expected: 9
+    toleranceAbs: 0.01
+  referenceAnswer: '9 eggs (3 × 36/12)'
+
+- id: qty-011
+  category: quantities-scaling
+  difficulty: 2
+  public: true
+  prompt: >
+    A soup recipe serves 8 and calls for 2.5 litres of stock. How much stock
+    do I need to make it for 3 people, in millilitres?
+  systemHint: 'End your reply with a line "Answer: <number> ml".'
+  grader:
+    type: numeric
+    expected: 937.5
+    unit: ml
+    tolerancePct: 1
+  referenceAnswer: '937.5 ml (2500 × 3/8)'
+
+- id: qty-012
+  category: quantities-scaling
+  difficulty: 2
+  public: false
+  prompt: >
+    A cocktail uses 60 ml gin, 22.5 ml lemon juice and 15 ml syrup per drink.
+    I'm batching for 25 guests at 2 drinks each. How many litres of gin?
+  systemHint: 'End your reply with a line "Answer: <number> litres".'
+  grader:
+    type: numeric
+    expected: 3
+    unit: l
+    tolerancePct: 1
+  referenceAnswer: '3 litres (60 ml × 50 drinks)'

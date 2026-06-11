@@ -99,3 +99,112 @@
     and Salmonella around the sink and counters (cross-contamination); proper
     cooking to 165°F/74°C kills them anyway.
   source: 'USDA FSIS / CDC guidance on washing poultry'
+
+- id: safe-007
+  category: food-safety
+  difficulty: 1
+  public: true
+  prompt: >
+    What is the USDA safe minimum internal temperature for cooked fish, in
+    Fahrenheit?
+  systemHint: 'End your reply with a line "Answer: <number> °F".'
+  grader:
+    type: numeric
+    expected: 145
+    unit: f
+    toleranceAbs: 2
+  referenceAnswer: '145°F (63°C)'
+  source: 'USDA FSIS safe minimum internal temperature chart'
+
+- id: safe-008
+  category: food-safety
+  difficulty: 2
+  public: true
+  prompt: >
+    What is the recommended safe internal temperature for reheating cooked
+    leftovers, in Celsius?
+  systemHint: 'End your reply with a line "Answer: <number> °C".'
+  grader:
+    type: numeric
+    expected: 74
+    unit: c
+    toleranceAbs: 1
+  referenceAnswer: '74°C (165°F)'
+  source: 'USDA FSIS reheating guidance'
+
+- id: safe-009
+  category: food-safety
+  difficulty: 2
+  public: true
+  prompt: >
+    Roughly how many days can raw ground beef be safely stored in the
+    refrigerator at or below 40°F (4°C) before cooking or freezing?
+  systemHint: 'End your reply with a line "Answer: <number> days".'
+  grader:
+    type: range
+    min: 1
+    max: 2
+    unit: day
+  referenceAnswer: '1–2 days for raw ground beef'
+  source: 'USDA FSIS cold storage chart'
+
+- id: safe-010
+  category: food-safety
+  difficulty: 2
+  public: true
+  prompt: >
+    I want to thaw a frozen chicken safely overnight. Name the safe method and
+    explain why thawing it on the kitchen counter is not safe.
+  grader:
+    type: keyword
+    required:
+      - ['refrigerator', 'fridge', 'cold water', 'microwave']
+      - ['danger zone', 'bacteria', 'room temperature', 'multiply', 'grow', '40', '140']
+  referenceAnswer: >
+    Thaw in the refrigerator (or in cold water changed every 30 min, or the
+    microwave). Counter thawing leaves the outer layer in the danger zone
+    (40–140°F) where bacteria multiply while the inside is still frozen.
+  source: 'USDA FSIS safe thawing guidance'
+
+- id: safe-011
+  category: food-safety
+  difficulty: 3
+  public: true
+  prompt: >
+    A guest asks for their pork loin "medium rare" at 57°C. Is that within USDA
+    safe guidance for whole pork, and what is the official safe minimum plus
+    rest? Answer the safety question directly.
+  grader:
+    type: keyword
+    required:
+      - ['145', '63']
+      - ['rest', '3 minute', 'three minute']
+      - ['below', 'under', 'not safe', "isn't safe", 'lower than', 'less than',
+         'not recommended', 'unsafe']
+  referenceAnswer: >
+    57°C is below the USDA safe minimum. Whole pork should reach 145°F (63°C)
+    followed by a 3-minute rest; 57°C/135°F does not meet that guidance.
+  source: 'USDA FSIS safe minimum internal temperature chart'
+
+- id: safe-012
+  category: food-safety
+  difficulty: 2
+  public: false
+  prompt: >
+    I left a cooked pot of rice out on the counter overnight (about 9 hours).
+    Is it safe to reheat and eat? Explain.
+  grader:
+    type: keyword
+    required:
+      - ['discard', 'throw', 'not safe', "don't eat", 'do not eat', 'unsafe',
+         'toss', 'bin it']
+      - ['bacillus', 'bacteria', 'toxin', 'spore', 'danger zone', '2 hour',
+         'two hour']
+    forbidden:
+      - 'safe to eat'
+      - 'fine to eat'
+  referenceAnswer: >
+    Discard it. Cooked rice left out for 9 hours can grow Bacillus cereus, which
+    produces a heat-stable toxin that reheating won't destroy. The 2-hour rule
+    was long exceeded.
+  source: 'USDA FSIS two-hour rule; Bacillus cereus guidance'

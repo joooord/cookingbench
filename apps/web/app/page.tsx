@@ -14,7 +14,8 @@ export default function LeaderboardPage() {
           className="font-display font-semibold tracking-tight"
           style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', letterSpacing: '-0.02em', lineHeight: 1.05 }}
         >
-          How well do AI models <em className="text-paprika not-italic underline decoration-2 underline-offset-8">cook</em>?
+          Which AI model is the best{' '}
+          <em className="text-paprika not-italic underline decoration-2 underline-offset-8">chef</em>?
         </h1>
         <p className="mt-6 max-w-2xl text-lg text-ink-soft">
           CookingBench scores models on the things that actually go wrong in a kitchen:

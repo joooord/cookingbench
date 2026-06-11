@@ -16,9 +16,9 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'CookingBench — how well do AI models cook?',
+  title: 'CookingBench — which AI model is the best chef?',
   description:
-    'A benchmark and leaderboard for culinary competence in AI models: quantities, conversions, food safety, technique, flavour and nutrition.',
+    'A benchmark and leaderboard ranking AI models on culinary competence: quantities, conversions, food safety, technique, flavour and nutrition.',
 };
 
 const NAV = [

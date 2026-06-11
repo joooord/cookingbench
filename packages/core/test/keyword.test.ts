@@ -34,6 +34,31 @@ describe('gradeKeyword', () => {
     expect(gradeKeyword(spec, 'You really DON’T WASH raw chicken.').score).toBe(100);
   });
 
+  it('does not zero on negated forbidden terms', () => {
+    const spec: GraderSpec = {
+      type: 'keyword',
+      required: [['sunflower seed butter', 'cheese']],
+      forbidden: ['peanut', 'almonds'],
+    };
+    const answer =
+      'Use sunflower seed butter — make sure the label says peanut-free, and avoid almonds entirely.';
+    expect(gradeKeyword(spec, answer).score).toBe(100);
+  });
+
+  it('still zeroes when the forbidden term is actually used', () => {
+    const spec: GraderSpec = {
+      type: 'keyword',
+      required: [['snack']],
+      forbidden: ['peanut'],
+    };
+    expect(gradeKeyword(spec, 'A great snack: spread peanut butter on crackers.').score).toBe(0);
+  });
+
+  it('treats "X-free" as negated', () => {
+    const spec: GraderSpec = { type: 'keyword', required: [['flour']], forbidden: ['gluten'] };
+    expect(gradeKeyword(spec, 'Use a gluten-free flour blend.').score).toBe(100);
+  });
+
   it('zeroes the score on forbidden (unsafe) content', () => {
     const spec: GraderSpec = {
       type: 'keyword',

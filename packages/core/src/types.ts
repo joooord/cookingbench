@@ -103,8 +103,8 @@ export type GraderSpec =
   | { type: 'range'; min: number; max: number; unit?: string }
   | {
       type: 'keyword';
-      /** Outer array = AND, inner array = OR (synonyms). */
-      required: string[][];
+      /** Outer array = AND, inner array = OR (synonyms). Optional when only forbidding. */
+      required?: string[][];
       /** Any forbidden term present zeroes the question (e.g. unsafe advice). */
       forbidden?: string[];
     }

@@ -87,3 +87,117 @@
     toleranceAbs: 10
     acceptEquivalentUnits: false
   referenceAnswer: '400°F (200°C)'
+
+- id: conv-007
+  category: conversions
+  difficulty: 1
+  public: true
+  prompt: How many grams are in 8 ounces (avoirdupois)?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    expected: 226.8
+    unit: g
+    toleranceAbs: 3
+  referenceAnswer: '226.8 g (8 × 28.35)'
+
+- id: conv-008
+  category: conversions
+  difficulty: 2
+  public: true
+  prompt: >
+    Convert a fan (convection) oven setting of 180°C to the equivalent
+    conventional oven temperature in Celsius. Fan ovens typically run about
+    20°C lower than conventional.
+  systemHint: 'End your reply with a line "Answer: <number> °C".'
+  grader:
+    type: numeric
+    expected: 200
+    unit: c
+    toleranceAbs: 6
+    acceptEquivalentUnits: false
+  referenceAnswer: '≈200°C conventional (fan setting + ~20°C)'
+
+- id: conv-009
+  category: conversions
+  difficulty: 1
+  public: true
+  prompt: How many teaspoons are in 1 US tablespoon?
+  systemHint: 'End your reply with a line "Answer: <number> tsp".'
+  grader:
+    type: numeric
+    expected: 3
+    unit: tsp
+    toleranceAbs: 0.01
+  referenceAnswer: '3 teaspoons'
+
+- id: conv-010
+  category: conversions
+  difficulty: 2
+  public: true
+  prompt: >
+    A recipe needs 1 pound of strawberries but my scale only reads in grams.
+    How many grams should I weigh out?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    expected: 454
+    unit: g
+    toleranceAbs: 6
+  referenceAnswer: '≈454 g (1 lb)'
+
+- id: conv-011
+  category: conversions
+  difficulty: 3
+  public: true
+  prompt: >
+    Water boils at 100°C at sea level. Express that temperature in Kelvin.
+  systemHint: 'End your reply with a line "Answer: <number> K".'
+  grader:
+    type: numeric
+    expected: 373.15
+    toleranceAbs: 1
+  referenceAnswer: '373.15 K (100 + 273.15)'
+
+- id: conv-012
+  category: conversions
+  difficulty: 2
+  public: true
+  prompt: How many millilitres are in 1.5 US cups of water?
+  systemHint: 'End your reply with a line "Answer: <number> ml".'
+  grader:
+    type: numeric
+    expected: 355
+    unit: ml
+    toleranceAbs: 10
+    acceptEquivalentUnits: false
+  referenceAnswer: '≈355 ml (1.5 × 236.6)'
+
+- id: conv-013
+  category: conversions
+  difficulty: 1
+  public: true
+  prompt: Convert 425°F to Celsius for an oven.
+  systemHint: 'End your reply with a line "Answer: <number> °C".'
+  grader:
+    type: numeric
+    expected: 218.3
+    unit: c
+    toleranceAbs: 6
+    acceptEquivalentUnits: false
+  referenceAnswer: '218°C, conventionally rounded to 220°C'
+
+- id: conv-014
+  category: conversions
+  difficulty: 2
+  public: false
+  prompt: >
+    A European recipe lists 250 g of caster sugar. Roughly how many US cups is
+    that, given granulated sugar is about 200 g per cup?
+  systemHint: 'End your reply with a line "Answer: <number> cups".'
+  grader:
+    type: numeric
+    expected: 1.25
+    unit: cup
+    tolerancePct: 8
+  referenceAnswer: '≈1.25 cups (250 ÷ 200)'

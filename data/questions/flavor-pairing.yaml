@@ -171,3 +171,156 @@
     Something cold, light and acidic: lime or passion-fruit sorbet, or fresh
     mango with lime. After heat and coconut fat, cold acidity resets the palate;
     mango sticky rice is the classic regional choice if portioned small.
+
+- id: flav-007
+  category: flavor-pairing
+  difficulty: 2
+  public: true
+  prompt: >
+    I've made a rich, fatty braised pork belly. Suggest an acidic accompaniment
+    and explain how it balances the dish.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Balance logic
+        description: >
+          5 = chooses an acidic/pickled/sharp element (pickled vegetables, apple
+          slaw, mustard, citrus, quick-pickled onions) and explains how acidity
+          cuts the fat and resets the palate. 1 = another rich element or no
+          reasoning.
+        weight: 0.6
+      - name: Pairing soundness
+        description: 5 = genuinely pairs with pork belly. 1 = clashing.
+        weight: 0.4
+  referenceAnswer: >
+    Something sharp and acidic — quick-pickled vegetables, a crisp apple slaw, or
+    a mustard sauce. The acidity cuts through the rendered fat and resets the
+    palate between rich bites.
+
+- id: flav-008
+  category: flavor-pairing
+  difficulty: 1
+  public: true
+  prompt: >
+    My dark chocolate dessert tastes one-dimensional. Name a single pantry
+    ingredient (not sugar) that would deepen and round out the chocolate flavour,
+    and explain why.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Correct identification
+        description: >
+          5 = salt, coffee/espresso, or vanilla — with a clear reason (salt
+          suppresses bitterness and lifts perceived sweetness; coffee amplifies
+          cocoa notes). 1 = irrelevant or sugar.
+        weight: 0.6
+      - name: Mechanism explanation
+        description: 5 = explains the perceptual mechanism. 1 = none.
+        weight: 0.4
+  referenceAnswer: >
+    A pinch of salt — it suppresses bitterness and heightens perceived sweetness
+    and chocolate aroma. (A little instant espresso, which amplifies cocoa notes,
+    is an equally strong answer.)
+
+- id: flav-009
+  category: flavor-pairing
+  difficulty: 2
+  public: true
+  prompt: >
+    I'm building a cheese board with one soft, one hard, and one blue cheese.
+    Recommend a fruit, a preserve, and a crunchy element, and justify how they
+    play against the cheeses.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Pairing soundness
+        description: >
+          5 = classic, defensible accompaniments (grapes/figs/apple; fig jam,
+          honey, quince; walnuts, crackers, candied nuts) matched thoughtfully to
+          the cheese styles. 1 = random or clashing.
+        weight: 0.5
+      - name: Reasoning quality
+        description: >
+          5 = explains sweet/salty contrast, acidity, and texture against creamy
+          vs firm vs pungent cheese. 1 = a list with no logic.
+        weight: 0.5
+  referenceAnswer: >
+    Fresh figs or grapes (sweet acidity against the blue's salt and the soft
+    cheese's cream), fig jam or honey (sweetness to tame the blue), and walnuts
+    or seeded crackers (tannic crunch against creamy textures).
+
+- id: flav-010
+  category: flavor-pairing
+  difficulty: 3
+  public: true
+  prompt: >
+    Explain the principle behind pairing fatty, oily fish like mackerel with
+    sharp ingredients such as gooseberry, rhubarb or lemon. Then name one more
+    pairing that follows the same principle.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Principle explanation
+        description: >
+          5 = articulates that high acidity cuts and balances the rich oils and
+          cleanses the palate (and can tame fishiness). 1 = no real principle.
+        weight: 0.5
+      - name: Consistent new pairing
+        description: >
+          5 = offers another oily-fish-plus-acid or rich-plus-acid pairing that
+          follows the same logic (e.g. sardines + tomato/lemon, salmon + dill-
+          lemon, herring + pickles). 1 = unrelated or contradictory.
+        weight: 0.5
+  referenceAnswer: >
+    Oily fish is rich; high-acid partners cut through the fat, refresh the palate
+    and balance any strong fishy notes. Same principle: sardines with tomato and
+    lemon, or herring with sharp pickles.
+
+- id: flav-011
+  category: flavor-pairing
+  difficulty: 2
+  public: true
+  prompt: >
+    A vegetable soup I made is one-note and bland despite seasoning with salt.
+    Beyond salt, name three different levers (not specific ingredients but
+    categories of flavour) I could pull to add depth, with an example of each.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Coverage of levers
+        description: >
+          5 = names distinct categories such as acid (lemon/vinegar), umami
+          (miso/parmesan/soy/tomato), and aromatics/heat or fat/richness or
+          browning (caramelize the onions), each with an example. 1 = repeats one
+          lever or just "add herbs".
+        weight: 0.6
+      - name: Soundness
+        description: 5 = each lever genuinely adds depth and the examples fit. 1 = off.
+        weight: 0.4
+  referenceAnswer: >
+    Acid (a squeeze of lemon or splash of vinegar to brighten), umami (miso, soy,
+    parmesan rind or tomato paste for savoury depth), and browning/aromatics
+    (caramelize the onions, bloom spices, or finish with fresh herbs and good oil).
+
+- id: flav-012
+  category: flavor-pairing
+  difficulty: 1
+  public: false
+  prompt: >
+    What classic herb pairs with lamb, and why is it such a reliable match?
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Correct pairing
+        description: >
+          5 = rosemary (or mint) with a reason. 1 = a herb that fights lamb or no
+          reasoning.
+        weight: 0.6
+      - name: Reasoning quality
+        description: >
+          5 = explains how the resinous/piney aromatics cut and complement lamb's
+          rich, gamey fat. 1 = "it just works".
+        weight: 0.4
+  referenceAnswer: >
+    Rosemary — its piney, resinous aromatics stand up to and cut through lamb's
+    rich, slightly gamey fat. Mint (as a sharp sauce) works on the same logic.

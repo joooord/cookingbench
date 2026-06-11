@@ -37,11 +37,15 @@ const rangeGrader = z.object({
   unit: z.string().optional(),
 });
 
-const keywordGrader = z.object({
-  type: z.literal('keyword'),
-  required: z.array(z.array(z.string().min(1)).min(1)).min(1),
-  forbidden: z.array(z.string().min(1)).optional(),
-});
+const keywordGrader = z
+  .object({
+    type: z.literal('keyword'),
+    required: z.array(z.array(z.string().min(1)).min(1)).optional(),
+    forbidden: z.array(z.string().min(1)).optional(),
+  })
+  .refine((g) => (g.required?.length ?? 0) > 0 || (g.forbidden?.length ?? 0) > 0, {
+    message: 'a keyword grader needs at least one required group or forbidden term',
+  });
 
 const llmJudgeGrader = z.object({
   type: z.literal('llm-judge'),

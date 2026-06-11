@@ -186,3 +186,148 @@
     cooking too low for too long. Add hot stock a ladle at a time at a lively
     simmer, stir steadily but gently, stop at al dente, and finish off-heat with
     butter and Parmesan.
+
+- id: tech-007
+  category: technique
+  difficulty: 2
+  public: true
+  prompt: >
+    My scrambled eggs always come out dry and rubbery. Walk me through what I'm
+    likely doing wrong and how to get soft, creamy curds.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Diagnosis accuracy
+        description: >
+          5 = identifies heat too high and/or cooking too long (overcoagulated
+          proteins squeezing out water), and not removing from heat before fully
+          set. 1 = wrong mechanism.
+        weight: 0.5
+      - name: Fixes
+        description: >
+          5 = low-and-slow or gentle medium heat, stir/fold constantly, pull off
+          heat while still slightly wet (carryover), optional fat/dairy for
+          creaminess, season at the end. 1 = generic.
+        weight: 0.3
+      - name: Clarity
+        description: 5 = ordered, practical. 1 = vague.
+        weight: 0.2
+  referenceAnswer: >
+    Dry eggs come from too much heat and overcooking. Cook gently, stir/fold
+    constantly, and take them off the heat while still glossy and slightly
+    underdone — carryover finishes them. A knob of butter and seasoning at the
+    end keeps them creamy.
+
+- id: tech-008
+  category: technique
+  difficulty: 3
+  public: true
+  prompt: >
+    I'm trying to get a deep brown sear on a steak but it stays grey. The pan
+    is non-stick and I take the steak straight from the fridge. Diagnose every
+    problem and tell me how to fix each.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Diagnosis accuracy
+        description: >
+          5 = catches all three: surface moisture + cold meat preventing the
+          Maillard reaction, non-stick pans not getting/holding high enough heat,
+          and crowding/low heat. 1 = misses most.
+        weight: 0.5
+      - name: Fixes
+        description: >
+          5 = pat dry (or dry-brine), bring toward room temp, use cast iron or
+          stainless ripping hot, enough fat, don't move it early. 1 = generic.
+        weight: 0.3
+      - name: Clarity
+        description: 5 = maps each fix to each problem. 1 = unstructured.
+        weight: 0.2
+  referenceAnswer: >
+    Grey not brown = no Maillard. Surface water must boil off first, so pat the
+    steak bone-dry (ideally dry-brine uncovered in the fridge) and take the chill
+    off. Non-stick won't hold searing heat — use ripping-hot cast iron or
+    stainless with a little high-smoke-point oil, and don't move the steak until
+    a crust forms.
+
+- id: tech-009
+  category: technique
+  difficulty: 1
+  public: true
+  prompt: >
+    Why do many recipes tell you to let bread dough rise twice instead of once?
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Explanation accuracy
+        description: >
+          5 = explains that the second rise develops flavour (fermentation
+          byproducts), improves gluten structure and a finer, more even crumb;
+          knocking back redistributes yeast and gas. 1 = wrong or empty.
+        weight: 0.7
+      - name: Clarity
+        description: 5 = concise and correct. 1 = padded or vague.
+        weight: 0.3
+  referenceAnswer: >
+    The first rise builds flavour through fermentation and develops the gluten;
+    knocking back and a second rise redistribute the yeast and gas for a finer,
+    more even crumb and better structure than a single long rise.
+
+- id: tech-010
+  category: technique
+  difficulty: 2
+  public: true
+  prompt: >
+    My pan sauce keeps coming out greasy and thin instead of glossy and
+    emulsified when I finish it with butter. What am I doing wrong?
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Diagnosis accuracy
+        description: >
+          5 = identifies that the sauce is too hot when butter is added (fat
+          breaks out instead of emulsifying) and/or not enough agitation or
+          reduction. 1 = wrong mechanism.
+        weight: 0.5
+      - name: Fixes
+        description: >
+          5 = lower the heat / take off the burner, add cold butter a bit at a
+          time while swirling/whisking (monter au beurre), reduce first for body.
+          1 = generic.
+        weight: 0.3
+      - name: Clarity
+        description: 5 = practical and ordered. 1 = vague.
+        weight: 0.2
+  referenceAnswer: >
+    The pan is too hot, so the butter's fat breaks out instead of emulsifying.
+    Pull it off the heat, then whisk or swirl in cold butter a little at a time
+    (monter au beurre); reduce the sauce first so it has body to hold the emulsion.
+
+- id: tech-011
+  category: technique
+  difficulty: 3
+  public: false
+  prompt: >
+    My meringue keeps weeping (beading liquid) and the sugar feels gritty when
+    I rub it. What are the two distinct problems and how do I fix each?
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Diagnosis accuracy
+        description: >
+          5 = distinguishes weeping (undissolved sugar / undercooked or overbeaten,
+          humidity) from grittiness (sugar not fully dissolved into the whites).
+          1 = conflates or misdiagnoses.
+        weight: 0.5
+      - name: Fixes
+        description: >
+          5 = add sugar gradually and beat until fully dissolved (no grit when
+          rubbed), don't overbeat, stabilize with a little cream of tartar/acid
+          or cornstarch, avoid humid days, ensure fully cooked. 1 = generic.
+        weight: 0.5
+  referenceAnswer: >
+    Grittiness means the sugar never fully dissolved — add it gradually and beat
+    until you feel no grains when rubbing a little between your fingers. Weeping
+    comes from undissolved sugar, overbeating, or humidity; stabilize with a
+    pinch of cream of tartar or a little cornstarch, don't overbeat, and bake on
+    a dry day until properly set.

@@ -97,3 +97,99 @@
   referenceAnswer: >
     1 teaspoon — dried herbs are roughly 3× as concentrated as fresh, so use a
     third of the fresh amount.
+
+- id: subs-007
+  category: substitutions
+  difficulty: 2
+  public: true
+  prompt: >
+    I'm out of self-raising flour and need 200 g. I have plain flour and baking
+    powder. How do I make the substitute, with quantities?
+  grader:
+    type: keyword
+    required:
+      - ['plain flour', 'all-purpose', 'all purpose']
+      - ['baking powder']
+      - ['2 tsp', '2 teaspoon', 'two teaspoon', '4 tsp', '4 teaspoon']
+  referenceAnswer: >
+    Use 200 g plain flour plus about 2 teaspoons of baking powder (roughly
+    2 tsp per 150–200 g flour); whisk to distribute.
+
+- id: subs-008
+  category: substitutions
+  difficulty: 1
+  public: true
+  prompt: >
+    A recipe calls for 1 cup of sour cream but I have plain Greek yogurt. Can I
+    substitute it, and in what ratio?
+  grader:
+    type: keyword
+    required:
+      - ['1:1', 'one to one', 'equal', 'same amount', 'directly', '1 cup',
+         'one cup']
+  referenceAnswer: >
+    Yes — substitute plain Greek yogurt 1:1 for sour cream (1 cup for 1 cup);
+    it behaves almost identically in most recipes.
+
+- id: subs-009
+  category: substitutions
+  difficulty: 2
+  public: true
+  prompt: >
+    I need 1 cup of honey for a recipe but only have granulated sugar. What's
+    the substitution, including any liquid adjustment?
+  grader:
+    type: keyword
+    required:
+      - ['1 1/4 cup', '1¼ cup', '1.25 cup', 'cup and a quarter']
+      - ['liquid', 'water', 'reduce', 'less']
+  referenceAnswer: >
+    Use about 1¼ cups sugar per cup of honey and add ~¼ cup extra liquid (or
+    reduce other liquids), since honey carries moisture.
+
+- id: subs-010
+  category: substitutions
+  difficulty: 2
+  public: true
+  prompt: >
+    A curry recipe calls for coconut milk but my guest is allergic to coconut.
+    Suggest a non-coconut substitute that keeps the dish creamy and dairy-free.
+  grader:
+    type: keyword
+    required:
+      - ['cashew', 'oat', 'soy', 'almond', 'silken tofu', 'sunflower']
+      - ['cream', 'milk', 'blend', 'puree', 'pureed', 'creamy']
+  referenceAnswer: >
+    Use a dairy-free alternative such as blended cashew cream, oat cream, or
+    unsweetened soy cream; cashew cream best mimics coconut milk's richness.
+
+- id: subs-011
+  category: substitutions
+  difficulty: 3
+  public: true
+  prompt: >
+    My recipe needs 1 cup of cake flour and I have only bread flour. Is that a
+    good swap? If not, explain what would happen and a better fix.
+  grader:
+    type: keyword
+    required:
+      - ['no', 'not ideal', "wouldn't", 'avoid', 'not recommended', 'poor swap',
+         'tough', 'dense', 'chewy', 'too much gluten', 'higher protein']
+      - ['all-purpose', 'all purpose', 'plain flour', 'cornstarch', 'corn starch',
+         'cornflour']
+  referenceAnswer: >
+    Bread flour is the opposite of what you want — its high protein makes cakes
+    tough. Better: use all-purpose flour with 2 tbsp per cup replaced by
+    cornstarch to mimic cake flour's lower protein.
+
+- id: subs-012
+  category: substitutions
+  difficulty: 1
+  public: false
+  prompt: >
+    I have no fresh garlic. How much garlic powder replaces 1 fresh clove?
+  grader:
+    type: keyword
+    required:
+      - ['1/8 tsp', '1/8 teaspoon', '⅛ tsp', '⅛ teaspoon', 'eighth']
+  referenceAnswer: '≈⅛ teaspoon garlic powder per clove.'

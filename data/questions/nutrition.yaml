@@ -89,3 +89,93 @@
     unit: g
     toleranceAbs: 1
   referenceAnswer: '45 g (12 × 150/40)'
+
+- id: nutr-007
+  category: nutrition
+  difficulty: 2
+  public: true
+  prompt: >
+    A recipe makes 12 cookies from a dough totalling 1,800 kcal. Each cookie is
+    iced with 35 kcal of icing. What is the total calorie count of one finished,
+    iced cookie?
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: numeric
+    expected: 185
+    unit: kcal
+    toleranceAbs: 2
+  referenceAnswer: '185 kcal (1800/12 = 150, + 35)'
+
+- id: nutr-008
+  category: nutrition
+  difficulty: 2
+  public: true
+  prompt: >
+    A smoothie has 300 g banana (89 kcal/100 g) and 200 g whole milk
+    (61 kcal/100 g). What is the total calorie count?
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: numeric
+    expected: 389
+    unit: kcal
+    toleranceAbs: 5
+  referenceAnswer: '389 kcal (267 + 122)'
+
+- id: nutr-009
+  category: nutrition
+  difficulty: 2
+  public: true
+  prompt: >
+    A dish has 600 kcal, of which 27 g is fat. What percentage of its calories
+    comes from fat? Use 9 kcal per gram of fat.
+  systemHint: 'End your reply with a line "Answer: <number> %".'
+  grader:
+    type: numeric
+    expected: 40.5
+    toleranceAbs: 1.5
+  referenceAnswer: '40.5% (27 × 9 = 243 kcal; 243/600)'
+
+- id: nutr-010
+  category: nutrition
+  difficulty: 1
+  public: true
+  prompt: >
+    A protein bar provides 20 g of protein. How many grams of protein are in a
+    box of 6 bars?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    expected: 120
+    unit: g
+    toleranceAbs: 1
+  referenceAnswer: '120 g'
+
+- id: nutr-011
+  category: nutrition
+  difficulty: 3
+  public: true
+  prompt: >
+    A serving of granola is 60 g. The label lists values per 100 g: 450 kcal,
+    8 g protein, 60 g carbs, 18 g fat. How many kcal in one serving?
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: numeric
+    expected: 270
+    unit: kcal
+    toleranceAbs: 5
+  referenceAnswer: '270 kcal (450 × 0.6)'
+
+- id: nutr-012
+  category: nutrition
+  difficulty: 2
+  public: false
+  prompt: >
+    A pot of chili totals 1,560 kcal and 117 g of protein, divided into 6
+    servings. How many grams of protein per serving?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    expected: 19.5
+    unit: g
+    tolerancePct: 3
+  referenceAnswer: '19.5 g (117 ÷ 6)'

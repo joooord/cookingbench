@@ -74,6 +74,22 @@ export default function MethodologyPage() {
         </section>
 
         <section>
+          <h2 className="border-b-2 border-ink pb-2 font-display text-xl font-medium">
+            The role of human experts
+          </h2>
+          <p className="mt-4">
+            An AI judge scales, but it shares the blind spots of the models it grades. So
+            grading is layered: deterministic checks need no opinion at all; the LLM judge
+            handles the subjective bulk; and a sampled and flagged set of answers — anything
+            the double-judge disagreed on, plus a random audit slice — is reviewed by people
+            who actually cook. We are recruiting professional chefs and nutritionists for
+            that expert layer, and their verdicts calibrate the judge over time. A future
+            public &ldquo;taste test&rdquo; mode will let visitors blind-vote on paired
+            answers, arena-style, as a third independent signal.
+          </p>
+        </section>
+
+        <section>
           <h2 className="border-b-2 border-ink pb-2 font-display text-xl font-medium">Reproducibility</h2>
           <p className="mt-4">
             Models run via OpenRouter at temperature 0 with fixed token caps. Raw responses,

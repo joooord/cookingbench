@@ -38,7 +38,6 @@
           - 'melted butter'
           - 'heavy cream'
           - 'buttermilk'
-          - 'yogurt'
   referenceAnswer: >
     A complete dairy-free recipe that serves 4, e.g. 250 g flour, 2 tsp baking
     powder, 2 tbsp sugar, pinch of salt, 400 ml oat or soy milk, 2 eggs, 3 tbsp
@@ -244,3 +243,240 @@
     E.g. seed-butter energy balls (sunflower seed butter, oats, honey, choc
     chips) or cheese-and-veg pinwheels in a tortilla — nut-free, no-melt,
     five-minute assembly.
+
+- id: rgen-007
+  category: recipe-generation
+  difficulty: 3
+  public: true
+  prompt: >
+    Plan a three-course dinner-party menu for 6 adults where one guest is
+    coeliac (strict no gluten), one is pescatarian (fish OK, no meat/poultry),
+    and one strongly dislikes coriander/cilantro. Every course must be safe for
+    all three to eat at the same table. Give the menu plus a full ingredient
+    list and method for the main course only.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Constraint satisfaction
+        description: >
+          5 = every course is simultaneously gluten-free, pescatarian (no meat or
+          poultry anywhere on the shared table), and coriander-free; reconciles
+          all three at once rather than per-guest swaps. 1 = violates a constraint
+          or punts with "the coeliac can skip this".
+        weight: 0.4
+      - name: Menu coherence
+        description: >
+          5 = three courses that flow as a real menu (balance, progression,
+          seasonality) and aren't three random gluten-free dishes. 1 = incoherent.
+        weight: 0.3
+      - name: Main-course execution
+        description: >
+          5 = the main has a complete ingredient list scaled for 6 and a sound,
+          followable method with timings. 1 = vague or unscaled.
+        weight: 0.3
+    constraintChecks:
+      - type: keyword
+        forbidden:
+          - 'cilantro'
+          - 'coriander leaves'
+          - 'fresh coriander'
+          - 'chicken'
+          - 'beef'
+          - 'pork'
+          - 'lamb'
+          - 'bacon'
+          - 'soy sauce'
+          - 'breadcrumb'
+          - 'wheat flour'
+          - 'all-purpose flour'
+          - 'plain flour'
+  referenceAnswer: >
+    A coherent menu where all three diets overlap, e.g. starter: roasted beet &
+    whipped goat cheese with toasted hazelnuts; main: pan-seared sea bass with
+    saffron-tomato butter beans and charred fennel (GF, pescatarian, no
+    coriander), full ingredients scaled for 6 with timings; dessert: flourless
+    dark chocolate torte with raspberries. Tamari instead of soy sauce if needed.
+
+- id: rgen-008
+  category: recipe-generation
+  difficulty: 3
+  public: true
+  prompt: >
+    I'm car-camping with no refrigeration and only a two-burner gas stove and
+    one pot. Design a hearty dinner for 4 using only shelf-stable ingredients
+    (nothing needing a fridge before opening). Give quantities and a method that
+    works in a single pot.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Constraint satisfaction
+        description: >
+          5 = genuinely shelf-stable (canned/dried/cured/UHT only — no fresh
+          dairy, raw meat or anything needing refrigeration), and truly one pot,
+          two burners or fewer. 1 = uses perishable items or multiple pots.
+        weight: 0.5
+      - name: Recipe soundness & yield
+        description: >
+          5 = a hearty, balanced dinner that actually feeds 4, with realistic
+          quantities and one-pot timings. 1 = thin or unscaled.
+        weight: 0.3
+      - name: Clarity
+        description: 5 = ordered steps with quantities. 1 = vague.
+        weight: 0.2
+    constraintChecks:
+      - type: keyword
+        forbidden:
+          - 'fresh chicken'
+          - 'raw chicken'
+          - 'fresh ground beef'
+          - 'fresh milk'
+          - 'ice'
+          - 'refrigerate the'
+          - 'keep chilled'
+  referenceAnswer: >
+    One-pot chorizo (cured/shelf-stable) and bean stew: olive oil, dried chorizo
+    or canned sausage, onion, garlic, canned tomatoes, two cans of beans, canned
+    sweetcorn, stock cubes, smoked paprika, rice or couscous stirred in to bulk
+    it out; quantities scaled for 4, built and simmered in the single pot.
+
+- id: rgen-009
+  category: recipe-generation
+  difficulty: 3
+  public: true
+  prompt: >
+    Give me a chocolate cake recipe adjusted for high altitude (2,500 m /
+    8,000 ft) baking, for 8 people. Explain each high-altitude adjustment you
+    make versus a sea-level recipe (leavening, liquid, sugar, oven temperature).
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Altitude-adjustment accuracy
+        description: >
+          5 = correct directional adjustments: reduce leavening, reduce sugar
+          slightly, increase liquid, often raise oven temperature ~15–25°F and
+          shorten time; explains why (lower air pressure → faster rise, faster
+          moisture loss). 1 = wrong direction (e.g. more baking powder) or no
+          real adjustment.
+        weight: 0.6
+      - name: Recipe completeness
+        description: >
+          5 = a full, followable cake recipe for 8 with the adjustments baked in.
+          1 = only theory or incomplete.
+        weight: 0.4
+  referenceAnswer: >
+    At 2,500 m, lower air pressure makes batters rise too fast and dry out. Cut
+    baking powder/soda by ~⅓–½, reduce sugar a little, add 1–2 tbsp extra
+    liquid, and raise the oven ~15–25°F while shortening the bake. Otherwise a
+    standard 2-layer chocolate cake for 8, with those changes applied and
+    explained.
+
+- id: rgen-010
+  category: recipe-generation
+  difficulty: 2
+  public: true
+  prompt: >
+    Create a budget weeknight dinner for a family of 4 for under £6 total
+    (UK supermarket prices). List each ingredient with an approximate cost,
+    show the running total stays under budget, and give the method.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Budget discipline
+        description: >
+          5 = itemized costs that are individually realistic for UK supermarkets
+          and credibly total under £6 for 4 servings; shows the running total.
+          1 = no costs, fantasy prices, or total clearly over budget.
+        weight: 0.5
+      - name: Recipe soundness & nutrition
+        description: >
+          5 = a genuinely filling, reasonably balanced meal for 4, not just
+          plain pasta. 1 = inadequate portion or balance.
+        weight: 0.3
+      - name: Clarity
+        description: 5 = ingredients, costs, method all present. 1 = gaps.
+        weight: 0.2
+  referenceAnswer: >
+    E.g. red lentil & vegetable curry with rice: dried red lentils (~£0.60),
+    onion (~£0.15), canned tomatoes (~£0.45), carrots (~£0.30), curry powder
+    (~£0.20), rice (~£0.60), stock cube (~£0.10), oil — itemized to a running
+    total under £6, serving 4, with a simple simmer-and-rice method.
+
+- id: rgen-011
+  category: recipe-generation
+  difficulty: 3
+  public: true
+  prompt: >
+    Design a single make-ahead breakfast for one person that hits at least 30 g
+    protein and at most 450 kcal, is vegetarian, and can be assembled the night
+    before and eaten cold. Provide quantities and an itemized protein and
+    calorie tally that respects both limits.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Numeric constraint satisfaction
+        description: >
+          5 = the itemized tally uses individually plausible values and
+          simultaneously reaches ≥30 g protein AND stays ≤450 kcal — the genuine
+          tension in this prompt. 1 = misses a limit or uses invented numbers.
+        weight: 0.6
+      - name: Constraint handling
+        description: >
+          5 = vegetarian, no-cook/make-ahead, eaten cold. 1 = needs cooking in
+          the morning or isn't vegetarian.
+        weight: 0.4
+    constraintChecks:
+      - type: keyword
+        required:
+          - ['protein']
+        forbidden:
+          - 'chicken'
+          - 'bacon'
+          - 'ham'
+          - 'tuna'
+          - 'salmon'
+  referenceAnswer: >
+    Overnight high-protein yogurt pot: 200 g 0% Greek yogurt (~20 g protein,
+    ~120 kcal), 15 g whey or pea protein (~12 g, ~55 kcal), 20 g oats (~2.5 g,
+    ~75 kcal), 80 g berries (~30 kcal), cinnamon — itemized to ≥30 g protein and
+    well under 450 kcal, assembled the night before, eaten cold.
+
+- id: rgen-012
+  category: recipe-generation
+  difficulty: 2
+  public: false
+  prompt: >
+    Write a low-FODMAP friendly pasta dinner for 2 (no onion, no garlic) that
+    still tastes deeply savoury. Give the ingredient list and method, and
+    explain how you build flavour without onion or garlic.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Constraint satisfaction
+        description: >
+          5 = genuinely contains no onion or garlic (including powders, and
+          flags garlic-infused oil as the low-FODMAP trick rather than raw
+          garlic), and stays broadly low-FODMAP. 1 = uses onion/garlic.
+        weight: 0.5
+      - name: Flavour strategy
+        description: >
+          5 = builds savoury depth via garlic-infused oil, the green tops of
+          spring onions/chives, parmesan, tomato, capers/olives, herbs. 1 = bland
+          or hand-waves it.
+        weight: 0.3
+      - name: Completeness
+        description: 5 = ingredients + method scaled for 2. 1 = gaps.
+        weight: 0.2
+    constraintChecks:
+      - type: keyword
+        forbidden:
+          - 'onion'
+          - 'garlic clove'
+          - 'minced garlic'
+          - 'crushed garlic'
+          - 'garlic powder'
+          - 'onion powder'
+  referenceAnswer: >
+    Pasta with a savoury tomato-caper sauce for 2: cook in garlic-infused olive
+    oil (oil carries the flavour but not the FODMAPs), build with canned
+    tomatoes, capers or olives, the green tops of spring onions or chives,
+    parmesan and fresh basil; no onion or garlic solids anywhere.
