@@ -55,7 +55,7 @@ create table scores (
   judge_model text
 );
 
-create view leaderboard as
+create view leaderboard with (security_invoker = true) as
   select r.run_id, r.model_id, q.category,
          avg(s.score) as category_score,
          count(*) as n,

@@ -61,11 +61,18 @@ Scores are 0–100 per question; category = mean; overall = unweighted mean of
 categories. Some questions are held out (`public: false`) against benchmark
 contamination.
 
+## Deploying the site (Vercel)
+
+Import the repo at vercel.com/new and set **Root Directory** to `apps/web`
+(framework auto-detects as Next.js; Vercel handles the pnpm workspace). Every
+push to the production branch then auto-deploys.
+
 ## Status
 
 - [x] Phase 0 — graders + golden tests + mock end-to-end pipeline
-- [ ] Phase 1 — expand dataset to 20 questions/category (currently 6), Supabase sync
-- [ ] Phase 2 — $1 canary run, then full roster
+- [x] Phase 1 — dataset at 99 questions incl. the founding real-world prompts;
+      Supabase project live (schema + RLS verified), `bench sync`/`publish` ready
+- [ ] Phase 2 — $1 canary run, then full roster (needs OPENROUTER_API_KEY)
 - [ ] Phase 3 — judge calibration gate
-- [ ] Phase 4 — deploy to Vercel
+- [ ] Phase 4 — Vercel git integration (one-time import by the repo owner)
 - [ ] Phase 5 — v1 public launch

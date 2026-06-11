@@ -384,6 +384,24 @@ function cmdRuns() {
   for (const id of listRuns()) console.log(`  ${id}`);
 }
 
+async function cmdSync() {
+  const { syncDataset, syncRun } = await import('./sync.js');
+  await syncDataset(loadModels(), loadQuestions());
+  console.log('✓ models + questions synced to Supabase');
+  const runId = arg('run');
+  if (runId) {
+    await syncRun(readRunConfig(runId), readResponses(runId), readScores(runId));
+    console.log(`✓ run ${runId} synced (unpublished — use \`bench publish --run ${runId}\`)`);
+  }
+}
+
+async function cmdPublish() {
+  const runId = arg('run') ?? fail('publish requires --run <id>');
+  const { publishRun } = await import('./sync.js');
+  await publishRun(runId);
+  console.log(`✓ run ${runId} is now publicly readable`);
+}
+
 const COMMANDS: Record<string, () => void | Promise<void>> = {
   validate: cmdValidate,
   estimate: cmdEstimate,
@@ -393,6 +411,8 @@ const COMMANDS: Record<string, () => void | Promise<void>> = {
   report: cmdReport,
   runs: cmdRuns,
   models: cmdModelsCheck,
+  sync: cmdSync,
+  publish: cmdPublish,
 };
 
 const command = process.argv[2];
@@ -409,6 +429,8 @@ Commands:
   grade --run <id>               Deterministic grading
   judge --run <id>               LLM-judge grading for subjective questions
   report --run <id>              Build the leaderboard JSON + print the table
+  sync [--run <id>]              Upsert dataset (and optionally a run) to Supabase
+  publish --run <id>             Make a synced run publicly readable
   runs                           List stored runs`);
   process.exit(command ? 1 : 0);
 }
