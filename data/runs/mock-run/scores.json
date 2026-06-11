@@ -706,6 +706,286 @@
   {
     "runId": "mock-run",
     "modelId": "mock/decent-cook",
+    "questionId": "nutr-020",
+    "score": 100,
+    "graderType": "range",
+    "detail": {
+      "matched": "23 g",
+      "value": 23,
+      "min": 21,
+      "max": 25
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/decent-cook",
+    "questionId": "nutr-021",
+    "score": 100,
+    "graderType": "range",
+    "detail": {
+      "matched": "72",
+      "value": 72,
+      "min": 68,
+      "max": 85
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/decent-cook",
+    "questionId": "nutr-022",
+    "score": 100,
+    "graderType": "range",
+    "detail": {
+      "matched": "360 kcal",
+      "value": 360,
+      "min": 340,
+      "max": 380
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/decent-cook",
+    "questionId": "nutr-023",
+    "score": 50,
+    "graderType": "numeric-multi",
+    "detail": {
+      "targets": [
+        {
+          "label": "protein",
+          "expected": 22,
+          "unit": "g",
+          "pass": false
+        },
+        {
+          "label": "fat",
+          "expected": 6,
+          "unit": "g",
+          "pass": true,
+          "matched": "6.2"
+        }
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/decent-cook",
+    "questionId": "nutr-024",
+    "score": 100,
+    "graderType": "range",
+    "detail": {
+      "matched": "2.5",
+      "value": 2.5,
+      "min": 2,
+      "max": 4.5
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/decent-cook",
+    "questionId": "nutr-025",
+    "score": 100,
+    "graderType": "numeric-multi",
+    "detail": {
+      "targets": [
+        {
+          "label": "protein",
+          "expected": 115,
+          "unit": "g",
+          "pass": true,
+          "matched": "131.0 g"
+        },
+        {
+          "label": "fat",
+          "expected": 35,
+          "unit": "g",
+          "pass": true,
+          "matched": "20.5"
+        },
+        {
+          "label": "calories",
+          "expected": 800,
+          "unit": "kcal",
+          "pass": true,
+          "matched": "976.0"
+        }
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/decent-cook",
+    "questionId": "nutr-026",
+    "score": 33.33333333333333,
+    "graderType": "numeric-multi",
+    "detail": {
+      "targets": [
+        {
+          "label": "protein",
+          "expected": 40,
+          "unit": "g",
+          "pass": true,
+          "matched": "34.8 g"
+        },
+        {
+          "label": "fat",
+          "expected": 26,
+          "unit": "g",
+          "pass": false
+        },
+        {
+          "label": "calories",
+          "expected": 394,
+          "unit": "kcal",
+          "pass": false
+        }
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/decent-cook",
+    "questionId": "nutr-027",
+    "score": 0,
+    "graderType": "keyword",
+    "detail": {
+      "groups": [
+        {
+          "synonyms": [
+            "boil",
+            "boiled",
+            "boiling"
+          ],
+          "hit": null
+        },
+        {
+          "synonyms": [
+            "water-soluble",
+            "water soluble",
+            "leach",
+            "leaches",
+            "leaching",
+            "dissolve",
+            "dissolves",
+            "into the water"
+          ],
+          "hit": null
+        }
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/decent-cook",
+    "questionId": "nutr-028",
+    "score": 0,
+    "graderType": "keyword",
+    "detail": {
+      "groups": [
+        {
+          "synonyms": [
+            "lycopene"
+          ],
+          "hit": null
+        },
+        {
+          "synonyms": [
+            "cell wall",
+            "cell walls",
+            "breaks down",
+            "break down",
+            "released",
+            "releases",
+            "more available",
+            "bioavailab",
+            "absorb",
+            "absorption",
+            "heat breaks"
+          ],
+          "hit": null
+        }
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/decent-cook",
+    "questionId": "nutr-029",
+    "score": 100,
+    "graderType": "keyword",
+    "detail": {
+      "groups": [
+        {
+          "synonyms": [
+            "no",
+            "incorrect",
+            "wrong",
+            "not correct",
+            "not true",
+            "false",
+            "disagree"
+          ],
+          "hit": "no"
+        },
+        {
+          "synonyms": [
+            "oil",
+            "fat",
+            "absorb",
+            "absorbs",
+            "breading",
+            "batter",
+            "soaks"
+          ],
+          "hit": "oil"
+        }
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/decent-cook",
+    "questionId": "nutr-030",
+    "score": 0,
+    "graderType": "keyword",
+    "detail": {
+      "groups": [
+        {
+          "synonyms": [
+            "denature",
+            "denatures",
+            "denatured",
+            "structure",
+            "unfold",
+            "coagulate",
+            "doesn't destroy",
+            "does not destroy",
+            "retained",
+            "stays",
+            "largely unchanged",
+            "roughly the same",
+            "concentrat"
+          ],
+          "hit": null
+        },
+        {
+          "synonyms": [
+            "water",
+            "moisture",
+            "weight",
+            "per 100",
+            "per gram",
+            "concentrat",
+            "denature",
+            "digestib"
+          ],
+          "hit": null
+        }
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/decent-cook",
     "questionId": "qty-001",
     "score": 100,
     "graderType": "numeric-multi",
@@ -3053,6 +3333,289 @@
       "value": 804,
       "expected": 804,
       "unit": "kcal"
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/perfect-chef",
+    "questionId": "nutr-020",
+    "score": 100,
+    "graderType": "range",
+    "detail": {
+      "matched": "23 g",
+      "value": 23,
+      "min": 21,
+      "max": 25
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/perfect-chef",
+    "questionId": "nutr-021",
+    "score": 100,
+    "graderType": "range",
+    "detail": {
+      "matched": "72",
+      "value": 72,
+      "min": 68,
+      "max": 85
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/perfect-chef",
+    "questionId": "nutr-022",
+    "score": 100,
+    "graderType": "range",
+    "detail": {
+      "matched": "360 kcal",
+      "value": 360,
+      "min": 340,
+      "max": 380
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/perfect-chef",
+    "questionId": "nutr-023",
+    "score": 100,
+    "graderType": "numeric-multi",
+    "detail": {
+      "targets": [
+        {
+          "label": "protein",
+          "expected": 22,
+          "unit": "g",
+          "pass": true,
+          "matched": "21"
+        },
+        {
+          "label": "fat",
+          "expected": 6,
+          "unit": "g",
+          "pass": true,
+          "matched": "4"
+        }
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/perfect-chef",
+    "questionId": "nutr-024",
+    "score": 100,
+    "graderType": "range",
+    "detail": {
+      "matched": "2.5",
+      "value": 2.5,
+      "min": 2,
+      "max": 4.5
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/perfect-chef",
+    "questionId": "nutr-025",
+    "score": 100,
+    "graderType": "numeric-multi",
+    "detail": {
+      "targets": [
+        {
+          "label": "protein",
+          "expected": 115,
+          "unit": "g",
+          "pass": true,
+          "matched": "100 g"
+        },
+        {
+          "label": "fat",
+          "expected": 35,
+          "unit": "g",
+          "pass": true,
+          "matched": "15"
+        },
+        {
+          "label": "calories",
+          "expected": 800,
+          "unit": "kcal",
+          "pass": true,
+          "matched": "750"
+        }
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/perfect-chef",
+    "questionId": "nutr-026",
+    "score": 100,
+    "graderType": "numeric-multi",
+    "detail": {
+      "targets": [
+        {
+          "label": "protein",
+          "expected": 40,
+          "unit": "g",
+          "pass": true,
+          "matched": "40 g"
+        },
+        {
+          "label": "fat",
+          "expected": 26,
+          "unit": "g",
+          "pass": true,
+          "matched": "26 g"
+        },
+        {
+          "label": "calories",
+          "expected": 394,
+          "unit": "kcal",
+          "pass": true,
+          "matched": "394 kcal"
+        }
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/perfect-chef",
+    "questionId": "nutr-027",
+    "score": 100,
+    "graderType": "keyword",
+    "detail": {
+      "groups": [
+        {
+          "synonyms": [
+            "boil",
+            "boiled",
+            "boiling"
+          ],
+          "hit": "boil"
+        },
+        {
+          "synonyms": [
+            "water-soluble",
+            "water soluble",
+            "leach",
+            "leaches",
+            "leaching",
+            "dissolve",
+            "dissolves",
+            "into the water"
+          ],
+          "hit": "water-soluble"
+        }
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/perfect-chef",
+    "questionId": "nutr-028",
+    "score": 100,
+    "graderType": "keyword",
+    "detail": {
+      "groups": [
+        {
+          "synonyms": [
+            "lycopene"
+          ],
+          "hit": "lycopene"
+        },
+        {
+          "synonyms": [
+            "cell wall",
+            "cell walls",
+            "breaks down",
+            "break down",
+            "released",
+            "releases",
+            "more available",
+            "bioavailab",
+            "absorb",
+            "absorption",
+            "heat breaks"
+          ],
+          "hit": "cell wall"
+        }
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/perfect-chef",
+    "questionId": "nutr-029",
+    "score": 100,
+    "graderType": "keyword",
+    "detail": {
+      "groups": [
+        {
+          "synonyms": [
+            "no",
+            "incorrect",
+            "wrong",
+            "not correct",
+            "not true",
+            "false",
+            "disagree"
+          ],
+          "hit": "no"
+        },
+        {
+          "synonyms": [
+            "oil",
+            "fat",
+            "absorb",
+            "absorbs",
+            "breading",
+            "batter",
+            "soaks"
+          ],
+          "hit": "oil"
+        }
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/perfect-chef",
+    "questionId": "nutr-030",
+    "score": 100,
+    "graderType": "keyword",
+    "detail": {
+      "groups": [
+        {
+          "synonyms": [
+            "denature",
+            "denatures",
+            "denatured",
+            "structure",
+            "unfold",
+            "coagulate",
+            "doesn't destroy",
+            "does not destroy",
+            "retained",
+            "stays",
+            "largely unchanged",
+            "roughly the same",
+            "concentrat"
+          ],
+          "hit": "denature"
+        },
+        {
+          "synonyms": [
+            "water",
+            "moisture",
+            "weight",
+            "per 100",
+            "per gram",
+            "concentrat",
+            "denature",
+            "digestib"
+          ],
+          "hit": "water"
+        }
+      ]
     }
   },
   {
@@ -5542,6 +6105,299 @@
         "1150.2 "
       ],
       "usedAnswerLine": true
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/sloppy-intern",
+    "questionId": "nutr-020",
+    "score": 0,
+    "graderType": "range",
+    "detail": {
+      "min": 21,
+      "max": 25,
+      "unit": "g",
+      "candidates": [
+        "30.9 g",
+        "131.0 g"
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/sloppy-intern",
+    "questionId": "nutr-021",
+    "score": 0,
+    "graderType": "range",
+    "detail": {
+      "min": 68,
+      "max": 85,
+      "unit": "kcal",
+      "candidates": [
+        "94.6",
+        "94.6",
+        "94.6–102.4 kcal (midpoint)",
+        "102.4 kcal",
+        "66.0 g"
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/sloppy-intern",
+    "questionId": "nutr-022",
+    "score": 0,
+    "graderType": "range",
+    "detail": {
+      "min": 340,
+      "max": 380,
+      "unit": "kcal",
+      "candidates": [
+        "469.0 kcal",
+        "131.0 g",
+        "170.0 "
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/sloppy-intern",
+    "questionId": "nutr-023",
+    "score": 50,
+    "graderType": "numeric-multi",
+    "detail": {
+      "targets": [
+        {
+          "label": "protein",
+          "expected": 22,
+          "unit": "g",
+          "pass": false
+        },
+        {
+          "label": "fat",
+          "expected": 6,
+          "unit": "g",
+          "pass": true,
+          "matched": "6.2"
+        }
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/sloppy-intern",
+    "questionId": "nutr-024",
+    "score": 100,
+    "graderType": "range",
+    "detail": {
+      "matched": "4.3",
+      "value": 4.3,
+      "min": 2,
+      "max": 4.5
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/sloppy-intern",
+    "questionId": "nutr-025",
+    "score": 100,
+    "graderType": "numeric-multi",
+    "detail": {
+      "targets": [
+        {
+          "label": "protein",
+          "expected": 115,
+          "unit": "g",
+          "pass": true,
+          "matched": "131.0 g"
+        },
+        {
+          "label": "fat",
+          "expected": 35,
+          "unit": "g",
+          "pass": true,
+          "matched": "20.5"
+        },
+        {
+          "label": "calories",
+          "expected": 800,
+          "unit": "kcal",
+          "pass": true,
+          "matched": "976.0"
+        }
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/sloppy-intern",
+    "questionId": "nutr-026",
+    "score": 33.33333333333333,
+    "graderType": "numeric-multi",
+    "detail": {
+      "targets": [
+        {
+          "label": "protein",
+          "expected": 40,
+          "unit": "g",
+          "pass": true,
+          "matched": "34.8 g"
+        },
+        {
+          "label": "fat",
+          "expected": 26,
+          "unit": "g",
+          "pass": false
+        },
+        {
+          "label": "calories",
+          "expected": 394,
+          "unit": "kcal",
+          "pass": false
+        }
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/sloppy-intern",
+    "questionId": "nutr-027",
+    "score": 0,
+    "graderType": "keyword",
+    "detail": {
+      "groups": [
+        {
+          "synonyms": [
+            "boil",
+            "boiled",
+            "boiling"
+          ],
+          "hit": null
+        },
+        {
+          "synonyms": [
+            "water-soluble",
+            "water soluble",
+            "leach",
+            "leaches",
+            "leaching",
+            "dissolve",
+            "dissolves",
+            "into the water"
+          ],
+          "hit": null
+        }
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/sloppy-intern",
+    "questionId": "nutr-028",
+    "score": 0,
+    "graderType": "keyword",
+    "detail": {
+      "groups": [
+        {
+          "synonyms": [
+            "lycopene"
+          ],
+          "hit": null
+        },
+        {
+          "synonyms": [
+            "cell wall",
+            "cell walls",
+            "breaks down",
+            "break down",
+            "released",
+            "releases",
+            "more available",
+            "bioavailab",
+            "absorb",
+            "absorption",
+            "heat breaks"
+          ],
+          "hit": null
+        }
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/sloppy-intern",
+    "questionId": "nutr-029",
+    "score": 0,
+    "graderType": "keyword",
+    "detail": {
+      "groups": [
+        {
+          "synonyms": [
+            "no",
+            "incorrect",
+            "wrong",
+            "not correct",
+            "not true",
+            "false",
+            "disagree"
+          ],
+          "hit": null
+        },
+        {
+          "synonyms": [
+            "oil",
+            "fat",
+            "absorb",
+            "absorbs",
+            "breading",
+            "batter",
+            "soaks"
+          ],
+          "hit": null
+        }
+      ]
+    }
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/sloppy-intern",
+    "questionId": "nutr-030",
+    "score": 0,
+    "graderType": "keyword",
+    "detail": {
+      "groups": [
+        {
+          "synonyms": [
+            "denature",
+            "denatures",
+            "denatured",
+            "structure",
+            "unfold",
+            "coagulate",
+            "doesn't destroy",
+            "does not destroy",
+            "retained",
+            "stays",
+            "largely unchanged",
+            "roughly the same",
+            "concentrat"
+          ],
+          "hit": null
+        },
+        {
+          "synonyms": [
+            "water",
+            "moisture",
+            "weight",
+            "per 100",
+            "per gram",
+            "concentrat",
+            "denature",
+            "digestib"
+          ],
+          "hit": null
+        }
+      ]
     }
   },
   {

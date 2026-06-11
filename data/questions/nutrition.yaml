@@ -1,5 +1,8 @@
-# Nutrition — calorie and macro math. Deterministic: inputs are given in the
-# prompt so the question tests arithmetic and Atwater factors, not food-database recall.
+# Nutrition — two strands. Strand A (nutr-001..016): inputs given in the prompt,
+# tests arithmetic and Atwater factors. Strand B (nutr-020+): tests actual
+# food-database recall — the model must KNOW typical nutrient values, so graders
+# use generous ranges around authoritative figures (USDA FoodData Central, McCance
+# & Widdowson). Real foods vary, so bands are wide on purpose.
 
 - id: nutr-001
   category: nutrition
@@ -254,3 +257,236 @@
   referenceAnswer: >
     ≈804 kcal — 100 ml weighs only 91 g (oil is lighter than water), so
     884 × 0.91 ≈ 804. Reporting 884 confuses per-gram with per-millilitre.
+
+# ── Strand B: nutrition knowledge (recall of typical values) ──
+
+- id: nutr-020
+  category: nutrition
+  difficulty: 2
+  public: true
+  prompt: >
+    Roughly how many grams of protein are in a 100 g raw, skinless chicken
+    breast? Give your best single estimate.
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: range
+    min: 21
+    max: 25
+    unit: g
+  referenceAnswer: '≈23 g protein per 100 g raw skinless chicken breast.'
+  source: 'USDA FoodData Central'
+
+- id: nutr-021
+  category: nutrition
+  difficulty: 2
+  public: true
+  prompt: >
+    Approximately how many kilocalories are in one large whole egg (about 50 g)?
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: range
+    min: 68
+    max: 85
+    unit: kcal
+  referenceAnswer: '≈72–78 kcal for a large (~50 g) egg.'
+  source: 'USDA FoodData Central'
+
+- id: nutr-022
+  category: nutrition
+  difficulty: 2
+  public: true
+  prompt: >
+    About how many kilocalories are in 100 g of dry (uncooked) white rice?
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: range
+    min: 340
+    max: 380
+    unit: kcal
+  referenceAnswer: '≈360 kcal per 100 g dry white rice (cooked is ~130 once it absorbs water).'
+  source: 'USDA FoodData Central'
+
+- id: nutr-023
+  category: nutrition
+  difficulty: 3
+  public: true
+  prompt: >
+    Per 100 g, roughly how much protein and how much fat does raw beef sirloin
+    steak (lean, fat trimmed) contain? Give both.
+  systemHint: >
+    End with two lines: "Protein: <number> g" and "Fat: <number> g".
+  grader:
+    type: numeric-multi
+    scoring: proportional
+    targets:
+      - { label: protein, expected: 22, unit: g, toleranceAbs: 3 }
+      - { label: fat, expected: 6, unit: g, toleranceAbs: 4 }
+  referenceAnswer: >
+    Trimmed raw sirloin is roughly 21–23 g protein and ~4–8 g fat per 100 g
+    (lean cuts vary; untrimmed is much higher in fat).
+  source: 'USDA FoodData Central; McCance & Widdowson'
+
+- id: nutr-024
+  category: nutrition
+  difficulty: 2
+  public: false
+  prompt: >
+    Approximately how many grams of fibre are in a medium (≈120 g) apple with
+    skin?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: range
+    min: 2
+    max: 4.5
+    unit: g
+  referenceAnswer: '≈2.5–3.5 g fibre in a medium apple with skin.'
+  source: 'USDA FoodData Central'
+
+# ── Strand B: compound real-world estimation (your steak question) ──
+
+- id: nutr-025
+  category: nutrition
+  difficulty: 3
+  public: true
+  prompt: >
+    I have 2 sirloin steaks, 300 g each raw. I'll trim off the visible fat cap
+    (assume that removes about 15% of the raw weight) and grill them on a BBQ.
+    Estimate the total protein, total fat, and total calories for both cooked
+    steaks. Show your reasoning.
+  systemHint: >
+    End with three lines: "Protein: <number> g", "Fat: <number> g",
+    "Calories: <number> kcal".
+  grader:
+    type: numeric-multi
+    scoring: proportional
+    targets:
+      - { label: protein, expected: 115, unit: g, toleranceAbs: 25 }
+      - { label: fat, expected: 35, unit: g, toleranceAbs: 22 }
+      - { label: calories, expected: 800, unit: kcal, toleranceAbs: 280 }
+  referenceAnswer: >
+    600 g raw, less ~15% fat trim ≈ 510 g of lean steak going on the grill.
+    Lean sirloin ≈ 22 g protein and ~6–8 g fat per 100 g raw, so ≈110–120 g
+    protein and ≈30–45 g fat before cooking; grilling renders and drips off
+    some fat (lowering it further) while water loss concentrates protein.
+    Reasonable totals: ~110–125 g protein, ~25–45 g fat, ~750–900 kcal for the
+    pair. The key insight is to subtract the trimmed fat and account for fat
+    dripping away on the BBQ rather than treating the raw 600 g as-is.
+  source: 'USDA FoodData Central; reasoning-based estimate'
+
+- id: nutr-026
+  category: nutrition
+  difficulty: 3
+  public: false
+  prompt: >
+    A salmon fillet weighs 200 g raw. I'll pan-sear it. Salmon is roughly
+    20 g protein and 13 g fat per 100 g raw. Cooking causes about 20% weight
+    loss, mostly water (protein and fat are largely retained). Estimate the
+    protein, fat and calories of the cooked fillet.
+  systemHint: >
+    End with three lines: "Protein: <number> g", "Fat: <number> g",
+    "Calories: <number> kcal".
+  grader:
+    type: numeric-multi
+    scoring: proportional
+    targets:
+      - { label: protein, expected: 40, unit: g, toleranceAbs: 6 }
+      - { label: fat, expected: 26, unit: g, toleranceAbs: 7 }
+      - { label: calories, expected: 394, unit: kcal, toleranceAbs: 60 }
+  referenceAnswer: >
+    200 g raw ≈ 40 g protein and 26 g fat; these are retained through cooking,
+    so the cooked (≈160 g) fillet still has ≈40 g protein, ≈26 g fat, and
+    roughly 40×4 + 26×9 ≈ 394 kcal. Weight drops but the nutrients don't.
+  source: 'USDA FoodData Central; reasoning-based estimate'
+
+# ── Strand B: how cooking changes nutrients (macro & micro) ──
+
+- id: nutr-027
+  category: nutrition
+  difficulty: 3
+  public: true
+  prompt: >
+    Which loses more vitamin C: broccoli that is boiled in plenty of water, or
+    broccoli that is steamed? Explain the mechanism.
+  grader:
+    type: keyword
+    required:
+      - ['boil', 'boiled', 'boiling']
+      - ['water-soluble', 'water soluble', 'leach', 'leaches', 'leaching',
+         'dissolve', 'dissolves', 'into the water']
+    forbidden:
+      - 'steaming loses more'
+      - 'boiling preserves more'
+  referenceAnswer: >
+    Boiling loses more. Vitamin C is water-soluble and heat-sensitive, so it
+    leaches out into the cooking water (which is then discarded) and degrades
+    with prolonged heat. Steaming keeps the broccoli out of the water, so less
+    is lost.
+  source: 'Standard food-science nutrient-retention data'
+
+- id: nutr-028
+  category: nutrition
+  difficulty: 3
+  public: true
+  prompt: >
+    Cooking tomatoes increases the bioavailability of one particular beneficial
+    compound, even though it may reduce vitamin C. Name the compound and explain
+    why cooking helps.
+  grader:
+    type: keyword
+    required:
+      - ['lycopene']
+      - ['cell wall', 'cell walls', 'breaks down', 'break down', 'released',
+         'releases', 'more available', 'bioavailab', 'absorb', 'absorption',
+         'heat breaks']
+  referenceAnswer: >
+    Lycopene. Heat breaks down the tomato's cell walls and converts lycopene to
+    a more absorbable (cis) form, so cooked tomatoes (especially with a little
+    oil, since lycopene is fat-soluble) deliver more usable lycopene than raw.
+  source: 'Standard food-science / bioavailability data'
+
+- id: nutr-029
+  category: nutrition
+  difficulty: 2
+  public: true
+  prompt: >
+    A friend says deep-frying a chicken breast versus grilling it makes no
+    difference to its calorie content. Is that correct? Explain what actually
+    happens to the calories.
+  grader:
+    type: keyword
+    required:
+      - ['no', 'incorrect', 'wrong', 'not correct', 'not true', 'false',
+         'disagree']
+      - ['oil', 'fat', 'absorb', 'absorbs', 'breading', 'batter', 'soaks']
+    forbidden:
+      - 'no difference'
+      - 'same calories'
+      - 'makes no difference'
+  referenceAnswer: >
+    No. Grilling lets fat render and drip away, while deep-frying adds calories
+    — the food (especially any breading) absorbs oil, often raising the calorie
+    count substantially. Same starting ingredient, very different finished
+    calories.
+  source: 'Standard food-science data'
+
+- id: nutr-030
+  category: nutrition
+  difficulty: 3
+  public: false
+  prompt: >
+    Does cooking food change its protein content much? Briefly explain what
+    cooking does and does not do to the protein in, say, a chicken breast.
+  grader:
+    type: keyword
+    required:
+      - ['denature', 'denatures', 'denatured', 'structure', 'unfold',
+         'coagulate', "doesn't destroy", 'does not destroy', 'retained',
+         'stays', 'largely unchanged', 'roughly the same', 'concentrat']
+      - ['water', 'moisture', 'weight', 'per 100', 'per gram', 'concentrat',
+         'denature', 'digestib']
+  referenceAnswer: >
+    Cooking denatures (unfolds) the proteins and can improve digestibility, but
+    it doesn't meaningfully destroy the protein — the grams of protein stay
+    about the same. Because the meat loses water, the protein becomes more
+    concentrated per 100 g of cooked weight even though the total is unchanged.
+  source: 'Standard food-science data'
