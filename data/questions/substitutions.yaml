@@ -193,3 +193,61 @@
     required:
       - ['1/8 tsp', '1/8 teaspoon', '⅛ tsp', '⅛ teaspoon', 'eighth']
   referenceAnswer: '≈⅛ teaspoon garlic powder per clove.'
+
+# ── Hard set: chemistry-aware swaps ──
+
+- id: subs-013
+  category: substitutions
+  difficulty: 3
+  public: true
+  prompt: >
+    My recipe needs 1 teaspoon of baking soda but I only have baking powder.
+    How much baking powder should I use, and what else in the recipe should I
+    adjust?
+  grader:
+    type: keyword
+    required:
+      - ['3 teaspoon', '3 tsp', 'three teaspoon', '4 teaspoon', '4 tsp',
+         '1 tablespoon', '1 tbsp']
+      - ['salt']
+  referenceAnswer: >
+    Use about 3 teaspoons (1 tablespoon) of baking powder per teaspoon of
+    baking soda — powder is roughly a third as strong. Also cut back the added
+    salt (powder contains sodium) and expect the recipe's acid to go
+    un-neutralized, which can subtly change flavour.
+
+- id: subs-014
+  category: substitutions
+  difficulty: 3
+  public: true
+  prompt: >
+    A bread recipe calls for 21 g of fresh (cake) yeast. How many grams of
+    instant yeast should I use instead?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    expected: 7
+    unit: g
+    toleranceAbs: 1.2
+  referenceAnswer: '7 g — instant yeast is roughly 3× as potent as fresh (divide by 3).'
+
+- id: subs-015
+  category: substitutions
+  difficulty: 3
+  public: true
+  prompt: >
+    A chocolate cake recipe leavened only with baking soda calls for natural
+    cocoa powder, but I only have Dutch-processed cocoa. What is the problem
+    with a straight swap, and how do I fix it?
+  grader:
+    type: keyword
+    required:
+      - ['acid', 'alkal', 'ph']
+      - ['baking powder', 'cream of tartar', 'buttermilk', 'vinegar', 'lemon',
+         'add an acid', 'add acid']
+  referenceAnswer: >
+    Baking soda needs an acid to react, and natural cocoa supplies it.
+    Dutch-processed cocoa is alkalized (the acidity is neutralized), so the
+    soda won't fully activate — flat cake, soapy taste. Fix: swap the soda for
+    baking powder (which carries its own acid), or add an acid such as
+    buttermilk, cream of tartar or a little vinegar.

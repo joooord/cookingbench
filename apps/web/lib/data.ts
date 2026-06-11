@@ -15,6 +15,7 @@ export interface LeaderboardRow {
   provider: string;
   family?: string;
   overall: number;
+  hardSet?: number | null;
   categories: Partial<Record<CategoryId, number>>;
   questionsGraded: number;
   costUsd: number;

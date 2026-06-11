@@ -179,3 +179,78 @@
     unit: g
     tolerancePct: 3
   referenceAnswer: '19.5 g (117 ÷ 6)'
+
+# ── Hard set: given-data reasoning over recall ──
+
+- id: nutr-013
+  category: nutrition
+  difficulty: 3
+  public: true
+  prompt: >
+    Raw chicken breast has about 23.5 g of protein per 100 g, and chicken loses
+    roughly 25% of its weight during cooking (the protein stays). I cook 400 g
+    of raw chicken breast. About how many grams of protein are in the cooked
+    result?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    expected: 94
+    unit: g
+    toleranceAbs: 5
+  referenceAnswer: >
+    ≈94 g — protein doesn't evaporate: 400 g raw × 23.5 g/100 g = 94 g, now
+    concentrated in ~300 g of cooked meat. Applying a cooked-per-100g figure to
+    the raw weight (e.g. 400 × 31 = 124 g) is the trap.
+
+- id: nutr-014
+  category: nutrition
+  difficulty: 3
+  public: true
+  prompt: >
+    A 75 g portion of dry spaghetti contains 270 kcal. After boiling, that
+    portion weighs about 190 g on the plate. How many kilocalories are in the
+    cooked portion?
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: numeric
+    expected: 270
+    unit: kcal
+    toleranceAbs: 10
+  referenceAnswer: >
+    270 kcal — boiling only adds water, which has no calories. The same pasta
+    weighs more but contains exactly the same energy.
+
+- id: nutr-015
+  category: nutrition
+  difficulty: 3
+  public: true
+  prompt: >
+    A 150 ml glass of wine is 12% alcohol by volume. Ethanol's density is
+    0.789 g/ml and provides 7 kcal/g; this wine also has about 3 g of residual
+    sugar (4 kcal/g). What is the total calorie count of the glass?
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: numeric
+    expected: 111
+    unit: kcal
+    toleranceAbs: 8
+  referenceAnswer: >
+    ≈111 kcal — alcohol: 150 × 0.12 = 18 ml × 0.789 = 14.2 g × 7 ≈ 99 kcal;
+    sugar: 3 × 4 = 12 kcal; total ≈ 111 kcal.
+
+- id: nutr-016
+  category: nutrition
+  difficulty: 3
+  public: false
+  prompt: >
+    Olive oil provides 884 kcal per 100 g and has a density of about
+    0.91 g/ml. How many kilocalories are in 100 ml of olive oil?
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: numeric
+    expected: 804
+    unit: kcal
+    toleranceAbs: 15
+  referenceAnswer: >
+    ≈804 kcal — 100 ml weighs only 91 g (oil is lighter than water), so
+    884 × 0.91 ≈ 804. Reporting 884 confuses per-gram with per-millilitre.

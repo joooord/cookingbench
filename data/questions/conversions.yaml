@@ -201,3 +201,86 @@
     unit: cup
     tolerancePct: 8
   referenceAnswer: '≈1.25 cups (250 ÷ 200)'
+
+# ── Hard set: unit-identity and chained-conversion traps ──
+
+- id: conv-015
+  category: conversions
+  difficulty: 3
+  public: true
+  prompt: >
+    An old British cookbook calls for 1 pint of milk. How many millilitres is
+    an imperial (UK) pint?
+  systemHint: 'End your reply with a line "Answer: <number> ml".'
+  grader:
+    type: numeric
+    expected: 568
+    unit: ml
+    toleranceAbs: 6
+    acceptEquivalentUnits: false
+  referenceAnswer: '568 ml — the UK pint, not the 473 ml US pint.'
+
+- id: conv-016
+  category: conversions
+  difficulty: 3
+  public: true
+  prompt: >
+    A US recipe calls for 8 oz of honey measured BY WEIGHT. Honey's density is
+    about 1.42 g/ml. How many millilitres of honey is that?
+  systemHint: 'End your reply with a line "Answer: <number> ml".'
+  grader:
+    type: numeric
+    expected: 159.7
+    unit: ml
+    tolerancePct: 3
+    acceptEquivalentUnits: false
+  referenceAnswer: >
+    ≈160 ml — 8 oz by weight is 226.8 g; 226.8 ÷ 1.42 ≈ 160 ml. Treating it
+    as 8 fluid ounces (237 ml) is the trap.
+
+- id: conv-017
+  category: conversions
+  difficulty: 3
+  public: true
+  prompt: >
+    An Australian recipe says to add 2 tablespoons (Australian standard) of
+    fish sauce. How many millilitres is that?
+  systemHint: 'End your reply with a line "Answer: <number> ml".'
+  grader:
+    type: numeric
+    expected: 40
+    unit: ml
+    toleranceAbs: 2
+    acceptEquivalentUnits: false
+  referenceAnswer: '40 ml — the Australian tablespoon is 20 ml (US/UK is 15 ml).'
+
+- id: conv-018
+  category: conversions
+  difficulty: 2
+  public: true
+  prompt: Convert 1 US cup of unsalted butter to grams.
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    expected: 227
+    unit: g
+    toleranceAbs: 6
+  referenceAnswer: '227 g (2 sticks) — butter is denser than the 240 g/cup water rule.'
+
+- id: conv-019
+  category: conversions
+  difficulty: 3
+  public: false
+  prompt: >
+    A UK recipe says to bake at 160°C in a fan oven. My American oven is
+    conventional (no fan) and shows Fahrenheit. What temperature should I set?
+  systemHint: 'End your reply with a line "Answer: <number> °F".'
+  grader:
+    type: numeric
+    expected: 356
+    unit: f
+    toleranceAbs: 10
+    acceptEquivalentUnits: false
+  referenceAnswer: >
+    ≈350–355°F. Two steps: 160°C fan ≈ 180°C conventional, and 180°C = 356°F.
+    Converting 160°C directly to 320°F misses the fan adjustment.

@@ -208,3 +208,45 @@
     produces a heat-stable toxin that reheating won't destroy. The 2-hour rule
     was long exceeded.
   source: 'USDA FSIS two-hour rule; Bacillus cereus guidance'
+
+# ── Hard set: reasoning beyond the temperature chart ──
+
+- id: safe-013
+  category: food-safety
+  difficulty: 3
+  public: true
+  prompt: >
+    My roast turkey's breast meat reads 165°F but the probe in the stuffing
+    inside the cavity reads only 150°F. The family is hungry — is it safe to
+    serve now? What does the guidance say?
+  grader:
+    type: keyword
+    required:
+      - ['no', 'not safe', 'not yet', 'keep cooking', 'continue', 'return',
+         'back in the oven', 'wait']
+      - ['165', '74']
+      - ['stuffing']
+  referenceAnswer: >
+    No — keep cooking. The stuffing absorbs raw poultry juices, so the stuffing
+    itself must reach 165°F (74°C), not just the meat around it.
+  source: 'USDA FSIS stuffed-poultry guidance'
+
+- id: safe-014
+  category: food-safety
+  difficulty: 3
+  public: false
+  prompt: >
+    I made a big pot of soup, left it on the counter to cool for 5 hours, then
+    refrigerated it overnight. If I reheat it to a rolling boil tomorrow, is it
+    safe to eat? Explain the reasoning.
+  grader:
+    type: keyword
+    required:
+      - ['no', 'not safe', 'discard', 'throw', 'unsafe', "don't", 'do not',
+         'risky', 'toss']
+      - ['danger zone', '2 hour', 'two hour', 'toxin', 'bacteria']
+  referenceAnswer: >
+    No — discard it. Five hours in the danger zone far exceeds the 2-hour rule;
+    some bacteria produce heat-stable toxins that even a rolling boil does not
+    destroy, so reheating cannot make it safe.
+  source: 'USDA FSIS two-hour rule; staphylococcal/B. cereus toxin guidance'

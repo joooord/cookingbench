@@ -44,6 +44,9 @@ export default function LeaderboardPage() {
                 <th className="py-3 pr-2 font-normal">#</th>
                 <th className="py-3 pr-4 font-normal">Model</th>
                 <th className="py-3 pr-4 font-normal">Overall</th>
+                <th className="py-3 pr-4 font-normal" title="Mean score on difficulty-3 questions only — compound math, unit traps, multi-constraint requests">
+                  Hard set
+                </th>
                 <th className="hidden py-3 pr-4 font-normal md:table-cell">Categories</th>
                 <th className="py-3 text-right font-normal">Run cost</th>
               </tr>
@@ -66,6 +69,14 @@ export default function LeaderboardPage() {
                       style={{ color: scoreColor(row.overall) }}
                     >
                       {formatScore(row.overall)}
+                    </span>
+                  </td>
+                  <td className="py-4 pr-4">
+                    <span
+                      className="tabular text-sm"
+                      style={{ color: scoreColor(row.hardSet ?? 0) }}
+                    >
+                      {row.hardSet == null ? '—' : formatScore(row.hardSet)}
                     </span>
                   </td>
                   <td className="hidden py-4 pr-4 md:table-cell">

@@ -69,7 +69,13 @@ export default function MethodologyPage() {
           </p>
           <p className="mt-4">
             Every question scores 0–100. A category score is the mean of its questions; the
-            overall score is the unweighted mean of category scores.
+            overall score is the unweighted mean of category scores. The leaderboard also
+            reports a <strong>Hard set</strong> score — difficulty-3 questions only. Frontier
+            models saturate the easy questions (which exist as a floor, to catch regressions
+            and rank smaller models), so the hard set carries the ranking signal at the top:
+            inverse and non-linear scaling traps, unit-identity traps (a UK pint, an
+            Australian tablespoon, weight-vs-volume ounces), chained conversions, given-data
+            nutrition reasoning, and multi-constraint recipe briefs.
           </p>
         </section>
 

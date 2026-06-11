@@ -194,3 +194,92 @@
     unit: l
     tolerancePct: 1
   referenceAnswer: '3 litres (60 ml × 50 drinks)'
+
+# ── Hard set: non-linear and inverse reasoning traps ──
+
+- id: qty-013
+  category: quantities-scaling
+  difficulty: 3
+  public: true
+  prompt: >
+    A 1.5 kg chicken roasts in about 75 minutes at 200°C. I'm roasting two
+    1.5 kg chickens side by side on the same shelf with space between them.
+    Roughly how many minutes should they take?
+  systemHint: 'End your reply with a line "Answer: <number> minutes".'
+  grader:
+    type: range
+    min: 70
+    max: 95
+    unit: min
+  referenceAnswer: >
+    About the same, 75–85 minutes. Cooking time depends on the size of each
+    bird, not the total weight in the oven; two chickens may need slightly
+    longer due to oven load, but nowhere near double.
+
+- id: qty-014
+  category: quantities-scaling
+  difficulty: 3
+  public: true
+  prompt: >
+    A brownie recipe is written for a 20 cm round tin. I want to use a 20 cm
+    square tin with the same depth. By what factor should I scale the
+    ingredients so the batter depth stays the same? Give a decimal.
+  systemHint: 'End your reply with a line "Answer: <number>".'
+  grader:
+    type: numeric
+    expected: 1.27
+    tolerancePct: 2.5
+  referenceAnswer: >
+    1.27 — a 20 cm square is 400 cm², a 20 cm round is π × 10² ≈ 314 cm²;
+    400/314 ≈ 1.27. Same stated size, ~27% more batter needed.
+
+- id: qty-015
+  category: quantities-scaling
+  difficulty: 2
+  public: true
+  prompt: >
+    I need 600 g of cooked rice for a salad. White rice roughly triples in
+    weight when cooked. How many grams of raw rice should I cook?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    expected: 200
+    unit: g
+    tolerancePct: 2
+  referenceAnswer: '200 g raw (600 ÷ 3) — the division direction is the trap.'
+
+- id: qty-016
+  category: quantities-scaling
+  difficulty: 3
+  public: false
+  prompt: >
+    Beef burgers lose about 25% of their weight during cooking. I want to serve
+    6 cooked patties of 150 g each. How many grams of raw mince do I need?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    expected: 1200
+    unit: g
+    tolerancePct: 1
+  referenceAnswer: >
+    1200 g — each cooked 150 g patty needs 150/0.75 = 200 g raw; ×6 = 1200 g.
+    (Adding 25% to the cooked weight gives 1125 g, which is wrong.)
+
+- id: qty-017
+  category: quantities-scaling
+  difficulty: 3
+  public: true
+  prompt: >
+    A bread recipe serving 6 uses 720 g of flour. Scale it to 10 servings,
+    then tell me BOTH the total flour needed in grams AND the flour per
+    serving in ounces.
+  systemHint: >
+    End with two lines: "Total: <number> g" and "Per serving: <number> oz".
+  grader:
+    type: numeric-multi
+    scoring: proportional
+    targets:
+      - { label: total, expected: 1200, unit: g, tolerancePct: 1 }
+      - { label: serving, expected: 4.23, unit: oz, tolerancePct: 2.5 }
+  referenceAnswer: >
+    Total: 1200 g (720 × 10/6). Per serving: 120 g = 4.23 oz.

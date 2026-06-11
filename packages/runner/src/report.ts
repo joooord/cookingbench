@@ -7,6 +7,8 @@ export interface LeaderboardRow {
   family?: string;
   /** Unweighted mean of category means, 0–100. */
   overall: number;
+  /** Mean over difficulty-3 questions only — the frontier-separating signal. */
+  hardSet: number | null;
   categories: Partial<Record<CategoryId, number>>;
   questionsGraded: number;
   costUsd: number;
@@ -26,6 +28,8 @@ export function buildLeaderboard(
   scores: Score[],
 ): LeaderboardReport {
   const questionCategory = new Map(questions.map((q) => [q.id, q.category]));
+  const hardIds = new Set(questions.filter((q) => q.difficulty === 3).map((q) => q.id));
+  const hardScores = new Map<string, number[]>();
   const costByModel = new Map<string, number>();
   for (const r of responses) {
     costByModel.set(r.modelId, (costByModel.get(r.modelId) ?? 0) + r.costUsd);
@@ -39,6 +43,10 @@ export function buildLeaderboard(
     const perCategory = byModel.get(s.modelId)!;
     if (!perCategory.has(category)) perCategory.set(category, []);
     perCategory.get(category)!.push(s.score);
+    if (hardIds.has(s.questionId)) {
+      if (!hardScores.has(s.modelId)) hardScores.set(s.modelId, []);
+      hardScores.get(s.modelId)!.push(s.score);
+    }
   }
 
   const rows: LeaderboardRow[] = [];
@@ -55,11 +63,15 @@ export function buildLeaderboard(
       categoryMeans.push(mean);
       graded += values.length;
     }
+    const hard = hardScores.get(modelId);
     rows.push({
       modelId,
       displayName: meta?.displayName ?? modelId,
       provider: meta?.provider ?? 'Unknown',
       family: meta?.family,
+      hardSet: hard && hard.length > 0
+        ? Math.round((hard.reduce((a, b) => a + b, 0) / hard.length) * 10) / 10
+        : null,
       overall:
         Math.round(
           (categoryMeans.reduce((a, b) => a + b, 0) / Math.max(categoryMeans.length, 1)) * 10,
