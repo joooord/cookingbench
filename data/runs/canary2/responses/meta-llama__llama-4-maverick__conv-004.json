@@ -1,0 +1,57 @@
+{
+  "runId": "canary2",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "conv-004",
+  "answerText": "1 stick of butter is equivalent to 1/2 cup or 8 tablespoons. \n1 stick of butter is equal to 113 grams.\nAnswer: 113 g",
+  "raw": {
+    "id": "gen-1781186116-tTbi4NiRUznQU0BxOyCh",
+    "object": "chat.completion",
+    "created": 1781186116,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "1 stick of butter is equivalent to 1/2 cup or 8 tablespoons. \n1 stick of butter is equal to 113 grams.\nAnswer: 113 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 61,
+      "completion_tokens": 35,
+      "total_tokens": 96,
+      "cost": 0.00003015,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00003015,
+        "upstream_inference_prompt_cost": 0.00000915,
+        "upstream_inference_completions_cost": 0.000021
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 61,
+  "tokensOut": 35,
+  "costUsd": 0.00003015,
+  "latencyMs": 1929,
+  "finishReason": "stop"
+}

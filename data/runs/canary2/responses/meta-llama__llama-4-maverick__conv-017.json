@@ -1,0 +1,57 @@
+{
+  "runId": "canary2",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "conv-017",
+  "answerText": "An Australian standard tablespoon is 20 ml. So, 2 tablespoons is 2 x 20 = 40 ml.\nAnswer: 40 ml",
+  "raw": {
+    "id": "gen-1781186122-dSinJa5c4cgasxAyEvcy",
+    "object": "chat.completion",
+    "created": 1781186122,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "An Australian standard tablespoon is 20 ml. So, 2 tablespoons is 2 x 20 = 40 ml.\nAnswer: 40 ml",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 69,
+      "completion_tokens": 31,
+      "total_tokens": 100,
+      "cost": 0.00002895,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00002895,
+        "upstream_inference_prompt_cost": 0.00001035,
+        "upstream_inference_completions_cost": 0.0000186
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 69,
+  "tokensOut": 31,
+  "costUsd": 0.00002895,
+  "latencyMs": 1105,
+  "finishReason": "stop"
+}

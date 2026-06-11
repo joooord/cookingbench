@@ -94,7 +94,9 @@ function cmdValidate() {
 }
 
 async function cmdEstimate() {
-  const questions = loadQuestions();
+  const questionsAll = loadQuestions();
+  const limit = arg('limit') ? Number(arg('limit')) : undefined;
+  const questions = limit ? questionsAll.slice(0, limit) : questionsAll;
   const models = loadModels();
   const modelIds = resolveModelIds(models);
   console.log(`Estimating worst-case cost for ${modelIds.length} models × ${questions.length} questions…`);
@@ -436,7 +438,8 @@ Usage: pnpm bench <command> [options]
 Commands:
   validate                       Validate the dataset (questions + models)
   models --check                 Check roster slugs against the live OpenRouter catalog
-  estimate [--models all|a,b]    Worst-case cost table; required before any paid run
+  estimate [--models all|a,b] [--limit N]
+                                 Worst-case cost table; required before any paid run
   run --budget <usd> [--models all|a,b] [--limit N] [--run-id id] [--mock]
   grade --run <id>               Deterministic grading
   judge --run <id>               LLM-judge grading for subjective questions

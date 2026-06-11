@@ -1,0 +1,57 @@
+{
+  "runId": "canary",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "conv-009",
+  "answerText": "1 US tablespoon is equal to 3 teaspoons.\n\nAnswer: 3 tsp",
+  "raw": {
+    "id": "gen-1781186003-c8DYcDGoiYCv1Dw4i7fq",
+    "object": "chat.completion",
+    "created": 1781186003,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "Parasail",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "1 US tablespoon is equal to 3 teaspoons.\n\nAnswer: 3 tsp",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 54,
+      "completion_tokens": 16,
+      "total_tokens": 70,
+      "cost": 0.0000349,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0000349,
+        "upstream_inference_prompt_cost": 0.0000189,
+        "upstream_inference_completions_cost": 0.000016
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 54,
+  "tokensOut": 16,
+  "costUsd": 0.0000349,
+  "latencyMs": 446,
+  "finishReason": "stop"
+}

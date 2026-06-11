@@ -17,11 +17,18 @@ export interface CompletionResult {
   finishReason?: string;
 }
 
+export interface CompletionOpts {
+  temperature: number;
+  maxTokens: number;
+  /** OpenRouter unified reasoning control (e.g. { effort: 'low' }). */
+  reasoning?: { effort?: 'low' | 'medium' | 'high'; enabled?: boolean; max_tokens?: number };
+}
+
 export interface CompletionClient {
   complete(
     modelId: string,
     messages: ChatMessage[],
-    opts: { temperature: number; maxTokens: number },
+    opts: CompletionOpts,
   ): Promise<CompletionResult>;
 }
 
@@ -38,7 +45,7 @@ export class OpenRouterClient implements CompletionClient {
   async complete(
     modelId: string,
     messages: ChatMessage[],
-    opts: { temperature: number; maxTokens: number },
+    opts: CompletionOpts,
   ): Promise<CompletionResult> {
     let lastError: Error | undefined;
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
@@ -56,6 +63,7 @@ export class OpenRouterClient implements CompletionClient {
           messages,
           temperature: opts.temperature,
           max_tokens: opts.maxTokens,
+          ...(opts.reasoning ? { reasoning: opts.reasoning } : {}),
           usage: { include: true },
         }),
       });

@@ -86,11 +86,24 @@ export async function judgeAnswer(
   const messages = buildJudgeMessages(question, answerText);
   const verdicts: JudgeVerdict[] = [];
   for (let i = 0; i < 2; i++) {
-    const result = await client.complete(judgeModel, messages, {
-      temperature: 0,
-      maxTokens: 800,
-    });
-    verdicts.push(parseJudgeResponse(question, result.text));
+    // Reasoning judges can burn the whole token cap on hidden thinking, so cap
+    // effort low, leave headroom, and retry once on truncated/invalid output.
+    let lastError: Error | undefined;
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const result = await client.complete(judgeModel, messages, {
+        temperature: 0,
+        maxTokens: 2000,
+        reasoning: { effort: 'low' },
+      });
+      try {
+        verdicts.push(parseJudgeResponse(question, result.text));
+        lastError = undefined;
+        break;
+      } catch (err) {
+        lastError = err as Error;
+      }
+    }
+    if (lastError) throw lastError;
   }
   const [a, b] = verdicts as [JudgeVerdict, JudgeVerdict];
   const disagreement = Math.abs(a.score - b.score);
