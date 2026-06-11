@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "rgen-011",
+  "answerText": "**Greek yogurt parfait (cold overnight assembly)**\n\n- 200 g nonfat plain Greek yogurt  \n- 1 large hard-boiled egg, chopped  \n- 10 g chia seeds  \n- 15 g almonds, chopped  \n\n**Itemized tally**  \n- 200 g nonfat Greek yogurt: 130 kcal, 23 g protein  \n- 1 large egg: 72 kcal, 6 g protein  \n- 10 g chia seeds: 49 kcal, 2 g protein  \n- 15 g almonds: 86 kcal, 3 g protein  \n\n**Totals**: 337 kcal, 34 g protein (both limits met).  \n\nMix yogurt + chia the night before; top with egg + almonds. Refrigerate and eat cold.",
+  "raw": {
+    "id": "gen-1781186545-AOE2wlJN1wloWrPcB53U",
+    "object": "chat.completion",
+    "created": 1781186545,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "**Greek yogurt parfait (cold overnight assembly)**\n\n- 200 g nonfat plain Greek yogurt  \n- 1 large hard-boiled egg, chopped  \n- 10 g chia seeds  \n- 15 g almonds, chopped  \n\n**Itemized tally**  \n- 200 g nonfat Greek yogurt: 130 kcal, 23 g protein  \n- 1 large egg: 72 kcal, 6 g protein  \n- 10 g chia seeds: 49 kcal, 2 g protein  \n- 15 g almonds: 86 kcal, 3 g protein  \n\n**Totals**: 337 kcal, 34 g protein (both limits met).  \n\nMix yogurt + chia the night before; top with egg + almonds. Refrigerate and eat cold.",
+          "refusal": null,
+          "reasoning": "The task is: Design a single make-ahead breakfast for one person that hits at least 30 g protein and at most 450 kcal, is vegetarian, and can be assembled the night before and eaten cold. Provide quan...First, the user wants a single make-ahead breakfast for one person:\n\n- ≥30g protein\n\n- ≤450 kcal\n\n- Vegetarian (eggs, dairy OK, no meat/fish)\n\n- Assembled night before, eaten cold\n\n- Itemized protein and calorie tally with quantities\n\nI need to design something like overnight 0 or a cold bowl that can be prepped night before.\n\nKey: Eaten cold, so no cooking in morning, pre-assemble.\n\nGood options: Overnight oats (but oats are cold), yogurt parfaits with fruits, nuts, seeds, hard-boiled eggs.\n\nI need accurate numbers.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The task is: Design a single make-ahead breakfast for one person that hits at least 30 g protein and at most 450 kcal, is vegetarian, and can be assembled the night before and eaten cold. Provide quan...First, the user wants a single make-ahead breakfast for one person:\n\n- ≥30g protein\n\n- ≤450 kcal\n\n- Vegetarian (eggs, dairy OK, no meat/fish)\n\n- Assembled night before, eaten cold\n\n- Itemized protein and calorie tally with quantities\n\nI need to design something like overnight 0 or a cold bowl that can be prepped night before.\n\nKey: Eaten cold, so no cooking in morning, pre-assemble.\n\nGood options: Overnight oats (but oats are cold), yogurt parfaits with fruits, nuts, seeds, hard-boiled eggs.\n\nI need accurate numbers.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_08ad53a5-e7c9-973b-b22b-f1789bbccab1",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 201,
+      "completion_tokens": 1141,
+      "total_tokens": 1342,
+      "cost": 0.00296935,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00296935,
+        "upstream_inference_prompt_cost": 0.00011685,
+        "upstream_inference_completions_cost": 0.0028525
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 989,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 201,
+  "tokensOut": 1141,
+  "costUsd": 0.00296935,
+  "latencyMs": 8411,
+  "finishReason": "stop"
+}

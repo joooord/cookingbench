@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "safe-014",
+  "answerText": "No, the soup is not necessarily safe to eat. \n\nThe soup was left at room temperature for 5 hours, which is within the safe time limit (2 hours at room temperature, or 4 hours if it's below 90°F or 32°C, and 6 hours if it's below 70°F or 21°C and was cooled to below 41°F or 5°C within the first 2 hours). However, the risk lies in the potential bacterial growth during that time.\n\nTo be safe, the soup should have been cooled to below 41°F (5°C) within 2 hours. Although you refrigerated it overnight, the initial cooling was too slow. \n\nReheating the soup to a rolling boil will kill most bacteria, but it may not eliminate toxins produced by bacteria like Staphylococcus aureus or Bacillus cereus. If these bacteria were present and had time to produce toxins, reheating the soup will not make it safe.\n\nTo ensure food safety, it's recommended to cool the soup quickly (within 2 hours) to a safe temperature, and then refrigerate or freeze it. If you didn't follow proper cooling procedures, it's best to err on the side of caution and discard the soup.",
+  "raw": {
+    "id": "gen-1781190714-zWsvZwo5WhhFgSx96dB8",
+    "object": "chat.completion",
+    "created": 1781190714,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "Parasail",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "No, the soup is not necessarily safe to eat. \n\nThe soup was left at room temperature for 5 hours, which is within the safe time limit (2 hours at room temperature, or 4 hours if it's below 90°F or 32°C, and 6 hours if it's below 70°F or 21°C and was cooled to below 41°F or 5°C within the first 2 hours). However, the risk lies in the potential bacterial growth during that time.\n\nTo be safe, the soup should have been cooled to below 41°F (5°C) within 2 hours. Although you refrigerated it overnight, the initial cooling was too slow. \n\nReheating the soup to a rolling boil will kill most bacteria, but it may not eliminate toxins produced by bacteria like Staphylococcus aureus or Bacillus cereus. If these bacteria were present and had time to produce toxins, reheating the soup will not make it safe.\n\nTo ensure food safety, it's recommended to cool the soup quickly (within 2 hours) to a safe temperature, and then refrigerate or freeze it. If you didn't follow proper cooling procedures, it's best to err on the side of caution and discard the soup.",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 77,
+      "completion_tokens": 246,
+      "total_tokens": 323,
+      "cost": 0.00027007,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 16,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00027007,
+        "upstream_inference_prompt_cost": 0.00002407,
+        "upstream_inference_completions_cost": 0.000246
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 77,
+  "tokensOut": 246,
+  "costUsd": 0.00027007,
+  "latencyMs": 3025,
+  "finishReason": "stop"
+}

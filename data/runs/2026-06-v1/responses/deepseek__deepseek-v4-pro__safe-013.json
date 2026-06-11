@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "safe-013",
+  "answerText": "No, it’s not safe to serve yet. The stuffing inside the bird must reach 165°F (74°C) just like the turkey meat itself—since it sits in the cavity and absorbs raw juices, it can harbor harmful bacteria. A 150°F stuffing means it hasn’t reached the temperature needed to kill those bacteria.\n\n**USDA guidance:** For a stuffed turkey, the center of the stuffing must also hit 165°F. If the breast is already at 165°F but the stuffing is behind, continuing to roast without protection may dry out the breast.\n\n**What to do:**  \n- If the turkey is done but stuffing isn’t, carefully spoon the stuffing out of the cavity into a separate oven-safe dish and bake it (or microwave) until it reaches 165°F.  \n- If you’d rather keep everything in the bird, cover the breast with foil to slow its cooking, lower the oven temperature slightly (say, 325°F), and continue roasting until the stuffing probe reads 165°F. Check the breast often so it doesn’t exceed 165°F by much.\n\nOnce the stuffing is safe, serve immediately.",
+  "raw": {
+    "id": "gen-1781189314-rwpy805hhwpSOiqO1n1z",
+    "object": "chat.completion",
+    "created": 1781189314,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "No, it’s not safe to serve yet. The stuffing inside the bird must reach 165°F (74°C) just like the turkey meat itself—since it sits in the cavity and absorbs raw juices, it can harbor harmful bacteria. A 150°F stuffing means it hasn’t reached the temperature needed to kill those bacteria.\n\n**USDA guidance:** For a stuffed turkey, the center of the stuffing must also hit 165°F. If the breast is already at 165°F but the stuffing is behind, continuing to roast without protection may dry out the breast.\n\n**What to do:**  \n- If the turkey is done but stuffing isn’t, carefully spoon the stuffing out of the cavity into a separate oven-safe dish and bake it (or microwave) until it reaches 165°F.  \n- If you’d rather keep everything in the bird, cover the breast with foil to slow its cooking, lower the oven temperature slightly (say, 325°F), and continue roasting until the stuffing probe reads 165°F. Check the breast often so it doesn’t exceed 165°F by much.\n\nOnce the stuffing is safe, serve immediately.",
+          "refusal": null,
+          "reasoning": "We need to answer: \"My roast turkey's breast meat reads 165°F but the probe in the stuffing inside the cavity reads only 150°F. The family is hungry — is it safe to serve now? What does the guidance say?\"\n\nThe user is asking about food safety concerning stuffed turkey. The breast meat reached 165°F (safe for turkey meat) but the stuffing inside the cavity is only 150°F, below the recommended safe temperature (165°F for stuffing as well, because it could have been in contact with raw turkey juices). The guidance says, I recall, that for safety, stuffing must reach 165°F to kill bacteria. If stuffing hasn't reached that, the turkey might not be safe because bacteria could survive in the stuffing. The USDA guidelines: cook stuffing to 165°F; if inside turkey, both turkey and stuffing need to reach that. The breast may be 165°F, but the stuffing is undercooked. So you cannot serve yet; you need to continue cooking until stuffing reaches 165°F. However, the breast might overcook; they suggest perhaps removing stuffing and heating separately, or covering breast with foil and continuing to cook. But the answer: not safe to serve now; stuffing must be 165°F. I'll give advice: remove stuffing, heat to 165°F in a separate dish, or continue roasting, possibly protecting breast. So the direct answer: No, not safe. Provide guidance: USDA says both turkey and stuffing must reach 165°F. I'll explain briefly and offer practical solution.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to answer: \"My roast turkey's breast meat reads 165°F but the probe in the stuffing inside the cavity reads only 150°F. The family is hungry — is it safe to serve now? What does the guidance say?\"\n\nThe user is asking about food safety concerning stuffed turkey. The breast meat reached 165°F (safe for turkey meat) but the stuffing inside the cavity is only 150°F, below the recommended safe temperature (165°F for stuffing as well, because it could have been in contact with raw turkey juices). The guidance says, I recall, that for safety, stuffing must reach 165°F to kill bacteria. If stuffing hasn't reached that, the turkey might not be safe because bacteria could survive in the stuffing. The USDA guidelines: cook stuffing to 165°F; if inside turkey, both turkey and stuffing need to reach that. The breast may be 165°F, but the stuffing is undercooked. So you cannot serve yet; you need to continue cooking until stuffing reaches 165°F. However, the breast might overcook; they suggest perhaps removing stuffing and heating separately, or covering breast with foil and continuing to cook. But the answer: not safe to serve now; stuffing must be 165°F. I'll give advice: remove stuffing, heat to 165°F in a separate dish, or continue roasting, possibly protecting breast. So the direct answer: No, not safe. Provide guidance: USDA says both turkey and stuffing must reach 165°F. I'll explain briefly and offer practical solution.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 65,
+      "completion_tokens": 571,
+      "total_tokens": 636,
+      "cost": 0.0008956035,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 32,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0008956035,
+        "upstream_inference_prompt_cost": 0.0000271125,
+        "upstream_inference_completions_cost": 0.000868491
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 326,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 65,
+  "tokensOut": 571,
+  "costUsd": 0.0008956035,
+  "latencyMs": 10295,
+  "finishReason": "stop"
+}

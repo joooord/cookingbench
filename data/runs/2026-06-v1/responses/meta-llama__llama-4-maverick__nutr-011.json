@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "nutr-011",
+  "answerText": "To find the kcal in one serving, we need to calculate the kcal per serving based on the given serving size (60 g) and the kcal per 100 g (450 kcal). \n\nFirst, we find the kcal per gram: 450 kcal / 100 g = 4.5 kcal/g.\n\nThen, we multiply this by the serving size: 4.5 kcal/g * 60 g = 270 kcal.\n\nAnswer: 270 kcal",
+  "raw": {
+    "id": "gen-1781190736-K1EXVySOYzHl4WU2zMIj",
+    "object": "chat.completion",
+    "created": 1781190736,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To find the kcal in one serving, we need to calculate the kcal per serving based on the given serving size (60 g) and the kcal per 100 g (450 kcal). \n\nFirst, we find the kcal per gram: 450 kcal / 100 g = 4.5 kcal/g.\n\nThen, we multiply this by the serving size: 4.5 kcal/g * 60 g = 270 kcal.\n\nAnswer: 270 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 90,
+      "completion_tokens": 93,
+      "total_tokens": 183,
+      "cost": 0.00013845,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00013845,
+        "upstream_inference_prompt_cost": 0.0000315,
+        "upstream_inference_completions_cost": 0.00010695
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 90,
+  "tokensOut": 93,
+  "costUsd": 0.00013845,
+  "latencyMs": 851,
+  "finishReason": "stop"
+}

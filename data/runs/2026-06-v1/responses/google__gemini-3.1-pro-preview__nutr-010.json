@@ -1,0 +1,71 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "nutr-010",
+  "answerText": "To find the total amount of protein in a box of 6 bars, multiply the protein content of one bar by the number of bars in the box:\n\n20 g/bar × 6 bars = 120 g\n\nAnswer: 120 g",
+  "raw": {
+    "id": "gen-1781186698-JZjT7tO0FIwaQ2Qt8TSa",
+    "object": "chat.completion",
+    "created": 1781186698,
+    "model": "google/gemini-3.1-pro-preview-20260219",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find the total amount of protein in a box of 6 bars, multiply the protein content of one bar by the number of bars in the box:\n\n20 g/bar × 6 bars = 120 g\n\nAnswer: 120 g",
+          "refusal": null,
+          "reasoning": "**Calculating Total Protein**\n\nI'm confirming the total protein content. Each bar has 20g, so for the box of six, that brings me to a total of 120 grams.\n\n**Confirming Protein Totals**\n\nI've successfully calculated the total protein for the entire box. Given each bar contains 20g, multiplying that by six bars yields a grand total of 120 grams of protein.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Total Protein**\n\nI'm confirming the total protein content. Each bar has 20g, so for the box of six, that brings me to a total of 120 grams.\n\n**Confirming Protein Totals**\n\nI've successfully calculated the total protein for the entire box. Given each bar contains 20g, multiplying that by six bars yields a grand total of 120 grams of protein.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "CjIBjz1rX1ykXWicq7A0OgIrxvZILhlb1VUjOpJqyNpD52fTTNzqzhzjLxBpHYqFV40uawplAY89a1/9yUM/cIseGDVVPot337iNZKjRyj8rT1D08qoqaT8YvCMG3ETMQwfWzSxty7iPkJLsIl1X1XC0jiaiWPA8CyJEZQIWPciHp1qAotTD2cLTzKpbvSnRhRS+oTwDYsDU22IKfgGPPWtfNRLM7OFE/YL8Xq+DUZInTEuDBTFMxdeQTIVS28fFJgrbyD4lCEqndVzwd3dQThZUlqF4ypt8VLn2F7JTcUI/tpasU6Icy1TlumBA+OB5/ONEqpkibQngWRJMz0ubbQqS7YvJ8vX7IYMcsbOk5zIWma8r6NVDhf4umApYAY89a19pJESUIhRpIp/jwrVppEqEIh4qGTORuswGMMHvi2593qZ7CjiV7lOaMstBASmw9dwJ3s0YaJqkCrenpMNgQXpQyfJ6YOzcb9cv0qcqFm6/lMExEwp5AY89a1+tvistqK0gMHBx9tsgFHrqH+sq7L6ZQsWZNzAx9OMPVhIZRy6fxIDQYhgDYdlpK+gs1X/6IKYpRtewahY5KJL162yAH/uLNopYgi/6fV9GuxeEnPK/mOF7IEunQ77Axa5/E8x7cqN4BVMQO5v0xcqaGUpNJQ==",
+              "format": "google-gemini-v1",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 54,
+      "completion_tokens": 151,
+      "total_tokens": 205,
+      "cost": 0.00192,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00192,
+        "upstream_inference_prompt_cost": 0.000108,
+        "upstream_inference_completions_cost": 0.001812
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 96,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 54,
+  "tokensOut": 151,
+  "costUsd": 0.00192,
+  "latencyMs": 3137,
+  "finishReason": "stop"
+}

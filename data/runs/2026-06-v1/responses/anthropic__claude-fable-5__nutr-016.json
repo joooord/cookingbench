@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-016",
+  "answerText": "To convert from volume to weight: 100 ml × 0.91 g/ml = 91 g of olive oil.\n\nThen calculate calories: 91 g × (884 kcal / 100 g) = 804.4 kcal.\n\nSo 100 ml of olive oil contains approximately 804 kcal — slightly less than 100 g, since oil is less dense than water.\n\nAnswer: 804 kcal",
+  "raw": {
+    "id": "gen-1781187733-3bR2kHISJZ5n2r4lKS5k",
+    "object": "chat.completion",
+    "created": 1781187733,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To convert from volume to weight: 100 ml × 0.91 g/ml = 91 g of olive oil.\n\nThen calculate calories: 91 g × (884 kcal / 100 g) = 804.4 kcal.\n\nSo 100 ml of olive oil contains approximately 804 kcal — slightly less than 100 g, since oil is less dense than water.\n\nAnswer: 804 kcal",
+          "refusal": null,
+          "reasoning": " I'm calculating the caloric content by multiplying the volume by density to get the mass in grams, then converting that to kilocalories using the energy density.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the caloric content by multiplying the volume by density to get the mass in grams, then converting that to kilocalories using the energy density.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIShAIKYggOGAIqQP0nbwjJLM1W7C4+igVSHUrdUv2qhhjaq+XnZmJnrBOAQapToNPhZzxHExIn1jnU5or+ZgkPUTpsTNxor02as2UyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgykoA4Oi5S6MOgSFrkaDPKh3eurNfyvsiStXSIwlIwzz8bOPeIriPxTbKm1uNRqswt5/60R+e3yz2XYOnokGurWAG6YdYhcAfHZoMtBKlDCmX+wpu8XoHKju6HfPXSBdw4O+4AipjafAO+rHqGd1WvC+aoLIoPS7XQlM1gEnHBJgSF9dp8l0SmIqgljwVWkY5SL1b7YiRjG6TKDnMUcXRgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 110,
+      "completion_tokens": 176,
+      "total_tokens": 286,
+      "cost": 0.0099,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0099,
+        "upstream_inference_prompt_cost": 0.0011,
+        "upstream_inference_completions_cost": 0.0088
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 41,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 110,
+  "tokensOut": 176,
+  "costUsd": 0.0099,
+  "latencyMs": 7732,
+  "finishReason": "stop"
+}

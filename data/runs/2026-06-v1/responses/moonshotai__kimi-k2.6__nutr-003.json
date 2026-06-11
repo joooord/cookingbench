@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "nutr-003",
+  "answerText": "A 250 g portion is 2.5 times 100 g, so:\n\n130 kcal × 2.5 = 325 kcal\n\nAnswer: 325 kcal",
+  "raw": {
+    "id": "gen-1781189919-rFVTnbmr2yhj1bMHpBlI",
+    "object": "chat.completion",
+    "created": 1781189919,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "A 250 g portion is 2.5 times 100 g, so:\n\n130 kcal × 2.5 = 325 kcal\n\nAnswer: 325 kcal",
+          "refusal": null,
+          "reasoning": "The user is asking a simple math problem. Cooked white rice has 130 kcal per 100 g. How many kilocalories are in a 250 g portion?\n\nCalculation: (130 kcal / 100 g) * 250 g = 1.3 * 250 = 325 kcal.\n\nI need to answer accurately and concisely. Then end the reply with a line \"Answer: <number> kcal\".\n\nSo the final line should be exactly: Answer: 325 kcal\n\nLet me check if there are any nuances. Cooked white rice is roughly 130 kcal per 100g. Yes, that's a standard value. 250g is 2.5 times 100g. 130 * 2.5 = 325. That's correct.\n\nConcise explanation: 130 kcal × 2.5 = 325 kcal.\n\nFinal output format:\n[explanation]\n\nAnswer: 325 kcal\n\nMake sure the last line is exactly that format.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking a simple math problem. Cooked white rice has 130 kcal per 100 g. How many kilocalories are in a 250 g portion?\n\nCalculation: (130 kcal / 100 g) * 250 g = 1.3 * 250 = 325 kcal.\n\nI need to answer accurately and concisely. Then end the reply with a line \"Answer: <number> kcal\".\n\nSo the final line should be exactly: Answer: 325 kcal\n\nLet me check if there are any nuances. Cooked white rice is roughly 130 kcal per 100g. Yes, that's a standard value. 250g is 2.5 times 100g. 130 * 2.5 = 325. That's correct.\n\nConcise explanation: 130 kcal × 2.5 = 325 kcal.\n\nFinal output format:\n[explanation]\n\nAnswer: 325 kcal\n\nMake sure the last line is exactly that format.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 70,
+      "completion_tokens": 246,
+      "total_tokens": 316,
+      "cost": 0.0008892,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0008892,
+        "upstream_inference_prompt_cost": 0.00004788,
+        "upstream_inference_completions_cost": 0.00084132
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 207,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 70,
+  "tokensOut": 246,
+  "costUsd": 0.0008892,
+  "latencyMs": 5247,
+  "finishReason": "stop"
+}

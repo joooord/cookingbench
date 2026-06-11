@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "conv-004",
+  "answerText": "In American recipes, butter is sold in sticks where:\n\n- **1 stick = ½ cup = 8 tablespoons = 4 ounces**\n\nConverting 4 ounces to grams: 4 × 28.35 g ≈ **113 grams** (often rounded to 110–115 g in recipes).\n\nAnswer: 113 g",
+  "raw": {
+    "id": "gen-1781187582-qsUroBKoKyJvRnGzrfGB",
+    "object": "chat.completion",
+    "created": 1781187582,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "In American recipes, butter is sold in sticks where:\n\n- **1 stick = ½ cup = 8 tablespoons = 4 ounces**\n\nConverting 4 ounces to grams: 4 × 28.35 g ≈ **113 grams** (often rounded to 110–115 g in recipes).\n\nAnswer: 113 g",
+          "refusal": null,
+          "reasoning": " I'm noting the conversion: one stick of butter equals half a cup or about 113 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm noting the conversion: one stick of butter equals half a cup or about 113 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS7gEKYggOGAIqQIGTK8jt7s87aEEyrET/ejp3pmKohYbEfdIYJwyuZColImsrXQRbn7bpQ8+3iOSZlLnULxfTbz6xJ6YOmevo3Y0yDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgy35qXXlfvFpa+7AlMaDFV+FG8Yq93+rhZ9yiIwCBkP4GHWn/XskCBreRFg5NscGRLOxQMndOpSQB6yENebRgriqOM1u3i3EDn2gzzgKjr5lgwo8gTR73Upkj6/KxPejbTFTrVWnCRcV1KdbeoqnicWa2MugEHqbrLsubaiqhWHSOgHMBHt8W2MGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 78,
+      "completion_tokens": 137,
+      "total_tokens": 215,
+      "cost": 0.00763,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00763,
+        "upstream_inference_prompt_cost": 0.00078,
+        "upstream_inference_completions_cost": 0.00685
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 22,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 78,
+  "tokensOut": 137,
+  "costUsd": 0.00763,
+  "latencyMs": 7048,
+  "finishReason": "stop"
+}

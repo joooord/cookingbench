@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-014",
+  "answerText": "Boiling pasta doesn't add or remove calories — the weight increase (75 g → 190 g) comes entirely from absorbed water, which contains no energy. The cooked portion still has all the calories from the original 75 g of dry spaghetti.\n\nSo the 190 g of cooked spaghetti contains the same 270 kcal (it just has a lower calorie *density*: about 142 kcal per 100 g cooked vs. 360 kcal per 100 g dry).\n\nAnswer: 270 kcal",
+  "raw": {
+    "id": "gen-1781187731-KC8AZlDOVAeP3ZQvueky",
+    "object": "chat.completion",
+    "created": 1781187731,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Boiling pasta doesn't add or remove calories — the weight increase (75 g → 190 g) comes entirely from absorbed water, which contains no energy. The cooked portion still has all the calories from the original 75 g of dry spaghetti.\n\nSo the 190 g of cooked spaghetti contains the same 270 kcal (it just has a lower calorie *density*: about 142 kcal per 100 g cooked vs. 360 kcal per 100 g dry).\n\nAnswer: 270 kcal",
+          "refusal": null,
+          "reasoning": " Cooking doesn't affect the calorie content of food, and water absorption during the process adds no additional calories, so the answer remains 270 kcal.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " Cooking doesn't affect the calorie content of food, and water absorption during the process adds no additional calories, so the answer remains 270 kcal.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISmgIKYggOGAIqQFDKQIa9IAWpGCIaVtH67UeslbhQcLAWTJB78lSTnXbbk3a9ZYIZ4LThhGufxFzVeRfeFQZAoVUsqJCHiynTyXcyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgxXDnv+x+rtJnSwWy4aDJgriRB5pUj8JQT6ZSIwLkYFDNkK7Um85NKoic6IHlbeWldX8/o9Q+wWhHPYzvi95itw9jlm/QKVv6+Ei1zVKmZx1KKwOldnttOSZBtabMT9PQEOj1aXGetU3s1VrExnQxhn51QQyZjOsDERYospUvjgZPCihEmbhEV56llngAq6nvIP3hOxCn5SmmtdQlX69ua+lzHcHb+O4QJrdbd4ccyTuzMOJdQYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 117,
+      "completion_tokens": 200,
+      "total_tokens": 317,
+      "cost": 0.01117,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01117,
+        "upstream_inference_prompt_cost": 0.00117,
+        "upstream_inference_completions_cost": 0.01
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 39,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 117,
+  "tokensOut": 200,
+  "costUsd": 0.01117,
+  "latencyMs": 7076,
+  "finishReason": "stop"
+}

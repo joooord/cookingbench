@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-003",
+  "answerText": "2 US tablespoons equal exactly 29.5735295625 milliliters, commonly rounded to 29.57 ml.  \nAnswer: 29.57 ml",
+  "raw": {
+    "id": "gen-1781189219-KMHPYDFzFL0SCcDhQsGU",
+    "object": "chat.completion",
+    "created": 1781189219,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Parasail",
+    "system_fingerprint": "vllm-0.20.1rc1.dev1005+gcbf8428d0-tp4-ep-66a5fbd4",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "2 US tablespoons equal exactly 29.5735295625 milliliters, commonly rounded to 29.57 ml.  \nAnswer: 29.57 ml",
+          "refusal": null,
+          "reasoning": "We are asked: \"How many millilitres are in 2 US tablespoons?\" We need to answer accurately and concisely, ending with \"Answer: <number> ml\". \n\nWe know that 1 US tablespoon is exactly 14.7867648 milliliters (often rounded to 15 ml for cooking, but the exact conversion is 14.7867648). The question likely expects the exact conversion or the common cooking approximation? Since it says \"accurately\", I'll use the exact value. 2 US tablespoons = 2 * 14.7867648 = 29.5735296 ml. I'll round to a reasonable number of decimal places? The instruction says \"Answer: <number> ml\", so I'll provide the number. I'll give 29.5735 ml (maybe 29.57). But to be precise, I'll use the exact conversion factor: 1 US tbsp = 14.78676478125 ml (since 1 US fluid ounce = 29.5735295625 ml, and 1 tbsp = 0.5 fl oz). So 2 tbsp = 29.5735295625 ml. I'll round to 29.57 ml? The question might expect 30 ml if using the common approximation, but it says \"accurately\". I'll provide the exact value: 29.5735295625, but that's too many digits. I'll give 29.57 ml. However, many sources say 1 tbsp = 15 ml, so 2 tbsp = 30 ml. But the accurate conversion is 29.57 ml. I'll check: The US customary tablespoon is defined as 1/16 of a US cup, which is 14.7867648 ml. So 2 tbsp = 29.5735296 ml. I'll answer with 29.57 ml. I'll end with \"Answer: 29.57 ml\". But to be safe, I'll state the exact conversion: 29.5735 ml. I'll use 29.57.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"How many millilitres are in 2 US tablespoons?\" We need to answer accurately and concisely, ending with \"Answer: <number> ml\". \n\nWe know that 1 US tablespoon is exactly 14.7867648 milliliters (often rounded to 15 ml for cooking, but the exact conversion is 14.7867648). The question likely expects the exact conversion or the common cooking approximation? Since it says \"accurately\", I'll use the exact value. 2 US tablespoons = 2 * 14.7867648 = 29.5735296 ml. I'll round to a reasonable number of decimal places? The instruction says \"Answer: <number> ml\", so I'll provide the number. I'll give 29.5735 ml (maybe 29.57). But to be precise, I'll use the exact conversion factor: 1 US tbsp = 14.78676478125 ml (since 1 US fluid ounce = 29.5735295625 ml, and 1 tbsp = 0.5 fl oz). So 2 tbsp = 29.5735295625 ml. I'll round to 29.57 ml? The question might expect 30 ml if using the common approximation, but it says \"accurately\". I'll provide the exact value: 29.5735295625, but that's too many digits. I'll give 29.57 ml. However, many sources say 1 tbsp = 15 ml, so 2 tbsp = 30 ml. But the accurate conversion is 29.57 ml. I'll check: The US customary tablespoon is defined as 1/16 of a US cup, which is 14.7867648 ml. So 2 tbsp = 29.5735296 ml. I'll answer with 29.57 ml. I'll end with \"Answer: 29.57 ml\". But to be safe, I'll state the exact conversion: 29.5735 ml. I'll use 29.57.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 46,
+      "completion_tokens": 460,
+      "total_tokens": 506,
+      "cost": 0.00168084,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00168084,
+        "upstream_inference_prompt_cost": 0.00008004,
+        "upstream_inference_completions_cost": 0.0016008
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 350,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 46,
+  "tokensOut": 460,
+  "costUsd": 0.00168084,
+  "latencyMs": 22278,
+  "finishReason": "stop"
+}

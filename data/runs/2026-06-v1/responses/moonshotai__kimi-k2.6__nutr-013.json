@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "nutr-013",
+  "answerText": " The raw chicken contains:\n\n400 g × 23.5 g / 100 g = **94 g of protein**\n\nSince cooking only removes water and the protein stays, the cooked chicken still contains exactly that amount.\n\nAnswer: 94 g",
+  "raw": {
+    "id": "gen-1781189942-ljgWgvJ5Ae59zxo0vV1i",
+    "object": "chat.completion",
+    "created": 1781189942,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": " The raw chicken contains:\n\n400 g × 23.5 g / 100 g = **94 g of protein**\n\nSince cooking only removes water and the protein stays, the cooked chicken still contains exactly that amount.\n\nAnswer: 94 g",
+          "refusal": null,
+          "reasoning": "The user wants to know how many grams of protein are in the cooked result after cooking 400g of raw chicken breast.\n\nGiven:\n- Raw chicken breast: 23.5 g protein per 100 g\n- Chicken loses roughly 25% of its weight during cooking\n- Protein stays (doesn't change)\n- Starting amount: 400 g raw\n\nStep 1: Calculate total protein in raw chicken.\n400 g raw * (23.5 g protein / 100 g raw) = 4 * 23.5 = 94 g protein.\n\nStep 2: Since protein stays, the cooked result still has 94 g protein.\n\nWait, let me double-check. The question asks \"About how many grams of protein are in the cooked result?\" Since protein is conserved, it's just the initial protein amount.\n\nInitial protein = 400 * 0.235 = 94 g.\n\nThe weight loss is due to water loss, not protein loss. So the protein content remains 94 g.\n\nThe question might be trying to trick me into calculating protein per 100g of cooked chicken, but it asks for total grams of protein in the cooked result.\n\nSo the answer is 94 g.\n\nLet me verify:\n- Raw: 400g\n- Protein: 23.5% of 400g = 94g\n- Cooked weight: 400g * (1 - 0.25) = 300g\n- Protein per 100g cooked: 94g / 300g * 100 = 31.33g/100g\n- Total protein in cooked result: still 94g\n\nYes, the answer is 94.\n\nFormat required: End with \"Answer: <number> g\"\n\nSo I should provide a concise explanation and end with that line. ",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants to know how many grams of protein are in the cooked result after cooking 400g of raw chicken breast.\n\nGiven:\n- Raw chicken breast: 23.5 g protein per 100 g\n- Chicken loses roughly 25% of its weight during cooking\n- Protein stays (doesn't change)\n- Starting amount: 400 g raw\n\nStep 1: Calculate total protein in raw chicken.\n400 g raw * (23.5 g protein / 100 g raw) = 4 * 23.5 = 94 g protein.\n\nStep 2: Since protein stays, the cooked result still has 94 g protein.\n\nWait, let me double-check. The question asks \"About how many grams of protein are in the cooked result?\" Since protein is conserved, it's just the initial protein amount.\n\nInitial protein = 400 * 0.235 = 94 g.\n\nThe weight loss is due to water loss, not protein loss. So the protein content remains 94 g.\n\nThe question might be trying to trick me into calculating protein per 100g of cooked chicken, but it asks for total grams of protein in the cooked result.\n\nSo the answer is 94 g.\n\nLet me verify:\n- Raw: 400g\n- Protein: 23.5% of 400g = 94g\n- Cooked weight: 400g * (1 - 0.25) = 300g\n- Protein per 100g cooked: 94g / 300g * 100 = 31.33g/100g\n- Total protein in cooked result: still 94g\n\nYes, the answer is 94.\n\nFormat required: End with \"Answer: <number> g\"\n\nSo I should provide a concise explanation and end with that line. ",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 97,
+      "completion_tokens": 417,
+      "total_tokens": 514,
+      "cost": 0.00151305,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 32,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00151305,
+        "upstream_inference_prompt_cost": 0.00005355,
+        "upstream_inference_completions_cost": 0.0014595
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 352,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 97,
+  "tokensOut": 417,
+  "costUsd": 0.00151305,
+  "latencyMs": 28304,
+  "finishReason": "stop"
+}

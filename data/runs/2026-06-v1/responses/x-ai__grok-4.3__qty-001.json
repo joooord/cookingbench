@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "qty-001",
+  "answerText": "Scaled recipe for 5 loaves: 1250 g flour, 875 g water, 25 g salt, 17.5 g instant yeast.\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g",
+  "raw": {
+    "id": "gen-1781186507-NekPvA29mQb4QUjq0hgk",
+    "object": "chat.completion",
+    "created": 1781186507,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Scaled recipe for 5 loaves: 1250 g flour, 875 g water, 25 g salt, 17.5 g instant yeast.\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g",
+          "refusal": null,
+          "reasoning": "The task is to scale a bread recipe from 2 loaves to 5 loaves. The original recipe uses 500 g flour, 350 g water, 10 g salt, and 7 g instant yeast for 2 loaves.\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\nyeast: 17.5 g\n\n\n## Explanation\n\nThe scaling calculation begins by determining the proportional multiplier required to increase production from 2 to 5 loaves, computed as 5/2 = 2.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The task is to scale a bread recipe from 2 loaves to 5 loaves. The original recipe uses 500 g flour, 350 g water, 10 g salt, and 7 g instant yeast for 2 loaves.\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\nyeast: 17.5 g\n\n\n## Explanation\n\nThe scaling calculation begins by determining the proportional multiplier required to increase production from 2 to 5 loaves, computed as 5/2 = 2.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_a54ec948-c004-96be-b1a9-7b936f090372",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 209,
+      "completion_tokens": 677,
+      "total_tokens": 886,
+      "cost": 0.00181935,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00181935,
+        "upstream_inference_prompt_cost": 0.00012685,
+        "upstream_inference_completions_cost": 0.0016925
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 618,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 209,
+  "tokensOut": 677,
+  "costUsd": 0.00181935,
+  "latencyMs": 6318,
+  "finishReason": "stop"
+}

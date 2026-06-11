@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-005",
+  "answerText": "To scale the recipe, find the butter per cookie, then multiply by 90:\n\n- Butter per cookie: 250 g ÷ 24 ≈ 10.417 g\n- For 90 cookies: 10.417 g × 90 = 937.5 g\n\nThat's the equivalent of scaling the recipe by 90/24 = 3.75 times.\n\nAnswer: 937.5 g",
+  "raw": {
+    "id": "gen-1781187783-QQGtVV9i1UcVJd7caQX7",
+    "object": "chat.completion",
+    "created": 1781187783,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To scale the recipe, find the butter per cookie, then multiply by 90:\n\n- Butter per cookie: 250 g ÷ 24 ≈ 10.417 g\n- For 90 cookies: 10.417 g × 90 = 937.5 g\n\nThat's the equivalent of scaling the recipe by 90/24 = 3.75 times.\n\nAnswer: 937.5 g",
+          "refusal": null,
+          "reasoning": " I'm calculating the mass by multiplying 250 by 90 and dividing by 24, which gives me 937.5 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the mass by multiplying 250 by 90 and dividing by 24, which gives me 937.5 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS2gEKYggOGAIqQC7XemNWwgDvv//xdPIXohs9i79+OttwlW04MONEEhhERh0i8R1jsTlF+IDhCvxIuiKjJ7YKJkTdiUTEh7j6yj0yDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgwBpvYllpnQ7NDwpE8aDN/FoGQi9HnHa0tx0CIwDYkaE2rX7XbPrrlKBZxtXZPVVRQJ0FHnkB56Lkq5p7gHscSmGCUnycJME88gOq/2Kibhvppcg4ItJnYDYS9iL6XeQkz9ptwjGAwcUwdr9/FXK2paJhPfhBgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 107,
+      "completion_tokens": 143,
+      "total_tokens": 250,
+      "cost": 0.00822,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00822,
+        "upstream_inference_prompt_cost": 0.00107,
+        "upstream_inference_completions_cost": 0.00715
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 25,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 107,
+  "tokensOut": 143,
+  "costUsd": 0.00822,
+  "latencyMs": 6592,
+  "finishReason": "stop"
+}

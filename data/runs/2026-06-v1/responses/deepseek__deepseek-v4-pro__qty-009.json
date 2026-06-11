@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-009",
+  "answerText": "To get exactly 1712 g of dough, first find the flour weight. The total baker's percentage is 100% + 68% + 2% + 1.2% = 171.2%. This means the total dough is 171.2% of the flour weight. So flour weight = 1712 g / 1.712 = 1000 g. Then calculate the other ingredients as percentages of the flour: water = 68% × 1000 g = 680 g, salt = 2% × 1000 g = 20 g, yeast = 1.2% × 1000 g = 12 g.\n\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g",
+  "raw": {
+    "id": "gen-1781189389-SMg4Yd3edxx2EXLkWJEu",
+    "object": "chat.completion",
+    "created": 1781189389,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To get exactly 1712 g of dough, first find the flour weight. The total baker's percentage is 100% + 68% + 2% + 1.2% = 171.2%. This means the total dough is 171.2% of the flour weight. So flour weight = 1712 g / 1.712 = 1000 g. Then calculate the other ingredients as percentages of the flour: water = 68% × 1000 g = 680 g, salt = 2% × 1000 g = 20 g, yeast = 1.2% × 1000 g = 12 g.\n\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"A dough formula in baker's percentages: flour 100%, water 68%, salt 2%, yeast 1.2%. I want exactly 1712 g of total dough. How many grams of each ingredient?\"\n\nWe need to compute the weight of each ingredient to get a total dough weight of 1712 g. Baker's percentages are based on flour weight as 100%. So total percentage = 100% + 68% + 2% + 1.2% = 171.2%. That means the total dough weight is 171.2% of the flour weight. So flour weight = total dough weight / (total percentage/100) = 1712 / 1.712 = 1000 g. Then water = 68% of flour = 680 g, salt = 2% = 20 g, yeast = 1.2% = 12 g. Check: 1000+680+20+12 = 1712. Perfect.\n\nThe answer should list each ingredient with grams. The instruction: \"End your reply with one line per ingredient in the form '<ingredient>: <number> g'.\" So we need to output the answer and then the lines. The assistant should first answer the question, then end with those lines. So I'll provide a brief explanation and then the lines.\n\nMake sure to use the exact format: \"flour: 1000 g\", \"water: 680 g\", \"salt: 20 g\", \"yeast: 12 g\". But careful: The ingredient names: flour, water, salt, yeast. The question says \"flour 100%, water 68%, salt 2%, yeast 1.2%\". So I'll use those names.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A dough formula in baker's percentages: flour 100%, water 68%, salt 2%, yeast 1.2%. I want exactly 1712 g of total dough. How many grams of each ingredient?\"\n\nWe need to compute the weight of each ingredient to get a total dough weight of 1712 g. Baker's percentages are based on flour weight as 100%. So total percentage = 100% + 68% + 2% + 1.2% = 171.2%. That means the total dough weight is 171.2% of the flour weight. So flour weight = total dough weight / (total percentage/100) = 1712 / 1.712 = 1000 g. Then water = 68% of flour = 680 g, salt = 2% = 20 g, yeast = 1.2% = 12 g. Check: 1000+680+20+12 = 1712. Perfect.\n\nThe answer should list each ingredient with grams. The instruction: \"End your reply with one line per ingredient in the form '<ingredient>: <number> g'.\" So we need to output the answer and then the lines. The assistant should first answer the question, then end with those lines. So I'll provide a brief explanation and then the lines.\n\nMake sure to use the exact format: \"flour: 1000 g\", \"water: 680 g\", \"salt: 20 g\", \"yeast: 12 g\". But careful: The ingredient names: flour, water, salt, yeast. The question says \"flour 100%, water 68%, salt 2%, yeast 1.2%\". So I'll use those names.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 84,
+      "completion_tokens": 531,
+      "total_tokens": 615,
+      "cost": 0.00199404,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00199404,
+        "upstream_inference_prompt_cost": 0.00014616,
+        "upstream_inference_completions_cost": 0.00184788
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 311,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 84,
+  "tokensOut": 531,
+  "costUsd": 0.00199404,
+  "latencyMs": 6328,
+  "finishReason": "stop"
+}

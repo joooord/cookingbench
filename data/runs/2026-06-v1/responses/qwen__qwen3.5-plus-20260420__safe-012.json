@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "qwen/qwen3.5-plus-20260420",
+  "questionId": "safe-012",
+  "answerText": "No, it is **not safe** to eat. Cooked rice should never be left at room temperature for more than **2 hours**. \n\nRice commonly contains spores of *Bacillus cereus*, which survive the cooking process. When rice sits out, these spores germinate, multiply rapidly, and produce toxins. These toxins are **heat-stable**, meaning reheating will kill the bacteria but will **not** destroy the toxins, which can cause severe food poisoning (typically vomiting and diarrhea). \n\nSince it was left out for 9 hours, it should be **discarded**. For future reference, cool cooked rice quickly and refrigerate it within 2 hours (or 1 hour if the room is above 90°F/32°C).",
+  "raw": {
+    "id": "gen-1781191190-VpZYS4S3HcstRDPfYerj",
+    "object": "chat.completion",
+    "created": 1781191190,
+    "model": "qwen/qwen3.5-plus-20260420",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "No, it is **not safe** to eat. Cooked rice should never be left at room temperature for more than **2 hours**. \n\nRice commonly contains spores of *Bacillus cereus*, which survive the cooking process. When rice sits out, these spores germinate, multiply rapidly, and produce toxins. These toxins are **heat-stable**, meaning reheating will kill the bacteria but will **not** destroy the toxins, which can cause severe food poisoning (typically vomiting and diarrhea). \n\nSince it was left out for 9 hours, it should be **discarded**. For future reference, cool cooked rice quickly and refrigerate it within 2 hours (or 1 hour if the room is above 90°F/32°C).",
+          "refusal": null,
+          "reasoning": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Food: Cooked rice\n   - Condition: Left out on counter overnight (~9 hours)\n   - Question: Is it safe to reheat and eat? Explain.\n\n2.  **Identify Key Food Safety Principles:**\n   - Cooked rice is a high-risk food for bacterial growth, specifically *Bacillus cereus*.\n   - *Bacillus cereus* spores can survive cooking and germinate when rice is left at room temperature.\n   - The bacteria produce toxins that are heat-stable (reheating won't destroy them).\n   - The \"Danger Zone\" for food is 40°F–140°F (4°C–60°C). Food should not be left in this zone for more than 2 hours (or 1 hour if above 90°F/32°C).\n   - 9 hours is well beyond the safe limit.\n\n3.  **Formulate Answer:**\n   - Direct answer: No, it is not safe.\n   - Explain why: \n     - Mention *Bacillus cereus* and its spores surviving cooking.\n     - Explain the danger zone and the 2-hour rule.\n     - Note that reheating won't destroy the toxins produced.\n     - State the risk of food poisoning (vomiting, diarrhea).\n   - Provide clear recommendation: Discard it.\n   - Keep it concise and accurate.\n\n4.  **Draft Response (mental refinement):**\n   No, it is not safe to eat. Cooked rice should never be left at room temperature for more than 2 hours. Rice often contains spores of *Bacillus cereus*, a bacterium that can survive cooking. When rice sits out, these spores germinate, multiply, and produce heat-stable toxins. Reheating will kill the bacteria but won’t destroy the toxins, which can cause severe food poisoning (vomiting and diarrhea). Since it was left out for 9 hours, it should be discarded.\n\n5.  **Check Against Guidelines:**\n   - Accurate? Yes, aligns with USDA/FDA food safety guidelines.\n   - Concise? Yes, ~3 sentences.\n   - Explains why? Yes, covers bacteria, toxins, heat stability, and time limit.\n   - Clear recommendation? Yes, discard.\n\n   All good. Output matches draft.✅",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Food: Cooked rice\n   - Condition: Left out on counter overnight (~9 hours)\n   - Question: Is it safe to reheat and eat? Explain.\n\n2.  **Identify Key Food Safety Principles:**\n   - Cooked rice is a high-risk food for bacterial growth, specifically *Bacillus cereus*.\n   - *Bacillus cereus* spores can survive cooking and germinate when rice is left at room temperature.\n   - The bacteria produce toxins that are heat-stable (reheating won't destroy them).\n   - The \"Danger Zone\" for food is 40°F–140°F (4°C–60°C). Food should not be left in this zone for more than 2 hours (or 1 hour if above 90°F/32°C).\n   - 9 hours is well beyond the safe limit.\n\n3.  **Formulate Answer:**\n   - Direct answer: No, it is not safe.\n   - Explain why: \n     - Mention *Bacillus cereus* and its spores surviving cooking.\n     - Explain the danger zone and the 2-hour rule.\n     - Note that reheating won't destroy the toxins produced.\n     - State the risk of food poisoning (vomiting, diarrhea).\n   - Provide clear recommendation: Discard it.\n   - Keep it concise and accurate.\n\n4.  **Draft Response (mental refinement):**\n   No, it is not safe to eat. Cooked rice should never be left at room temperature for more than 2 hours. Rice often contains spores of *Bacillus cereus*, a bacterium that can survive cooking. When rice sits out, these spores germinate, multiply, and produce heat-stable toxins. Reheating will kill the bacteria but won’t destroy the toxins, which can cause severe food poisoning (vomiting and diarrhea). Since it was left out for 9 hours, it should be discarded.\n\n5.  **Check Against Guidelines:**\n   - Accurate? Yes, aligns with USDA/FDA food safety guidelines.\n   - Concise? Yes, ~3 sentences.\n   - Explains why? Yes, covers bacteria, toxins, heat stability, and time limit.\n   - Clear recommendation? Yes, discard.\n\n   All good. Output matches draft.✅",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 60,
+      "completion_tokens": 678,
+      "total_tokens": 738,
+      "cost": 0.0012384,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0012384,
+        "upstream_inference_prompt_cost": 0.000018,
+        "upstream_inference_completions_cost": 0.0012204
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 517,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 60,
+  "tokensOut": 678,
+  "costUsd": 0.0012384,
+  "latencyMs": 13018,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-016",
+  "answerText": "Olive oil has 884 kcal per 100 g, and a density of 0.91 g/ml.  \nMass of 100 ml = 100 ml × 0.91 g/ml = 91 g.  \nCalories = (91 g / 100 g) × 884 kcal = 0.91 × 884 kcal = 804.44 kcal.\n\nAnswer: 804.44 kcal",
+  "raw": {
+    "id": "gen-1781189345-1cKM6yAsGhr4Q6GM1upB",
+    "object": "chat.completion",
+    "created": 1781189345,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "AtlasCloud",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Olive oil has 884 kcal per 100 g, and a density of 0.91 g/ml.  \nMass of 100 ml = 100 ml × 0.91 g/ml = 91 g.  \nCalories = (91 g / 100 g) × 884 kcal = 0.91 × 884 kcal = 804.44 kcal.\n\nAnswer: 804.44 kcal",
+          "refusal": null,
+          "reasoning": "We need to calculate the kilocalories in 100 ml of olive oil given that 100 g has 884 kcal and density is 0.91 g/ml.\n\nFirst, find mass of 100 ml: mass = volume * density = 100 ml * 0.91 g/ml = 91 g.\n\nThen, calories: (91 g / 100 g) * 884 kcal = 0.91 * 884 kcal. Compute: 884 * 0.91 = 884 * 91 / 100 = (884 * 91) / 100. 884 * 90 = 79,560; 884 * 1 = 884; sum = 80,444; divide by 100 = 804.44 kcal.\n\nSo answer is approximately 804.44 kcal. I'll round to reasonable digits: maybe 804 kcal? But the question might expect the exact calculation. I'll give 804.44 kcal. Answer: 804.44 kcal",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to calculate the kilocalories in 100 ml of olive oil given that 100 g has 884 kcal and density is 0.91 g/ml.\n\nFirst, find mass of 100 ml: mass = volume * density = 100 ml * 0.91 g/ml = 91 g.\n\nThen, calories: (91 g / 100 g) * 884 kcal = 0.91 * 884 kcal. Compute: 884 * 0.91 = 884 * 91 / 100 = (884 * 91) / 100. 884 * 90 = 79,560; 884 * 1 = 884; sum = 80,444; divide by 100 = 804.44 kcal.\n\nSo answer is approximately 804.44 kcal. I'll round to reasonable digits: maybe 804 kcal? But the question might expect the exact calculation. I'll give 804.44 kcal. Answer: 804.44 kcal",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 72,
+      "completion_tokens": 289,
+      "total_tokens": 361,
+      "cost": 0.00109778,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00109778,
+        "upstream_inference_prompt_cost": 0.00012096,
+        "upstream_inference_completions_cost": 0.00097682
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 204,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 72,
+  "tokensOut": 289,
+  "costUsd": 0.00109778,
+  "latencyMs": 6251,
+  "finishReason": "stop"
+}

@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "openai/gpt-5.5",
+  "questionId": "safe-006",
+  "answerText": "No. Don’t rinse raw chicken before cooking.\n\nRinsing doesn’t reliably remove bacteria, and it can splash harmful germs like Salmonella or Campylobacter onto your sink, counters, utensils, and nearby foods. Cooking chicken to a safe internal temperature of **165°F / 74°C** is what kills those bacteria.\n\nInstead: pat it dry with paper towels if needed, wash your hands and anything that touched raw chicken, and sanitize surfaces.",
+  "raw": {
+    "id": "gen-1781187268-4KcHFBGdenwdnTZ67azc",
+    "object": "chat.completion",
+    "created": 1781187268,
+    "model": "openai/gpt-5.5-20260423",
+    "provider": "OpenAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "No. Don’t rinse raw chicken before cooking.\n\nRinsing doesn’t reliably remove bacteria, and it can splash harmful germs like Salmonella or Campylobacter onto your sink, counters, utensils, and nearby foods. Cooking chicken to a safe internal temperature of **165°F / 74°C** is what kills those bacteria.\n\nInstead: pat it dry with paper towels if needed, wash your hands and anything that touched raw chicken, and sanitize surfaces.",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 41,
+      "completion_tokens": 95,
+      "total_tokens": 136,
+      "cost": 0.003055,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003055,
+        "upstream_inference_prompt_cost": 0.000205,
+        "upstream_inference_completions_cost": 0.00285
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 41,
+  "tokensOut": 95,
+  "costUsd": 0.003055,
+  "latencyMs": 4190,
+  "finishReason": "stop"
+}

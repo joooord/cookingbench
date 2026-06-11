@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "nutr-025",
+  "answerText": "# Sirloin Steak Nutrition Estimate\n\n## Step 1: Starting weight\n- 2 steaks × 300 g = **600 g raw** (with fat cap)\n\n## Step 2: Trim fat cap (15% removed)\n- Fat trimmed: 600 g × 0.15 = 90 g\n- Remaining raw weight: 600 g − 90 g = **510 g raw (trimmed)**\n\n## Step 3: Account for cooking loss\nGrilling typically reduces weight by ~25% (water and some fat loss).\n- Cooked weight: 510 g × 0.75 ≈ **383 g cooked**\n\n## Step 4: Apply nutrition values\nFor grilled, trimmed sirloin steak (cooked), typical values per 100 g:\n- Protein: ~29 g\n- Fat: ~8 g\n- Calories: ~200 kcal\n\n## Step 5: Scale to 383 g cooked\n\n| Nutrient | Per 100 g | × 3.83 |\n|----------|-----------|--------|\n| Protein  | 29 g      | ~111 g |\n| Fat      | 8 g       | ~31 g  |\n| Calories | 200 kcal  | ~766 kcal |\n\n## Notes\nThese are estimates—actual values depend on the exact cut grade, marbling, and how much fat renders off during grilling.\n\nProtein: 111 g\nFat: 31 g\nCalories: 766 kcal",
+  "raw": {
+    "id": "gen-1781187045-X3P1u2f3GkYpMN9NFLDm",
+    "object": "chat.completion",
+    "created": 1781187045,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "# Sirloin Steak Nutrition Estimate\n\n## Step 1: Starting weight\n- 2 steaks × 300 g = **600 g raw** (with fat cap)\n\n## Step 2: Trim fat cap (15% removed)\n- Fat trimmed: 600 g × 0.15 = 90 g\n- Remaining raw weight: 600 g − 90 g = **510 g raw (trimmed)**\n\n## Step 3: Account for cooking loss\nGrilling typically reduces weight by ~25% (water and some fat loss).\n- Cooked weight: 510 g × 0.75 ≈ **383 g cooked**\n\n## Step 4: Apply nutrition values\nFor grilled, trimmed sirloin steak (cooked), typical values per 100 g:\n- Protein: ~29 g\n- Fat: ~8 g\n- Calories: ~200 kcal\n\n## Step 5: Scale to 383 g cooked\n\n| Nutrient | Per 100 g | × 3.83 |\n|----------|-----------|--------|\n| Protein  | 29 g      | ~111 g |\n| Fat      | 8 g       | ~31 g  |\n| Calories | 200 kcal  | ~766 kcal |\n\n## Notes\nThese are estimates—actual values depend on the exact cut grade, marbling, and how much fat renders off during grilling.\n\nProtein: 111 g\nFat: 31 g\nCalories: 766 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 171,
+      "completion_tokens": 476,
+      "total_tokens": 647,
+      "cost": 0.012755,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.012755,
+        "upstream_inference_prompt_cost": 0.000855,
+        "upstream_inference_completions_cost": 0.0119
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 171,
+  "tokensOut": 476,
+  "costUsd": 0.012755,
+  "latencyMs": 8450,
+  "finishReason": "stop"
+}

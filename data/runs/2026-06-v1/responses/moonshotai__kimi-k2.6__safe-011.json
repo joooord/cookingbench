@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "safe-011",
+  "answerText": "No. At 57°C (≈135°F), it is below USDA guidance for whole pork.\n\nThe official USDA safe minimum for whole cuts of pork is **145°F (63°C)**, followed by a **3-minute rest**.",
+  "raw": {
+    "id": "gen-1781189874-WZbe8sJW8pFyG62WuPoj",
+    "object": "chat.completion",
+    "created": 1781189874,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Decart",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "No. At 57°C (≈135°F), it is below USDA guidance for whole pork.\n\nThe official USDA safe minimum for whole cuts of pork is **145°F (63°C)**, followed by a **3-minute rest**.",
+          "refusal": null,
+          "reasoning": "The user is asking two things:\n1. Is 57°C (medium rare) within USDA safe guidance for whole pork loin?\n2. What is the official safe minimum plus rest?\n\nI need to answer accurately and concisely based on USDA guidance.\n\nUSDA guidance for whole pork (roasts, chops, etc.):\n- Safe minimum internal temperature: 145°F (63°C)\n- Plus a 3-minute rest time\n\n57°C converts to about 135°F, which is below the USDA recommended 145°F (63°C). So 57°C is NOT within USDA safe guidance for whole pork.\n\nWait, let me double-check. 57°C = 134.6°F, which is indeed below 145°F.\n\nThe USDA lowered the safe cooking temperature for whole cuts of pork from 160°F to 145°F back in 2011, with a 3-minute rest.\n\nSo:\n- 57°C (135°F) is NOT within USDA safe guidance\n- Official safe minimum: 145°F (63°C) with a 3-minute rest time\n\nI should answer directly and concisely.\n\nKey points:\n- 57°C = ~135°F\n- USDA safe minimum for whole pork: 145°F (63°C) + 3-minute rest\n- Therefore, 57°C is below USDA guidance and not considered safe by USDA standards.\n\nI need to be careful to specify this is for whole muscle cuts, not ground pork (which is 160°F/71°C). The user specified \"whole pork\" in the question, so I should confirm that context.\n\nAnswer structure:\n1. Direct answer: No, 57°C is not within USDA safe guidance.\n2. Official safe minimum plus rest: 145°F (63°C) with a 3-minute rest.\n\nKeep it concise as requested.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking two things:\n1. Is 57°C (medium rare) within USDA safe guidance for whole pork loin?\n2. What is the official safe minimum plus rest?\n\nI need to answer accurately and concisely based on USDA guidance.\n\nUSDA guidance for whole pork (roasts, chops, etc.):\n- Safe minimum internal temperature: 145°F (63°C)\n- Plus a 3-minute rest time\n\n57°C converts to about 135°F, which is below the USDA recommended 145°F (63°C). So 57°C is NOT within USDA safe guidance for whole pork.\n\nWait, let me double-check. 57°C = 134.6°F, which is indeed below 145°F.\n\nThe USDA lowered the safe cooking temperature for whole cuts of pork from 160°F to 145°F back in 2011, with a 3-minute rest.\n\nSo:\n- 57°C (135°F) is NOT within USDA safe guidance\n- Official safe minimum: 145°F (63°C) with a 3-minute rest time\n\nI should answer directly and concisely.\n\nKey points:\n- 57°C = ~135°F\n- USDA safe minimum for whole pork: 145°F (63°C) + 3-minute rest\n- Therefore, 57°C is below USDA guidance and not considered safe by USDA standards.\n\nI need to be careful to specify this is for whole muscle cuts, not ground pork (which is 160°F/71°C). The user specified \"whole pork\" in the question, so I should confirm that context.\n\nAnswer structure:\n1. Direct answer: No, 57°C is not within USDA safe guidance.\n2. Official safe minimum plus rest: 145°F (63°C) with a 3-minute rest.\n\nKeep it concise as requested.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 70,
+      "completion_tokens": 421,
+      "total_tokens": 491,
+      "cost": 0.00152109,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00152109,
+        "upstream_inference_prompt_cost": 0.0000518,
+        "upstream_inference_completions_cost": 0.00146929
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 393,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 70,
+  "tokensOut": 421,
+  "costUsd": 0.00152109,
+  "latencyMs": 2134,
+  "finishReason": "stop"
+}

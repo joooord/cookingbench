@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "qwen/qwen3.5-plus-20260420",
+  "questionId": "conv-009",
+  "answerText": "There are 3 teaspoons in 1 US tablespoon.\n\nAnswer: 3 tsp",
+  "raw": {
+    "id": "gen-1781190993-oVCcXOvEAV8qIjBGIMKe",
+    "object": "chat.completion",
+    "created": 1781190993,
+    "model": "qwen/qwen3.5-plus-20260420",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "There are 3 teaspoons in 1 US tablespoon.\n\nAnswer: 3 tsp",
+          "refusal": null,
+          "reasoning": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Question: \"How many teaspoons are in 1 US tablespoon?\"\n   - Key entities: teaspoons, US tablespoon\n   - Expected answer: A number followed by \"tsp\"\n\n2.  **Identify Core Knowledge:**\n   - Standard US cooking measurements:\n     - 1 tablespoon (tbsp) = 3 teaspoons (tsp)\n   - This is a well-established conversion in the US customary system.\n\n3.  **Formulate Response:**\n   - Need to be accurate and concise.\n   - Must end with exactly: \"Answer: <number> tsp\"\n   - So the response should state the conversion clearly and end with the required format.\n\n   Draft: There are 3 teaspoons in 1 US tablespoon.\n   Answer: 3 tsp\n\n4.  **Check Constraints:**\n   - Accurate? Yes.\n   - Concise? Yes.\n   - Ends with \"Answer: <number> tsp\"? Yes.\n   - Matches US measurement? Yes.\n\n   All constraints met. Ready to output.✅",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Question: \"How many teaspoons are in 1 US tablespoon?\"\n   - Key entities: teaspoons, US tablespoon\n   - Expected answer: A number followed by \"tsp\"\n\n2.  **Identify Core Knowledge:**\n   - Standard US cooking measurements:\n     - 1 tablespoon (tbsp) = 3 teaspoons (tsp)\n   - This is a well-established conversion in the US customary system.\n\n3.  **Formulate Response:**\n   - Need to be accurate and concise.\n   - Must end with exactly: \"Answer: <number> tsp\"\n   - So the response should state the conversion clearly and end with the required format.\n\n   Draft: There are 3 teaspoons in 1 US tablespoon.\n   Answer: 3 tsp\n\n4.  **Check Constraints:**\n   - Accurate? Yes.\n   - Concise? Yes.\n   - Ends with \"Answer: <number> tsp\"? Yes.\n   - Matches US measurement? Yes.\n\n   All constraints met. Ready to output.✅",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 56,
+      "completion_tokens": 263,
+      "total_tokens": 319,
+      "cost": 0.0004902,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0004902,
+        "upstream_inference_prompt_cost": 0.0000168,
+        "upstream_inference_completions_cost": 0.0004734
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 241,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 56,
+  "tokensOut": 263,
+  "costUsd": 0.0004902,
+  "latencyMs": 5552,
+  "finishReason": "stop"
+}

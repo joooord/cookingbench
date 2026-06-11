@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-010",
+  "answerText": "To find the number of eggs needed for 36 muffins, set up a proportion based on the given ratio: 3 eggs per 12 muffins.  \n12 muffins → 3 eggs  \n1 muffin → 3/12 = 0.25 eggs  \n36 muffins → 36 × 0.25 = 9 eggs.  \nAnswer: 9 eggs",
+  "raw": {
+    "id": "gen-1781189389-ZTBplnILuGdxugkJqGF0",
+    "object": "chat.completion",
+    "created": 1781189389,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "SiliconFlow",
+    "system_fingerprint": "fp_9954b31ca7_prod0820_fp8_kvcache_20260402",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To find the number of eggs needed for 36 muffins, set up a proportion based on the given ratio: 3 eggs per 12 muffins.  \n12 muffins → 3 eggs  \n1 muffin → 3/12 = 0.25 eggs  \n36 muffins → 36 × 0.25 = 9 eggs.  \nAnswer: 9 eggs",
+          "refusal": null,
+          "reasoning": "We are asked: \"A muffin recipe uses 3 eggs for 12 muffins. How many eggs do I need for 36 muffins?\" This is a proportion problem. 3 eggs for 12 muffins means 1 egg per 4 muffins. For 36 muffins, we need 36/4 = 9 eggs. So answer is 9 eggs.\n\nEnd reply with \"Answer: <number> eggs\". So \"Answer: 9 eggs\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A muffin recipe uses 3 eggs for 12 muffins. How many eggs do I need for 36 muffins?\" This is a proportion problem. 3 eggs for 12 muffins means 1 egg per 4 muffins. For 36 muffins, we need 36/4 = 9 eggs. So answer is 9 eggs.\n\nEnd reply with \"Answer: <number> eggs\". So \"Answer: 9 eggs\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 57,
+      "completion_tokens": 166,
+      "total_tokens": 223,
+      "cost": 0.00061161,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00061161,
+        "upstream_inference_prompt_cost": 0.0000912,
+        "upstream_inference_completions_cost": 0.00052041
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 92,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 57,
+  "tokensOut": 166,
+  "costUsd": 0.00061161,
+  "latencyMs": 3225,
+  "finishReason": "stop"
+}

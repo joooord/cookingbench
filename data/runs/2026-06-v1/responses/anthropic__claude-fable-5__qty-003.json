@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-003",
+  "answerText": "At 75% hydration, water = 75% of the flour weight.\n\nWater = 800 g × 0.75 = 600 g\n\nAnswer: 600 g",
+  "raw": {
+    "id": "gen-1781187781-geHuf07iuPXFtKJJ1TEL",
+    "object": "chat.completion",
+    "created": 1781187781,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "At 75% hydration, water = 75% of the flour weight.\n\nWater = 800 g × 0.75 = 600 g\n\nAnswer: 600 g",
+          "refusal": null,
+          "reasoning": " So 75% of 800 equals 600 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " So 75% of 800 equals 600 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS1wEKYggOGAIqQHZEth6h65D/TN1Qv9ghf2eHeoLOPpwmONMTEyta5kwH1APkoaOK6RPTJy/iYqRPhRRu985BG2bLAiVaHaU/tg0yDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgyhblydJ5cF0P1vOzcaDMWtOLm2MCmkPHC1+SIwCQVgDSUcjXNRtC+dRySiN6R483qgPJteCYzrYot/+PNS1BFmwf3ASZCxeEz6X3nsKiOtJYR/EbEIgK/ERMZLtxl9jpf7OtqyJMCxb2dgA6wXHvX9PRgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 95,
+      "completion_tokens": 64,
+      "total_tokens": 159,
+      "cost": 0.00415,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00415,
+        "upstream_inference_prompt_cost": 0.00095,
+        "upstream_inference_completions_cost": 0.0032
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 8,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 95,
+  "tokensOut": 64,
+  "costUsd": 0.00415,
+  "latencyMs": 5849,
+  "finishReason": "stop"
+}

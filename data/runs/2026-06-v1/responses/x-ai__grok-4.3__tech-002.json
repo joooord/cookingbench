@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "tech-002",
+  "answerText": "**Most likely causes (in order of probability):**\n\n1. **Too much flour / incorrect measurement**  \n   Diagnose: Switch to weighing ingredients (use a scale). If your recipe calls for 500 g flour but you’ve been scooping 4+ cups by volume, that’s the culprit.\n\n2. **Under-kneading / weak gluten development**  \n   Diagnose: Perform the windowpane test after kneading. Dough should stretch thin enough to see light through without tearing. If it tears quickly, knead longer (or use a stand mixer 8–10 min).\n\n3. **Yeast not active or wrong amount**  \n   Diagnose: Proof test—dissolve yeast in ¼ cup warm water + pinch of sugar; it should foam vigorously in 5–10 min. Old or improperly stored yeast fails this.\n\n4. **Under-proofing (first or second rise)**  \n   Diagnose: Dough should roughly double in volume. Use the finger-poke test: press a floured finger ½ inch into dough—if it springs back slowly and leaves a slight indent, it’s ready. If it springs back instantly, give it more time.\n\n5. **Oven temperature too low or opening door early**  \n   Diagnose: Use an oven thermometer. Opening the door in the first 20 min releases steam/heat and can cause collapse and density.\n\nFix the top two first (scale + knead to windowpane); most “follow the recipe but dense” cases resolve there.",
+  "raw": {
+    "id": "gen-1781186582-T3haN6c0yXMBnACmqAzA",
+    "object": "chat.completion",
+    "created": 1781186582,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "**Most likely causes (in order of probability):**\n\n1. **Too much flour / incorrect measurement**  \n   Diagnose: Switch to weighing ingredients (use a scale). If your recipe calls for 500 g flour but you’ve been scooping 4+ cups by volume, that’s the culprit.\n\n2. **Under-kneading / weak gluten development**  \n   Diagnose: Perform the windowpane test after kneading. Dough should stretch thin enough to see light through without tearing. If it tears quickly, knead longer (or use a stand mixer 8–10 min).\n\n3. **Yeast not active or wrong amount**  \n   Diagnose: Proof test—dissolve yeast in ¼ cup warm water + pinch of sugar; it should foam vigorously in 5–10 min. Old or improperly stored yeast fails this.\n\n4. **Under-proofing (first or second rise)**  \n   Diagnose: Dough should roughly double in volume. Use the finger-poke test: press a floured finger ½ inch into dough—if it springs back slowly and leaves a slight indent, it’s ready. If it springs back instantly, give it more time.\n\n5. **Oven temperature too low or opening door early**  \n   Diagnose: Use an oven thermometer. Opening the door in the first 20 min releases steam/heat and can cause collapse and density.\n\nFix the top two first (scale + knead to windowpane); most “follow the recipe but dense” cases resolve there.",
+          "refusal": null,
+          "reasoning": "The question is: \"My homemade white bread keeps coming out dense and heavy, even though I follow the recipe. List the most likely causes in order of probability and how I'd diagnose each one.\"\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"My homemade white bread keeps coming out dense and heavy, even though I follow the recipe. List the most likely causes in order of probability and how I'd diagnose each one.\"\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_092466cb-3fde-9245-97f0-562bff9ec34c",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 182,
+      "completion_tokens": 631,
+      "total_tokens": 813,
+      "cost": 0.0016706,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0016706,
+        "upstream_inference_prompt_cost": 0.0000931,
+        "upstream_inference_completions_cost": 0.0015775
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 326,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 182,
+  "tokensOut": 631,
+  "costUsd": 0.0016706,
+  "latencyMs": 6251,
+  "finishReason": "stop"
+}

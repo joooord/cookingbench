@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "safe-011",
+  "answerText": "**Short answer: No, 57°C (about 135°F) is below USDA safe guidance.**\n\n**Official USDA guidance for whole pork (cuts like loin, chops, roasts):**\n- **Minimum internal temperature: 63°C (145°F)**\n- **Followed by a 3-minute rest** (the temperature stays at or rises during this time, which contributes to pathogen reduction)\n\nSo a guest's request for 57°C \"medium rare\" falls short of the 63°C (145°F) minimum and does **not** meet USDA safe guidance.\n\n**A note for context:** The USDA standard is built on a time-and-temperature relationship—pathogens are killed by a combination of heat *and* time, not temperature alone. Lower temperatures can be made safe if held longer (relevant to sous-vide cooking), but a simple sear-and-rest to 57°C does not achieve that. For a quick-cooked loin served immediately, you should advise the guest that 63°C (145°F) plus a 3-minute rest is the safe target.",
+  "raw": {
+    "id": "gen-1781187017-wYZ62wlS3UauCYD9sP7e",
+    "object": "chat.completion",
+    "created": 1781187017,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Short answer: No, 57°C (about 135°F) is below USDA safe guidance.**\n\n**Official USDA guidance for whole pork (cuts like loin, chops, roasts):**\n- **Minimum internal temperature: 63°C (145°F)**\n- **Followed by a 3-minute rest** (the temperature stays at or rises during this time, which contributes to pathogen reduction)\n\nSo a guest's request for 57°C \"medium rare\" falls short of the 63°C (145°F) minimum and does **not** meet USDA safe guidance.\n\n**A note for context:** The USDA standard is built on a time-and-temperature relationship—pathogens are killed by a combination of heat *and* time, not temperature alone. Lower temperatures can be made safe if held longer (relevant to sous-vide cooking), but a simple sear-and-rest to 57°C does not achieve that. For a quick-cooked loin served immediately, you should advise the guest that 63°C (145°F) plus a 3-minute rest is the safe target.",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 102,
+      "completion_tokens": 338,
+      "total_tokens": 440,
+      "cost": 0.00896,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00896,
+        "upstream_inference_prompt_cost": 0.00051,
+        "upstream_inference_completions_cost": 0.00845
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 102,
+  "tokensOut": 338,
+  "costUsd": 0.00896,
+  "latencyMs": 7102,
+  "finishReason": "stop"
+}

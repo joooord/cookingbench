@@ -1,0 +1,71 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "nutr-015",
+  "answerText": "To find the total calorie count, we calculate the calories from both the alcohol and the residual sugar:\n\n1. **Calories from alcohol:**\n- Volume of alcohol: 150 ml × 0.12 (12%) = 18 ml\n- Grams of alcohol: 18 ml × 0.789 g/ml = 14.202 g\n- Calories from alcohol: 14.202 g × 7 kcal/g = 99.414 kcal\n\n2. **Calories from sugar:**\n- Calories from sugar: 3 g × 4 kcal/g = 12 kcal\n\n3. **Total calories:**\n- 99.414 kcal + 12 kcal = 111.414 kcal\n\nAnswer: 111.414 kcal",
+  "raw": {
+    "id": "gen-1781186703-oYbsBMMg0p0Zjdx4PKuw",
+    "object": "chat.completion",
+    "created": 1781186703,
+    "model": "google/gemini-3.1-pro-preview-20260219",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find the total calorie count, we calculate the calories from both the alcohol and the residual sugar:\n\n1. **Calories from alcohol:**\n- Volume of alcohol: 150 ml × 0.12 (12%) = 18 ml\n- Grams of alcohol: 18 ml × 0.789 g/ml = 14.202 g\n- Calories from alcohol: 14.202 g × 7 kcal/g = 99.414 kcal\n\n2. **Calories from sugar:**\n- Calories from sugar: 3 g × 4 kcal/g = 12 kcal\n\n3. **Total calories:**\n- 99.414 kcal + 12 kcal = 111.414 kcal\n\nAnswer: 111.414 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating Ethanol Content**\n\nI'm focusing on determining the exact amount of ethanol present in the wine. My current steps involve calculating the volume of ethanol from the total wine volume and its ABV, then converting this to grams using the density of ethanol. This will be the basis for further caloric estimations.\n\n**Summing Wine Components**\n\nI've completed the calculations for both sugar and alcohol calories. Combining these yields a total caloric value for the wine.\n\nAnswer: 111.4 kcal\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Ethanol Content**\n\nI'm focusing on determining the exact amount of ethanol present in the wine. My current steps involve calculating the volume of ethanol from the total wine volume and its ABV, then converting this to grams using the density of ethanol. This will be the basis for further caloric estimations.\n\n**Summing Wine Components**\n\nI've completed the calculations for both sugar and alcohol calories. Combining these yields a total caloric value for the wine.\n\nAnswer: 111.4 kcal\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "google-gemini-v1",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 96,
+      "completion_tokens": 1005,
+      "total_tokens": 1101,
+      "cost": 0.012252,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.012252,
+        "upstream_inference_prompt_cost": 0.000192,
+        "upstream_inference_completions_cost": 0.01206
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 820,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 96,
+  "tokensOut": 1005,
+  "costUsd": 0.012252,
+  "latencyMs": 7839,
+  "finishReason": "stop"
+}

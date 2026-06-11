@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "safe-005",
+  "answerText": "# USDA Safe Temperature for Pork Chops\n\n**Minimum internal temperature: 145°F (63°C)**\n\n**After removing from heat:** Let the pork chop **rest for at least 3 minutes** before cutting or eating.\n\n## Why the rest matters\n- The internal temperature continues to rise slightly (carryover cooking), helping ensure safety\n- The juices redistribute throughout the meat, keeping it moist and tender\n\n## Quick tips\n- Measure the temperature at the **thickest part** of the chop, avoiding bone\n- Note: this 145°F rule applies to whole cuts of pork (chops, roasts, tenderloin). **Ground pork** must reach **160°F** with no rest time required.\n\nAt 145°F, the pork may still have a slight pink blush inside — that's perfectly safe and normal.",
+  "raw": {
+    "id": "gen-1781187667-w89DsQQipiglQIMi9ci4",
+    "object": "chat.completion",
+    "created": 1781187667,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "# USDA Safe Temperature for Pork Chops\n\n**Minimum internal temperature: 145°F (63°C)**\n\n**After removing from heat:** Let the pork chop **rest for at least 3 minutes** before cutting or eating.\n\n## Why the rest matters\n- The internal temperature continues to rise slightly (carryover cooking), helping ensure safety\n- The juices redistribute throughout the meat, keeping it moist and tender\n\n## Quick tips\n- Measure the temperature at the **thickest part** of the chop, avoiding bone\n- Note: this 145°F rule applies to whole cuts of pork (chops, roasts, tenderloin). **Ground pork** must reach **160°F** with no rest time required.\n\nAt 145°F, the pork may still have a slight pink blush inside — that's perfectly safe and normal.",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 85,
+      "completion_tokens": 274,
+      "total_tokens": 359,
+      "cost": 0.01455,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01455,
+        "upstream_inference_prompt_cost": 0.00085,
+        "upstream_inference_completions_cost": 0.0137
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 85,
+  "tokensOut": 274,
+  "costUsd": 0.01455,
+  "latencyMs": 8491,
+  "finishReason": "stop"
+}

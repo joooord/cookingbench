@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "nutr-001",
+  "answerText": "Using the standard Atwater factors (protein 4 kcal/g, carbohydrates 4 kcal/g, fat 9 kcal/g):\n\n- Protein: 40 g × 4 = 160 kcal\n- Carbohydrates: 30 g × 4 = 120 kcal\n- Fat: 20 g × 9 = 180 kcal\n\nTotal: 160 + 120 + 180 = 460 kcal\n\nAnswer: 460 kcal",
+  "raw": {
+    "id": "gen-1781187025-zlOk1JYLBupPHEwXDnFt",
+    "object": "chat.completion",
+    "created": 1781187025,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Using the standard Atwater factors (protein 4 kcal/g, carbohydrates 4 kcal/g, fat 9 kcal/g):\n\n- Protein: 40 g × 4 = 160 kcal\n- Carbohydrates: 30 g × 4 = 120 kcal\n- Fat: 20 g × 9 = 180 kcal\n\nTotal: 160 + 120 + 180 = 460 kcal\n\nAnswer: 460 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 113,
+      "completion_tokens": 151,
+      "total_tokens": 264,
+      "cost": 0.00434,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00434,
+        "upstream_inference_prompt_cost": 0.000565,
+        "upstream_inference_completions_cost": 0.003775
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 113,
+  "tokensOut": 151,
+  "costUsd": 0.00434,
+  "latencyMs": 3896,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-021",
+  "answerText": "A large whole egg (about 50 g) contains approximately 72 kilocalories.  \nAnswer: 72 kcal",
+  "raw": {
+    "id": "gen-1781189346-B5psUw8x7f2UO5Zrbetr",
+    "object": "chat.completion",
+    "created": 1781189346,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "A large whole egg (about 50 g) contains approximately 72 kilocalories.  \nAnswer: 72 kcal",
+          "refusal": null,
+          "reasoning": "We are asked: \"Approximately how many kilocalories are in one large whole egg (about 50 g)?\" We need to answer accurately and concisely, ending with \"Answer: <number> kcal\".\n\nA large whole egg (50 g) typically contains about 70-80 kcal. The USDA database says a large egg (50 g) has 72 kcal. Common knowledge: 70-80 kcal. I'll go with 72 kcal as a precise approximate. But the question says \"approximately\", so 70 or 72 or 75 might be acceptable. I'll use 72 kcal. I'll answer: \"A large whole egg (50 g) contains approximately 72 kilocalories.\" Then \"Answer: 72 kcal\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Approximately how many kilocalories are in one large whole egg (about 50 g)?\" We need to answer accurately and concisely, ending with \"Answer: <number> kcal\".\n\nA large whole egg (50 g) typically contains about 70-80 kcal. The USDA database says a large egg (50 g) has 72 kcal. Common knowledge: 70-80 kcal. I'll go with 72 kcal as a precise approximate. But the question says \"approximately\", so 70 or 72 or 75 might be acceptable. I'll use 72 kcal. I'll answer: \"A large whole egg (50 g) contains approximately 72 kilocalories.\" Then \"Answer: 72 kcal\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 53,
+      "completion_tokens": 181,
+      "total_tokens": 234,
+      "cost": 0.00036105,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00036105,
+        "upstream_inference_prompt_cost": 0.00004611,
+        "upstream_inference_completions_cost": 0.00031494
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 155,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 53,
+  "tokensOut": 181,
+  "costUsd": 0.00036105,
+  "latencyMs": 5138,
+  "finishReason": "stop"
+}

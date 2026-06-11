@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "qwen/qwen3.5-plus-20260420",
+  "questionId": "conv-010",
+  "answerText": "1 pound is equal to approximately 454 grams. For cooking purposes, 454 g is the standard conversion.\n\nAnswer: 454 g",
+  "raw": {
+    "id": "gen-1781190996-4koTZR8ekxjJKn4pJefn",
+    "object": "chat.completion",
+    "created": 1781190996,
+    "model": "qwen/qwen3.5-plus-20260420",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "1 pound is equal to approximately 454 grams. For cooking purposes, 454 g is the standard conversion.\n\nAnswer: 454 g",
+          "refusal": null,
+          "reasoning": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - User needs to convert 1 pound of strawberries to grams.\n   - Scale only reads in grams.\n   - Question: How many grams should I weigh out?\n\n2.  **Identify Key Conversion Factor:**\n   - 1 pound (lb) = 453.59237 grams (g) exactly by definition.\n   - Commonly rounded to 454 grams for cooking/recipe purposes.\n\n3.  **Determine Appropriate Precision for Cooking:**\n   - In cooking, precision to the nearest gram is usually sufficient.\n   - 1 lb ≈ 454 g is the standard culinary conversion.\n\n4.  **Formulate Response:**\n   - State the conversion clearly.\n   - Keep it concise as requested.\n   - End with the exact required format: \"Answer: <number> g\"\n\n   Draft: 1 pound is equal to approximately 454 grams. For most recipes, weighing out 454 grams will be perfectly accurate.\n   Answer: 454 g\n\n5.  **Check Constraints:**\n   - Accurate? Yes.\n   - Concise? Yes.\n   - Ends with exact format? Yes.\n   - Matches cooking context? Yes.\n\n   All good. Proceed.✅",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - User needs to convert 1 pound of strawberries to grams.\n   - Scale only reads in grams.\n   - Question: How many grams should I weigh out?\n\n2.  **Identify Key Conversion Factor:**\n   - 1 pound (lb) = 453.59237 grams (g) exactly by definition.\n   - Commonly rounded to 454 grams for cooking/recipe purposes.\n\n3.  **Determine Appropriate Precision for Cooking:**\n   - In cooking, precision to the nearest gram is usually sufficient.\n   - 1 lb ≈ 454 g is the standard culinary conversion.\n\n4.  **Formulate Response:**\n   - State the conversion clearly.\n   - Keep it concise as requested.\n   - End with the exact required format: \"Answer: <number> g\"\n\n   Draft: 1 pound is equal to approximately 454 grams. For most recipes, weighing out 454 grams will be perfectly accurate.\n   Answer: 454 g\n\n5.  **Check Constraints:**\n   - Accurate? Yes.\n   - Concise? Yes.\n   - Ends with exact format? Yes.\n   - Matches cooking context? Yes.\n\n   All good. Proceed.✅",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 70,
+      "completion_tokens": 332,
+      "total_tokens": 402,
+      "cost": 0.0006186,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0006186,
+        "upstream_inference_prompt_cost": 0.000021,
+        "upstream_inference_completions_cost": 0.0005976
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 293,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 70,
+  "tokensOut": 332,
+  "costUsd": 0.0006186,
+  "latencyMs": 6811,
+  "finishReason": "stop"
+}

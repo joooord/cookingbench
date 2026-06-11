@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "nutr-026",
+  "answerText": "For a 200 g raw salmon fillet:\n\n**Protein:** 20 g × 2 = 40 g\n**Fat:** 13 g × 2 = 26 g\n\nSince protein and fat are largely retained during cooking (only water is lost), these amounts stay the same in the cooked fillet.\n\n**Calories:**\n- Protein: 40 g × 4 kcal/g = 160 kcal\n- Fat: 26 g × 9 kcal/g = 234 kcal\n- Total: 394 kcal\n\n(Note: This estimate doesn't include any oil added during pan-searing, which would increase fat and calories.)\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+  "raw": {
+    "id": "gen-1781187047-iW1ptXie1Ob5lsk8ekLf",
+    "object": "chat.completion",
+    "created": 1781187047,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "For a 200 g raw salmon fillet:\n\n**Protein:** 20 g × 2 = 40 g\n**Fat:** 13 g × 2 = 26 g\n\nSince protein and fat are largely retained during cooking (only water is lost), these amounts stay the same in the cooked fillet.\n\n**Calories:**\n- Protein: 40 g × 4 kcal/g = 160 kcal\n- Fat: 26 g × 9 kcal/g = 234 kcal\n- Total: 394 kcal\n\n(Note: This estimate doesn't include any oil added during pan-searing, which would increase fat and calories.)\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 184,
+      "completion_tokens": 233,
+      "total_tokens": 417,
+      "cost": 0.006745,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.006745,
+        "upstream_inference_prompt_cost": 0.00092,
+        "upstream_inference_completions_cost": 0.005825
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 184,
+  "tokensOut": 233,
+  "costUsd": 0.006745,
+  "latencyMs": 5887,
+  "finishReason": "stop"
+}

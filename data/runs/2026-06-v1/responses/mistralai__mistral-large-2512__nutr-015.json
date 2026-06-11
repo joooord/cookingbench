@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "nutr-015",
+  "answerText": "First, calculate the volume of ethanol in the wine:\n150 ml * 12% = 18 ml ethanol.\n\nNext, calculate the mass of ethanol:\n18 ml * 0.789 g/ml = 14.202 g ethanol.\n\nThen, calculate the calories from ethanol:\n14.202 g * 7 kcal/g = 99.414 kcal.\n\nCalculate the calories from residual sugar:\n3 g * 4 kcal/g = 12 kcal.\n\nFinally, add the calories from ethanol and sugar:\n99.414 kcal + 12 kcal = 111.414 kcal.\n\nAnswer: 111 kcal.",
+  "raw": {
+    "id": "gen-1781190892-bKVijkNOC97EGaKRNz9U",
+    "object": "chat.completion",
+    "created": 1781190892,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "First, calculate the volume of ethanol in the wine:\n150 ml * 12% = 18 ml ethanol.\n\nNext, calculate the mass of ethanol:\n18 ml * 0.789 g/ml = 14.202 g ethanol.\n\nThen, calculate the calories from ethanol:\n14.202 g * 7 kcal/g = 99.414 kcal.\n\nCalculate the calories from residual sugar:\n3 g * 4 kcal/g = 12 kcal.\n\nFinally, add the calories from ethanol and sugar:\n99.414 kcal + 12 kcal = 111.414 kcal.\n\nAnswer: 111 kcal.",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 100,
+      "completion_tokens": 150,
+      "total_tokens": 250,
+      "cost": 0.000275,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000275,
+        "upstream_inference_prompt_cost": 0.00005,
+        "upstream_inference_completions_cost": 0.000225
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 100,
+  "tokensOut": 150,
+  "costUsd": 0.000275,
+  "latencyMs": 2200,
+  "finishReason": "stop"
+}

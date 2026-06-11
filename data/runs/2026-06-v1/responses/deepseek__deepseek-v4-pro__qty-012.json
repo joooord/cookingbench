@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-012",
+  "answerText": "The total number of drinks is 25 guests × 2 drinks each = 50 drinks.  \nEach drink requires 60 ml of gin, so total gin = 60 ml × 50 = 3000 ml.  \nSince 1 litre = 1000 ml, 3000 ml = 3 litres.\n\nAnswer: 3 litres",
+  "raw": {
+    "id": "gen-1781189395-PYvJVKm4kBx4xLzNv2Fr",
+    "object": "chat.completion",
+    "created": 1781189395,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Parasail",
+    "system_fingerprint": "vllm-0.20.1rc1.dev1005+gcbf8428d0-tp4-ep-66a5fbd4",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The total number of drinks is 25 guests × 2 drinks each = 50 drinks.  \nEach drink requires 60 ml of gin, so total gin = 60 ml × 50 = 3000 ml.  \nSince 1 litre = 1000 ml, 3000 ml = 3 litres.\n\nAnswer: 3 litres",
+          "refusal": null,
+          "reasoning": "We are asked: \"A cocktail uses 60 ml gin, 22.5 ml lemon juice and 15 ml syrup per drink. I'm batching for 25 guests at 2 drinks each. How many litres of gin?\"\n\nWe need to compute total gin needed in litres.\n\nPer drink: 60 ml gin.\nNumber of drinks: 25 guests * 2 drinks/guest = 50 drinks.\nTotal gin: 60 ml/drink * 50 drinks = 3000 ml.\nConvert to litres: 3000 ml = 3 litres.\n\nAnswer: 3 litres.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A cocktail uses 60 ml gin, 22.5 ml lemon juice and 15 ml syrup per drink. I'm batching for 25 guests at 2 drinks each. How many litres of gin?\"\n\nWe need to compute total gin needed in litres.\n\nPer drink: 60 ml gin.\nNumber of drinks: 25 guests * 2 drinks/guest = 50 drinks.\nTotal gin: 60 ml/drink * 50 drinks = 3000 ml.\nConvert to litres: 3000 ml = 3 litres.\n\nAnswer: 3 litres.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 77,
+      "completion_tokens": 193,
+      "total_tokens": 270,
+      "cost": 0.00080562,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00080562,
+        "upstream_inference_prompt_cost": 0.00013398,
+        "upstream_inference_completions_cost": 0.00067164
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 105,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 77,
+  "tokensOut": 193,
+  "costUsd": 0.00080562,
+  "latencyMs": 22953,
+  "finishReason": "stop"
+}

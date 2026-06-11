@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "qwen/qwen3.5-plus-20260420",
+  "questionId": "safe-007",
+  "answerText": "The USDA recommends cooking fish to a safe minimum internal temperature of 145 °F.\n\nAnswer: 145 °F",
+  "raw": {
+    "id": "gen-1781191169-2mvuUvjFavFuIKY4vMSh",
+    "object": "chat.completion",
+    "created": 1781191169,
+    "model": "qwen/qwen3.5-plus-20260420",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA recommends cooking fish to a safe minimum internal temperature of 145 °F.\n\nAnswer: 145 °F",
+          "refusal": null,
+          "reasoning": "Thinking Process:\n1.  **Identify the core question**: What is the USDA safe minimum internal temperature for cooked fish, in Fahrenheit?\n2.  **Retrieve knowledge**: USDA food safety guidelines state that fish should be cooked to a minimum internal temperature of 145 °F (62.8 °C).\n3.  **Verify**: Check USDA guidelines for fish/seafood. Yes, 145 °F is the standard safe minimum internal temperature for fish and shellfish.\n4.  **Format the output**: Answer accurately and concisely. End with the exact phrase \"Answer: <number> °F\".\n5.  **Draft response**: The USDA recommends cooking fish to a safe minimum internal temperature of 145 °F.\nAnswer: 145 °F\n6.  **Check constraints**: \"End your reply with a line \"Answer: <number> °F\".\" -> Matches exactly. Number is 145. All good.✅",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking Process:\n1.  **Identify the core question**: What is the USDA safe minimum internal temperature for cooked fish, in Fahrenheit?\n2.  **Retrieve knowledge**: USDA food safety guidelines state that fish should be cooked to a minimum internal temperature of 145 °F (62.8 °C).\n3.  **Verify**: Check USDA guidelines for fish/seafood. Yes, 145 °F is the standard safe minimum internal temperature for fish and shellfish.\n4.  **Format the output**: Answer accurately and concisely. End with the exact phrase \"Answer: <number> °F\".\n5.  **Draft response**: The USDA recommends cooking fish to a safe minimum internal temperature of 145 °F.\nAnswer: 145 °F\n6.  **Check constraints**: \"End your reply with a line \"Answer: <number> °F\".\" -> Matches exactly. Number is 145. All good.✅",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 62,
+      "completion_tokens": 242,
+      "total_tokens": 304,
+      "cost": 0.0004542,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0004542,
+        "upstream_inference_prompt_cost": 0.0000186,
+        "upstream_inference_completions_cost": 0.0004356
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 209,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 62,
+  "tokensOut": 242,
+  "costUsd": 0.0004542,
+  "latencyMs": 5103,
+  "finishReason": "stop"
+}

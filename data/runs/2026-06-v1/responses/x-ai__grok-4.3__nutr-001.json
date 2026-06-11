@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "nutr-001",
+  "answerText": "Protein provides 4 kcal/g, carbohydrates provide 4 kcal/g, and fat provides 9 kcal/g (standard Atwater factors).\n40 g protein = 160 kcal\n30 g carbs = 120 kcal\n20 g fat = 180 kcal\nTotal = 460 kcal\nAnswer: 460 kcal",
+  "raw": {
+    "id": "gen-1781186465-qET8py6gsuOq4GDVXMoO",
+    "object": "chat.completion",
+    "created": 1781186465,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Protein provides 4 kcal/g, carbohydrates provide 4 kcal/g, and fat provides 9 kcal/g (standard Atwater factors).\n40 g protein = 160 kcal\n30 g carbs = 120 kcal\n20 g fat = 180 kcal\nTotal = 460 kcal\nAnswer: 460 kcal",
+          "refusal": null,
+          "reasoning": "The problem is: A meal contains 40 g of protein, 30 g of carbohydrates and 20 g of fat. Using the standard Atwater factors, how many kilocalories is that in total?",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem is: A meal contains 40 g of protein, 30 g of carbohydrates and 20 g of fat. Using the standard Atwater factors, how many kilocalories is that in total?",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "gIkVteEJZMKiQ3vyO2v4/TbjrZyKkWMbCcXe1wu9ovNgnZPlJ5qFm0zeHrAqghDWQaPtyb1ZeyhNwSbZ5aC3wGQhpgm/s3nxgimkpFSA2h1b0o/SU5VvLYSOMbNN/YrBrd67nwlJL7yyCJHjYXeAFjhAJhAAtNg1Gx9h17AVFcS3OUNiJDi2F5vLAS95d75CMIE+0rNhAIuW1qZQQhSmupjwA8qhwOjaWrc8MINIy30G/5Xd2KrcWUf6oTxAB0VEYOdK6wGDvr/ifofQIMo1xlGVVTDnLe1Tyf5RfXSsSOPdx2Pqvywq4vAjDfjfYL4ZIq/mAeMLtTJkUhgRlFjzt2nmAUSoQ8Mz9lOZXDGjvlAOpiRWQ4DSiLSR1fdMq4y8g0QEap0HStxKDr5lS44vmRQ9s8b23v23auBmoFHUvF4hUhVP6JXmj34Ug5YeDIhDBtWCYnPoJ1x99Kg96KtEcFoi5f/amSklrnCqh3e9WHAVzhTlq20jyENnT1MLeDm0fi90+AlXtdyNyCHjw6gXwJfe56H8x7mmx2y+APtwYIBvgyZV5oMtbrKob2n+NTQqCC+qBdgKnQvXkxJgtcXU1ALvv16zOwCvQA2gA/7PnnrBzDAbWLiAzBlThQUAx3hWNlWWMFX9VpAr1x+OOQelZMvp3PvhDvUfbNThiPzapiUFD1GKkHVS9vBu8gTqkcHeVsR9v1g98owEzuuh688gMVRZEEY4SSRuSySIioo6mC/r7J1CgbbYIjurNdN4e4NeuzdolyBQCyTbAG8Yr1yMmIIiMqpp3G+Fhf3YglB9lqxBFdIyuf9c2KGServABEUNNYwx2gmP2Y7MUmxf9yzxZ8nyVtVErnxb4Ubki0lOopQDFJLD3J40UdzKZsbsliW3baTkVPqbuJlD7/3EnsbtZiGWmzzJ/g4QvAVk1eIf6u6qYzfdmdW7bCtAkoHJXjGu1Az7vsgvuQVQrn8yauGOsWa/4jeSKgHRz1bzLBvqEhatyHzLoNXbail3KrEIBkIhOUx8Btvoz1VvKpV15chs7XzLdJR/r15pTZGdDpDA4y8MK2j1KnEPtUXknsGMYfTT6szrMrQbRKuJwqBSY8ikZiaByC6ZrUxiDvnUPUmPnN74AL1NMsomtqmVoTN87tZfyohf7uixbc5CHEleV3druR3M0FZHOLf4MbxrutU3cbGzO6mtiS9UUROejHpoHLcjE013TRv+sefC+xtnStzLc78biacVo8taejNSIUkHCSQ",
+              "format": "xai-responses-v1",
+              "id": "rs_e180c400-ca07-9f95-880f-950863cc6e5a",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 200,
+      "completion_tokens": 315,
+      "total_tokens": 515,
+      "cost": 0.0009031,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0009031,
+        "upstream_inference_prompt_cost": 0.0001156,
+        "upstream_inference_completions_cost": 0.0007875
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 253,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 200,
+  "tokensOut": 315,
+  "costUsd": 0.0009031,
+  "latencyMs": 2509,
+  "finishReason": "stop"
+}

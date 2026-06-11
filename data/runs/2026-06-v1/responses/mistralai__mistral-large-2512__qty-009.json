@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "qty-009",
+  "answerText": "To calculate the grams of each ingredient for 1712 g of dough using baker's percentages:\n\n1. Sum the percentages: 100% + 68% + 2% + 1.2% = 171.2%\n2. Calculate the scaling factor: 1712 g / 171.2% = 10 g per 1%\n3. Multiply each percentage by 10 g.\n\nFlour: 1000 g\nWater: 680 g\nSalt: 20 g\nYeast: 12 g",
+  "raw": {
+    "id": "gen-1781190902-ByJbMhCNieQXqJnt4c0K",
+    "object": "chat.completion",
+    "created": 1781190903,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To calculate the grams of each ingredient for 1712 g of dough using baker's percentages:\n\n1. Sum the percentages: 100% + 68% + 2% + 1.2% = 171.2%\n2. Calculate the scaling factor: 1712 g / 171.2% = 10 g per 1%\n3. Multiply each percentage by 10 g.\n\nFlour: 1000 g\nWater: 680 g\nSalt: 20 g\nYeast: 12 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 90,
+      "completion_tokens": 131,
+      "total_tokens": 221,
+      "cost": 0.0002343,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 16,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002343,
+        "upstream_inference_prompt_cost": 0.0000378,
+        "upstream_inference_completions_cost": 0.0001965
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 90,
+  "tokensOut": 131,
+  "costUsd": 0.0002343,
+  "latencyMs": 2149,
+  "finishReason": "stop"
+}

@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-030",
+  "answerText": "# Does Cooking Change Protein Content?\n\n**Short answer: No, not significantly.** The total amount of protein in a chicken breast stays essentially the same whether it's raw or cooked.\n\n## What cooking *does* do to protein\n\n- **Denatures it**: Heat unfolds the protein molecules from their natural 3D structure. This is why raw chicken is translucent and squishy, while cooked chicken is opaque and firm.\n- **Improves digestibility**: Denatured proteins are often *easier* for your digestive enzymes to break down, so cooking can slightly increase how much protein you actually absorb.\n- **Causes moisture loss**: Cooked chicken weighs less than raw because water is driven out. This means protein becomes *more concentrated by weight* — 100g of cooked chicken breast has more protein (~31g) than 100g of raw (~23g), even though it's the same meat.\n\n## What cooking",
+  "raw": {
+    "id": "gen-1781189072-qGZKs12Y1KClQMkrePSV",
+    "object": "chat.completion",
+    "created": 1781189072,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "content_filter",
+        "native_finish_reason": "refusal",
+        "message": {
+          "role": "assistant",
+          "content": "# Does Cooking Change Protein Content?\n\n**Short answer: No, not significantly.** The total amount of protein in a chicken breast stays essentially the same whether it's raw or cooked.\n\n## What cooking *does* do to protein\n\n- **Denatures it**: Heat unfolds the protein molecules from their natural 3D structure. This is why raw chicken is translucent and squishy, while cooked chicken is opaque and firm.\n- **Improves digestibility**: Denatured proteins are often *easier* for your digestive enzymes to break down, so cooking can slightly increase how much protein you actually absorb.\n- **Causes moisture loss**: Cooked chicken weighs less than raw because water is driven out. This means protein becomes *more concentrated by weight* — 100g of cooked chicken breast has more protein (~31g) than 100g of raw (~23g), even though it's the same meat.\n\n## What cooking",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 79,
+      "completion_tokens": 337,
+      "total_tokens": 416,
+      "cost": 0.01764,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01764,
+        "upstream_inference_prompt_cost": 0.00079,
+        "upstream_inference_completions_cost": 0.01685
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 79,
+  "tokensOut": 337,
+  "costUsd": 0.01764,
+  "latencyMs": 7906,
+  "finishReason": "content_filter"
+}

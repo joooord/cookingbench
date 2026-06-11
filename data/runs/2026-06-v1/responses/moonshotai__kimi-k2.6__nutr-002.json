@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "nutr-002",
+  "answerText": "2400 kcal ÷ 6 servings = 400 kcal per serving.\n\nAnswer: 400 kcal",
+  "raw": {
+    "id": "gen-1781189910-ZVQJkpsSuL6H3p7suKUJ",
+    "object": "chat.completion",
+    "created": 1781189910,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Together",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "2400 kcal ÷ 6 servings = 400 kcal per serving.\n\nAnswer: 400 kcal",
+          "refusal": null,
+          "reasoning": "The user asks: \"A whole lasagna contains 2,400 kcal and is cut into 6 equal servings. How many kilocalories per serving?\" They also instruct: \"End your reply with a line 'Answer: <number> kcal'.\"\n\nWe need to compute 2400 / 6 = 400. So each serving is 400 kcal.\n\nWe need to answer accurately and concisely, and end with the exact line: \"Answer: 400 kcal\". The user says \"End your reply with a line 'Answer: <number> kcal'.\" So the last line should be exactly that format.\n\nWe should provide a concise explanation: 2400 divided by 6 equals 400.\n\nMake sure to not add extra fluff. The user wants accurate and concise.\n\nLet's draft:\n\n2400 kcal ÷ 6 servings = 400 kcal per serving.\n\nAnswer: 400 kcal\n\nCheck: The user says \"kilocalories per serving\". The answer is 400. The line must be exactly \"Answer: 400 kcal\". Ensure no extra punctuation or words after? The instruction says 'End your reply with a line \"Answer: <number> kcal\".' So the final line should be that.\n\nI will produce:\n\n2400 kcal divided by 6 servings equals 400 kcal per serving.\n\nAnswer: 400 kcal\n\nThat should be good.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user asks: \"A whole lasagna contains 2,400 kcal and is cut into 6 equal servings. How many kilocalories per serving?\" They also instruct: \"End your reply with a line 'Answer: <number> kcal'.\"\n\nWe need to compute 2400 / 6 = 400. So each serving is 400 kcal.\n\nWe need to answer accurately and concisely, and end with the exact line: \"Answer: 400 kcal\". The user says \"End your reply with a line 'Answer: <number> kcal'.\" So the last line should be exactly that format.\n\nWe should provide a concise explanation: 2400 divided by 6 equals 400.\n\nMake sure to not add extra fluff. The user wants accurate and concise.\n\nLet's draft:\n\n2400 kcal ÷ 6 servings = 400 kcal per serving.\n\nAnswer: 400 kcal\n\nCheck: The user says \"kilocalories per serving\". The answer is 400. The line must be exactly \"Answer: 400 kcal\". Ensure no extra punctuation or words after? The instruction says 'End your reply with a line \"Answer: <number> kcal\".' So the final line should be that.\n\nI will produce:\n\n2400 kcal divided by 6 servings equals 400 kcal per serving.\n\nAnswer: 400 kcal\n\nThat should be good.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 70,
+      "completion_tokens": 316,
+      "total_tokens": 386,
+      "cost": 0.001506,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001506,
+        "upstream_inference_prompt_cost": 0.000084,
+        "upstream_inference_completions_cost": 0.001422
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 289,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 70,
+  "tokensOut": 316,
+  "costUsd": 0.001506,
+  "latencyMs": 9165,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-009",
+  "answerText": "In the US customary system, 1 tablespoon is equal to 3 teaspoons.\n\nAnswer: 3 tsp",
+  "raw": {
+    "id": "gen-1781189232-VdnsYIs9SXsIH3RUXOE1",
+    "object": "chat.completion",
+    "created": 1781189232,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "In the US customary system, 1 tablespoon is equal to 3 teaspoons.\n\nAnswer: 3 tsp",
+          "refusal": null,
+          "reasoning": "We are asked: \"How many teaspoons are in 1 US tablespoon?\" This is a straightforward conversion. In US customary units, 1 tablespoon equals 3 teaspoons. So answer: 3 tsp.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"How many teaspoons are in 1 US tablespoon?\" This is a straightforward conversion. In US customary units, 1 tablespoon equals 3 teaspoons. So answer: 3 tsp.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 44,
+      "completion_tokens": 64,
+      "total_tokens": 108,
+      "cost": 0.00029928,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00029928,
+        "upstream_inference_prompt_cost": 0.00007656,
+        "upstream_inference_completions_cost": 0.00022272
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 43,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 44,
+  "tokensOut": 64,
+  "costUsd": 0.00029928,
+  "latencyMs": 1162,
+  "finishReason": "stop"
+}

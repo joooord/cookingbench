@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "qty-012",
+  "answerText": " For 25 guests at 2 drinks each, you need 50 drinks.\n50 drinks × 60 ml gin = 3,000 ml = 3 litres.\n\nAnswer: 3 litres",
+  "raw": {
+    "id": "gen-1781190057-qfeQDGhSvd3gPCA5ClGu",
+    "object": "chat.completion",
+    "created": 1781190057,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "DigitalOcean",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": " For 25 guests at 2 drinks each, you need 50 drinks.\n50 drinks × 60 ml gin = 3,000 ml = 3 litres.\n\nAnswer: 3 litres",
+          "refusal": null,
+          "reasoning": " The user is asking how many litres of gin are needed for a batch of cocktails for 25 guests, with 2 drinks each. The recipe per drink uses 60 ml of gin.\nI need to calculate:\n1. Total drinks = 25 guests * 2 drinks each = 50 drinks\n2. Total gin in ml = 50 drinks * 60 ml/drink = 3000 ml\n3. Convert to litres = 3000 ml / 1000 = 3 litres\n\nThe question asks specifically for gin, so I only need to calculate gin. The lemon juice and syrup values are irrelevant for this specific question but I should focus on the gin.\n\nAnswer should be concise and end with \"Answer: <number> litres\".\n\nLet me double-check:\n- 25 guests * 2 drinks = 50 drinks\n- 50 drinks * 60 ml = 3000 ml\n- 3000 ml = 3 litres\n\nThat's straightforward.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " The user is asking how many litres of gin are needed for a batch of cocktails for 25 guests, with 2 drinks each. The recipe per drink uses 60 ml of gin.\nI need to calculate:\n1. Total drinks = 25 guests * 2 drinks each = 50 drinks\n2. Total gin in ml = 50 drinks * 60 ml/drink = 3000 ml\n3. Convert to litres = 3000 ml / 1000 = 3 litres\n\nThe question asks specifically for gin, so I only need to calculate gin. The lemon juice and syrup values are irrelevant for this specific question but I should focus on the gin.\n\nAnswer should be concise and end with \"Answer: <number> litres\".\n\nLet me double-check:\n- 25 guests * 2 drinks = 50 drinks\n- 50 drinks * 60 ml = 3000 ml\n- 3000 ml = 3 litres\n\nThat's straightforward.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 83,
+      "completion_tokens": 238,
+      "total_tokens": 321,
+      "cost": 0.0008762225,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0008762225,
+        "upstream_inference_prompt_cost": 0.0000670225,
+        "upstream_inference_completions_cost": 0.0008092
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 190,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 83,
+  "tokensOut": 238,
+  "costUsd": 0.0008762225,
+  "latencyMs": 2656,
+  "finishReason": "stop"
+}

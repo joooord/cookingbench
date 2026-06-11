@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "nutr-026",
+  "answerText": "To estimate the nutritional content of the cooked salmon fillet, we first need to understand the composition of the raw fillet and then adjust for the weight loss during cooking.\n\nThe raw salmon fillet weighs 200 g. Given that salmon is approximately 20 g protein and 13 g fat per 100 g, we can calculate the protein and fat content of the raw fillet as follows:\n\n- Protein in 200 g raw salmon = (20 g/100 g) * 200 g = 40 g\n- Fat in 200 g raw salmon = (13 g/100 g) * 200 g = 26 g\n\nDuring cooking, the fillet loses 20% of its weight. So, the weight loss is 20% of 200 g = 0.20 * 200 g = 40 g.\n\nThus, the weight of the cooked fillet = 200 g - 40 g = 160 g.\n\nSince the weight loss is mostly water, the protein and fat content remain largely the same. Therefore, the cooked fillet still contains approximately 40 g of protein and 26 g of fat.\n\nTo estimate the calories, we need to consider the caloric contribution of protein and fat. Protein provides about 4 kcal/g, and fat provides about 9 kcal/g.\n\n- Calories from protein = 40 g * 4 kcal/g = 160 kcal\n- Calories from fat = 26 g * 9 kcal/g = 234 kcal\n- Total calories = 160 kcal + 234 kcal = 394 kcal\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+  "raw": {
+    "id": "gen-1781190746-LwJ4o8MRxx6zfIPeSWlX",
+    "object": "chat.completion",
+    "created": 1781190746,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To estimate the nutritional content of the cooked salmon fillet, we first need to understand the composition of the raw fillet and then adjust for the weight loss during cooking.\n\nThe raw salmon fillet weighs 200 g. Given that salmon is approximately 20 g protein and 13 g fat per 100 g, we can calculate the protein and fat content of the raw fillet as follows:\n\n- Protein in 200 g raw salmon = (20 g/100 g) * 200 g = 40 g\n- Fat in 200 g raw salmon = (13 g/100 g) * 200 g = 26 g\n\nDuring cooking, the fillet loses 20% of its weight. So, the weight loss is 20% of 200 g = 0.20 * 200 g = 40 g.\n\nThus, the weight of the cooked fillet = 200 g - 40 g = 160 g.\n\nSince the weight loss is mostly water, the protein and fat content remain largely the same. Therefore, the cooked fillet still contains approximately 40 g of protein and 26 g of fat.\n\nTo estimate the calories, we need to consider the caloric contribution of protein and fat. Protein provides about 4 kcal/g, and fat provides about 9 kcal/g.\n\n- Calories from protein = 40 g * 4 kcal/g = 160 kcal\n- Calories from fat = 26 g * 9 kcal/g = 234 kcal\n- Total calories = 160 kcal + 234 kcal = 394 kcal\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 125,
+      "completion_tokens": 336,
+      "total_tokens": 461,
+      "cost": 0.00022035,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00022035,
+        "upstream_inference_prompt_cost": 0.00001875,
+        "upstream_inference_completions_cost": 0.0002016
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 125,
+  "tokensOut": 336,
+  "costUsd": 0.00022035,
+  "latencyMs": 20179,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-012",
+  "answerText": "For 25 guests at 2 drinks each, you'll make **50 drinks**.\n\nGin needed: 60 ml × 50 = 3,000 ml = **3 litres**\n\n(For reference, you'd also need 1.125 L lemon juice and 0.75 L syrup. A tip for batching: consider adding ~10% extra to account for spillage and over-pours.)\n\nAnswer: 3 litres",
+  "raw": {
+    "id": "gen-1781187796-c12KBNWDxq9KaD0T5cqR",
+    "object": "chat.completion",
+    "created": 1781187796,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "For 25 guests at 2 drinks each, you'll make **50 drinks**.\n\nGin needed: 60 ml × 50 = 3,000 ml = **3 litres**\n\n(For reference, you'd also need 1.125 L lemon juice and 0.75 L syrup. A tip for batching: consider adding ~10% extra to account for spillage and over-pours.)\n\nAnswer: 3 litres",
+          "refusal": null,
+          "reasoning": " So that's 3 liters total for 50 drinks at 60 ml each.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " So that's 3 liters total for 50 drinks at 60 ml each.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS7AEKYggOGAIqQEoWdnFkF/MhoEyntMkqgMpyebbLhGCqZbszSV7MfVkNZFxkDo0JoXSNGRJLrQSSa3tKG5pMj/d7k9epflsnCPwyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgzZsB4YW8Z6wz3EXMMaDEMDkyfDPbLi+9B/XSIwnC16HsdtMzlHwURLHogKwKSIsF8G54wsRn+bClizV8oY5W8cBTmz0uBo4La49B9yKjjWEIb0I8uW3jQ8vI8knt8Q04nha7tQGAeB17lwErgBLeEqNiBj5D9FJ9NSDoCKj8NYrC8oAYA7LRgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 123,
+      "completion_tokens": 160,
+      "total_tokens": 283,
+      "cost": 0.00923,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00923,
+        "upstream_inference_prompt_cost": 0.00123,
+        "upstream_inference_completions_cost": 0.008
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 14,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 123,
+  "tokensOut": 160,
+  "costUsd": 0.00923,
+  "latencyMs": 7327,
+  "finishReason": "stop"
+}

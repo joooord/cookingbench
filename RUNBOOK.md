@@ -20,7 +20,9 @@ until clean. Active-but-missing slugs MUST be fixed before estimating.
 ## 2. Estimate, canary, then frontier run
 
 ```bash
-pnpm bench estimate                          # required gate, valid 24h
+# The estimate gate hashes the exact model+question set, so the canary needs
+# its own estimate with matching --models/--limit (required gate, valid 24h):
+pnpm bench estimate --models <cheapest-slug> --limit 10
 # $1 canary: cheapest active model, 10 questions
 pnpm bench run --budget 1.00 --limit 10 --models <cheapest-slug> --run-id canary
 pnpm bench grade --run canary && pnpm bench judge --run canary && pnpm bench report --run canary

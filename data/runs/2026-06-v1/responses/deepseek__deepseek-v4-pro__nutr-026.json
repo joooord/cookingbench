@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-026",
+  "answerText": "The cooked salmon fillet retains its original protein and fat content because cooking loss is mostly water. With 200 g raw salmon at 20 g protein and 13 g fat per 100 g, the totals are 40 g protein and 26 g fat. Calories are calculated as (40 × 4) + (26 × 9) = 160 + 234 = 394 kcal. The cooked weight is approximately 160 g, but nutrient totals remain unchanged.\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+  "raw": {
+    "id": "gen-1781189355-t68iBoEv1r0Mh5UJcvG2",
+    "object": "chat.completion",
+    "created": 1781189355,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The cooked salmon fillet retains its original protein and fat content because cooking loss is mostly water. With 200 g raw salmon at 20 g protein and 13 g fat per 100 g, the totals are 40 g protein and 26 g fat. Calories are calculated as (40 × 4) + (26 × 9) = 160 + 234 = 394 kcal. The cooked weight is approximately 160 g, but nutrient totals remain unchanged.\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+          "refusal": null,
+          "reasoning": "We are asked: \"A salmon fillet weighs 200 g raw. I'll pan-sear it. Salmon is roughly 20 g protein and 13 g fat per 100 g raw. Cooking causes about 20% weight loss, mostly water (protein and fat are largely retained). Estimate the protein, fat and calories of the cooked fillet.\"\n\nWe need to provide the answer ending with three lines: Protein, Fat, Calories.\n\nRaw salmon: 200g. Per 100g raw: 20g protein, 13g fat. So total raw: 40g protein, 26g fat. Calories from protein: 40*4=160 kcal, fat: 26*9=234 kcal, total raw calories = 394 kcal. Cooking loses 20% weight, so cooked weight = 200g * 0.8 = 160g. Protein and fat are largely retained, so the cooked fillet still has 40g protein and 26g fat. Calories remain about 394 kcal. (Some fat might render out, but the instruction says \"largely retained\", so we can assume same amount. Cooking losses are mostly water, so nutrients stay.) So the final answer: Protein: 40 g, Fat: 26 g, Calories: 394 kcal (or approximately 394). But check: 40*4=160, 26*9=234, sum=394. We can give exactly that.\n\nBe accurate and concise. End with three lines as requested.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A salmon fillet weighs 200 g raw. I'll pan-sear it. Salmon is roughly 20 g protein and 13 g fat per 100 g raw. Cooking causes about 20% weight loss, mostly water (protein and fat are largely retained). Estimate the protein, fat and calories of the cooked fillet.\"\n\nWe need to provide the answer ending with three lines: Protein, Fat, Calories.\n\nRaw salmon: 200g. Per 100g raw: 20g protein, 13g fat. So total raw: 40g protein, 26g fat. Calories from protein: 40*4=160 kcal, fat: 26*9=234 kcal, total raw calories = 394 kcal. Cooking loses 20% weight, so cooked weight = 200g * 0.8 = 160g. Protein and fat are largely retained, so the cooked fillet still has 40g protein and 26g fat. Calories remain about 394 kcal. (Some fat might render out, but the instruction says \"largely retained\", so we can assume same amount. Cooking losses are mostly water, so nutrients stay.) So the final answer: Protein: 40 g, Fat: 26 g, Calories: 394 kcal (or approximately 394). But check: 40*4=160, 26*9=234, sum=394. We can give exactly that.\n\nBe accurate and concise. End with three lines as requested.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 117,
+      "completion_tokens": 427,
+      "total_tokens": 544,
+      "cost": 0.0007384455,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0007384455,
+        "upstream_inference_prompt_cost": 0.0000889785,
+        "upstream_inference_completions_cost": 0.000649467
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 310,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 117,
+  "tokensOut": 427,
+  "costUsd": 0.0007384455,
+  "latencyMs": 16516,
+  "finishReason": "stop"
+}

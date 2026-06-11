@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "safe-002",
+  "answerText": " The USDA recommends cooking ground beef burgers to a safe minimum internal temperature of 160°F to destroy harmful bacteria.\n\nAnswer: 160 °F",
+  "raw": {
+    "id": "gen-1781189843-SmdiYq3kpY9vSzMUb9fL",
+    "object": "chat.completion",
+    "created": 1781189843,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Parasail",
+    "system_fingerprint": "vllm-0.20.2rc1.dev1068+g628499d4f-tp8-af1e2bf1",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": " The USDA recommends cooking ground beef burgers to a safe minimum internal temperature of 160°F to destroy harmful bacteria.\n\nAnswer: 160 °F",
+          "refusal": null,
+          "reasoning": " The user is asking for the USDA-recommended safe minimum internal temperature for a burger made from ground beef, in Fahrenheit.\n\nThis is a straightforward factual question about food safety. The USDA (United States Department of Agriculture) recommends that ground beef be cooked to a safe minimum internal temperature of 160°F.\n\nI need to:\n1. Answer accurately and concisely\n2. End the reply with a line \"Answer: <number> °F\"\n\nSo the answer should be something like:\n\"The USDA recommends cooking ground beef burgers to a safe minimum internal temperature of 160°F.\n\nAnswer: 160 °F\"\n\nLet me verify: Yes, USDA Food Safety and Inspection Service (FSIS) states that ground beef should be cooked to 160°F (71°C) to ensure safety. This is because bacteria on the surface of meat are mixed throughout during grinding.\n\nThe format requires ending with exactly \"Answer: <number> °F\". I should make sure the final line matches this pattern exactly.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " The user is asking for the USDA-recommended safe minimum internal temperature for a burger made from ground beef, in Fahrenheit.\n\nThis is a straightforward factual question about food safety. The USDA (United States Department of Agriculture) recommends that ground beef be cooked to a safe minimum internal temperature of 160°F.\n\nI need to:\n1. Answer accurately and concisely\n2. End the reply with a line \"Answer: <number> °F\"\n\nSo the answer should be something like:\n\"The USDA recommends cooking ground beef burgers to a safe minimum internal temperature of 160°F.\n\nAnswer: 160 °F\"\n\nLet me verify: Yes, USDA Food Safety and Inspection Service (FSIS) states that ground beef should be cooked to 160°F (71°C) to ensure safety. This is because bacteria on the surface of meat are mixed throughout during grinding.\n\nThe format requires ending with exactly \"Answer: <number> °F\". I should make sure the final line matches this pattern exactly.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 63,
+      "completion_tokens": 229,
+      "total_tokens": 292,
+      "cost": 0.00084875,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00084875,
+        "upstream_inference_prompt_cost": 0.00004725,
+        "upstream_inference_completions_cost": 0.0008015
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 199,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 63,
+  "tokensOut": 229,
+  "costUsd": 0.00084875,
+  "latencyMs": 3045,
+  "finishReason": "stop"
+}

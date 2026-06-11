@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "safe-004",
+  "answerText": "Cooked food should not be left out at room temperature (below 90°F / 32°C) for more than 2 hours. After that, it should be refrigerated or discarded to prevent bacterial growth.\n\nAnswer: 2 hours",
+  "raw": {
+    "id": "gen-1781189297-uWqUluGgIx58XskNgucJ",
+    "object": "chat.completion",
+    "created": 1781189297,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Parasail",
+    "system_fingerprint": "vllm-0.20.1rc1.dev1005+gcbf8428d0-tp4-ep-66a5fbd4",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Cooked food should not be left out at room temperature (below 90°F / 32°C) for more than 2 hours. After that, it should be refrigerated or discarded to prevent bacterial growth.\n\nAnswer: 2 hours",
+          "refusal": null,
+          "reasoning": "We are asked: \"How many hours can cooked food safely sit out at normal room temperature (below 90°F / 32°C) before it should be refrigerated or discarded?\" This is a food safety question. According to USDA guidelines, cooked food should not be left out at room temperature for more than 2 hours. If the temperature is above 90°F (32°C), the limit is 1 hour. The question specifies \"below 90°F / 32°C\", so the standard 2-hour rule applies. So answer: 2 hours.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"How many hours can cooked food safely sit out at normal room temperature (below 90°F / 32°C) before it should be refrigerated or discarded?\" This is a food safety question. According to USDA guidelines, cooked food should not be left out at room temperature for more than 2 hours. If the temperature is above 90°F (32°C), the limit is 1 hour. The question specifies \"below 90°F / 32°C\", so the standard 2-hour rule applies. So answer: 2 hours.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 68,
+      "completion_tokens": 172,
+      "total_tokens": 240,
+      "cost": 0.00071688,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00071688,
+        "upstream_inference_prompt_cost": 0.00011832,
+        "upstream_inference_completions_cost": 0.00059856
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 119,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 68,
+  "tokensOut": 172,
+  "costUsd": 0.00071688,
+  "latencyMs": 7486,
+  "finishReason": "stop"
+}

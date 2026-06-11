@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-015",
+  "answerText": "Since white rice roughly triples in weight when cooked, you divide the cooked weight by 3:\n\n600 g ÷ 3 = 200 g of raw rice.\n\nCook 200 g of raw rice, and you'll get approximately 600 g of cooked rice for your salad.\n\nAnswer: 200 g",
+  "raw": {
+    "id": "gen-1781188171-nYRxPwdg5ejOyAh4EnCB",
+    "object": "chat.completion",
+    "created": 1781188171,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Since white rice roughly triples in weight when cooked, you divide the cooked weight by 3:\n\n600 g ÷ 3 = 200 g of raw rice.\n\nCook 200 g of raw rice, and you'll get approximately 600 g of cooked rice for your salad.\n\nAnswer: 200 g",
+          "refusal": null,
+          "reasoning": " So that's 200 grams per portion.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " So that's 200 grams per portion.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS1AEKYggOGAIqQOXoaxceuCazlJV7HKbAhJNM5L5PM6VfYI2g8/Iziic9xNdvp4w7yuN6EVfDKaOhw4Ti5zVzPSRRViY3W3skM04yDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgwZB9e7XV5kWywMbrYaDLEbJ+cK7tuyGApD0yIwde4z7zM/9cu+5sQN4kRjwFE0/MnGbp9qySyNEovIwAHHrduuhJ82zmSNa9K6ZQdPKiA0IcErQure3WmgJJVZf5Oa8POsUSCaFNuNidgZMtqVJRgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 101,
+      "completion_tokens": 115,
+      "total_tokens": 216,
+      "cost": 0.00676,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00676,
+        "upstream_inference_prompt_cost": 0.00101,
+        "upstream_inference_completions_cost": 0.00575
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 9,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 101,
+  "tokensOut": 115,
+  "costUsd": 0.00676,
+  "latencyMs": 7371,
+  "finishReason": "stop"
+}

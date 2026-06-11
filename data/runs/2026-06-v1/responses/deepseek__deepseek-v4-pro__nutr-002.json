@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-002",
+  "answerText": "Answer: 400 kcal",
+  "raw": {
+    "id": "gen-1781189322-q9RYzLSXk0EELcboFgoq",
+    "object": "chat.completion",
+    "created": 1781189322,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "GMICloud",
+    "system_fingerprint": "fp_9954b31ca7_prod0820_fp8_kvcache_20260402",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Answer: 400 kcal",
+          "refusal": null,
+          "reasoning": "We are asked: \"A whole lasagna contains 2,400 kcal and is cut into 6 equal servings. How many kilocalories per serving?\" Simple division: 2400 / 6 = 400 kcal per serving. So answer is 400 kcal. The instruction: \"End your reply with a line 'Answer: <number> kcal'.\" So I'll output just the answer line or maybe a brief explanation followed by the answer line. Since it says \"Answer the question accurately and concisely,\" I can just provide the answer line directly.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A whole lasagna contains 2,400 kcal and is cut into 6 equal servings. How many kilocalories per serving?\" Simple division: 2400 / 6 = 400 kcal per serving. So answer is 400 kcal. The instruction: \"End your reply with a line 'Answer: <number> kcal'.\" So I'll output just the answer line or maybe a brief explanation followed by the answer line. Since it says \"Answer the question accurately and concisely,\" I can just provide the answer line directly.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 61,
+      "completion_tokens": 121,
+      "total_tokens": 182,
+      "cost": 0.000421776,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000421776,
+        "upstream_inference_prompt_cost": 0.000084912,
+        "upstream_inference_completions_cost": 0.000336864
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 115,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 61,
+  "tokensOut": 121,
+  "costUsd": 0.000421776,
+  "latencyMs": 6173,
+  "finishReason": "stop"
+}

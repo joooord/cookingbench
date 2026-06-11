@@ -39,7 +39,7 @@ function apiKey(): string {
 }
 
 const RETRYABLE = new Set([408, 429, 500, 502, 503, 504]);
-const MAX_ATTEMPTS = 3;
+const MAX_ATTEMPTS = 5;
 
 export class OpenRouterClient implements CompletionClient {
   async complete(
@@ -71,7 +71,10 @@ export class OpenRouterClient implements CompletionClient {
         const body = await res.text();
         lastError = new Error(`OpenRouter ${res.status} for ${modelId}: ${body.slice(0, 300)}`);
         if (!RETRYABLE.has(res.status)) throw lastError;
-        const backoff = 2000 * 2 ** (attempt - 1) * (0.8 + Math.random() * 0.4);
+        if (attempt === MAX_ATTEMPTS) break;
+        // 429s are per-minute rate limits — a couple of seconds is never enough.
+        const base = res.status === 429 ? 15000 : 2000;
+        const backoff = base * 2 ** (attempt - 1) * (0.8 + Math.random() * 0.4);
         await new Promise((r) => setTimeout(r, backoff));
         continue;
       }

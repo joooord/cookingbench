@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "nutr-025",
+  "answerText": "Each steak starts at 300 g raw. Trimming removes 15 % visible fat cap, leaving 255 g lean meat per steak (510 g total raw trimmed weight).\n\nTypical composition for well-trimmed raw sirloin (intramuscular fat only): 21 g protein, 7 g fat and 155 kcal per 100 g.  \nTotals before cooking: 107 g protein, 36 g fat, 790 kcal.\n\nGrilling causes ~25 % weight loss (mainly moisture) and ~20 % fat loss into drippings. Protein mass is unchanged; remaining fat ≈ 29 g; energy falls by the lost fat (≈ 9 kcal g⁻¹) to ≈ 650 kcal.\n\nFinal cooked totals for both steaks:  \nProtein: 107 g  \nFat: 29 g  \nCalories: 650 kcal",
+  "raw": {
+    "id": "gen-1781186492-F30CkpYrtzW3hBh7hILN",
+    "object": "chat.completion",
+    "created": 1781186492,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Each steak starts at 300 g raw. Trimming removes 15 % visible fat cap, leaving 255 g lean meat per steak (510 g total raw trimmed weight).\n\nTypical composition for well-trimmed raw sirloin (intramuscular fat only): 21 g protein, 7 g fat and 155 kcal per 100 g.  \nTotals before cooking: 107 g protein, 36 g fat, 790 kcal.\n\nGrilling causes ~25 % weight loss (mainly moisture) and ~20 % fat loss into drippings. Protein mass is unchanged; remaining fat ≈ 29 g; energy falls by the lost fat (≈ 9 kcal g⁻¹) to ≈ 650 kcal.\n\nFinal cooked totals for both steaks:  \nProtein: 107 g  \nFat: 29 g  \nCalories: 650 kcal",
+          "refusal": null,
+          "reasoning": "The question is: I have 2 sirloin steaks, 300 g each raw. I'll trim off the visible fat cap (assume that removes about 15% of the raw weight) and grill them on a BBQ. Estimate the total protein, total...First, the user wants estimates for total protein, total fat, and total calories for both cooked steaks.\n\nKey points: 2 sirloin steaks, 300g each raw. Trim off visible fat cap (15% of raw weight), grill on BBQ.\n\nTrimming: per steak, 15% of 300 = 45g removed, so 255g per steak, 510g total trimmed raw.\n\nNow, nutritional composition for trimmed sirloin steak raw (approx from USDA):\n\n- Beef, top sirloin, lean and fat, trimmed to 0 fat: but actually for sirloin with minimal fat.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: I have 2 sirloin steaks, 300 g each raw. I'll trim off the visible fat cap (assume that removes about 15% of the raw weight) and grill them on a BBQ. Estimate the total protein, total...First, the user wants estimates for total protein, total fat, and total calories for both cooked steaks.\n\nKey points: 2 sirloin steaks, 300g each raw. Trim off visible fat cap (15% of raw weight), grill on BBQ.\n\nTrimming: per steak, 15% of 300 = 45g removed, so 255g per steak, 510g total trimmed raw.\n\nNow, nutritional composition for trimmed sirloin steak raw (approx from USDA):\n\n- Beef, top sirloin, lean and fat, trimmed to 0 fat: but actually for sirloin with minimal fat.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_a01b68b7-b824-9d0f-b9e3-8d3b324d6d20",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 238,
+      "completion_tokens": 1315,
+      "total_tokens": 1553,
+      "cost": 0.0034506,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0034506,
+        "upstream_inference_prompt_cost": 0.0001631,
+        "upstream_inference_completions_cost": 0.0032875
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1148,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 238,
+  "tokensOut": 1315,
+  "costUsd": 0.0034506,
+  "latencyMs": 12656,
+  "finishReason": "stop"
+}

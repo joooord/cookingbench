@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-009",
+  "answerText": "In baker's percentages, all ingredients are expressed relative to flour weight. The total percentage here is 100 + 68 + 2 + 1.2 = 171.2%.\n\nTo find the flour weight: 1712 g ÷ 1.712 = 1000 g of flour.\n\nThen each ingredient is calculated from that:\n- Water: 1000 × 0.68 = 680 g\n- Salt: 1000 × 0.02 = 20 g\n- Yeast: 1000 × 0.012 = 12 g\n\nCheck: 1000 + 680 + 20 + 12 = 1712 g ✓\n\nThis gives you a 68% hydration dough — nicely suited for a rustic loaf or pizza dough with an open crumb.\n\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g",
+  "raw": {
+    "id": "gen-1781187792-uLHLqrryQaXGZtqsXfa5",
+    "object": "chat.completion",
+    "created": 1781187792,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "In baker's percentages, all ingredients are expressed relative to flour weight. The total percentage here is 100 + 68 + 2 + 1.2 = 171.2%.\n\nTo find the flour weight: 1712 g ÷ 1.712 = 1000 g of flour.\n\nThen each ingredient is calculated from that:\n- Water: 1000 × 0.68 = 680 g\n- Salt: 1000 × 0.02 = 20 g\n- Yeast: 1000 × 0.012 = 12 g\n\nCheck: 1000 + 680 + 20 + 12 = 1712 g ✓\n\nThis gives you a 68% hydration dough — nicely suited for a rustic loaf or pizza dough with an open crumb.\n\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g",
+          "refusal": null,
+          "reasoning": " I'm working through the baker's percentages for a dough formula—the total comes to 171.2%, so I'm scaling back from 1712 grams of flour to get the base amount of 1000 grams, which gives me water at 680 grams, salt at 20 grams, and yeast at 12 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm working through the baker's percentages for a dough formula—the total comes to 171.2%, so I'm scaling back from 1712 grams of flour to get the base amount of 1000 grams, which gives me water at 680 grams, salt at 20 grams, and yeast at 12 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISmAIKYggOGAIqQJF64eH3htMQ4B8hB9TGKErA+kSzyKaeHKYx9bI2MHi8pi/bwuecDgPmZ8C3XgMf0I/qjezURxF3O75+5woWq3EyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgxBv+SMf9zb3UToE8caDDlWM7L+xnkE2HFtwCIw3GXmh6zK8mz707g5Uk/jKFgOBfORc9FLRbQOTAS36jKCfcIXyCFu01F39qHUYtc5KmSlGipn7Swlz1b8xmIG0UXZ0lte2Q4qa0dSqzIlMhOMZnqlLSmuLak/B6q/bgS1lDdOeoNGCONHqo0BV+mOh62HqFZumUEcMVJjlCtjuUFTHqgYOiwzNT8Ru4B16ryw5NloB8g+GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 130,
+      "completion_tokens": 322,
+      "total_tokens": 452,
+      "cost": 0.0174,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0174,
+        "upstream_inference_prompt_cost": 0.0013,
+        "upstream_inference_completions_cost": 0.0161
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 64,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 130,
+  "tokensOut": 322,
+  "costUsd": 0.0174,
+  "latencyMs": 7595,
+  "finishReason": "stop"
+}

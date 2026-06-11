@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "qty-007",
+  "answerText": "To determine the amount of broth needed, first, calculate the total amount of rice required. For 11 people at 100 g per person, that's 11 * 100 = 1100 g of rice. \n\nGiven a broth-to-rice ratio of 3:1 by weight, the amount of broth needed is 3 times the weight of the rice. So, 3 * 1100 = 3300 g of broth.\n\nAnswer: 3300 g",
+  "raw": {
+    "id": "gen-1781190762-n0lwCQJtdxNHXfKOd1Jo",
+    "object": "chat.completion",
+    "created": 1781190762,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To determine the amount of broth needed, first, calculate the total amount of rice required. For 11 people at 100 g per person, that's 11 * 100 = 1100 g of rice. \n\nGiven a broth-to-rice ratio of 3:1 by weight, the amount of broth needed is 3 times the weight of the rice. So, 3 * 1100 = 3300 g of broth.\n\nAnswer: 3300 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 89,
+      "completion_tokens": 97,
+      "total_tokens": 186,
+      "cost": 0.00007155,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00007155,
+        "upstream_inference_prompt_cost": 0.00001335,
+        "upstream_inference_completions_cost": 0.0000582
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 89,
+  "tokensOut": 97,
+  "costUsd": 0.00007155,
+  "latencyMs": 5433,
+  "finishReason": "stop"
+}

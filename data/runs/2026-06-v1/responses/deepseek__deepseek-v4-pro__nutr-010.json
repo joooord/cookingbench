@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-010",
+  "answerText": "20 g per bar × 6 bars = 120 g of protein.\nAnswer: 120 g",
+  "raw": {
+    "id": "gen-1781189331-GAa8Mi3kTmcIU8RKMS8R",
+    "object": "chat.completion",
+    "created": 1781189331,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "GMICloud",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "20 g per bar × 6 bars = 120 g of protein.\nAnswer: 120 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"A protein bar provides 20 g of protein. How many grams of protein are in a box of 6 bars?\" Simple multiplication: 20 g/bar * 6 bars = 120 g. Answer: 120 g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A protein bar provides 20 g of protein. How many grams of protein are in a box of 6 bars?\" Simple multiplication: 20 g/bar * 6 bars = 120 g. Answer: 120 g.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 58,
+      "completion_tokens": 73,
+      "total_tokens": 131,
+      "cost": 0.000283968,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000283968,
+        "upstream_inference_prompt_cost": 0.000080736,
+        "upstream_inference_completions_cost": 0.000203232
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 52,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 58,
+  "tokensOut": 73,
+  "costUsd": 0.000283968,
+  "latencyMs": 10948,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "qty-007",
+  "answerText": "For 11 people, you need 11 × 100 g = 1100 g of rice.  \nAt a 3:1 broth-to-rice ratio, you need 3 × 1100 g = 3300 g of broth.\n\nAnswer: 3300 g",
+  "raw": {
+    "id": "gen-1781190043-ScJg2HDXaL2oHSoNZ2VW",
+    "object": "chat.completion",
+    "created": 1781190043,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Novita",
+    "system_fingerprint": "fpv0_8cab9aba",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "For 11 people, you need 11 × 100 g = 1100 g of rice.  \nAt a 3:1 broth-to-rice ratio, you need 3 × 1100 g = 3300 g of broth.\n\nAnswer: 3300 g",
+          "refusal": null,
+          "reasoning": "We need to answer a cooking math question. The user is making paella for 11 people with bomba rice. Allow 100 g of rice per person. Use a broth-to-rice ratio of 3:1 by weight. How many grams of broth do I need?\n\nStep 1: Calculate total rice weight.\n11 people * 100 g/person = 1100 g rice.\n\nStep 2: Calculate broth weight using ratio 3:1 (broth:rice).\nBroth = 3 * rice weight = 3 * 1100 g = 3300 g.\n\nThe answer should be accurate and concise. End the reply with a line \"Answer: <number> g\".\n\nSo final output should just be a brief explanation and then the required line.\n\nLet's draft:\n\"For 11 people, you need 11 × 100 g = 1100 g of rice. At a 3:1 broth-to-rice ratio, the broth required is 3 × 1100 g = 3300 g.\n\nAnswer: 3300 g\"\n\nThis is concise. Must end with exactly that line format. No extra fluff.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to answer a cooking math question. The user is making paella for 11 people with bomba rice. Allow 100 g of rice per person. Use a broth-to-rice ratio of 3:1 by weight. How many grams of broth do I need?\n\nStep 1: Calculate total rice weight.\n11 people * 100 g/person = 1100 g rice.\n\nStep 2: Calculate broth weight using ratio 3:1 (broth:rice).\nBroth = 3 * rice weight = 3 * 1100 g = 3300 g.\n\nThe answer should be accurate and concise. End the reply with a line \"Answer: <number> g\".\n\nSo final output should just be a brief explanation and then the required line.\n\nLet's draft:\n\"For 11 people, you need 11 × 100 g = 1100 g of rice. At a 3:1 broth-to-rice ratio, the broth required is 3 × 1100 g = 3300 g.\n\nAnswer: 3300 g\"\n\nThis is concise. Must end with exactly that line format. No extra fluff.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 86,
+      "completion_tokens": 296,
+      "total_tokens": 382,
+      "cost": 0.0010752,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0010752,
+        "upstream_inference_prompt_cost": 0.0000688,
+        "upstream_inference_completions_cost": 0.0010064
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 215,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 86,
+  "tokensOut": 296,
+  "costUsd": 0.0010752,
+  "latencyMs": 13477,
+  "finishReason": "stop"
+}

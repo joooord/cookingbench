@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "qty-009",
+  "answerText": "To find the weight of each ingredient, we first need to calculate the total percentage, which is 100% + 68% + 2% + 1.2% = 171.2%. \n\nNow, we can find the weight of flour: \nFlour percentage = 100%, Total dough = 1712 g, Total percentage = 171.2%\nFlour weight = (100 / 171.2) * 1712 = 1000 g\n\nUsing the same method, we can find the weight of other ingredients:\nWater weight = (68 / 171.2) * 1712 = 680 g\nSalt weight = (2 / 171.2) * 1712 = 20 g\nYeast weight = (1.2 / 171.2) * 1712 = 12 g\n\nFlour: 1000 g\nWater: 680 g\nSalt: 20 g\nYeast: 12 g",
+  "raw": {
+    "id": "gen-1781190766-zvSLB3X6NMCFsrPOJRWU",
+    "object": "chat.completion",
+    "created": 1781190766,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "Novita",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To find the weight of each ingredient, we first need to calculate the total percentage, which is 100% + 68% + 2% + 1.2% = 171.2%. \n\nNow, we can find the weight of flour: \nFlour percentage = 100%, Total dough = 1712 g, Total percentage = 171.2%\nFlour weight = (100 / 171.2) * 1712 = 1000 g\n\nUsing the same method, we can find the weight of other ingredients:\nWater weight = (68 / 171.2) * 1712 = 680 g\nSalt weight = (2 / 171.2) * 1712 = 20 g\nYeast weight = (1.2 / 171.2) * 1712 = 12 g\n\nFlour: 1000 g\nWater: 680 g\nSalt: 20 g\nYeast: 12 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 93,
+      "completion_tokens": 203,
+      "total_tokens": 296,
+      "cost": 0.00019766,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00019766,
+        "upstream_inference_prompt_cost": 0.00002511,
+        "upstream_inference_completions_cost": 0.00017255
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 93,
+  "tokensOut": 203,
+  "costUsd": 0.00019766,
+  "latencyMs": 12538,
+  "finishReason": "stop"
+}

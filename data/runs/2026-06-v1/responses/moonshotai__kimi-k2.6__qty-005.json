@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "qty-005",
+  "answerText": "To make 90 cookies, you need:\n\n\\[\n\\frac{90}{24} \\times 250 = 937.5 \\text{ g}\n\\]\n\nAnswer: 937.5 g",
+  "raw": {
+    "id": "gen-1781190037-JpwaNjgURUazomsJDNJu",
+    "object": "chat.completion",
+    "created": 1781190037,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Together",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To make 90 cookies, you need:\n\n\\[\n\\frac{90}{24} \\times 250 = 937.5 \\text{ g}\n\\]\n\nAnswer: 937.5 g",
+          "refusal": null,
+          "reasoning": "The user wants to know how much butter is needed for 90 cookies if the original recipe makes 24 cookies using 250 g of butter.\n\nThis is a proportion problem.\n24 cookies : 250 g butter\n90 cookies : x g butter\n\nx = (90 / 24) * 250\n\nCalculate:\n90 / 24 = 15 / 4 = 3.75\n3.75 * 250 = 937.5\n\nSo 937.5 grams of butter.\n\nI need to answer accurately and concisely, and end with \"Answer: <number> g\".\n\nLet me double-check:\n24 cookies -> 250g\n1 cookie -> 250/24 g\n90 cookies -> 90 * 250 / 24 = 22500 / 24\n22500 / 24 = 1125 / 1.2? No.\n22500 / 12 = 1875\n1875 / 2 = 937.5\n\nYes, 937.5 g.\n\nThe format requires ending with \"Answer: <number> g\".\nSo the final line should be exactly \"Answer: 937.5 g\".\n\nI should provide a brief explanation then the final line.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants to know how much butter is needed for 90 cookies if the original recipe makes 24 cookies using 250 g of butter.\n\nThis is a proportion problem.\n24 cookies : 250 g butter\n90 cookies : x g butter\n\nx = (90 / 24) * 250\n\nCalculate:\n90 / 24 = 15 / 4 = 3.75\n3.75 * 250 = 937.5\n\nSo 937.5 grams of butter.\n\nI need to answer accurately and concisely, and end with \"Answer: <number> g\".\n\nLet me double-check:\n24 cookies -> 250g\n1 cookie -> 250/24 g\n90 cookies -> 90 * 250 / 24 = 22500 / 24\n22500 / 24 = 1125 / 1.2? No.\n22500 / 12 = 1875\n1875 / 2 = 937.5\n\nYes, 937.5 g.\n\nThe format requires ending with \"Answer: <number> g\".\nSo the final line should be exactly \"Answer: 937.5 g\".\n\nI should provide a brief explanation then the final line.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 76,
+      "completion_tokens": 289,
+      "total_tokens": 365,
+      "cost": 0.0013917,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0013917,
+        "upstream_inference_prompt_cost": 0.0000912,
+        "upstream_inference_completions_cost": 0.0013005
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 207,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 76,
+  "tokensOut": 289,
+  "costUsd": 0.0013917,
+  "latencyMs": 8591,
+  "finishReason": "stop"
+}

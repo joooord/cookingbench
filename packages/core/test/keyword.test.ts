@@ -68,6 +68,19 @@ describe('gradeKeyword', () => {
     expect(gradeKeyword(spec, 'Use a gluten-free flour blend.').score).toBe(100);
   });
 
+  it('treats a preceding "X-free" modifier as negating the term it qualifies', () => {
+    const spec: GraderSpec = { type: 'keyword', required: [['cocoa']], forbidden: ['plain flour'] };
+    expect(gradeKeyword(spec, '250 g gluten-free plain flour blend, 60 g cocoa.').score).toBe(100);
+    expect(gradeKeyword(spec, '250 g plain flour, 60 g cocoa.').score).toBe(0);
+  });
+
+  it('does not let an unrelated "free" excuse a forbidden term', () => {
+    const peanut: GraderSpec = { type: 'keyword', required: [['sauce']], forbidden: ['peanut'] };
+    expect(gradeKeyword(peanut, 'Feel free to add peanut butter to the sauce.').score).toBe(0);
+    expect(gradeKeyword(peanut, 'This sauce is dairy-free and uses peanut butter.').score).toBe(0);
+    expect(gradeKeyword(peanut, 'Use gluten-free soy sauce and 2 tbsp peanut oil.').score).toBe(0);
+  });
+
   it('zeroes the score on forbidden (unsafe) content', () => {
     const spec: GraderSpec = {
       type: 'keyword',

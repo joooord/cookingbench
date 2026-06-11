@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-017",
+  "answerText": "To scale the recipe from 6 to 10 servings:\n\n- **Per serving flour:** 720 g ÷ 6 = 120 g\n- **Total for 10 servings:** 120 g × 10 = 1200 g\n- **Per serving in ounces:** 120 g ÷ 28.35 g/oz ≈ 4.23 oz\n\nTotal: 1200 g\nPer serving: 4.23 oz",
+  "raw": {
+    "id": "gen-1781188228-ndLeBXcCtbByTDZE6uRY",
+    "object": "chat.completion",
+    "created": 1781188228,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To scale the recipe from 6 to 10 servings:\n\n- **Per serving flour:** 720 g ÷ 6 = 120 g\n- **Total for 10 servings:** 120 g × 10 = 1200 g\n- **Per serving in ounces:** 120 g ÷ 28.35 g/oz ≈ 4.23 oz\n\nTotal: 1200 g\nPer serving: 4.23 oz",
+          "refusal": null,
+          "reasoning": " I'm calculating the portion size: dividing 720 grams by 6 gives 120 grams per serving, which scales to 1200 grams for ten servings, or about 4.23 ounces per portion.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the portion size: dividing 720 grams by 6 gives 120 grams per serving, which scales to 1200 grams for ten servings, or about 4.23 ounces per portion.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISnAIKYggOGAIqQIuLKq826bAUhQYnwT0GgTTBT/coKPnN7ZK3XvXR6SZvyrm62HQIdjTl2+PMwA80MUTu+++NS++RzCaDAZsbCBIyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgxbukvJ4FGxPIxYUo8aDFJWRbF8+11UjXa/5yIwvn9pCm4S26KgxwQaXI4PqceAiMqZhVcZu15Sw3hcuBeMcEm1AnvcxtRL4ESHGcQcKmgQGUEgo7Qbgm2Kmn+H6U+AXYGxPnJ8iAwDkSXcfHFL5CnycU1ls/0gUM2O/MHo11pVdO0SXAPi1zyXijm2WSUy0mCg+6tqEeRGowca3NEjStUHrjIUkduToBs/vWjTdcVE1+za8WiLOhgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 127,
+      "completion_tokens": 194,
+      "total_tokens": 321,
+      "cost": 0.01097,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01097,
+        "upstream_inference_prompt_cost": 0.00127,
+        "upstream_inference_completions_cost": 0.0097
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 42,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 127,
+  "tokensOut": 194,
+  "costUsd": 0.01097,
+  "latencyMs": 7014,
+  "finishReason": "stop"
+}

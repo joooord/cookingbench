@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "safe-001",
+  "answerText": "The USDA recommends cooking chicken breast to an internal temperature of 165°F to ensure safety against foodborne pathogens like Salmonella. Converted to Celsius, that's approximately 73.9°C.\n\nAnswer: 73.9 °C",
+  "raw": {
+    "id": "gen-1781189294-73Ig0sHOnrI1xuiBFej3",
+    "object": "chat.completion",
+    "created": 1781189294,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA recommends cooking chicken breast to an internal temperature of 165°F to ensure safety against foodborne pathogens like Salmonella. Converted to Celsius, that's approximately 73.9°C.\n\nAnswer: 73.9 °C",
+          "refusal": null,
+          "reasoning": "We are asked: \"What is the USDA-recommended safe minimum internal temperature for chicken breast, in Celsius?\" The USDA recommends 165°F for poultry, including chicken breast. Convert to Celsius: (165 - 32) * 5/9 = 133 * 5/9 ≈ 73.888... so about 73.9°C, but commonly rounded to 74°C. Actually, 165°F is exactly 73.9°C. I'll state 74°C if they want a rounded number, but the conversion from 165°F is 73.9°C. The USDA might state it in Fahrenheit only, but for Celsius they might say 74°C. I'll answer: 73.9°C (or 74°C). I'll be precise: The USDA recommends 165°F, which is approximately 73.9°C. So I'll output \"Answer: 73.9 °C\" or maybe \"Answer: 74 °C\"? I'll check common conversion: 165°F to °C is (165-32)*5/9 = 133*5/9 = 665/9 = 73.888... Typically rounded to 73.9°C. Many sources say 74°C. I'll go with 73.9°C. I'll end with \"Answer: 73.9 °C\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"What is the USDA-recommended safe minimum internal temperature for chicken breast, in Celsius?\" The USDA recommends 165°F for poultry, including chicken breast. Convert to Celsius: (165 - 32) * 5/9 = 133 * 5/9 ≈ 73.888... so about 73.9°C, but commonly rounded to 74°C. Actually, 165°F is exactly 73.9°C. I'll state 74°C if they want a rounded number, but the conversion from 165°F is 73.9°C. The USDA might state it in Fahrenheit only, but for Celsius they might say 74°C. I'll answer: 73.9°C (or 74°C). I'll be precise: The USDA recommends 165°F, which is approximately 73.9°C. So I'll output \"Answer: 73.9 °C\" or maybe \"Answer: 74 °C\"? I'll check common conversion: 165°F to °C is (165-32)*5/9 = 133*5/9 = 665/9 = 73.888... Typically rounded to 73.9°C. Many sources say 74°C. I'll go with 73.9°C. I'll end with \"Answer: 73.9 °C\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 53,
+      "completion_tokens": 346,
+      "total_tokens": 399,
+      "cost": 0.00055053,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 23,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00055053,
+        "upstream_inference_prompt_cost": 0.000024264,
+        "upstream_inference_completions_cost": 0.000526266
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 296,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 53,
+  "tokensOut": 346,
+  "costUsd": 0.00055053,
+  "latencyMs": 6538,
+  "finishReason": "stop"
+}

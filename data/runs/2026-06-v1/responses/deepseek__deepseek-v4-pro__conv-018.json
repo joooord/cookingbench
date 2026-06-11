@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-018",
+  "answerText": "1 US cup of unsalted butter is equivalent to 227 grams.  \nAnswer: 227 g",
+  "raw": {
+    "id": "gen-1781189257-jKuTpcmsQ6wOlAPk9qDr",
+    "object": "chat.completion",
+    "created": 1781189257,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "StreamLake",
+    "system_fingerprint": "fp_9954b31ca7_prod0820_fp8_kvcache_20260402",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "1 US cup of unsalted butter is equivalent to 227 grams.  \nAnswer: 227 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"Convert 1 US cup of unsalted butter to grams.\" We need to provide the answer with \"Answer: <number> g\". The typical conversion for butter: 1 US cup of butter is approximately 227 grams. This is standard: 1 cup butter = 2 sticks = 8 ounces = 227g (approximately). So answer: 227 g. We'll output \"Answer: 227 g\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Convert 1 US cup of unsalted butter to grams.\" We need to provide the answer with \"Answer: <number> g\". The typical conversion for butter: 1 US cup of butter is approximately 227 grams. This is standard: 1 cup butter = 2 sticks = 8 ounces = 227g (approximately). So answer: 227 g. We'll output \"Answer: 227 g\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 46,
+      "completion_tokens": 111,
+      "total_tokens": 157,
+      "cost": 0.00023316,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00023316,
+        "upstream_inference_prompt_cost": 0.00004002,
+        "upstream_inference_completions_cost": 0.00019314
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 90,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 46,
+  "tokensOut": 111,
+  "costUsd": 0.00023316,
+  "latencyMs": 3248,
+  "finishReason": "stop"
+}

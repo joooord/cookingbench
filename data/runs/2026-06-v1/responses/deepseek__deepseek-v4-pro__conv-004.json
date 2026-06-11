@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-004",
+  "answerText": "In the United States, one stick of butter equals ½ cup, which is 4 ounces. Converting ounces to grams (1 ounce ≈ 28.35 grams) gives 4 × 28.35 = 113.4 grams. For culinary purposes, this is typically rounded to 113 grams.\n\nAnswer: 113 g",
+  "raw": {
+    "id": "gen-1781189219-KcSXlTNM3yCD26h9vphM",
+    "object": "chat.completion",
+    "created": 1781189219,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "GMICloud",
+    "system_fingerprint": "fp_9954b31ca7_prod0820_fp8_kvcache_20260402",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "In the United States, one stick of butter equals ½ cup, which is 4 ounces. Converting ounces to grams (1 ounce ≈ 28.35 grams) gives 4 × 28.35 = 113.4 grams. For culinary purposes, this is typically rounded to 113 grams.\n\nAnswer: 113 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"An American recipe calls for 1 stick of butter. How many grams is that?\" So we need to convert 1 stick of butter (US standard) to grams. In the US, 1 stick of butter is typically 1/2 cup, which is 4 ounces, and 1 ounce is about 28.35 grams, so 4 ounces = 113.4 grams. Often rounded to 113 grams. So answer: 113 grams. But let's be precise: 1 stick = 1/2 cup = 4 oz = 113.4 g. I'll say 113 grams. The instruction says: \"End your reply with a line 'Answer: <number> g'\". So I'll output: \"Answer: 113 g\" (or 113.4 if more precise? Usually recipes use 113 g for a stick. I'll go with 113).",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"An American recipe calls for 1 stick of butter. How many grams is that?\" So we need to convert 1 stick of butter (US standard) to grams. In the US, 1 stick of butter is typically 1/2 cup, which is 4 ounces, and 1 ounce is about 28.35 grams, so 4 ounces = 113.4 grams. Often rounded to 113 grams. So answer: 113 grams. But let's be precise: 1 stick = 1/2 cup = 4 oz = 113.4 g. I'll say 113 grams. The instruction says: \"End your reply with a line 'Answer: <number> g'\". So I'll output: \"Answer: 113 g\" (or 113.4 if more precise? Usually recipes use 113 g for a stick. I'll go with 113).",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 51,
+      "completion_tokens": 258,
+      "total_tokens": 309,
+      "cost": 0.000789264,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000789264,
+        "upstream_inference_prompt_cost": 0.000070992,
+        "upstream_inference_completions_cost": 0.000718272
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 190,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 51,
+  "tokensOut": 258,
+  "costUsd": 0.000789264,
+  "latencyMs": 6781,
+  "finishReason": "stop"
+}

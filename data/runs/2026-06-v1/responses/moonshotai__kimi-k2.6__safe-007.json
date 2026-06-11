@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "safe-007",
+  "answerText": "According to USDA guidelines, the safe minimum internal temperature for cooked fish is **145°F** (measured with a food thermometer), or cook until the flesh is opaque and separates easily with a fork.\n\nAnswer: 145 °F",
+  "raw": {
+    "id": "gen-1781189860-Ids4nff85CgcCCnY7uAx",
+    "object": "chat.completion",
+    "created": 1781189860,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "According to USDA guidelines, the safe minimum internal temperature for cooked fish is **145°F** (measured with a food thermometer), or cook until the flesh is opaque and separates easily with a fork.\n\nAnswer: 145 °F",
+          "refusal": null,
+          "reasoning": "The user is asking for the USDA safe minimum internal temperature for cooked fish, in Fahrenheit. I need to provide the correct temperature and end the reply with \"Answer: <number> °F\".\n\nAccording to USDA guidelines, the safe minimum internal temperature for cooked fish is 145°F (or until the flesh is opaque and flakes easily with a fork).\n\nSo the answer is 145 °F.\n\nI need to be accurate and concise, then end with the specific format.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking for the USDA safe minimum internal temperature for cooked fish, in Fahrenheit. I need to provide the correct temperature and end the reply with \"Answer: <number> °F\".\n\nAccording to USDA guidelines, the safe minimum internal temperature for cooked fish is 145°F (or until the flesh is opaque and flakes easily with a fork).\n\nSo the answer is 145 °F.\n\nI need to be accurate and concise, then end with the specific format.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 57,
+      "completion_tokens": 142,
+      "total_tokens": 199,
+      "cost": 0.000524628,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000524628,
+        "upstream_inference_prompt_cost": 0.000038988,
+        "upstream_inference_completions_cost": 0.00048564
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 94,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 57,
+  "tokensOut": 142,
+  "costUsd": 0.000524628,
+  "latencyMs": 7895,
+  "finishReason": "stop"
+}

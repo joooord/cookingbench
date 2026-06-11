@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-029",
+  "answerText": "No, your friend isn't correct. The cooking method can significantly change the calorie content of that chicken breast.\n\n## What actually happens\n\n**The chicken's intrinsic calories stay roughly the same** — a raw chicken breast has a fixed amount of protein and fat, and cooking doesn't create or destroy those macronutrients in any meaningful way. This may be what your friend is thinking of.\n\n**But deep-frying adds calories from oil absorption:**\n- During frying, the chicken absorbs some of the cooking oil. Oil is pure fat at ~120 calories per tablespoon.\n- If the chicken is battered or breaded (as fried chicken usually is), the coating acts like a sponge, absorbing even more oil — plus the batter itself adds calories from flour/starch.\n- A plain grilled chicken breast (~170g) runs roughly 280 calories, while the same breast deep-fried with breading can easily reach 400–500+ calories.\n\n**Grilling can actually reduce calories slightly:**\n- Fat renders out of the meat and drips away, so a small amount of the chicken's own fat is lost.\n\n## Rough comparison (typical ~170g breast)\n\n| Method | Approx. calories |\n|---|---|\n| Grilled, skinless | ~280 |\n| Deep-fried, no breading | ~350–400 |\n| Deep-fried, battered/breaded | ~450–550+ |\n\n## Bottom line\n\nThe chicken itself doesn't change much, but deep-frying introduces extra fat from the oil (and often carbs from breading), which can nearly double the calorie count. Grilling adds nothing and may even shed a little fat. So the cooking method absolutely matters.",
+  "raw": {
+    "id": "gen-1781188162-KafNW3ClNmZQBhqtAND1",
+    "object": "chat.completion",
+    "created": 1781188162,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "No, your friend isn't correct. The cooking method can significantly change the calorie content of that chicken breast.\n\n## What actually happens\n\n**The chicken's intrinsic calories stay roughly the same** — a raw chicken breast has a fixed amount of protein and fat, and cooking doesn't create or destroy those macronutrients in any meaningful way. This may be what your friend is thinking of.\n\n**But deep-frying adds calories from oil absorption:**\n- During frying, the chicken absorbs some of the cooking oil. Oil is pure fat at ~120 calories per tablespoon.\n- If the chicken is battered or breaded (as fried chicken usually is), the coating acts like a sponge, absorbing even more oil — plus the batter itself adds calories from flour/starch.\n- A plain grilled chicken breast (~170g) runs roughly 280 calories, while the same breast deep-fried with breading can easily reach 400–500+ calories.\n\n**Grilling can actually reduce calories slightly:**\n- Fat renders out of the meat and drips away, so a small amount of the chicken's own fat is lost.\n\n## Rough comparison (typical ~170g breast)\n\n| Method | Approx. calories |\n|---|---|\n| Grilled, skinless | ~280 |\n| Deep-fried, no breading | ~350–400 |\n| Deep-fried, battered/breaded | ~450–550+ |\n\n## Bottom line\n\nThe chicken itself doesn't change much, but deep-frying introduces extra fat from the oil (and often carbs from breading), which can nearly double the calorie count. Grilling adds nothing and may even shed a little fat. So the cooking method absolutely matters.",
+          "refusal": null,
+          "reasoning": " Deep-frying absorbs significant oil into the food, adding roughly 100-200 calories per serving depending on the item, while grilling allows fat to drip away and can reduce overall calorie content by rendering some of the fat out.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " Deep-frying absorbs significant oil into the food, adding roughly 100-200 calories per serving depending on the item, while grilling allows fat to drip away and can reduce overall calorie content by rendering some of the fat out.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISwQIKYggOGAIqQIFDpv8DBAPxU0IvNvwvt4ILYlk1zhB0zRDohi03ANqGMoyacSTzIjd2sSITUxzLCpoH5q/JiOIU8lFhI0srJboyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgwHSvpiTdnJr04IUfoaDJJ6BHzuEkWHqyVhICIwuFJUBW+NuaVbdow/WZc0QCTJVDqkzR14IRE2/0wmMtO9eNkCt7hpCqo5utL7+BmIKowBCuIsiT3S9OkwCIjZYnBf8+pJznjRTi6wXwH3G+9cVXZmPrrF4+ZXqT6eguK+fh8tm48v3ECnqt6Jlz7bl1Q6RZKOy0buEOP8ROKIv5e6IWk4UEhs+UNwsNNM5HOor5JnYZCUpq6+4TYOGtPaGOsyTX/WuX44I3ib6KqftPlRq/SR0dUqumGfJMJovCgYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 88,
+      "completion_tokens": 599,
+      "total_tokens": 687,
+      "cost": 0.03083,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.03083,
+        "upstream_inference_prompt_cost": 0.00088,
+        "upstream_inference_completions_cost": 0.02995
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 58,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 88,
+  "tokensOut": 599,
+  "costUsd": 0.03083,
+  "latencyMs": 17501,
+  "finishReason": "stop"
+}

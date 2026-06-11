@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "conv-017",
+  "answerText": "An Australian standard tablespoon is 20 ml, so 2 tablespoons equal 40 ml.\n\nAnswer: 40 ml",
+  "raw": {
+    "id": "gen-1781189735-WJ5PNjDmTYmXuWYuPTQd",
+    "object": "chat.completion",
+    "created": 1781189735,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "AtlasCloud",
+    "system_fingerprint": "fpv0_69dc6732",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "An Australian standard tablespoon is 20 ml, so 2 tablespoons equal 40 ml.\n\nAnswer: 40 ml",
+          "refusal": null,
+          "reasoning": "The user is asking for the conversion of 2 Australian tablespoons to millilitres.\n\nKey facts:\n- An Australian tablespoon is a specific unit of measurement.\n- 1 Australian tablespoon = 20 ml.\n- This is different from the US tablespoon (approx 14.8 ml) and the metric tablespoon used in many places (15 ml).\n\nSo:\n2 Australian tablespoons × 20 ml/tablespoon = 40 ml.\n\nI need to answer accurately and concisely, and end with the line \"Answer: <number> ml\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking for the conversion of 2 Australian tablespoons to millilitres.\n\nKey facts:\n- An Australian tablespoon is a specific unit of measurement.\n- 1 Australian tablespoon = 20 ml.\n- This is different from the US tablespoon (approx 14.8 ml) and the metric tablespoon used in many places (15 ml).\n\nSo:\n2 Australian tablespoons × 20 ml/tablespoon = 40 ml.\n\nI need to answer accurately and concisely, and end with the line \"Answer: <number> ml\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 65,
+      "completion_tokens": 134,
+      "total_tokens": 199,
+      "cost": 0.00059775,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00059775,
+        "upstream_inference_prompt_cost": 0.00006175,
+        "upstream_inference_completions_cost": 0.000536
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 122,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 65,
+  "tokensOut": 134,
+  "costUsd": 0.00059775,
+  "latencyMs": 6042,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "qty-006",
+  "answerText": "To make a 5% brine based on the water’s weight, calculate 5% of 2000 g:\n\n0.05 × 2000 g = 100 g\n\nAnswer: 100 g",
+  "raw": {
+    "id": "gen-1781190039-98enSNDmN2bFqREs3q45",
+    "object": "chat.completion",
+    "created": 1781190039,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To make a 5% brine based on the water’s weight, calculate 5% of 2000 g:\n\n0.05 × 2000 g = 100 g\n\nAnswer: 100 g",
+          "refusal": null,
+          "reasoning": "The user wants to make a 5% brine where salt is measured as a percentage of the water's weight. They have 2000 g of water.\n\nIf salt is 5% of the water's weight:\nSalt = 5% of 2000 g\nSalt = 0.05 × 2000\nSalt = 100 g\n\nSo the answer is 100 grams.\n\nI need to end with \"Answer: <number> g\" as instructed.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants to make a 5% brine where salt is measured as a percentage of the water's weight. They have 2000 g of water.\n\nIf salt is 5% of the water's weight:\nSalt = 5% of 2000 g\nSalt = 0.05 × 2000\nSalt = 100 g\n\nSo the answer is 100 grams.\n\nI need to end with \"Answer: <number> g\" as instructed.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 86,
+      "completion_tokens": 142,
+      "total_tokens": 228,
+      "cost": 0.000512064,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 60,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000512064,
+        "upstream_inference_prompt_cost": 0.000026424,
+        "upstream_inference_completions_cost": 0.00048564
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 97,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 86,
+  "tokensOut": 142,
+  "costUsd": 0.000512064,
+  "latencyMs": 3530,
+  "finishReason": "stop"
+}
