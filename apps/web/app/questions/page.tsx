@@ -5,6 +5,12 @@ import { CategoryChip } from '@/components/CategoryChip';
 
 export const revalidate = 3600;
 
+export const metadata = {
+  title: 'Questions',
+  description:
+    'Every public CookingBench question, its reference answer, and what each AI model actually said.',
+};
+
 export default function QuestionsPage() {
   const questions = getPublicQuestions();
   const report = getLatestReport();

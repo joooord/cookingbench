@@ -12,6 +12,18 @@ export function generateStaticParams() {
   return (report?.rows ?? []).map((row) => ({ slug: modelSlug(row.modelId) }));
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const report = getLatestReport();
+  const row = report?.rows.find((r) => r.modelId === modelIdFromSlug(slug));
+  if (!report || !row) return {};
+  const rank = report.rows.indexOf(row) + 1;
+  return {
+    title: `${row.displayName} as a chef`,
+    description: `${row.displayName} ranks #${rank} of ${report.rows.length} on CookingBench with an overall culinary score of ${formatScore(row.overall)}. Full category breakdown: conversions, food safety, technique, flavour and more.`,
+  };
+}
+
 export default async function ModelPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const report = getLatestReport();
