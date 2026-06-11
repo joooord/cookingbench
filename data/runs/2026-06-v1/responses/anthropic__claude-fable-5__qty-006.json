@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-006",
+  "answerText": "For a 5% brine measured as salt relative to the water's weight:\n\n- Water: 2000 g\n- Salt: 5% × 2000 g = **100 g**\n\nJust dissolve 100 g of salt into your 2 litres of water.\n\nAnswer: 100 g",
+  "raw": {
+    "id": "gen-1781187787-t4CCWzggYMqChKfORoBV",
+    "object": "chat.completion",
+    "created": 1781187787,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "For a 5% brine measured as salt relative to the water's weight:\n\n- Water: 2000 g\n- Salt: 5% × 2000 g = **100 g**\n\nJust dissolve 100 g of salt into your 2 litres of water.\n\nAnswer: 100 g",
+          "refusal": null,
+          "reasoning": " So 5% of 2000 is 100 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " So 5% of 2000 is 100 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS1wEKYggOGAIqQELzFM11Hl1drCRQKstwNVoOW+Zzvx2h1kxljTwzROa+3232x47ZAUOZMOw0MRg1YCtaI3GFhfFm5f8ihDjNfZYyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgylXw8nE+fH5CeVtQYaDJiwl/8aqxmBLh9TPSIww1JtkUDroGkYbTN9veiVyvlomYNJUWAIhE18NbOe/5eCY21TM3kmYg/7Lo4W3QUWKiNoqDEOiANfArDxb6cdljWzeJ++crKwRkc12D73wOYAE+s5jxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 111,
+      "completion_tokens": 102,
+      "total_tokens": 213,
+      "cost": 0.00621,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00621,
+        "upstream_inference_prompt_cost": 0.00111,
+        "upstream_inference_completions_cost": 0.0051
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 7,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 111,
+  "tokensOut": 102,
+  "costUsd": 0.00621,
+  "latencyMs": 6006,
+  "finishReason": "stop"
+}

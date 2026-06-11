@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-008",
+  "answerText": "750 g water ÷ 16 = 46.875 g coffee.  \nAnswer: 46.875 g",
+  "raw": {
+    "id": "gen-1781189387-GU21CCHHLnKl04PSqoJV",
+    "object": "chat.completion",
+    "created": 1781189387,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Venice",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "750 g water ÷ 16 = 46.875 g coffee.  \nAnswer: 46.875 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"I brew pour-over coffee at a 1:16 coffee-to-water ratio by weight. For 750 g of water, how many grams of ground coffee should I use?\"\n\nGiven ratio 1:16 coffee:water. That means for every 1 gram of coffee, you use 16 grams of water. So if water is 750g, then coffee = water / 16 = 750 / 16 = 46.875 g. Typically we'd round to one decimal place or maybe exact fraction. Since it's pour-over, 46.9g or 47g? Probably answer as decimal. The prompt says: \"Answer: <number> g\". So we can put 46.875 or round to 46.9? Usually coffee scales measure to 0.1g. I'll give 46.9. But let's see if it expects exact. Since the question says \"how many grams\", and 750/16 = 46.875. I'll answer 46.875. But note: In many coffee recipes, they'd say about 47g. I'll go with 46.875. The instruction: \"Answer: <number> g\". So output just the number. I'll compute: 750/16 = 46.875.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"I brew pour-over coffee at a 1:16 coffee-to-water ratio by weight. For 750 g of water, how many grams of ground coffee should I use?\"\n\nGiven ratio 1:16 coffee:water. That means for every 1 gram of coffee, you use 16 grams of water. So if water is 750g, then coffee = water / 16 = 750 / 16 = 46.875 g. Typically we'd round to one decimal place or maybe exact fraction. Since it's pour-over, 46.9g or 47g? Probably answer as decimal. The prompt says: \"Answer: <number> g\". So we can put 46.875 or round to 46.9? Usually coffee scales measure to 0.1g. I'll give 46.9. But let's see if it expects exact. Since the question says \"how many grams\", and 750/16 = 46.875. I'll answer 46.875. But note: In many coffee recipes, they'd say about 47g. I'll go with 46.875. The instruction: \"Answer: <number> g\". So output just the number. I'll compute: 750/16 = 46.875.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 69,
+      "completion_tokens": 294,
+      "total_tokens": 363,
+      "cost": 0.001235394,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001235394,
+        "upstream_inference_prompt_cost": 0.00011937,
+        "upstream_inference_completions_cost": 0.001116024
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 270,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 69,
+  "tokensOut": 294,
+  "costUsd": 0.001235394,
+  "latencyMs": 9211,
+  "finishReason": "stop"
+}

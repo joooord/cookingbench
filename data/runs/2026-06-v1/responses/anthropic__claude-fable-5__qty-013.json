@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-013",
+  "answerText": "Roasting two chickens side by side doesn't double the cooking time — each bird cooks based on its own size and weight, not the total weight in the oven. As long as there's space between them for hot air to circulate (which you have), they'll each roast in roughly the same time as a single bird.\n\nA couple of practical notes:\n\n- The oven may take slightly longer to recover its temperature with the extra cold mass, so it can run a few minutes over — check at 75 minutes and add 5–10 if needed.\n- Verify doneness with a thermometer: 74°C (165°F) in the thickest part of the thigh, or juices running clear.\n- Rotate the pan halfway through if your oven has hot spots.\n\nAnswer: 75 minutes",
+  "raw": {
+    "id": "gen-1781188168-ygMv3ATEZzgBhjAvPi15",
+    "object": "chat.completion",
+    "created": 1781188168,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Roasting two chickens side by side doesn't double the cooking time — each bird cooks based on its own size and weight, not the total weight in the oven. As long as there's space between them for hot air to circulate (which you have), they'll each roast in roughly the same time as a single bird.\n\nA couple of practical notes:\n\n- The oven may take slightly longer to recover its temperature with the extra cold mass, so it can run a few minutes over — check at 75 minutes and add 5–10 if needed.\n- Verify doneness with a thermometer: 74°C (165°F) in the thickest part of the thigh, or juices running clear.\n- Rotate the pan halfway through if your oven has hot spots.\n\nAnswer: 75 minutes",
+          "refusal": null,
+          "reasoning": " Two chickens roast together in about 75 to 80 minutes, only slightly longer than a single bird since the oven recovers quickly between them.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " Two chickens roast together in about 75 to 80 minutes, only slightly longer than a single bird since the oven recovers quickly between them.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS3wIKYggOGAIqQNOg7bvrWOgBSW922OHvYMOl1OQMElhvDQtQJSux7KMykkDc0mPtyWcwNdEuX+UeO8laoKxF9+UeBQcDbe1PkgUyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgx4Vz6QciBwbXAnCB4aDFxYMgVjXaAzNYfqgiIwSKNerz9lFLlBiMkyxeASImuu+7cTYh6KLhtmUg7arY0hOaMs65umYcQz6VOAA5q6KqoB1jOWa/s57LdoAXdqoPE0au49WB9oLs8hbRC6uhpFBWH4/F83I6s1BPAkXl4I/01jxFglcG0Rh2pim+/zqOoSkZOOsPf5NHVzuy8rgUNzBOym2qxnY4SgRaTVkrXHo+B0w17/7a1qt+zp3PxPRLGHpT7UgPkR/xs7+CttU98QFvF8ZjkxElBPUSEwjARSUb0dYVsik1F/Mq7V/WjjjxGDP+/1MzQ6CO24MEkYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 128,
+      "completion_tokens": 293,
+      "total_tokens": 421,
+      "cost": 0.01593,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01593,
+        "upstream_inference_prompt_cost": 0.00128,
+        "upstream_inference_completions_cost": 0.01465
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 36,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 128,
+  "tokensOut": 293,
+  "costUsd": 0.01593,
+  "latencyMs": 9142,
+  "finishReason": "stop"
+}

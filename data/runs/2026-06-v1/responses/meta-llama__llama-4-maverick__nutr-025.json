@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "nutr-025",
+  "answerText": "To estimate the nutritional content of the cooked steaks, we first need to determine their weight after trimming. \n\n1. Initial total weight = 2 steaks * 300 g = 600 g\n2. Weight removed due to trimming = 15% of 600 g = 0.15 * 600 g = 90 g\n3. Total weight after trimming = 600 g - 90 g = 510 g\n\nThe raw weight after trimming is 510 g. Sirloin steak is generally considered to be about 65-70% lean. Let's assume an average leanness of 67.5%. \n\n1. Lean mass = 67.5% of 510 g = 0.675 * 510 g = 344.25 g\n2. Fat mass = 32.5% of 510 g = 0.325 * 510 g = 165.75 g\n\nWhen cooked, sirloin steak typically loses about 25-30% of its raw weight due to moisture loss. Let's assume an average weight loss of 27.5%.\n\n1. Total cooked weight = 510 g - (0.275 * 510 g) = 510 g - 140.25 g = 369.75 g\n\nThe protein content is primarily in the lean mass. Assuming the lean mass is mostly protein and water, and that protein makes up about 22-25% of the raw weight (a reasonable estimate for lean meat), we can directly use the raw lean mass to estimate protein content since cooking doesn't significantly change the protein amount. \n\n1. Protein content = 344.25 g * 0.22 (conservative estimate for protein in lean meat, as the exact percentage can vary) = approximately 75.73 g, but a more straightforward method is to directly apply a protein percentage to the raw weight or use a standard value. A common estimate is that cooked sirloin contains about 30-35 g of protein per 100 g. For simplicity and aligning with typical nutritional data, let's directly apply nutritional values per 100 g of cooked sirloin.\n\nFor cooked sirloin steak, typical values are:\n- Protein: about 30-35 g per 100 g\n- Fat: varies, but for a trimmed sirloin, let's assume around 6-8 g per 100 g\n- Calories: approximately 170-200 kcal per 100 g\n\nLet's use average values: \n- Protein: 32.5 g/100 g\n- Fat: 7 g/100 g\n- Calories: 185 kcal/100 g\n\nFor 369.75 g of cooked steak:\n1. Protein = (369.75 g / 100 g) * 32.5 g = 120.17 g\n2. Fat = (369.75 g / 100 g) * 7 g = 25.88 g\n3. Calories = (369.75 g / 100 g) * 185 kcal = 684.04 kcal\n\nProtein: 120 g\nFat: 26 g\nCalories: 684 kcal",
+  "raw": {
+    "id": "gen-1781190745-A8c6vyyRv5rqvdxZKSFk",
+    "object": "chat.completion",
+    "created": 1781190745,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "Parasail",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To estimate the nutritional content of the cooked steaks, we first need to determine their weight after trimming. \n\n1. Initial total weight = 2 steaks * 300 g = 600 g\n2. Weight removed due to trimming = 15% of 600 g = 0.15 * 600 g = 90 g\n3. Total weight after trimming = 600 g - 90 g = 510 g\n\nThe raw weight after trimming is 510 g. Sirloin steak is generally considered to be about 65-70% lean. Let's assume an average leanness of 67.5%. \n\n1. Lean mass = 67.5% of 510 g = 0.675 * 510 g = 344.25 g\n2. Fat mass = 32.5% of 510 g = 0.325 * 510 g = 165.75 g\n\nWhen cooked, sirloin steak typically loses about 25-30% of its raw weight due to moisture loss. Let's assume an average weight loss of 27.5%.\n\n1. Total cooked weight = 510 g - (0.275 * 510 g) = 510 g - 140.25 g = 369.75 g\n\nThe protein content is primarily in the lean mass. Assuming the lean mass is mostly protein and water, and that protein makes up about 22-25% of the raw weight (a reasonable estimate for lean meat), we can directly use the raw lean mass to estimate protein content since cooking doesn't significantly change the protein amount. \n\n1. Protein content = 344.25 g * 0.22 (conservative estimate for protein in lean meat, as the exact percentage can vary) = approximately 75.73 g, but a more straightforward method is to directly apply a protein percentage to the raw weight or use a standard value. A common estimate is that cooked sirloin contains about 30-35 g of protein per 100 g. For simplicity and aligning with typical nutritional data, let's directly apply nutritional values per 100 g of cooked sirloin.\n\nFor cooked sirloin steak, typical values are:\n- Protein: about 30-35 g per 100 g\n- Fat: varies, but for a trimmed sirloin, let's assume around 6-8 g per 100 g\n- Calories: approximately 170-200 kcal per 100 g\n\nLet's use average values: \n- Protein: 32.5 g/100 g\n- Fat: 7 g/100 g\n- Calories: 185 kcal/100 g\n\nFor 369.75 g of cooked steak:\n1. Protein = (369.75 g / 100 g) * 32.5 g = 120.17 g\n2. Fat = (369.75 g / 100 g) * 7 g = 25.88 g\n3. Calories = (369.75 g / 100 g) * 185 kcal = 684.04 kcal\n\nProtein: 120 g\nFat: 26 g\nCalories: 684 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 123,
+      "completion_tokens": 644,
+      "total_tokens": 767,
+      "cost": 0.00068417,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 16,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00068417,
+        "upstream_inference_prompt_cost": 0.00004017,
+        "upstream_inference_completions_cost": 0.000644
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 123,
+  "tokensOut": 644,
+  "costUsd": 0.00068417,
+  "latencyMs": 7820,
+  "finishReason": "stop"
+}

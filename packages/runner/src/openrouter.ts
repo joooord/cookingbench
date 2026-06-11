@@ -17,11 +17,18 @@ export interface CompletionResult {
   finishReason?: string;
 }
 
+export interface CompletionOpts {
+  temperature: number;
+  maxTokens: number;
+  /** OpenRouter unified reasoning control (e.g. { effort: 'low' }). */
+  reasoning?: { effort?: 'low' | 'medium' | 'high'; enabled?: boolean; max_tokens?: number };
+}
+
 export interface CompletionClient {
   complete(
     modelId: string,
     messages: ChatMessage[],
-    opts: { temperature: number; maxTokens: number },
+    opts: CompletionOpts,
   ): Promise<CompletionResult>;
 }
 
@@ -32,13 +39,13 @@ function apiKey(): string {
 }
 
 const RETRYABLE = new Set([408, 429, 500, 502, 503, 504]);
-const MAX_ATTEMPTS = 3;
+const MAX_ATTEMPTS = 5;
 
 export class OpenRouterClient implements CompletionClient {
   async complete(
     modelId: string,
     messages: ChatMessage[],
-    opts: { temperature: number; maxTokens: number },
+    opts: CompletionOpts,
   ): Promise<CompletionResult> {
     let lastError: Error | undefined;
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
@@ -56,6 +63,7 @@ export class OpenRouterClient implements CompletionClient {
           messages,
           temperature: opts.temperature,
           max_tokens: opts.maxTokens,
+          ...(opts.reasoning ? { reasoning: opts.reasoning } : {}),
           usage: { include: true },
         }),
       });
@@ -63,7 +71,10 @@ export class OpenRouterClient implements CompletionClient {
         const body = await res.text();
         lastError = new Error(`OpenRouter ${res.status} for ${modelId}: ${body.slice(0, 300)}`);
         if (!RETRYABLE.has(res.status)) throw lastError;
-        const backoff = 2000 * 2 ** (attempt - 1) * (0.8 + Math.random() * 0.4);
+        if (attempt === MAX_ATTEMPTS) break;
+        // 429s are per-minute rate limits — a couple of seconds is never enough.
+        const base = res.status === 429 ? 15000 : 2000;
+        const backoff = base * 2 ** (attempt - 1) * (0.8 + Math.random() * 0.4);
         await new Promise((r) => setTimeout(r, backoff));
         continue;
       }

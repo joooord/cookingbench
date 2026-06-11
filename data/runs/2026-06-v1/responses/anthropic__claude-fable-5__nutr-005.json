@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-005",
+  "answerText": "To find the percent daily value, divide the sodium in the serving by the daily value and multiply by 100:\n\n690 mg ÷ 2,300 mg = 0.30 → 0.30 × 100 = **30%**\n\nThis means one serving of the soup provides 30% of the FDA's recommended daily sodium limit — a fairly high amount for a single serving (the FDA considers 20% DV or more per serving to be \"high\" in sodium).\n\nAnswer: 30 %",
+  "raw": {
+    "id": "gen-1781188084-HJMRZhiN4sPnZuFf0KIo",
+    "object": "chat.completion",
+    "created": 1781188084,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To find the percent daily value, divide the sodium in the serving by the daily value and multiply by 100:\n\n690 mg ÷ 2,300 mg = 0.30 → 0.30 × 100 = **30%**\n\nThis means one serving of the soup provides 30% of the FDA's recommended daily sodium limit — a fairly high amount for a single serving (the FDA considers 20% DV or more per serving to be \"high\" in sodium).\n\nAnswer: 30 %",
+          "refusal": null,
+          "reasoning": " That's about 30% of the total.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " That's about 30% of the total.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS2gEKYggOGAIqQNgvqkJP2VzPvOlZ4RDh0+ArTQyqWnv8ZACv8HIK9SYQvoUd0Q2Hpk+4sPyr4YqTpSrmSeZXhMypoqwH4PxKRw4yDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgwdf87UYefMrJxVjKAaDMLuxPDl34UXqHygMyIwRaUaqHc0aOi2TJAsogrIO8R+slBRBX+my3k1IjcSi9suxhG3hgWNK7ItA858d7zcKiZBPlDSrEawu7oHWaTQD3v6qjUVUSInvA4C3JpBadNdpJpGlfO3ahgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 101,
+      "completion_tokens": 169,
+      "total_tokens": 270,
+      "cost": 0.00946,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00946,
+        "upstream_inference_prompt_cost": 0.00101,
+        "upstream_inference_completions_cost": 0.00845
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 8,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 101,
+  "tokensOut": 169,
+  "costUsd": 0.00946,
+  "latencyMs": 7032,
+  "finishReason": "stop"
+}

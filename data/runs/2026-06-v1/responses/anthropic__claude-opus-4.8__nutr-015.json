@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "nutr-015",
+  "answerText": "Let me calculate the calories from alcohol and sugar.\n\n**Alcohol:**\n- Volume of ethanol: 150 ml × 12% = 18 ml\n- Mass of ethanol: 18 ml × 0.789 g/ml = 14.202 g\n- Calories: 14.202 g × 7 kcal/g = 99.414 kcal\n\n**Sugar:**\n- 3 g × 4 kcal/g = 12 kcal\n\n**Total:**\n- 99.414 + 12 = 111.414 kcal ≈ 111 kcal\n\nAnswer: 111 kcal",
+  "raw": {
+    "id": "gen-1781187039-ug3HwKLVzGiO08TiaAnk",
+    "object": "chat.completion",
+    "created": 1781187039,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Let me calculate the calories from alcohol and sugar.\n\n**Alcohol:**\n- Volume of ethanol: 150 ml × 12% = 18 ml\n- Mass of ethanol: 18 ml × 0.789 g/ml = 14.202 g\n- Calories: 14.202 g × 7 kcal/g = 99.414 kcal\n\n**Sugar:**\n- 3 g × 4 kcal/g = 12 kcal\n\n**Total:**\n- 99.414 + 12 = 111.414 kcal ≈ 111 kcal\n\nAnswer: 111 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 146,
+      "completion_tokens": 196,
+      "total_tokens": 342,
+      "cost": 0.00563,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00563,
+        "upstream_inference_prompt_cost": 0.00073,
+        "upstream_inference_completions_cost": 0.0049
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 146,
+  "tokensOut": 196,
+  "costUsd": 0.00563,
+  "latencyMs": 4321,
+  "finishReason": "stop"
+}

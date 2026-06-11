@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "qwen/qwen3.5-plus-20260420",
+  "questionId": "conv-004",
+  "answerText": "In the US, one stick of butter equals 4 ounces, which converts to approximately 113 grams.\n\nAnswer: 113 g",
+  "raw": {
+    "id": "gen-1781190965-dZFWGfcxaTFHEVakWLLT",
+    "object": "chat.completion",
+    "created": 1781190965,
+    "model": "qwen/qwen3.5-plus-20260420",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "In the US, one stick of butter equals 4 ounces, which converts to approximately 113 grams.\n\nAnswer: 113 g",
+          "refusal": null,
+          "reasoning": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Question: \"An American recipe calls for 1 stick of butter. How many grams is that?\"\n   - Key information needed: Conversion from US butter sticks to grams.\n   - Constraint: End reply with \"Answer: <number> g\"\n\n2.  **Identify Key Facts:**\n   - In the US, butter is typically sold in sticks.\n   - 1 stick of butter = 1/2 cup = 8 tablespoons = 4 ounces (weight) = 113 grams (approximately).\n   - Standard conversion: 1 stick = 113g (sometimes rounded to 110g or 115g, but 113g is the most accurate and widely accepted).\n\n3.  **Verify Conversion:**\n   - 1 ounce = 28.3495 grams\n   - 4 ounces = 4 * 28.3495 = 113.398 grams\n   - Commonly rounded to 113g in cooking contexts.\n   - Some sources say 113g, some say 115g, but 113g is standard.\n\n4.  **Formulate Response:**\n   - Keep it accurate and concise.\n   - State the conversion clearly.\n   - End with the required format.\n\n   Draft: In the US, one stick of butter is equivalent to 4 ounces, which converts to approximately 113 grams.\n   Check constraint: Must end with \"Answer: <number> g\"\n   So: Answer: 113 g\n\n5.  **Final Check:**\n   - Accurate? Yes, 113g is standard.\n   - Concise? Yes.\n   - Ends correctly? Yes.\n   - No extra fluff. Ready.✅\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Question: \"An American recipe calls for 1 stick of butter. How many grams is that?\"\n   - Key information needed: Conversion from US butter sticks to grams.\n   - Constraint: End reply with \"Answer: <number> g\"\n\n2.  **Identify Key Facts:**\n   - In the US, butter is typically sold in sticks.\n   - 1 stick of butter = 1/2 cup = 8 tablespoons = 4 ounces (weight) = 113 grams (approximately).\n   - Standard conversion: 1 stick = 113g (sometimes rounded to 110g or 115g, but 113g is the most accurate and widely accepted).\n\n3.  **Verify Conversion:**\n   - 1 ounce = 28.3495 grams\n   - 4 ounces = 4 * 28.3495 = 113.398 grams\n   - Commonly rounded to 113g in cooking contexts.\n   - Some sources say 113g, some say 115g, but 113g is standard.\n\n4.  **Formulate Response:**\n   - Keep it accurate and concise.\n   - State the conversion clearly.\n   - End with the required format.\n\n   Draft: In the US, one stick of butter is equivalent to 4 ounces, which converts to approximately 113 grams.\n   Check constraint: Must end with \"Answer: <number> g\"\n   So: Answer: 113 g\n\n5.  **Final Check:**\n   - Accurate? Yes, 113g is standard.\n   - Concise? Yes.\n   - Ends correctly? Yes.\n   - No extra fluff. Ready.✅\n",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 63,
+      "completion_tokens": 448,
+      "total_tokens": 511,
+      "cost": 0.0008253,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0008253,
+        "upstream_inference_prompt_cost": 0.0000189,
+        "upstream_inference_completions_cost": 0.0008064
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 412,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 63,
+  "tokensOut": 448,
+  "costUsd": 0.0008253,
+  "latencyMs": 9094,
+  "finishReason": "stop"
+}

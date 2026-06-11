@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "subs-012",
+  "answerText": "For 1 fresh garlic clove, use **⅛ teaspoon of garlic powder**.  \n(Some sources suggest up to ¼ teaspoon, but ⅛ teaspoon is the standard equivalent. Start with less and adjust to taste.)",
+  "raw": {
+    "id": "gen-1781189613-ARjAsf85zoJVpwthWBcl",
+    "object": "chat.completion",
+    "created": 1781189613,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "For 1 fresh garlic clove, use **⅛ teaspoon of garlic powder**.  \n(Some sources suggest up to ¼ teaspoon, but ⅛ teaspoon is the standard equivalent. Start with less and adjust to taste.)",
+          "refusal": null,
+          "reasoning": "We need to answer: \"I have no fresh garlic. How much garlic powder replaces 1 fresh clove?\" This is a common substitution question. Typically, 1/8 teaspoon of garlic powder equals one clove of fresh garlic. Some sources say 1/4 teaspoon, but the most common is 1/8 teaspoon. I'll provide a clear answer with a note about variations. Keep it concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to answer: \"I have no fresh garlic. How much garlic powder replaces 1 fresh clove?\" This is a common substitution question. Typically, 1/8 teaspoon of garlic powder equals one clove of fresh garlic. Some sources say 1/4 teaspoon, but the most common is 1/8 teaspoon. I'll provide a clear answer with a note about variations. Keep it concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 37,
+      "completion_tokens": 132,
+      "total_tokens": 169,
+      "cost": 0.00026187,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00026187,
+        "upstream_inference_prompt_cost": 0.00003219,
+        "upstream_inference_completions_cost": 0.00022968
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 84,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 37,
+  "tokensOut": 132,
+  "costUsd": 0.00026187,
+  "latencyMs": 4244,
+  "finishReason": "stop"
+}

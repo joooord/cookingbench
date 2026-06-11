@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-008",
+  "answerText": "If a fan oven is set to 180°C, the equivalent conventional oven temperature is 20°C higher, because fan ovens typically run about 20°C lower than conventional ovens.  \nAnswer: 200 °C",
+  "raw": {
+    "id": "gen-1781189228-GYrq0MulDk5p1lV3Icdm",
+    "object": "chat.completion",
+    "created": 1781189228,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "If a fan oven is set to 180°C, the equivalent conventional oven temperature is 20°C higher, because fan ovens typically run about 20°C lower than conventional ovens.  \nAnswer: 200 °C",
+          "refusal": null,
+          "reasoning": "We are asked: \"Convert a fan (convection) oven setting of 180°C to the equivalent conventional oven temperature in Celsius. Fan ovens typically run about 20°C lower than conventional.\"\n\nInterpretation: Fan oven setting is 180°C. Since fan ovens run about 20°C lower, that means if a conventional recipe says 200°C, you'd set a fan oven to 180°C. So to go from fan setting to conventional, add 20°C. Thus 180°C fan is equivalent to 200°C conventional.\n\nAnswer: 200°C",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Convert a fan (convection) oven setting of 180°C to the equivalent conventional oven temperature in Celsius. Fan ovens typically run about 20°C lower than conventional.\"\n\nInterpretation: Fan oven setting is 180°C. Since fan ovens run about 20°C lower, that means if a conventional recipe says 200°C, you'd set a fan oven to 180°C. So to go from fan setting to conventional, add 20°C. Thus 180°C fan is equivalent to 200°C conventional.\n\nAnswer: 200°C",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 72,
+      "completion_tokens": 176,
+      "total_tokens": 248,
+      "cost": 0.000322452,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000322452,
+        "upstream_inference_prompt_cost": 0.000054756,
+        "upstream_inference_completions_cost": 0.000267696
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 126,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 72,
+  "tokensOut": 176,
+  "costUsd": 0.000322452,
+  "latencyMs": 3614,
+  "finishReason": "stop"
+}

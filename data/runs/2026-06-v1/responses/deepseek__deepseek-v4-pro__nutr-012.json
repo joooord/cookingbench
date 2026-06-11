@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-012",
+  "answerText": "The pot contains 117 g of protein divided into 6 equal servings.  \n117 g ÷ 6 = 19.5 g per serving.  \n\nAnswer: 19.5 g",
+  "raw": {
+    "id": "gen-1781189336-tnb1lhElAKBHpzZs8Zyj",
+    "object": "chat.completion",
+    "created": 1781189336,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "GMICloud",
+    "system_fingerprint": "fp_9954b31ca7_prod0820_fp8_kvcache_20260402",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The pot contains 117 g of protein divided into 6 equal servings.  \n117 g ÷ 6 = 19.5 g per serving.  \n\nAnswer: 19.5 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"A pot of chili totals 1,560 kcal and 117 g of protein, divided into 6 servings. How many grams of protein per serving?\" The question is simply: 117 g protein divided by 6 servings. 117/6 = 19.5 g. So answer: 19.5 g. End with \"Answer: 19.5 g\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A pot of chili totals 1,560 kcal and 117 g of protein, divided into 6 servings. How many grams of protein per serving?\" The question is simply: 117 g protein divided by 6 servings. 117/6 = 19.5 g. So answer: 19.5 g. End with \"Answer: 19.5 g\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 65,
+      "completion_tokens": 121,
+      "total_tokens": 186,
+      "cost": 0.000427344,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000427344,
+        "upstream_inference_prompt_cost": 0.00009048,
+        "upstream_inference_completions_cost": 0.000336864
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 82,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 65,
+  "tokensOut": 121,
+  "costUsd": 0.000427344,
+  "latencyMs": 5772,
+  "finishReason": "stop"
+}

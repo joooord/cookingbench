@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "subs-005",
+  "answerText": "Use **tamari** (a traditionally wheat-free Japanese soy sauce) or a **certified gluten-free soy sauce**. Always check the label to confirm it contains no wheat. **Coconut aminos** are another gluten-free alternative that delivers a similar savory, umami flavor.",
+  "raw": {
+    "id": "gen-1781189567-YMYQgn958I1KNnNkJde0",
+    "object": "chat.completion",
+    "created": 1781189567,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Use **tamari** (a traditionally wheat-free Japanese soy sauce) or a **certified gluten-free soy sauce**. Always check the label to confirm it contains no wheat. **Coconut aminos** are another gluten-free alternative that delivers a similar savory, umami flavor.",
+          "refusal": null,
+          "reasoning": "We need to provide a substitution for regular soy sauce in a stir-fry for a coeliac guest. Soy sauce typically contains wheat, which is not gluten-free. So we need gluten-free alternatives. The answer should be accurate and concise.\n\nKey points: Regular soy sauce is not gluten-free because it's made from fermented soybeans and wheat. For coeliac, need gluten-free soy sauce. Options: tamari (usually gluten-free, but check label; traditionally made without wheat), gluten-free soy sauce (some brands make it), coconut aminos (gluten-free, soy-free but similar umami), liquid aminos (like Bragg's, which is gluten-free but made from soybeans, not wheat). Also maybe fish sauce, but not directly a soy sauce substitute. Tamari is the closest. I'll mention tamari as the most common. Some tamari may still contain wheat, so advise checking label. I'll structure the answer concisely.\n\nI'll respond: \"Use tamari (a gluten-free Japanese soy sauce) or a certified gluten-free soy sauce. Check labels to ensure no wheat. Alternatively, coconut aminos provide a similar savory flavor.\" That's concise. I'll add a note that tamari is typically made without wheat, but check for cross-contamination. Done.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to provide a substitution for regular soy sauce in a stir-fry for a coeliac guest. Soy sauce typically contains wheat, which is not gluten-free. So we need gluten-free alternatives. The answer should be accurate and concise.\n\nKey points: Regular soy sauce is not gluten-free because it's made from fermented soybeans and wheat. For coeliac, need gluten-free soy sauce. Options: tamari (usually gluten-free, but check label; traditionally made without wheat), gluten-free soy sauce (some brands make it), coconut aminos (gluten-free, soy-free but similar umami), liquid aminos (like Bragg's, which is gluten-free but made from soybeans, not wheat). Also maybe fish sauce, but not directly a soy sauce substitute. Tamari is the closest. I'll mention tamari as the most common. Some tamari may still contain wheat, so advise checking label. I'll structure the answer concisely.\n\nI'll respond: \"Use tamari (a gluten-free Japanese soy sauce) or a certified gluten-free soy sauce. Check labels to ensure no wheat. Alternatively, coconut aminos provide a similar savory flavor.\" That's concise. I'll add a note that tamari is typically made without wheat, but check for cross-contamination. Done.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 42,
+      "completion_tokens": 324,
+      "total_tokens": 366,
+      "cost": 0.0005114925,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 19,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0005114925,
+        "upstream_inference_prompt_cost": 0.0000186885,
+        "upstream_inference_completions_cost": 0.000492804
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 265,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 42,
+  "tokensOut": 324,
+  "costUsd": 0.0005114925,
+  "latencyMs": 5875,
+  "finishReason": "stop"
+}

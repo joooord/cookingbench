@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "qwen/qwen3.5-plus-20260420",
+  "questionId": "safe-002",
+  "answerText": "The USDA recommends cooking ground beef burgers to a safe minimum internal temperature of 160°F to ensure harmful bacteria like E. coli are destroyed.\n\nAnswer: 160 °F",
+  "raw": {
+    "id": "gen-1781191145-pNbGa8kRpIcLIyJzDLEO",
+    "object": "chat.completion",
+    "created": 1781191145,
+    "model": "qwen/qwen3.5-plus-20260420",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA recommends cooking ground beef burgers to a safe minimum internal temperature of 160°F to ensure harmful bacteria like E. coli are destroyed.\n\nAnswer: 160 °F",
+          "refusal": null,
+          "reasoning": "Thinking Process:\n1.  **Identify the core question**: What is the USDA-recommended safe minimum internal temperature for a ground beef burger in Fahrenheit?\n2.  **Recall/Search for USDA guidelines**: USDA Food Safety and Inspection Service (FSIS) recommends cooking ground beef to a minimum internal temperature of 160°F (71.1°C) to ensure safety from pathogens like E. coli and Salmonella.\n3.  **Verify**: Check official USDA sources mentally or via quick search if needed. \"Cook all raw ground beef, pork, lamb, and veal to an internal temperature of 160 °F as measured with a food thermometer.\" Yes, 160°F is the standard.\n4.  **Format the output**: The user requested the answer to end with a specific line: \"Answer: <number> °F\".\n5.  **Draft response**: State the temperature clearly and concisely, then end with the exact required format.\n   \"The USDA recommends cooking ground beef burgers to a safe minimum internal temperature of 160°F.\n   Answer: 160 °F\"\n6.  **Check constraints**: \"accurately and concisely\", \"End your reply with a line 'Answer: <number> °F'.\" Matches perfectly. No extra fluff. Ensure exact formatting. \"160\" is the number. All good.✅\n   Final check of the prompt: \"Answer: <number> °F\" -> \"Answer: 160 °F\" (Note the space before °F in the prompt, I will match it exactly).\n   Ready.✅\n   Output matches response. \n   Self-Correction/Refinement during thought: The prompt says \"Answer: <number> °F\". I will write exactly \"Answer: 160 °F\". I'll keep the explanation brief. All constraints met.✅\n   Proceed. \n   Output Generation. \n   [Text]: The USDA recommends cooking ground beef burgers to a safe minimum internal temperature of 160°F to ensure harmful bacteria are destroyed.\n   Answer: 160 °F\n   [Check]: Matches constraint exactly. Accurate. Concise. Done. \n   *Self-Correction/Verification during generation prep*: Wait, does USDA say 160 or 165? For ground beef, it's 160°F. For poultry, it's 165°F. So 160 is correct.\n   Final string: Answer: 160 °F. Matches prompt. Proceeds. \n   Output matches. \n   [Done] \n   *Output Generation* (matches the final refined version)✅\n   \"The USDA recommends cooking ground beef burgers to a safe minimum internal temperature of 160°F.\n   Answer: 160 °F\" -> perfectly fits.✅\n   Proceeds. \n   [Final Check of the Prompt]: \"End your reply with a line \"Answer: <number> °F\".\" -> I will output exactly that.\n   All good. \n   [Output Generation] -> *Proceeds*",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking Process:\n1.  **Identify the core question**: What is the USDA-recommended safe minimum internal temperature for a ground beef burger in Fahrenheit?\n2.  **Recall/Search for USDA guidelines**: USDA Food Safety and Inspection Service (FSIS) recommends cooking ground beef to a minimum internal temperature of 160°F (71.1°C) to ensure safety from pathogens like E. coli and Salmonella.\n3.  **Verify**: Check official USDA sources mentally or via quick search if needed. \"Cook all raw ground beef, pork, lamb, and veal to an internal temperature of 160 °F as measured with a food thermometer.\" Yes, 160°F is the standard.\n4.  **Format the output**: The user requested the answer to end with a specific line: \"Answer: <number> °F\".\n5.  **Draft response**: State the temperature clearly and concisely, then end with the exact required format.\n   \"The USDA recommends cooking ground beef burgers to a safe minimum internal temperature of 160°F.\n   Answer: 160 °F\"\n6.  **Check constraints**: \"accurately and concisely\", \"End your reply with a line 'Answer: <number> °F'.\" Matches perfectly. No extra fluff. Ensure exact formatting. \"160\" is the number. All good.✅\n   Final check of the prompt: \"Answer: <number> °F\" -> \"Answer: 160 °F\" (Note the space before °F in the prompt, I will match it exactly).\n   Ready.✅\n   Output matches response. \n   Self-Correction/Refinement during thought: The prompt says \"Answer: <number> °F\". I will write exactly \"Answer: 160 °F\". I'll keep the explanation brief. All constraints met.✅\n   Proceed. \n   Output Generation. \n   [Text]: The USDA recommends cooking ground beef burgers to a safe minimum internal temperature of 160°F to ensure harmful bacteria are destroyed.\n   Answer: 160 °F\n   [Check]: Matches constraint exactly. Accurate. Concise. Done. \n   *Self-Correction/Verification during generation prep*: Wait, does USDA say 160 or 165? For ground beef, it's 160°F. For poultry, it's 165°F. So 160 is correct.\n   Final string: Answer: 160 °F. Matches prompt. Proceeds. \n   Output matches. \n   [Done] \n   *Output Generation* (matches the final refined version)✅\n   \"The USDA recommends cooking ground beef burgers to a safe minimum internal temperature of 160°F.\n   Answer: 160 °F\" -> perfectly fits.✅\n   Proceeds. \n   [Final Check of the Prompt]: \"End your reply with a line \"Answer: <number> °F\".\" -> I will output exactly that.\n   All good. \n   [Output Generation] -> *Proceeds*",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 68,
+      "completion_tokens": 710,
+      "total_tokens": 778,
+      "cost": 0.0012984,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0012984,
+        "upstream_inference_prompt_cost": 0.0000204,
+        "upstream_inference_completions_cost": 0.001278
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 666,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 68,
+  "tokensOut": 710,
+  "costUsd": 0.0012984,
+  "latencyMs": 26284,
+  "finishReason": "stop"
+}

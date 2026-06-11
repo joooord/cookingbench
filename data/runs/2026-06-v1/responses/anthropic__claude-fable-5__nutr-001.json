@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-001",
+  "answerText": "Using the standard Atwater factors (protein = 4 kcal/g, carbohydrates = 4 kcal/g, fat = 9 kcal/g):\n\n- Protein: 40 g × 4 kcal/g = 160 kcal\n- Carbohydrates: 30 g × 4 kcal/g = 120 kcal\n- Fat: 20 g × 9 kcal/g = 180 kcal\n\nTotal: 160 + 120 + 180 = 460 kcal\n\nAnswer: 460 kcal",
+  "raw": {
+    "id": "gen-1781188102-vDJqPt4JGl9vvRTGvzvy",
+    "object": "chat.completion",
+    "created": 1781188102,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Using the standard Atwater factors (protein = 4 kcal/g, carbohydrates = 4 kcal/g, fat = 9 kcal/g):\n\n- Protein: 40 g × 4 kcal/g = 160 kcal\n- Carbohydrates: 30 g × 4 kcal/g = 120 kcal\n- Fat: 20 g × 9 kcal/g = 180 kcal\n\nTotal: 160 + 120 + 180 = 460 kcal\n\nAnswer: 460 kcal",
+          "refusal": null,
+          "reasoning": " I'm calculating the macronutrient breakdown: protein contributes 160 calories, carbs add 120, and fat brings 180, totaling 460 calories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the macronutrient breakdown: protein contributes 160 calories, carbs add 120, and fat brings 180, totaling 460 calories.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISgQIKYggOGAIqQLwNIxdHI4/QiawwfHcQlksXgPyRfQHUgTgmb1PM8N/uEKpxWhvoRzeF1ZWOfxLlIvRM3msCB7ZnLDVZR+MQUVcyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgybzm5LiO7GE9w2LcUaDBZ+TAV6vaZ/54bjTyIwklcnlw0L8Z2vaCJ0GzumNlBIN0y963HnHzyi3R5bkhN5T5UOJD0DIAtCsR33EuEmKk13w8PRlK4FnLhIgD74141lqcedB89xzLbjI5kMTP1m20CvJ+qQt1Qw9FQhlFbsCj5GYG9Msbuk0KL63D33srLjqXllKKlx9u67fPI/3RgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 113,
+      "completion_tokens": 205,
+      "total_tokens": 318,
+      "cost": 0.01138,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01138,
+        "upstream_inference_prompt_cost": 0.00113,
+        "upstream_inference_completions_cost": 0.01025
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 35,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 113,
+  "tokensOut": 205,
+  "costUsd": 0.01138,
+  "latencyMs": 7879,
+  "finishReason": "stop"
+}

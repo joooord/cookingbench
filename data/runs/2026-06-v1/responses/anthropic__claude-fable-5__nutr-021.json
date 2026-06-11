@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-021",
+  "answerText": "One large whole egg (about 50 g) contains approximately **70–72 kilocalories**. This breaks down roughly as:\n\n- **Protein:** ~6 g (about 24 kcal)\n- **Fat:** ~5 g (about 45 kcal), mostly in the yolk\n- **Carbohydrates:** less than 1 g\n\nMost of the calories come from the yolk (~55 kcal), while the white contributes only about 17 kcal.\n\nAnswer: 72 kcal",
+  "raw": {
+    "id": "gen-1781188091-qAuo6wkKe8wd1Vzg3ABg",
+    "object": "chat.completion",
+    "created": 1781188091,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "One large whole egg (about 50 g) contains approximately **70–72 kilocalories**. This breaks down roughly as:\n\n- **Protein:** ~6 g (about 24 kcal)\n- **Fat:** ~5 g (about 45 kcal), mostly in the yolk\n- **Carbohydrates:** less than 1 g\n\nMost of the calories come from the yolk (~55 kcal), while the white contributes only about 17 kcal.\n\nAnswer: 72 kcal",
+          "refusal": null,
+          "reasoning": " A large egg contains roughly 70-72 calories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " A large egg contains roughly 70-72 calories.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS3gEKYggOGAIqQE7ot4Jsg+icyXxGcQtkNXjvXVEYS4JGCOBj/hqr+iIGGkE+nRQ51tnFJ7hTUHeMn/xydKyBudWtE5l74n61VYkyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgz4CmIEQm7O8y0QC2kaDCWO3HUMN8z0rugyrCIw0XhedUf4gpxLGeLhLX+qLX6uBihLQziPnFUJiJGVbhPfuzP7Ii1r4NkXKILDx8lvKiqWQ8uMLwAp6w2OC2EXugCXTceLwaRmO9btxJRI+zHrq3vOBaRrLh2D6bUYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 83,
+      "completion_tokens": 175,
+      "total_tokens": 258,
+      "cost": 0.00958,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00958,
+        "upstream_inference_prompt_cost": 0.00083,
+        "upstream_inference_completions_cost": 0.00875
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 12,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 83,
+  "tokensOut": 175,
+  "costUsd": 0.00958,
+  "latencyMs": 5792,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "qwen/qwen3.5-plus-20260420",
+  "questionId": "qty-015",
+  "answerText": "To get 600 g of cooked rice, divide your target weight by the tripling factor: 600 g ÷ 3 = 200 g. You should start with 200 g of raw rice.\n\nAnswer: 200 g",
+  "raw": {
+    "id": "gen-1781191409-IIWCtNrdenn43w6PrfC5",
+    "object": "chat.completion",
+    "created": 1781191409,
+    "model": "qwen/qwen3.5-plus-20260420",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To get 600 g of cooked rice, divide your target weight by the tripling factor: 600 g ÷ 3 = 200 g. You should start with 200 g of raw rice.\n\nAnswer: 200 g",
+          "refusal": null,
+          "reasoning": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Target: 600 g of cooked rice\n   - Conversion factor: White rice roughly triples in weight when cooked (1 part raw → 3 parts cooked)\n   - Question: How many grams of raw rice should I cook?\n\n2.  **Identify Key Mathematical Relationship:**\n   - Cooked weight = Raw weight × 3\n   - Therefore, Raw weight = Cooked weight ÷ 3\n\n3.  **Perform Calculation:**\n   - Raw weight = 600 g ÷ 3 = 200 g\n\n4.  **Verify:**\n   - 200 g raw × 3 = 600 g cooked. Matches the requirement.\n   - The question is straightforward.\n\n5.  **Format Output:**\n   - Provide a concise answer.\n   - End with the exact required line: \"Answer: <number> g\"\n   - So: \"Answer: 200 g\"\n\n   Check constraints: \"End your reply with a line \"Answer: <number> g\".\" -> Must match exactly.\n\n   Draft response: To get 600 g of cooked rice, divide the target weight by the tripling factor: 600 g ÷ 3 = 200 g. You should cook 200 g of raw rice.\n   Answer: 200 g\n\n   All constraints met. Ready.✅",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Target: 600 g of cooked rice\n   - Conversion factor: White rice roughly triples in weight when cooked (1 part raw → 3 parts cooked)\n   - Question: How many grams of raw rice should I cook?\n\n2.  **Identify Key Mathematical Relationship:**\n   - Cooked weight = Raw weight × 3\n   - Therefore, Raw weight = Cooked weight ÷ 3\n\n3.  **Perform Calculation:**\n   - Raw weight = 600 g ÷ 3 = 200 g\n\n4.  **Verify:**\n   - 200 g raw × 3 = 600 g cooked. Matches the requirement.\n   - The question is straightforward.\n\n5.  **Format Output:**\n   - Provide a concise answer.\n   - End with the exact required line: \"Answer: <number> g\"\n   - So: \"Answer: 200 g\"\n\n   Check constraints: \"End your reply with a line \"Answer: <number> g\".\" -> Must match exactly.\n\n   Draft response: To get 600 g of cooked rice, divide the target weight by the tripling factor: 600 g ÷ 3 = 200 g. You should cook 200 g of raw rice.\n   Answer: 200 g\n\n   All constraints met. Ready.✅",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 79,
+      "completion_tokens": 382,
+      "total_tokens": 461,
+      "cost": 0.0007113,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0007113,
+        "upstream_inference_prompt_cost": 0.0000237,
+        "upstream_inference_completions_cost": 0.0006876
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 319,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 79,
+  "tokensOut": 382,
+  "costUsd": 0.0007113,
+  "latencyMs": 7717,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-030",
+  "answerText": "No, cooking does not significantly change the total amount of protein in a chicken breast. The protein mass remains essentially the same.\n\n**What cooking does:**\n- Denatures the proteins (unravels their folded structure), which makes them easier for your body to digest.\n- Drives off water, so the cooked meat weighs less and the protein becomes more concentrated *per gram* of cooked weight.\n\n**What cooking does not do:**\n- It does not destroy the protein molecules or meaningfully reduce the total protein content. Only extreme charring or burning would break down amino acids, and even then the loss is minimal under normal cooking.",
+  "raw": {
+    "id": "gen-1781189369-uyuNOOAMJNIuCL9sKAoi",
+    "object": "chat.completion",
+    "created": 1781189369,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "No, cooking does not significantly change the total amount of protein in a chicken breast. The protein mass remains essentially the same.\n\n**What cooking does:**\n- Denatures the proteins (unravels their folded structure), which makes them easier for your body to digest.\n- Drives off water, so the cooked meat weighs less and the protein becomes more concentrated *per gram* of cooked weight.\n\n**What cooking does not do:**\n- It does not destroy the protein molecules or meaningfully reduce the total protein content. Only extreme charring or burning would break down amino acids, and even then the loss is minimal under normal cooking.",
+          "refusal": null,
+          "reasoning": "We need to answer: \"Does cooking food change its protein content much? Briefly explain what cooking does and does not do to the protein in, say, a chicken breast.\"\n\nInterpretation: The user asks if cooking changes protein content much. Then asks to briefly explain what cooking does and does not do to the protein in a chicken breast.\n\nI need to provide a concise answer. Key points: Cooking does not significantly change the total amount of protein (the protein content by weight might even increase slightly due to water loss, but the absolute protein mass remains the same). However, cooking denatures proteins, which changes their structure, making them more digestible. It does not destroy amino acids significantly unless extreme heat causes some loss of certain amino acids (like lysine) or charring. So, cooking does not reduce protein content much; it alters protein structure, improving digestibility, and may cause minor losses of heat-sensitive amino acids if overcooked. I'll craft a brief explanation.\n\nI'll structure: Answer: No, cooking does not change the total protein content significantly. Then explain: What cooking does: denatures proteins (unfolds them), making them easier to digest; can cause some moisture loss, concentrating protein per gram of cooked meat. What it does not do: does not destroy the protein molecules or reduce the total amount of protein (unless burned to ash). Minor losses of certain amino acids can occur with very high heat, but overall protein content remains essentially the same. Keep it brief.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to answer: \"Does cooking food change its protein content much? Briefly explain what cooking does and does not do to the protein in, say, a chicken breast.\"\n\nInterpretation: The user asks if cooking changes protein content much. Then asks to briefly explain what cooking does and does not do to the protein in a chicken breast.\n\nI need to provide a concise answer. Key points: Cooking does not significantly change the total amount of protein (the protein content by weight might even increase slightly due to water loss, but the absolute protein mass remains the same). However, cooking denatures proteins, which changes their structure, making them more digestible. It does not destroy amino acids significantly unless extreme heat causes some loss of certain amino acids (like lysine) or charring. So, cooking does not reduce protein content much; it alters protein structure, improving digestibility, and may cause minor losses of heat-sensitive amino acids if overcooked. I'll craft a brief explanation.\n\nI'll structure: Answer: No, cooking does not change the total protein content significantly. Then explain: What cooking does: denatures proteins (unfolds them), making them easier to digest; can cause some moisture loss, concentrating protein per gram of cooked meat. What it does not do: does not destroy the protein molecules or reduce the total amount of protein (unless burned to ash). Minor losses of certain amino acids can occur with very high heat, but overall protein content remains essentially the same. Keep it brief.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 49,
+      "completion_tokens": 432,
+      "total_tokens": 481,
+      "cost": 0.00079431,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00079431,
+        "upstream_inference_prompt_cost": 0.00004263,
+        "upstream_inference_completions_cost": 0.00075168
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 302,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 49,
+  "tokensOut": 432,
+  "costUsd": 0.00079431,
+  "latencyMs": 11655,
+  "finishReason": "stop"
+}

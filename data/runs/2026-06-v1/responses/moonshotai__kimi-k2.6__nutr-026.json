@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "nutr-026",
+  "answerText": " Because protein and fat are retained while only water is lost, the cooked fillet contains the same total macros as the raw 200 g piece.\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+  "raw": {
+    "id": "gen-1781189987-tOcIKthrmsIYXY4kEcrW",
+    "object": "chat.completion",
+    "created": 1781189987,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Venice",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": " Because protein and fat are retained while only water is lost, the cooked fillet contains the same total macros as the raw 200 g piece.\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+          "refusal": null,
+          "reasoning": "The user wants an estimate of the protein, fat, and calories of a cooked salmon fillet.\n\nGiven:\n- Raw weight: 200 g\n- Raw macros per 100 g: 20 g protein, 13 g fat\n- Cooking causes 20% weight loss, mostly water. Protein and fat are largely retained.\n\nStep 1: Calculate total raw protein and fat.\n- Protein: 200 g * (20 g / 100 g) = 40 g protein\n- Fat: 200 g * (13 g / 100 g) = 26 g fat\n\nStep 2: Account for cooking.\n- Cooking causes 20% weight loss. This means the cooked weight is 80% of raw weight: 200 g * 0.80 = 160 g cooked weight.\n- The problem states protein and fat are largely retained. So the absolute grams of protein and fat remain roughly the same: ~40 g protein and ~26 g fat.\n- Sometimes people might calculate macros per cooked weight, but the question asks for the protein, fat, and calories *of the cooked fillet* (i.e., total amount in that fillet). Since protein and fat are retained, the total grams don't change. The calorie content also doesn't change significantly (water loss doesn't remove calories, and pan-searing might add a tiny bit of oil but the prompt says to estimate based on the given info, implying we can ignore added fat or just consider the salmon itself). So total calories from protein and fat remain the same.\n\nStep 3: Calculate calories.\n- Protein: 4 kcal/g\n- Fat: 9 kcal/g\n- Calories from protein: 40 g * 4 = 160 kcal\n- Calories from fat: 26 g * 9 = 234 kcal\n- Total calories: 160 + 234 = 394 kcal\n\nAlternatively, per 100 g raw: (20*4) + (13*9) = 80 + 117 = 197 kcal per 100 g raw.\nFor 200 g raw: 197 * 2 = 394 kcal.\nSince water loss doesn't remove calories (and assuming no significant added fat from pan-searing, or that it's negligible/ignored), total calories remain ~394 kcal.\n\nWait, should I adjust the numbers because of the weight loss? The question says \"Estimate the protein, fat and calories of the cooked fillet.\" This means the total nutrient content of the fillet after cooking. Since water is lost, the *concentration* per gram increases, but the *total* amount of protein and fat stays the same. So:\n- Protein: 40 g\n- Fat: 26 g\n- Calories: ~394 kcal\n\nLet me double-check if there's any trick. \"Cooking causes about 20% weight loss, mostly water (protein and fat are largely retained).\" This confirms total protein and fat mass are conserved. So the cooked fillet (160 g) still contains 40 g protein and 26 g fat. Its macros per 100g cooked would be higher (40/1.6 = 25 g protein/100g, 26/1.6 = 16.25 g fat/100g), but the question asks for the fillet's total content.\n\nCalories: 40*4 + 26*9 = 160 + 234 = 394. Sometimes Atwater factors for salmon might be slightly different, but based on the provided macros (20g P, 13g F per 100g), the math is clean: 197 kcal per 100g raw * 2 = 394 kcal total.\n\nI should present the answer concisely and end with the exact three lines requested.\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal\n\nWait, is there any need to mention cooked weight? The question asks to estimate the protein, fat and calories. I can briefly mention that the total grams of protein and fat are retained while water is lost, leading to these totals.\n\nLet's verify:\n200g raw.\nMacros per 100g raw: P=20g, F=13g.\nTotal raw P = 40g. Total raw F = 26g.\nAfter 20% weight loss, cooked weight = 160g.\nRetained P = ~40g. Retained F = ~26g.\nCalories = 40*4 + 26*9 = 394 kcal.\n\nYes.\n\nThe user wants the answer to end with three lines exactly:\n\"Protein: <number> g\"\n\"Fat: <number> g\"\n\"Calories: <number> kcal\"\n\nSo the final output should be something like:\n\nBecause protein and fat are retained while only water is lost, the cooked 160 g fillet still contains the same total protein and fat as the raw 200 g piece.\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal\n\nThis is accurate and concise. ",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants an estimate of the protein, fat, and calories of a cooked salmon fillet.\n\nGiven:\n- Raw weight: 200 g\n- Raw macros per 100 g: 20 g protein, 13 g fat\n- Cooking causes 20% weight loss, mostly water. Protein and fat are largely retained.\n\nStep 1: Calculate total raw protein and fat.\n- Protein: 200 g * (20 g / 100 g) = 40 g protein\n- Fat: 200 g * (13 g / 100 g) = 26 g fat\n\nStep 2: Account for cooking.\n- Cooking causes 20% weight loss. This means the cooked weight is 80% of raw weight: 200 g * 0.80 = 160 g cooked weight.\n- The problem states protein and fat are largely retained. So the absolute grams of protein and fat remain roughly the same: ~40 g protein and ~26 g fat.\n- Sometimes people might calculate macros per cooked weight, but the question asks for the protein, fat, and calories *of the cooked fillet* (i.e., total amount in that fillet). Since protein and fat are retained, the total grams don't change. The calorie content also doesn't change significantly (water loss doesn't remove calories, and pan-searing might add a tiny bit of oil but the prompt says to estimate based on the given info, implying we can ignore added fat or just consider the salmon itself). So total calories from protein and fat remain the same.\n\nStep 3: Calculate calories.\n- Protein: 4 kcal/g\n- Fat: 9 kcal/g\n- Calories from protein: 40 g * 4 = 160 kcal\n- Calories from fat: 26 g * 9 = 234 kcal\n- Total calories: 160 + 234 = 394 kcal\n\nAlternatively, per 100 g raw: (20*4) + (13*9) = 80 + 117 = 197 kcal per 100 g raw.\nFor 200 g raw: 197 * 2 = 394 kcal.\nSince water loss doesn't remove calories (and assuming no significant added fat from pan-searing, or that it's negligible/ignored), total calories remain ~394 kcal.\n\nWait, should I adjust the numbers because of the weight loss? The question says \"Estimate the protein, fat and calories of the cooked fillet.\" This means the total nutrient content of the fillet after cooking. Since water is lost, the *concentration* per gram increases, but the *total* amount of protein and fat stays the same. So:\n- Protein: 40 g\n- Fat: 26 g\n- Calories: ~394 kcal\n\nLet me double-check if there's any trick. \"Cooking causes about 20% weight loss, mostly water (protein and fat are largely retained).\" This confirms total protein and fat mass are conserved. So the cooked fillet (160 g) still contains 40 g protein and 26 g fat. Its macros per 100g cooked would be higher (40/1.6 = 25 g protein/100g, 26/1.6 = 16.25 g fat/100g), but the question asks for the fillet's total content.\n\nCalories: 40*4 + 26*9 = 160 + 234 = 394. Sometimes Atwater factors for salmon might be slightly different, but based on the provided macros (20g P, 13g F per 100g), the math is clean: 197 kcal per 100g raw * 2 = 394 kcal total.\n\nI should present the answer concisely and end with the exact three lines requested.\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal\n\nWait, is there any need to mention cooked weight? The question asks to estimate the protein, fat and calories. I can briefly mention that the total grams of protein and fat are retained while water is lost, leading to these totals.\n\nLet's verify:\n200g raw.\nMacros per 100g raw: P=20g, F=13g.\nTotal raw P = 40g. Total raw F = 26g.\nAfter 20% weight loss, cooked weight = 160g.\nRetained P = ~40g. Retained F = ~26g.\nCalories = 40*4 + 26*9 = 394 kcal.\n\nYes.\n\nThe user wants the answer to end with three lines exactly:\n\"Protein: <number> g\"\n\"Fat: <number> g\"\n\"Calories: <number> kcal\"\n\nSo the final output should be something like:\n\nBecause protein and fat are retained while only water is lost, the cooked 160 g fillet still contains the same total protein and fat as the raw 200 g piece.\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal\n\nThis is accurate and concise. ",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 126,
+      "completion_tokens": 1096,
+      "total_tokens": 1222,
+      "cost": 0.00520898,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00520898,
+        "upstream_inference_prompt_cost": 0.0001071,
+        "upstream_inference_completions_cost": 0.00510188
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 987,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 126,
+  "tokensOut": 1096,
+  "costUsd": 0.00520898,
+  "latencyMs": 75169,
+  "finishReason": "stop"
+}

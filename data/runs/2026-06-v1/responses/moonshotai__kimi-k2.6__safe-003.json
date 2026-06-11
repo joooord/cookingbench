@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "safe-003",
+  "answerText": " The food-safety \"danger zone\" is **40°F to 140°F** (4°C to 60°C).",
+  "raw": {
+    "id": "gen-1781189846-YLhFYsJ2IvP7x8kC4OU8",
+    "object": "chat.completion",
+    "created": 1781189846,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Venice",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": " The food-safety \"danger zone\" is **40°F to 140°F** (4°C to 60°C).",
+          "refusal": null,
+          "reasoning": "The user is asking for the temperature range of the food-safety \"danger zone\" where bacteria multiply fastest. I need to provide both ends of the range accurately.\n\nThe standard food safety \"danger zone\" recognized by the USDA and FDA is between 40°F and 140°F (or 4°C and 60°C in Celsius).\n\nI should provide both Fahrenheit and Celsius since both are commonly used, but the user asked for the range, so I'll give the primary Fahrenheit values and include Celsius for completeness, or just give both clearly.\n\nKey facts:\n- Lower end: 40°F (4°C)\n- Upper end: 140°F (60°C)\n\nI need to be concise as per the system instructions.\n\nAnswer: 40°F to 140°F (4°C to 60°C). ",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking for the temperature range of the food-safety \"danger zone\" where bacteria multiply fastest. I need to provide both ends of the range accurately.\n\nThe standard food safety \"danger zone\" recognized by the USDA and FDA is between 40°F and 140°F (or 4°C and 60°C in Celsius).\n\nI should provide both Fahrenheit and Celsius since both are commonly used, but the user asked for the range, so I'll give the primary Fahrenheit values and include Celsius for completeness, or just give both clearly.\n\nKey facts:\n- Lower end: 40°F (4°C)\n- Upper end: 140°F (60°C)\n\nI need to be concise as per the system instructions.\n\nAnswer: 40°F to 140°F (4°C to 60°C). ",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 51,
+      "completion_tokens": 187,
+      "total_tokens": 238,
+      "cost": 0.000913835,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000913835,
+        "upstream_inference_prompt_cost": 0.00004335,
+        "upstream_inference_completions_cost": 0.000870485
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 184,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 51,
+  "tokensOut": 187,
+  "costUsd": 0.000913835,
+  "latencyMs": 10671,
+  "finishReason": "stop"
+}

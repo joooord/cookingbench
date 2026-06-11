@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-020",
+  "answerText": "A raw, skinless chicken breast typically contains about 22–23 grams of protein per 100 grams. A reasonable single estimate is 23 grams.\n\nAnswer: 23 g",
+  "raw": {
+    "id": "gen-1781189345-3tVv1f3qOHJoBs8Djzru",
+    "object": "chat.completion",
+    "created": 1781189345,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "A raw, skinless chicken breast typically contains about 22–23 grams of protein per 100 grams. A reasonable single estimate is 23 grams.\n\nAnswer: 23 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"Roughly how many grams of protein are in a 100 g raw, skinless chicken breast? Give your best single estimate.\"\n\nWe need to provide a single number in grams. Typical nutritional information: raw skinless chicken breast is about 22-23g protein per 100g. Some sources say 31g per 100g cooked, but raw has higher water content. USDA says raw chicken breast (boneless, skinless) has about 22.5g protein per 100g. I'll go with 23g as a rough estimate. But the instruction says \"Roughly how many grams... Give your best single estimate.\" So I'll answer with a number. I'll end with \"Answer: <number> g\". So \"Answer: 23 g\" or \"Answer: 22 g\"? Let's check: USDA FoodData Central: Chicken, broiler or fryers, breast, skinless, boneless, raw: per 100g, protein is 22.5g. So roughly 22-23. I'll pick 22.5? But they want a single estimate, maybe round to 23. I'll say 23.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Roughly how many grams of protein are in a 100 g raw, skinless chicken breast? Give your best single estimate.\"\n\nWe need to provide a single number in grams. Typical nutritional information: raw skinless chicken breast is about 22-23g protein per 100g. Some sources say 31g per 100g cooked, but raw has higher water content. USDA says raw chicken breast (boneless, skinless) has about 22.5g protein per 100g. I'll go with 23g as a rough estimate. But the instruction says \"Roughly how many grams... Give your best single estimate.\" So I'll answer with a number. I'll end with \"Answer: <number> g\". So \"Answer: 23 g\" or \"Answer: 22 g\"? Let's check: USDA FoodData Central: Chicken, broiler or fryers, breast, skinless, boneless, raw: per 100g, protein is 22.5g. So roughly 22-23. I'll pick 22.5? But they want a single estimate, maybe round to 23. I'll say 23.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 61,
+      "completion_tokens": 286,
+      "total_tokens": 347,
+      "cost": 0.00055071,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00055071,
+        "upstream_inference_prompt_cost": 0.00005307,
+        "upstream_inference_completions_cost": 0.00049764
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 248,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 61,
+  "tokensOut": 286,
+  "costUsd": 0.00055071,
+  "latencyMs": 7160,
+  "finishReason": "stop"
+}

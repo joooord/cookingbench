@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "qty-017",
+  "answerText": "Total flour needed: 1200 g (120 g per serving, or ~4.23 oz).  \nTotal: 1200 g  \nPer serving: 4.23 oz",
+  "raw": {
+    "id": "gen-1781186524-M5f1pAHXloQYv0OiQASf",
+    "object": "chat.completion",
+    "created": 1781186524,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Total flour needed: 1200 g (120 g per serving, or ~4.23 oz).  \nTotal: 1200 g  \nPer serving: 4.23 oz",
+          "refusal": null,
+          "reasoning": "The task is: A bread recipe serving 6 uses 720 g of flour. Scale it to 10 servings, then tell me BOTH the total flour needed in grams AND the flour per serving in ounces.\nTotal: 1200 g\nPer serving: 4.23 oz\n\n\n## Explanation\n\nThe scaling process begins by computing the ratio of servings 10 : 6, which simplifies to 5/3.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The task is: A bread recipe serving 6 uses 720 g of flour. Scale it to 10 servings, then tell me BOTH the total flour needed in grams AND the flour per serving in ounces.\nTotal: 1200 g\nPer serving: 4.23 oz\n\n\n## Explanation\n\nThe scaling process begins by computing the ratio of servings 10 : 6, which simplifies to 5/3.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_589cd02a-e389-9328-ab84-da02bbba0954",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 209,
+      "completion_tokens": 663,
+      "total_tokens": 872,
+      "cost": 0.00178435,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00178435,
+        "upstream_inference_prompt_cost": 0.00012685,
+        "upstream_inference_completions_cost": 0.0016575
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 626,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 209,
+  "tokensOut": 663,
+  "costUsd": 0.00178435,
+  "latencyMs": 4686,
+  "finishReason": "stop"
+}

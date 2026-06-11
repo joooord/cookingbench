@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "nutr-008",
+  "answerText": "(300 g × 89 kcal/100 g) + (200 g × 61 kcal/100 g) = 267 + 122 = 389 kcal\n\nAnswer: 389 kcal",
+  "raw": {
+    "id": "gen-1781189932-i5J4dciT01celfbv557Y",
+    "object": "chat.completion",
+    "created": 1781189932,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "(300 g × 89 kcal/100 g) + (200 g × 61 kcal/100 g) = 267 + 122 = 389 kcal\n\nAnswer: 389 kcal",
+          "refusal": null,
+          "reasoning": "The user wants me to calculate the total calorie count of a smoothie containing 300 g of banana and 200 g of whole milk.\n\nBanana: 300 g at 89 kcal/100 g\nCalories from banana = (300/100) * 89 = 3 * 89 = 267 kcal\n\nWhole milk: 200 g at 61 kcal/100 g\nCalories from milk = (200/100) * 61 = 2 * 61 = 122 kcal\n\nTotal calories = 267 + 122 = 389 kcal\n\nI need to answer accurately and concisely, and end with \"Answer: <number> kcal\".\n\nLet me double-check:\n- 300g banana: 89 * 3 = 267. Correct.\n- 200g milk: 61 * 2 = 122. Correct.\n- Total: 267 + 122 = 389. Correct.\n\nFormat:\n- Brief calculation or just the result? The user asked \"What is the total calorie count?\" I should show the calculation briefly and then the final answer line.\n\nExample response:\nBanana: 300 g × 0.89 kcal/g = 267 kcal\nMilk: 200 g × 0.61 kcal/g = 122 kcal\nTotal: 389 kcal\n\nAnswer: 389 kcal\n\nOr more concise:\n(300 g × 89 kcal/100 g) + (200 g × 61 kcal/100 g) = 267 + 122 = 389 kcal\n\nAnswer: 389 kcal\n\nThis looks good.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants me to calculate the total calorie count of a smoothie containing 300 g of banana and 200 g of whole milk.\n\nBanana: 300 g at 89 kcal/100 g\nCalories from banana = (300/100) * 89 = 3 * 89 = 267 kcal\n\nWhole milk: 200 g at 61 kcal/100 g\nCalories from milk = (200/100) * 61 = 2 * 61 = 122 kcal\n\nTotal calories = 267 + 122 = 389 kcal\n\nI need to answer accurately and concisely, and end with \"Answer: <number> kcal\".\n\nLet me double-check:\n- 300g banana: 89 * 3 = 267. Correct.\n- 200g milk: 61 * 2 = 122. Correct.\n- Total: 267 + 122 = 389. Correct.\n\nFormat:\n- Brief calculation or just the result? The user asked \"What is the total calorie count?\" I should show the calculation briefly and then the final answer line.\n\nExample response:\nBanana: 300 g × 0.89 kcal/g = 267 kcal\nMilk: 200 g × 0.61 kcal/g = 122 kcal\nTotal: 389 kcal\n\nAnswer: 389 kcal\n\nOr more concise:\n(300 g × 89 kcal/100 g) + (200 g × 61 kcal/100 g) = 267 + 122 = 389 kcal\n\nAnswer: 389 kcal\n\nThis looks good.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 78,
+      "completion_tokens": 383,
+      "total_tokens": 461,
+      "cost": 0.00144549,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00144549,
+        "upstream_inference_prompt_cost": 0.00006669,
+        "upstream_inference_completions_cost": 0.0013788
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 338,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 78,
+  "tokensOut": 383,
+  "costUsd": 0.00144549,
+  "latencyMs": 10230,
+  "finishReason": "stop"
+}

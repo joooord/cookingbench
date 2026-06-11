@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-022",
+  "answerText": "Dry white rice contains roughly 365 kcal per 100 g, though values can range from 350 to 370 kcal depending on the exact variety.\nAnswer: 365 kcal",
+  "raw": {
+    "id": "gen-1781189350-EXj32T2wyk9Lg9W9kfzC",
+    "object": "chat.completion",
+    "created": 1781189350,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "SiliconFlow",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Dry white rice contains roughly 365 kcal per 100 g, though values can range from 350 to 370 kcal depending on the exact variety.\nAnswer: 365 kcal",
+          "refusal": null,
+          "reasoning": "We are asked: \"About how many kilocalories are in 100 g of dry (uncooked) white rice?\" Need to provide a concise answer, ending with \"Answer: <number> kcal\". \n\nDry white rice typically has about 350-370 kcal per 100g. A common value is 365 kcal. I'll state a specific number. The instruction: \"Answer accurately and concisely.\" So I'll respond with a short explanation and then the answer line.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"About how many kilocalories are in 100 g of dry (uncooked) white rice?\" Need to provide a concise answer, ending with \"Answer: <number> kcal\". \n\nDry white rice typically has about 350-370 kcal per 100g. A common value is 365 kcal. I'll state a specific number. The instruction: \"Answer accurately and concisely.\" So I'll respond with a short explanation and then the answer line.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 54,
+      "completion_tokens": 136,
+      "total_tokens": 190,
+      "cost": 0.00051276,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00051276,
+        "upstream_inference_prompt_cost": 0.0000864,
+        "upstream_inference_completions_cost": 0.00042636
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 99,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 54,
+  "tokensOut": 136,
+  "costUsd": 0.00051276,
+  "latencyMs": 5338,
+  "finishReason": "stop"
+}

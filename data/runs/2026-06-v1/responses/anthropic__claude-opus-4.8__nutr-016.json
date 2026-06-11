@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "nutr-016",
+  "answerText": "To find the calories in 100 ml of olive oil:\n\n**Step 1: Find the mass of 100 ml**\nMass = volume × density = 100 ml × 0.91 g/ml = 91 g\n\n**Step 2: Calculate the calories**\nCalories = 91 g × (884 kcal / 100 g) = 91 × 8.84 = 804.44 kcal\n\nAnswer: 804 kcal",
+  "raw": {
+    "id": "gen-1781187040-uGUfIFtCm9V0xZOFXT57",
+    "object": "chat.completion",
+    "created": 1781187040,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To find the calories in 100 ml of olive oil:\n\n**Step 1: Find the mass of 100 ml**\nMass = volume × density = 100 ml × 0.91 g/ml = 91 g\n\n**Step 2: Calculate the calories**\nCalories = 91 g × (884 kcal / 100 g) = 91 × 8.84 = 804.44 kcal\n\nAnswer: 804 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 110,
+      "completion_tokens": 135,
+      "total_tokens": 245,
+      "cost": 0.003925,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003925,
+        "upstream_inference_prompt_cost": 0.00055,
+        "upstream_inference_completions_cost": 0.003375
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 110,
+  "tokensOut": 135,
+  "costUsd": 0.003925,
+  "latencyMs": 4539,
+  "finishReason": "stop"
+}

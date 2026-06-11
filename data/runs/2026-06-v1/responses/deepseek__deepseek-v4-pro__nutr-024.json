@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-024",
+  "answerText": "A medium apple with skin (≈120 g) contains roughly 3 grams of dietary fiber, based on typical nutritional data (about 2.4 g per 100 g).  \nAnswer: 3 g",
+  "raw": {
+    "id": "gen-1781189351-XyJxHRw4YA0SjjRrf2rq",
+    "object": "chat.completion",
+    "created": 1781189351,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Novita",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "A medium apple with skin (≈120 g) contains roughly 3 grams of dietary fiber, based on typical nutritional data (about 2.4 g per 100 g).  \nAnswer: 3 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"Approximately how many grams of fibre are in a medium (≈120 g) apple with skin?\" We need to answer accurately and concisely. Then end with \"Answer: <number> g\".\n\nFirst, recall nutritional data: A medium apple with skin (about 120g) typically contains around 3-4 grams of dietary fiber. I need a specific number. Common references: USDA says a medium apple (about 182g? Actually, a medium apple is often around 182g, but the question says ≈120 g, so that's smaller). Let's check: A typical medium apple with skin (3\" diameter) weighs about 182g, and contains about 4.4g fiber. If it's 120g, proportionally: 120/182 * 4.4 ≈ 2.9 grams. Or maybe there is a standard figure: per 100g, apple with skin has about 2.4g fiber. So 120g would be 2.4 * 1.2 = 2.88g. Approximately 3 grams. Some sources say a small apple (about 150g) has 3.6g. A medium (182g) has 4.4g. For 120g, it's about 2.9g. I'll round to 3 grams. I'll answer: Approximately 3 grams. So: \"Answer: 3 g\"",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Approximately how many grams of fibre are in a medium (≈120 g) apple with skin?\" We need to answer accurately and concisely. Then end with \"Answer: <number> g\".\n\nFirst, recall nutritional data: A medium apple with skin (about 120g) typically contains around 3-4 grams of dietary fiber. I need a specific number. Common references: USDA says a medium apple (about 182g? Actually, a medium apple is often around 182g, but the question says ≈120 g, so that's smaller). Let's check: A typical medium apple with skin (3\" diameter) weighs about 182g, and contains about 4.4g fiber. If it's 120g, proportionally: 120/182 * 4.4 ≈ 2.9 grams. Or maybe there is a standard figure: per 100g, apple with skin has about 2.4g fiber. So 120g would be 2.4 * 1.2 = 2.88g. Approximately 3 grams. Some sources say a small apple (about 150g) has 3.6g. A medium (182g) has 4.4g. For 120g, it's about 2.9g. I'll round to 3 grams. I'll answer: Approximately 3 grams. So: \"Answer: 3 g\"",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 54,
+      "completion_tokens": 344,
+      "total_tokens": 398,
+      "cost": 0.0011872,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0011872,
+        "upstream_inference_prompt_cost": 0.0000864,
+        "upstream_inference_completions_cost": 0.0011008
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 301,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 54,
+  "tokensOut": 344,
+  "costUsd": 0.0011872,
+  "latencyMs": 8599,
+  "finishReason": "stop"
+}

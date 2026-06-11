@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "conv-009",
+  "answerText": " There are 3 teaspoons in 1 US tablespoon.\n\nAnswer: 3 tsp",
+  "raw": {
+    "id": "gen-1781189703-KNrgWbnkhEUkE7PbypvL",
+    "object": "chat.completion",
+    "created": 1781189703,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Ambient",
+    "system_fingerprint": "vllm-0.22.0-tp8-ep-def7b9ad",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": " There are 3 teaspoons in 1 US tablespoon.\n\nAnswer: 3 tsp",
+          "refusal": null,
+          "reasoning": " The user is asking a straightforward cooking measurement conversion: how many teaspoons are in 1 US tablespoon.\n\nThis is a standard conversion in US customary units:\n1 US tablespoon = 3 US teaspoons.\n\nI need to answer accurately and concisely, and end with the exact line format: \"Answer: <number> tsp\".\n\nSo the response should be something like:\n\"There are 3 teaspoons in 1 US tablespoon.\n\nAnswer: 3 tsp\"\n\nOr just:\n\"3\n\nAnswer: 3 tsp\"\n\nBut the instruction says \"Answer the question accurately and concisely.\" So a brief sentence followed by the required line.\n\nLet me make sure about the exact format required: \"End your reply with a line 'Answer: <number> tsp'.\"\n\nSo the last line must be exactly that. I should ensure there is no extra punctuation after \"tsp\" or if there is, it should match. The instruction shows no period after \"tsp\" in the example line. Let me check: \"Answer: <number> tsp\". No period at the end. I will follow that exactly.\n\nFinal check: 1 US tablespoon = 3 teaspoons. Correct.\n\nStructure:\n- Brief answer.\n- Final line: Answer: 3 tsp\n\nThat's it.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " The user is asking a straightforward cooking measurement conversion: how many teaspoons are in 1 US tablespoon.\n\nThis is a standard conversion in US customary units:\n1 US tablespoon = 3 US teaspoons.\n\nI need to answer accurately and concisely, and end with the exact line format: \"Answer: <number> tsp\".\n\nSo the response should be something like:\n\"There are 3 teaspoons in 1 US tablespoon.\n\nAnswer: 3 tsp\"\n\nOr just:\n\"3\n\nAnswer: 3 tsp\"\n\nBut the instruction says \"Answer the question accurately and concisely.\" So a brief sentence followed by the required line.\n\nLet me make sure about the exact format required: \"End your reply with a line 'Answer: <number> tsp'.\"\n\nSo the last line must be exactly that. I should ensure there is no extra punctuation after \"tsp\" or if there is, it should match. The instruction shows no period after \"tsp\" in the example line. Let me check: \"Answer: <number> tsp\". No period at the end. I will follow that exactly.\n\nFinal check: 1 US tablespoon = 3 teaspoons. Correct.\n\nStructure:\n- Brief answer.\n- Final line: Answer: 3 tsp\n\nThat's it.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 53,
+      "completion_tokens": 281,
+      "total_tokens": 334,
+      "cost": 0.00117435,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00117435,
+        "upstream_inference_prompt_cost": 0.00005035,
+        "upstream_inference_completions_cost": 0.001124
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 267,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 53,
+  "tokensOut": 281,
+  "costUsd": 0.00117435,
+  "latencyMs": 3081,
+  "finishReason": "stop"
+}

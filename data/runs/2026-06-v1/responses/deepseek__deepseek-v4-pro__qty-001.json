@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-001",
+  "answerText": "To scale the recipe from 2 loaves to 5 loaves, multiply each ingredient by 2.5 (since 5 ÷ 2 = 2.5).\n\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g",
+  "raw": {
+    "id": "gen-1781189372-XJvYinJTJZSviHF3bzku",
+    "object": "chat.completion",
+    "created": 1781189372,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To scale the recipe from 2 loaves to 5 loaves, multiply each ingredient by 2.5 (since 5 ÷ 2 = 2.5).\n\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"A bread recipe makes 2 loaves using 500 g flour, 350 g water, 10 g salt and 7 g instant yeast. Scale it to 5 loaves. Give each ingredient in grams.\"\n\nWe need to scale up from 2 loaves to 5 loaves. So multiply each ingredient by factor (5/2) = 2.5.\n\nFlour: 500 * 2.5 = 1250 g\nWater: 350 * 2.5 = 875 g\nSalt: 10 * 2.5 = 25 g\nYeast: 7 * 2.5 = 17.5 g\n\nSo ingredients: flour: 1250 g, water: 875 g, salt: 25 g, yeast: 17.5 g.\n\nEnd with lines: \n<ingredient>: <number> g\nOne line per ingredient. Order: flour, water, salt, yeast.\n\nSo reply: \nFor 5 loaves, multiply each ingredient by 2.5. Then list.\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A bread recipe makes 2 loaves using 500 g flour, 350 g water, 10 g salt and 7 g instant yeast. Scale it to 5 loaves. Give each ingredient in grams.\"\n\nWe need to scale up from 2 loaves to 5 loaves. So multiply each ingredient by factor (5/2) = 2.5.\n\nFlour: 500 * 2.5 = 1250 g\nWater: 350 * 2.5 = 875 g\nSalt: 10 * 2.5 = 25 g\nYeast: 7 * 2.5 = 17.5 g\n\nSo ingredients: flour: 1250 g, water: 875 g, salt: 25 g, yeast: 17.5 g.\n\nEnd with lines: \n<ingredient>: <number> g\nOne line per ingredient. Order: flour, water, salt, yeast.\n\nSo reply: \nFor 5 loaves, multiply each ingredient by 2.5. Then list.\n",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 84,
+      "completion_tokens": 290,
+      "total_tokens": 374,
+      "cost": 0.000504972,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000504972,
+        "upstream_inference_prompt_cost": 0.000063882,
+        "upstream_inference_completions_cost": 0.00044109
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 224,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 84,
+  "tokensOut": 290,
+  "costUsd": 0.000504972,
+  "latencyMs": 4042,
+  "finishReason": "stop"
+}

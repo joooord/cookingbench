@@ -1,0 +1,57 @@
+{
+  "runId": "canary2",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "conv-002",
+  "answerText": "1 US cup of all-purpose flour, measured using the standard spoon-and-level method, weighs 120 grams. \nAnswer: 120 g",
+  "raw": {
+    "id": "gen-1781186116-hlI1FQILXIu4RepPStHk",
+    "object": "chat.completion",
+    "created": 1781186116,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "Parasail",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "1 US cup of all-purpose flour, measured using the standard spoon-and-level method, weighs 120 grams. \nAnswer: 120 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 68,
+      "completion_tokens": 29,
+      "total_tokens": 97,
+      "cost": 0.0000528,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0000528,
+        "upstream_inference_prompt_cost": 0.0000238,
+        "upstream_inference_completions_cost": 0.000029
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 68,
+  "tokensOut": 29,
+  "costUsd": 0.0000528,
+  "latencyMs": 972,
+  "finishReason": "stop"
+}

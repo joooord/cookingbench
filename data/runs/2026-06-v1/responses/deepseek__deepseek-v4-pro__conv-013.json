@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-013",
+  "answerText": "425°F is approximately 218.33°C when converted precisely. For oven settings, it's often rounded to 220°C, but the exact conversion is:\n\n(425°F − 32) × 5/9 = 218.33°C.\n\nAnswer: 218.33 °C",
+  "raw": {
+    "id": "gen-1781189241-fhnmsUl6J7qOP4EF9lIx",
+    "object": "chat.completion",
+    "created": 1781189241,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "425°F is approximately 218.33°C when converted precisely. For oven settings, it's often rounded to 220°C, but the exact conversion is:\n\n(425°F − 32) × 5/9 = 218.33°C.\n\nAnswer: 218.33 °C",
+          "refusal": null,
+          "reasoning": "We need to convert 425°F to Celsius. Formula: °C = (°F - 32) × 5/9. \nSubtract 32: 425 - 32 = 393. Then multiply by 5/9: 393 × 5 = 1965, divided by 9 ≈ 218.333... So about 218°C. Typically ovens round to nearest 5 or 10, but answer precisely 218.33? The instruction says \"Answer: <number> °C\". Give exact conversion as a number, presumably rounded appropriately. I'll provide 218.3 or 218.33? Since it's for an oven, generally 220°C is used, but the question asks to convert exactly, so I'll answer 218.33, but maybe they expect 220°C? The prompt says \"Convert 425°F to Celsius for an oven.\" It's straightforward: 425°F = (425 - 32) * 5/9 = 393 * 5/9 = 1965/9 = 218.333... So answer: 218.33 °C or round to 218? I'll give 218.33. End with \"Answer: 218.33 °C\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to convert 425°F to Celsius. Formula: °C = (°F - 32) × 5/9. \nSubtract 32: 425 - 32 = 393. Then multiply by 5/9: 393 × 5 = 1965, divided by 9 ≈ 218.333... So about 218°C. Typically ovens round to nearest 5 or 10, but answer precisely 218.33? The instruction says \"Answer: <number> °C\". Give exact conversion as a number, presumably rounded appropriately. I'll provide 218.3 or 218.33? Since it's for an oven, generally 220°C is used, but the question asks to convert exactly, so I'll answer 218.33, but maybe they expect 220°C? The prompt says \"Convert 425°F to Celsius for an oven.\" It's straightforward: 425°F = (425 - 32) * 5/9 = 393 * 5/9 = 1965/9 = 218.333... So answer: 218.33 °C or round to 218? I'll give 218.33. End with \"Answer: 218.33 °C\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 46,
+      "completion_tokens": 331,
+      "total_tokens": 377,
+      "cost": 0.00061596,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00061596,
+        "upstream_inference_prompt_cost": 0.00004002,
+        "upstream_inference_completions_cost": 0.00057594
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 265,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 46,
+  "tokensOut": 331,
+  "costUsd": 0.00061596,
+  "latencyMs": 10765,
+  "finishReason": "stop"
+}

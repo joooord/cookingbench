@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-026",
+  "answerText": "Here's the breakdown:\n\n**Raw fillet (200 g):**\n- Protein: 20 g/100 g × 200 g = 40 g\n- Fat: 13 g/100 g × 200 g = 26 g\n\n**After cooking:**\nThe 20% weight loss (200 g → ~160 g cooked) is almost entirely water, so the protein and fat content stays essentially the same — the nutrients just become more concentrated per gram of cooked fish.\n\n**Calories:**\n- Protein: 40 g × 4 kcal/g = 160 kcal\n- Fat: 26 g × 9 kcal/g = 234 kcal\n- Total ≈ 394 kcal\n\nNote: if you sear in oil, add roughly 40–120 kcal depending on how much oil clings to the fish (about 1–3 g absorbed is typical). The figures below are for the fish alone.\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+  "raw": {
+    "id": "gen-1781188144-4z5m7JOx0s4XSilJnjWq",
+    "object": "chat.completion",
+    "created": 1781188144,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Here's the breakdown:\n\n**Raw fillet (200 g):**\n- Protein: 20 g/100 g × 200 g = 40 g\n- Fat: 13 g/100 g × 200 g = 26 g\n\n**After cooking:**\nThe 20% weight loss (200 g → ~160 g cooked) is almost entirely water, so the protein and fat content stays essentially the same — the nutrients just become more concentrated per gram of cooked fish.\n\n**Calories:**\n- Protein: 40 g × 4 kcal/g = 160 kcal\n- Fat: 26 g × 9 kcal/g = 234 kcal\n- Total ≈ 394 kcal\n\nNote: if you sear in oil, add roughly 40–120 kcal depending on how much oil clings to the fish (about 1–3 g absorbed is typical). The figures below are for the fish alone.\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+          "refusal": null,
+          "reasoning": " I'm calculating the nutritional breakdown for a 200g raw portion—40g protein and 26g fat—which comes to about 394 calories, and accounting for minimal oil loss during pan-searing, the cooked weight would be around 160g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the nutritional breakdown for a 200g raw portion—40g protein and 26g fat—which comes to about 394 calories, and accounting for minimal oil loss during pan-searing, the cooked weight would be around 160g.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS9wIKYggOGAIqQJLNAy2Sw0/3h75uEiLt9yVWONCYZhC89zf9xXFjuh4CI8Mymt0icUW9aLrBZktwe3+sLUM4kye7znY/KdrB9pAyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgwkZljnMGPbXwSrEvAaDI/kB62cpa0k4l7gpCIwwNq/JAXIC7RsdrxOqZXWQUCHZpKBbedoMEHbIIyg4+A+e7Su+jkN1A9lw14Nqy/uKsIByNjOaUMjZ1s/ZEiOYGa5Yo/KTjtD51F5NF0+dyb57NDpw4+oiAXISaCtew/pNRf03Tuk49wfhpCM9mFmYWmULXkHESEpqOlhJK0gF2oDZYNTFO5Sqmlq9Z3iXFFBVm6CgsaDQerBxJlinhzZ29nRTclASNCuqaElDvrt/i6gaI5ctUITMbQu1fipF+gLLdP3mjqOU3Z9EsIaygZBBKk5qm8f6xd4VBAtyocvBuR0CwCYHK8PITHZNQojd6PdLr0qB7YYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 184,
+      "completion_tokens": 412,
+      "total_tokens": 596,
+      "cost": 0.02244,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.02244,
+        "upstream_inference_prompt_cost": 0.00184,
+        "upstream_inference_completions_cost": 0.0206
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 57,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 184,
+  "tokensOut": 412,
+  "costUsd": 0.02244,
+  "latencyMs": 9624,
+  "finishReason": "stop"
+}

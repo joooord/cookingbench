@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "qwen/qwen3.5-plus-20260420",
+  "questionId": "nutr-022",
+  "answerText": "Uncooked white rice typically contains about 360–365 kilocalories per 100 grams.\nAnswer: 365 kcal",
+  "raw": {
+    "id": "gen-1781191285-ccdWWxp4Ui31CQ17pQns",
+    "object": "chat.completion",
+    "created": 1781191286,
+    "model": "qwen/qwen3.5-plus-20260420",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Uncooked white rice typically contains about 360–365 kilocalories per 100 grams.\nAnswer: 365 kcal",
+          "refusal": null,
+          "reasoning": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Question: \"About how many kilocalories are in 100 g of dry (uncooked) white rice?\"\n   - Key details: 100g, dry/uncooked, white rice, kilocalories (kcal)\n   - Requirement: Answer accurately and concisely, end with \"Answer: <number> kcal\"\n\n2.  **Identify Core Knowledge Needed:**\n   - Nutritional information for uncooked white rice per 100g\n   - Standard values from reliable sources (USDA, food databases)\n\n3.  **Retrieve/Verify Data:**\n   - USDA FoodData Central: Long-grain white rice, uncooked, enriched\n   - Calories per 100g: Typically around 360-370 kcal\n   - Let's check exact USDA value: \n     - \"Rice, white, long-grain, regular, unenriched, uncooked\" -> ~365 kcal per 100g\n     - \"Rice, white, long-grain, regular, enriched, uncooked\" -> ~364 kcal per 100g\n     - General consensus in nutrition databases: ~360-365 kcal per 100g dry white rice\n   - I'll use 365 kcal as a standard, widely accepted value. Some sources say 360, some 365, some 370. \"About\" allows for a reasonable range, but I need to give a single number for the final answer format.\n\n   Let's verify with multiple sources mentally:\n   - USDA: 365 kcal/100g\n   - Nutritionix: ~365 kcal\n   - MyFitnessPal/common databases: ~360-365 kcal\n   - I'll go with 365 kcal as it's the most standard.\n\n4.  **Formulate Response:**\n   - Keep it concise\n   - State the approximate value\n   - End with the required format: \"Answer: 365 kcal\"\n\n   Draft: Uncooked white rice typically contains about 360–365 kilocalories per 100 grams. \n   Answer: 365 kcal\n\n5.  **Check Constraints:**\n   - Accurate and concise? Yes.\n   - Ends with exact phrase? Yes.\n   - Matches question? Yes.\n\n   All good. Proceed.✅\n   Note: I'll make sure the final line exactly matches \"Answer: <number> kcal\" as requested. I'll use 365. Some might say 360, but 365 is standard. I'll stick with 365. If I want to be safe, I could say 365. The prompt says \"About how many\", so 365 is fine.\n   Final check of the exact wording: \"Answer: 365 kcal\" matches requirement.\n   Ready. \n   Output matches response.✅\n   Proceeds. \n   [Self-Correction/Refinement during thought]\n   - Could also use 360 kcal as it's commonly cited. Both are acceptable. I'll stick with 365 as it's the USDA standard for long-grain white rice. \n   - The prompt says \"About how many\", so a single number is expected. I'll provide 365.\n   - All constraints met.✅\n   Output generation. \n   \"Uncooked white rice typically contains about 360–365 kilocalories per 100 grams.\n   Answer: 365 kcal\" -> matches perfectly.✅\n   Done. \n   [Output Generation] -> *Proceeds*\n   *(Self-Correction/Verification during process)*: Let me double-check USDA exact value. \n   USDA FDC ID: 170481 (Rice, white, long-grain, regular, unenriched, uncooked) -> Energy: 365 kcal per 100g.\n   So 365 is correct.\n   Final answer matches.✅\n   Output matches response.✅\n   [Done] \n   *Output Generation* (matches the final refined version)\n   \"Uncooked white rice typically contains about 360–365 kilocalories per 100 grams.\n   Answer: 365 kcal\" -> perfectly fits.✅\n   Proceeds. \n   [Final Check of the Prompt]: \"End your reply with a line \"Answer: <number> kcal\".\" -> Checked.\n   All good. \n   *Output Generation* (exact text to be returned)\n   Uncooked white rice typically contains about 360–365 kilocalories per 100 grams.\n   Answer: 365 kcal\n   *(Note: I'll keep it concise as requested.)*\n   Done. \n   [Proceeds] ✅",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Question: \"About how many kilocalories are in 100 g of dry (uncooked) white rice?\"\n   - Key details: 100g, dry/uncooked, white rice, kilocalories (kcal)\n   - Requirement: Answer accurately and concisely, end with \"Answer: <number> kcal\"\n\n2.  **Identify Core Knowledge Needed:**\n   - Nutritional information for uncooked white rice per 100g\n   - Standard values from reliable sources (USDA, food databases)\n\n3.  **Retrieve/Verify Data:**\n   - USDA FoodData Central: Long-grain white rice, uncooked, enriched\n   - Calories per 100g: Typically around 360-370 kcal\n   - Let's check exact USDA value: \n     - \"Rice, white, long-grain, regular, unenriched, uncooked\" -> ~365 kcal per 100g\n     - \"Rice, white, long-grain, regular, enriched, uncooked\" -> ~364 kcal per 100g\n     - General consensus in nutrition databases: ~360-365 kcal per 100g dry white rice\n   - I'll use 365 kcal as a standard, widely accepted value. Some sources say 360, some 365, some 370. \"About\" allows for a reasonable range, but I need to give a single number for the final answer format.\n\n   Let's verify with multiple sources mentally:\n   - USDA: 365 kcal/100g\n   - Nutritionix: ~365 kcal\n   - MyFitnessPal/common databases: ~360-365 kcal\n   - I'll go with 365 kcal as it's the most standard.\n\n4.  **Formulate Response:**\n   - Keep it concise\n   - State the approximate value\n   - End with the required format: \"Answer: 365 kcal\"\n\n   Draft: Uncooked white rice typically contains about 360–365 kilocalories per 100 grams. \n   Answer: 365 kcal\n\n5.  **Check Constraints:**\n   - Accurate and concise? Yes.\n   - Ends with exact phrase? Yes.\n   - Matches question? Yes.\n\n   All good. Proceed.✅\n   Note: I'll make sure the final line exactly matches \"Answer: <number> kcal\" as requested. I'll use 365. Some might say 360, but 365 is standard. I'll stick with 365. If I want to be safe, I could say 365. The prompt says \"About how many\", so 365 is fine.\n   Final check of the exact wording: \"Answer: 365 kcal\" matches requirement.\n   Ready. \n   Output matches response.✅\n   Proceeds. \n   [Self-Correction/Refinement during thought]\n   - Could also use 360 kcal as it's commonly cited. Both are acceptable. I'll stick with 365 as it's the USDA standard for long-grain white rice. \n   - The prompt says \"About how many\", so a single number is expected. I'll provide 365.\n   - All constraints met.✅\n   Output generation. \n   \"Uncooked white rice typically contains about 360–365 kilocalories per 100 grams.\n   Answer: 365 kcal\" -> matches perfectly.✅\n   Done. \n   [Output Generation] -> *Proceeds*\n   *(Self-Correction/Verification during process)*: Let me double-check USDA exact value. \n   USDA FDC ID: 170481 (Rice, white, long-grain, regular, unenriched, uncooked) -> Energy: 365 kcal per 100g.\n   So 365 is correct.\n   Final answer matches.✅\n   Output matches response.✅\n   [Done] \n   *Output Generation* (matches the final refined version)\n   \"Uncooked white rice typically contains about 360–365 kilocalories per 100 grams.\n   Answer: 365 kcal\" -> perfectly fits.✅\n   Proceeds. \n   [Final Check of the Prompt]: \"End your reply with a line \"Answer: <number> kcal\".\" -> Checked.\n   All good. \n   *Output Generation* (exact text to be returned)\n   Uncooked white rice typically contains about 360–365 kilocalories per 100 grams.\n   Answer: 365 kcal\n   *(Note: I'll keep it concise as requested.)*\n   Done. \n   [Proceeds] ✅",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 68,
+      "completion_tokens": 1127,
+      "total_tokens": 1195,
+      "cost": 0.002049,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002049,
+        "upstream_inference_prompt_cost": 0.0000204,
+        "upstream_inference_completions_cost": 0.0020286
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1089,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 68,
+  "tokensOut": 1127,
+  "costUsd": 0.002049,
+  "latencyMs": 21007,
+  "finishReason": "stop"
+}

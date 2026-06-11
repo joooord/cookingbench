@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "qty-001",
+  "answerText": "To scale from 2 loaves to 5 loaves, multiply each ingredient by 5/2 = 2.5.\n\n- Flour: 500 × 2.5 = 1250 g\n- Water: 350 × 2.5 = 875 g\n- Salt: 10 × 2.5 = 25 g\n- Yeast: 7 × 2.5 = 17.5 g\n\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\nyeast: 17.5 g",
+  "raw": {
+    "id": "gen-1781187056-o4dA2mrQLWZy90aM5DJv",
+    "object": "chat.completion",
+    "created": 1781187056,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To scale from 2 loaves to 5 loaves, multiply each ingredient by 5/2 = 2.5.\n\n- Flour: 500 × 2.5 = 1250 g\n- Water: 350 × 2.5 = 875 g\n- Salt: 10 × 2.5 = 25 g\n- Yeast: 7 × 2.5 = 17.5 g\n\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\nyeast: 17.5 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 133,
+      "completion_tokens": 158,
+      "total_tokens": 291,
+      "cost": 0.004615,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004615,
+        "upstream_inference_prompt_cost": 0.000665,
+        "upstream_inference_completions_cost": 0.00395
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 133,
+  "tokensOut": 158,
+  "costUsd": 0.004615,
+  "latencyMs": 3323,
+  "finishReason": "stop"
+}

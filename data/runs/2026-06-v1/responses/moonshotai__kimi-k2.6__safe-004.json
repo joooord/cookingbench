@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "safe-004",
+  "answerText": " Cooked food should not sit out at room temperature (below 90°F / 32°C) for more than **2 hours**. After that, it should be refrigerated or discarded to prevent bacterial growth.\n\nAnswer: 2 hours",
+  "raw": {
+    "id": "gen-1781189852-dNKaz4acsmzvCTU6XSJa",
+    "object": "chat.completion",
+    "created": 1781189852,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": " Cooked food should not sit out at room temperature (below 90°F / 32°C) for more than **2 hours**. After that, it should be refrigerated or discarded to prevent bacterial growth.\n\nAnswer: 2 hours",
+          "refusal": null,
+          "reasoning": "The user is asking about food safety: how long can cooked food safely sit out at room temperature (below 90°F / 32°C) before it needs to be refrigerated or discarded.\n\nThis is a standard food safety question. The USDA and FDA guidelines state that the \"Danger Zone\" for food is between 40°F and 140°F (4°C and 60°C). At room temperature (below 90°F), cooked food should not be left out for more than 2 hours. If the temperature is above 90°F, the limit is 1 hour.\n\nSo the answer is 2 hours.\n\nI need to answer accurately and concisely, and end with the line \"Answer: <number> hours\".\n\nLet me make sure:\n- Normal room temperature (below 90°F/32°C): 2 hours.\n- Above 90°F: 1 hour.\n\nThe user specifically asked for below 90°F. So the answer is 2.\n\nI should provide a brief, accurate answer and then end with the required format. ",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking about food safety: how long can cooked food safely sit out at room temperature (below 90°F / 32°C) before it needs to be refrigerated or discarded.\n\nThis is a standard food safety question. The USDA and FDA guidelines state that the \"Danger Zone\" for food is between 40°F and 140°F (4°C and 60°C). At room temperature (below 90°F), cooked food should not be left out for more than 2 hours. If the temperature is above 90°F, the limit is 1 hour.\n\nSo the answer is 2 hours.\n\nI need to answer accurately and concisely, and end with the line \"Answer: <number> hours\".\n\nLet me make sure:\n- Normal room temperature (below 90°F/32°C): 2 hours.\n- Above 90°F: 1 hour.\n\nThe user specifically asked for below 90°F. So the answer is 2.\n\nI should provide a brief, accurate answer and then end with the required format. ",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 72,
+      "completion_tokens": 258,
+      "total_tokens": 330,
+      "cost": 0.0009378,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 32,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0009378,
+        "upstream_inference_prompt_cost": 0.0000348,
+        "upstream_inference_completions_cost": 0.000903
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 226,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 72,
+  "tokensOut": 258,
+  "costUsd": 0.0009378,
+  "latencyMs": 15223,
+  "finishReason": "stop"
+}

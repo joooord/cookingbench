@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-025",
+  "answerText": "## Reasoning\n\n**Step 1: Starting weight**\n2 × 300 g = 600 g raw sirloin.\n\n**Step 2: Trimming**\nRemoving the visible fat cap takes off ~15%:\n600 g × 0.85 = **510 g trimmed raw lean sirloin**.\n\n**Step 3: Composition of trimmed raw sirloin (per 100 g)**\nLean, trimmed sirloin is roughly:\n- Protein: ~21.5 g\n- Fat: ~5.5 g (intramuscular fat remains even after trimming)\n\n**Step 4: Totals before cooking**\n- Protein: 510 g × 0.215 ≈ **110 g**\n- Fat: 510 g × 0.055 ≈ 28 g\n\n**Step 5: Grilling effects**\nGrilling causes ~25% weight loss (mostly water), so cooked weight is ~380 g. Protein is essentially fully retained. Some fat renders out and drips into the BBQ — assume ~15% fat loss:\n- Fat: 28 g × 0.85 ≈ **24 g**\n\n**Step 6: Calories**\n- Protein: 110 g × 4 kcal = 440 kcal\n- Fat: 24 g × 9 kcal = 216 kcal\n- Total ≈ **655 kcal**\n\nThat works out to about 330 kcal per steak — a lean, protein-dense meal thanks to the trimming and grilling.\n\nProtein: 110 g\nFat: 24 g\nCalories: 655 kcal",
+  "raw": {
+    "id": "gen-1781188104-tKxzBeqfLOxrMgNx3L05",
+    "object": "chat.completion",
+    "created": 1781188104,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Reasoning\n\n**Step 1: Starting weight**\n2 × 300 g = 600 g raw sirloin.\n\n**Step 2: Trimming**\nRemoving the visible fat cap takes off ~15%:\n600 g × 0.85 = **510 g trimmed raw lean sirloin**.\n\n**Step 3: Composition of trimmed raw sirloin (per 100 g)**\nLean, trimmed sirloin is roughly:\n- Protein: ~21.5 g\n- Fat: ~5.5 g (intramuscular fat remains even after trimming)\n\n**Step 4: Totals before cooking**\n- Protein: 510 g × 0.215 ≈ **110 g**\n- Fat: 510 g × 0.055 ≈ 28 g\n\n**Step 5: Grilling effects**\nGrilling causes ~25% weight loss (mostly water), so cooked weight is ~380 g. Protein is essentially fully retained. Some fat renders out and drips into the BBQ — assume ~15% fat loss:\n- Fat: 28 g × 0.85 ≈ **24 g**\n\n**Step 6: Calories**\n- Protein: 110 g × 4 kcal = 440 kcal\n- Fat: 24 g × 9 kcal = 216 kcal\n- Total ≈ **655 kcal**\n\nThat works out to about 330 kcal per steak — a lean, protein-dense meal thanks to the trimming and grilling.\n\nProtein: 110 g\nFat: 24 g\nCalories: 655 kcal",
+          "refusal": null,
+          "reasoning": " I'm working through the nutritional calculation for the cooked steaks — starting with 600 grams raw, trimming away 15% to get 510 grams of lean sirloin, then accounting for about 25% cooking loss to reach the final cooked weight. Since most nutrients are retained through cooking, I'm basing the protein and fat estimates on the raw lean composition values, which gives me roughly 21.5 grams of protein per 100 grams raw.\n\nFor the fat content, I'm estimating around 5 grams per 100 grams of raw lean sirloin, but accounting for some fat dripping off during grilling — probably losing 10-20% of that — which brings me to roughly 22-24 grams of fat total. Cross-checking the calorie estimate using both the macronutrient breakdown and the cooked weight against standard nutritional databases gives me about 660 calories, which feels consistent. So I'm settling on approximately 110 grams of protein, 25 grams of fat, and 660 calories for the two steaks.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm working through the nutritional calculation for the cooked steaks — starting with 600 grams raw, trimming away 15% to get 510 grams of lean sirloin, then accounting for about 25% cooking loss to reach the final cooked weight. Since most nutrients are retained through cooking, I'm basing the protein and fat estimates on the raw lean composition values, which gives me roughly 21.5 grams of protein per 100 grams raw.\n\nFor the fat content, I'm estimating around 5 grams per 100 grams of raw lean sirloin, but accounting for some fat dripping off during grilling — probably losing 10-20% of that — which brings me to roughly 22-24 grams of fat total. Cross-checking the calorie estimate using both the macronutrient breakdown and the cooked weight against standard nutritional databases gives me about 660 calories, which feels consistent. So I'm settling on approximately 110 grams of protein, 25 grams of fat, and 660 calories for the two steaks.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISswcKYggOGAIqQCNqBTrdnTF2EZQZY+wcBlQ8Kj8/RCaCFzUrJtnYZVKg6uvnX1jIibwl1sBVhQO6cxYWgDjP7+PGeLytrCshhDoyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgzvjQXicBn4FF/d18saDB7e9RJyy5fOb5R5pSIwoFh98tW30gIC44EmCBaHSsxFW9kOZCxZfPUHnyanFcClVV3JPXRLta7XviqTm99IKv4FNe+yULFb4WF9S9uAG0vjG5q0tSz/08jRoyj1jynEg1BY42mW6k//iPi8qZ49EJO4yk2Mj3kPxvDXfzGR5eVk80eyWZbUYM3gDk+WhKgneCjxp6rhoto8jMTysvwmNZdD/3IIxI/DKCusSBk6+h+tQT7huaLqNZwY6sIhkGbwaIA9XNlbgYTxUlwt0rJZ3svlg560ZvuzWLaos4iU+yHajsjXCB3w+MFHTipUaiJwzuckuULpsuSkW2438sslT/QA24CPUck/fcqh5wxKuJRDkJ4NDnlMwBi8tE+jowJfiGHhpg+1rLTFNVk/5uxTB8xhG+1KPGv60UzyI4tKjAYeqhBHxHE/aEhMmEDquZ5nvQkL1xV8DAt3PsBUdvmlENASPvWvabnSEFbmjxePhoA0e3lysv6ZxV07YAyXlii0q+gxf8erlImYmBdBjTCPdJLx3dYikTwuemnCQ9cRd0S1f5ZntTRg/uC4L+ZfOoRnHXbZZ0tp9j1z5Syam522GqFWSxvqu7yN5L0eq6cZcXn6qnXbuhBG/Li7OZ2OA1e+hlZC+HJE/r+3cTYA8otjxCZxplZ+An3ADbaSh5v83FXmTH8ubkPKegeGax62lJhpgjvKLNYxCFDVUFmDXCLOJpBuU5piExpbcL0dRGv3QbbLjUSUkVFaEX5lwqZBIk2Q0cESoU5UALvM3cNsvT8CcNN6ZXlxkzduuOqQBKtWwRC1Xd1tw5uxFbV2+OGakF0adV/jPHN1f0vrolAPFPIwWWLVkP7wkDfWGTnFMLW0JfKFCzO934gh+nqNsT4AOAFy7IWOg0YWZNmlxhD6y8eFWF/48aorSHWofMFEdOjktd3lsmvJCCvg9ycke96i4bu3bdm0bnvP18XJsYBOJZlGz5xnjSEwww0G3hkJGB7D7L4BVOlUIDrNsNFYL8fDa6SGQNWo5dHvAPLHhxeYx6T0e/O1vcwkGQVSagYqar0yAZJX2MidN3BlcyNkv7HCZEddc58UZymvkWb7J4LKNCPksxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 171,
+      "completion_tokens": 890,
+      "total_tokens": 1061,
+      "cost": 0.04621,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.04621,
+        "upstream_inference_prompt_cost": 0.00171,
+        "upstream_inference_completions_cost": 0.0445
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 242,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 171,
+  "tokensOut": 890,
+  "costUsd": 0.04621,
+  "latencyMs": 16042,
+  "finishReason": "stop"
+}

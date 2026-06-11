@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-003",
+  "answerText": "To calculate the water needed, use the baker's percentage formula:  \nWater weight = Flour weight × Hydration percentage  \nWater = 800 g × 0.75 = 600 g.  \n\nAnswer: 600 g",
+  "raw": {
+    "id": "gen-1781189378-KtyuRRYJsYqCzyBE1Dpu",
+    "object": "chat.completion",
+    "created": 1781189378,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To calculate the water needed, use the baker's percentage formula:  \nWater weight = Flour weight × Hydration percentage  \nWater = 800 g × 0.75 = 600 g.  \n\nAnswer: 600 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"I'm making a dough with 800 g of flour at 75% hydration (baker's percentage). How much water should I add, in grams?\" \n\nBaker's percentage: hydration = (water weight / flour weight) * 100%. So 75% hydration means water = 0.75 * flour weight. Flour weight = 800 g, so water = 0.75 * 800 = 600 g. \n\nAnswer: <number> 600 g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"I'm making a dough with 800 g of flour at 75% hydration (baker's percentage). How much water should I add, in grams?\" \n\nBaker's percentage: hydration = (water weight / flour weight) * 100%. So 75% hydration means water = 0.75 * flour weight. Flour weight = 800 g, so water = 0.75 * 800 = 600 g. \n\nAnswer: <number> 600 g.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 66,
+      "completion_tokens": 150,
+      "total_tokens": 216,
+      "cost": 0.000588528,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000588528,
+        "upstream_inference_prompt_cost": 0.000106128,
+        "upstream_inference_completions_cost": 0.0004824
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 103,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 66,
+  "tokensOut": 150,
+  "costUsd": 0.000588528,
+  "latencyMs": 3059,
+  "finishReason": "stop"
+}

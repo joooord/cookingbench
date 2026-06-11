@@ -20,6 +20,11 @@ const NEGATION_BEFORE = /(?:\bno\b|\bnot\b|\bnever\b|\bwithout\b|\bavoid(?:ing|s
 function isNegatedAt(haystack: string, index: number, termLength: number): boolean {
   const before = haystack.slice(Math.max(0, index - 60), index);
   if (NEGATION_BEFORE.test(before)) return true;
+  // An immediately preceding "X-free" compound qualifies the term itself
+  // ("gluten-free plain flour blend"). Hyphen required and no intervening
+  // words, so "feel free to add peanut" or "dairy-free and uses peanut"
+  // are not excused.
+  if (/\b[a-z]+-free\s*$/.test(before)) return true;
   const after = haystack.slice(index + termLength, index + termLength + 8);
   return /^[\s-]*free\b/.test(after);
 }

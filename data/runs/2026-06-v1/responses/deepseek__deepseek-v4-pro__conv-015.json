@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-015",
+  "answerText": "An imperial (UK) pint is 568 millilitres (often rounded from the exact 568.26125 ml).\n\nAnswer: 568 ml",
+  "raw": {
+    "id": "gen-1781189248-nX9UTtUSfWvon7UHvNwp",
+    "object": "chat.completion",
+    "created": 1781189248,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "An imperial (UK) pint is 568 millilitres (often rounded from the exact 568.26125 ml).\n\nAnswer: 568 ml",
+          "refusal": null,
+          "reasoning": "We are asked: \"An old British cookbook calls for 1 pint of milk. How many millilitres is an imperial (UK) pint?\" We need to provide the answer in ml. The imperial pint (UK) is 568.26125 ml, but typically it's rounded to 568 ml. However, many sources state 568 ml. In cooking contexts, an imperial pint is often taken as 568 ml. The question specifically says \"imperial (UK) pint\". So the answer should be 568 ml. But let's confirm: 1 imperial pint = 20 imperial fluid ounces. 1 imperial fluid ounce = 28.4130625 ml, so 20 * 28.4130625 = 568.26125 ml. Often it's rounded to 568 ml. I'll answer with 568 ml. End with \"Answer: 568 ml\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"An old British cookbook calls for 1 pint of milk. How many millilitres is an imperial (UK) pint?\" We need to provide the answer in ml. The imperial pint (UK) is 568.26125 ml, but typically it's rounded to 568 ml. However, many sources state 568 ml. In cooking contexts, an imperial pint is often taken as 568 ml. The question specifically says \"imperial (UK) pint\". So the answer should be 568 ml. But let's confirm: 1 imperial pint = 20 imperial fluid ounces. 1 imperial fluid ounce = 28.4130625 ml, so 20 * 28.4130625 = 568.26125 ml. Often it's rounded to 568 ml. I'll answer with 568 ml. End with \"Answer: 568 ml\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 60,
+      "completion_tokens": 215,
+      "total_tokens": 275,
+      "cost": 0.0004263,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0004263,
+        "upstream_inference_prompt_cost": 0.0000522,
+        "upstream_inference_completions_cost": 0.0003741
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 183,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 60,
+  "tokensOut": 215,
+  "costUsd": 0.0004263,
+  "latencyMs": 8094,
+  "finishReason": "stop"
+}

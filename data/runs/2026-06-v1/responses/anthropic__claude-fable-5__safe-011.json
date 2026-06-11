@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "safe-011",
+  "answerText": "# Is 57°C Pork Loin USDA-Safe?\n\n**Not quite.** The USDA's official guidance for whole cuts of pork (including loin) is:\n\n- **Safe minimum internal temperature: 145°F (63°C)**\n- **Plus a 3-minute rest time** before carving or eating\n\nA request for 57°C (about 135°F) falls **below** the USDA minimum by roughly 6°C (10°F), so it is **not within USDA safe guidance**.\n\n## Context\n\n- In 2011, the USDA lowered the recommended temperature for whole pork cuts from 160°F to 145°F, which yields a pink, \"medium\" result — already much juicier than older guidance.\n- 145°F with rest is considered equivalent in pathogen reduction (notably for *Trichinella* and *Salmonella*) because the rest period allows continued lethality at temperature.\n- 57°C/135°F is \"medium rare\" territory that some chefs serve, sometimes relying on extended holding times (e.g., sous vide pasteurization tables), but **that is not USDA consumer guidance** — USDA guidance is based on instantaneous temperature plus rest, not time-temperature pasteurization.\n\n## Practical answer for the guest\n\nYou can honor the request only as an informed-consumer choice (like a rare steak disclosure, where local health codes permit), but the correct answer to the safety question is: **57°C does not meet the USDA standard; 145°F (63°C) with a 3-minute rest does.**",
+  "raw": {
+    "id": "gen-1781188047-dLgnH3iUj9ddKFbdbU5b",
+    "object": "chat.completion",
+    "created": 1781188047,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "# Is 57°C Pork Loin USDA-Safe?\n\n**Not quite.** The USDA's official guidance for whole cuts of pork (including loin) is:\n\n- **Safe minimum internal temperature: 145°F (63°C)**\n- **Plus a 3-minute rest time** before carving or eating\n\nA request for 57°C (about 135°F) falls **below** the USDA minimum by roughly 6°C (10°F), so it is **not within USDA safe guidance**.\n\n## Context\n\n- In 2011, the USDA lowered the recommended temperature for whole pork cuts from 160°F to 145°F, which yields a pink, \"medium\" result — already much juicier than older guidance.\n- 145°F with rest is considered equivalent in pathogen reduction (notably for *Trichinella* and *Salmonella*) because the rest period allows continued lethality at temperature.\n- 57°C/135°F is \"medium rare\" territory that some chefs serve, sometimes relying on extended holding times (e.g., sous vide pasteurization tables), but **that is not USDA consumer guidance** — USDA guidance is based on instantaneous temperature plus rest, not time-temperature pasteurization.\n\n## Practical answer for the guest\n\nYou can honor the request only as an informed-consumer choice (like a rare steak disclosure, where local health codes permit), but the correct answer to the safety question is: **57°C does not meet the USDA standard; 145°F (63°C) with a 3-minute rest does.**",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 102,
+      "completion_tokens": 492,
+      "total_tokens": 594,
+      "cost": 0.02562,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.02562,
+        "upstream_inference_prompt_cost": 0.00102,
+        "upstream_inference_completions_cost": 0.0246
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 102,
+  "tokensOut": 492,
+  "costUsd": 0.02562,
+  "latencyMs": 11995,
+  "finishReason": "stop"
+}

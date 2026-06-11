@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "safe-012",
+  "answerText": " No, it is not safe to eat. You should discard it.\n\n**Why:** Cooked rice can harbor *Bacillus cereus*, a spore-forming bacterium that survives cooking. When left at room temperature (between 40°F and 140°F), these bacteria multiply rapidly and produce heat-stable toxins. Reheating the rice may kill the bacteria, but it **will not destroy the toxins**, which can cause vomiting and diarrhea.\n\nFood safety guidelines state that cooked rice should not sit out for more than **2 hours** at room temperature (or 1 hour if the environment is above 90°F). Nine hours is well into the danger zone.\n\n**For next time:** Refrigerate cooked rice within 1–2 hours, and cool it quickly (e.g., spread it in a shallow container).",
+  "raw": {
+    "id": "gen-1781189876-WplFmmL9wyqHigb8dBMM",
+    "object": "chat.completion",
+    "created": 1781189876,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Chutes",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": " No, it is not safe to eat. You should discard it.\n\n**Why:** Cooked rice can harbor *Bacillus cereus*, a spore-forming bacterium that survives cooking. When left at room temperature (between 40°F and 140°F), these bacteria multiply rapidly and produce heat-stable toxins. Reheating the rice may kill the bacteria, but it **will not destroy the toxins**, which can cause vomiting and diarrhea.\n\nFood safety guidelines state that cooked rice should not sit out for more than **2 hours** at room temperature (or 1 hour if the environment is above 90°F). Nine hours is well into the danger zone.\n\n**For next time:** Refrigerate cooked rice within 1–2 hours, and cool it quickly (e.g., spread it in a shallow container).",
+          "refusal": null,
+          "reasoning": " The user is asking about food safety regarding cooked rice left out at room temperature for about 9 hours. This is a common food safety question.\n\nKey facts:\n- Cooked rice is a high-risk food for Bacillus cereus, a spore-forming bacterium that can survive cooking and multiply at room temperature.\n- The \"danger zone\" for bacterial growth is typically 40°F-140°F (4°C-60°C).\n- Food safety guidelines generally say perishable foods should not be left at room temperature for more than 2 hours (or 1 hour if above 90°F/32°C).\n- 9 hours is well beyond the safe window.\n- Reheating may kill some bacteria but won't destroy heat-stable toxins produced by B. cereus, which can cause vomiting even if the bacteria are killed.\n- The standard recommendation from food safety authorities (FDA, USDA, etc.) is to discard cooked rice left out at room temperature for more than 2 hours.\n\nSo the answer should be: No, it is not safe. Explain why (Bacillus cereus, toxin formation, time in danger zone). Be concise but accurate.\n\nStructure:\n1. Direct answer: No, do not eat it.\n2. Explanation: Bacillus cereus risk, spores survive cooking, multiply at room temp, produce toxins that reheating won't destroy.\n3. Time guideline: 2-hour rule.\n4. Brief mention of what to do in the future (cool quickly, refrigerate within 1-2 hours).\n\nKeep it concise as requested. ",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " The user is asking about food safety regarding cooked rice left out at room temperature for about 9 hours. This is a common food safety question.\n\nKey facts:\n- Cooked rice is a high-risk food for Bacillus cereus, a spore-forming bacterium that can survive cooking and multiply at room temperature.\n- The \"danger zone\" for bacterial growth is typically 40°F-140°F (4°C-60°C).\n- Food safety guidelines generally say perishable foods should not be left at room temperature for more than 2 hours (or 1 hour if above 90°F/32°C).\n- 9 hours is well beyond the safe window.\n- Reheating may kill some bacteria but won't destroy heat-stable toxins produced by B. cereus, which can cause vomiting even if the bacteria are killed.\n- The standard recommendation from food safety authorities (FDA, USDA, etc.) is to discard cooked rice left out at room temperature for more than 2 hours.\n\nSo the answer should be: No, it is not safe. Explain why (Bacillus cereus, toxin formation, time in danger zone). Be concise but accurate.\n\nStructure:\n1. Direct answer: No, do not eat it.\n2. Explanation: Bacillus cereus risk, spores survive cooking, multiply at room temp, produce toxins that reheating won't destroy.\n3. Time guideline: 2-hour rule.\n4. Brief mention of what to do in the future (cool quickly, refrigerate within 1-2 hours).\n\nKeep it concise as requested. ",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 56,
+      "completion_tokens": 483,
+      "total_tokens": 539,
+      "cost": 0.00173194,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00173194,
+        "upstream_inference_prompt_cost": 0.00004144,
+        "upstream_inference_completions_cost": 0.0016905
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 316,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 56,
+  "tokensOut": 483,
+  "costUsd": 0.00173194,
+  "latencyMs": 18368,
+  "finishReason": "stop"
+}

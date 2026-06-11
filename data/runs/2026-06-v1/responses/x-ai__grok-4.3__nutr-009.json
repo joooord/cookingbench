@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "nutr-009",
+  "answerText": "Calories from fat: 27 g × 9 kcal/g = 243 kcal. Percentage: (243 / 600) × 100 = 40.5.\nAnswer: 40.5 %",
+  "raw": {
+    "id": "gen-1781186472-r0GQkwRNzosU2GNN9RQR",
+    "object": "chat.completion",
+    "created": 1781186472,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Calories from fat: 27 g × 9 kcal/g = 243 kcal. Percentage: (243 / 600) × 100 = 40.5.\nAnswer: 40.5 %",
+          "refusal": null,
+          "reasoning": "The problem: A dish has 600 kcal, of which 27 g is fat. What percentage of its calories comes from fat? Use 9 kcal per gram of fat.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem: A dish has 600 kcal, of which 27 g is fat. What percentage of its calories comes from fat? Use 9 kcal per gram of fat.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "Li4CkSv+L+3YajxQ4v++1OC5YuGwvHDlyor1eUydIdsmldQHTTF5HM4XtayF9mVvEa0hILuW8XV3fnPYRNZlzSI1yb8oEEelOOIaSBQ+dNqYVirZUMZMovwnMJPFtlcWpPqEl5X/bSYNE2Mr/QwDKbVPb7pLglF4xRe6eC+ayolNbUD+Ga6tVZlc/+D0oeSkiHSRknoPSCkZ6f9g3CIhUsM2jaJKPPXTL8ovRegp/IxLQe1NKpZPNckheVo79bveL/Iv0uSNip6ZO9DRG5P+5yFupDBEuUJg+ztWlKfEd7z8iJw5vF57q80FiKcXBPl1DH8zGa2U8nbloE5HpPIMfj/Um7h7lWJUC1IeS36I5HeAEAhfKeJ3GLzTox3ShSLW97mHqOYEXp4KZ5YTcrwzvhir52REpbAvNf7m6D+/MuJy0BPRFm6ESo6XFwE66b0LavHy8cLAsLW5r2zJMxUb8AMBdfwII7yQ0jnSN2EDbVdgtZbD0P5/7IUOJNQVcIYLKOAs6ISO9NT45RoucTfw/xQrS0TrM1S7TM+LkaUfiulRPTGsQvm3PIGjWDJuI7lZDV4xOr6qjcxlR9Cz5AL3uDUZSwCu9/XwMDRCzAtfWliwngYkH7bRzwqEoEJOA2Ovc5hSGXWitEsz7ta59WJa5vLrInzEZsH0LosGBwkczKvfVhQrMFsPIx2y/yKhOwXGmoTVZljTqyHLJjPvGKz0tGyoO0mJEsZsDOZMtqtXcLTeVg4rfGQSZj0qDyrZR0d2h9IufSN2rrZPCi2ClHM261USJuIq2B1k0AkA3R8DMJSF5ciLhJ197FYS1qvQ1cOXtGjait859mrdPS8wrJHStHu03GN3GkO/ueE4NTWxaYqE8CfH+ZD03X46kwzvMpCG8k7sIT+QhtiywFMAlvBHPyQvVrNGM3bi5i8p2V+7q4X+aDJPGuUu2mWUSPqunwveILrVZWKvzS0eNOO/0j+HVUYnDppPG98oZjAS6kgwLL8E6z4nYOz8qq+Td5XOrPPmpoWewECM797Z/uzmmIRnLVqWRTU2Vo05B5v9M72FPJkn9zRX5P9ppt460S90G4H2GY5z8c520AY7lIPIKi6clzb1AkmW5ZSfjwZzwGJChrrIQPburupR30IDYjSjor7aVN2aRQOaFVNcI2KkXGWK3Ir8y6kZU51GbB2VmLB/4nA9Op91MNdr5IrLwbfct55IfXMnhQZwhG39X8/+5H77aJdE0ZBxfbfN0W+gUbn/BjxwIRUqhk/OuEfGe7HCGe4ePAQHd2fNgljxTLoR5C51yELhbK86d61qvNOUp67jIKf1aWP+TgFZWjgHNw",
+              "format": "xai-responses-v1",
+              "id": "rs_aebfd517-b2f2-91ca-84a9-952da25a5d13",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 195,
+      "completion_tokens": 307,
+      "total_tokens": 502,
+      "cost": 0.00087685,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00087685,
+        "upstream_inference_prompt_cost": 0.00010935,
+        "upstream_inference_completions_cost": 0.0007675
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 266,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 195,
+  "tokensOut": 307,
+  "costUsd": 0.00087685,
+  "latencyMs": 2880,
+  "finishReason": "stop"
+}

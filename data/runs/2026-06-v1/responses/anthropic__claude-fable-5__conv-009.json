@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "conv-009",
+  "answerText": "One US tablespoon equals 3 US teaspoons. This is a standard conversion in American cooking measurements (1 tablespoon = 1/2 fluid ounce = 3 teaspoons).\n\nAnswer: 3 tsp",
+  "raw": {
+    "id": "gen-1781187595-2GlPtzItX1zgN3uJXPly",
+    "object": "chat.completion",
+    "created": 1781187595,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "One US tablespoon equals 3 US teaspoons. This is a standard conversion in American cooking measurements (1 tablespoon = 1/2 fluid ounce = 3 teaspoons).\n\nAnswer: 3 tsp",
+          "refusal": null,
+          "reasoning": " Three teaspoons is the answer.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " Three teaspoons is the answer.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS2AEKYggOGAIqQBVt9OJpVAjxmv7f4pbnhddKtMPfCaBO5sBjJT/OoyCtS4dX2Lqr+PZ8B+13X5U9oyKuJ/n1kciRkru0r3wtaEEyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgwdQsUIqA5qL9a09c0aDMlZUFNXzw7Jz504xSIwgWTaUN5uxCJqGutbiFR9zLTFRfCDYZcmJoaskoNw+kMVw6O6tBd5WTkjmcaZQb7MKiSvWyQc2Ee3akiROQ1xvk9JP01S0Gicp8GGHF0ETZLu8Jsa8WwYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 75,
+      "completion_tokens": 93,
+      "total_tokens": 168,
+      "cost": 0.0054,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0054,
+        "upstream_inference_prompt_cost": 0.00075,
+        "upstream_inference_completions_cost": 0.00465
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 8,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 75,
+  "tokensOut": 93,
+  "costUsd": 0.0054,
+  "latencyMs": 4413,
+  "finishReason": "stop"
+}

@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "nutr-006",
+  "answerText": "To find the protein in 150 g, I'll use the ratio from the label.\n\nThe powder contains 12 g protein per 40 g, so:\n\n12 g ÷ 40 g = 0.3 (30% protein)\n\n150 g × 0.3 = 45 g\n\nAnswer: 45 g",
+  "raw": {
+    "id": "gen-1781187031-FLYm8laLGEDVV6F63yKs",
+    "object": "chat.completion",
+    "created": 1781187031,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To find the protein in 150 g, I'll use the ratio from the label.\n\nThe powder contains 12 g protein per 40 g, so:\n\n12 g ÷ 40 g = 0.3 (30% protein)\n\n150 g × 0.3 = 45 g\n\nAnswer: 45 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 94,
+      "completion_tokens": 93,
+      "total_tokens": 187,
+      "cost": 0.002795,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002795,
+        "upstream_inference_prompt_cost": 0.00047,
+        "upstream_inference_completions_cost": 0.002325
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 94,
+  "tokensOut": 93,
+  "costUsd": 0.002795,
+  "latencyMs": 5355,
+  "finishReason": "stop"
+}

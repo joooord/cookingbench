@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "safe-008",
+  "answerText": "Cooked leftovers should be reheated until they reach an internal temperature of **74 °C** (165 °F) throughout. This temperature is hot enough to kill bacteria that may have grown during storage.\n\nTips for safe reheating:\n- Use a food thermometer to check the thickest part of the food\n- Stir food partway through reheating (especially in a microwave) to eliminate cold spots\n- Bring sauces, soups, and gravies to a rolling boil\n- Only reheat leftovers once — repeated reheating increases food safety risks\n\nAnswer: 74 °C",
+  "raw": {
+    "id": "gen-1781187674-WwfAduKiGTvCNpihWApK",
+    "object": "chat.completion",
+    "created": 1781187674,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Cooked leftovers should be reheated until they reach an internal temperature of **74 °C** (165 °F) throughout. This temperature is hot enough to kill bacteria that may have grown during storage.\n\nTips for safe reheating:\n- Use a food thermometer to check the thickest part of the food\n- Stir food partway through reheating (especially in a microwave) to eliminate cold spots\n- Bring sauces, soups, and gravies to a rolling boil\n- Only reheat leftovers once — repeated reheating increases food safety risks\n\nAnswer: 74 °C",
+          "refusal": null,
+          "reasoning": " The safe temperature for reheating leftovers is 165°F, which converts to about 74°C.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " The safe temperature for reheating leftovers is 165°F, which converts to about 74°C.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS+AEKYggOGAIqQMxXLnNpl7hy7d0ajQWWGFc4Lshs8EcOCDYv7CV3KOeHxoYmZH0ElcRmmIusI/P9g0q2rIgHARQgFZLXBTYmdtIyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgxkYIHWkkSchEJvuDIaDIOWinb+LItMxbZiniIwvfq/MDy6B8/not3X3DM2PEtLDxkf/ry4aIgX1nuh/uHDhb6384hzqHIesDZLsZrLKkSxTzBUCvaF4djJfIsBMApCXkN+WzC5ZmAb4rju/+TNfxFsr5vOVBORNoDiRp6uYj88LeKtx+pS6Mm6JfYQPkS+7gIWehgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 86,
+      "completion_tokens": 216,
+      "total_tokens": 302,
+      "cost": 0.01166,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01166,
+        "upstream_inference_prompt_cost": 0.00086,
+        "upstream_inference_completions_cost": 0.0108
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 23,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 86,
+  "tokensOut": 216,
+  "costUsd": 0.01166,
+  "latencyMs": 9516,
+  "finishReason": "stop"
+}

@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "qty-001",
+  "answerText": "To scale the recipe from 2 loaves to 5 loaves, we need to multiply the ingredients by 2.5 (5/2 = 2.5). \n\nFlour: 500 g * 2.5 = 1250 g\nWater: 350 g * 2.5 = 875 g\nSalt: 10 g * 2.5 = 25 g\nInstant yeast: 7 g * 2.5 = 17.5 g\n\nFlour: 1250 g\nWater: 875 g\nSalt: 25 g\nInstant yeast: 17.5 g",
+  "raw": {
+    "id": "gen-1781190754-DFyQMJZ1Hk8zUnOclt0c",
+    "object": "chat.completion",
+    "created": 1781190754,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To scale the recipe from 2 loaves to 5 loaves, we need to multiply the ingredients by 2.5 (5/2 = 2.5). \n\nFlour: 500 g * 2.5 = 1250 g\nWater: 350 g * 2.5 = 875 g\nSalt: 10 g * 2.5 = 25 g\nInstant yeast: 7 g * 2.5 = 17.5 g\n\nFlour: 1250 g\nWater: 875 g\nSalt: 25 g\nInstant yeast: 17.5 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 93,
+      "completion_tokens": 131,
+      "total_tokens": 224,
+      "cost": 0.00009255,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00009255,
+        "upstream_inference_prompt_cost": 0.00001395,
+        "upstream_inference_completions_cost": 0.0000786
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 93,
+  "tokensOut": 131,
+  "costUsd": 0.00009255,
+  "latencyMs": 7766,
+  "finishReason": "stop"
+}

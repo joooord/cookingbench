@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-013",
+  "answerText": "Great question — this is a common point of confusion when tracking macros!\n\n**The key insight:** Protein doesn't evaporate during cooking — only water is lost. So the protein content depends on the *raw* weight, not the cooked weight.\n\n**Calculation:**\n- Raw chicken: 400 g × 23.5 g protein / 100 g = **94 g of protein**\n- After cooking, the chicken weighs about 400 g × 0.75 = 300 g, but all 94 g of protein remain in it.\n\n(Side note: this is why cooked chicken appears more protein-dense — about 31 g protein per 100 g cooked, since the same protein is concentrated in less weight.)\n\nAnswer: 94 g",
+  "raw": {
+    "id": "gen-1781187729-V7ulXPHixtA546DcOYQ1",
+    "object": "chat.completion",
+    "created": 1781187729,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Great question — this is a common point of confusion when tracking macros!\n\n**The key insight:** Protein doesn't evaporate during cooking — only water is lost. So the protein content depends on the *raw* weight, not the cooked weight.\n\n**Calculation:**\n- Raw chicken: 400 g × 23.5 g protein / 100 g = **94 g of protein**\n- After cooking, the chicken weighs about 400 g × 0.75 = 300 g, but all 94 g of protein remain in it.\n\n(Side note: this is why cooked chicken appears more protein-dense — about 31 g protein per 100 g cooked, since the same protein is concentrated in less weight.)\n\nAnswer: 94 g",
+          "refusal": null,
+          "reasoning": " So 400 grams of raw food with 23.5 grams of protein per 100 grams gives me 94 grams of protein total, and since cooking removes water but not protein, that amount stays the same.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " So 400 grams of raw food with 23.5 grams of protein per 100 grams gives me 94 grams of protein total, and since cooking removes water but not protein, that amount stays the same.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISlgIKYggOGAIqQKSz/RlifXPiD9jPNFOHUp0qe/klozMACGg47ZD1lSxY/iyP7Jhne1Q1q40OAgN28LNIWrduwAyAPfIngk3EynoyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgy7iYuQbK8MW5I3EYYaDDtqOu8TlBgEZYQwEiIwaT0Hc2dqCuPgY2H8ZeOEn+ya3yOFOxCjVih3iB97SZs1uB3uoOXBBGBj8NjRCKpWKmLotCBXv600ThQA8W3hbqXnvYIcivNM4qodEnXW7hHRSw2Fos+ZyziNTwpP8vtuZjp2PJgxFU/yKta3LbaRyydhqJoD8FGy46wvcvsyXloXgLzDVivrWTXhMJh7Bxh+MoQ/UBgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 138,
+      "completion_tokens": 273,
+      "total_tokens": 411,
+      "cost": 0.01503,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01503,
+        "upstream_inference_prompt_cost": 0.00138,
+        "upstream_inference_completions_cost": 0.01365
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 45,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 138,
+  "tokensOut": 273,
+  "costUsd": 0.01503,
+  "latencyMs": 7846,
+  "finishReason": "stop"
+}

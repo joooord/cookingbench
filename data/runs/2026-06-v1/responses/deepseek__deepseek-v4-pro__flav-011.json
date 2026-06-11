@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "flav-011",
+  "answerText": "To add depth to a bland vegetable soup, you can adjust these three flavour levers:\n\n1. **Acidity** – Brightens and balances, cutting through flatness.  \n   *Example:* A splash of lemon juice or a dash of vinegar.\n\n2. **Umami** – Adds savoury richness and mouthfeel.  \n   *Example:* A spoonful of miso paste or a splash of soy sauce.\n\n3. **Sweetness** – Rounds out harsh edges and enhances natural vegetable flavours.  \n   *Example:* A pinch of sugar or a spoonful of caramelized onion purée.",
+  "raw": {
+    "id": "gen-1781189291-wnJkS3DjBPJoJqAKuFS2",
+    "object": "chat.completion",
+    "created": 1781189291,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Parasail",
+    "system_fingerprint": "vllm-0.20.1rc1.dev1005+gcbf8428d0-tp4-ep-66a5fbd4",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To add depth to a bland vegetable soup, you can adjust these three flavour levers:\n\n1. **Acidity** – Brightens and balances, cutting through flatness.  \n   *Example:* A splash of lemon juice or a dash of vinegar.\n\n2. **Umami** – Adds savoury richness and mouthfeel.  \n   *Example:* A spoonful of miso paste or a splash of soy sauce.\n\n3. **Sweetness** – Rounds out harsh edges and enhances natural vegetable flavours.  \n   *Example:* A pinch of sugar or a spoonful of caramelized onion purée.",
+          "refusal": null,
+          "reasoning": "We need to answer: \"A vegetable soup I made is one-note and bland despite seasoning with salt. Beyond salt, name three different levers (not specific ingredients but categories of flavour) I could pull to add depth, with an example of each.\"\n\nInterpretation: The user wants three categories of flavor (levers) that can add depth to a bland vegetable soup, beyond just salt. They want the category name and an example of each. Not specific ingredients, but categories. So I need to think of flavor dimensions: acidity, umami, sweetness, bitterness, fat, heat/spice, aromatics, texture? \"Depth\" often comes from umami, acidity to brighten, sweetness to balance, fat for richness, or complexity from herbs/spices. The question says \"categories of flavour\" so I'll pick three: acidity, umami, and sweetness (or maybe fat, umami, acidity). I'll provide an example for each. Example: acidity - a splash of lemon juice or vinegar; umami - soy sauce or miso paste; sweetness - a pinch of sugar or caramelized onions. I'll phrase it clearly.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to answer: \"A vegetable soup I made is one-note and bland despite seasoning with salt. Beyond salt, name three different levers (not specific ingredients but categories of flavour) I could pull to add depth, with an example of each.\"\n\nInterpretation: The user wants three categories of flavor (levers) that can add depth to a bland vegetable soup, beyond just salt. They want the category name and an example of each. Not specific ingredients, but categories. So I need to think of flavor dimensions: acidity, umami, sweetness, bitterness, fat, heat/spice, aromatics, texture? \"Depth\" often comes from umami, acidity to brighten, sweetness to balance, fat for richness, or complexity from herbs/spices. The question says \"categories of flavour\" so I'll pick three: acidity, umami, and sweetness (or maybe fat, umami, acidity). I'll provide an example for each. Example: acidity - a splash of lemon juice or vinegar; umami - soy sauce or miso paste; sweetness - a pinch of sugar or caramelized onions. I'll phrase it clearly.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 66,
+      "completion_tokens": 360,
+      "total_tokens": 426,
+      "cost": 0.00136764,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00136764,
+        "upstream_inference_prompt_cost": 0.00011484,
+        "upstream_inference_completions_cost": 0.0012528
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 260,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 66,
+  "tokensOut": 360,
+  "costUsd": 0.00136764,
+  "latencyMs": 14790,
+  "finishReason": "stop"
+}

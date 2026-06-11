@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-015",
+  "answerText": "White rice roughly triples in weight when cooked, so the cooked weight is about 3 times the raw weight. To get 600 g of cooked rice, you need 600 / 3 = 200 g of raw rice.\n\nAnswer: 200 g",
+  "raw": {
+    "id": "gen-1781189400-MoNZA4Muoub36sOMJJzy",
+    "object": "chat.completion",
+    "created": 1781189400,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "GMICloud",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "White rice roughly triples in weight when cooked, so the cooked weight is about 3 times the raw weight. To get 600 g of cooked rice, you need 600 / 3 = 200 g of raw rice.\n\nAnswer: 200 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"I need 600 g of cooked rice for a salad. White rice roughly triples in weight when cooked. How many grams of raw rice should I cook?\" The rule: white rice roughly triples in weight when cooked. So raw weight * 3 ≈ cooked weight. We need 600 g cooked. So raw weight = 600 / 3 = 200 g. Answer: 200 g. The output should end with \"Answer: <number> g\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"I need 600 g of cooked rice for a salad. White rice roughly triples in weight when cooked. How many grams of raw rice should I cook?\" The rule: white rice roughly triples in weight when cooked. So raw weight * 3 ≈ cooked weight. We need 600 g cooked. So raw weight = 600 / 3 = 200 g. Answer: 200 g. The output should end with \"Answer: <number> g\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 66,
+      "completion_tokens": 153,
+      "total_tokens": 219,
+      "cost": 0.000517824,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000517824,
+        "upstream_inference_prompt_cost": 0.000091872,
+        "upstream_inference_completions_cost": 0.000425952
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 100,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 66,
+  "tokensOut": 153,
+  "costUsd": 0.000517824,
+  "latencyMs": 8443,
+  "finishReason": "stop"
+}

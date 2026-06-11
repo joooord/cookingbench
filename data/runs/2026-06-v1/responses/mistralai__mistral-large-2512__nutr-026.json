@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "nutr-026",
+  "answerText": "For a 200 g raw salmon fillet:\n- Protein: 200 g × 20 g/100 g = **40 g** (retained after cooking).\n- Fat: 200 g × 13 g/100 g = **26 g** (retained after cooking).\n- Weight loss: 200 g × 20% = **40 g** (mostly water).\n\nCooked weight: 200 g - 40 g = **160 g** (but protein/fat remain unchanged).\n\nCalories: (40 g protein × 4 kcal/g) + (26 g fat × 9 kcal/g) = **164 + 234 = 398 kcal**.\n\nProtein: 40 g\nFat: 26 g\nCalories: 398 kcal",
+  "raw": {
+    "id": "gen-1781190895-1X6ooxLSjHK7RS8SZRNd",
+    "object": "chat.completion",
+    "created": 1781190895,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "For a 200 g raw salmon fillet:\n- Protein: 200 g × 20 g/100 g = **40 g** (retained after cooking).\n- Fat: 200 g × 13 g/100 g = **26 g** (retained after cooking).\n- Weight loss: 200 g × 20% = **40 g** (mostly water).\n\nCooked weight: 200 g - 40 g = **160 g** (but protein/fat remain unchanged).\n\nCalories: (40 g protein × 4 kcal/g) + (26 g fat × 9 kcal/g) = **164 + 234 = 398 kcal**.\n\nProtein: 40 g\nFat: 26 g\nCalories: 398 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 129,
+      "completion_tokens": 192,
+      "total_tokens": 321,
+      "cost": 0.0003525,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0003525,
+        "upstream_inference_prompt_cost": 0.0000645,
+        "upstream_inference_completions_cost": 0.000288
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 129,
+  "tokensOut": 192,
+  "costUsd": 0.0003525,
+  "latencyMs": 2782,
+  "finishReason": "stop"
+}

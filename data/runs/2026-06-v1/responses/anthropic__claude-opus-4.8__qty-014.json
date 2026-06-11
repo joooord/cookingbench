@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "qty-014",
+  "answerText": "To keep the same batter depth, I need to scale ingredients by the ratio of the tin areas.\n\n**Round tin area:**\n- Radius = 10 cm\n- Area = π × 10² = 100π ≈ 314.16 cm²\n\n**Square tin area:**\n- Side = 20 cm\n- Area = 20² = 400 cm²\n\n**Scaling factor:**\n- 400 ÷ 314.16 ≈ 1.27\n\nAnswer: 1.27",
+  "raw": {
+    "id": "gen-1781187072-EmQRxSLTfzCGpSYuLHyZ",
+    "object": "chat.completion",
+    "created": 1781187072,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To keep the same batter depth, I need to scale ingredients by the ratio of the tin areas.\n\n**Round tin area:**\n- Radius = 10 cm\n- Area = π × 10² = 100π ≈ 314.16 cm²\n\n**Square tin area:**\n- Side = 20 cm\n- Area = 20² = 400 cm²\n\n**Scaling factor:**\n- 400 ÷ 314.16 ≈ 1.27\n\nAnswer: 1.27",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 123,
+      "completion_tokens": 154,
+      "total_tokens": 277,
+      "cost": 0.004465,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004465,
+        "upstream_inference_prompt_cost": 0.000615,
+        "upstream_inference_completions_cost": 0.00385
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 123,
+  "tokensOut": 154,
+  "costUsd": 0.004465,
+  "latencyMs": 4670,
+  "finishReason": "stop"
+}

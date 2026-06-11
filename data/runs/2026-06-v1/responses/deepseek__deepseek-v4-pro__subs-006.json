@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "subs-006",
+  "answerText": "Use **1 teaspoon** of dried thyme. Dried herbs are more concentrated, so the standard substitution is 1 teaspoon dried for every 1 tablespoon (3 teaspoons) of fresh.",
+  "raw": {
+    "id": "gen-1781189573-WXWXssVcJdCycPpIsCJM",
+    "object": "chat.completion",
+    "created": 1781189573,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Venice",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Use **1 teaspoon** of dried thyme. Dried herbs are more concentrated, so the standard substitution is 1 teaspoon dried for every 1 tablespoon (3 teaspoons) of fresh.",
+          "refusal": null,
+          "reasoning": "We need to answer: \"A recipe calls for 1 tablespoon of fresh thyme but I only have dried thyme. How much dried thyme should I use?\" This is a common substitution question. The general rule is 1 tablespoon fresh herbs = 1 teaspoon dried herbs. Since 1 tablespoon equals 3 teaspoons, the substitution ratio is 3:1 fresh to dried. So for 1 tablespoon fresh thyme, use 1 teaspoon dried thyme. I'll give that answer with a brief explanation.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to answer: \"A recipe calls for 1 tablespoon of fresh thyme but I only have dried thyme. How much dried thyme should I use?\" This is a common substitution question. The general rule is 1 tablespoon fresh herbs = 1 teaspoon dried herbs. Since 1 tablespoon equals 3 teaspoons, the substitution ratio is 3:1 fresh to dried. So for 1 tablespoon fresh thyme, use 1 teaspoon dried thyme. I'll give that answer with a brief explanation.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 45,
+      "completion_tokens": 139,
+      "total_tokens": 184,
+      "cost": 0.000605494,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000605494,
+        "upstream_inference_prompt_cost": 0.00007785,
+        "upstream_inference_completions_cost": 0.000527644
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 100,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 45,
+  "tokensOut": 139,
+  "costUsd": 0.000605494,
+  "latencyMs": 16114,
+  "finishReason": "stop"
+}

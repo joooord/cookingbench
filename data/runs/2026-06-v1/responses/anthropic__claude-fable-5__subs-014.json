@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "subs-014",
+  "answerText": "To substitute instant yeast for fresh (cake) yeast, use about **one-third** of the fresh yeast weight, since instant yeast is much more concentrated.\n\n21 g fresh yeast ÷ 3 = **7 g instant yeast**\n\nTip: Instant yeast can be mixed directly into the flour—no need to dissolve it in water first.\n\nAnswer: 7 g",
+  "raw": {
+    "id": "gen-1781187923-KTUZHVzGcMj8A5LVYJHu",
+    "object": "chat.completion",
+    "created": 1781187923,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To substitute instant yeast for fresh (cake) yeast, use about **one-third** of the fresh yeast weight, since instant yeast is much more concentrated.\n\n21 g fresh yeast ÷ 3 = **7 g instant yeast**\n\nTip: Instant yeast can be mixed directly into the flour—no need to dissolve it in water first.\n\nAnswer: 7 g",
+          "refusal": null,
+          "reasoning": " So I need to convert fresh yeast to instant yeast using the standard ratio where instant is about a third of the fresh amount. That means 21 grams of fresh yeast converts to roughly 7 grams of instant yeast.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " So I need to convert fresh yeast to instant yeast using the standard ratio where instant is about a third of the fresh amount. That means 21 grams of fresh yeast converts to roughly 7 grams of instant yeast.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS+QIKYggOGAIqQEd6d5yJRHV9LWOgHEHfdgj2aujkbsozBrjGZWzyAr+I+YBPYU/ouXyI0WlviUX/hMIbxdUouUm3RDGtcelubyEyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgyqzKpK6Bu5vM3Er50aDIWaHLo+Zg4Wyz5ssyIwCT0ms9K65nSECiqNmhhCpBBa5RRxnZpbfEk8kPhmzry0BK/5tODmtmgfVcETcsHmKsQBb2OUiGhBGOcYSK3kqxwheigKsxi7sK+T5GZWCAtK+hO9htVeuKWGWhn2s3IHb5QDUlE9cB9ekaCoAlMVTtTjWeKlu6brzYPp9h5zGIwDlh4OZozUV33kdSPdsyaIaVqCxPiTiFWfPXZ2+uWCN5Y7vd7g+I33kY1gwltiPflqGOIjKlZDdPhcLZGo/kZamjw/jVMyjbegioeEVqYuRDi/gh/uSOlcX6FZOyMDkTCfgsmI9hkvNZJ8YBIXdGgzN1hbwwvweRgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 95,
+      "completion_tokens": 228,
+      "total_tokens": 323,
+      "cost": 0.01235,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01235,
+        "upstream_inference_prompt_cost": 0.00095,
+        "upstream_inference_completions_cost": 0.0114
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 52,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 95,
+  "tokensOut": 228,
+  "costUsd": 0.01235,
+  "latencyMs": 7976,
+  "finishReason": "stop"
+}

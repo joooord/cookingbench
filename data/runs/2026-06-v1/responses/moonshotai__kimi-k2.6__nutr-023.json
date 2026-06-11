@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "nutr-023",
+  "answerText": "Raw lean trimmed beef sirloin steak contains roughly 21 g of protein and 4 g of fat per 100 g.\n\nProtein: 21 g\nFat: 4 g",
+  "raw": {
+    "id": "gen-1781189975-tfJSa0O5KlKS4XLo77FQ",
+    "object": "chat.completion",
+    "created": 1781189975,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Decart",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Raw lean trimmed beef sirloin steak contains roughly 21 g of protein and 4 g of fat per 100 g.\n\nProtein: 21 g\nFat: 4 g",
+          "refusal": null,
+          "reasoning": "The user is asking for the approximate protein and fat content per 100g of raw beef sirloin steak that is lean with fat trimmed. I need to provide accurate nutritional values and end with the specific format requested.\n\nAccording to USDA FoodData Central and standard nutritional databases:\n- Raw beef sirloin steak (lean, fat trimmed to 0\" fat): \n  - Protein: approximately 20-22g per 100g (raw). More specifically, USDA data for \"Beef, loin, top sirloin steak, separable lean only, trimmed to 0\" fat, choice, raw\" shows about 20.9g protein. For \"select\" grade it's around 21.4g. A commonly cited rounded figure is about 21g or 20-21g.\n  - Fat: approximately 4-5g per 100g. USDA shows around 4.4g for choice, 3.5g for select. A commonly cited rounded figure is about 4g or 4.5g.\n\nLet me check typical values:\n- USDA FoodData Central: Beef, loin, top sirloin steak, separable lean only, trimmed to 1/8\" fat, all grades, raw: Protein 20.9g, Fat 5.6g. But if trimmed to 0\" fat: Protein ~21g, Fat ~4g.\n- Other sources: Very lean sirloin can be around 20g protein, 4g fat.\n\nI should give reasonable approximate values. Let's say roughly 21g protein and 4g fat per 100g. Or 20g protein and 4g fat. The user asks \"roughly\".\n\nLet me verify with USDA specifically for \"separable lean only, trimmed to 0\" fat\":\n- Beef, loin, top sirloin steak, separable lean only, trimmed to 0\" fat, choice, raw (NDC No. 23086):\n  - Protein: 20.93 g\n  - Total lipid (fat): 4.42 g\n- Beef, loin, top sirloin steak, separable lean only, trimmed to 0\" fat, select, raw (NDC No. 23087):\n  - Protein: 21.37 g\n  - Total lipid (fat): 3.54 g\n\nSo roughly 21 g protein and 4 g fat is a good average.\n\nThe user wants the answer accurate and concise, ending with two lines:\n\"Protein: <number> g\"\n\"Fat: <number> g\"\n\nSo the body can be a short sentence, then the two lines.\n\nExample:\nRaw lean trimmed beef sirloin steak contains roughly 21 g of protein and 4 g of fat per 100 g.\n\nProtein: 21 g\nFat: 4 g\n\nOr maybe 20g and 4g to be safe? 21g is more accurate for lean trimmed. I'll go with ~21 g protein and ~4 g fat. Or I can say \"about 20–21 g\" but the final lines need specific numbers. I'll use 21 and 4.\n\nWait, the user says \"Give both.\" and the format at the end must be exactly:\nProtein: <number> g\nFat: <number> g\n\nSo I should write the answer and then those two lines.\n\nLet's make sure the numbers are correct. I'll provide the approximate values: 21 g protein, 4 g fat.\n\nActually, looking at common nutritional labels and databases (like FatSecret, MyFitnessPal), raw sirloin lean is often listed as:\n- Protein: 20.9g\n- Fat: 4.1g\n\nSo 21g and 4g is perfect.\n\nFinal check: The user wants \"Per 100 g\". So I don't need to say \"per 100g\" in the final lines if it's just the numbers, but the lines should be exactly as requested. The prompt says \"End with two lines: \"Protein: <number> g\" and \"Fat: <number> g\".\" So the very last two lines of the response must be exactly that format.\n\nI'll write:\nRaw lean trimmed sirloin steak contains roughly 21 g of protein and 4 g of fat per 100 g.\n\nProtein: 21 g\nFat: 4 g\n\nThat seems good. Concise and accurate.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking for the approximate protein and fat content per 100g of raw beef sirloin steak that is lean with fat trimmed. I need to provide accurate nutritional values and end with the specific format requested.\n\nAccording to USDA FoodData Central and standard nutritional databases:\n- Raw beef sirloin steak (lean, fat trimmed to 0\" fat): \n  - Protein: approximately 20-22g per 100g (raw). More specifically, USDA data for \"Beef, loin, top sirloin steak, separable lean only, trimmed to 0\" fat, choice, raw\" shows about 20.9g protein. For \"select\" grade it's around 21.4g. A commonly cited rounded figure is about 21g or 20-21g.\n  - Fat: approximately 4-5g per 100g. USDA shows around 4.4g for choice, 3.5g for select. A commonly cited rounded figure is about 4g or 4.5g.\n\nLet me check typical values:\n- USDA FoodData Central: Beef, loin, top sirloin steak, separable lean only, trimmed to 1/8\" fat, all grades, raw: Protein 20.9g, Fat 5.6g. But if trimmed to 0\" fat: Protein ~21g, Fat ~4g.\n- Other sources: Very lean sirloin can be around 20g protein, 4g fat.\n\nI should give reasonable approximate values. Let's say roughly 21g protein and 4g fat per 100g. Or 20g protein and 4g fat. The user asks \"roughly\".\n\nLet me verify with USDA specifically for \"separable lean only, trimmed to 0\" fat\":\n- Beef, loin, top sirloin steak, separable lean only, trimmed to 0\" fat, choice, raw (NDC No. 23086):\n  - Protein: 20.93 g\n  - Total lipid (fat): 4.42 g\n- Beef, loin, top sirloin steak, separable lean only, trimmed to 0\" fat, select, raw (NDC No. 23087):\n  - Protein: 21.37 g\n  - Total lipid (fat): 3.54 g\n\nSo roughly 21 g protein and 4 g fat is a good average.\n\nThe user wants the answer accurate and concise, ending with two lines:\n\"Protein: <number> g\"\n\"Fat: <number> g\"\n\nSo the body can be a short sentence, then the two lines.\n\nExample:\nRaw lean trimmed beef sirloin steak contains roughly 21 g of protein and 4 g of fat per 100 g.\n\nProtein: 21 g\nFat: 4 g\n\nOr maybe 20g and 4g to be safe? 21g is more accurate for lean trimmed. I'll go with ~21 g protein and ~4 g fat. Or I can say \"about 20–21 g\" but the final lines need specific numbers. I'll use 21 and 4.\n\nWait, the user says \"Give both.\" and the format at the end must be exactly:\nProtein: <number> g\nFat: <number> g\n\nSo I should write the answer and then those two lines.\n\nLet's make sure the numbers are correct. I'll provide the approximate values: 21 g protein, 4 g fat.\n\nActually, looking at common nutritional labels and databases (like FatSecret, MyFitnessPal), raw sirloin lean is often listed as:\n- Protein: 20.9g\n- Fat: 4.1g\n\nSo 21g and 4g is perfect.\n\nFinal check: The user wants \"Per 100 g\". So I don't need to say \"per 100g\" in the final lines if it's just the numbers, but the lines should be exactly as requested. The prompt says \"End with two lines: \"Protein: <number> g\" and \"Fat: <number> g\".\" So the very last two lines of the response must be exactly that format.\n\nI'll write:\nRaw lean trimmed sirloin steak contains roughly 21 g of protein and 4 g of fat per 100 g.\n\nProtein: 21 g\nFat: 4 g\n\nThat seems good. Concise and accurate.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 80,
+      "completion_tokens": 950,
+      "total_tokens": 1030,
+      "cost": 0.0033747,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0033747,
+        "upstream_inference_prompt_cost": 0.0000592,
+        "upstream_inference_completions_cost": 0.0033155
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 824,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 80,
+  "tokensOut": 950,
+  "costUsd": 0.0033747,
+  "latencyMs": 3323,
+  "finishReason": "stop"
+}

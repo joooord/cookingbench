@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-009",
+  "answerText": "The dish contains 27 g of fat, which at 9 kcal per gram provides 27 × 9 = 243 kcal from fat.  \nThe total calories are 600 kcal, so the percentage from fat is (243 / 600) × 100 = 40.5%.  \n\nAnswer: 40.5 %",
+  "raw": {
+    "id": "gen-1781189331-rYQ20RzdEenqNyrpTJfj",
+    "object": "chat.completion",
+    "created": 1781189331,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The dish contains 27 g of fat, which at 9 kcal per gram provides 27 × 9 = 243 kcal from fat.  \nThe total calories are 600 kcal, so the percentage from fat is (243 / 600) × 100 = 40.5%.  \n\nAnswer: 40.5 %",
+          "refusal": null,
+          "reasoning": "We are asked: \"A dish has 600 kcal, of which 27 g is fat. What percentage of its calories comes from fat? Use 9 kcal per gram of fat.\"\n\nWe need to calculate calories from fat: 27 g * 9 kcal/g = 243 kcal.\nThen percentage = (243 / 600) * 100% = 40.5%.\n\nSo answer: 40.5%\n\nBut the instruction says: \"End your reply with a line \"Answer: <number> %\".\" So we'll end with \"Answer: 40.5 %\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A dish has 600 kcal, of which 27 g is fat. What percentage of its calories comes from fat? Use 9 kcal per gram of fat.\"\n\nWe need to calculate calories from fat: 27 g * 9 kcal/g = 243 kcal.\nThen percentage = (243 / 600) * 100% = 40.5%.\n\nSo answer: 40.5%\n\nBut the instruction says: \"End your reply with a line \"Answer: <number> %\".\" So we'll end with \"Answer: 40.5 %\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 67,
+      "completion_tokens": 189,
+      "total_tokens": 256,
+      "cost": 0.0003384225,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0003384225,
+        "upstream_inference_prompt_cost": 0.0000509535,
+        "upstream_inference_completions_cost": 0.000287469
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 120,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 67,
+  "tokensOut": 189,
+  "costUsd": 0.0003384225,
+  "latencyMs": 14447,
+  "finishReason": "stop"
+}

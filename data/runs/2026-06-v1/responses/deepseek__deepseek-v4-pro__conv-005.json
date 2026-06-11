@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-005",
+  "answerText": "500 ml of stock is approximately 2.11 US cups (since 1 US cup = 236.6 ml).  \nAnswer: 2.11 cups",
+  "raw": {
+    "id": "gen-1781189221-EQfmckWYboNGQ9URNySa",
+    "object": "chat.completion",
+    "created": 1781189221,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Novita",
+    "system_fingerprint": "fp_9954b31ca7_prod0820_fp8_kvcache_20260402",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "500 ml of stock is approximately 2.11 US cups (since 1 US cup = 236.6 ml).  \nAnswer: 2.11 cups",
+          "refusal": null,
+          "reasoning": "We are asked: \"How many US cups is 500 ml of stock?\" Need to convert 500 ml to US cups. 1 US cup = 236.5882365 ml exactly (often approximated as 236.6 ml). So 500 ml / 236.5882365 ≈ 2.11338 cups. Precision: typically rounded to a reasonable number. Many recipes might use 2.1 cups or 2.11 cups. But as cooking assistant, answer accurately and concisely. End with \"Answer: <number> cups\". Provide the conversion with maybe two decimal places: 2.11 cups. But check: 500 ml is exactly 2.1133764188652 US customary cups. Commonly, 500 ml is about 2.11 US cups. Some may say 2 1/8 cups? 2.113 is close to 2 1/9? Not exactly. I'll use 2.11 cups. So Answer: 2.11 cups.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"How many US cups is 500 ml of stock?\" Need to convert 500 ml to US cups. 1 US cup = 236.5882365 ml exactly (often approximated as 236.6 ml). So 500 ml / 236.5882365 ≈ 2.11338 cups. Precision: typically rounded to a reasonable number. Many recipes might use 2.1 cups or 2.11 cups. But as cooking assistant, answer accurately and concisely. End with \"Answer: <number> cups\". Provide the conversion with maybe two decimal places: 2.11 cups. But check: 500 ml is exactly 2.1133764188652 US customary cups. Commonly, 500 ml is about 2.11 US cups. Some may say 2 1/8 cups? 2.113 is close to 2 1/9? Not exactly. I'll use 2.11 cups. So Answer: 2.11 cups.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 45,
+      "completion_tokens": 244,
+      "total_tokens": 289,
+      "cost": 0.0008528,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0008528,
+        "upstream_inference_prompt_cost": 0.000072,
+        "upstream_inference_completions_cost": 0.0007808
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 210,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 45,
+  "tokensOut": 244,
+  "costUsd": 0.0008528,
+  "latencyMs": 5845,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-001",
+  "answerText": "The standard Atwater factors assign 4 kcal/g for protein, 4 kcal/g for carbohydrates, and 9 kcal/g for fat.  \n- Protein: 40 g × 4 kcal/g = 160 kcal  \n- Carbohydrates: 30 g × 4 kcal/g = 120 kcal  \n- Fat: 20 g × 9 kcal/g = 180 kcal  \nTotal = 160 + 120 + 180 = 460 kcal.  \n\nAnswer: 460 kcal",
+  "raw": {
+    "id": "gen-1781189321-pFFolUqh6LUKQ94L65Rf",
+    "object": "chat.completion",
+    "created": 1781189321,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "SiliconFlow",
+    "system_fingerprint": "fp_9954b31ca7_prod0820_fp8_kvcache_20260402",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The standard Atwater factors assign 4 kcal/g for protein, 4 kcal/g for carbohydrates, and 9 kcal/g for fat.  \n- Protein: 40 g × 4 kcal/g = 160 kcal  \n- Carbohydrates: 30 g × 4 kcal/g = 120 kcal  \n- Fat: 20 g × 9 kcal/g = 180 kcal  \nTotal = 160 + 120 + 180 = 460 kcal.  \n\nAnswer: 460 kcal",
+          "refusal": null,
+          "reasoning": "We are asked: \"A meal contains 40 g of protein, 30 g of carbohydrates and 20 g of fat. Using the standard Atwater factors, how many kilocalories is that in total?\"\n\nAtwater factors: protein 4 kcal/g, carbohydrate 4 kcal/g, fat 9 kcal/g. (Also alcohol 7 kcal/g, but not present). So compute: 40*4 + 30*4 + 20*9 = 160 + 120 + 180 = 460 kcal.\n\nAnswer: 460 kcal.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A meal contains 40 g of protein, 30 g of carbohydrates and 20 g of fat. Using the standard Atwater factors, how many kilocalories is that in total?\"\n\nAtwater factors: protein 4 kcal/g, carbohydrate 4 kcal/g, fat 9 kcal/g. (Also alcohol 7 kcal/g, but not present). So compute: 40*4 + 30*4 + 20*9 = 160 + 120 + 180 = 460 kcal.\n\nAnswer: 460 kcal.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 72,
+      "completion_tokens": 214,
+      "total_tokens": 286,
+      "cost": 0.00078609,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00078609,
+        "upstream_inference_prompt_cost": 0.0001152,
+        "upstream_inference_completions_cost": 0.00067089
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 114,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 72,
+  "tokensOut": 214,
+  "costUsd": 0.00078609,
+  "latencyMs": 3769,
+  "finishReason": "stop"
+}

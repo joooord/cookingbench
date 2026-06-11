@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "qty-008",
+  "answerText": "At a 1:16 ratio, divide the water weight by 16.\n\n750 g ÷ 16 = 46.875 g\n\nAnswer: 46.875 g",
+  "raw": {
+    "id": "gen-1781190046-ww4QrHKjqLKgpQZLrR1B",
+    "object": "chat.completion",
+    "created": 1781190046,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "At a 1:16 ratio, divide the water weight by 16.\n\n750 g ÷ 16 = 46.875 g\n\nAnswer: 46.875 g",
+          "refusal": null,
+          "reasoning": "The user wants to know how many grams of coffee to use for 750 g of water at a 1:16 coffee-to-water ratio.\n\nA 1:16 coffee-to-water ratio means 1 part coffee to 16 parts water.\nSo if water is 750 g, then coffee = 750 / 16.\n750 / 16 = 46.875 g.\n\nLet me calculate: 16 × 46 = 736. 750 - 736 = 14. So 46 + 14/16 = 46 + 7/8 = 46.875 g.\n\nSo the answer is 46.875 g. I should present this concisely and end with the required format.\n\nWait, let me double check. Ratio 1:16 could be interpreted as coffee:water = 1:16. Yes, that's standard. So coffee = water / 16 = 750/16 = 46.875 g.\n\nI need to end with \"Answer: <number> g\". So \"Answer: 46.875 g\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants to know how many grams of coffee to use for 750 g of water at a 1:16 coffee-to-water ratio.\n\nA 1:16 coffee-to-water ratio means 1 part coffee to 16 parts water.\nSo if water is 750 g, then coffee = 750 / 16.\n750 / 16 = 46.875 g.\n\nLet me calculate: 16 × 46 = 736. 750 - 736 = 14. So 46 + 14/16 = 46 + 7/8 = 46.875 g.\n\nSo the answer is 46.875 g. I should present this concisely and end with the required format.\n\nWait, let me double check. Ratio 1:16 could be interpreted as coffee:water = 1:16. Yes, that's standard. So coffee = water / 16 = 750/16 = 46.875 g.\n\nI need to end with \"Answer: <number> g\". So \"Answer: 46.875 g\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 76,
+      "completion_tokens": 255,
+      "total_tokens": 331,
+      "cost": 0.000897624,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 49,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000897624,
+        "upstream_inference_prompt_cost": 0.000025524,
+        "upstream_inference_completions_cost": 0.0008721
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 217,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 76,
+  "tokensOut": 255,
+  "costUsd": 0.000897624,
+  "latencyMs": 7331,
+  "finishReason": "stop"
+}

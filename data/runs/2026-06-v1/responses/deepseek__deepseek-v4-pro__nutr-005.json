@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-005",
+  "answerText": "The serving contains 690 mg of sodium, and the FDA daily value is 2,300 mg. To find the percentage: (690 ÷ 2,300) × 100% = 30%.\n\nAnswer: 30%",
+  "raw": {
+    "id": "gen-1781189325-1GjKbbmKWcy3UQMBvRKQ",
+    "object": "chat.completion",
+    "created": 1781189325,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The serving contains 690 mg of sodium, and the FDA daily value is 2,300 mg. To find the percentage: (690 ÷ 2,300) × 100% = 30%.\n\nAnswer: 30%",
+          "refusal": null,
+          "reasoning": "We are asked: \"A serving of soup contains 690 mg of sodium. Using the FDA daily value of 2,300 mg, what percent of the daily value is that?\" We need to compute (690 / 2300) * 100%. 690/2300 = 0.3, so 30%. Answer: 30%.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A serving of soup contains 690 mg of sodium. Using the FDA daily value of 2,300 mg, what percent of the daily value is that?\" We need to compute (690 / 2300) * 100%. 690/2300 = 0.3, so 30%. Answer: 30%.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 66,
+      "completion_tokens": 121,
+      "total_tokens": 187,
+      "cost": 0.00026796,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00026796,
+        "upstream_inference_prompt_cost": 0.00005742,
+        "upstream_inference_completions_cost": 0.00021054
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 72,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 66,
+  "tokensOut": 121,
+  "costUsd": 0.00026796,
+  "latencyMs": 5324,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "conv-013",
+  "answerText": "425°F converts to approximately 218°C using the formula (°F − 32) × 5/9 = (425 − 32) × 5/9 ≈ 218.3°C.\n\nIn practice, most recipes and ovens round this to **220°C** (or gas mark 7). If you have a fan/convection oven, reduce it to about 200°C.\n\nAnswer: 218 °C",
+  "raw": {
+    "id": "gen-1781187602-pZHRgE07UPLkRzWbTiby",
+    "object": "chat.completion",
+    "created": 1781187602,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "425°F converts to approximately 218°C using the formula (°F − 32) × 5/9 = (425 − 32) × 5/9 ≈ 218.3°C.\n\nIn practice, most recipes and ovens round this to **220°C** (or gas mark 7). If you have a fan/convection oven, reduce it to about 200°C.\n\nAnswer: 218 °C",
+          "refusal": null,
+          "reasoning": " I'm converting 425°F to Celsius using the standard formula, which gives me about 218°C—a temperature commonly rounded to 220°C for practical oven settings.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm converting 425°F to Celsius using the standard formula, which gives me about 218°C—a temperature commonly rounded to 220°C for practical oven settings.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISowIKYggOGAIqQKIt8kbgAj5KDrYYu9MfDDpfpuVw+J385/cIlKtXs+e6uuoKtpjClkwn51GlV5peIZG2LqgqZa9Xw7Rpzj21UU0yDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgwBNqqgfG8itwvp/UUaDMREcFl1GBdRZIRHliIw/o/ZLF3M5wR/g3lORL6mSSSqmoKXKQe9/LD+Vr6wAGNt6EtokMvMJccdOcxrVBWTKm/ahxCfQqliWm0LVo70xB7n1OvncBLdv0x87EsfaKVmenQ89tibQL2C9VR6UBXsxQ8rjApv2ZMbGrcU8YRzNs85GOdsfT5/A0T2c1dShgLxBHxMod6Pfj12bP/pOWO8luJimLaPKaZQ4Fjc/wRs7CIYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 72,
+      "completion_tokens": 176,
+      "total_tokens": 248,
+      "cost": 0.00952,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00952,
+        "upstream_inference_prompt_cost": 0.00072,
+        "upstream_inference_completions_cost": 0.0088
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 42,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 72,
+  "tokensOut": 176,
+  "costUsd": 0.00952,
+  "latencyMs": 7298,
+  "finishReason": "stop"
+}

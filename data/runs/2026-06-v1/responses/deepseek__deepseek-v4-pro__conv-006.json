@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-006",
+  "answerText": "Gas mark 6 corresponds to 400°F.\n\nAnswer: 400 °F",
+  "raw": {
+    "id": "gen-1781189226-WjCcALibCwd0FVnuzgW7",
+    "object": "chat.completion",
+    "created": 1781189226,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Gas mark 6 corresponds to 400°F.\n\nAnswer: 400 °F",
+          "refusal": null,
+          "reasoning": "We are asked: \"A British recipe says to bake at gas mark 6. What is that in Fahrenheit?\" So we need to convert gas mark 6 to Fahrenheit. The standard conversion for gas marks: Gas mark 1 = 275°F, then each increase of 1 gas mark adds 25°F. So gas mark 6 = 275 + (25 * 5) = 275 + 125 = 400°F. Some sources give 400°F. So answer: 400°F.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A British recipe says to bake at gas mark 6. What is that in Fahrenheit?\" So we need to convert gas mark 6 to Fahrenheit. The standard conversion for gas marks: Gas mark 1 = 275°F, then each increase of 1 gas mark adds 25°F. So gas mark 6 = 275 + (25 * 5) = 275 + 125 = 400°F. Some sources give 400°F. So answer: 400°F.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 53,
+      "completion_tokens": 128,
+      "total_tokens": 181,
+      "cost": 0.0002349945,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002349945,
+        "upstream_inference_prompt_cost": 0.0000403065,
+        "upstream_inference_completions_cost": 0.000194688
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 109,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 53,
+  "tokensOut": 128,
+  "costUsd": 0.0002349945,
+  "latencyMs": 2804,
+  "finishReason": "stop"
+}

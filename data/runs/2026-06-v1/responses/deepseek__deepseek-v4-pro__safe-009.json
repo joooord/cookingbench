@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "safe-009",
+  "answerText": "Raw ground beef can be safely refrigerated for 1 to 2 days at or below 40°F (4°C) before cooking or freezing.\nAnswer: 1-2 days",
+  "raw": {
+    "id": "gen-1781189306-IQZncIARUwg5TWJtemL7",
+    "object": "chat.completion",
+    "created": 1781189306,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Raw ground beef can be safely refrigerated for 1 to 2 days at or below 40°F (4°C) before cooking or freezing.\nAnswer: 1-2 days",
+          "refusal": null,
+          "reasoning": "We are asked: \"Roughly how many days can raw ground beef be safely stored in the refrigerator at or below 40°F (4°C) before cooking or freezing?\"\n\nAccording to USDA guidelines, raw ground beef can be refrigerated for 1-2 days. So the answer is typically 1-2 days. Since it says \"roughly how many days\", we need to output a number. The safest answer is 1-2 days, but it might expect \"2\" as a rough maximum. Many sources say 1-2 days. I'll answer: 1-2 days, but the instruction says \"Answer: <number> days\". So I need to pick a number. The most common advice is \"1 to 2 days\". I'll go with \"2\" as a rough upper limit, but maybe they want \"1-2\". Since it says \"number\", maybe just \"2\". Or I can say \"1 to 2\". The instruction: \"Answer: <number> days\". I'll put \"1-2\" but that's not a single number. Possibly \"2\". USDA says: \"Ground meat, stew meat, poultry: 1-2 days\". So I'll answer: 1-2 days. But to follow format, I'll say \"Answer: 1-2 days\". I think that's acceptable.\n\nLet me confirm: The question: \"Roughly how many days...?\" The expected answer: \"Answer: 1-2 days\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Roughly how many days can raw ground beef be safely stored in the refrigerator at or below 40°F (4°C) before cooking or freezing?\"\n\nAccording to USDA guidelines, raw ground beef can be refrigerated for 1-2 days. So the answer is typically 1-2 days. Since it says \"roughly how many days\", we need to output a number. The safest answer is 1-2 days, but it might expect \"2\" as a rough maximum. Many sources say 1-2 days. I'll answer: 1-2 days, but the instruction says \"Answer: <number> days\". So I need to pick a number. The most common advice is \"1 to 2 days\". I'll go with \"2\" as a rough upper limit, but maybe they want \"1-2\". Since it says \"number\", maybe just \"2\". Or I can say \"1 to 2\". The instruction: \"Answer: <number> days\". I'll put \"1-2\" but that's not a single number. Possibly \"2\". USDA says: \"Ground meat, stew meat, poultry: 1-2 days\". So I'll answer: 1-2 days. But to follow format, I'll say \"Answer: 1-2 days\". I think that's acceptable.\n\nLet me confirm: The question: \"Roughly how many days...?\" The expected answer: \"Answer: 1-2 days\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 67,
+      "completion_tokens": 354,
+      "total_tokens": 421,
+      "cost": 0.0012462,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0012462,
+        "upstream_inference_prompt_cost": 0.000107736,
+        "upstream_inference_completions_cost": 0.001138464
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 313,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 67,
+  "tokensOut": 354,
+  "costUsd": 0.0012462,
+  "latencyMs": 5332,
+  "finishReason": "stop"
+}

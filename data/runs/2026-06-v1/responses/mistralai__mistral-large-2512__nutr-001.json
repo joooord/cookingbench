@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "nutr-001",
+  "answerText": "Using the standard Atwater factors:\n- Protein: 4 kcal/g\n- Carbohydrates: 4 kcal/g\n- Fat: 9 kcal/g\n\nCalculation:\n(40 g protein × 4) + (30 g carbs × 4) + (20 g fat × 9) = 160 + 120 + 180 = 460 kcal\n\nAnswer: 460 kcal",
+  "raw": {
+    "id": "gen-1781190886-BsToJu0aEWFunaD6xMxk",
+    "object": "chat.completion",
+    "created": 1781190886,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Using the standard Atwater factors:\n- Protein: 4 kcal/g\n- Carbohydrates: 4 kcal/g\n- Fat: 9 kcal/g\n\nCalculation:\n(40 g protein × 4) + (30 g carbs × 4) + (20 g fat × 9) = 160 + 120 + 180 = 460 kcal\n\nAnswer: 460 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 76,
+      "completion_tokens": 96,
+      "total_tokens": 172,
+      "cost": 0.000182,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000182,
+        "upstream_inference_prompt_cost": 0.000038,
+        "upstream_inference_completions_cost": 0.000144
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 76,
+  "tokensOut": 96,
+  "costUsd": 0.000182,
+  "latencyMs": 1631,
+  "finishReason": "stop"
+}

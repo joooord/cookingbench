@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "nutr-007",
+  "answerText": "Each cookie contains 1,800 ÷ 12 = 150 kcal of dough. Adding 35 kcal of icing gives 150 + 35 = 185 kcal.\n\nAnswer: 185 kcal",
+  "raw": {
+    "id": "gen-1781189927-gDJM1dPJ4yFBiGIH2s9H",
+    "object": "chat.completion",
+    "created": 1781189927,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "StreamLake",
+    "system_fingerprint": "fpv0_69dc6732",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Each cookie contains 1,800 ÷ 12 = 150 kcal of dough. Adding 35 kcal of icing gives 150 + 35 = 185 kcal.\n\nAnswer: 185 kcal",
+          "refusal": null,
+          "reasoning": "The user wants me to calculate the total calorie count of one finished, iced cookie.\n\nGiven:\n- Recipe makes 12 cookies\n- Total dough calories: 1,800 kcal\n- Each cookie is iced with 35 kcal of icing\n\nStep 1: Calculate calories per cookie from dough\n1,800 kcal / 12 cookies = 150 kcal per cookie (dough only)\n\nStep 2: Add icing calories\n150 kcal + 35 kcal = 185 kcal per finished, iced cookie\n\nSo the answer is 185 kcal.\n\nI need to end with \"Answer: <number> kcal\".\n\nLet me double-check:\n- 1800 / 12 = 150. Yes.\n- 150 + 35 = 185. Yes.\n\nThe response should be accurate and concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants me to calculate the total calorie count of one finished, iced cookie.\n\nGiven:\n- Recipe makes 12 cookies\n- Total dough calories: 1,800 kcal\n- Each cookie is iced with 35 kcal of icing\n\nStep 1: Calculate calories per cookie from dough\n1,800 kcal / 12 cookies = 150 kcal per cookie (dough only)\n\nStep 2: Add icing calories\n150 kcal + 35 kcal = 185 kcal per finished, iced cookie\n\nSo the answer is 185 kcal.\n\nI need to end with \"Answer: <number> kcal\".\n\nLet me double-check:\n- 1800 / 12 = 150. Yes.\n- 150 + 35 = 185. Yes.\n\nThe response should be accurate and concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 84,
+      "completion_tokens": 218,
+      "total_tokens": 302,
+      "cost": 0.00085662,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00085662,
+        "upstream_inference_prompt_cost": 0.00007182,
+        "upstream_inference_completions_cost": 0.0007848
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 161,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 84,
+  "tokensOut": 218,
+  "costUsd": 0.00085662,
+  "latencyMs": 7937,
+  "finishReason": "stop"
+}

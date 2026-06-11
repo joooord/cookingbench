@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "nutr-007",
+  "answerText": "To find the total calorie count of one finished, iced cookie, we need to first determine the calorie count of one cookie before icing. The dough makes 12 cookies and totals 1,800 kcal, so we divide 1,800 kcal by 12 to get the calorie count per cookie. 1,800 kcal / 12 = 150 kcal per cookie. Then, we add the 35 kcal of icing to get the total calorie count per finished cookie. 150 kcal + 35 kcal = 185 kcal.\n\nAnswer: 185 kcal",
+  "raw": {
+    "id": "gen-1781190723-gyfLn6zoqyErpu99kMc5",
+    "object": "chat.completion",
+    "created": 1781190723,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To find the total calorie count of one finished, iced cookie, we need to first determine the calorie count of one cookie before icing. The dough makes 12 cookies and totals 1,800 kcal, so we divide 1,800 kcal by 12 to get the calorie count per cookie. 1,800 kcal / 12 = 150 kcal per cookie. Then, we add the 35 kcal of icing to get the total calorie count per finished cookie. 150 kcal + 35 kcal = 185 kcal.\n\nAnswer: 185 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 87,
+      "completion_tokens": 114,
+      "total_tokens": 201,
+      "cost": 0.00008145,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00008145,
+        "upstream_inference_prompt_cost": 0.00001305,
+        "upstream_inference_completions_cost": 0.0000684
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 87,
+  "tokensOut": 114,
+  "costUsd": 0.00008145,
+  "latencyMs": 6636,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-001",
+  "answerText": "To scale from 2 loaves to 5 loaves, multiply each ingredient by 2.5:\n\n- **Flour:** 500 g × 2.5 = 1250 g\n- **Water:** 350 g × 2.5 = 875 g\n- **Salt:** 10 g × 2.5 = 25 g\n- **Instant yeast:** 7 g × 2.5 = 17.5 g\n\nThe hydration stays at 70%, so the dough should handle exactly the same — just divide into 5 equal pieces (~430 g each) before shaping.\n\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g",
+  "raw": {
+    "id": "gen-1781188162-EN27zlwLc2PAL2RKWRng",
+    "object": "chat.completion",
+    "created": 1781188162,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To scale from 2 loaves to 5 loaves, multiply each ingredient by 2.5:\n\n- **Flour:** 500 g × 2.5 = 1250 g\n- **Water:** 350 g × 2.5 = 875 g\n- **Salt:** 10 g × 2.5 = 25 g\n- **Instant yeast:** 7 g × 2.5 = 17.5 g\n\nThe hydration stays at 70%, so the dough should handle exactly the same — just divide into 5 equal pieces (~430 g each) before shaping.\n\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g",
+          "refusal": null,
+          "reasoning": " I'm scaling up the recipe by 2.5 times to get the adjusted ingredient amounts.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm scaling up the recipe by 2.5 times to get the adjusted ingredient amounts.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS/QEKYggOGAIqQMOWoNn+vc1l0C5TICkpqgnwFhyi7FUyPRTN2scRHp8CxcDIqQ+9e0IPMQ52PlNpUeVNwCbNKWdFZsqgXE6gmuAyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgyWhmwDduVaBvdHMKYaDEuG075QXbFYUmzT0iIwqnV+MJeU5z1PCXUHsCzoxBmNdD4ltQxwq5G5fexdxNzFB6wpzY7PHfUeWYWHcyfBKknGntqpmjE0Kl/nj+heujf+WrL8t5H/J3aMT4bLgmOcBU0ux/iePFgKKnTqrQIrdvp99W2p7gQK5KJKWErt8qd6do3AMnZHSrIoGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 133,
+      "completion_tokens": 251,
+      "total_tokens": 384,
+      "cost": 0.01388,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01388,
+        "upstream_inference_prompt_cost": 0.00133,
+        "upstream_inference_completions_cost": 0.01255
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 20,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 133,
+  "tokensOut": 251,
+  "costUsd": 0.01388,
+  "latencyMs": 9239,
+  "finishReason": "stop"
+}

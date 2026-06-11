@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-014",
+  "answerText": "Caster sugar has a similar density to granulated sugar, so using the given conversion of 200 g per cup, 250 g is 250 / 200 = 1.25 cups.\n\nAnswer: 1.25 cups",
+  "raw": {
+    "id": "gen-1781189242-vvYfAJw5RiF4LjIuDpuc",
+    "object": "chat.completion",
+    "created": 1781189242,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Parasail",
+    "system_fingerprint": "vllm-0.20.1rc1.dev1005+gcbf8428d0-tp4-ep-66a5fbd4",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Caster sugar has a similar density to granulated sugar, so using the given conversion of 200 g per cup, 250 g is 250 / 200 = 1.25 cups.\n\nAnswer: 1.25 cups",
+          "refusal": null,
+          "reasoning": "We are asked: \"A European recipe lists 250 g of caster sugar. Roughly how many US cups is that, given granulated sugar is about 200 g per cup?\"\n\nCaster sugar is finer than granulated sugar but similar in density. The given conversion is for granulated sugar: 200 g per cup. So 250 g would be 250/200 = 1.25 cups. So roughly 1.25 US cups. The answer should be in the format \"Answer: <number> cups\". So \"Answer: 1.25 cups\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A European recipe lists 250 g of caster sugar. Roughly how many US cups is that, given granulated sugar is about 200 g per cup?\"\n\nCaster sugar is finer than granulated sugar but similar in density. The given conversion is for granulated sugar: 200 g per cup. So 250 g would be 250/200 = 1.25 cups. So roughly 1.25 US cups. The answer should be in the format \"Answer: <number> cups\". So \"Answer: 1.25 cups\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 67,
+      "completion_tokens": 167,
+      "total_tokens": 234,
+      "cost": 0.00069774,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00069774,
+        "upstream_inference_prompt_cost": 0.00011658,
+        "upstream_inference_completions_cost": 0.00058116
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 107,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 67,
+  "tokensOut": 167,
+  "costUsd": 0.00069774,
+  "latencyMs": 6597,
+  "finishReason": "stop"
+}
