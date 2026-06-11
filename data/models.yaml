@@ -1,0 +1,94 @@
+# CookingBench model roster.
+# ids are OpenRouter slugs. IMPORTANT: run `pnpm bench models --check` before a
+# paid run — it validates every slug against the live OpenRouter catalog and
+# flags newly released flagship-class models worth adding.
+# Same-family pairs (e.g. Fable 5 vs Opus 4.8) are deliberate: version-regression
+# comparison is a headline feature of this benchmark.
+
+# Frontier flagships
+- id: anthropic/claude-fable-5
+  displayName: Claude Fable 5
+  provider: Anthropic
+  family: claude-frontier
+  releaseDate: '2026-06-09'
+  active: true
+- id: anthropic/claude-opus-4.8
+  displayName: Claude Opus 4.8
+  provider: Anthropic
+  family: claude-frontier
+  releaseDate: '2026-05-28'
+  active: true
+- id: openai/gpt-5.5
+  displayName: GPT-5.5
+  provider: OpenAI
+  family: gpt-frontier
+  releaseDate: '2026-04-15'
+  active: true
+- id: google/gemini-3.1-pro
+  displayName: Gemini 3.1 Pro
+  provider: Google
+  family: gemini-pro
+  releaseDate: '2026-02-10'
+  active: true
+- id: x-ai/grok-4.3
+  displayName: Grok 4.3
+  provider: xAI
+  family: grok-frontier
+  releaseDate: '2026-04-20'
+  active: true
+
+# Mid-tier
+- id: anthropic/claude-sonnet-4.6
+  displayName: Claude Sonnet 4.6
+  provider: Anthropic
+  family: claude-mid
+  active: true
+- id: openai/gpt-5.5-mini
+  displayName: GPT-5.5 mini
+  provider: OpenAI
+  family: gpt-mid
+  active: true
+- id: google/gemini-3.1-flash
+  displayName: Gemini 3.1 Flash
+  provider: Google
+  family: gemini-flash
+  active: true
+
+# Open-weights / other
+- id: deepseek/deepseek-v4
+  displayName: DeepSeek V4
+  provider: DeepSeek
+  family: deepseek
+  active: true
+- id: moonshotai/kimi-k2.6
+  displayName: Kimi K2.6
+  provider: Moonshot AI
+  family: kimi
+  active: true
+- id: meta-llama/llama-4-maverick
+  displayName: Llama 4 Maverick
+  provider: Meta
+  family: llama
+  active: true
+- id: mistralai/mistral-large-3
+  displayName: Mistral Large 3
+  provider: Mistral
+  family: mistral
+  active: true
+- id: qwen/qwen3.5-plus
+  displayName: Qwen 3.5 Plus
+  provider: Alibaba
+  family: qwen
+  active: true
+
+# Awaiting GA — flip active when they hit OpenRouter
+- id: google/gemini-3.5-pro
+  displayName: Gemini 3.5 Pro
+  provider: Google
+  family: gemini-pro
+  active: false
+- id: openai/gpt-5.6
+  displayName: GPT-5.6
+  provider: OpenAI
+  family: gpt-frontier
+  active: false

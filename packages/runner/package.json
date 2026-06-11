@@ -1,0 +1,20 @@
+{
+  "name": "@cookingbench/runner",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "bench": "tsx src/cli.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@cookingbench/core": "workspace:*",
+    "@supabase/supabase-js": "^2.48.1",
+    "yaml": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.3",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

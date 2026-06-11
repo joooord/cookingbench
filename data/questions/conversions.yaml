@@ -1,0 +1,89 @@
+# Conversions — volume, weight, temperature across kitchen units and locales.
+
+- id: conv-001
+  category: conversions
+  difficulty: 1
+  public: true
+  prompt: >
+    Convert an oven temperature of 350°F to Celsius. Give the conventional
+    (non-fan) oven temperature.
+  systemHint: 'End your reply with a line "Answer: <number> °C".'
+  grader:
+    type: numeric
+    expected: 176.7
+    unit: c
+    toleranceAbs: 3
+    acceptEquivalentUnits: false
+  referenceAnswer: '176.7°C, conventionally rounded to 175–180°C'
+
+- id: conv-002
+  category: conversions
+  difficulty: 2
+  public: true
+  prompt: >
+    How much does 1 US cup of all-purpose flour weigh in grams, measured by the
+    standard spoon-and-level method?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: range
+    min: 110
+    max: 130
+    unit: g
+  referenceAnswer: '120–125 g (King Arthur uses 120 g; USDA uses 125 g)'
+  source: 'King Arthur Baking ingredient weight chart; USDA FoodData Central'
+
+- id: conv-003
+  category: conversions
+  difficulty: 1
+  public: true
+  prompt: How many millilitres are in 2 US tablespoons?
+  systemHint: 'End your reply with a line "Answer: <number> ml".'
+  grader:
+    type: numeric
+    expected: 29.6
+    unit: ml
+    toleranceAbs: 1
+    acceptEquivalentUnits: false
+  referenceAnswer: '29.57 ml, commonly rounded to 30 ml'
+
+- id: conv-004
+  category: conversions
+  difficulty: 1
+  public: true
+  prompt: >
+    An American recipe calls for 1 stick of butter. How many grams is that?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    expected: 113
+    unit: g
+    toleranceAbs: 4
+  referenceAnswer: '113 g (4 oz / ½ cup / 8 tablespoons)'
+
+- id: conv-005
+  category: conversions
+  difficulty: 2
+  public: true
+  prompt: How many US cups is 500 ml of stock?
+  systemHint: 'End your reply with a line "Answer: <number> cups".'
+  grader:
+    type: range
+    min: 2.0
+    max: 2.2
+    unit: cup
+  referenceAnswer: '2.11 cups (often rounded to "just over 2 cups")'
+
+- id: conv-006
+  category: conversions
+  difficulty: 3
+  public: false
+  prompt: >
+    A British recipe says to bake at gas mark 6. What is that in Fahrenheit?
+  systemHint: 'End your reply with a line "Answer: <number> °F".'
+  grader:
+    type: numeric
+    expected: 400
+    unit: f
+    toleranceAbs: 10
+    acceptEquivalentUnits: false
+  referenceAnswer: '400°F (200°C)'

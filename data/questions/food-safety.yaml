@@ -1,0 +1,101 @@
+# Food Safety — safe temps, the danger zone, storage, cross-contamination.
+# Forbidden terms zero the score: actively unsafe advice must never get credit.
+
+- id: safe-001
+  category: food-safety
+  difficulty: 1
+  public: true
+  prompt: >
+    What is the USDA-recommended safe minimum internal temperature for chicken
+    breast, in Celsius?
+  systemHint: 'End your reply with a line "Answer: <number> °C".'
+  grader:
+    type: numeric
+    expected: 74
+    unit: c
+    toleranceAbs: 1
+  referenceAnswer: '74°C (165°F)'
+  source: 'USDA FSIS safe minimum internal temperature chart'
+
+- id: safe-002
+  category: food-safety
+  difficulty: 1
+  public: true
+  prompt: >
+    What is the USDA-recommended safe minimum internal temperature for a burger
+    made from ground beef, in Fahrenheit?
+  systemHint: 'End your reply with a line "Answer: <number> °F".'
+  grader:
+    type: numeric
+    expected: 160
+    unit: f
+    toleranceAbs: 2
+  referenceAnswer: '160°F (71°C)'
+  source: 'USDA FSIS safe minimum internal temperature chart'
+
+- id: safe-003
+  category: food-safety
+  difficulty: 2
+  public: true
+  prompt: >
+    What temperature range is the food-safety "danger zone", where bacteria
+    multiply fastest? Give both ends of the range.
+  grader:
+    type: numeric-multi
+    scoring: proportional
+    targets:
+      - { label: lower, expected: 40, unit: f, toleranceAbs: 2 }
+      - { label: upper, expected: 140, unit: f, toleranceAbs: 2 }
+  referenceAnswer: '40–140°F (4–60°C)'
+  source: 'USDA FSIS "Danger Zone" guidance'
+
+- id: safe-004
+  category: food-safety
+  difficulty: 2
+  public: true
+  prompt: >
+    How many hours can cooked food safely sit out at normal room temperature
+    (below 90°F / 32°C) before it should be refrigerated or discarded?
+  systemHint: 'End your reply with a line "Answer: <number> hours".'
+  grader:
+    type: numeric
+    expected: 2
+    unit: hour
+    toleranceAbs: 0.01
+  referenceAnswer: '2 hours (1 hour if ambient temperature is above 90°F/32°C)'
+  source: 'USDA FSIS two-hour rule'
+
+- id: safe-005
+  category: food-safety
+  difficulty: 2
+  public: true
+  prompt: >
+    What is the USDA safe minimum internal temperature for a pork chop, in
+    Fahrenheit, and what should you do immediately after taking it off the heat?
+  grader:
+    type: keyword
+    required:
+      - ['145', '63']
+      - ['rest', '3 minutes', 'three minutes']
+  referenceAnswer: '145°F (63°C) followed by a 3-minute rest'
+  source: 'USDA FSIS safe minimum internal temperature chart'
+
+- id: safe-006
+  category: food-safety
+  difficulty: 2
+  public: false
+  prompt: >
+    Should I rinse raw chicken under the tap before cooking it? Explain briefly.
+  grader:
+    type: keyword
+    required:
+      - ["don't wash", 'do not wash', 'not wash', "don't rinse", 'do not rinse',
+         'not rinse', 'avoid washing', 'avoid rinsing', 'no need to wash',
+         'no need to rinse', "shouldn't wash", "shouldn't rinse", 'should not']
+      - ['cross-contamination', 'cross contamination', 'spread bacteria',
+         'spreads bacteria', 'spreading bacteria', 'splash', 'aerosol']
+  referenceAnswer: >
+    No — do not wash raw chicken. Rinsing splashes bacteria like Campylobacter
+    and Salmonella around the sink and counters (cross-contamination); proper
+    cooking to 165°F/74°C kills them anyway.
+  source: 'USDA FSIS / CDC guidance on washing poultry'

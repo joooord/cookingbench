@@ -1,0 +1,41 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Paper & ink — flat editorial palette, hairline borders, zero shadows */
+  --color-paper: #faf6ef;
+  --color-paper-tint: #f3ecdf;
+  --color-ink: #1c1917;
+  --color-ink-soft: #57534e;
+  --color-hairline: #e4ddd0;
+
+  --color-paprika: #c8401a;
+  --color-saffron: #d98e2b;
+  --color-olive: #7a8b3f;
+  --color-herb: #2f6b4f;
+  --color-plum: #6b4660;
+  --color-saltblue: #4a6b8a;
+  --color-caramel: #9c6b2f;
+  --color-charcoal: #44403c;
+
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-plex-mono);
+}
+
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+* {
+  box-shadow: none !important;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,98 @@
+# Quantities & Scaling — recipe scaling, yields, pan math, baker's percentages.
+# All deterministic. systemHint forces an explicit Answer line for clean extraction.
+
+- id: qty-001
+  category: quantities-scaling
+  difficulty: 2
+  public: true
+  prompt: >
+    A bread recipe makes 2 loaves using 500 g flour, 350 g water, 10 g salt and
+    7 g instant yeast. Scale it to 5 loaves. Give each ingredient in grams.
+  systemHint: >
+    End your reply with one line per ingredient in the form
+    "<ingredient>: <number> g".
+  grader:
+    type: numeric-multi
+    scoring: proportional
+    targets:
+      - { label: flour, expected: 1250, unit: g, tolerancePct: 1 }
+      - { label: water, expected: 875, unit: g, tolerancePct: 1 }
+      - { label: salt, expected: 25, unit: g, tolerancePct: 2 }
+      - { label: yeast, expected: 17.5, unit: g, tolerancePct: 5 }
+  referenceAnswer: '1250 g flour, 875 g water, 25 g salt, 17.5 g yeast'
+
+- id: qty-002
+  category: quantities-scaling
+  difficulty: 1
+  public: true
+  prompt: >
+    A pilaf recipe serves 6 and calls for 450 g of basmati rice. How much rice
+    do I need to serve 4, keeping everything in proportion?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    expected: 300
+    unit: g
+    tolerancePct: 1
+  referenceAnswer: '300 g (450 × 4/6)'
+
+- id: qty-003
+  category: quantities-scaling
+  difficulty: 2
+  public: true
+  prompt: >
+    I'm making a dough with 800 g of flour at 75% hydration (baker's
+    percentage). How much water should I add, in grams?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    expected: 600
+    unit: g
+    tolerancePct: 1
+  referenceAnswer: '600 g (75% of 800 g flour)'
+
+- id: qty-004
+  category: quantities-scaling
+  difficulty: 3
+  public: true
+  prompt: >
+    A cake recipe is written for a 20 cm round tin. I only have a 25 cm round
+    tin of the same depth. By what factor should I multiply every ingredient so
+    the batter depth stays the same? Give the factor as a decimal.
+  systemHint: 'End your reply with a line "Answer: <number>".'
+  grader:
+    type: numeric
+    expected: 1.5625
+    tolerancePct: 2
+  referenceAnswer: '1.5625 — area scales with radius squared: (25/20)² = 1.5625'
+
+- id: qty-005
+  category: quantities-scaling
+  difficulty: 1
+  public: true
+  prompt: >
+    My cookie recipe makes 24 cookies and uses 250 g of butter. I need 90
+    cookies for a bake sale. How much butter do I need, in grams?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    expected: 937.5
+    unit: g
+    tolerancePct: 1
+  referenceAnswer: '937.5 g (250 × 90/24)'
+
+- id: qty-006
+  category: quantities-scaling
+  difficulty: 2
+  public: false
+  prompt: >
+    I want to make a 5% brine, with salt measured as a percentage of the water's
+    weight. I'm using 2 litres of water (2000 g). How much salt do I add, in
+    grams?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    expected: 100
+    unit: g
+    tolerancePct: 1
+  referenceAnswer: '100 g (5% of 2000 g)'

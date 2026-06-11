@@ -1,0 +1,99 @@
+# Substitutions — swaps with correct ratios, allergen-aware alternatives.
+
+- id: subs-001
+  category: substitutions
+  difficulty: 1
+  public: true
+  prompt: >
+    I'm out of buttermilk and need 1 cup for pancakes. What's the standard
+    substitute, with exact quantities and method?
+  grader:
+    type: keyword
+    required:
+      - ['lemon juice', 'vinegar']
+      - ['1 tablespoon', '1 tbsp', 'one tablespoon']
+      - ['milk']
+      - ['sit', 'rest', 'stand', 'curdle', '5 minutes', '10 minutes']
+  referenceAnswer: >
+    Stir 1 tablespoon of lemon juice or white vinegar into 1 cup of milk and
+    let it stand 5–10 minutes until slightly curdled.
+
+- id: subs-002
+  category: substitutions
+  difficulty: 2
+  public: true
+  prompt: >
+    I have baking soda and cream of tartar but no baking powder. How do I make
+    the equivalent of 1 teaspoon of baking powder? Give exact quantities.
+  grader:
+    type: keyword
+    required:
+      - ['cream of tartar']
+      - ['baking soda', 'bicarbonate']
+      - ['1/4 tsp', '1/4 teaspoon', '¼ tsp', '¼ teaspoon', 'quarter teaspoon']
+      - ['1/2 tsp', '1/2 teaspoon', '½ tsp', '½ teaspoon', 'half teaspoon']
+  referenceAnswer: >
+    Mix ¼ teaspoon baking soda with ½ teaspoon cream of tartar (1:2 ratio).
+
+- id: subs-003
+  category: substitutions
+  difficulty: 2
+  public: true
+  prompt: >
+    Suggest a vegan substitute for one egg as a binder in baking, including the
+    exact quantities to replace a single egg.
+  grader:
+    type: keyword
+    required:
+      - ['flax', 'chia', 'aquafaba', 'applesauce', 'banana', 'egg replacer']
+      - ['1 tablespoon', '1 tbsp', '3 tablespoons', '3 tbsp', '¼ cup', '1/4 cup',
+         '60 ml', '45 ml', '50 g', '60 g']
+  referenceAnswer: >
+    A flax egg: 1 tablespoon ground flaxseed mixed with 3 tablespoons water,
+    rested ~5 minutes. (Chia egg, 3 tbsp aquafaba, or ¼ cup applesauce also work.)
+
+- id: subs-004
+  category: substitutions
+  difficulty: 2
+  public: true
+  prompt: >
+    A recipe calls for 1 cup of cake flour but I only have all-purpose flour
+    and cornstarch. How do I make the substitute? Give exact quantities.
+  grader:
+    type: keyword
+    required:
+      - ['cornstarch', 'corn starch', 'cornflour', 'corn flour']
+      - ['2 tablespoons', '2 tbsp', 'two tablespoons']
+  referenceAnswer: >
+    Measure 1 cup of all-purpose flour, remove 2 tablespoons, and replace them
+    with 2 tablespoons of cornstarch; sift together.
+
+- id: subs-005
+  category: substitutions
+  difficulty: 1
+  public: true
+  prompt: >
+    My guest is coeliac. What do I use instead of regular soy sauce in a
+    stir-fry?
+  grader:
+    type: keyword
+    required:
+      - ['tamari', 'coconut aminos']
+      - ['gluten-free', 'gluten free', 'certified']
+  referenceAnswer: >
+    Gluten-free tamari (check the label for certification) or coconut aminos.
+
+- id: subs-006
+  category: substitutions
+  difficulty: 1
+  public: false
+  prompt: >
+    A recipe calls for 1 tablespoon of fresh thyme but I only have dried thyme.
+    How much dried thyme should I use?
+  grader:
+    type: keyword
+    required:
+      - ['1 teaspoon', '1 tsp', 'one teaspoon', '3:1', '1/3', '⅓', 'a third']
+  referenceAnswer: >
+    1 teaspoon — dried herbs are roughly 3× as concentrated as fresh, so use a
+    third of the fresh amount.

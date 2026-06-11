@@ -1,0 +1,173 @@
+# Flavour Pairing — pairing logic, balance, cuisine coherence. Judge-graded.
+
+- id: flav-001
+  category: flavor-pairing
+  difficulty: 2
+  public: true
+  prompt: >
+    I'm serving a silky butternut squash soup. Design a three-element garnish
+    for it and explain how each element balances the dish.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Balance logic
+        description: >
+          5 = garnish deliberately counters the soup's sweetness and uniform
+          texture: an acid or fresh element, a fat or richness accent, and a
+          textural crunch — each justified. 1 = three random toppings with no
+          reasoning about sweetness/texture.
+        weight: 0.5
+      - name: Pairing soundness
+        description: >
+          5 = flavours genuinely complement squash (sage, brown butter, chili,
+          toasted seeds, crème fraîche, apple…). 1 = clashing or implausible
+          pairings.
+        weight: 0.3
+      - name: Clarity
+        description: 5 = specific quantities/preparations. 1 = vague.
+        weight: 0.2
+  referenceAnswer: >
+    Example: toasted pumpkin seeds (crunch against the purée), a swirl of crème
+    fraîche or yogurt (cool fat and gentle acidity against the sweetness), and
+    crisp-fried sage or a few drops of chili oil (aromatic lift/heat).
+
+- id: flav-002
+  category: flavor-pairing
+  difficulty: 1
+  public: true
+  prompt: >
+    My slow-simmered tomato pasta sauce tastes flat and dull, even though it's
+    well salted. What single ingredient would you add to fix it, and why does
+    that work?
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Correct identification
+        description: >
+          5 = identifies acidity as the missing element (vinegar, lemon, splash
+          of wine) — or umami depth (parmesan rind, anchovy, fish sauce) with a
+          clear argument why salt alone isn't enough. 1 = suggests just more
+          salt, sugar with no rationale, or an irrelevant ingredient.
+        weight: 0.6
+      - name: Mechanism explanation
+        description: >
+          5 = explains how acid brightens and defines flavours that long
+          simmering muted, or how glutamates add savoury depth. 1 = no why.
+        weight: 0.4
+  referenceAnswer: >
+    A small splash of acid — red wine vinegar or lemon juice — added at the end.
+    Long simmering mutes the tomatoes' brightness; acid re-sharpens and defines
+    the flavours that salt alone can't lift. (Umami boosters like a parmesan
+    rind or anchovy are also strong answers.)
+
+- id: flav-003
+  category: flavor-pairing
+  difficulty: 1
+  public: true
+  prompt: >
+    I'm making a salad of ripe pears, toasted walnuts and bitter leaves. Which
+    cheese would you add, and why does it work with these ingredients?
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Pairing soundness
+        description: >
+          5 = a classic, defensible choice — blue cheese (gorgonzola, roquefort,
+          stilton) or aged goat/pecorino — with reasoning. 1 = a clashing choice
+          with no rationale.
+        weight: 0.5
+      - name: Reasoning quality
+        description: >
+          5 = articulates the contrast: salt and sharp funk against sweet pear,
+          creaminess against crisp leaves and tannic walnuts. 1 = "it tastes
+          good" with no mechanism.
+        weight: 0.5
+  referenceAnswer: >
+    Blue cheese — gorgonzola or roquefort. Its salt and sharpness cut the pear's
+    sweetness, the creamy texture bridges crisp leaves and crunchy walnuts, and
+    blue + pear + walnut is a canonical trio.
+
+- id: flav-004
+  category: flavor-pairing
+  difficulty: 2
+  public: true
+  prompt: >
+    Build a five-spice rub (exactly five spices) for a roasted leg of lamb and
+    justify each choice.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Pairing soundness
+        description: >
+          5 = five spices that genuinely flatter lamb (e.g. cumin, coriander,
+          rosemary, garlic, black pepper, smoked paprika, fennel, oregano, mint,
+          cinnamon in Middle Eastern direction) forming a coherent flavour
+          direction. 1 = incoherent mix or spices that fight lamb.
+        weight: 0.4
+      - name: Justification quality
+        description: >
+          5 = each spice gets a reason tied to lamb's rich, slightly gamey
+          character. 1 = list with no reasoning.
+        weight: 0.4
+      - name: Constraint adherence
+        description: 5 = exactly five spices. 1 = ignores the count.
+        weight: 0.2
+  referenceAnswer: >
+    Example: cumin (earthy backbone for gamey richness), coriander (citrus lift),
+    rosemary (resinous classic with lamb fat), garlic (sweet pungency),
+    black pepper (heat that ties it together) — a coherent Mediterranean rub.
+
+- id: flav-005
+  category: flavor-pairing
+  difficulty: 3
+  public: true
+  prompt: >
+    Why do basil and tomato work so well together? Then suggest one
+    unconventional but defensible pairing for basil outside Italian cooking,
+    with your reasoning.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Mechanism explanation
+        description: >
+          5 = real explanation: basil's sweet-anise/peppery aromatics complement
+          tomato's acidity and umami; shared/complementary volatile compounds;
+          seasonal affinity. 1 = "they're classic" with no why.
+        weight: 0.5
+      - name: Creative pairing quality
+        description: >
+          5 = an unconventional pairing with culinary logic (strawberry, peach,
+          watermelon, lime/coconut in Thai direction, lemon desserts…). 1 = either
+          a cliché (tomato again, pesto) or an indefensible clash.
+        weight: 0.5
+  referenceAnswer: >
+    Basil's sweet, anise-like, lightly peppery volatiles lift tomato's
+    acid-umami body — aroma contrast over a shared sweetness. Unconventional but
+    sound: basil with strawberries (shared esters, the anise note flatters
+    berries) or in a peach sorbet.
+
+- id: flav-006
+  category: flavor-pairing
+  difficulty: 2
+  public: false
+  prompt: >
+    I'm serving a rich, coconut-heavy Thai green curry as the main course.
+    Recommend a dessert to follow it and explain why it's the right call.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Menu logic
+        description: >
+          5 = recognizes the curry is rich, spicy and coconut-laden, so the
+          dessert should be light, cold and acidic/fruity (sorbet, fresh mango,
+          citrus granita) — or makes a deliberate, argued case for a regional
+          continuation (mango sticky rice) while addressing the richness. 1 =
+          heavy cream-on-cream choice with no awareness of the clash.
+        weight: 0.6
+      - name: Reasoning quality
+        description: 5 = explains palate relief, temperature and acidity. 1 = no why.
+        weight: 0.4
+  referenceAnswer: >
+    Something cold, light and acidic: lime or passion-fruit sorbet, or fresh
+    mango with lime. After heat and coconut fat, cold acidity resets the palate;
+    mango sticky rice is the classic regional choice if portioned small.

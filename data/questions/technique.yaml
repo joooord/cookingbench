@@ -1,0 +1,188 @@
+# Technique — troubleshooting and method advice. Judge-graded with per-question rubrics.
+
+- id: tech-001
+  category: technique
+  difficulty: 2
+  public: true
+  prompt: >
+    My hollandaise sauce just split into a greasy, curdled mess. What went
+    wrong, and how can I rescue this batch rather than starting over?
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Diagnosis accuracy
+        description: >
+          5 = correctly identifies the likely causes: emulsion broke because the
+          sauce got too hot (yolks scrambled) or butter was added too fast/too
+          much for the yolks. 1 = wrong or missing diagnosis.
+        weight: 0.4
+      - name: Rescue method
+        description: >
+          5 = gives a sound rescue: whisk the broken sauce gradually into a fresh
+          yolk (with a little water/lemon) off direct heat, or start with a few
+          drops of warm water if only slightly split. 1 = no workable rescue or
+          advice that would re-break it.
+        weight: 0.4
+      - name: Clarity & practicality
+        description: 5 = concise, ordered, immediately actionable. 1 = rambling or vague.
+        weight: 0.2
+  referenceAnswer: >
+    The emulsion broke — usually too much heat or butter added faster than the
+    yolks could absorb. Rescue: put a fresh yolk and a teaspoon of warm water in
+    a clean bowl, then whisk the broken sauce in drop by drop, as if starting
+    over; for a mild split, a few drops of warm water whisked in hard can bring
+    it back.
+
+- id: tech-002
+  category: technique
+  difficulty: 2
+  public: true
+  prompt: >
+    My homemade white bread keeps coming out dense and heavy, even though I
+    follow the recipe. List the most likely causes in order of probability and
+    how I'd diagnose each one.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Diagnosis accuracy
+        description: >
+          5 = covers the high-probability causes: under-proofing, dead/expired
+          yeast (and how to proof-test it), too much flour from cup measuring,
+          insufficient kneading/gluten development, water too hot killing yeast.
+          1 = misses most of these or invents implausible causes.
+        weight: 0.5
+      - name: Actionable fixes
+        description: >
+          5 = each cause comes with a concrete test or fix (poke test, weigh
+          flour, windowpane test, yeast bloom test). 1 = generic advice only.
+        weight: 0.3
+      - name: Clarity & practicality
+        description: 5 = ordered, scannable, realistic. 1 = unstructured.
+        weight: 0.2
+  referenceAnswer: >
+    Most likely: under-proofed dough; dead yeast (bloom-test in warm sugared
+    water); too much flour from scooping cups (weigh it); under-kneading
+    (windowpane test); water above ~46°C killing the yeast.
+
+- id: tech-003
+  category: technique
+  difficulty: 1
+  public: true
+  prompt: >
+    Why should I rest a thick ribeye steak after cooking, and roughly how long
+    should I rest it?
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Explanation accuracy
+        description: >
+          5 = explains juice redistribution/reabsorption as muscle fibres relax
+          and carryover cooking; cutting immediately loses juices to the board.
+          1 = wrong mechanism.
+        weight: 0.5
+      - name: Timing guidance
+        description: >
+          5 = gives a sensible window (about 5–10 minutes for a thick steak, or
+          a rule like half the cooking time), with loose foil tip. 1 = no timing
+          or an absurd one.
+        weight: 0.3
+      - name: Clarity
+        description: 5 = brief and direct. 1 = padded.
+        weight: 0.2
+  referenceAnswer: >
+    Resting lets the muscle fibres relax and the juices redistribute so they stay
+    in the meat instead of flooding the cutting board; carryover heat also
+    finishes the centre. About 5–10 minutes for a thick ribeye, loosely tented.
+
+- id: tech-004
+  category: technique
+  difficulty: 3
+  public: true
+  prompt: >
+    Every time I make caramel, the sugar suddenly crystallizes into a grainy
+    solid mass halfway through. Why does this happen and how do I prevent it?
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Diagnosis accuracy
+        description: >
+          5 = explains seeded crystallization: stray sugar crystals (on the pan
+          sides or from stirring) trigger a chain reaction in the supersaturated
+          syrup. 1 = wrong mechanism.
+        weight: 0.5
+      - name: Prevention techniques
+        description: >
+          5 = gives several sound preventions: don't stir once boiling (swirl the
+          pan), wash down the sides with a wet brush, add an interfering agent
+          (corn syrup/glucose or a little acid like lemon juice/cream of tartar),
+          use a clean pan. 1 = none of these.
+        weight: 0.3
+      - name: Clarity
+        description: 5 = ordered and practical. 1 = vague.
+        weight: 0.2
+  referenceAnswer: >
+    The syrup is supersaturated; any stray crystal — from stirring or the pan
+    sides — seeds a chain reaction. Prevent it by not stirring after the sugar
+    dissolves (swirl instead), brushing the pan sides with water, and adding an
+    interfering agent like glucose/corn syrup or a squeeze of lemon juice.
+
+- id: tech-005
+  category: technique
+  difficulty: 2
+  public: true
+  prompt: >
+    My vegetable stir-fries always end up soggy and steamed instead of crisp
+    and charred, even on my home stove. What am I doing wrong and how do I fix it?
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Diagnosis accuracy
+        description: >
+          5 = identifies overcrowding the pan (temperature crash, vegetables
+          steam in their own moisture), wet vegetables, insufficient preheat, and
+          weak home burners as the causes. 1 = misses the core overcrowding/heat
+          story.
+        weight: 0.5
+      - name: Fixes
+        description: >
+          5 = concrete fixes: cook in small batches, dry vegetables thoroughly,
+          preheat the wok until smoking, cut evenly, sauce at the end, consider
+          highest-BTU burner or flat skillet for more contact. 1 = generic.
+        weight: 0.3
+      - name: Clarity
+        description: 5 = actionable, ordered. 1 = vague.
+        weight: 0.2
+  referenceAnswer: >
+    Overcrowding crashes the pan temperature so vegetables steam in their own
+    moisture. Fix: ripping-hot preheated wok or skillet, bone-dry vegetables,
+    small batches, don't stir constantly, add sauces only at the end.
+
+- id: tech-006
+  category: technique
+  difficulty: 3
+  public: false
+  prompt: >
+    My risotto turned out gluey and stodgy rather than creamy with distinct
+    grains. What likely went wrong during cooking?
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Diagnosis accuracy
+        description: >
+          5 = identifies plausible causes: rice overcooked past al dente, stock
+          added all at once (rice left swimming), heat too low for too long, or
+          violent over-stirring breaking the grains. Must NOT recommend rinsing
+          risotto rice — surface starch is essential to the dish. 1 = recommends
+          rinsing the rice or misses the overcooking story entirely.
+        weight: 0.6
+      - name: Fixes
+        description: >
+          5 = ladle stock gradually, keep at a lively simmer, stir regularly but
+          not violently, stop at al dente, finish with mantecatura (butter +
+          cheese off heat). 1 = generic.
+        weight: 0.4
+  referenceAnswer: >
+    Gluey risotto usually means overcooked rice, liquid added all at once, or
+    cooking too low for too long. Add hot stock a ladle at a time at a lively
+    simmer, stir steadily but gently, stop at al dente, and finish off-heat with
+    butter and Parmesan.

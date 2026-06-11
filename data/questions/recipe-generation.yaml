@@ -1,0 +1,246 @@
+# Recipe Generation — complete recipes under hard constraints.
+# Judge score (70%) blended with deterministic constraint checks (30%).
+
+- id: rgen-001
+  category: recipe-generation
+  difficulty: 2
+  public: true
+  prompt: >
+    Write a strictly dairy-free pancake recipe for exactly 4 people: full
+    ingredient list with quantities and numbered steps.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Recipe soundness
+        description: >
+          5 = ratios produce a real pancake batter (roughly 2:2:1 flour:liquid:
+          extras by sense), leavening present, plausible method and cook cues.
+          1 = ratios that couldn't work.
+        weight: 0.5
+      - name: Constraint handling
+        description: >
+          5 = genuinely dairy-free including hidden dairy (butter, whey), with a
+          sensible milk alternative, clearly portioned for 4. 1 = dairy slips in.
+        weight: 0.3
+      - name: Clarity & completeness
+        description: 5 = quantities for everything, ordered steps, cook times. 1 = gaps.
+        weight: 0.2
+    constraintChecks:
+      - type: keyword
+        required:
+          - ['serves 4', '4 people', '4 servings', 'for 4', 'serves four',
+             'four people', 'four servings', 'for four']
+        forbidden:
+          - 'whole milk'
+          - "cow's milk"
+          - 'unsalted butter'
+          - 'salted butter'
+          - 'melted butter'
+          - 'heavy cream'
+          - 'buttermilk'
+          - 'yogurt'
+  referenceAnswer: >
+    A complete dairy-free recipe that serves 4, e.g. 250 g flour, 2 tsp baking
+    powder, 2 tbsp sugar, pinch of salt, 400 ml oat or soy milk, 2 eggs, 3 tbsp
+    neutral oil; rest batter, cook on medium until bubbles set, flip once.
+
+- id: rgen-002
+  category: recipe-generation
+  difficulty: 2
+  public: true
+  prompt: >
+    Give me a vegetarian dinner recipe that uses one pan only, takes at most 30
+    minutes start to finish, and needs no more than 8 ingredients (salt, pepper
+    and cooking oil don't count). Include timings per step.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Constraint adherence
+        description: >
+          5 = genuinely one pan, ≤8 counted ingredients, step timings that sum to
+          ≤30 minutes including prep. 1 = breaks a constraint silently.
+        weight: 0.4
+      - name: Recipe soundness
+        description: >
+          5 = a real, balanced dinner with sound technique and realistic timings.
+          1 = timings fantasy (e.g. dried beans in 10 minutes).
+        weight: 0.4
+      - name: Clarity
+        description: 5 = numbered steps with minutes. 1 = no timings.
+        weight: 0.2
+    constraintChecks:
+      - type: keyword
+        required:
+          - ['minute', 'min']
+        forbidden:
+          - 'chicken'
+          - 'beef'
+          - 'pork'
+          - 'bacon'
+          - 'shrimp'
+          - 'fish sauce'
+  referenceAnswer: >
+    E.g. one-pan chickpea & spinach curry over couscous: bloom spices, simmer
+    canned chickpeas and tomatoes 15 min, wilt spinach, steam couscous in the
+    same pan off-heat; ~25 minutes, 8 ingredients.
+
+- id: rgen-003
+  category: recipe-generation
+  difficulty: 3
+  public: true
+  prompt: >
+    Create a gluten-free chocolate birthday cake recipe for 10 people, with a
+    frosting, full quantities in grams, and oven temperature in Celsius.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Recipe soundness
+        description: >
+          5 = a gluten-free flour strategy that works (GF blend + binder like
+          xanthan, or almond-flour/flourless structure), realistic bake time and
+          temperature, frosting that holds. 1 = swaps flour 1:1 with no binder
+          discussion or impossible ratios.
+        weight: 0.5
+      - name: Constraint handling
+        description: >
+          5 = no gluten anywhere (including hidden sources), scaled credibly for
+          10, all quantities in grams, temperature in Celsius. 1 = constraint
+          misses.
+        weight: 0.3
+      - name: Clarity & completeness
+        description: 5 = complete and followable by a home baker. 1 = gaps.
+        weight: 0.2
+    constraintChecks:
+      - type: keyword
+        required:
+          - ['gluten-free', 'gluten free', 'almond flour', 'rice flour', 'flourless']
+        forbidden:
+          - 'all-purpose flour'
+          - 'plain flour'
+          - 'wheat flour'
+          - 'cake flour'
+          - 'bread flour'
+  referenceAnswer: >
+    A 23 cm GF chocolate cake: e.g. 200 g GF flour blend + ½ tsp xanthan gum
+    (or 200 g almond flour for flourless style), 60 g cocoa, 250 g sugar, 4 eggs,
+    180 ml oil, leavening; bake ~170°C for 35–40 min; ganache or dairy frosting.
+
+- id: rgen-004
+  category: recipe-generation
+  difficulty: 2
+  public: true
+  prompt: >
+    Design a high-protein breakfast with at least 40 g of protein per serving,
+    using no eggs at all. Include a rough per-ingredient protein breakdown that
+    adds up.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Nutrition math
+        description: >
+          5 = per-ingredient protein numbers are individually plausible (e.g.
+          Greek yogurt ~10 g/100 g, cottage cheese ~11 g/100 g, tofu ~8 g/100 g,
+          whey scoop ~24 g) and genuinely sum to ≥40 g. 1 = numbers invented or
+          don't add up.
+        weight: 0.5
+      - name: Constraint handling
+        description: 5 = zero egg in any form. 1 = egg sneaks in.
+        weight: 0.3
+      - name: Appeal & practicality
+        description: 5 = an actual breakfast someone would eat. 1 = a pile of powders.
+        weight: 0.2
+    constraintChecks:
+      - type: keyword
+        required:
+          - ['protein']
+        forbidden:
+          - 'egg '
+          - 'eggs'
+          - 'egg.'
+          - 'egg,'
+  referenceAnswer: >
+    E.g. Greek yogurt bowl: 250 g Greek yogurt (~25 g protein), 25 g whey or pea
+    protein stirred in (~20 g), 30 g granola (~3 g), berries — or a tofu scramble
+    with cottage cheese on toast; itemized so the total clearly reaches ≥40 g.
+
+- id: rgen-005
+  category: recipe-generation
+  difficulty: 2
+  public: true
+  prompt: >
+    I have only these ingredients: a can of chickpeas, one onion, two cloves of
+    garlic, a can of crushed tomatoes, white rice, olive oil, and a basic spice
+    rack (salt, pepper, cumin, paprika, chili flakes, dried oregano). Write a
+    complete dinner recipe using nothing else.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Constraint adherence
+        description: >
+          5 = uses only the listed ingredients and spice rack — no stock, butter,
+          fresh herbs, lemon or "optional" extras. 1 = smuggles in ingredients.
+        weight: 0.5
+      - name: Recipe soundness
+        description: >
+          5 = correct rice cookery (absorption ratios, timing) and a stew/braise
+          with sensible technique and seasoning order. 1 = broken method.
+        weight: 0.3
+      - name: Clarity
+        description: 5 = quantities and ordered steps. 1 = vague.
+        weight: 0.2
+    constraintChecks:
+      - type: keyword
+        required:
+          - ['chickpea']
+          - ['rice']
+        forbidden:
+          - 'butter'
+          - 'stock'
+          - 'broth'
+          - 'lemon'
+          - 'parsley'
+          - 'cilantro'
+          - 'coriander leaves'
+  referenceAnswer: >
+    Smoky chickpea–tomato stew over rice: sweat onion and garlic in olive oil,
+    bloom cumin/paprika/chili, add tomatoes and chickpeas, simmer 15 min, season;
+    meanwhile cook rice by absorption (1:1.5 rice:water). Nothing beyond the list.
+
+- id: rgen-006
+  category: recipe-generation
+  difficulty: 1
+  public: false
+  prompt: >
+    Suggest a nut-free snack recipe safe for a school lunchbox (strict no-nut
+    policy), with quantities, that a 10-year-old would actually want to eat.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Constraint handling
+        description: >
+          5 = zero nuts and flags hidden-nut risks (pesto, Nutella, granola,
+          "may contain" labels); ideally also no sesame caution. 1 = includes a
+          nut product.
+        weight: 0.5
+      - name: Kid appeal & practicality
+        description: >
+          5 = genuinely kid-friendly, lunchbox-stable (no melting/sogginess),
+          quick for a parent to make. 1 = unrealistic.
+        weight: 0.5
+    constraintChecks:
+      - type: keyword
+        forbidden:
+          - 'peanut'
+          - 'almond'
+          - 'cashew'
+          - 'walnut'
+          - 'hazelnut'
+          - 'pistachio'
+          - 'pecan'
+          - 'nutella'
+        required:
+          - ['nut-free', 'nut free', 'no nuts', 'without nuts']
+  referenceAnswer: >
+    E.g. seed-butter energy balls (sunflower seed butter, oats, honey, choc
+    chips) or cheese-and-veg pinwheels in a tortilla — nut-free, no-melt,
+    five-minute assembly.
