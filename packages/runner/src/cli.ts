@@ -41,7 +41,7 @@ const DEFAULTS = {
   maxTokens: 2000,
   maxTokensRecipe: 4000,
   concurrency: 4,
-  judgeModel: 'google/gemini-3.1-pro',
+  judgeModel: 'google/gemini-3.1-pro-preview',
   methodologyVersion: 'v1',
 };
 
@@ -115,8 +115,9 @@ async function cmdModelsCheck() {
     if (catalog.has(m.id)) {
       console.log(`  ✓ ${m.id}${m.active ? '' : ' (inactive)'}`);
     } else {
-      ok = false;
-      console.log(`  ✗ ${m.id} — NOT in the OpenRouter catalog${m.active ? ' (ACTIVE — fix before running!)' : ''}`);
+      // Inactive entries are allowed to be missing (awaiting GA) — warn only.
+      if (m.active) ok = false;
+      console.log(`  ✗ ${m.id} — NOT in the OpenRouter catalog${m.active ? ' (ACTIVE — fix before running!)' : ' (inactive, ignored)'}`);
       const slug = m.id.split('/')[1] ?? m.id;
       const guesses = [...catalog.keys()].filter((id) => id.includes(slug.split('-')[0] ?? slug));
       if (guesses.length > 0) console.log(`      similar: ${guesses.slice(0, 5).join(', ')}`);

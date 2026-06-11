@@ -33,10 +33,10 @@ Then the real run, frontier-first (fits a ~£10 key; worst-case must clear the
 gate, actuals run far lower):
 
 ```bash
-pnpm bench estimate --models anthropic/claude-fable-5,anthropic/claude-opus-4.8,openai/gpt-5.5,google/gemini-3.1-pro,x-ai/grok-4.3
+pnpm bench estimate --models anthropic/claude-fable-5,anthropic/claude-opus-4.8,openai/gpt-5.5,google/gemini-3.1-pro-preview,x-ai/grok-4.3
 pnpm bench run --budget 10.00 --run-id 2026-06-vXX --models <same list>
 pnpm bench grade --run 2026-06-vXX
-pnpm bench judge --run 2026-06-vXX        # judge = google/gemini-3.1-pro, double-judged
+pnpm bench judge --run 2026-06-vXX        # judge = google/gemini-3.1-pro-preview, double-judged
 pnpm bench report --run 2026-06-vXX
 ```
 
