@@ -4,6 +4,12 @@ import { CATEGORY_COLORS } from '@/lib/format';
 
 export const revalidate = 3600;
 
+export const metadata = {
+  title: 'Methodology',
+  description:
+    'How CookingBench grades AI models: deterministic graders for facts and numbers, a double-judged LLM rubric for technique and recipes, all reproducible from the open dataset.',
+};
+
 export default function MethodologyPage() {
   const questions = getQuestions();
   const counts = new Map<string, number>();

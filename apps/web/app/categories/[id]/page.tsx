@@ -11,6 +11,16 @@ export function generateStaticParams() {
   return CATEGORY_IDS.map((id) => ({ id }));
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  if (!CATEGORY_IDS.includes(id as CategoryId)) return {};
+  const meta = CATEGORIES[id as CategoryId];
+  return {
+    title: meta.name,
+    description: `How AI models score on ${meta.name.toLowerCase()}: ${meta.description}`,
+  };
+}
+
 export default async function CategoryPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   if (!CATEGORY_IDS.includes(id as CategoryId)) notFound();

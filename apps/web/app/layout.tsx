@@ -16,9 +16,30 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'CookingBench — which AI model is the best chef?',
+  metadataBase: new URL('https://cookingbench.com'),
+  title: {
+    default: 'CookingBench — which AI model is the best chef?',
+    template: '%s — CookingBench',
+  },
   description:
     'A benchmark and leaderboard ranking AI models on culinary competence: quantities, conversions, food safety, technique, flavour and nutrition.',
+  alternates: { canonical: './' },
+  openGraph: {
+    type: 'website',
+    siteName: 'CookingBench',
+    url: 'https://cookingbench.com',
+    locale: 'en_GB',
+  },
+  twitter: { card: 'summary_large_image' },
+  keywords: [
+    'AI benchmark',
+    'LLM leaderboard',
+    'cooking',
+    'AI cooking',
+    'food safety',
+    'recipe generation',
+    'model evaluation',
+  ],
 };
 
 const NAV = [
