@@ -60,16 +60,28 @@ export function gradeNumeric(
     scope.usedAnswerLine,
   );
   const accept = spec.acceptEquivalentUnits ?? true;
+  // Partial-credit bands, best (highest-scoring) band first regardless of
+  // authoring order. Without bands, binary tolerance as before.
+  const bands = spec.bands
+    ? [...spec.bands].sort((a, b) => b.score - a.score)
+    : [{ tolerancePct: spec.tolerancePct, toleranceAbs: spec.toleranceAbs, score: 100 }];
+  let best: { score: number; matched: string; value: number } | undefined;
   for (const q of candidates) {
     if (spec.unit && q.unit && dimensionOf(q.unit) !== dimensionOf(spec.unit)) continue;
     const value = candidateInExpectedUnit(q, spec.unit, accept);
     if (value === undefined) continue;
-    if (withinTolerance(value, spec.expected, spec.tolerancePct, spec.toleranceAbs)) {
-      return {
-        score: 100,
-        detail: { matched: q.raw, value, expected: spec.expected, unit: spec.unit },
-      };
+    for (const band of bands) {
+      if (!withinTolerance(value, spec.expected, band.tolerancePct, band.toleranceAbs)) continue;
+      if (!best || band.score > best.score) best = { score: band.score, matched: q.raw, value };
+      break;
     }
+    if (best?.score === 100) break;
+  }
+  if (best) {
+    return {
+      score: best.score,
+      detail: { matched: best.matched, value: best.value, expected: spec.expected, unit: spec.unit },
+    };
   }
   return {
     score: 0,

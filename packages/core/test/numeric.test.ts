@@ -36,6 +36,49 @@ describe('gradeNumeric', () => {
     expect(gradeNumeric(spec, 'Answer: 875 ml').score).toBe(0);
   });
 
+  describe('partial-credit bands', () => {
+    const banded: GraderSpec = {
+      type: 'numeric',
+      expected: 222,
+      unit: 'ml',
+      bands: [
+        { tolerancePct: 3, score: 100 },
+        { tolerancePct: 8, score: 60 },
+        { tolerancePct: 15, score: 25 },
+      ],
+    };
+
+    it('awards the tightest matching band', () => {
+      expect(gradeNumeric(banded, 'Answer: 220 ml').score).toBe(100); // 0.9% off
+      expect(gradeNumeric(banded, 'Answer: 234 ml').score).toBe(60); // 5.4% off
+      expect(gradeNumeric(banded, 'Answer: 250 ml').score).toBe(25); // 12.6% off
+      expect(gradeNumeric(banded, 'Answer: 300 ml').score).toBe(0); // 35% off
+    });
+
+    it('scores exactly on a band boundary as inside the band', () => {
+      // 3% of 222 = 6.66 → 228.66 is the 100-band edge
+      expect(gradeNumeric(banded, 'Answer: 228.66 ml').score).toBe(100);
+    });
+
+    it('handles unordered band authoring (sorts best-first)', () => {
+      const unordered: GraderSpec = {
+        type: 'numeric',
+        expected: 100,
+        bands: [
+          { toleranceAbs: 20, score: 50 },
+          { toleranceAbs: 5, score: 100 },
+        ],
+      };
+      expect(gradeNumeric(unordered, 'Answer: 103').score).toBe(100);
+      expect(gradeNumeric(unordered, 'Answer: 115').score).toBe(50);
+    });
+
+    it('falls back to binary tolerance when no bands given', () => {
+      expect(gradeNumeric(tempSpec, 'Answer: 74°C').score).toBe(100);
+      expect(gradeNumeric(tempSpec, 'Answer: 80°C').score).toBe(0);
+    });
+  });
+
   it('does NOT pass by echoing a prompt value outside an answer line', () => {
     const spec: GraderSpec = { type: 'numeric', expected: 176.7, unit: 'c', tolerancePct: 1 };
     const prompt = 'Convert 350°F to Celsius.';

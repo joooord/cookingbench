@@ -41,8 +41,13 @@ export default function MethodologyPage() {
           <h2 className="border-b-2 border-ink pb-2 font-display text-xl font-medium">Dataset</h2>
           <p className="mt-4">
             {questions.length} hand-written questions across {CATEGORY_IDS.length} categories.
-            Roughly 55% are graded deterministically; the rest by a rubric-driven LLM judge.
-            A subset of questions is held out (never published) to resist contamination.
+            Most are graded deterministically; the rest by a reference-anchored LLM judge.
+            <strong> The entire dataset is public</strong> — we don&rsquo;t pretend to have a
+            secret hold-out. Contamination defence is mechanical instead: after every run,
+            item analysis demotes saturated questions to a separate Basics tier (a regression
+            gate excluded from the Overall score) and the active set is refreshed with harder,
+            real-life items. The dataset carries a canary string so training-data filters can
+            exclude it.
           </p>
           <ul className="mt-4 space-y-2 text-sm">
             {CATEGORY_IDS.map((id) => (
@@ -66,22 +71,27 @@ export default function MethodologyPage() {
             question regardless of anything else said.
           </p>
           <p className="mt-4">
-            <strong>The LLM judge</strong> grades subjective answers against a per-question
-            written rubric, blind to which model wrote the answer (self-identifying phrases
-            are stripped). Each answer is judged twice at temperature 0 and averaged;
-            large disagreements are flagged for manual review. For constrained recipe
-            generation, the judge score (70%) is blended with deterministic constraint
-            checks (30%) — e.g. an allergen appearing in a "nut-free" recipe.
+            <strong>The LLM judge</strong> (methodology v2) is a fact-checker, not a
+            mark-giver: it compares each answer to a reference and lists concrete faults —
+            each typed critical, major or minor — and code maps those to deductions
+            (−40/−15/−5 from 100). It never awards points, which removes the grade-inflation
+            ceiling that saturated v1. The judge is blind to which model wrote the answer,
+            judges twice at temperature 0, flags large disagreements for human review, and
+            must pass a calibration gate (reproducing hand-scored anchor answers) before any
+            run is accepted. For constrained recipe generation the judge score is blended
+            with deterministic constraint checks — e.g. an allergen appearing in a
+            &ldquo;nut-free&rdquo; recipe.
           </p>
           <p className="mt-4">
-            Every question scores 0–100. A category score is the mean of its questions; the
-            overall score is the unweighted mean of category scores. The leaderboard also
-            reports a <strong>Hard set</strong> score — difficulty-3 questions only. Frontier
-            models saturate the easy questions (which exist as a floor, to catch regressions
-            and rank smaller models), so the hard set carries the ranking signal at the top:
-            inverse and non-linear scaling traps, unit-identity traps (a UK pint, an
-            Australian tablespoon, weight-vs-volume ounces), chained conversions, given-data
-            nutrition reasoning, and multi-constraint recipe briefs.
+            Every question scores 0–100. The <strong>Overall</strong> score is the plain mean
+            over active questions, with a 95% bootstrap confidence interval over questions
+            shown as ±. <strong>Frontier</strong> is the mean over difficulty-4+ items —
+            compound multi-step chains where errors compound, dangerous-premise traps,
+            buried-constraint briefs and locale traps (a UK pint, an Australian tablespoon).
+            <strong> Basics</strong> is the saturated tier every model should ace; a dip
+            there is a regression worth investigating, and transport incidents (empty or
+            provider-filtered responses, retried then scored 0) are reported separately so
+            infrastructure noise is never mistaken for skill.
           </p>
         </section>
 

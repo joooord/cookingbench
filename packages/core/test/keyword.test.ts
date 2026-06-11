@@ -99,6 +99,9 @@ describe('llm-judge deterministic component', () => {
     id: 'rgen-001',
     category: 'recipe-generation',
     difficulty: 2,
+    status: 'active',
+    addedIn: 'v1',
+    trap: false,
     prompt: 'Write a dairy-free pancake recipe for 4 people.',
     grader: {
       type: 'llm-judge',

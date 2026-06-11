@@ -85,6 +85,18 @@ export interface NumericTarget {
   toleranceAbs?: number;
 }
 
+/**
+ * Partial-credit band for numeric graders: the first (tightest) band the
+ * answer falls in determines the score. Lets compound-chain questions award
+ * 60 for one rounding slip and 25 for right-method-sloppy-arithmetic.
+ */
+export interface ToleranceBand {
+  tolerancePct?: number;
+  toleranceAbs?: number;
+  /** 0–100 awarded when the answer is within this band. */
+  score: number;
+}
+
 export type GraderSpec =
   | {
       type: 'numeric';
@@ -94,6 +106,8 @@ export type GraderSpec =
       toleranceAbs?: number;
       /** Accept answers given in a convertible unit, e.g. 350°F == 177°C. */
       acceptEquivalentUnits?: boolean;
+      /** Graded partial-credit bands (tightest first); falls back to binary tolerance when absent. */
+      bands?: ToleranceBand[];
     }
   | {
       type: 'numeric-multi';
@@ -110,28 +124,43 @@ export type GraderSpec =
     }
   | {
       type: 'llm-judge';
-      rubric: RubricCriterion[];
+      /** judge-v1 criteria; judge-v2 (deduction grading) uses them only as attention hints. */
+      rubric?: RubricCriterion[];
       /** Deterministic sub-checks blended into the score (e.g. allergen absence). */
       constraintChecks?: GraderSpec[];
       /** Weight of the judge score when constraintChecks exist. Default 0.7. */
       judgeWeight?: number;
     };
 
+/**
+ * active = counts toward Overall; basics = still run, separate Basics column
+ * (saturated items demoted by `bench analyze`); retired = never run again.
+ */
+export type QuestionStatus = 'active' | 'basics' | 'retired';
+
 export interface Question {
   /** e.g. "conv-007" */
   id: string;
   category: CategoryId;
-  difficulty: 1 | 2 | 3;
+  /** 1 (trivial) – 5 (frontier-separating). v1 items used 1–3. */
+  difficulty: number;
+  status: QuestionStatus;
+  /** Methodology version that introduced the item. */
+  addedIn: string;
+  /** The prompt embeds a false or dangerous premise the model must catch. */
+  trap: boolean;
   /** Exact text sent to the model. */
   prompt: string;
   /** Optional output-format instruction appended to the system prompt. */
   systemHint?: string;
   grader: GraderSpec;
+  /** judge-v2 attention hints: the decisive checks for this question. */
+  judgingNotes?: string;
   /** Canonical answer — shown to the judge and published on the site. */
   referenceAnswer: string;
   /** Citation: USDA, McGee, etc. */
   source?: string;
-  /** false = held-out; never shown in the public explorer. */
+  /** Kept for artifact compatibility — the whole dataset is public (see methodology). */
   public: boolean;
 }
 
@@ -172,6 +201,8 @@ export interface StoredResponse {
   costUsd: number;
   latencyMs: number;
   finishReason?: string;
+  /** Empty/filtered even after retries — scores 0 but is surfaced as an incident, not skill. */
+  transportFailure?: boolean;
 }
 
 export interface GradeDetail {

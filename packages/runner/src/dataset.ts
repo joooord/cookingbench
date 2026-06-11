@@ -47,6 +47,11 @@ export function loadModels(): ModelEntry[] {
   return models;
 }
 
+/** Everything a run executes: active + basics. Retired items never run again. */
+export function runnableQuestions(): Question[] {
+  return loadQuestions().filter((q) => q.status !== 'retired');
+}
+
 const BASE_SYSTEM_PROMPT =
   'You are a knowledgeable cooking assistant. Answer the question accurately and concisely.';
 
@@ -60,6 +65,8 @@ export function buildMessages(question: Question) {
   ];
 }
 
-export function maxTokensFor(question: Question, config: { maxTokens: number; maxTokensRecipe: number }) {
-  return question.category === 'recipe-generation' ? config.maxTokensRecipe : config.maxTokens;
+export function maxTokensFor(_question: Question, config: { maxTokens: number; maxTokensRecipe: number }) {
+  // v2: one flat cap for every category (the old recipe split is kept in the
+  // config shape only for v1 artifact compatibility).
+  return config.maxTokens;
 }

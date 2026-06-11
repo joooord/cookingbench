@@ -15,15 +15,26 @@ export interface LeaderboardRow {
   provider: string;
   family?: string;
   overall: number;
+  /** v2: 95% bootstrap CI over questions. */
+  overallCi?: [number, number];
+  /** v2: saturated-item regression gate. */
+  basics?: number | null;
+  /** v2: mean over difficulty ≥ 4 items. */
+  frontier?: number | null;
+  /** v1 column. */
   hardSet?: number | null;
   categories: Partial<Record<CategoryId, number>>;
   questionsGraded: number;
+  /** v2: transport-noise responses (empty/filtered after retries). */
+  incidents?: number;
   costUsd: number;
 }
 
 export interface LeaderboardReport {
   runId: string;
   generatedAt: string;
+  /** Missing on v1 artifacts. */
+  methodologyVersion?: string;
   rows: LeaderboardRow[];
 }
 
