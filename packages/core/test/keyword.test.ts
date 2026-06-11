@@ -54,6 +54,15 @@ describe('gradeKeyword', () => {
     expect(gradeKeyword(spec, 'A great snack: spread peanut butter on crackers.').score).toBe(0);
   });
 
+  it('matches forbidden terms on word boundaries only', () => {
+    const spec: GraderSpec = { type: 'keyword', required: [['stew']], forbidden: ['ice'] };
+    expect(gradeKeyword(spec, 'A hearty bean stew over rice with smoked spices.').score).toBe(100);
+    expect(gradeKeyword(spec, 'Serve the stew over ice for some reason.').score).toBe(0);
+    const onion: GraderSpec = { type: 'keyword', required: [['pasta']], forbidden: ['onion'] };
+    expect(gradeKeyword(onion, 'Use the green tops of spring onions in the pasta.').score).toBe(100);
+    expect(gradeKeyword(onion, 'Dice one onion and add it to the pasta sauce.').score).toBe(0);
+  });
+
   it('treats "X-free" as negated', () => {
     const spec: GraderSpec = { type: 'keyword', required: [['flour']], forbidden: ['gluten'] };
     expect(gradeKeyword(spec, 'Use a gluten-free flour blend.').score).toBe(100);

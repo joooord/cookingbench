@@ -153,10 +153,8 @@
         required:
           - ['protein']
         forbidden:
-          - 'egg '
+          - 'egg'
           - 'eggs'
-          - 'egg.'
-          - 'egg,'
   referenceAnswer: >
     E.g. Greek yogurt bowl: 250 g Greek yogurt (~25 g protein), 25 g whey or pea
     protein stirred in (~20 g), 30 g granola (~3 g), berries — or a tofu scramble
@@ -469,6 +467,8 @@
     constraintChecks:
       - type: keyword
         forbidden:
+          # singular 'onion' catches "one onion / the onion" while letting the
+          # low-FODMAP-legal "green tops of spring onions" through
           - 'onion'
           - 'garlic clove'
           - 'minced garlic'
@@ -480,3 +480,131 @@
     oil (oil carries the flavour but not the FODMAPs), build with canned
     tomatoes, capers or olives, the green tops of spring onions or chives,
     parmesan and fresh basil; no onion or garlic solids anywhere.
+
+# rgen-013/014 are adapted from the founding real-world prompts where the
+# Gemini 3.0 → 3.1 quantity regression was first observed.
+
+- id: rgen-013
+  category: recipe-generation
+  difficulty: 3
+  public: true
+  prompt: >
+    I need a dinner meal plan for next week (Mon–Thu) for me and my girlfriend
+    (2 people). Assume it is mid-June in the UK and anchor the menu in produce
+    at peak British season right now. Shop: Ocado (UK). Optimize the shopping
+    list for minimal waste — if we buy fresh parsley for Monday, use it again
+    later in the week. The vibe is "Effortless Excellence": Michelin-quality
+    plating and flavour, executed in under 30 minutes of active cooking time,
+    focused on perfect searing, acidity to cut richness, and contrasting
+    textures. Strict nutritional goals: 40–60 g protein per person per meal and
+    a nutrient-dense fibre source in every meal. Use 4 different high-quality
+    protein sources across the week; we prefer dense, rich cuts (game, beef,
+    pork, oily fish) over light flaky white fish. Output: the 4-meal menu;
+    full step-by-step recipes with a Chef's Note on specific timings; one
+    "Michelin Trick" per dish; a consolidated Ocado shopping list specifying
+    the raw meat weights needed to hit the protein target; and full macros per
+    meal (calories, protein, fibre, fat).
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Protein & macro math
+        description: >
+          5 = raw meat weights genuinely deliver 40–60 g protein per person
+          (e.g. ~200–250 g raw beef or ~180–220 g pork loin per person ≈ 45–55 g;
+          two people = double the raw weight on the list), and per-meal macros
+          are present and internally consistent with the ingredients. 1 = raw
+          weights that miss the target by a wide margin, macros invented or
+          missing — this is the precise failure mode the question hunts for.
+        weight: 0.35
+      - name: Seasonality accuracy
+        description: >
+          5 = the menu is anchored in genuine mid-June UK peak produce
+          (asparagus tail-end, strawberries, broad beans, peas, courgettes, new
+          potatoes, radishes, samphire, mackerel, crab, cherries late June).
+          1 = autumn/winter produce (squash, parsnips, Brussels sprouts)
+          presented as seasonal.
+        weight: 0.25
+      - name: Constraint adherence
+        description: >
+          5 = exactly 4 distinct dense protein sources (no light white fish as a
+          main), ≤30 min active time credible per recipe, deliberate ingredient
+          overlap for waste reduction, consolidated list present. 1 = constraints
+          silently broken.
+        weight: 0.25
+      - name: Menu quality & format
+        description: >
+          5 = four distinct, cohesive, genuinely elevated meals with specific
+          Chef's Notes (real timings) and a concrete Michelin Trick each.
+          1 = generic dishes, padding, vague tips.
+        weight: 0.15
+    constraintChecks:
+      - type: keyword
+        required:
+          - ['protein']
+          - ['shopping list', 'shopping']
+          - ['monday']
+          - ['thursday']
+          - ['fibre', 'fiber']
+  referenceAnswer: >
+    A Monday–Thursday mid-June UK menu, e.g. Monday seared bavette with charred
+    asparagus and salsa verde; Tuesday crispy pork loin with braised peas,
+    broad beans & lettuce; Wednesday grilled mackerel with new-potato & radish
+    salad and gooseberry dressing; Thursday venison or lamb rump with
+    courgettes and mint. Each recipe states raw meat weight per person
+    calibrated to 40–60 g protein (e.g. 225 g raw bavette ≈ 47 g), a fibre
+    anchor, ≤30 min active method with a timed Chef's Note, a plating trick,
+    per-meal macros, and one consolidated Ocado shopping list with
+    parsley/lemon/etc. reused across nights.
+
+- id: rgen-014
+  category: recipe-generation
+  difficulty: 2
+  public: true
+  prompt: >
+    Hi, I hope you're OK. I need some evening meal ideas to have with my
+    girlfriend (2 people). Each meal should be 600–900 kcal with over 40 g of
+    protein per portion. Very healthy, whole foods only — avoid white potatoes,
+    white rice and added sugar. We want meat or fish in every meal, alongside
+    vegetables, fruits, eggs or whole grains. I'm a confident cook, so any
+    skill level is fine, and we love exploring world cuisines. Give me 5 meal
+    ideas that fit, each with a full nutritional breakdown per portion.
+  grader:
+    type: llm-judge
+    rubric:
+      - name: Nutrition plausibility
+        description: >
+          5 = all five meals include a per-portion breakdown whose numbers are
+          individually plausible for the ingredients and genuinely land in
+          600–900 kcal with >40 g protein. 1 = breakdowns missing, invented, or
+          outside the bands.
+        weight: 0.4
+      - name: Dietary constraint adherence
+        description: >
+          5 = whole foods throughout; no white potatoes, white rice or added
+          sugar anywhere; meat or fish present in every meal. 1 = a banned
+          ingredient slips in or a meal is meatless.
+        weight: 0.3
+      - name: Variety & adventurousness
+        description: >
+          5 = five distinct ideas spanning different world cuisines with real
+          character, suited to a confident cook. 1 = five variations of the same
+          dish or beige defaults.
+        weight: 0.2
+      - name: Clarity
+        description: 5 = scannable ideas ready to shortlist. 1 = a wall of text.
+        weight: 0.1
+    constraintChecks:
+      - type: keyword
+        required:
+          - ['kcal', 'calorie']
+          - ['protein']
+        forbidden:
+          - 'white rice'
+          - 'white potato'
+  referenceAnswer: >
+    Five varied whole-food ideas with per-portion breakdowns in band, e.g.
+    Moroccan-spiced lamb with apricot & herb quinoa (~750 kcal, 45 g protein);
+    miso-glazed salmon, soba & charred greens; Peruvian-style sea bass ceviche
+    with sweet potato & corn; Georgian chicken with walnut sauce and kidney-bean
+    salad; bavette with chimichurri, black beans & roasted peppers — each
+    itemized for kcal, protein, fibre and fat per portion.

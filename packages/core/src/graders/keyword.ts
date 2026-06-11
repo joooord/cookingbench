@@ -24,12 +24,20 @@ function isNegatedAt(haystack: string, index: number, termLength: number): boole
   return /^[\s-]*free\b/.test(after);
 }
 
+function isWordChar(ch: string | undefined): boolean {
+  return ch !== undefined && /[a-z0-9]/.test(ch);
+}
+
+// Forbidden terms match whole words only: 'ice' must not hit "rice", and
+// 'onion' must not hit "spring onions". List plurals explicitly when needed.
 function hasForbiddenUse(haystack: string, term: string): boolean {
   let from = 0;
   while (true) {
     const index = haystack.indexOf(term, from);
     if (index === -1) return false;
-    if (!isNegatedAt(haystack, index, term.length)) return true;
+    const bounded =
+      !isWordChar(haystack[index - 1]) && !isWordChar(haystack[index + term.length]);
+    if (bounded && !isNegatedAt(haystack, index, term.length)) return true;
     from = index + term.length;
   }
 }

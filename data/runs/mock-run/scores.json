@@ -1059,19 +1059,112 @@
     "runId": "mock-run",
     "modelId": "mock/decent-cook",
     "questionId": "rgen-012",
-    "score": 56,
+    "score": 86,
     "graderType": "llm-judge",
     "detail": {
       "judgePending": false,
       "judgeScore": 80,
+      "constraintScore": 100,
+      "constraintDetail": {
+        "constraintChecks": [
+          {
+            "score": 100,
+            "detail": {
+              "forbiddenOnly": true
+            }
+          }
+        ]
+      },
+      "mockJudge": true
+    },
+    "judgeModel": "mock-judge"
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/decent-cook",
+    "questionId": "rgen-013",
+    "score": 28,
+    "graderType": "llm-judge",
+    "detail": {
+      "judgePending": false,
+      "judgeScore": 40,
       "constraintScore": 0,
       "constraintDetail": {
         "constraintChecks": [
           {
             "score": 0,
             "detail": {
-              "forbiddenHits": [
-                "onion"
+              "groups": [
+                {
+                  "synonyms": [
+                    "protein"
+                  ],
+                  "hit": null
+                },
+                {
+                  "synonyms": [
+                    "shopping list",
+                    "shopping"
+                  ],
+                  "hit": null
+                },
+                {
+                  "synonyms": [
+                    "monday"
+                  ],
+                  "hit": null
+                },
+                {
+                  "synonyms": [
+                    "thursday"
+                  ],
+                  "hit": null
+                },
+                {
+                  "synonyms": [
+                    "fibre",
+                    "fiber"
+                  ],
+                  "hit": null
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "mockJudge": true
+    },
+    "judgeModel": "mock-judge"
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/decent-cook",
+    "questionId": "rgen-014",
+    "score": 86,
+    "graderType": "llm-judge",
+    "detail": {
+      "judgePending": false,
+      "judgeScore": 80,
+      "constraintScore": 100,
+      "constraintDetail": {
+        "constraintChecks": [
+          {
+            "score": 100,
+            "detail": {
+              "groups": [
+                {
+                  "synonyms": [
+                    "kcal",
+                    "calorie"
+                  ],
+                  "hit": "kcal"
+                },
+                {
+                  "synonyms": [
+                    "protein"
+                  ],
+                  "hit": "protein"
+                }
               ]
             }
           }
@@ -2859,20 +2952,18 @@
     "runId": "mock-run",
     "modelId": "mock/perfect-chef",
     "questionId": "rgen-008",
-    "score": 66.5,
+    "score": 96.5,
     "graderType": "llm-judge",
     "detail": {
       "judgePending": false,
       "judgeScore": 95,
-      "constraintScore": 0,
+      "constraintScore": 100,
       "constraintDetail": {
         "constraintChecks": [
           {
-            "score": 0,
+            "score": 100,
             "detail": {
-              "forbiddenHits": [
-                "ice"
-              ]
+              "forbiddenOnly": true
             }
           }
         ]
@@ -2946,19 +3037,112 @@
     "runId": "mock-run",
     "modelId": "mock/perfect-chef",
     "questionId": "rgen-012",
-    "score": 66.5,
+    "score": 96.5,
     "graderType": "llm-judge",
     "detail": {
       "judgePending": false,
       "judgeScore": 95,
-      "constraintScore": 0,
+      "constraintScore": 100,
       "constraintDetail": {
         "constraintChecks": [
           {
-            "score": 0,
+            "score": 100,
             "detail": {
-              "forbiddenHits": [
-                "onion"
+              "forbiddenOnly": true
+            }
+          }
+        ]
+      },
+      "mockJudge": true
+    },
+    "judgeModel": "mock-judge"
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/perfect-chef",
+    "questionId": "rgen-013",
+    "score": 96.5,
+    "graderType": "llm-judge",
+    "detail": {
+      "judgePending": false,
+      "judgeScore": 95,
+      "constraintScore": 100,
+      "constraintDetail": {
+        "constraintChecks": [
+          {
+            "score": 100,
+            "detail": {
+              "groups": [
+                {
+                  "synonyms": [
+                    "protein"
+                  ],
+                  "hit": "protein"
+                },
+                {
+                  "synonyms": [
+                    "shopping list",
+                    "shopping"
+                  ],
+                  "hit": "shopping list"
+                },
+                {
+                  "synonyms": [
+                    "monday"
+                  ],
+                  "hit": "monday"
+                },
+                {
+                  "synonyms": [
+                    "thursday"
+                  ],
+                  "hit": "thursday"
+                },
+                {
+                  "synonyms": [
+                    "fibre",
+                    "fiber"
+                  ],
+                  "hit": "fibre"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "mockJudge": true
+    },
+    "judgeModel": "mock-judge"
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/perfect-chef",
+    "questionId": "rgen-014",
+    "score": 96.5,
+    "graderType": "llm-judge",
+    "detail": {
+      "judgePending": false,
+      "judgeScore": 95,
+      "constraintScore": 100,
+      "constraintDetail": {
+        "constraintChecks": [
+          {
+            "score": 100,
+            "detail": {
+              "groups": [
+                {
+                  "synonyms": [
+                    "kcal",
+                    "calorie"
+                  ],
+                  "hit": "kcal"
+                },
+                {
+                  "synonyms": [
+                    "protein"
+                  ],
+                  "hit": "protein"
+                }
               ]
             }
           }
@@ -4992,6 +5176,101 @@
             "score": 100,
             "detail": {
               "forbiddenOnly": true
+            }
+          }
+        ]
+      },
+      "mockJudge": true
+    },
+    "judgeModel": "mock-judge"
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/sloppy-intern",
+    "questionId": "rgen-013",
+    "score": 14,
+    "graderType": "llm-judge",
+    "detail": {
+      "judgePending": false,
+      "judgeScore": 20,
+      "constraintScore": 0,
+      "constraintDetail": {
+        "constraintChecks": [
+          {
+            "score": 0,
+            "detail": {
+              "groups": [
+                {
+                  "synonyms": [
+                    "protein"
+                  ],
+                  "hit": null
+                },
+                {
+                  "synonyms": [
+                    "shopping list",
+                    "shopping"
+                  ],
+                  "hit": null
+                },
+                {
+                  "synonyms": [
+                    "monday"
+                  ],
+                  "hit": null
+                },
+                {
+                  "synonyms": [
+                    "thursday"
+                  ],
+                  "hit": null
+                },
+                {
+                  "synonyms": [
+                    "fibre",
+                    "fiber"
+                  ],
+                  "hit": null
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "mockJudge": true
+    },
+    "judgeModel": "mock-judge"
+  },
+  {
+    "runId": "mock-run",
+    "modelId": "mock/sloppy-intern",
+    "questionId": "rgen-014",
+    "score": 14,
+    "graderType": "llm-judge",
+    "detail": {
+      "judgePending": false,
+      "judgeScore": 20,
+      "constraintScore": 0,
+      "constraintDetail": {
+        "constraintChecks": [
+          {
+            "score": 0,
+            "detail": {
+              "groups": [
+                {
+                  "synonyms": [
+                    "kcal",
+                    "calorie"
+                  ],
+                  "hit": null
+                },
+                {
+                  "synonyms": [
+                    "protein"
+                  ],
+                  "hit": null
+                }
+              ]
             }
           }
         ]
