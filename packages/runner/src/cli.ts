@@ -1,3 +1,5 @@
+import { existsSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import {
   blendJudgeScore,
   gradeDeterministic,
@@ -7,7 +9,7 @@ import {
   type StoredResponse,
 } from '@cookingbench/core';
 import { BudgetExceededError, BudgetGuard } from './budget.js';
-import { buildMessages, loadModels, loadQuestions, maxTokensFor } from './dataset.js';
+import { REPO_ROOT, buildMessages, loadModels, loadQuestions, maxTokensFor } from './dataset.js';
 import { assertFreshEstimate, runEstimate } from './estimate.js';
 import { JUDGE_PROMPT_VERSION, judgeAnswer } from './judge.js';
 import { MOCK_MODELS, MockClient, mockJudgeScore } from './mock.js';
@@ -24,6 +26,15 @@ import {
   writeRunConfig,
   writeScores,
 } from './store.js';
+
+// Minimal .env loader (repo root) — real values never override an explicit env.
+const envPath = join(REPO_ROOT, '.env');
+if (existsSync(envPath)) {
+  for (const line of readFileSync(envPath, 'utf8').split('\n')) {
+    const m = /^([A-Z0-9_]+)=(.*)$/.exec(line.trim());
+    if (m && process.env[m[1]!] === undefined) process.env[m[1]!] = m[2]!;
+  }
+}
 
 const DEFAULTS = {
   temperature: 0,
