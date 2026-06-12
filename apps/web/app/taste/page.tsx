@@ -6,7 +6,8 @@ import { getAllTasteVotes } from '@/lib/supabase';
 
 // Ratings are recomputed from the full vote history on each revalidation —
 // the votes themselves are the permanent record (Supabase + data/taste/).
-export const revalidate = 300;
+// Kept short so the board doesn't visibly trail votes just cast next door.
+export const revalidate = 60;
 
 export const metadata = {
   title: 'Taste Board',

@@ -60,7 +60,7 @@ export async function getAllTasteVotes(): Promise<TasteVoteRecord[] | null> {
         `${SUPABASE_URL}/rest/v1/taste_votes?select=*&order=created_at.asc,id.asc`,
         {
           headers: { ...HEADERS, Range: `${from}-${from + pageSize - 1}` },
-          next: { revalidate: 300 },
+          next: { revalidate: 60 },
         },
       );
       if (!res.ok) return null;
@@ -78,7 +78,7 @@ export async function getTasteWinrates(): Promise<TasteWinrate[] | null> {
   try {
     const res = await fetch(`${SUPABASE_URL}/rest/v1/taste_winrates?select=*`, {
       headers: HEADERS,
-      next: { revalidate: 300 },
+      next: { revalidate: 60 },
     });
     if (!res.ok) return null;
     const rows = (await res.json()) as TasteWinrate[];

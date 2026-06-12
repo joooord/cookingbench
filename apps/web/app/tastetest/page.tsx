@@ -100,18 +100,23 @@ export default async function TasteTestPage() {
         you&rsquo;d rather be served.
       </p>
 
-      {/* The order ticket: long briefs read better left-aligned, short ones centred. */}
-      <div className="mt-12 border-2 border-ink bg-white px-6 py-8 sm:px-12">
-        <p className="text-center text-sm uppercase tracking-wider text-ink-soft">
-          <BriefLabel />
-        </p>
+      {/* The menu card: long briefs read better left-aligned, short ones centred. */}
+      <div className="mt-12 border border-hairline bg-paper-bright px-6 py-10 sm:px-12">
+        <div className="flex items-center justify-center gap-4">
+          <span aria-hidden className="h-px w-10 bg-hairline sm:w-16" />
+          <p className="text-center text-xs uppercase tracking-[0.2em] text-ink-soft">
+            <BriefLabel />
+          </p>
+          <span aria-hidden className="h-px w-10 bg-hairline sm:w-16" />
+        </div>
         <p
-          className={`mx-auto mt-4 max-w-3xl whitespace-pre-wrap font-display leading-relaxed ${
+          className={`mx-auto mt-6 max-w-3xl whitespace-pre-wrap font-display leading-relaxed ${
             question.prompt.length <= 220 ? 'text-center text-2xl' : 'text-left text-xl'
           }`}
         >
           {question.prompt}
         </p>
+        <div aria-hidden className="mx-auto mt-7 h-0.5 w-10 bg-paprika" />
       </div>
 
       {/* Keyed by the exact pairing so the duel remounts (and re-blinds) on every refresh. */}
