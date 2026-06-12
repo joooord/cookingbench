@@ -523,6 +523,7 @@
 - id: nutr-031
   category: nutrition
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -548,6 +549,7 @@
 - id: nutr-032
   category: nutrition
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -571,6 +573,7 @@
 - id: nutr-033
   category: nutrition
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -595,6 +598,7 @@
 - id: nutr-034
   category: nutrition
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -615,6 +619,7 @@
 - id: nutr-035
   category: nutrition
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -659,6 +664,7 @@
 - id: nutr-037
   category: nutrition
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -714,3 +720,141 @@
       - { toleranceAbs: 3, score: 100 }
       - { toleranceAbs: 6, score: 50 }
   referenceAnswer: 'Strained Greek yogurt runs ≈9–10 g protein per 100 g → ≈15–17 g per 170 g pot.'
+- id: nutr-040
+  category: nutrition
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    I'm deep-frying 500 g of raw, peeled potato into chips. Raw potato is
+    about 77 kcal per 100 g, and chips absorb frying oil equal to roughly 10%
+    of their raw weight (oil is 884 kcal per 100 g). Estimate the total
+    kilocalories of the finished batch.
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: numeric
+    # potato 500 x 0.77 = 385 kcal; oil 50 g x 8.84 = 442 kcal; total 827
+    expected: 827
+    unit: kcal
+    bands:
+      - { tolerancePct: 6, score: 100 }
+      - { tolerancePct: 15, score: 50 }
+  referenceAnswer: >
+    Potato: 500 × 0.77 = 385 kcal. Absorbed oil: 10% of 500 g = 50 g × 8.84
+    = 442 kcal. Total ≈ 827 kcal — the oil contributes more than the potato.
+
+- id: nutr-041
+  category: nutrition
+  difficulty: 5
+  addedIn: v3
+  public: true
+  prompt: >
+    My beef stew gets 250 ml of 12.5% ABV red wine and then simmers, covered,
+    for about an hour — USDA retention data says roughly 25% of the alcohol
+    remains after an hour of simmering. Using ethanol density 0.789 g/ml and
+    7 kcal per gram, how many kilocalories from alcohol are left in the pot?
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: numeric
+    # ethanol vol = 250 x 0.125 = 31.25 ml; mass = 31.25 x 0.789 = 24.66 g;
+    # retained = 24.66 x 0.25 = 6.16 g; kcal = 6.16 x 7 = 43.1
+    expected: 43
+    unit: kcal
+    bands:
+      - { toleranceAbs: 5, score: 100 }
+      - { toleranceAbs: 12, score: 50 }
+  referenceAnswer: >
+    250 ml × 12.5% = 31.25 ml ethanol ≈ 24.7 g; 25% retained ≈ 6.2 g; × 7
+    ≈ 43 kcal remaining.
+  source: 'USDA Table of Nutrient Retention Factors (alcohol retention)'
+
+- id: nutr-042
+  category: nutrition
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    A bone-in ribeye weighs 400 g raw, of which about 20% is bone. Raw beef
+    ribeye muscle is about 21 g protein per 100 g. I grill it, and it loses
+    22% of its weight in cooking. Roughly how many grams of protein end up on
+    my plate?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # meat = 400 x 0.8 = 320 g; protein = 320 x 0.21 = 67.2 g.
+    # cooking loss is water/fat — protein is essentially all retained;
+    # the 22% figure is a deliberate decoy.
+    expected: 67
+    unit: g
+    bands:
+      - { toleranceAbs: 4, score: 100 }
+      - { toleranceAbs: 10, score: 40 }
+  referenceAnswer: >
+    320 g of actual meat × 21% ≈ 67 g of protein. Cooking loss is almost
+    entirely water (and some fat) — the protein stays, so the 22% shrinkage
+    doesn't reduce the protein total.
+
+- id: nutr-043
+  category: nutrition
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    Roughly how many grams of carbohydrate are in a medium 180 g baked russet
+    potato, flesh and skin, plain? Give your best single estimate.
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: range
+    min: 33
+    max: 43
+    unit: g
+  referenceAnswer: >
+    Baked russet with skin is ≈ 21 g carbohydrate per 100 g, so a 180 g
+    potato is ≈ 38 g.
+  source: 'USDA FoodData Central'
+
+- id: nutr-044
+  category: nutrition
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    Estimate the total kilocalories in this chicken Caesar salad: 150 g
+    grilled chicken breast, 2 tablespoons of Caesar dressing, 30 g croutons,
+    10 g shaved parmesan, and 80 g romaine lettuce.
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: numeric
+    # chicken 150 x 1.65 = 248; dressing ~30 g x 5.4 = 160; croutons 30 x 4.1
+    # = 123; parmesan 10 x 4.3 = 43; romaine 80 x 0.17 = 14; total ≈ 588
+    expected: 590
+    unit: kcal
+    bands:
+      - { toleranceAbs: 110, score: 100 }
+      - { toleranceAbs: 220, score: 50 }
+  referenceAnswer: >
+    Chicken ≈ 250 kcal, Caesar dressing ≈ 160 kcal, croutons ≈ 120 kcal,
+    parmesan ≈ 45 kcal, romaine ≈ 15 kcal → ≈ 590 kcal. The dressing is the
+    component people underestimate.
+
+- id: nutr-045
+  category: nutrition
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    A soup recipe uses 2 teaspoons of table salt (about 6 g per teaspoon) in
+    a pot that serves 6. Salt is 39.3% sodium by weight. How many milligrams
+    of sodium does the salt add per serving?
+  systemHint: 'End your reply with a line "Answer: <number> mg".'
+  grader:
+    type: numeric
+    # 12 g salt x 0.393 = 4.716 g sodium = 4716 mg; / 6 = 786 mg per serving
+    expected: 786
+    unit: mg
+    bands:
+      - { tolerancePct: 5, score: 100 }
+      - { tolerancePct: 12, score: 50 }
+  referenceAnswer: >
+    12 g of salt × 0.393 ≈ 4716 mg of sodium; over 6 servings that is
+    ≈ 786 mg each (about a third of the 2300 mg daily value).

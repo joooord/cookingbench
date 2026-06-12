@@ -406,6 +406,7 @@
 - id: flav-015
   category: flavor-pairing
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -427,6 +428,7 @@
 - id: flav-016
   category: flavor-pairing
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -439,3 +441,50 @@
       - { toleranceAbs: 0.5, score: 100 }
       - { toleranceAbs: 1, score: 50 }
   referenceAnswer: 'The classic ratio is 3 parts oil to 1 part vinegar.'
+- id: flav-017
+  category: flavor-pairing
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    I'm seasoning a clear chicken broth with MSG as well as salt. Roughly how
+    many grams of MSG per litre lands in the range palatability studies find
+    optimal for savoury broths? Give your best single estimate.
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: range
+    # optimum umami seasoning ≈ 0.2–0.6% w/v; classic figure ~0.38% ≈ 3.8 g/L
+    min: 2
+    max: 6
+    unit: g
+  referenceAnswer: >
+    Palatability studies put optimal MSG around 0.2–0.6% — call it ≈ 3–4 g
+    per litre of broth alongside normal salting.
+
+- id: flav-018
+  category: flavor-pairing
+  difficulty: 4
+  addedIn: v3
+  trap: true
+  public: true
+  prompt: >
+    I only drink red wine, so with tonight's delicate sole meunière I'm
+    opening a big, young, heavily-oaked Cabernet Sauvignon — the tannin will
+    cut through the brown butter just like it cuts through steak fat, right?
+    Should I garnish the fish with lemon slices or just parsley?
+  grader:
+    type: keyword
+    required:
+      # correction-specific terms: merely repeating 'tannin' while
+      # agreeing with the premise must not score
+      - ['clash', 'metallic', 'iron', 'fishy', 'bitter', 'harsh']
+      - ['pinot', 'gamay', 'beaujolais', 'light-bodied', 'light bodied',
+         'low-tannin', 'low tannin', 'white wine', 'riesling', 'chablis',
+         'muscadet']
+  referenceAnswer: >
+    Big tannins clash with delicate fish — they react with the fish (an
+    iron-mediated effect) and read metallic and bitter, and there isn't
+    enough fat or protein in sole to buffer them. If it must be red, pick a
+    light, low-tannin one (Pinot Noir, Gamay/Beaujolais, lightly chilled);
+    classically this dish wants a white like Chablis or Muscadet. (Lemon,
+    yes — it brightens the brown butter.)

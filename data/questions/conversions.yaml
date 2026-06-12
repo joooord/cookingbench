@@ -331,6 +331,7 @@
 - id: conv-021
   category: conversions
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -350,6 +351,7 @@
 - id: conv-022
   category: conversions
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -369,6 +371,7 @@
 - id: conv-023
   category: conversions
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -411,6 +414,7 @@
 - id: conv-025
   category: conversions
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -427,6 +431,7 @@
 - id: conv-026
   category: conversions
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -448,6 +453,7 @@
 - id: conv-027
   category: conversions
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -466,6 +472,7 @@
 - id: conv-028
   category: conversions
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -481,3 +488,162 @@
       - { toleranceAbs: 0.08, score: 100 }
       - { toleranceAbs: 0.2, score: 50 }
   referenceAnswer: '2 × 250 ml = 500 ml; ÷236.6 ≈ 2.1 US cups.'
+- id: conv-029
+  category: conversions
+  difficulty: 5
+  addedIn: v3
+  public: true
+  prompt: >
+    An Australian barbecue-sauce recipe calls for 6 tablespoons (Australian
+    standard) of Worcestershire sauce per litre of finished sauce. I'm scaling
+    the batch to fill an old imperial quart bottle (2 UK pints), and the only
+    measuring spoon I own is a US tablespoon. How many US tablespoons of
+    Worcestershire do I need?
+  systemHint: 'End your reply with a line "Answer: <number> tablespoons".'
+  grader:
+    type: numeric
+    # 6 AU tbsp = 6 x 20 ml = 120 ml per litre; imperial quart = 2 x 568.3 ml
+    # = 1136.5 ml -> 120 x 1.1365 = 136.4 ml; / 14.79 ml (US tbsp) = 9.2
+    expected: 9.2
+    unit: tbsp
+    bands:
+      - { toleranceAbs: 0.5, score: 100 }
+      - { toleranceAbs: 1.5, score: 50 }
+  referenceAnswer: >
+    AU tbsp is 20 ml, so 6 tbsp = 120 ml per litre. An imperial quart is
+    2 x 568 ml = 1137 ml, needing about 136 ml; at 14.8 ml per US tablespoon
+    that is just over 9 US tablespoons (~9.2).
+
+- id: conv-030
+  category: conversions
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    My American cookbook says to roast the potatoes at 425°F. My British oven
+    is fan-assisted and the dial is in Celsius. What temperature should I set
+    it to?
+  systemHint: 'End your reply with a line "Answer: <number> °C".'
+  grader:
+    type: numeric
+    # 425°F = 218.3°C conventional; fan runs ~20°C lower -> ~198°C (set 200)
+    expected: 198
+    unit: c
+    acceptEquivalentUnits: false
+    bands:
+      - { toleranceAbs: 7, score: 100 }
+      - { toleranceAbs: 12, score: 40 }
+  referenceAnswer: >
+    425°F is about 218°C conventional; a fan oven runs roughly 20°C cooler,
+    so set ~200°C fan.
+
+- id: conv-031
+  category: conversions
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    A US recipe calls for 3⅓ cups of all-purpose flour, spooned and levelled
+    (120 g per cup). My kitchen scale is stuck displaying ounces. How many
+    ounces of flour should I weigh out?
+  systemHint: 'End your reply with a line "Answer: <number> oz".'
+  grader:
+    type: numeric
+    # 3.333 cups x 120 g = 400 g; 400 / 28.35 = 14.1 oz
+    expected: 14.1
+    unit: oz
+    bands:
+      - { toleranceAbs: 0.4, score: 100 }
+      - { toleranceAbs: 1.2, score: 50 }
+  referenceAnswer: >
+    3⅓ x 120 g = 400 g of flour; 400 g ÷ 28.35 g/oz ≈ 14.1 oz.
+
+- id: conv-032
+  category: conversions
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    A Japanese recipe says 3 gō of uncooked short-grain rice serves 6. I'm
+    cooking for 4 and want to weigh the rice instead — my jug has no ml marks.
+    Uncooked short-grain rice weighs about 0.85 g/ml. How many grams of rice
+    do I need?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # 1 gō = 180.4 ml; 3 gō = 541.2 ml; x 4/6 = 360.8 ml; x 0.85 = 306.7 g
+    expected: 307
+    unit: g
+    bands:
+      - { tolerancePct: 5, score: 100 }
+      - { tolerancePct: 12, score: 50 }
+  referenceAnswer: >
+    A gō is ~180 ml (the rice-cooker cup). 3 gō = 541 ml for 6, so 361 ml for
+    4; at 0.85 g/ml that is ≈ 305–310 g.
+
+- id: conv-033
+  category: conversions
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    A 1950s American cookbook calls for 1½ pints of milk. My British measuring
+    jug is also marked in pints. How many British pints should I pour to match
+    what the recipe intends?
+  systemHint: 'End your reply with a line "Answer: <number> pints" (decimal number).'
+  grader:
+    type: numeric
+    # 1.5 US pints = 1.5 x 473.2 = 709.8 ml; / 568.3 ml (imperial pint) = 1.25
+    expected: 1.25
+    unit: pint
+    acceptEquivalentUnits: false
+    bands:
+      - { toleranceAbs: 0.05, score: 100 }
+      - { toleranceAbs: 0.15, score: 50 }
+  referenceAnswer: >
+    US pints are 473 ml but imperial pints are 568 ml. 1½ US pints ≈ 710 ml
+    ≈ 1.25 imperial pints — pour 1¼ British pints, not 1½.
+
+- id: conv-034
+  category: conversions
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    My recipe was written for a fan oven at 170°C. I'm cooking at my friend's
+    house and her old British gas oven only has gas marks. Which gas mark
+    should I use?
+  systemHint: 'End your reply with a line "Answer: gas mark <number>".'
+  grader:
+    type: numeric
+    # 170°C fan ≈ 190°C conventional = gas mark 5
+    expected: 5
+    bands:
+      - { toleranceAbs: 0.4, score: 100 }
+      - { toleranceAbs: 1, score: 40 }
+  referenceAnswer: >
+    170°C fan ≈ 190°C conventional, and 190°C is gas mark 5.
+
+- id: conv-035
+  category: conversions
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    A German bread recipe calls for one level Esslöffel (the standard 15 ml
+    tablespoon) of fine salt per 500 g of flour. I'm using a whole 2 kg bag of
+    flour and an Australian tablespoon measure. How many Australian
+    tablespoons of salt do I add?
+  systemHint: 'End your reply with a line "Answer: <number> tablespoons".'
+  grader:
+    type: numeric
+    # 15 ml x (2000/500) = 60 ml of salt; AU tbsp = 20 ml -> 3 AU tbsp
+    expected: 3
+    unit: tbsp
+    acceptEquivalentUnits: false
+    bands:
+      - { toleranceAbs: 0.2, score: 100 }
+      - { toleranceAbs: 0.6, score: 50 }
+  referenceAnswer: >
+    2 kg is four times 500 g, so 4 x 15 ml = 60 ml of salt. The Australian
+    tablespoon is 20 ml, so 60 / 20 = 3 Australian tablespoons.

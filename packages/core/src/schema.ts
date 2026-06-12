@@ -92,7 +92,7 @@ export const questionSchema = z.object({
   category: z.enum(CATEGORY_IDS),
   difficulty: z.number().int().min(1).max(5),
   status: z.enum(['active', 'basics', 'retired']).default('active'),
-  addedIn: z.enum(['v1', 'v2']).default('v1'),
+  addedIn: z.enum(['v1', 'v2', 'v3']).default('v1'),
   trap: z.boolean().default(false),
   prompt: z.string().min(10),
   systemHint: z.string().optional(),

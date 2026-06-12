@@ -59,6 +59,7 @@
 - id: subs-004
   category: substitutions
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     A recipe calls for 1 cup of cake flour but I only have all-purpose flour
@@ -174,6 +175,7 @@
 - id: subs-011
   category: substitutions
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     My recipe needs 1 cup of cake flour and I have only bread flour. Is that a
@@ -267,6 +269,7 @@
 - id: subs-016
   category: substitutions
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -290,6 +293,7 @@
 - id: subs-017
   category: substitutions
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -427,3 +431,90 @@
     label, since many vegan butters are coconut-oil based. A liquid oil
     (~180 g) works but spreads the cookies thinner. Dairy butter is out
     (school is dairy-free).
+- id: subs-022
+  category: substitutions
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    I'm making a pavlova for my nephew, who has a severe egg allergy. The
+    recipe whips 4 egg whites for the meringue base. What do I use instead,
+    exactly how much, and is there anything I should add to keep it stable?
+  grader:
+    type: keyword
+    required:
+      - ['aquafaba', 'chickpea water', 'chickpea liquid', 'chickpea brine']
+      - ['180', '3/4 cup', '¾ cup', '0.75 cup', '12 tablespoons', '12 tbsp']
+      - ['cream of tartar', 'stabilis', 'stabiliz', 'acid', 'xanthan']
+  referenceAnswer: >
+    Aquafaba (chickpea-can liquid) whips like egg white: 3 tablespoons per
+    white, so 12 tbsp ≈ 180 ml (¾ cup) for 4 whites. Add ¼–½ tsp cream of
+    tartar (acid) to stabilise the foam, and whip longer than you would eggs.
+
+- id: subs-023
+  category: substitutions
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    My pancake recipe needs 1 cup of buttermilk. One guest is allergic to
+    dairy and another is allergic to soy, so my usual two workarounds are both
+    out. What exactly do I use, with quantities and method?
+  grader:
+    type: keyword
+    required:
+      - ['oat', 'almond', 'rice milk', 'cashew', 'hemp', 'coconut']
+      - ['lemon juice', 'vinegar']
+      - ['1 tablespoon', '1 tbsp', 'one tablespoon', '15 ml']
+  referenceAnswer: >
+    Sour a non-dairy, non-soy milk: 1 cup of oat or almond milk (rice,
+    cashew, hemp and light coconut also work) plus 1 tablespoon of lemon
+    juice or vinegar; stir and rest 5–10 minutes until slightly thickened.
+
+- id: subs-024
+  category: substitutions
+  difficulty: 4
+  addedIn: v3
+  trap: true
+  public: true
+  prompt: >
+    My gravy recipe thickens with 2 tablespoons of flour, but I'm out, so
+    I'll just whisk 2 tablespoons of cornstarch straight into the boiling
+    gravy instead — same starch, same amount, right? What flavour booster
+    would you add at the end?
+  grader:
+    type: keyword
+    required:
+      - ['half', '1 tablespoon', '1 tbsp', 'one tablespoon']
+      - ['slurry', 'cold water', 'cold liquid', 'dissolve']
+  referenceAnswer: >
+    Two corrections before any flavour talk: cornstarch thickens about twice
+    as strongly as flour, so use only ~1 tablespoon; and it must go in as a
+    slurry mixed with cold water — whisked dry into boiling liquid it lumps
+    instantly. Also take the gravy off a rolling boil once thickened.
+
+- id: subs-025
+  category: substitutions
+  difficulty: 4
+  addedIn: v3
+  trap: true
+  public: true
+  prompt: >
+    My friend is lactose intolerant, so for tonight's chocolate ganache I'm
+    swapping the 250 ml of double cream for 250 ml of lactose-free whole
+    milk, one for one. Which chocolate works best with that, 54% or 70%?
+  grader:
+    type: keyword
+    required:
+      # must identify the *functional* failure, not just mention fat
+      - ['fat content', 'enough fat', 'less fat', 'lacks the fat', '48%',
+         'too thin', 'too runny', 'split', 'curdle', 'will not set',
+         "won't set"]
+      - ['lactose-free cream', 'lactose free cream', 'lactose-free whipping',
+         'lactose-free double', 'coconut cream', 'low in lactose',
+         'little lactose', 'very little lactose', 'minimal lactose']
+  referenceAnswer: >
+    The swap fails on fat, not lactose: ganache needs cream's ~48% fat to
+    emulsify and set, and whole milk (~3.5% fat) gives a thin, split mess.
+    Use lactose-free cream or coconut cream instead — and note double cream
+    contains very little lactose to begin with.

@@ -152,9 +152,16 @@ v1 saturated catastrophically: 84/129 questions perfect-for-everyone, judge gave
   an immutable artifact) and `2026-06-v2` (13 models × 184 questions, panel-
   judged, spread 96.4–82.0). v1-era canary runs (`canary`, `canary2`) are also
   committed; their timestamps are older so they never surface on the site.
+- **v3 ratchet turn (dataset prep) done 2026-06-12**: of the 36 all-perfect
+  actives flagged by `bench analyze --run 2026-06-v2`, the 33 deterministic
+  ones were demoted to `basics` and 33 harder `addedIn: v3` replacements
+  authored in the discriminating styles (locale-trap chains, compound scaling,
+  estimation bands, dangerous-premise traps). The 3 llm-judge items
+  (flav-003/009/011) stay active by design. Dataset: 217 questions, 102
+  active. Every new deterministic grader was verified to score 100 against
+  its own reference answer. **No run yet** — next paid run needs a fresh
+  `bench estimate` (the gate hashes the question set).
 - Open items for a future session:
-  - `bench analyze --run 2026-06-v2` flags 36 still-all-perfect active items —
-    demote to basics and author harder replacements (v3 ratchet turn).
   - 81 flagged judge disagreements await human review (scores.json,
     `flagged: true`); the methodology page promises an expert layer.
   - One answer unjudged after repeated prose-not-JSON from a judge seat

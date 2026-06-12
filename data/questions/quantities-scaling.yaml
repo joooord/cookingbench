@@ -90,6 +90,7 @@
 - id: qty-006
   category: quantities-scaling
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     I want to make a 5% brine, with salt measured as a percentage of the water's
@@ -330,6 +331,7 @@
 - id: qty-019
   category: quantities-scaling
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -353,6 +355,7 @@
 - id: qty-020
   category: quantities-scaling
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -376,6 +379,7 @@
 - id: qty-021
   category: quantities-scaling
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -399,6 +403,7 @@
 - id: qty-022
   category: quantities-scaling
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -420,6 +425,7 @@
 - id: qty-023
   category: quantities-scaling
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -441,6 +447,7 @@
 - id: qty-024
   category: quantities-scaling
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -461,6 +468,7 @@
 - id: qty-025
   category: quantities-scaling
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -478,3 +486,197 @@
   referenceAnswer: >
     The Australian tablespoon is 20 ml, so 1.5 × 20 × 6 = 180 ml. Assuming a
     15 ml tablespoon (≈133 ml) misses the locale.
+- id: qty-026
+  category: quantities-scaling
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    My focaccia recipe fills a 23 × 33 cm (9×13 inch) rectangular pan and uses
+    420 g of flour at 80% hydration (baker's percentage). I want to bake it in
+    a 20 cm round pan instead, keeping the same dough thickness. How many
+    grams of water should I use?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # areas: 23x33 = 759 cm²; round = π x 10² = 314.2 cm²; factor 0.414
+    # flour 420 x 0.414 = 173.9 g; water = 80% of flour = 139.1 g
+    expected: 139
+    unit: g
+    bands:
+      - { tolerancePct: 4, score: 100 }
+      - { tolerancePct: 10, score: 60 }
+      - { tolerancePct: 20, score: 25 }
+  referenceAnswer: >
+    Pan areas: 759 cm² vs π·10² ≈ 314 cm², a factor of ~0.414. Scaled flour
+    ≈ 174 g; at 80% hydration the water is 0.8 × 174 ≈ 139 g.
+
+- id: qty-027
+  category: quantities-scaling
+  difficulty: 5
+  addedIn: v3
+  public: true
+  prompt: >
+    I want exactly 1000 g of final sourdough dough at 72% hydration with 2%
+    salt (baker's percentages, total flour = 100%). The dough will include
+    150 g of ripe stiff levain at 60% hydration, and the levain's flour and
+    water count toward the dough's totals. How many grams of additional water
+    do I add when mixing?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # total % = 100 + 72 + 2 = 174 -> flour = 1000/1.74 = 574.7 g,
+    # water = 413.8 g, salt = 11.5 g. Levain 150 g at 60% hydration:
+    # flour = 150/1.6 = 93.75 g, water = 56.25 g.
+    # added water = 413.8 - 56.25 = 357.5 g
+    expected: 357.5
+    unit: g
+    bands:
+      - { tolerancePct: 3, score: 100 }
+      - { tolerancePct: 8, score: 60 }
+      - { tolerancePct: 15, score: 25 }
+  referenceAnswer: >
+    Total formula = 174%, so flour 574.7 g, water 413.8 g, salt 11.5 g. The
+    stiff levain contributes 93.75 g flour and 56.25 g water (150/1.6), so
+    added water = 413.8 − 56.25 ≈ 357–358 g.
+
+- id: qty-028
+  category: quantities-scaling
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    I need 1.2 kg of cooked, shelled mussel meat for a big paella. Mussel meat
+    yield is about 25% of the live in-shell weight after cooking and shelling,
+    and I should expect to throw away roughly 10% of the mussels as dead or
+    broken before they even hit the pot. How many kilograms of live mussels
+    should I buy?
+  systemHint: 'End your reply with a line "Answer: <number> kg".'
+  grader:
+    type: numeric
+    # 1.2 / 0.25 = 4.8 kg usable live weight; / 0.9 (10% discarded) = 5.33 kg
+    expected: 5.3
+    unit: kg
+    bands:
+      - { tolerancePct: 4, score: 100 }
+      - { tolerancePct: 8, score: 50 }
+      - { tolerancePct: 15, score: 25 }
+  referenceAnswer: >
+    1.2 kg ÷ 0.25 = 4.8 kg of cooked-from live weight, and since only 90% of
+    what I buy makes it to the pot, buy 4.8 ÷ 0.9 ≈ 5.3 kg.
+
+- id: qty-029
+  category: quantities-scaling
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    My roasting chart says: 40 minutes per kilogram, plus 20 minutes resting
+    oven time on top. My stuffed chicken weighs 9 lb 4 oz on my American
+    scale, and stuffed birds need about 15% extra total time. How many minutes
+    in total?
+  systemHint: 'End your reply with a line "Answer: <number> minutes".'
+  grader:
+    type: numeric
+    # 9 lb 4 oz = 9.25 lb = 4.196 kg; 4.196 x 40 = 167.8 + 20 = 187.8;
+    # x 1.15 = 216 minutes
+    expected: 216
+    unit: min
+    bands:
+      - { toleranceAbs: 3, score: 100 }
+      - { toleranceAbs: 10, score: 50 }
+  referenceAnswer: >
+    9 lb 4 oz = 9.25 lb ≈ 4.2 kg. 4.2 × 40 = 168 min, +20 = 188 min, ×1.15
+    ≈ 216 minutes total.
+
+- id: qty-030
+  category: quantities-scaling
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    I'm pre-batching margaritas for 16 guests, one drink each. Each drink is
+    50 ml tequila, 25 ml lime juice, 20 ml triple sec and 10 ml agave syrup.
+    Pre-batched cocktails also get water added — 20% of the total mix volume —
+    to stand in for shaking dilution. How many millilitres of water do I add
+    to the batch?
+  systemHint: 'End your reply with a line "Answer: <number> ml".'
+  grader:
+    type: numeric
+    # per drink 50+25+20+10 = 105 ml; x16 = 1680 ml; water = 20% = 336 ml
+    expected: 336
+    unit: ml
+    bands:
+      - { tolerancePct: 3, score: 100 }
+      - { tolerancePct: 10, score: 50 }
+  referenceAnswer: >
+    Each drink is 105 ml of mix; 16 drinks = 1680 ml. 20% of that is ≈ 336 ml
+    of water.
+
+- id: qty-031
+  category: quantities-scaling
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    I'm equilibrium-brining a 1.8 kg pork loin in 2 litres of water, aiming
+    for 1.5% salt by weight of the total system (meat plus water). How many
+    grams of salt do I dissolve in the brine?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # equilibrium brine: salt = 1.5% of (1800 + 2000) g = 0.015 x 3800 = 57 g
+    expected: 57
+    unit: g
+    bands:
+      - { toleranceAbs: 3, score: 100 }
+      - { toleranceAbs: 9, score: 50 }
+  referenceAnswer: >
+    Equilibrium brining counts the meat too: (1800 + 2000) × 0.015 = 57 g of
+    salt. (1.5% of the water alone — 30 g — is the classic mistake.)
+
+- id: qty-032
+  category: quantities-scaling
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    Meal prep: I want 150 g of cooked boneless chicken in each of 5 lunches.
+    I'm buying bone-in thighs, which lose about 30% of their purchase weight
+    to bone and trim, and the trimmed meat then loses about 25% of its weight
+    in cooking. How many grams of bone-in thighs should I buy?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # need 750 g cooked; raw boneless = 750/0.75 = 1000 g;
+    # purchase weight = 1000/0.7 = 1428.6 g
+    expected: 1429
+    unit: g
+    bands:
+      - { tolerancePct: 4, score: 100 }
+      - { tolerancePct: 10, score: 50 }
+  referenceAnswer: >
+    5 × 150 = 750 g cooked → 750 ÷ 0.75 = 1000 g raw boneless → 1000 ÷ 0.7
+    ≈ 1430 g of bone-in thighs.
+
+- id: qty-033
+  category: quantities-scaling
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    I brew pour-over at a 1:16 coffee-to-water ratio by weight. My mug holds
+    12 US fluid ounces and I'm making 3 full mugs. How many grams of ground
+    coffee do I need? (Treat brewed coffee as having the density of water.)
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # 12 US fl oz = 354.9 ml ≈ 354.9 g; x3 = 1064.6 g water; /16 = 66.5 g
+    expected: 66.5
+    unit: g
+    bands:
+      - { tolerancePct: 4, score: 100 }
+      - { tolerancePct: 10, score: 50 }
+  referenceAnswer: >
+    12 US fl oz ≈ 355 ml ≈ 355 g; three mugs ≈ 1065 g of water; at 1:16 that
+    needs ≈ 66–67 g of coffee.

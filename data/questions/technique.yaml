@@ -361,6 +361,7 @@
 - id: tech-013
   category: technique
   difficulty: 3
+  status: basics
   addedIn: v2
   trap: true
   public: true
@@ -407,6 +408,7 @@
 - id: tech-015
   category: technique
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -427,6 +429,7 @@
 - id: tech-016
   category: technique
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -444,3 +447,67 @@
       - { toleranceAbs: 25, score: 50 }
   referenceAnswer: 'Sucrose begins caramelising around 160°C (320°F).'
   source: 'McGee, On Food and Cooking'
+- id: tech-017
+  category: technique
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    My fudge recipe, written for sea level, says to cook the syrup to 240°F
+    (soft-ball stage). I'm making it in Denver at about 5,000 ft. What
+    temperature should I actually take the syrup to?
+  systemHint: 'End your reply with a line "Answer: <number> °F".'
+  grader:
+    type: numeric
+    # boiling point drops ~1°F per 500 ft; at 5,000 ft subtract 10°F -> 230°F
+    expected: 230
+    unit: f
+    bands:
+      - { toleranceAbs: 2, score: 100 }
+      - { toleranceAbs: 5, score: 50 }
+  referenceAnswer: >
+    Candy stages track water evaporation, and water boils ~1°F lower per
+    500 ft of elevation. At 5,000 ft, subtract ~10°F: cook to ≈ 230°F.
+
+- id: tech-018
+  category: technique
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    I'm roasting a 2.5 kg boneless prime rib in a 180°C oven and want it to
+    finish at 54°C (medium-rare) after its 30-minute rest. At what internal
+    temperature in Celsius should I pull it from the oven?
+  systemHint: 'End your reply with a line "Answer: <number> °C".'
+  grader:
+    type: range
+    # large roast at 180°C: carryover ≈ 5–8°C during a long rest
+    min: 46
+    max: 50
+    unit: c
+  referenceAnswer: >
+    A big roast carries over about 5–8°C during a 30-minute rest, so pull it
+    at roughly 47–49°C to land at 54°C.
+
+- id: tech-019
+  category: technique
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    My fresh egg-pasta dough keeps tearing and snapping back in the pasta
+    roller, no matter how much extra flour I dust on — I knead it for a
+    couple of minutes and start rolling straight away. What's actually going
+    wrong, and what should I change?
+  grader:
+    type: keyword
+    required:
+      - ['rest', 'relax', '30 min', 'autolyse']
+      - ['knead', 'gluten']
+      - ['too much flour', 'extra flour', 'dry', 'stop adding']
+  referenceAnswer: >
+    Two real causes: the dough is under-kneaded (knead ~8–10 minutes so the
+    gluten develops) and completely unrested — wrap it and rest 30+ minutes
+    so the gluten relaxes and stops snapping back. The extra flour is making
+    it worse: tearing here is not stickiness, and more flour just dries the
+    dough out.
