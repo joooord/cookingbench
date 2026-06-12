@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Fraunces, IBM_Plex_Mono, Inter } from 'next/font/google';
 import Link from 'next/link';
+import { SiteNav } from '@/components/SiteNav';
 import './globals.css';
 
 const fraunces = Fraunces({
@@ -42,33 +43,16 @@ export const metadata: Metadata = {
   ],
 };
 
-const NAV = [
-  { href: '/', label: 'Leaderboard' },
-  { href: '/tastetest', label: 'Taste Test' },
-  { href: '/questions', label: 'Questions' },
-  { href: '/methodology', label: 'Methodology' },
-] as const;
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${fraunces.variable} ${inter.variable} ${plexMono.variable}`}>
       <body className="font-sans antialiased">
-        <header className="border-b border-hairline">
-          <div className="mx-auto flex max-w-6xl items-baseline justify-between px-6 py-5">
+        <header className="relative border-b border-hairline">
+          <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
             <Link href="/" className="font-display text-2xl font-semibold tracking-tight">
               Cooking<span className="text-paprika">Bench</span>
             </Link>
-            <nav className="flex gap-8 text-sm">
-              {NAV.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="text-ink-soft transition-colors hover:text-paprika"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
+            <SiteNav />
           </div>
         </header>
         <main className="mx-auto max-w-6xl px-6">{children}</main>
