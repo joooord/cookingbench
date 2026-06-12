@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "qwen/qwen3.5-plus-20260420",
+  "questionId": "conv-009",
+  "answerText": "There are 3 teaspoons in 1 US tablespoon.\n\nAnswer: 3 tsp",
+  "raw": {
+    "id": "gen-1781207495-qemIwy2Pt668uw1cksJJ",
+    "object": "chat.completion",
+    "created": 1781207495,
+    "model": "qwen/qwen3.5-plus-20260420",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "There are 3 teaspoons in 1 US tablespoon.\n\nAnswer: 3 tsp",
+          "refusal": null,
+          "reasoning": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Question: \"How many teaspoons are in 1 US tablespoon?\"\n   - Key entities: teaspoons, US tablespoon\n   - Expected answer format: Must end with \"Answer: <number> tsp\"\n\n2.  **Identify Core Knowledge:**\n   - Standard US cooking measurement conversion: 1 tablespoon (tbsp) = 3 teaspoons (tsp)\n   - This is a well-established fact in culinary measurements.\n\n3.  **Formulate Response:**\n   - State the conversion clearly and concisely.\n   - Ensure the final line matches the required format exactly.\n\n   Draft: There are 3 teaspoons in 1 US tablespoon.\n   Answer: 3 tsp\n\n4.  **Check Constraints:**\n   - Accurate? Yes.\n   - Concise? Yes.\n   - Ends with \"Answer: <number> tsp\"? Yes.\n\n   All constraints met. Ready to output.✅",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Question: \"How many teaspoons are in 1 US tablespoon?\"\n   - Key entities: teaspoons, US tablespoon\n   - Expected answer format: Must end with \"Answer: <number> tsp\"\n\n2.  **Identify Core Knowledge:**\n   - Standard US cooking measurement conversion: 1 tablespoon (tbsp) = 3 teaspoons (tsp)\n   - This is a well-established fact in culinary measurements.\n\n3.  **Formulate Response:**\n   - State the conversion clearly and concisely.\n   - Ensure the final line matches the required format exactly.\n\n   Draft: There are 3 teaspoons in 1 US tablespoon.\n   Answer: 3 tsp\n\n4.  **Check Constraints:**\n   - Accurate? Yes.\n   - Concise? Yes.\n   - Ends with \"Answer: <number> tsp\"? Yes.\n\n   All constraints met. Ready to output.✅",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 56,
+      "completion_tokens": 235,
+      "total_tokens": 291,
+      "cost": 0.0004398,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0004398,
+        "upstream_inference_prompt_cost": 0.0000168,
+        "upstream_inference_completions_cost": 0.000423
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 213,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 56,
+  "tokensOut": 235,
+  "costUsd": 0.0004398,
+  "latencyMs": 5044,
+  "finishReason": "stop"
+}

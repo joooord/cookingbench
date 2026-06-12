@@ -1,7 +1,29 @@
-import type { Question, RubricCriterion } from '@cookingbench/core';
+import type { Question } from '@cookingbench/core';
 import type { CompletionClient } from './openrouter.js';
 
-export const JUDGE_PROMPT_VERSION = 'judge-v1';
+export const JUDGE_PROMPT_VERSION = 'judge-v2';
+
+/**
+ * judge-v2: reference-anchored deduction grading. The judge only enumerates
+ * concrete faults; the severity→points arithmetic lives here, in code. v1's
+ * absolute 0–5 rubric saturated (75% of judged answers got every criterion
+ * perfect); finding faults is the discriminating task.
+ */
+export const SEVERITY_POINTS = { critical: 40, major: 15, minor: 5 } as const;
+export type Severity = keyof typeof SEVERITY_POINTS;
+
+export interface JudgeFinding {
+  quote: string;
+  issue: string;
+  severity: Severity;
+}
+
+export interface JudgeVerdict {
+  /** 0–100: 100 minus severity deductions, floored at 0. */
+  score: number;
+  findings: JudgeFinding[];
+  summary: string;
+}
 
 /** Strip phrases that could reveal which model wrote the answer. */
 export function anonymizeAnswer(text: string): string {
@@ -11,10 +33,13 @@ export function anonymizeAnswer(text: string): string {
   );
 }
 
-function rubricBlock(rubric: RubricCriterion[]): string {
-  return rubric
-    .map((c) => `- "${c.name}" (weight ${c.weight}): ${c.description}`)
-    .join('\n');
+/** judge-v2 attention hints: explicit judgingNotes, else the v1 rubric descriptions. */
+function attentionHints(question: Question): string | undefined {
+  if (question.judgingNotes) return question.judgingNotes;
+  if (question.grader.type === 'llm-judge' && question.grader.rubric) {
+    return question.grader.rubric.map((c) => `${c.name}: ${c.description.trim()}`).join('\n');
+  }
+  return undefined;
 }
 
 export function buildJudgeMessages(question: Question, answerText: string) {
@@ -22,28 +47,27 @@ export function buildJudgeMessages(question: Question, answerText: string) {
     throw new Error(`Question ${question.id} is not judge-graded`);
   }
   const system = [
-    'You are a strict, fair culinary examiner grading an anonymous AI assistant’s answer to a cooking question.',
-    'Score each rubric criterion from 0 (completely fails) to 5 (exemplary), using the per-criterion descriptions as the standard.',
-    'Judge only what is written. Do not reward verbosity. Penalize confident errors more than honest hedging.',
-    'Respond with STRICT JSON only, no markdown: {"scores": {"<criterion name>": <0-5>, ...}, "justification": "<2-3 sentences>"}',
+    'You are a meticulous culinary fact-checker. Compare the CANDIDATE ANSWER against the QUESTION and REFERENCE ANSWER and list every concrete error, omission, or constraint violation. Do not award points — only find faults.',
+    'Severity definitions:',
+    '- critical: dangerous advice, a violated hard constraint (allergen, dietary rule, equipment, serving count), or an error that would ruin the dish.',
+    '- major: a materially wrong quantity/temperature/time/technique claim, or a missing element the question explicitly required.',
+    '- minor: imprecision, a small omission, or an unclear instruction that a competent cook would survive.',
+    'Do not list style, verbosity, or formatting as faults. The reference shows ONE good answer, not the only one — a different but equally sound approach is not a fault. Do not invent faults to seem rigorous: an answer that is sound and complete has zero findings.',
+    'List each DISTINCT underlying mistake exactly once. If one root error shows up in several places (a forbidden ingredient in the list and again in the steps, or one wrong claim repeated), report it as a single finding, not several.',
+    'Respond with STRICT JSON only, no markdown:',
+    '{"findings":[{"quote":"<≤15 words quoted from the candidate, or \'omission\'>","issue":"<what is wrong>","severity":"critical|major|minor"}],"summary":"<1-2 sentences>"}',
   ].join('\n');
+  const hints = attentionHints(question);
   const user = [
     `QUESTION:\n${question.prompt}`,
-    `REFERENCE ANSWER (the standard to compare against):\n${question.referenceAnswer}`,
-    `RUBRIC:\n${rubricBlock(question.grader.rubric)}`,
+    `REFERENCE ANSWER (one sound answer, for comparison):\n${question.referenceAnswer}`,
+    ...(hints ? [`PAY PARTICULAR ATTENTION TO:\n${hints}`] : []),
     `CANDIDATE ANSWER:\n${anonymizeAnswer(answerText)}`,
   ].join('\n\n');
   return [
     { role: 'system' as const, content: system },
     { role: 'user' as const, content: user },
   ];
-}
-
-export interface JudgeVerdict {
-  /** Weighted 0–100. */
-  score: number;
-  criterionScores: Record<string, number>;
-  justification: string;
 }
 
 export function parseJudgeResponse(question: Question, text: string): JudgeVerdict {
@@ -53,69 +77,144 @@ export function parseJudgeResponse(question: Question, text: string): JudgeVerdi
   const jsonMatch = text.match(/\{[\s\S]*\}/);
   if (!jsonMatch) throw new Error(`Judge returned no JSON for ${question.id}: ${text.slice(0, 200)}`);
   const parsed = JSON.parse(jsonMatch[0]) as {
-    scores: Record<string, number>;
-    justification?: string;
+    findings?: Array<{ quote?: string; issue?: string; severity?: string }>;
+    summary?: string;
   };
-  let weighted = 0;
-  const criterionScores: Record<string, number> = {};
-  for (const criterion of question.grader.rubric) {
-    const raw = parsed.scores[criterion.name];
-    if (typeof raw !== 'number' || raw < 0 || raw > 5) {
-      throw new Error(`Judge gave invalid score for "${criterion.name}" on ${question.id}`);
-    }
-    criterionScores[criterion.name] = raw;
-    weighted += (raw / 5) * criterion.weight;
+  if (!Array.isArray(parsed.findings)) {
+    throw new Error(`Judge JSON missing findings[] for ${question.id}`);
   }
+  const findings: JudgeFinding[] = parsed.findings.map((f) => {
+    const severity = f.severity as Severity;
+    if (!(severity in SEVERITY_POINTS)) {
+      throw new Error(`Judge gave invalid severity "${f.severity}" on ${question.id}`);
+    }
+    return { quote: f.quote ?? '', issue: f.issue ?? '', severity };
+  });
+  const deductions = findings.reduce((sum, f) => sum + SEVERITY_POINTS[f.severity], 0);
   return {
-    score: weighted * 100,
-    criterionScores,
-    justification: parsed.justification ?? '',
+    score: Math.max(0, 100 - deductions),
+    findings,
+    summary: parsed.summary ?? '',
+  };
+}
+
+/** One verdict from one judge, with empty/truncated-output escalation. */
+async function singleVerdict(
+  client: CompletionClient,
+  judgeModel: string,
+  question: Question,
+  answerText: string,
+): Promise<JudgeVerdict> {
+  const messages = buildJudgeMessages(question, answerText);
+  // Reasoning judges can burn the whole token cap on hidden thinking or
+  // return empty text outright: cap effort low, escalate tokens on retry.
+  let lastError: Error | undefined;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const result = await client.complete(judgeModel, messages, {
+      temperature: 0,
+      maxTokens: 2000 * (attempt + 1),
+      reasoning: { effort: 'low' },
+    });
+    try {
+      return parseJudgeResponse(question, result.text);
+    } catch (err) {
+      lastError = err as Error;
+    }
+  }
+  throw lastError ?? new Error(`Judge ${judgeModel} failed on ${question.id}`);
+}
+
+/** Provider prefix of an OpenRouter slug ("anthropic/claude-x" → "anthropic"). */
+function providerOf(modelId: string): string {
+  return modelId.split('/')[0] ?? modelId;
+}
+
+/** Deterministic 32-bit FNV-1a hash — seat assignment must be reproducible. */
+function fnv1a(text: string): number {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < text.length; i++) {
+    h ^= text.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return h >>> 0;
+}
+
+/**
+ * Pick two panel seats for a (candidate, question) pair:
+ * - a judge NEVER scores its own provider's models (self-preference bias);
+ * - otherwise the excluded seat rotates deterministically by hash, so seat
+ *   load is balanced and any published score is reproducible.
+ */
+export function panelSeats(panel: string[], candidateModelId: string, questionId: string): string[] {
+  const eligible = panel.filter((j) => providerOf(j) !== providerOf(candidateModelId));
+  if (eligible.length <= 2) return eligible;
+  const drop = fnv1a(`${candidateModelId}|${questionId}`) % eligible.length;
+  return eligible.filter((_, i) => i !== drop);
+}
+
+export interface PanelVerdict extends JudgeVerdict {
+  judges: string[];
+  verdicts: Array<JudgeVerdict & { judgeModel: string }>;
+  disagreement: number;
+  flagged: boolean;
+}
+
+/**
+ * Panel judging: two distinct judges score each answer once; the mean is the
+ * score, and large cross-judge disagreement is flagged for human review.
+ */
+export async function judgeAnswerPanel(
+  client: CompletionClient,
+  panel: string[],
+  candidateModelId: string,
+  question: Question,
+  answerText: string,
+): Promise<PanelVerdict> {
+  const seats = panelSeats(panel, candidateModelId, question.id);
+  if (seats.length < 2) {
+    throw new Error(`Panel too small for ${candidateModelId} on ${question.id} (need 2 non-conflicted judges)`);
+  }
+  const verdicts = await Promise.all(
+    seats.map(async (judgeModel) => ({
+      judgeModel,
+      ...(await singleVerdict(client, judgeModel, question, answerText)),
+    })),
+  );
+  const [a, b] = verdicts as [PanelVerdict['verdicts'][number], PanelVerdict['verdicts'][number]];
+  const disagreement = Math.abs(a.score - b.score);
+  return {
+    score: (a.score + b.score) / 2,
+    findings: a.findings,
+    summary: a.summary,
+    judges: seats,
+    verdicts,
+    disagreement,
+    flagged: disagreement > 15,
   };
 }
 
 /**
- * Judge an answer twice and average (cheap variance reduction); flags large
- * disagreement for manual review.
+ * Single-judge double-scoring (used by the calibration gate, which calibrates
+ * each panel member independently).
  */
 export async function judgeAnswer(
   client: CompletionClient,
   judgeModel: string,
   question: Question,
   answerText: string,
-): Promise<JudgeVerdict & { disagreement: number; flagged: boolean }> {
-  const messages = buildJudgeMessages(question, answerText);
+): Promise<JudgeVerdict & { verdicts: JudgeVerdict[]; disagreement: number; flagged: boolean }> {
   const verdicts: JudgeVerdict[] = [];
   for (let i = 0; i < 2; i++) {
-    // Reasoning judges can burn the whole token cap on hidden thinking, so cap
-    // effort low, leave headroom, and retry once on truncated/invalid output.
-    let lastError: Error | undefined;
-    for (let attempt = 0; attempt < 2; attempt++) {
-      const result = await client.complete(judgeModel, messages, {
-        temperature: 0,
-        maxTokens: 2000,
-        reasoning: { effort: 'low' },
-      });
-      try {
-        verdicts.push(parseJudgeResponse(question, result.text));
-        lastError = undefined;
-        break;
-      } catch (err) {
-        lastError = err as Error;
-      }
-    }
-    if (lastError) throw lastError;
+    verdicts.push(await singleVerdict(client, judgeModel, question, answerText));
   }
   const [a, b] = verdicts as [JudgeVerdict, JudgeVerdict];
   const disagreement = Math.abs(a.score - b.score);
-  const criterionScores: Record<string, number> = {};
-  for (const name of Object.keys(a.criterionScores)) {
-    criterionScores[name] = (a.criterionScores[name]! + b.criterionScores[name]!) / 2;
-  }
   return {
     score: (a.score + b.score) / 2,
-    criterionScores,
-    justification: a.justification,
+    findings: a.findings,
+    summary: a.summary,
+    verdicts,
     disagreement,
-    flagged: disagreement > 20, // > 1 criterion-point on the 0–100 scale
+    flagged: disagreement > 15,
   };
 }

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "conv-017",
+  "answerText": " One Australian standard tablespoon equals 20 ml.\n\n2 tablespoons × 20 ml = 40 ml\n\nAnswer: 40 ml",
+  "raw": {
+    "id": "gen-1781202364-KpEiWDYpNbtpvEsrkIcd",
+    "object": "chat.completion",
+    "created": 1781202364,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Ambient",
+    "system_fingerprint": "vllm-0.22.0-tp8-ep-def7b9ad",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": " One Australian standard tablespoon equals 20 ml.\n\n2 tablespoons × 20 ml = 40 ml\n\nAnswer: 40 ml",
+          "refusal": null,
+          "reasoning": " The user is asking for the conversion of 2 Australian tablespoons to millilitres.\n\nFirst, I need to know the standard volume of an Australian tablespoon.\n- An Australian tablespoon is defined as 20 ml.\n- This is different from the US tablespoon (approx 14.79 ml) and the metric tablespoon used in many places (15 ml).\n\nSo:\n1 Australian tablespoon = 20 ml\n2 Australian tablespoons = 2 × 20 ml = 40 ml\n\nThe user wants the answer accurate and concise, ending with \"Answer: <number> ml\".\n\nLet me verify:\n- Australia, New Zealand, and some other Commonwealth countries historically used a 20 ml tablespoon.\n- Yes, Australian standard tablespoon = 20 mL.\n\nCalculation: 2 × 20 = 40.\n\nSo the answer is 40 ml.\n\nI should state this clearly and concisely.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " The user is asking for the conversion of 2 Australian tablespoons to millilitres.\n\nFirst, I need to know the standard volume of an Australian tablespoon.\n- An Australian tablespoon is defined as 20 ml.\n- This is different from the US tablespoon (approx 14.79 ml) and the metric tablespoon used in many places (15 ml).\n\nSo:\n1 Australian tablespoon = 20 ml\n2 Australian tablespoons = 2 × 20 ml = 40 ml\n\nThe user wants the answer accurate and concise, ending with \"Answer: <number> ml\".\n\nLet me verify:\n- Australia, New Zealand, and some other Commonwealth countries historically used a 20 ml tablespoon.\n- Yes, Australian standard tablespoon = 20 mL.\n\nCalculation: 2 × 20 = 40.\n\nSo the answer is 40 ml.\n\nI should state this clearly and concisely.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 66,
+      "completion_tokens": 204,
+      "total_tokens": 270,
+      "cost": 0.0008787,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0008787,
+        "upstream_inference_prompt_cost": 0.0000627,
+        "upstream_inference_completions_cost": 0.000816
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 186,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 66,
+  "tokensOut": 204,
+  "costUsd": 0.0008787,
+  "latencyMs": 2174,
+  "finishReason": "stop"
+}

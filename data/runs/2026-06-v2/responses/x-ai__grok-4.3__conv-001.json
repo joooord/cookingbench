@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "conv-001",
+  "answerText": "350°F converts to ~176.7°C (commonly rounded to 180°C for conventional ovens in recipes). \nAnswer: 180 °C",
+  "raw": {
+    "id": "gen-1781209091-5b0cMkOWRgOgAnmDhcFO",
+    "object": "chat.completion",
+    "created": 1781209091,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "350°F converts to ~176.7°C (commonly rounded to 180°C for conventional ovens in recipes). \nAnswer: 180 °C",
+          "refusal": null,
+          "reasoning": "The task is: \"Convert an oven temperature of 350°F to Celsius. Give the conventional (non-fan) oven temperature.\"\nThe calculation is: °C = (350 - 32) * 5/9 = 318 * 5/9.\n\n318 ÷ 9 = 35.333..., times 5 = 176.666... so 176.7°C approximately.\n\nBut in oven contexts, especially conventional ovens,  350°F is typically set to 180°C.\n\nFan-assisted ovens use lower temps, like 160-170°C.\n\nSo, conventional (non-fan) is 180°C.\n\nConfidence high on this convention.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The task is: \"Convert an oven temperature of 350°F to Celsius. Give the conventional (non-fan) oven temperature.\"\nThe calculation is: °C = (350 - 32) * 5/9 = 318 * 5/9.\n\n318 ÷ 9 = 35.333..., times 5 = 176.666... so 176.7°C approximately.\n\nBut in oven contexts, especially conventional ovens,  350°F is typically set to 180°C.\n\nFan-assisted ovens use lower temps, like 160-170°C.\n\nSo, conventional (non-fan) is 180°C.\n\nConfidence high on this convention.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_ef4d0784-f9ed-9b46-9c6d-a45ae518e91e",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 185,
+      "completion_tokens": 886,
+      "total_tokens": 1071,
+      "cost": 0.00231185,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00231185,
+        "upstream_inference_prompt_cost": 0.00009685,
+        "upstream_inference_completions_cost": 0.002215
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 857,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 185,
+  "tokensOut": 886,
+  "costUsd": 0.00231185,
+  "latencyMs": 6159,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-013",
+  "answerText": "The protein amount is calculated from the raw weight: 400 g raw chicken breast × (23.5 g protein / 100 g) = 94 g protein. Since protein is retained during cooking, the cooked result still contains 94 g of protein.\n\nAnswer: 94 g",
+  "raw": {
+    "id": "gen-1781206786-Lsx5fpVp2mRhyIiwvKU8",
+    "object": "chat.completion",
+    "created": 1781206786,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The protein amount is calculated from the raw weight: 400 g raw chicken breast × (23.5 g protein / 100 g) = 94 g protein. Since protein is retained during cooking, the cooked result still contains 94 g of protein.\n\nAnswer: 94 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"Raw chicken breast has about 23.5 g of protein per 100 g, and chicken loses roughly 25% of its weight during cooking (the protein stays). I cook 400 g of raw chicken breast. About how many grams of protein are in the cooked result?\"\n\nFirst, understand the problem. Raw chicken: 23.5 g protein per 100 g raw. So protein concentration is 23.5%. Protein amount in raw 400 g = 400 * (23.5/100) = 4 * 23.5 = 94 g protein. The chicken loses 25% of its weight during cooking, meaning the cooked weight is 75% of raw weight: 0.75 * 400 = 300 g cooked chicken. The protein stays, so the protein amount remains 94 g. The question asks: \"About how many grams of protein are in the cooked result?\" That is the total protein, not per 100g. So answer: 94 g. However, the problem says \"about how many grams\", and the protein amount is based on the initial 23.5g per 100g. 94 grams is exact. So answer is 94 g. End with \"Answer: 94 g\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Raw chicken breast has about 23.5 g of protein per 100 g, and chicken loses roughly 25% of its weight during cooking (the protein stays). I cook 400 g of raw chicken breast. About how many grams of protein are in the cooked result?\"\n\nFirst, understand the problem. Raw chicken: 23.5 g protein per 100 g raw. So protein concentration is 23.5%. Protein amount in raw 400 g = 400 * (23.5/100) = 4 * 23.5 = 94 g protein. The chicken loses 25% of its weight during cooking, meaning the cooked weight is 75% of raw weight: 0.75 * 400 = 300 g cooked chicken. The protein stays, so the protein amount remains 94 g. The question asks: \"About how many grams of protein are in the cooked result?\" That is the total protein, not per 100g. So answer: 94 g. However, the problem says \"about how many grams\", and the protein amount is based on the initial 23.5g per 100g. 94 grams is exact. So answer is 94 g. End with \"Answer: 94 g\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 90,
+      "completion_tokens": 321,
+      "total_tokens": 411,
+      "cost": 0.000531576,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 36,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000531576,
+        "upstream_inference_prompt_cost": 0.000043335,
+        "upstream_inference_completions_cost": 0.000488241
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 262,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 90,
+  "tokensOut": 321,
+  "costUsd": 0.000531576,
+  "latencyMs": 5301,
+  "finishReason": "stop"
+}

@@ -1,0 +1,287 @@
+{
+  "judgeModel": "panel-v1",
+  "judgePanel": [
+    "anthropic/claude-opus-4.8",
+    "qwen/qwen3.5-plus-20260420",
+    "openai/gpt-5.5"
+  ],
+  "judgePromptVersion": "judge-v2",
+  "atIso": "2026-06-11T22:56:40.636Z",
+  "mae": 8.3,
+  "passed": true,
+  "judges": [
+    {
+      "judgeModel": "anthropic/claude-opus-4.8",
+      "mae": 8.3,
+      "passed": true,
+      "anchors": [
+        {
+          "questionId": "tech-003",
+          "note": "perfect answer — zero findings expected",
+          "expected": 100,
+          "got": 100,
+          "pass": true
+        },
+        {
+          "questionId": "tech-003",
+          "note": "right mechanism, rest time far too long (~1 major)",
+          "expected": 85,
+          "got": 75,
+          "pass": true
+        },
+        {
+          "questionId": "tech-003",
+          "note": "actively wrong advice — tells the cook not to rest. Confidently wrong on the central question stacks multiple critical/major findings; expect a near-zero score.\n",
+          "expected": 30,
+          "got": 5,
+          "pass": true
+        },
+        {
+          "questionId": "tech-001",
+          "note": "perfect diagnosis + rescue — zero findings expected",
+          "expected": 100,
+          "got": 100,
+          "pass": true
+        },
+        {
+          "questionId": "tech-001",
+          "note": "rescue advice that would re-break the sauce — panel members legitimately differ on whether this is one critical or critical+major(s); the anchor bounds the band, not a point.\n",
+          "expected": 25,
+          "got": 2.5,
+          "pass": true
+        },
+        {
+          "questionId": "flav-002",
+          "note": "textbook answer (acid, correct mechanism) — zero findings expected",
+          "expected": 100,
+          "got": 100,
+          "pass": true
+        },
+        {
+          "questionId": "flav-002",
+          "note": "correct ingredient but wrong timing guidance (~1 minor/major)",
+          "expected": 90,
+          "got": 85,
+          "pass": true
+        },
+        {
+          "questionId": "flav-002",
+          "note": "wrong fix entirely (more oil) — misses acid/umami (1-2 majors)",
+          "expected": 70,
+          "got": 45,
+          "pass": true
+        },
+        {
+          "questionId": "rgen-001",
+          "note": "complete, correct dairy-free recipe for 4 — zero findings expected",
+          "expected": 100,
+          "got": 100,
+          "pass": true
+        },
+        {
+          "questionId": "rgen-001",
+          "note": "uses melted butter — violates the dairy-free hard constraint (critical, possibly +major)",
+          "expected": 50,
+          "got": 55,
+          "pass": true
+        },
+        {
+          "questionId": "rgen-001",
+          "note": "recipe scaled for 2, not the required 4 (critical constraint miss)",
+          "expected": 45,
+          "got": 40,
+          "pass": true
+        },
+        {
+          "questionId": "rgen-002",
+          "note": "chicken in a vegetarian recipe (critical) — otherwise compliant",
+          "expected": 50,
+          "got": 47.5,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "judgeModel": "qwen/qwen3.5-plus-20260420",
+      "mae": 7.5,
+      "passed": true,
+      "anchors": [
+        {
+          "questionId": "tech-003",
+          "note": "perfect answer — zero findings expected",
+          "expected": 100,
+          "got": 100,
+          "pass": true
+        },
+        {
+          "questionId": "tech-003",
+          "note": "right mechanism, rest time far too long (~1 major)",
+          "expected": 85,
+          "got": 80,
+          "pass": true
+        },
+        {
+          "questionId": "tech-003",
+          "note": "actively wrong advice — tells the cook not to rest. Confidently wrong on the central question stacks multiple critical/major findings; expect a near-zero score.\n",
+          "expected": 30,
+          "got": 45,
+          "pass": true
+        },
+        {
+          "questionId": "tech-001",
+          "note": "perfect diagnosis + rescue — zero findings expected",
+          "expected": 100,
+          "got": 100,
+          "pass": true
+        },
+        {
+          "questionId": "tech-001",
+          "note": "rescue advice that would re-break the sauce — panel members legitimately differ on whether this is one critical or critical+major(s); the anchor bounds the band, not a point.\n",
+          "expected": 25,
+          "got": 55,
+          "pass": true
+        },
+        {
+          "questionId": "flav-002",
+          "note": "textbook answer (acid, correct mechanism) — zero findings expected",
+          "expected": 100,
+          "got": 100,
+          "pass": true
+        },
+        {
+          "questionId": "flav-002",
+          "note": "correct ingredient but wrong timing guidance (~1 minor/major)",
+          "expected": 90,
+          "got": 95,
+          "pass": true
+        },
+        {
+          "questionId": "flav-002",
+          "note": "wrong fix entirely (more oil) — misses acid/umami (1-2 majors)",
+          "expected": 70,
+          "got": 85,
+          "pass": true
+        },
+        {
+          "questionId": "rgen-001",
+          "note": "complete, correct dairy-free recipe for 4 — zero findings expected",
+          "expected": 100,
+          "got": 100,
+          "pass": true
+        },
+        {
+          "questionId": "rgen-001",
+          "note": "uses melted butter — violates the dairy-free hard constraint (critical, possibly +major)",
+          "expected": 50,
+          "got": 60,
+          "pass": true
+        },
+        {
+          "questionId": "rgen-001",
+          "note": "recipe scaled for 2, not the required 4 (critical constraint miss)",
+          "expected": 45,
+          "got": 45,
+          "pass": true
+        },
+        {
+          "questionId": "rgen-002",
+          "note": "chicken in a vegetarian recipe (critical) — otherwise compliant",
+          "expected": 50,
+          "got": 60,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "judgeModel": "openai/gpt-5.5",
+      "mae": 4.8,
+      "passed": true,
+      "anchors": [
+        {
+          "questionId": "tech-003",
+          "note": "perfect answer — zero findings expected",
+          "expected": 100,
+          "got": 100,
+          "pass": true
+        },
+        {
+          "questionId": "tech-003",
+          "note": "right mechanism, rest time far too long (~1 major)",
+          "expected": 85,
+          "got": 80,
+          "pass": true
+        },
+        {
+          "questionId": "tech-003",
+          "note": "actively wrong advice — tells the cook not to rest. Confidently wrong on the central question stacks multiple critical/major findings; expect a near-zero score.\n",
+          "expected": 30,
+          "got": 45,
+          "pass": true
+        },
+        {
+          "questionId": "tech-001",
+          "note": "perfect diagnosis + rescue — zero findings expected",
+          "expected": 100,
+          "got": 100,
+          "pass": true
+        },
+        {
+          "questionId": "tech-001",
+          "note": "rescue advice that would re-break the sauce — panel members legitimately differ on whether this is one critical or critical+major(s); the anchor bounds the band, not a point.\n",
+          "expected": 25,
+          "got": 42.5,
+          "pass": true
+        },
+        {
+          "questionId": "flav-002",
+          "note": "textbook answer (acid, correct mechanism) — zero findings expected",
+          "expected": 100,
+          "got": 100,
+          "pass": true
+        },
+        {
+          "questionId": "flav-002",
+          "note": "correct ingredient but wrong timing guidance (~1 minor/major)",
+          "expected": 90,
+          "got": 85,
+          "pass": true
+        },
+        {
+          "questionId": "flav-002",
+          "note": "wrong fix entirely (more oil) — misses acid/umami (1-2 majors)",
+          "expected": 70,
+          "got": 70,
+          "pass": true
+        },
+        {
+          "questionId": "rgen-001",
+          "note": "complete, correct dairy-free recipe for 4 — zero findings expected",
+          "expected": 100,
+          "got": 100,
+          "pass": true
+        },
+        {
+          "questionId": "rgen-001",
+          "note": "uses melted butter — violates the dairy-free hard constraint (critical, possibly +major)",
+          "expected": 50,
+          "got": 60,
+          "pass": true
+        },
+        {
+          "questionId": "rgen-001",
+          "note": "recipe scaled for 2, not the required 4 (critical constraint miss)",
+          "expected": 45,
+          "got": 45,
+          "pass": true
+        },
+        {
+          "questionId": "rgen-002",
+          "note": "chicken in a vegetarian recipe (critical) — otherwise compliant",
+          "expected": 50,
+          "got": 55,
+          "pass": true
+        }
+      ]
+    }
+  ]
+}

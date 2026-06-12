@@ -2,10 +2,10 @@
   "name": "cookingbench",
   "private": true,
   "version": "0.1.0",
-  "description": "CookingBench — a benchmark and public leaderboard for how well AI models cook: quantities, conversions, food safety, technique, flavour and nutrition.",
+  "description": "CookingBench \u2014 a benchmark and public leaderboard for how well AI models cook: quantities, conversions, food safety, technique, flavour and nutrition.",
   "scripts": {
     "bench": "pnpm --filter @cookingbench/runner bench",
-    "test": "pnpm --filter @cookingbench/core test",
+    "test": "pnpm -r test",
     "typecheck": "pnpm -r typecheck",
     "dev": "pnpm --filter web dev",
     "build": "pnpm --filter web build"

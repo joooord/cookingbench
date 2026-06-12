@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "safe-011",
+  "answerText": "**Short answer: No, 57°C is below USDA safe guidance.**\n\nThe USDA's official safe minimum internal temperature for whole pork cuts (like pork loin) is **145°F (63°C)**, followed by a **3-minute rest** before carving or eating.\n\nA \"medium rare\" target of **57°C (about 135°F)** falls below this threshold, so it does **not** meet USDA safe guidance.\n\n**A few notes:**\n- During the recommended 3-minute rest, the meat stays at or above 145°F, which allows time for pathogen reduction (the temperature/time combination matters, not just the peak number).\n- Cooking pork to 145°F yields a product that may still look slightly pink in the center and remain juicy—this is safe and normal.\n- Cooking to 57°C may appeal to some guests for texture, but it carries increased risk from pathogens such as *Salmonella*, *Yersinia*, and others, and falls outside official safe-handling recommendations.\n\nIf a guest specifically requests pork below the safe minimum, that's a food-safety decision that should be made with awareness of your establishment's policies and local health regulations.",
+  "raw": {
+    "id": "gen-1781211513-ZMcE4Z0FafuVpIrCqh90",
+    "object": "chat.completion",
+    "created": 1781211513,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Short answer: No, 57°C is below USDA safe guidance.**\n\nThe USDA's official safe minimum internal temperature for whole pork cuts (like pork loin) is **145°F (63°C)**, followed by a **3-minute rest** before carving or eating.\n\nA \"medium rare\" target of **57°C (about 135°F)** falls below this threshold, so it does **not** meet USDA safe guidance.\n\n**A few notes:**\n- During the recommended 3-minute rest, the meat stays at or above 145°F, which allows time for pathogen reduction (the temperature/time combination matters, not just the peak number).\n- Cooking pork to 145°F yields a product that may still look slightly pink in the center and remain juicy—this is safe and normal.\n- Cooking to 57°C may appeal to some guests for texture, but it carries increased risk from pathogens such as *Salmonella*, *Yersinia*, and others, and falls outside official safe-handling recommendations.\n\nIf a guest specifically requests pork below the safe minimum, that's a food-safety decision that should be made with awareness of your establishment's policies and local health regulations.",
+          "refusal": null,
+          "reasoning": " The USDA safe minimum for whole pork is 145°F with a 3-minute rest period, so 57°C (135°F) falls short of that requirement.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " The USDA safe minimum for whole pork is 145°F with a 3-minute rest period, so 57°C (135°F) falls short of that requirement.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EsYCCmMIDhgCKkD0K0K845+WRCY3gk9QrlP2aURzatcxumwy18daIq6E0Am90o2XIULG3fS5MSqqBOkMmphCGaGz/o46G6chBczHMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDEA6iomL6rZyZ6gVURoM3OQwTtCnuF3x8kb4IjDX5XybTii504vOFpW3Y80Ko9juEJb/amxn1JAvyIATvgsbMgiIysaIxcUK5oN+khsqkAHzd1jl4pjVxHxZsjIO4sEbeO05jI81n2KJ8FwT2LlxAeImxIfWUoOx9o03R7FeswX/qic929UsOdNmH9+bfB2/8fVVYkaneHYVchrcJSEenZU18DCeUfaP5vHPlvFZMju0jXVEZMST40qVaIbTsiUICac8kV0nT7Hb/N52qEvNI1teVQPTbnvaQ0JbIAbqfXYYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 102,
+      "completion_tokens": 428,
+      "total_tokens": 530,
+      "cost": 0.01121,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01121,
+        "upstream_inference_prompt_cost": 0.00051,
+        "upstream_inference_completions_cost": 0.0107
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 34,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 102,
+  "tokensOut": 428,
+  "costUsd": 0.01121,
+  "latencyMs": 7024,
+  "finishReason": "stop"
+}

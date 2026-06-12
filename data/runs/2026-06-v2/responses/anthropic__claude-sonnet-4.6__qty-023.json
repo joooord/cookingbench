@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "qty-023",
+  "answerText": "## Calculating Your Brine\n\n**Salt needed:**\n- 2.5 litres of water = 2,500 g\n- 6% of 2,500 g = **150 g of salt**\n\n**Converting to tablespoons:**\n- 150 g ÷ 18 g per tbsp = **8.33 tbsp**\n\nThat's **8⅓ tablespoons** (8 tablespoons + 1 teaspoon).\n\nAnswer: 8.33 tbsp",
+  "raw": {
+    "id": "gen-1781210095-75TDrfsAxN5QBWbRsUZp",
+    "object": "chat.completion",
+    "created": 1781210095,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Calculating Your Brine\n\n**Salt needed:**\n- 2.5 litres of water = 2,500 g\n- 6% of 2,500 g = **150 g of salt**\n\n**Converting to tablespoons:**\n- 150 g ÷ 18 g per tbsp = **8.33 tbsp**\n\nThat's **8⅓ tablespoons** (8 tablespoons + 1 teaspoon).\n\nAnswer: 8.33 tbsp",
+          "refusal": null,
+          "reasoning": "6% salt brine by weight of water means:\n- Water = 2.5 litres = 2500 g\n- Salt needed = 6% × 2500 g = 150 g\n\nEach tablespoon of table salt = 18 g\n\nNumber of tablespoons = 150 g ÷ 18 g/tbsp = 8.333... tbsp ≈ 8⅓ tbsp",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "6% salt brine by weight of water means:\n- Water = 2.5 litres = 2500 g\n- Salt needed = 6% × 2500 g = 150 g\n\nEach tablespoon of table salt = 18 g\n\nNumber of tablespoons = 150 g ÷ 18 g/tbsp = 8.333... tbsp ≈ 8⅓ tbsp",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EqMDCmUIDhgCKkDbWx0sITlRWmuTCn4fV/Ub68qQHhtnzOXfInc9khIhvFlY8mNcblwunzNrSIdBM26ppSxRWYnE9jqR0IP5CYO4MhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMafF3PXfUVX7OYv7gGgwHA6/F0SdZV/RDxLYiMEp/SyI4BjUggej2WLsBbIxPVH3O8Kv5ug11SjxzZOGhnnH0kuZmbawqdsVcQjg8eirrAc9lUCgKjJGo2Xrzigf3HdKECMsiOHi1JALN7DV0lWfPl0ySbzOpQ9TN//sMURieVLRQHnqo66oTdbDyT2bfF0od3hoJKytqd9AmTDJnBXZqUvPJySXEEBUyWhsmzinxKBKUXOPygMQ36gRhn9MEwNTOO79R+jw688CsU64ZF43I6/H+MaSM7/QjmkX4eIZyXBn25iBF35HE5aBW7YL/fxdXgvF3NtpOgADDF9N7P5mv3etA/jZtudjtmGfztLOig1+a9lXtkhiJ3rBJTW6y3LSsjVW1hHaC7cRchnFcQavlPfUIRAxajtKhS80YAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 106,
+      "completion_tokens": 241,
+      "total_tokens": 347,
+      "cost": 0.003933,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003933,
+        "upstream_inference_prompt_cost": 0.000318,
+        "upstream_inference_completions_cost": 0.003615
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 61,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 106,
+  "tokensOut": 241,
+  "costUsd": 0.003933,
+  "latencyMs": 5752,
+  "finishReason": "stop"
+}

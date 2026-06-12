@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "safe-003",
+  "answerText": "The food-safety **danger zone** is between **40°F and 140°F** (or **4°C and 60°C**).\n\nWithin this range, bacteria multiply most rapidly, roughly doubling in number in as little as 20 minutes. To minimize risk, perishable foods shouldn't be left in this zone for more than **2 hours** (or **1 hour** if the temperature is above 90°F/32°C).",
+  "raw": {
+    "id": "gen-1781211505-jOSa0v4DXe4AY4Kan9sE",
+    "object": "chat.completion",
+    "created": 1781211505,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "The food-safety **danger zone** is between **40°F and 140°F** (or **4°C and 60°C**).\n\nWithin this range, bacteria multiply most rapidly, roughly doubling in number in as little as 20 minutes. To minimize risk, perishable foods shouldn't be left in this zone for more than **2 hours** (or **1 hour** if the temperature is above 90°F/32°C).",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 74,
+      "completion_tokens": 132,
+      "total_tokens": 206,
+      "cost": 0.00367,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00367,
+        "upstream_inference_prompt_cost": 0.00037,
+        "upstream_inference_completions_cost": 0.0033
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 74,
+  "tokensOut": 132,
+  "costUsd": 0.00367,
+  "latencyMs": 2853,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-014",
+  "answerText": "## Calories in Cooked Spaghetti\n\nWhen dry spaghetti is boiled, it absorbs water and roughly **doubles to triples in weight** — but **water adds zero calories**.\n\nThe caloric content remains the same as the dry portion:\n\n- Dry: 75 g → **270 kcal**\n- Cooked: 190 g → **270 kcal** (same food, just hydrated)\n\nAnswer: 270 kcal",
+  "raw": {
+    "id": "gen-1781210009-CKzLr0hQ8sjRIVDrCgU4",
+    "object": "chat.completion",
+    "created": 1781210009,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Calories in Cooked Spaghetti\n\nWhen dry spaghetti is boiled, it absorbs water and roughly **doubles to triples in weight** — but **water adds zero calories**.\n\nThe caloric content remains the same as the dry portion:\n\n- Dry: 75 g → **270 kcal**\n- Cooked: 190 g → **270 kcal** (same food, just hydrated)\n\nAnswer: 270 kcal",
+          "refusal": null,
+          "reasoning": "The calories don't change during cooking - water is absorbed but adds no calories. So the cooked portion still contains 270 kcal.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The calories don't change during cooking - water is absorbed but adds no calories. So the cooked portion still contains 270 kcal.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EsoCCmUIDhgCKkABiCBiSAC0Wc3AsUWJTxRCwYoAJ212YC15yaowJE2x69MDaEuMxWWzA09Hhn1vwg9BqrKkz31RLM0ebGSOwUFbMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMamwDzJFZ0bCI6axUGgzXNy+uVzUlatlxlOUiMAl7Xk6TPwEAmIU1RrR7lH91uTD0CrOhUIool74mQcqOPQdZ8ilYx6FRHkVJboWYuyqSAQIdlHhNfOFUVb8TkGCV4DY64FbtVQjxNvn6eZ8fJ8zKP6Jt5DjpRUAslU1W2jH3L4nB9AujpsOGNsj/vRmYppHFiDjKfyOVPUkwVaxDtUUzWgvFQerXCGbMM87ZO78D+dmzdQnLIzxqFLZPFqiNDHcIDG2NzWqUH7YWY3P6BPTsymbpjqpNFwTGt+cf+qZHPRxSGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 93,
+      "completion_tokens": 158,
+      "total_tokens": 251,
+      "cost": 0.002649,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002649,
+        "upstream_inference_prompt_cost": 0.000279,
+        "upstream_inference_completions_cost": 0.00237
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 33,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 93,
+  "tokensOut": 158,
+  "costUsd": 0.002649,
+  "latencyMs": 4168,
+  "finishReason": "stop"
+}

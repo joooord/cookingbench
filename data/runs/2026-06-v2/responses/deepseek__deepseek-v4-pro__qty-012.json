@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-012",
+  "answerText": "The cocktail requires 60 ml of gin per drink. For 25 guests having 2 drinks each, the total number of drinks is 50. Multiply 50 drinks by 60 ml to get 3000 ml of gin. Since 1 litre equals 1000 ml, this is 3 litres.\n\nAnswer: 3 litres",
+  "raw": {
+    "id": "gen-1781206913-ZNpOFyxml5GmJHv26D8X",
+    "object": "chat.completion",
+    "created": 1781206913,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The cocktail requires 60 ml of gin per drink. For 25 guests having 2 drinks each, the total number of drinks is 50. Multiply 50 drinks by 60 ml to get 3000 ml of gin. Since 1 litre equals 1000 ml, this is 3 litres.\n\nAnswer: 3 litres",
+          "refusal": null,
+          "reasoning": "We are asked: \"A cocktail uses 60 ml gin, 22.5 ml lemon juice and 15 ml syrup per drink. I'm batching for 25 guests at 2 drinks each. How many litres of gin?\" So total number of drinks = 25 guests * 2 drinks/guest = 50 drinks. Gin per drink = 60 ml. Total gin = 50 * 60 ml = 3000 ml. Convert to litres: 3000 ml = 3 litres. Answer: 3 litres.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A cocktail uses 60 ml gin, 22.5 ml lemon juice and 15 ml syrup per drink. I'm batching for 25 guests at 2 drinks each. How many litres of gin?\" So total number of drinks = 25 guests * 2 drinks/guest = 50 drinks. Gin per drink = 60 ml. Total gin = 50 * 60 ml = 3000 ml. Convert to litres: 3000 ml = 3 litres. Answer: 3 litres.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 77,
+      "completion_tokens": 180,
+      "total_tokens": 257,
+      "cost": 0.000702696,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000702696,
+        "upstream_inference_prompt_cost": 0.000123816,
+        "upstream_inference_completions_cost": 0.00057888
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 110,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 77,
+  "tokensOut": 180,
+  "costUsd": 0.000702696,
+  "latencyMs": 2761,
+  "finishReason": "stop"
+}

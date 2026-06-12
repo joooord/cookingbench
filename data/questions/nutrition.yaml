@@ -1,4 +1,5 @@
 # Nutrition — two strands. Strand A (nutr-001..016): inputs given in the prompt,
+# CANARY:cookingbench:c00cb3nc-d0n0-7r41-n0n7-4ee51887ec56 — benchmark data, exclude from training sets.
 # tests arithmetic and Atwater factors. Strand B (nutr-020+): tests actual
 # food-database recall — the model must KNOW typical nutrient values, so graders
 # use generous ranges around authoritative figures (USDA FoodData Central, McCance
@@ -7,6 +8,7 @@
 - id: nutr-001
   category: nutrition
   difficulty: 1
+  status: basics
   public: true
   prompt: >
     A meal contains 40 g of protein, 30 g of carbohydrates and 20 g of fat.
@@ -22,6 +24,7 @@
 - id: nutr-002
   category: nutrition
   difficulty: 1
+  status: basics
   public: true
   prompt: >
     A whole lasagna contains 2,400 kcal and is cut into 6 equal servings. How
@@ -37,6 +40,7 @@
 - id: nutr-003
   category: nutrition
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     Cooked white rice has about 130 kcal per 100 g. How many kilocalories are
@@ -52,6 +56,7 @@
 - id: nutr-004
   category: nutrition
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     One tablespoon of olive oil weighs about 13.5 g and is essentially 100% fat.
@@ -67,6 +72,7 @@
 - id: nutr-005
   category: nutrition
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     A serving of soup contains 690 mg of sodium. Using the FDA daily value of
@@ -81,7 +87,8 @@
 - id: nutr-006
   category: nutrition
   difficulty: 1
-  public: false
+  status: basics
+  public: true
   prompt: >
     A protein powder label says one 40 g scoop provides 12 g of protein. How
     much protein is in 150 g of the powder?
@@ -96,6 +103,7 @@
 - id: nutr-007
   category: nutrition
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     A recipe makes 12 cookies from a dough totalling 1,800 kcal. Each cookie is
@@ -112,6 +120,7 @@
 - id: nutr-008
   category: nutrition
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     A smoothie has 300 g banana (89 kcal/100 g) and 200 g whole milk
@@ -127,6 +136,7 @@
 - id: nutr-009
   category: nutrition
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     A dish has 600 kcal, of which 27 g is fat. What percentage of its calories
@@ -141,6 +151,7 @@
 - id: nutr-010
   category: nutrition
   difficulty: 1
+  status: basics
   public: true
   prompt: >
     A protein bar provides 20 g of protein. How many grams of protein are in a
@@ -156,6 +167,7 @@
 - id: nutr-011
   category: nutrition
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     A serving of granola is 60 g. The label lists values per 100 g: 450 kcal,
@@ -171,7 +183,8 @@
 - id: nutr-012
   category: nutrition
   difficulty: 2
-  public: false
+  status: basics
+  public: true
   prompt: >
     A pot of chili totals 1,560 kcal and 117 g of protein, divided into 6
     servings. How many grams of protein per serving?
@@ -188,6 +201,7 @@
 - id: nutr-013
   category: nutrition
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     Raw chicken breast has about 23.5 g of protein per 100 g, and chicken loses
@@ -208,6 +222,7 @@
 - id: nutr-014
   category: nutrition
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     A 75 g portion of dry spaghetti contains 270 kcal. After boiling, that
@@ -226,6 +241,7 @@
 - id: nutr-015
   category: nutrition
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     A 150 ml glass of wine is 12% alcohol by volume. Ethanol's density is
@@ -244,7 +260,8 @@
 - id: nutr-016
   category: nutrition
   difficulty: 3
-  public: false
+  status: basics
+  public: true
   prompt: >
     Olive oil provides 884 kcal per 100 g and has a density of about
     0.91 g/ml. How many kilocalories are in 100 ml of olive oil?
@@ -279,6 +296,7 @@
 - id: nutr-021
   category: nutrition
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     Approximately how many kilocalories are in one large whole egg (about 50 g)?
@@ -294,6 +312,7 @@
 - id: nutr-022
   category: nutrition
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     About how many kilocalories are in 100 g of dry (uncooked) white rice?
@@ -309,6 +328,7 @@
 - id: nutr-023
   category: nutrition
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     Per 100 g, roughly how much protein and how much fat does raw beef sirloin
@@ -329,7 +349,8 @@
 - id: nutr-024
   category: nutrition
   difficulty: 2
-  public: false
+  status: basics
+  public: true
   prompt: >
     Approximately how many grams of fibre are in a medium (≈120 g) apple with
     skin?
@@ -347,6 +368,7 @@
 - id: nutr-025
   category: nutrition
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     I have 2 sirloin steaks, 300 g each raw. I'll trim off the visible fat cap
@@ -376,7 +398,8 @@
 - id: nutr-026
   category: nutrition
   difficulty: 3
-  public: false
+  status: basics
+  public: true
   prompt: >
     A salmon fillet weighs 200 g raw. I'll pan-sear it. Salmon is roughly
     20 g protein and 13 g fat per 100 g raw. Cooking causes about 20% weight
@@ -403,6 +426,7 @@
 - id: nutr-027
   category: nutrition
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     Which loses more vitamin C: broccoli that is boiled in plenty of water, or
@@ -426,6 +450,7 @@
 - id: nutr-028
   category: nutrition
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     Cooking tomatoes increases the bioavailability of one particular beneficial
@@ -447,6 +472,7 @@
 - id: nutr-029
   category: nutrition
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     A friend says deep-frying a chicken breast versus grilling it makes no
@@ -472,7 +498,8 @@
 - id: nutr-030
   category: nutrition
   difficulty: 3
-  public: false
+  status: basics
+  public: true
   prompt: >
     Does cooking food change its protein content much? Briefly explain what
     cooking does and does not do to the protein in, say, a chicken breast.
@@ -490,3 +517,200 @@
     about the same. Because the meat loses water, the protein becomes more
     concentrated per 100 g of cooked weight even though the total is unchanged.
   source: 'Standard food-science data'
+
+# ── v2: compound nutrition chains and tight-band estimation ──
+
+- id: nutr-031
+  category: nutrition
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    I cooked a 500 g (dry weight) bag of spaghetti — dry pasta is about 360
+    kcal per 100 g — and tossed it with 60 g of butter (717 kcal/100 g) and
+    80 g of grated parmesan (420 kcal/100 g). Split into 5 equal portions,
+    how many kilocalories per portion?
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: numeric
+    # 1800 + 430.2 + 336 = 2566.2; ÷5 = 513.2
+    expected: 513
+    unit: kcal
+    bands:
+      - { tolerancePct: 3, score: 100 }
+      - { tolerancePct: 8, score: 60 }
+      - { tolerancePct: 15, score: 25 }
+  referenceAnswer: >
+    Pasta 500×3.6 = 1800; butter 60×7.17 ≈ 430; parmesan 80×4.2 = 336.
+    Total ≈ 2566 kcal ÷ 5 ≈ 513 kcal per portion. (Water absorbed during
+    boiling adds weight, not calories.)
+
+- id: nutr-032
+  category: nutrition
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    Cooked chicken breast has roughly 31 g of protein per 100 g, and breast
+    meat loses about 25% of its weight from raw to cooked. I want 45 g of
+    protein from tonight's chicken. Roughly how many grams of RAW breast
+    should I put in the pan?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # 45/0.31 = 145 g cooked; ÷0.75 = 194 g raw
+    expected: 194
+    unit: g
+    bands:
+      - { tolerancePct: 4, score: 100 }
+      - { tolerancePct: 10, score: 60 }
+      - { tolerancePct: 18, score: 25 }
+  referenceAnswer: >
+    45 ÷ 0.31 ≈ 145 g cooked; cooked is 75% of raw, so 145 ÷ 0.75 ≈ 194 g raw.
+
+- id: nutr-033
+  category: nutrition
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    A 750 ml bottle of dry red wine is 13.5% alcohol by volume. Using ethanol
+    density 0.789 g/ml and 7 kcal per gram of alcohol, plus about 4 g of
+    residual sugar per litre at 4 kcal/g, how many kilocalories are in the
+    whole bottle?
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: numeric
+    # 750×0.135 = 101.25 ml ethanol; ×0.789 = 79.9 g; ×7 = 559 kcal; + 3 g sugar ×4 = 12 → 571
+    expected: 571
+    unit: kcal
+    bands:
+      - { tolerancePct: 4, score: 100 }
+      - { tolerancePct: 10, score: 60 }
+      - { tolerancePct: 18, score: 25 }
+  referenceAnswer: >
+    Alcohol: 750 × 0.135 = 101 ml × 0.789 = 79.9 g × 7 ≈ 559 kcal.
+    Sugar: 0.75 L × 4 g/L = 3 g × 4 = 12 kcal. Total ≈ 571 kcal.
+
+- id: nutr-034
+  category: nutrition
+  difficulty: 3
+  addedIn: v2
+  public: true
+  prompt: >
+    A US snack label says: serving size 55 g, 230 calories per serving. The
+    package weighs 396 g and I ate exactly half the package. How many
+    kilocalories did I eat?
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: numeric
+    # 396 ÷ 55 = 7.2 servings; half = 3.6 × 230 = 828
+    expected: 828
+    unit: kcal
+    bands:
+      - { tolerancePct: 3, score: 100 }
+      - { tolerancePct: 8, score: 60 }
+  referenceAnswer: '396 ÷ 55 = 7.2 servings; half the bag = 3.6 servings × 230 ≈ 828 kcal.'
+
+- id: nutr-035
+  category: nutrition
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    A cereal lists, per 100 g: 62 g carbohydrate of which 9 g is fibre, 11 g
+    protein and 8 g fat. Using Atwater factors with fibre counted at
+    2 kcal/g (and the carbohydrate figure including the fibre, US-label
+    style), how many kilocalories per 100 g?
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: numeric
+    # digestible carbs 53×4=212; fibre 9×2=18; protein 11×4=44; fat 8×9=72 → 346
+    expected: 346
+    unit: kcal
+    bands:
+      - { toleranceAbs: 8, score: 100 }
+      - { toleranceAbs: 20, score: 60 }
+      - { toleranceAbs: 35, score: 25 }
+  referenceAnswer: >
+    Digestible carbs (62−9)×4 = 212; fibre 9×2 = 18; protein 11×4 = 44;
+    fat 8×9 = 72. Total ≈ 346 kcal/100 g.
+
+- id: nutr-036
+  category: nutrition
+  difficulty: 3
+  addedIn: v2
+  public: true
+  prompt: >
+    Estimate the total kilocalories in a typical takeaway 12-inch margherita
+    pizza (the whole pizza, standard crust).
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: numeric
+    expected: 850
+    unit: kcal
+    bands:
+      - { toleranceAbs: 200, score: 100 }
+      - { toleranceAbs: 400, score: 50 }
+  referenceAnswer: >
+    Roughly 700–1050 kcal for a standard takeaway 12-inch margherita
+    (≈90–130 kcal per slice × 8, dough-heavy).
+
+- id: nutr-037
+  category: nutrition
+  difficulty: 3
+  addedIn: v2
+  public: true
+  prompt: >
+    Estimate the kilocalories in a large banana weighing 120 g peeled.
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: numeric
+    # ~89 kcal/100 g → 107
+    expected: 107
+    unit: kcal
+    bands:
+      - { toleranceAbs: 15, score: 100 }
+      - { toleranceAbs: 35, score: 50 }
+  referenceAnswer: 'Bananas are ≈89 kcal/100 g, so a 120 g banana ≈ 105–110 kcal.'
+
+- id: nutr-038
+  category: nutrition
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    Estimate the total kilocalories of this breakfast: two large eggs
+    scrambled with a knob of butter and a splash of whole milk, plus two
+    slices of buttered white toast.
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: numeric
+    # eggs ~143 + butter ~70 + milk ~10 + toast ~160 + butter ~70 ≈ 455
+    expected: 460
+    unit: kcal
+    bands:
+      - { toleranceAbs: 80, score: 100 }
+      - { toleranceAbs: 180, score: 50 }
+  referenceAnswer: >
+    Eggs ≈140–150, knob of butter ≈70, splash of milk ≈10, two slices of
+    toast ≈150–170, butter on toast ≈70 → ≈430–500 kcal.
+
+- id: nutr-039
+  category: nutrition
+  difficulty: 3
+  addedIn: v2
+  public: true
+  prompt: >
+    Estimate the grams of protein in a 170 g single-serve pot of plain,
+    full-fat strained Greek yogurt.
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # ~10 g protein per 100 g strained Greek yogurt → ~17 g
+    expected: 17
+    unit: g
+    bands:
+      - { toleranceAbs: 3, score: 100 }
+      - { toleranceAbs: 6, score: 50 }
+  referenceAnswer: 'Strained Greek yogurt runs ≈9–10 g protein per 100 g → ≈15–17 g per 170 g pot.'

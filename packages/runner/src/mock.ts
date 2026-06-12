@@ -35,8 +35,8 @@ function sloppyAnswer(question: Question): string {
 }
 
 function decentAnswer(question: Question): string {
-  // Correct on easy questions, sloppy on difficulty 3.
-  return question.difficulty === 3 ? sloppyAnswer(question) : perfectAnswer(question);
+  // Correct on easy questions, sloppy on the hard ones (difficulty 3+).
+  return question.difficulty >= 3 ? sloppyAnswer(question) : perfectAnswer(question);
 }
 
 export class MockClient implements CompletionClient {
@@ -71,6 +71,6 @@ export class MockClient implements CompletionClient {
 /** Deterministic mock judge scores per persona, exercising the blend math. */
 export function mockJudgeScore(modelId: string, question: Question): number {
   if (modelId === 'mock/perfect-chef') return 95;
-  if (modelId === 'mock/decent-cook') return question.difficulty === 3 ? 40 : 80;
+  if (modelId === 'mock/decent-cook') return question.difficulty >= 3 ? 40 : 80;
   return 20;
 }

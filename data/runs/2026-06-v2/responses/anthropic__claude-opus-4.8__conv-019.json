@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "conv-019",
+  "answerText": "A UK fan oven temperature needs two conversions:\n\n1. **Fan to conventional:** Fan ovens run about 20°C cooler than conventional ovens for the same result. So 160°C fan ≈ 180°C conventional.\n\n2. **Celsius to Fahrenheit:** 180°C × 9/5 + 32 = 356°F, which rounds to the standard oven setting of **350°F**.\n\nAnswer: 350 °F",
+  "raw": {
+    "id": "gen-1781211460-YydQ5Dt96XPHK3K2grYj",
+    "object": "chat.completion",
+    "created": 1781211460,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A UK fan oven temperature needs two conversions:\n\n1. **Fan to conventional:** Fan ovens run about 20°C cooler than conventional ovens for the same result. So 160°C fan ≈ 180°C conventional.\n\n2. **Celsius to Fahrenheit:** 180°C × 9/5 + 32 = 356°F, which rounds to the standard oven setting of **350°F**.\n\nAnswer: 350 °F",
+          "refusal": null,
+          "reasoning": " I'm converting a fan oven temperature of 160°C to its conventional equivalent by adding 20°C to get 180°C, then converting that to Fahrenheit, which comes to approximately 350°F.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm converting a fan oven temperature of 160°C to its conventional equivalent by adding 20°C to get 180°C, then converting that to Fahrenheit, which comes to approximately 350°F.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EuwCCmMIDhgCKkC0nrQ0kO53/EfVGwOtB7cAr5gfbbFC9zFe4sd+Ok1TPk8xiucoiNHxv/k2P9ixXckIzRs2E26MDE0BGnRY6dUCMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDH+0X2r5vwJ5UFGGbxoMrZodAFe4d3wpJyOnIjAjzgvr7sthaR7men/+CbWLsGG6f1WIPFko3EVNexup2V4cXLGGI0zAW+TtTlpYSbQqtgHYkyTfJkRimMhtjuxizS/icpDNP2czFo7Up5WTnxb7BCpki8wO/06Sa3KxKap2NP02bobOWrpTnfDN3VVZS1VnYEfAbf6RJzJgJSF33zk8GsXZn7WUujba+RKubsH+3LcBhZn/StXRU0ZSi6fn98b2PHZeJyZBySwHmvBvfYb3N8WTRDQTtaTyKTGcuHDivXmtnOAojOMvHowueVEfY6C0ANONdaNmeuo1uTxKrdTD51yWdmpZBRgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 109,
+      "completion_tokens": 225,
+      "total_tokens": 334,
+      "cost": 0.00617,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00617,
+        "upstream_inference_prompt_cost": 0.000545,
+        "upstream_inference_completions_cost": 0.005625
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 48,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 109,
+  "tokensOut": 225,
+  "costUsd": 0.00617,
+  "latencyMs": 3659,
+  "finishReason": "stop"
+}

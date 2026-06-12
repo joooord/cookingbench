@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "conv-013",
+  "answerText": "425°F converts to about 218°C. For oven settings, this is commonly rounded to **220°C**.\n\nCalculation: (425 − 32) × 5/9 = 218.3°C\n\nAnswer: 220 °C",
+  "raw": {
+    "id": "gen-1781211455-OEIKNpfLJn40aECf5aeG",
+    "object": "chat.completion",
+    "created": 1781211455,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "425°F converts to about 218°C. For oven settings, this is commonly rounded to **220°C**.\n\nCalculation: (425 − 32) × 5/9 = 218.3°C\n\nAnswer: 220 °C",
+          "refusal": null,
+          "reasoning": " I'm converting 425°F to Celsius using the standard formula, which gives me about 218.33°C—typically rounded down to 220°C for practical oven settings.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm converting 425°F to Celsius using the standard formula, which gives me about 218.33°C—typically rounded down to 220°C for practical oven settings.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "ErkCCmMIDhgCKkA2aPoVT4tGPoJKnF6mLxc27E4lr9a7WrRyNyjpH+IIAXbianwq46eCocOPjtINlHBTKmiyBKpNBFl8NR5TnvG3Mg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDJVQ1qYG0eV6Bp+esBoMYcnPRLUFXr09lhzGIjA1/dxQSzhcwwC5CIfoct1KM4880bfSDm8rKz35Kw2gHxpjoMs4VDFbW2zTOg6gxKUqgwEGeoDbLJW3El+/TjHH7CVgl4WQAhG3++6TVrodfXICgLM+uHXQJnScNaRocFBq76W3+SAgzMTazDUXQOiHQB1Q+QZqNTJWtFmGvV7+N3nkWjFu4qx3OBABqvULGCSDI1s8OGtDsEG0/9FI1jQlsTznUTA/QJkkS28BjrtcTQcmTzsvCxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 72,
+      "completion_tokens": 135,
+      "total_tokens": 207,
+      "cost": 0.003735,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003735,
+        "upstream_inference_prompt_cost": 0.00036,
+        "upstream_inference_completions_cost": 0.003375
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 41,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 72,
+  "tokensOut": 135,
+  "costUsd": 0.003735,
+  "latencyMs": 3304,
+  "finishReason": "stop"
+}

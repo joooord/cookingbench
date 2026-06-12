@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "qty-002",
+  "answerText": "To keep the proportions, calculate the rice per serving and multiply by 4:\n\n- 450 g ÷ 6 servings = 75 g per serving\n- 75 g × 4 servings = 300 g\n\nAnswer: 300 g",
+  "raw": {
+    "id": "gen-1781211613-bcjenSybpB67lZ4LO0Fd",
+    "object": "chat.completion",
+    "created": 1781211613,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To keep the proportions, calculate the rice per serving and multiply by 4:\n\n- 450 g ÷ 6 servings = 75 g per serving\n- 75 g × 4 servings = 300 g\n\nAnswer: 300 g",
+          "refusal": null,
+          "reasoning": " I'm calculating the portion size: 450 grams divided by 6 servings gives 75 grams per person, so for 4 servings I'd need 300 grams total.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the portion size: 450 grams divided by 6 servings gives 75 grams per person, so for 4 servings I'd need 300 grams total.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EvsBCmMIDhgCKkBzJDR+9Q/UpBVchzgYwVOjodT5Dt6fy1frGfYFeIjkz72ETMN0MobtC8Jrk1S86UZB5wbpJ1B2qwj6Z16GcdksMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDHkzOALWYA4ITx4gkRoM/ffftf6qvthGrn42IjCUDFN1aJEGRvh4TeJTt2jMbsWg5W9cdKYwFD6OtNtQTaEuodlmyLYboWBD6qkgLpIqRq/YZ2g9wDRd84DYvvJaqCZ2XgiFIOLV+y58q+FoTusFCV7pNeD72jw9I/t5ymX7Q5CZmiy6I1AfAablM1yba9IbOapBmCwYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 105,
+      "completion_tokens": 105,
+      "total_tokens": 210,
+      "cost": 0.00315,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00315,
+        "upstream_inference_prompt_cost": 0.000525,
+        "upstream_inference_completions_cost": 0.002625
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 35,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 105,
+  "tokensOut": 105,
+  "costUsd": 0.00315,
+  "latencyMs": 2757,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "qty-001",
+  "answerText": "## Scaling the Bread Recipe to 5 Loaves\n\nThe scale factor is **5 ÷ 2 = 2.5**\n\n| Ingredient | Original (2 loaves) | × 2.5 | Scaled (5 loaves) |\n|---|---|---|---|\n| Flour | 500 g | ×2.5 | **1250 g** |\n| Water | 350 g | ×2.5 | **875 g** |\n| Salt | 10 g | ×2.5 | **25 g** |\n| Instant Yeast | 7 g | ×2.5 | **17.5 g** |\n\n---\n\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g",
+  "raw": {
+    "id": "gen-1781210064-sjux9TPIiMXSaIsq8T9S",
+    "object": "chat.completion",
+    "created": 1781210064,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Scaling the Bread Recipe to 5 Loaves\n\nThe scale factor is **5 ÷ 2 = 2.5**\n\n| Ingredient | Original (2 loaves) | × 2.5 | Scaled (5 loaves) |\n|---|---|---|---|\n| Flour | 500 g | ×2.5 | **1250 g** |\n| Water | 350 g | ×2.5 | **875 g** |\n| Salt | 10 g | ×2.5 | **25 g** |\n| Instant Yeast | 7 g | ×2.5 | **17.5 g** |\n\n---\n\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g",
+          "refusal": null,
+          "reasoning": "Scale factor = 5/2 = 2.5\n\nFlour: 500 × 2.5 = 1250 g\nWater: 350 × 2.5 = 875 g\nSalt: 10 × 2.5 = 25 g\nInstant yeast: 7 × 2.5 = 17.5 g",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Scale factor = 5/2 = 2.5\n\nFlour: 500 × 2.5 = 1250 g\nWater: 350 × 2.5 = 875 g\nSalt: 10 × 2.5 = 25 g\nInstant yeast: 7 × 2.5 = 17.5 g",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Es8CCmUIDhgCKkDNx0vW3bnfGZlPh3q1lDho7kNkb0hmXOMpRjc/LEt+WF2lVC7WUpQDuA3mx8EjBAS/c6W4d6fQJCVBuQsEZm27MhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIM+zRJQ7rgzMu+hvU0GgwInVa3n63Sql5qcpwiMGESwdPaY/MBhiSbXPa7h+5Kq0LPYQycNDFzUhW9GaaW4tqeHWjowe9ADVds/5YEFCqXATHWgOMWpX5xSvML20XqbvhAxUOIROECzyJlUxcp3oxAlO+1Dl5uIZQ/5iQbSsvLeX+tpmlSt0WGLJXiLMK4FThOeMpaAs358q+6GdgVP9MOuM9s7JXP3vBzuN+IrojF6hNjykxiHiFh03vC4dpIp8JIURXBrDSkZSHYb4Xb+iSxf4zRH+IjbU4GuSGMKM3Qh3+5EtQ+uzwYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 100,
+      "completion_tokens": 307,
+      "total_tokens": 407,
+      "cost": 0.004905,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004905,
+        "upstream_inference_prompt_cost": 0.0003,
+        "upstream_inference_completions_cost": 0.004605
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 40,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 100,
+  "tokensOut": 307,
+  "costUsd": 0.004905,
+  "latencyMs": 4401,
+  "finishReason": "stop"
+}

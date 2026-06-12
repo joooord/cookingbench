@@ -5,19 +5,63 @@ export interface LeaderboardRow {
   displayName: string;
   provider: string;
   family?: string;
-  /** Unweighted mean of category means, 0–100. */
+  /** v2: mean over status:active questions, 0–100. (v1 artifacts: mean of category means.) */
   overall: number;
-  /** Mean over difficulty-3 questions only — the frontier-separating signal. */
-  hardSet: number | null;
+  /** 95% bootstrap CI over active questions, [lo, hi]. */
+  overallCi?: [number, number];
+  /** Mean over status:basics questions — the saturation/regression gate, not a ranking signal. */
+  basics?: number | null;
+  /** Mean over difficulty ≥ 4 active questions — the frontier-separating signal. */
+  frontier?: number | null;
+  /** v1 column kept for old artifacts. */
+  hardSet?: number | null;
   categories: Partial<Record<CategoryId, number>>;
   questionsGraded: number;
+  /** Responses that stayed empty/filtered after retries — transport noise, scored 0 but surfaced. */
+  incidents?: number;
   costUsd: number;
 }
 
 export interface LeaderboardReport {
   runId: string;
   generatedAt: string;
+  /** Absent on pre-v2 artifacts — readers treat missing as 'v1'. */
+  methodologyVersion?: string;
   rows: LeaderboardRow[];
+}
+
+const round1 = (n: number) => Math.round(n * 10) / 10;
+const mean = (v: number[]) => v.reduce((a, b) => a + b, 0) / v.length;
+
+/** Deterministic PRNG so published CIs are reproducible from the artifacts. */
+function mulberry32(seed: number) {
+  let a = seed;
+  return () => {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/** 95% percentile bootstrap over questions (2000 resamples, fixed seed). */
+function bootstrapCi(values: number[], seed = 42): [number, number] {
+  if (values.length < 2) {
+    const v = round1(values[0] ?? 0);
+    return [v, v];
+  }
+  const rand = mulberry32(seed);
+  const means: number[] = [];
+  for (let i = 0; i < 2000; i++) {
+    let sum = 0;
+    for (let j = 0; j < values.length; j++) {
+      sum += values[Math.floor(rand() * values.length)]!;
+    }
+    means.push(sum / values.length);
+  }
+  means.sort((a, b) => a - b);
+  return [round1(means[Math.floor(0.025 * means.length)]!), round1(means[Math.ceil(0.975 * means.length) - 1]!)];
 }
 
 export function buildLeaderboard(
@@ -26,61 +70,68 @@ export function buildLeaderboard(
   questions: Question[],
   responses: StoredResponse[],
   scores: Score[],
+  methodologyVersion = 'v2',
 ): LeaderboardReport {
-  const questionCategory = new Map(questions.map((q) => [q.id, q.category]));
-  const hardIds = new Set(questions.filter((q) => q.difficulty === 3).map((q) => q.id));
-  const hardScores = new Map<string, number[]>();
+  const questionsById = new Map(questions.map((q) => [q.id, q]));
+
   const costByModel = new Map<string, number>();
+  const incidentsByModel = new Map<string, number>();
   for (const r of responses) {
     costByModel.set(r.modelId, (costByModel.get(r.modelId) ?? 0) + r.costUsd);
+    if (r.transportFailure || !r.answerText.trim()) {
+      incidentsByModel.set(r.modelId, (incidentsByModel.get(r.modelId) ?? 0) + 1);
+    }
   }
 
-  const byModel = new Map<string, Map<CategoryId, number[]>>();
+  interface Buckets {
+    active: number[];
+    basics: number[];
+    frontier: number[];
+    perCategory: Map<CategoryId, number[]>;
+  }
+  const byModel = new Map<string, Buckets>();
   for (const s of scores) {
-    const category = questionCategory.get(s.questionId);
-    if (!category) continue;
-    if (!byModel.has(s.modelId)) byModel.set(s.modelId, new Map());
-    const perCategory = byModel.get(s.modelId)!;
-    if (!perCategory.has(category)) perCategory.set(category, []);
-    perCategory.get(category)!.push(s.score);
-    if (hardIds.has(s.questionId)) {
-      if (!hardScores.has(s.modelId)) hardScores.set(s.modelId, []);
-      hardScores.get(s.modelId)!.push(s.score);
+    const q = questionsById.get(s.questionId);
+    if (!q || q.status === 'retired') continue;
+    // Unjudged answers are missing data, not zeros — report.ts warns upstream.
+    if ((s.detail as { judgePending?: boolean }).judgePending) continue;
+    if (!byModel.has(s.modelId)) {
+      byModel.set(s.modelId, { active: [], basics: [], frontier: [], perCategory: new Map() });
     }
+    const buckets = byModel.get(s.modelId)!;
+    if (q.status === 'basics') {
+      buckets.basics.push(s.score);
+      continue;
+    }
+    buckets.active.push(s.score);
+    if (q.difficulty >= 4) buckets.frontier.push(s.score);
+    if (!buckets.perCategory.has(q.category)) buckets.perCategory.set(q.category, []);
+    buckets.perCategory.get(q.category)!.push(s.score);
   }
 
   const rows: LeaderboardRow[] = [];
-  for (const [modelId, perCategory] of byModel) {
+  for (const [modelId, buckets] of byModel) {
     const meta = models.find((m) => m.id === modelId);
     const categories: Partial<Record<CategoryId, number>> = {};
-    let graded = 0;
-    const categoryMeans: number[] = [];
     for (const category of CATEGORY_IDS) {
-      const values = perCategory.get(category);
-      if (!values || values.length === 0) continue;
-      const mean = values.reduce((a, b) => a + b, 0) / values.length;
-      categories[category] = Math.round(mean * 10) / 10;
-      categoryMeans.push(mean);
-      graded += values.length;
+      const values = buckets.perCategory.get(category);
+      if (values && values.length > 0) categories[category] = round1(mean(values));
     }
-    const hard = hardScores.get(modelId);
     rows.push({
       modelId,
       displayName: meta?.displayName ?? modelId,
       provider: meta?.provider ?? 'Unknown',
       family: meta?.family,
-      hardSet: hard && hard.length > 0
-        ? Math.round((hard.reduce((a, b) => a + b, 0) / hard.length) * 10) / 10
-        : null,
-      overall:
-        Math.round(
-          (categoryMeans.reduce((a, b) => a + b, 0) / Math.max(categoryMeans.length, 1)) * 10,
-        ) / 10,
+      overall: buckets.active.length > 0 ? round1(mean(buckets.active)) : 0,
+      overallCi: buckets.active.length > 0 ? bootstrapCi(buckets.active) : undefined,
+      basics: buckets.basics.length > 0 ? round1(mean(buckets.basics)) : null,
+      frontier: buckets.frontier.length > 0 ? round1(mean(buckets.frontier)) : null,
       categories,
-      questionsGraded: graded,
+      questionsGraded: buckets.active.length + buckets.basics.length,
+      incidents: incidentsByModel.get(modelId) ?? 0,
       costUsd: Math.round((costByModel.get(modelId) ?? 0) * 10000) / 10000,
     });
   }
   rows.sort((a, b) => b.overall - a.overall);
-  return { runId, generatedAt: new Date().toISOString(), rows };
+  return { runId, generatedAt: new Date().toISOString(), methodologyVersion, rows };
 }

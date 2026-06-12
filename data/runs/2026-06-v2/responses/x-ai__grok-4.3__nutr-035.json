@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "nutr-035",
+  "answerText": "The Atwater factors are 4 kcal/g for protein, 9 kcal/g for fat, and 4 kcal/g for available (non-fiber) carbohydrate. Because the listed total carbohydrate (62 g) includes the 9 g of fiber and the problem specifies that fiber is to be counted at only 2 kcal/g, the carbohydrate contribution is calculated as:\n\\[\n(62 - 9) \\times 4 + 9 \\times 2 = 212 + 18 = 230\n\\]\nProtein contributes \\(11 \\times 4 = 44\\) kcal and fat contributes \\(8 \\times 9 = 72\\) kcal. Summing these values gives the total energy:\n\\[\n230 + 44 + 72 = 346\n\\]\nThus the cereal provides 346 kcal per 100 g.\nAnswer: 346 kcal",
+  "raw": {
+    "id": "gen-1781209215-LHkFFmQ2H8KCxv1QBB4p",
+    "object": "chat.completion",
+    "created": 1781209215,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The Atwater factors are 4 kcal/g for protein, 9 kcal/g for fat, and 4 kcal/g for available (non-fiber) carbohydrate. Because the listed total carbohydrate (62 g) includes the 9 g of fiber and the problem specifies that fiber is to be counted at only 2 kcal/g, the carbohydrate contribution is calculated as:\n\\[\n(62 - 9) \\times 4 + 9 \\times 2 = 212 + 18 = 230\n\\]\nProtein contributes \\(11 \\times 4 = 44\\) kcal and fat contributes \\(8 \\times 9 = 72\\) kcal. Summing these values gives the total energy:\n\\[\n230 + 44 + 72 = 346\n\\]\nThus the cereal provides 346 kcal per 100 g.\nAnswer: 346 kcal",
+          "refusal": null,
+          "reasoning": "The problem is: A cereal lists, per 100 g: 62 g carbohydrate of which 9 g is fibre, 11 g protein and 8 g fat. Using Atwater factors with fibre counted at 2 kcal/g (and the carbohydrate figure includin...The problem is about calculating kilocalories per 100g for a cereal using Atwater factors.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem is: A cereal lists, per 100 g: 62 g carbohydrate of which 9 g is fibre, 11 g protein and 8 g fat. Using Atwater factors with fibre counted at 2 kcal/g (and the carbohydrate figure includin...The problem is about calculating kilocalories per 100g for a cereal using Atwater factors.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_b7520852-4f4b-9ca2-91b2-8daeed81215e",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 228,
+      "completion_tokens": 847,
+      "total_tokens": 1075,
+      "cost": 0.0022681,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0022681,
+        "upstream_inference_prompt_cost": 0.0001506,
+        "upstream_inference_completions_cost": 0.0021175
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 679,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 228,
+  "tokensOut": 847,
+  "costUsd": 0.0022681,
+  "latencyMs": 4363,
+  "finishReason": "stop"
+}

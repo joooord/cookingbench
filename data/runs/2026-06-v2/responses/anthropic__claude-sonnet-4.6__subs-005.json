@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "subs-005",
+  "answerText": "Use **tamari** — it's the best substitute. It's made without wheat (though always check the label to confirm it's certified gluten-free, as some brands may contain trace amounts).\n\nOther options include:\n- **Coconut aminos** (slightly sweeter and less salty, but a good alternative)\n- Specifically labelled **gluten-free soy sauce**\n\nTamari is the closest in flavour to regular soy sauce and is widely available.",
+  "raw": {
+    "id": "gen-1781210584-wymKXtNocEmpnpyqjark",
+    "object": "chat.completion",
+    "created": 1781210584,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Use **tamari** — it's the best substitute. It's made without wheat (though always check the label to confirm it's certified gluten-free, as some brands may contain trace amounts).\n\nOther options include:\n- **Coconut aminos** (slightly sweeter and less salty, but a good alternative)\n- Specifically labelled **gluten-free soy sauce**\n\nTamari is the closest in flavour to regular soy sauce and is widely available.",
+          "refusal": null,
+          "reasoning": "The user needs a gluten-free alternative to regular soy sauce for a coeliac guest. Regular soy sauce contains wheat, which is harmful to people with coeliac disease.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user needs a gluten-free alternative to regular soy sauce for a coeliac guest. Regular soy sauce contains wheat, which is harmful to people with coeliac disease.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Eu4CCmUIDhgCKkCqSsAezvnpPYqLE0VxoPO6YdpFJgLHTAq6EDtThUJ+EtITjIdZDFgX+AADUixEsPk3NZQVmVyUWZyDIGxy3rzWMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMBQDafS59XGy8QmhHGgwsQypQ9WGj/CW9ktEiMNS6Yh4mvfwrWaLohmzj7GQ/8qQi4CCIkDvLXWiB0+oO/KzcW54fxRIc9fQ/2ZQBfyq2AQqXNSQt68t42unDc4sGcRF0O2hqbaSLE+EAHu0d5YDmlagiZhpLDZF0MQjzSkqnmkrZ5wDoq4TjmeAuTTx1GrscAMCUWUvU3fT6zm7YRnZh51F+YKs+X08SXoEiUFa7BO011+CO51b78kVaD8EreLeYYZoQuI676kfV0P7wM5CZqTfF/v9UT/HQAPf2nurnXQyRai/ngV3eJUWbRAk4Lvu8RJms4Xzv8VUHiU3ek3ebz2LsgEjSGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 52,
+      "completion_tokens": 161,
+      "total_tokens": 213,
+      "cost": 0.002571,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002571,
+        "upstream_inference_prompt_cost": 0.000156,
+        "upstream_inference_completions_cost": 0.002415
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 42,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 52,
+  "tokensOut": 161,
+  "costUsd": 0.002571,
+  "latencyMs": 4516,
+  "finishReason": "stop"
+}

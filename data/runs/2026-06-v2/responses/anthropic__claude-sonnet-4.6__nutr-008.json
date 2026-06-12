@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-008",
+  "answerText": "## Calorie Calculation\n\n**Banana:**\n300 g × (89 kcal / 100 g) = **267 kcal**\n\n**Whole Milk:**\n200 g × (61 kcal / 100 g) = **122 kcal**\n\n**Total: 267 + 122 = 389 kcal**\n\nAnswer: 389 kcal",
+  "raw": {
+    "id": "gen-1781210002-LdQDQaQkYmc6r2wzOzfS",
+    "object": "chat.completion",
+    "created": 1781210002,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Calorie Calculation\n\n**Banana:**\n300 g × (89 kcal / 100 g) = **267 kcal**\n\n**Whole Milk:**\n200 g × (61 kcal / 100 g) = **122 kcal**\n\n**Total: 267 + 122 = 389 kcal**\n\nAnswer: 389 kcal",
+          "refusal": null,
+          "reasoning": "Calories from banana: 300 g × 89 kcal/100 g = 267 kcal\nCalories from whole milk: 200 g × 61 kcal/100 g = 122 kcal\nTotal: 267 + 122 = 389 kcal",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Calories from banana: 300 g × 89 kcal/100 g = 267 kcal\nCalories from whole milk: 200 g × 61 kcal/100 g = 122 kcal\nTotal: 267 + 122 = 389 kcal",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EtgCCmUIDhgCKkBi//E8pUYlqVQWDHMUImiKBoRMTgLFRna68RwLf6ukEunyYvmHtIYm0AI+D6m3Ga4W3J9/sGdGH527m155a+lgMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMDWLot33DLpIj3/R0Ggx67hxqcHX7xMgIiJkiMOMn6MQhN84LKjgVgxj7U7hBPKIIUq5pvN8chWG47e3iRs7vIb8F8qpJn+5oA140PyqgAWf/9BhaANpRL4tIG6Pn34IUpgJmHCls1GZI/TGDG69yZn/xJzNac/28NLKC/78nAbf1cJnva9SeXnIhhe9KNmh/MxC0NJCrgh74XMRYt5bptMXcB+qjvmhBmLn6S0GkK5SJILiobauAOPBOG5ikoVHu0fFGg5FpsWH98qGMsxm4CPqB3RCtoOkdYax6YVzlu5pwlQaHRA7v45sDl/QA92AYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 90,
+      "completion_tokens": 187,
+      "total_tokens": 277,
+      "cost": 0.003075,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003075,
+        "upstream_inference_prompt_cost": 0.00027,
+        "upstream_inference_completions_cost": 0.002805
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 39,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 90,
+  "tokensOut": 187,
+  "costUsd": 0.003075,
+  "latencyMs": 3201,
+  "finishReason": "stop"
+}

@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "nutr-021",
+  "answerText": "One large egg (~50 g edible portion) contains roughly 70 kcal (from ~6 g protein + ~5 g fat). \n\nAnswer: 70 kcal",
+  "raw": {
+    "id": "gen-1781209193-HUWYI6FKXOvoHqSGZASg",
+    "object": "chat.completion",
+    "created": 1781209193,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "One large egg (~50 g edible portion) contains roughly 70 kcal (from ~6 g protein + ~5 g fat). \n\nAnswer: 70 kcal",
+          "refusal": null,
+          "reasoning": "The question is: \"Approximately how many kilocalories are in one large whole egg (about 50 g)?\" I need to answer as a cooking assistant, accurately and concisely. End with \"Answer: <number> kcal\".\nFirst, the user query is: \"Approximately how many kilocalories are in one large whole egg (about 50 g)?\"\n\nI need to report the answer as: End with \"Answer: <number> kcal\". And confidence inside \\confidence{}.\n\nAs Grok, I should use knowledge.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"Approximately how many kilocalories are in one large whole egg (about 50 g)?\" I need to answer as a cooking assistant, accurately and concisely. End with \"Answer: <number> kcal\".\nFirst, the user query is: \"Approximately how many kilocalories are in one large whole egg (about 50 g)?\"\n\nI need to report the answer as: End with \"Answer: <number> kcal\". And confidence inside \\confidence{}.\n\nAs Grok, I should use knowledge.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_00a75452-8803-9fc1-8fc1-21562f42186d",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 180,
+      "completion_tokens": 624,
+      "total_tokens": 804,
+      "cost": 0.0016506,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0016506,
+        "upstream_inference_prompt_cost": 0.0000906,
+        "upstream_inference_completions_cost": 0.00156
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 592,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 180,
+  "tokensOut": 624,
+  "costUsd": 0.0016506,
+  "latencyMs": 4656,
+  "finishReason": "stop"
+}

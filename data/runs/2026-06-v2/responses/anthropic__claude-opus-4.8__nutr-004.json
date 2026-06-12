@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "nutr-004",
+  "answerText": "Fat provides about 9 kcal per gram.\n\n13.5 g × 9 kcal/g ≈ 121.5 kcal\n\nAnswer: 122 kcal",
+  "raw": {
+    "id": "gen-1781211552-VTef7ZSqNOngvsGzuDoo",
+    "object": "chat.completion",
+    "created": 1781211552,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Fat provides about 9 kcal per gram.\n\n13.5 g × 9 kcal/g ≈ 121.5 kcal\n\nAnswer: 122 kcal",
+          "refusal": null,
+          "reasoning": " I'm calculating the calories from fat by multiplying the grams by the energy density of 9 kcal per gram, which gives me 121.5 kcal.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the calories from fat by multiplying the grams by the energy density of 9 kcal per gram, which gives me 121.5 kcal.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Eu4BCmMIDhgCKkAFTaXvPuzlwr4jA0+7Ik8t09HNq+3Aja5t7SQDnzBfxFFaaZyPYlB4jbkQtsInCUmhi4h+KcGNlX2RRWc5ZZVUMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDOyVvMBg59h18ALrqRoM0B6GdPDhHpSpvLN0IjCPSpXdxAjaMl84Fr5V2eVjz/wWJVqJwFgSwLLGXpjgvvIAxZ7O60bLd1Of+WbEdM8qOceTuaCr0v7n/iRjktfY+0iZkSTWW3SNi6obnWl0yfs6GazDDH5OjxZ5yutyU16yX99zlLBHXRMPaBgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 104,
+      "completion_tokens": 91,
+      "total_tokens": 195,
+      "cost": 0.002795,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002795,
+        "upstream_inference_prompt_cost": 0.00052,
+        "upstream_inference_completions_cost": 0.002275
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 33,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 104,
+  "tokensOut": 91,
+  "costUsd": 0.002795,
+  "latencyMs": 3391,
+  "finishReason": "stop"
+}

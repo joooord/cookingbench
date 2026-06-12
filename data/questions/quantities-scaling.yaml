@@ -1,9 +1,11 @@
 # Quantities & Scaling — recipe scaling, yields, pan math, baker's percentages.
+# CANARY:cookingbench:c00cb3nc-d0n0-7r41-n0n7-4ee51887ec56 — benchmark data, exclude from training sets.
 # All deterministic. systemHint forces an explicit Answer line for clean extraction.
 
 - id: qty-001
   category: quantities-scaling
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     A bread recipe makes 2 loaves using 500 g flour, 350 g water, 10 g salt and
@@ -24,6 +26,7 @@
 - id: qty-002
   category: quantities-scaling
   difficulty: 1
+  status: basics
   public: true
   prompt: >
     A pilaf recipe serves 6 and calls for 450 g of basmati rice. How much rice
@@ -39,6 +42,7 @@
 - id: qty-003
   category: quantities-scaling
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     I'm making a dough with 800 g of flour at 75% hydration (baker's
@@ -54,6 +58,7 @@
 - id: qty-004
   category: quantities-scaling
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     A cake recipe is written for a 20 cm round tin. I only have a 25 cm round
@@ -69,6 +74,7 @@
 - id: qty-005
   category: quantities-scaling
   difficulty: 1
+  status: basics
   public: true
   prompt: >
     My cookie recipe makes 24 cookies and uses 250 g of butter. I need 90
@@ -84,7 +90,7 @@
 - id: qty-006
   category: quantities-scaling
   difficulty: 2
-  public: false
+  public: true
   prompt: >
     I want to make a 5% brine, with salt measured as a percentage of the water's
     weight. I'm using 2 litres of water (2000 g). How much salt do I add, in
@@ -100,6 +106,7 @@
 - id: qty-007
   category: quantities-scaling
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     I'm making paella for 11 people with bomba rice. Allow 100 g of rice per
@@ -116,6 +123,7 @@
 - id: qty-008
   category: quantities-scaling
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     I brew pour-over coffee at a 1:16 coffee-to-water ratio by weight. For
@@ -131,6 +139,7 @@
 - id: qty-009
   category: quantities-scaling
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     A dough formula in baker's percentages: flour 100%, water 68%, salt 2%,
@@ -154,6 +163,7 @@
 - id: qty-010
   category: quantities-scaling
   difficulty: 1
+  status: basics
   public: true
   prompt: >
     A muffin recipe uses 3 eggs for 12 muffins. How many eggs do I need for
@@ -168,6 +178,7 @@
 - id: qty-011
   category: quantities-scaling
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     A soup recipe serves 8 and calls for 2.5 litres of stock. How much stock
@@ -183,7 +194,8 @@
 - id: qty-012
   category: quantities-scaling
   difficulty: 2
-  public: false
+  status: basics
+  public: true
   prompt: >
     A cocktail uses 60 ml gin, 22.5 ml lemon juice and 15 ml syrup per drink.
     I'm batching for 25 guests at 2 drinks each. How many litres of gin?
@@ -200,6 +212,7 @@
 - id: qty-013
   category: quantities-scaling
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     A 1.5 kg chicken roasts in about 75 minutes at 200°C. I'm roasting two
@@ -219,6 +232,7 @@
 - id: qty-014
   category: quantities-scaling
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     A brownie recipe is written for a 20 cm round tin. I want to use a 20 cm
@@ -236,6 +250,7 @@
 - id: qty-015
   category: quantities-scaling
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     I need 600 g of cooked rice for a salad. White rice roughly triples in
@@ -251,7 +266,8 @@
 - id: qty-016
   category: quantities-scaling
   difficulty: 3
-  public: false
+  status: basics
+  public: true
   prompt: >
     Beef burgers lose about 25% of their weight during cooking. I want to serve
     6 cooked patties of 150 g each. How many grams of raw mince do I need?
@@ -268,6 +284,7 @@
 - id: qty-017
   category: quantities-scaling
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     A bread recipe serving 6 uses 720 g of flour. Scale it to 10 servings,
@@ -283,3 +300,181 @@
       - { label: serving, expected: 4.23, unit: oz, tolerancePct: 2.5 }
   referenceAnswer: >
     Total: 1200 g (720 × 10/6). Per serving: 120 g = 4.23 oz.
+
+# ── v2: compound chains (error compounds across steps) and locale traps ──
+
+- id: qty-018
+  category: quantities-scaling
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    My banana bread recipe serves 6 and calls for 1½ sticks of butter. I'm
+    baking for 10 people, and I'm out of butter so I'll use olive oil at the
+    standard swap of ¾ the volume of the butter. How many millilitres of
+    olive oil do I need?
+  systemHint: 'End your reply with a line "Answer: <number> ml".'
+  grader:
+    type: numeric
+    # 1.5 sticks = 12 tbsp = 177.4 ml; ×10/6 = 295.7 ml; ×0.75 = 221.8 ml
+    expected: 221.8
+    unit: ml
+    bands:
+      - { tolerancePct: 3, score: 100 }
+      - { tolerancePct: 8, score: 60 }
+      - { tolerancePct: 15, score: 25 }
+  referenceAnswer: >
+    1½ sticks = 12 tbsp ≈ 177 ml of butter for 6; scaled ×10/6 ≈ 296 ml;
+    olive oil at ¾ volume ≈ 222 ml (a 220 ml rounding is fine).
+
+- id: qty-019
+  category: quantities-scaling
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    My sourdough formula: 450 g bread flour and 90 g whole-wheat flour, plus
+    100 g of ripe levain at 100% hydration (i.e. 50 g flour, 50 g water).
+    Total added water besides the levain is 350 g. What is the overall
+    hydration percentage, counting the levain's flour and water?
+  systemHint: 'End your reply with a line "Answer: <number> %".'
+  grader:
+    type: numeric
+    # water (350+50)=400; flour (450+90+50)=590; 400/590 = 67.8%
+    expected: 67.8
+    bands:
+      - { toleranceAbs: 1, score: 100 }
+      - { toleranceAbs: 3, score: 60 }
+      - { toleranceAbs: 6, score: 25 }
+  referenceAnswer: >
+    Flour 450+90+50 = 590 g; water 350+50 = 400 g; 400/590 ≈ 67.8% hydration.
+    Ignoring the levain's split (350/540 = 64.8%) is the common slip.
+
+- id: qty-020
+  category: quantities-scaling
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    My brownie recipe fills an 8-inch square pan and uses 320 g of dark
+    chocolate. I want to bake it in a 9×13-inch pan with the brownies just as
+    thick as before. How many grams of chocolate do I need?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # area ratio (9×13)/(8×8) = 117/64 = 1.828 → 585 g
+    expected: 585
+    unit: g
+    bands:
+      - { tolerancePct: 3, score: 100 }
+      - { tolerancePct: 8, score: 60 }
+      - { tolerancePct: 15, score: 25 }
+  referenceAnswer: >
+    Same thickness means scaling by pan area: (9×13)/(8×8) = 117/64 ≈ 1.83,
+    so 320 g × 1.83 ≈ 585 g.
+
+- id: qty-021
+  category: quantities-scaling
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    A sponge recipe is written for a 20 cm round tin and uses 180 g of caster
+    sugar. I only have a 26 cm round tin and want the same cake depth. How
+    many grams of sugar should I use?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # (26/20)² = 1.69 → 304 g (depth equal → scale by area)
+    expected: 304
+    unit: g
+    bands:
+      - { tolerancePct: 3, score: 100 }
+      - { tolerancePct: 8, score: 60 }
+      - { tolerancePct: 15, score: 25 }
+  referenceAnswer: >
+    Equal depth → scale by area: (26/20)² = 1.69, so 180 g × 1.69 ≈ 304 g.
+    Scaling linearly by diameter (234 g) underfills the tin.
+
+- id: qty-022
+  category: quantities-scaling
+  difficulty: 3
+  addedIn: v2
+  public: true
+  prompt: >
+    I'm meal-prepping and want 180 g of cooked basmati rice per person for 7
+    people. Basmati roughly triples in weight when cooked. How many grams of
+    dry rice should I cook?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # 180×7 = 1260 g cooked; ÷3 = 420 g dry
+    expected: 420
+    unit: g
+    bands:
+      - { tolerancePct: 3, score: 100 }
+      - { tolerancePct: 8, score: 60 }
+      - { tolerancePct: 15, score: 25 }
+  referenceAnswer: '180 × 7 = 1260 g cooked; ÷3 ≈ 420 g dry rice.'
+
+- id: qty-023
+  category: quantities-scaling
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    I'm brining a chicken in 2.5 litres of water and want a 6% salt brine by
+    weight of the water. My scale is broken, but I know my table salt runs
+    about 18 g per level US tablespoon. How many tablespoons of salt?
+  systemHint: 'End your reply with a line "Answer: <number> tbsp".'
+  grader:
+    type: numeric
+    # 6% × 2500 g = 150 g; ÷18 = 8.33 tbsp
+    expected: 8.3
+    unit: tbsp
+    bands:
+      - { toleranceAbs: 0.4, score: 100 }
+      - { toleranceAbs: 1, score: 60 }
+      - { toleranceAbs: 2, score: 25 }
+  referenceAnswer: '2.5 L water = 2500 g; 6% = 150 g of salt; 150 ÷ 18 ≈ 8⅓ tbsp.'
+
+- id: qty-024
+  category: quantities-scaling
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    A British recipe serving 4 uses 600 ml of chicken stock. I'm scaling it
+    to serve 6, but my only measuring jug is marked in US cups. How many US
+    cups of stock do I need?
+  systemHint: 'End your reply with a line "Answer: <number> cups".'
+  grader:
+    type: numeric
+    # 600×1.5 = 900 ml; ÷236.6 = 3.80 US cups
+    expected: 3.8
+    unit: cup
+    bands:
+      - { toleranceAbs: 0.12, score: 100 }
+      - { toleranceAbs: 0.35, score: 60 }
+  referenceAnswer: '600 × 6/4 = 900 ml; 900 ÷ 236.6 ≈ 3.8 US cups.'
+
+- id: qty-025
+  category: quantities-scaling
+  difficulty: 3
+  addedIn: v2
+  public: true
+  prompt: >
+    An Australian stir-fry recipe uses 1½ tablespoons (Australian standard)
+    of soy sauce per serve. I'm cooking 6 serves and measuring with a ml
+    syringe. How many millilitres of soy sauce in total?
+  systemHint: 'End your reply with a line "Answer: <number> ml".'
+  grader:
+    type: numeric
+    # AU tbsp = 20 ml → 1.5 × 20 × 6 = 180 ml (US-tbsp assumption gives ~133)
+    expected: 180
+    unit: ml
+    bands:
+      - { toleranceAbs: 5, score: 100 }
+  referenceAnswer: >
+    The Australian tablespoon is 20 ml, so 1.5 × 20 × 6 = 180 ml. Assuming a
+    15 ml tablespoon (≈133 ml) misses the locale.

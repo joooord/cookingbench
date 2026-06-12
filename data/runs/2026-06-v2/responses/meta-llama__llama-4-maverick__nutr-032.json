@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "nutr-032",
+  "answerText": "To determine the amount of raw chicken breast needed, first, we need to figure out how much cooked chicken breast is required to get 45 g of protein. \n\nSince cooked chicken breast has 31 g of protein per 100 g, we can calculate the amount of cooked chicken needed as follows:\n45 g (protein needed) / 31 g (protein per 100 g) * 100 g = 145 g of cooked chicken.\n\nSince breast meat loses about 25% of its weight from raw to cooked, the weight of the cooked chicken is 75% of the raw weight. So, we can set up the following equation to find the raw weight:\nCooked weight = 0.75 * Raw weight\n145 g = 0.75 * Raw weight\nRaw weight = 145 g / 0.75 = 193.33 g\n\nRounding to a practical number, we need approximately 193 g of raw chicken breast.\n\nAnswer: 193 g",
+  "raw": {
+    "id": "gen-1781205091-9cZXbheBryqP2o4XxwfG",
+    "object": "chat.completion",
+    "created": 1781205092,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "Parasail",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To determine the amount of raw chicken breast needed, first, we need to figure out how much cooked chicken breast is required to get 45 g of protein. \n\nSince cooked chicken breast has 31 g of protein per 100 g, we can calculate the amount of cooked chicken needed as follows:\n45 g (protein needed) / 31 g (protein per 100 g) * 100 g = 145 g of cooked chicken.\n\nSince breast meat loses about 25% of its weight from raw to cooked, the weight of the cooked chicken is 75% of the raw weight. So, we can set up the following equation to find the raw weight:\nCooked weight = 0.75 * Raw weight\n145 g = 0.75 * Raw weight\nRaw weight = 145 g / 0.75 = 193.33 g\n\nRounding to a practical number, we need approximately 193 g of raw chicken breast.\n\nAnswer: 193 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 103,
+      "completion_tokens": 199,
+      "total_tokens": 302,
+      "cost": 0.00023217,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 16,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00023217,
+        "upstream_inference_prompt_cost": 0.00003317,
+        "upstream_inference_completions_cost": 0.000199
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 103,
+  "tokensOut": 199,
+  "costUsd": 0.00023217,
+  "latencyMs": 2650,
+  "finishReason": "stop"
+}

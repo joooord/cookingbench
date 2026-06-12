@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-037",
+  "answerText": "### Kilocalorie Estimate for a Large Banana (120 g peeled)\n\n**Nutritional basis (per 100 g peeled banana):**\n| Nutrient | Per 100 g | Per 120 g |\n|---|---|---|\n| Carbohydrates | ~23 g | ~27.6 g |\n| Protein | ~1.1 g | ~1.3 g |\n| Fat | ~0.3 g | ~0.4 g |\n| **Calories** | **~89 kcal** | **~107 kcal** |\n\n**Calculation:**\n89 kcal × 1.20 = **~107 kcal**\n\nAnswer: 107 kcal",
+  "raw": {
+    "id": "gen-1781210058-tql6CUHOhQNVhzDDzUsF",
+    "object": "chat.completion",
+    "created": 1781210058,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "### Kilocalorie Estimate for a Large Banana (120 g peeled)\n\n**Nutritional basis (per 100 g peeled banana):**\n| Nutrient | Per 100 g | Per 120 g |\n|---|---|---|\n| Carbohydrates | ~23 g | ~27.6 g |\n| Protein | ~1.1 g | ~1.3 g |\n| Fat | ~0.3 g | ~0.4 g |\n| **Calories** | **~89 kcal** | **~107 kcal** |\n\n**Calculation:**\n89 kcal × 1.20 = **~107 kcal**\n\nAnswer: 107 kcal",
+          "refusal": null,
+          "reasoning": "A large banana weighing 120g peeled.\n\nBanana nutritional info: approximately 89 kcal per 100g.\n\n120g × 89/100 = 106.8 kcal ≈ 107 kcal",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "A large banana weighing 120g peeled.\n\nBanana nutritional info: approximately 89 kcal per 100g.\n\n120g × 89/100 = 106.8 kcal ≈ 107 kcal",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EtECCmUIDhgCKkBScxRrrgtWGLFcZFloVJ+iyfGtjaihqJ8OYL9EbKXRJqy02B+ZW7db687EY///jgK4aMuyVhnw57mkXJWHNJkSMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIM+olmBuuVYRlNqAsHGgyu9th42tp+iQN5E4AiMN/e0FPomNXrZbzkgu3XuySb/+cWkgL0JrS1olbbplXEuYF91QRNUHJ/AZDWvQw5CSqZAZJddHle3gtvYf/qDqX8/2jL/9mxqVcczlpa97lDUMGQqjNhOm3WXA6IEoTZloAxWMy0JCLqwDjSFHArY+xeYpAt0cJ/huZcrHjBSUxvmiwkh7nNLZcgGzsE/lvcBqtRaEmSUUS+/1vp7wCDpThIgmr5lbu88jEQmUfVUddvOLfLz/KCJ9cOebO8hKLrR2lwbiXOoT3Bll7LLhgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 63,
+      "completion_tokens": 252,
+      "total_tokens": 315,
+      "cost": 0.003969,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003969,
+        "upstream_inference_prompt_cost": 0.000189,
+        "upstream_inference_completions_cost": 0.00378
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 38,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 63,
+  "tokensOut": 252,
+  "costUsd": 0.003969,
+  "latencyMs": 7423,
+  "finishReason": "stop"
+}

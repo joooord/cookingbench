@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "conv-011",
+  "answerText": "## Converting Celsius to Kelvin\n\nTo convert from Celsius to Kelvin, use the formula:\n\n**K = °C + 273.15**\n\nSo for boiling water:\n\nK = 100 + 273.15 = **373.15 K**\n\nThis is often rounded to **373 K** in most cooking and science contexts.\n\nAnswer: 373 K",
+  "raw": {
+    "id": "gen-1781209823-f5ndAqMtB6t7xUqsGjfy",
+    "object": "chat.completion",
+    "created": 1781209823,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Converting Celsius to Kelvin\n\nTo convert from Celsius to Kelvin, use the formula:\n\n**K = °C + 273.15**\n\nSo for boiling water:\n\nK = 100 + 273.15 = **373.15 K**\n\nThis is often rounded to **373 K** in most cooking and science contexts.\n\nAnswer: 373 K",
+          "refusal": null,
+          "reasoning": "To convert Celsius to Kelvin, add 273.15.\n\n100°C + 273.15 = 373.15 K, commonly rounded to 373 K.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "To convert Celsius to Kelvin, add 273.15.\n\n100°C + 273.15 = 373.15 K, commonly rounded to 373 K.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EqkCCmUIDhgCKkD9G6lrjEvqeQnxByUUMrfqmkWxHBk9QmhmzBMg0I+sH9EeYW3U6SMcLrmO+7cfAHwuecMOFJoQNxmdbt9XNPegMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMKayx3TBmt3NLVERMGgx8UT9WiTvZKCkcYtsiMAs6U2iR+Xqclk9tF1yBubez2hPU8dbpCb7AYTKefZ2s9hTVQuyd9YapZUzZURTamypyOCRY3M2Wqr/BTC8t2++OpeqzlWPk2oog4xGT/VOb8RbC1bRgM6nMfmuM7r8jS1ph/iNIPmFIZqFBadaX6lQcwsln0gWYUsv8KzIN1KZR1AG4K+dlmlXrHNp5lRXUeOMwIhohq2EISYprBhMSn18CJMfsGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 62,
+      "completion_tokens": 146,
+      "total_tokens": 208,
+      "cost": 0.002376,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002376,
+        "upstream_inference_prompt_cost": 0.000186,
+        "upstream_inference_completions_cost": 0.00219
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 27,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 62,
+  "tokensOut": 146,
+  "costUsd": 0.002376,
+  "latencyMs": 4979,
+  "finishReason": "stop"
+}

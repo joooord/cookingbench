@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "subs-015",
+  "answerText": "The issue is pH mismatch: natural cocoa is acidic (pH ~5–6) and supplies the acid needed to react with baking soda for CO₂ production and proper rise/flavor/color. Dutch-processed cocoa is neutral/alkaline (pH ~7–8), so a 1:1 swap leaves the baking soda unreacted—the cake will be dense, gummy, and may taste soapy.\n\nTo fix while keeping Dutch cocoa: replace the baking soda with 3–4× its weight in baking powder (which carries its own acid) and proceed with the recipe. (If you prefer to retain baking soda, add an external acid such as ½–1 tsp cream of tartar or a few drops of vinegar per ¼ tsp baking soda, but this is less reliable and can alter flavor.)\n\nFinal answer: Dutch cocoa lacks acidity to activate baking soda → poor rise; swap in baking powder for the soda (or add acid).",
+  "raw": {
+    "id": "gen-1781209340-NDFRVfrJg3vWBAdr5d0J",
+    "object": "chat.completion",
+    "created": 1781209341,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The issue is pH mismatch: natural cocoa is acidic (pH ~5–6) and supplies the acid needed to react with baking soda for CO₂ production and proper rise/flavor/color. Dutch-processed cocoa is neutral/alkaline (pH ~7–8), so a 1:1 swap leaves the baking soda unreacted—the cake will be dense, gummy, and may taste soapy.\n\nTo fix while keeping Dutch cocoa: replace the baking soda with 3–4× its weight in baking powder (which carries its own acid) and proceed with the recipe. (If you prefer to retain baking soda, add an external acid such as ½–1 tsp cream of tartar or a few drops of vinegar per ¼ tsp baking soda, but this is less reliable and can alter flavor.)\n\nFinal answer: Dutch cocoa lacks acidity to activate baking soda → poor rise; swap in baking powder for the soda (or add acid).",
+          "refusal": null,
+          "reasoning": "The question is: \"A chocolate cake recipe leavened only with baking soda calls for natural cocoa powder, but I only have Dutch-processed cocoa. What is the problem with a straight swap, and how do I f...The question is: \"A chocolate cake recipe leavened only with baking soda calls for natural cocoa powder, but I only have Dutch-processed cocoa. What is the problem with a straight swap, and how do I fix it?\"\n\nI need to reason about this.\n\nNatural cocoa powder is acidic (pH ~4. 5-5.5), Dutch-processed is neutralized to pH ~7-8.\n\nIn a recipe using baking soda (NaHCO3) and natural cocoa, the acid from cocoa reacts with baking soda to produce CO2 for leavening.\n\nWith Dutch cocoa, which is alkaline, it might even neutralize the baking soda, preventing leavening.\n\nProblem with straight swap: No leavening reaction, cake won't rise, may be flat or dense, and possibly bitter or soapy taste if baking soda remains.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"A chocolate cake recipe leavened only with baking soda calls for natural cocoa powder, but I only have Dutch-processed cocoa. What is the problem with a straight swap, and how do I f...The question is: \"A chocolate cake recipe leavened only with baking soda calls for natural cocoa powder, but I only have Dutch-processed cocoa. What is the problem with a straight swap, and how do I fix it?\"\n\nI need to reason about this.\n\nNatural cocoa powder is acidic (pH ~4. 5-5.5), Dutch-processed is neutralized to pH ~7-8.\n\nIn a recipe using baking soda (NaHCO3) and natural cocoa, the acid from cocoa reacts with baking soda to produce CO2 for leavening.\n\nWith Dutch cocoa, which is alkaline, it might even neutralize the baking soda, preventing leavening.\n\nProblem with straight swap: No leavening reaction, cake won't rise, may be flat or dense, and possibly bitter or soapy taste if baking soda remains.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "kg9Q8hQIXzhm2T80iW7l77NfdWT4XrQc6M9JediN+ZPs2gxa1CSGThl7mnMK01oLoj8vVPTnoAHncccvvSs9uSDqqyB3p11daXqItXcocrMoUXUKaF0xhId7s63iUoj89b3dx6BFv93W174H15NdP/DqBoDfe3LSXMCUKQfXLMWUYRu/3Pm+zVRnfyeOhZqfIYfLoMdW+p224DiJa+W+R7cs6S/CEgNUuY7s9gLPzzsbXsxIjsHjMbjbdeu7huCJheTgiWnkFgAUV1n2JSAKM0+RMyImfxIlvu/VchZnVOKrtRhNyHPaQjqutDZCxlf6QmbOVehkMMdhOGLW6Vfsxs0o2eZFDQQdXyK+5/nB/2qr5Qve/8V79IB4gOswcNV/AAwGOFDnmDTQzbORnCTuElJtM3Pw8hkA0Zl9VE0LQomLXm5JtJdBE7LY/iSVxuh10neIlvSN3nSE6B9QbQgmv+ndmE6WVpPrk1rKNaBCvIsNtCSkUlxu02bFKy9rT+HzXe+Ph9Twtltl3FBWPolZJVpws6LXf6PVanJMU+i6SNKFusN1xzJkHy/sl7cUol9iAORcCSlx+w4skyy+FUw5YR6LsIExOGmrbLbbpAmOgiKp771Dg753Qz1YTi1yRPP9+U0ayUBxL69XalAvN3GmZIHpaCe60K+wBjNaxRQkTFDDdeP5zNiEWnLK/9MokV5z8EnuRoFAJY+RpBMyhryonsRfW3S2qJ8K7k3JZpbHps1VlCZzHwjQxy/7DofzASoQA7Zrd3tETAKZRLVyqWFVkT2EMXgN0e4h5HJM29EQkMrfXwAqeg9kBXzQdOOsSuQmGCJKsIqealb7z+Qqgsq9zGGkDbc86cHtla8MihjdfF8OgXyz1puwDPD7FWUX5/lhK8+qH1c0yTL+hxKVEowv7tkuX9wYGSzN7Z1E1uPzontXXROuEksHq0gnrJ71d3Ojpx9wdh+5jb083/p9FKkzWQULvmDf+hAXsTGf5wlyTHyDl3ti94cGgvkOY5ocISjdMmaWk3IukiFQvd55n8pzTlsppw5zKKyM+dSRXhZdYiN/BLOZ7YJnhxx2EPK/Zk2TF6vbeVSmN9PAaQ47t3BAG6NQLw89fi4fevKKF/5tDVMKzioAOVrsdpXSwDkfl2oPl+cnKTmOq+aRErCfSXIVkHnDjs+itH8FJMbCYyBRtm+3Rtlv2FszmLQ2w70mPLOxRxGx2Cg49WphsfNQEGQtCUt9A4Eay8LpWKyaDBtkGmVf6OyuOR1W5PJEVfxoj5/kFEE6pt5qckXDfnEmQtiuoorHrvVRHe+sCpEH/gY8gGlSOYqOfzzxfcrjojshowhYc6QV6QRO4BGkaQC0gmG+NjcM+3lB0OrDq0HPJyBWBVX8gQo/wD5dB5QBAu2tNMuC27WEHPjPcdZT84QiSaAx7rX55EmrepPd6ckPR+iN1pAzV1kQKgteO54Qa2Zk6htUrs9fdfsYDMXDlnSITJidFUdgSNb2XjVlUUSXEM1np3/Hl59RBg7BHP6BqjTfFSDOJaluudSWM9r41grncPsj+CHqF388ok4ux0AX4DaVbnVwvcjifsRTdqP3450O0lseorWebcAx8rlmYwke7ryWAnHBVQOhCPEsv5Vfrw82pjGv42l3e0NRCzFmpV7gx9DJhlRhnceNZF3dg4La0pMmVc3+HHF/3uxI2qM6Kjk64hraAESjSlgfGyCpt/P1fdOhwwxOZbR21mWdg4/sflG7dQ0MOIIOetn+mkhg5Cmk3OIkhtsM8ZNhDqkCZA7lDRo9+2zvHer5vKDqPiLdy/j6w+k3rcAZao8wklThOWKDDWoY2Izm2puXBUxg/ldZWPZMTtj12dA8O6iS8EAzTflR+lezeUqFwmO3iAdTltSw5coPMPq5ZE5zo2RH5zw+A57ZFACpvKPbGPT1fBnRyJ2jIdMv7p7mYLFI0Lfbyla4DLwcrFjJj/hPxg/boiTI06rh5/bPYf+xR4sZnve84ej/Dl6vkT17yefTP1sxwlQh+EqhTTuQut/vW8Kf0PZucLHXCFF4sMadx1IdxLmvx0C9OdkVfOfUCibcWu+//VgoadEMwFcNlXB945Kkgf6WFh1jDLPW0Q7y5zdxOYgFJcEguB2PQ+rkvtso1kpaqB8pGYkdM+iT2ShlM0aSt/SUa4KRdSnu7m9M8N5nEgT4NhrXwlcWKvrt5/dkFhczHSYeVZ4nCaWfx9TC6xUcMLGtMSGxx9z4RToH0sBA+zSEXhng2j/J0xu/hUpYqNrOcR/5G5iSzFwTF/el8EHyef5I2FPkPBxxKZZALPLj3sfs6MpcMAG16VLxR8iQHFE08kZA6Ve9w8tYrywdQAZlUnJUK6TuI60ugLMg8dqvhF+TECTkBOxK+sQRhtQfv+QYZJSsGKAKX32vS0gkvDetYZDiyyLETKYi+CiIMshljSfsl3AmCBD9jjZ3fZbZacZXGbpmfG5S+WN/8i0TwfimYbooftm9y5PU8wSbRqXxEIqMzV2Hjo0KXnmLKqoKoIovTMyoPFnCcbnIcJJWP1sdmHn2v1UYf0DcaOh+FceK7brv+uCXSzn9lT0NeJNWShXXvKUN+iZenrT9KAU2BaoR0aedmgmyPrKtTghHpF3wxWwv93cvuzvJn32V+21bjOLcTn4rA+Fh5h1hNvSD9oVNaNqqykG9G5AKGwGaoAI7Cid9MW0r8QcFZ817P8xJZfgG9wCm7wnsreTI4N/1jcyhOVsThbyWRBpZGSwpxH+r8MX34KLNDq0RXiUQgne4lVWBg76uqMkKtEFMJVeW3T2DleGxeLErT7H6f5wNb2LQMDFjz1SHpahBszsD7ZEdX0JIl1uLV13lXTS7WuaqJINNLrOEYEcFKfYeRrI6nHsOC1ft+46XKgxxHflI3SzXOoWaiFh11VrV8DDPtK27iAHulAEK7yhc1Ikl2xKo1LcV6aQ6EoFRNQKJMPU5tMKKqhhJ+MK2hpkyCvCzSpQip9KA80OMz3DFX4iKn/mWojg93Y4EzAj7Q7Q1SVar96FAWLVmiiCvMjV62D0Ebu6q9CmnC5yDGpDyZGPRq+hNSdN+e7daZxhXP+J2P0s+obZXKYzl3vdlQxPtzDNFemIL3SBggSJN5ZimQiv/y4pYLli9h5NKxcbjmxPJL93eeiyNGhcrh/g01eoZMNsvnqSAfddYP0HRFj4QOZBN7v5+Ar/KjvFR/lU/db4aXq7YmaTWnfEgfby/1H8N0zkMUQCUtO4ROq+mqF/9RDjRFNSSbYMi46FYgT4/dNhJuBG3iF1j+gDTTxnLbXyWOCEo0NfLv8x6owPC0BxRZd9tGH0OIOYMIQyXuLc8rN1UanVU0pRKcEILhAUBMnlCB/bRBj97IGiTzGyAhkMsb6lybJ3CxK6TuWM0CtsqFuHZRvAHyAAZLalC1dOVfVBUrfagyBdg4XDzWsDQbeG8by/I7tWqxClcDzCFYdh4xgfRfa2t2TN5NLCk7Sgwm2/C3FwM79rzqzEpzew9eMsbh2T7CTmBuSlfvBqhvI1LdPQNlbioDPGfWB4gors9YiQxBLYifqhD6xcjHABJ1gnHRp4nska6Qsb4SJTf6pyqfCKd8vVbL9il2ua97VIAtmQ7WkzC5etofKUGpvq1iRyEorqPuClbrtHLOnC3R3VeIDs4P41MeXIAuKwGrmfCQwQCmR7HnHclPqv3EHngGkUseQEJBC534A1upQAeoA5zNugeOj9cv91HgtMbU7Ttp2xNQeUDzA0I+DSqZN+bsb5p9MPlSyJXVc7RjcKOtJ3qKuVzlEYNNM60ZV8bJWpTb2KHh2brgYI/UxmIoAenjI/rAsMfrGBkVrZMhbmijMmPHr6ioax/sWjojIQ5pbv6b/YJmlak/QKDy60Wywfdi+en6cccYFfu3aKkDGzJs6o/f8T7k27XA+tdKSqdsiWY9LPESv73ikHeLoSZKUQF+4W/s5UUBy3IUV5sEHcdv+48Yg+IuyvK3W3wFzOELy80VnOwPx2747VPYji18WtHZOTEcLEfzAn6C72H45QYQOdK1erY7DSgN7tYa1G5+n4jaQF8Ezk3tS+IOXgpQTXuKqKrM8O0JrwoLn9re4wR6reuyEaZdjDYRkUfaoSEUxewEtMLvWTkmuMWC/+kjKYiwNexrbD5J1RFdeOsiV73/YU5QQCWa2WV+jfc93SY57AxjSDCDYXNuuaFQtYHdhQOQXMT0+A6ZPVhXXemTdXNzPpDp9LGa+3KyGK+rwoCtZn/rIeDr6C20j+YB5WScRRVhrRBvWfVqwMFzmur8REUGQ27LEfbk8F3H1VoaDv7QtiqPwQcYpNoxNhubU6UW0MpxdlUaOcZh+rhSi25UzJJbSRjwrUi7PMrqdBnD4T9Swx32YI5ri8qcMK00+smlrhV4qyNY7GB1lpZICJJFiMuRNBjHul8BFEvV2ASTsHbkQU5wg9CCbuWWm+B+rMmqbraCRVi4HLWcEOO43qEx7fjrbfTD0IIje6ORq+f+EFmqPszJhHL1vrjRu2NAzIVn/a58g4TlkEoHHGT3s67EzsJxdNxf5ctIdNb/v3IDijlbuSy5QK6cAZZ3IoIy+xr7ZxR9+hW9b1xm2mQd1vqTW+FteDKlxIznVmHMhMEvkkGwaDYgrlA8fU3z5vYIXh8ynyo1y5LVF2y1fenQOrkzSoaY/Rsu5J90pZr8wMrd/j8SzcVQ0U77fJaOr4hyoszQhgnO+aGbUgsccSPK2z+Cn241NNY6ypmvCdswNPzj8Z2xIZ+fvJPPdO2mx1uJL/MOPSkn/CTvvUxmBGPfSbgq7TDf5v/hCIKJh1V8ipLsbkXTWQCj419rp5e1i/mPUyBTuRz2JKVQxqiE3b8pAV405F0vuOhUZ7/eeg/S6OhwjhA84zdHZ+WQQqNRXNqxXbf8QCwIm6+u2oYN5hRHq2QaR+jBMeanuQExfz/RjEj1z/GRYSmMjAXvtZS0x3lpPIB0AwZhn+tPMDYIfqcgiKHrwfdBKxpDFbCCS1e0IZg6zWFP9NmBhGj5EccGVz0CVRhbsdwz5l8JXfnAg/RDwL/hOfS9D8TPzIXYF/LaRua8y8yu4K0IEXz+kSaWtXGkVdfNhUBcHUAlQOH7GHPJ633X0TDwDNLuYECe9wj/cRo3L2nT1J3N2bFByGn8ccxrqttFjttGyrKob2hb3ozt389c8PGMKgiI0rd2Hvm9PzQGiabX/YU49cm6GuRjvKbMMLxvgridKdLnPi1zvPecbPFOHSs57GhOfAu7XDy3T1JU7UhEDPn6CG2iOmNOgH86BVGdlo9vp+UbqojBJZQ+a2SOpj1DCzChfgjVA35i0p5qYpSp88409SPspnosZJPvPkm0tcCcFq0gLndIk24Y532JcQ+O9sTn6U25GA1Ks5KdkgYi8xmcICXSKboJkY4pbWA5groe37FD52u/MxhnIjZKFvCHtKLmaOAozd95B1/MJvpTGse/1+G1NjKRkzBc3qOGeeKpdSmy1otG/kXIdEXeG4Ooj0nlI05J0geDdLTRZvURzrDye6k2nQ3+pABf6b0Yg3Zo4BbPoThgxD6URjDxgHvK07ufXUIOC5VLUuFq6USArhN9fUFjmy/yUhjHx8SgtOItROQgz1dKGLyoxiNZKvXekaoBn4kdLv4yqHXj9e0iqoY1kmOwjl+hDo/yHwJp0UmRxLMovmgWrDpa7eD96BIzTVGR0upSGOKaZYsELvgYgNHRPU+deE/Ct0MXK2iFxkAbqEBLT2S4tPdbWNcVMQDIQYlxGimnSLkfTGodFSuNnhvvtbC0Dej0xFSWnwuYR62TZySma9pFEgJ6q0woQeC6Zyjum0dZR0QgEEAja3EiO9LHtpYKvRghgsqgi/7KqIalrNuenE4GSIi8LWcC//ORhemGjG21PVSs9jZGVdJj1YIfkJ3o6j7ooUD47QVkSvZXsxk12L4GuOmzs8PHucQtaeYT2Zaw0cWdwNuQ31GC/3WJYdX5uzmrHcr2n7EZVNMbFdiRuw5Ob2JKO2PItXTaj9c9PUYsz1GOJAMg4UF62UFpSsJTRmr2I6XNaaLGNh9V+e/03ehP4TX5BFInbYPiiS1nlb0cHykQiRFCaD421PnEGcxlpat5gnaLq7ec8fgaGBjhx2MZgzaF/YeZetWkpKh8oxfY/6OA4DqufK0bEv8cm1gta8f53yZ5SlzohIEZHJDV7D51DQXE3fgigs4Jjc2y2nbDDPbn/DYFuj1vqqLIeibgxSJ0JHLkvb4W99uzzzaCffWj4ljARPMTEWz/TVKYYKjh68MNA1tk+2ySY4j5Hd8aqlDdIsYUgRk7ZeIdkyfON10pQX+qbXXMGOy1PVXrYTvHSIpIV2bNF6F7/xJZLloeo+tyKQHjfmZ+aGn8TwQnQzG8hvCzt8UWCPJIN5DKldh6NIko5YY82PSEFqTloWTXvTIPCqxiSnk4rtf3TMLW6mXMzmC8DlxtMXgwxXfsUX+rv1ZI5WUqywrodfizyLdKe8VzLefY0znHfhxqoAOCdPbcdD3BUSVk/EuEdaEyOJ7J0r7j/eQGzcRFsF0vRR9bcfttxOAMMxCyimMKIl6rdv60FjLmPqfkW/KkARAfW2cwiYc39qDkMyWTexmCF6CAi7ja393nUrmg/NNQ08sdaohpdcm/M74jeC2DkSKih2hRXqBlsg6FiL1DfrkiL61M7IjR0B3Uv59ETspWQrLKdRjf8muwgxHSJDwlG1JOzw0i6C6z+tCbz5X+q7PaJ91fLo9OpiIZYOFvdJ57HY1wGk5MXLcOgdZMGdDKaCKVtwXHqMkE+BF8/5FNLPWZP9YNdMKpWL22ebMUZrLx1+NsD6owsxwZR+IFv3LQuZgWoS5YUprRJAvjp0jsv0IqZp91uEvW1t82k9w7ueuHNc7hiwt0qwKTlJ+60vDuZPtXxPozQAqp3K5tS6QMBsPDQEe2qnAF0JYoh+APSk13AZ0Cn6HzCrYXvrRRTgJ5IVs6fIevaMOyq+Qsirapw/luL1MavI9mVMR2+SVwjx00ssH+UC+1iUi2g",
+              "format": "xai-responses-v1",
+              "id": "rs_ad7e3e99-6279-9449-9a8c-b00d63b12c38",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 189,
+      "completion_tokens": 1321,
+      "total_tokens": 1510,
+      "cost": 0.00340435,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00340435,
+        "upstream_inference_prompt_cost": 0.00010185,
+        "upstream_inference_completions_cost": 0.0033025
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1129,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 189,
+  "tokensOut": 1321,
+  "costUsd": 0.00340435,
+  "latencyMs": 10240,
+  "finishReason": "stop"
+}

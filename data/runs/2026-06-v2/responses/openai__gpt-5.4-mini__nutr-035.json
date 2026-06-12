@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "openai/gpt-5.4-mini",
+  "questionId": "nutr-035",
+  "answerText": "Using the US-label style calculation:\n\n- Digestible carbohydrate = 62 − 9 = 53 g  \n- Energy from carbohydrate = 53 × 4 = 212 kcal  \n- Energy from fibre = 9 × 2 = 18 kcal  \n- Energy from protein = 11 × 4 = 44 kcal  \n- Energy from fat = 8 × 9 = 72 kcal  \n\nTotal = 212 + 18 + 44 + 72 = **346 kcal**\n\nAnswer: 346 kcal",
+  "raw": {
+    "id": "gen-1781210873-f1xBxocAP6Qr2fC2k4Dr",
+    "object": "chat.completion",
+    "created": 1781210873,
+    "model": "openai/gpt-5.4-mini-20260317",
+    "provider": "OpenAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Using the US-label style calculation:\n\n- Digestible carbohydrate = 62 − 9 = 53 g  \n- Energy from carbohydrate = 53 × 4 = 212 kcal  \n- Energy from fibre = 9 × 2 = 18 kcal  \n- Energy from protein = 11 × 4 = 44 kcal  \n- Energy from fat = 8 × 9 = 72 kcal  \n\nTotal = 212 + 18 + 44 + 72 = **346 kcal**\n\nAnswer: 346 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating energy from carbs**\n\nI need to compute the calories from carbs, which total 62 g including 9 g of fiber. In US labeling, total carbs are counted at 4 kcal/g, while fiber is counted at 2 kcal/g. So, I should subtract fiber from total carbs to avoid double counting. My calculation will be: (62-9)*4 + 9*2 + 11*4 + 8*9, resulting in a total of 346 kcal per 100 g when using the Atwater factors. I'll ensure it's concise as I summarize.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "**Calculating energy from carbs**\n\nI need to compute the calories from carbs, which total 62 g including 9 g of fiber. In US labeling, total carbs are counted at 4 kcal/g, while fiber is counted at 2 kcal/g. So, I should subtract fiber from total carbs to avoid double counting. My calculation will be: (62-9)*4 + 9*2 + 11*4 + 8*9, resulting in a total of 346 kcal per 100 g when using the Atwater factors. I'll ensure it's concise as I summarize.",
+              "format": "openai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "gAAAAABqKx79a7LSHd6X7BdmDsg0-LJYbJgagQ3kH_3KIS1mmVItVkTh_QYn0_zlCXvsr7TDj5XNkIywNyvupOGlgH8Ixcwb7a_nKlwqNj06yQw8PvyFFXw3JJlbqjXkgZSkcvI4WQSlnk-XCeHJ9iScf985Otnk619Q9NlhmREg98nz1x7xfM43ofZLkp_xLb1bb3ZFD4i3fluAZ3t_rrKfWr_m9Z7OZydBZBi4O13jZm_0hK4qYTbVoF0O4ZpPCS0-DwmvC2u1qK4vDXyoInrc_54fTqOs_9RCOf-vtz9qTH9UxvURMohHaIVpqrJ8SwiAn-eNU9nL90XsEJpR8bTGJDkkplsaWC_u5LfU_9XBod7wHNOtTUlY5R_0CM8ytXwa5vcJWy4xAYVy3zZO9gAuq3VwuvF-YSn_cG4hwhMxDVStvKuzhfa5Ic_PZmJpe85d4KrTOLOzAhq-QPItCvrasnJP43SRwQ71gkmidvhGoarbnIDjyYWdBIwEnR4CwlcQfC8ZEBmth0ZkZKq9GQcrONMhaUIfbgTp1MhncTDhnPly7u1igVxxQdDmfkQ5HLlerEFaXJC1bgUGTstEdjtgma7eJYA4a1hCBckUiwSW6sBEsAl3ZrrQ8mAoe5apBXsaN5AH3bobZ8ylgV6h5tFZNWGNfRE9nKrSfftJXK6v1BP__ApfwadS1PCF2wJ3cFvMX7p1u_bPNMOVCMHQVsa8U7AcxxR673UOcQpO9hElKz_Yy_V3sUo8x1Swn0C4v1TOG6M3vMQJmOnmkNmlGjDhZBb1xbKIqWFgetMVu-6zOTAniCYofs3pfTBBfxL1lTx-ptHdTpcT3LCdsrUTLovxZEK0lXGzvlkIKiCL2dIRHZWkpKyeTAHIzEkJu26V7m10CVHT1DyhHyxwHIztcwsKz4DGyZhhRtDa_43NSmK1ZPJgrv2dB0jOI650KvOrdoJCklwSTZ6Q-6JvKQISgHcnLeSrZ47K5670ikQDTcTql20LrdiYEzJTMAiOIN49K5nc0atsRhUM7K63IR8htyyzMs-olZdRJR2GP_r8Npr41-mokTvyC98xboLffvdMc2Pl1V5_byPPu4rHwSFP1pllUP2F1Kw3sUXdENbyF1kQBXxsTjXSVBpi-vlodQC_O-RQi4hWLbbRTfhCGP9ISjPNiZ0EIr21vLNJwmgtAb_2gHbn-asDkZfxl3omdSB2jYOnZ7sa2wenRU1VNZ5YTq0hJgTOHGJOYJefvaSiVVRWuQdgn7RFIT8qQl7hGhQCaFfoBqq-kncxis4-X3BOtTP-QViQ1weyb7gkWsxwIGZBCPVNsRouOVkllX3sd8-yd5YAmHO-iUHrGjJA6zJxwad-l4Mlsk-83S4Wok3jG0GqiCumrpm1yzZi3b9aic5BA4R3sYjqKe_pJGDNAlG0-9gS3s0nuSkf-ODZG6A6xoAkuxqhMTSI4UkKG7vpfzbEGIBGHz4xsNPzGnmGYYzSgSFwAmlm_CDZ7ok1QhpVRyQwvMORg6xWlboft-UWaSSrUZmVDurUpkzW1itVzmEKXOzXH63ILjB3iknJrJSDy8Xc6p-JxkPGW9u2IW_h9vMVW9f6QF8dmM_r5Cb3NiOfIc3omv7-b50s1zn1n0UKbFgRz-EYqc-CvpxLiqz6VfFj4Q0D2RFPMKCY5hSJbGGR0TblLx0IxcCB4NoFNIBdKTz26rq0LLxg-KFAYoLLBnVnKyd_9rari-t6pw7djEDRwjxTVM9ZvOYgFyO1092LUzMRe_mrAdWyO7mzZkygrj1mWoF1LrmrYNKenjyNcsqSaWkKdXdtYD3rr8_cL4hir0bLAVl41NHY545BZmkaJ0IFPRiaZtg2Jeckr4WKiQf6_59qIXPN1Aqgm5HgFe9ukgk9h4QXpiaO-c6JE2r-x0kyq-2oNdDWQlNvRZzwL-7GocIwuA-lMzbJc3e1Xrd1iyKb4xFwZCotTwEbuFLy3KJQ56bYh-P2gfwWAZsd6PZsPTIoTJ0qZPLffPSFwDZKbh8ysLQ_AIUCZ_gBosyIZmXgegaqeGtwTOHwggyeSqEb0PqBh5Gsprykj-2LrlGgemcfJJ4MmCX8P4AiVpOS42Tbq6SUQ6xp1gaB7spSIRw9CupeP67rVEoqquIxdzXA_bc4TPpcHvBBHDg=",
+              "format": "openai-responses-v1",
+              "id": "rs_07510dba610d5b09016a2b1ef993508197b91a6f62d39eb781",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 106,
+      "completion_tokens": 351,
+      "total_tokens": 457,
+      "cost": 0.001659,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001659,
+        "upstream_inference_prompt_cost": 0.0000795,
+        "upstream_inference_completions_cost": 0.0015795
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 240,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 106,
+  "tokensOut": 351,
+  "costUsd": 0.001659,
+  "latencyMs": 4717,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "subs-017",
+  "answerText": "Butter is ~80% fat, so 150 g of butter contains:\n\n150 g × 0.80 = 120 g of fat\n\nSince coconut oil is 100% fat, you need 120 g of coconut oil to match the fat content.\n\nAnswer: 120 g",
+  "raw": {
+    "id": "gen-1781211759-XEjmq8IT8BBeLXWY36Dz",
+    "object": "chat.completion",
+    "created": 1781211759,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Butter is ~80% fat, so 150 g of butter contains:\n\n150 g × 0.80 = 120 g of fat\n\nSince coconut oil is 100% fat, you need 120 g of coconut oil to match the fat content.\n\nAnswer: 120 g",
+          "refusal": null,
+          "reasoning": " I'm calculating the fat content needed for a substitution—butter has about 80% fat, so 150g gives me 120g of fat, and since coconut oil is pure fat, I need 120g to match that.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the fat content needed for a substitution—butter has about 80% fat, so 150g gives me 120g of fat, and since coconut oil is pure fat, I need 120g to match that.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Eo4CCmMIDhgCKkDqWE9heZ+HisYbCbhF6aDOxi4Wf2oYYPT524RNu/8O7sr0s+7BN+FwXODcZQyiiX5mgOt4997qhva/WiVtEowIMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDEdgDXANclGt4H5+HxoMN0kfurcW7D+jpGwfIjAtpfbcp9WBafShUpJ9QlKOKDHxglrP7NTuyLa9dq0CmTfT3nsu84eWs/Ba/RwuULEqWcsJnuPcLUP5pfnABQF5ySmf+dTFJVe+drQSnOnHHl8garK1OtWOMGRyEBcKFdSqPzDLaBjCFUS0wuAXS28onQ30oAwnwde/cTvBHwnCNfwsn9/qHcbJsrK9GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 147,
+      "completion_tokens": 125,
+      "total_tokens": 272,
+      "cost": 0.00386,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00386,
+        "upstream_inference_prompt_cost": 0.000735,
+        "upstream_inference_completions_cost": 0.003125
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 45,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 147,
+  "tokensOut": 125,
+  "costUsd": 0.00386,
+  "latencyMs": 12968,
+  "finishReason": "stop"
+}

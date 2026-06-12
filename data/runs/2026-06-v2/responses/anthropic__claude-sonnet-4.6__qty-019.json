@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "qty-019",
+  "answerText": "## Overall Hydration Calculation\n\n**Total Flour:**\n| Source | Amount |\n|--------|--------|\n| Bread flour | 450 g |\n| Whole-wheat flour | 90 g |\n| Levain flour (50% of 100 g) | 50 g |\n| **Total flour** | **590 g** |\n\n**Total Water:**\n| Source | Amount |\n|--------|--------|\n| Added water | 350 g |\n| Levain water (50% of 100 g) | 50 g |\n| **Total water** | **400 g** |\n\n**Overall Hydration:**\n$$\\frac{400\\,\\text{g water}}{590\\,\\text{g flour}} \\times 100 \\approx 67.8\\%$$\n\nAnswer: 67.8 %",
+  "raw": {
+    "id": "gen-1781210086-YNBaPQ7TSNfc6sKKdche",
+    "object": "chat.completion",
+    "created": 1781210086,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Overall Hydration Calculation\n\n**Total Flour:**\n| Source | Amount |\n|--------|--------|\n| Bread flour | 450 g |\n| Whole-wheat flour | 90 g |\n| Levain flour (50% of 100 g) | 50 g |\n| **Total flour** | **590 g** |\n\n**Total Water:**\n| Source | Amount |\n|--------|--------|\n| Added water | 350 g |\n| Levain water (50% of 100 g) | 50 g |\n| **Total water** | **400 g** |\n\n**Overall Hydration:**\n$$\\frac{400\\,\\text{g water}}{590\\,\\text{g flour}} \\times 100 \\approx 67.8\\%$$\n\nAnswer: 67.8 %",
+          "refusal": null,
+          "reasoning": "Let me calculate the overall hydration percentage.\n\nTotal flour:\n- Bread flour: 450 g\n- Whole-wheat flour: 90 g\n- Flour from levain: 50 g\n- Total flour = 450 + 90 + 50 = 590 g\n\nTotal water:\n- Added water: 350 g\n- Water from levain: 50 g\n- Total water = 350 + 50 = 400 g\n\nOverall hydration = (Total water / Total flour) × 100\n= (400 / 590) × 100\n= 67.796...%\n≈ 67.8%",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Let me calculate the overall hydration percentage.\n\nTotal flour:\n- Bread flour: 450 g\n- Whole-wheat flour: 90 g\n- Flour from levain: 50 g\n- Total flour = 450 + 90 + 50 = 590 g\n\nTotal water:\n- Added water: 350 g\n- Water from levain: 50 g\n- Total water = 350 + 50 = 400 g\n\nOverall hydration = (Total water / Total flour) × 100\n= (400 / 590) × 100\n= 67.796...%\n≈ 67.8%",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EroECmUIDhgCKkA4qfGmcWwzb8+puBULmIJsPluifxduTK3COQBQK6on3y1EikcVVVOvcdm5TtDdT7R1nvY36HOQ0pI6IQz+zrwVMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIM1mPfc/Hrgm3+F3zOGgyJIYKLyoawzyy0LOwiMAMn4fAh0PITge3oclg4/iMP7A/DcSIwSihNhAjlf+lLyjNpmCzf5V1OEoKLa+zW6iqCA5KKBh4Psao5aAoEi94JjRfcn11cXtnHr4Eq6XZn+8vYvTrCxcT9wX2oYhAhO/XQ4cq/by2IYjitynuKB0f/MONTk+PW9vZA+hXuP4zcUlyn6lYHAFtKgrxsvd46lIXWzuIAmxguuWo64j+iZFS0J1VZwdpkfctN70sZqeUOVxB+9upIbdZJrM52g/3a1hEhxgHPO/2LhS+kB64ln3uYSFBQRGzXYYUuS+e5PwI25Jg6E6DGUIlKTXHOFehL+o7s1zSu8mov349bbLJWReDUuGUyQqA3d/qXRe7poffqQBuPZwh94u71zG5wDSmsKDAT8K3dNunT3WGOr6Eh9jQUDqgg/jsXe7x7Pc1cfNP5i1P33Mypddc2hnRSDzxzDqRfJxPxYPE1UmQUeCQ3gtBTXSijeGtF3L9MDsnT20/7/Hr8jAjuJBQVfqTMteAjLn3t7icV+A6yDDW9+8LXkMz8Y/cHpT15Ws/hMvRCDKIFrIagmfLKAeAyO6eUSMfpEpbD/hSaGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 127,
+      "completion_tokens": 371,
+      "total_tokens": 498,
+      "cost": 0.005946,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.005946,
+        "upstream_inference_prompt_cost": 0.000381,
+        "upstream_inference_completions_cost": 0.005565
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 106,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 127,
+  "tokensOut": 371,
+  "costUsd": 0.005946,
+  "latencyMs": 6739,
+  "finishReason": "stop"
+}

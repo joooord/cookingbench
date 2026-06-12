@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "qty-008",
+  "answerText": "To find the amount of coffee, divide the water weight by 16:\n\n750 g ÷ 16 = **46.875 g**\n\nYou can round this to **47 g** for practical purposes.\n\nAnswer: 46.875 g",
+  "raw": {
+    "id": "gen-1781210074-5V3GJXeAXe6ndMeyi0X2",
+    "object": "chat.completion",
+    "created": 1781210074,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To find the amount of coffee, divide the water weight by 16:\n\n750 g ÷ 16 = **46.875 g**\n\nYou can round this to **47 g** for practical purposes.\n\nAnswer: 46.875 g",
+          "refusal": null,
+          "reasoning": "750 g water ÷ 16 = 46.875 g coffee",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "750 g water ÷ 16 = 46.875 g coffee",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Eu0BCmcIDhACGAIqQIOdn1wbJcK7SYHsSnTRxXI8l7YZAuCDpo26s7DuM+7+1OPAlFWaSBK+oROILdXCdHr86RLMqPyZ2V7jK1KpvaUyEWNsYXVkZS1zb25uZXQtNC02OABCCHRoaW5raW5nEgyQf+waeCtKTDnlZDYaDHLbmHRJ+flJMAcU5CIwLi9NkWYqXBgfMkeqmkCe9316qOxRhiBjspk2WvN7DGUAx42uNQSk7BiKilqjyDsmKjRwOHx+/HqiGsWJSNvVtjkihzZnLBWIX1NMPFZXs4L/sFXNIWpEE/47XlGkSLvTJzc1CpEJGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 83,
+      "completion_tokens": 95,
+      "total_tokens": 178,
+      "cost": 0.001674,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001674,
+        "upstream_inference_prompt_cost": 0.000249,
+        "upstream_inference_completions_cost": 0.001425
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 10,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 83,
+  "tokensOut": 95,
+  "costUsd": 0.001674,
+  "latencyMs": 2488,
+  "finishReason": "stop"
+}

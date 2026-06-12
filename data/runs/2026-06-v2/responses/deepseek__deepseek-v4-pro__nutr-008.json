@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-008",
+  "answerText": "The banana contributes 300 g × (89 kcal / 100 g) = 267 kcal.  \nThe whole milk contributes 200 g × (61 kcal / 100 g) = 122 kcal.  \nTotal calories = 267 + 122 = 389 kcal.\n\nAnswer: 389 kcal",
+  "raw": {
+    "id": "gen-1781206773-1a2eRYCsp2u0cV8GucjA",
+    "object": "chat.completion",
+    "created": 1781206773,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The banana contributes 300 g × (89 kcal / 100 g) = 267 kcal.  \nThe whole milk contributes 200 g × (61 kcal / 100 g) = 122 kcal.  \nTotal calories = 267 + 122 = 389 kcal.\n\nAnswer: 389 kcal",
+          "refusal": null,
+          "reasoning": "We are asked: \"A smoothie has 300 g banana (89 kcal/100 g) and 200 g whole milk (61 kcal/100 g). What is the total calorie count?\"\n\nWe need to compute total calories. Banana: 300g * (89 kcal / 100g) = 3 * 89 = 267 kcal. Milk: 200g * (61 kcal / 100g) = 2 * 61 = 122 kcal. Total = 267 + 122 = 389 kcal.\n\nAnswer: 389 kcal.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A smoothie has 300 g banana (89 kcal/100 g) and 200 g whole milk (61 kcal/100 g). What is the total calorie count?\"\n\nWe need to compute total calories. Banana: 300g * (89 kcal / 100g) = 3 * 89 = 267 kcal. Milk: 200g * (61 kcal / 100g) = 2 * 61 = 122 kcal. Total = 267 + 122 = 389 kcal.\n\nAnswer: 389 kcal.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 69,
+      "completion_tokens": 178,
+      "total_tokens": 247,
+      "cost": 0.00036975,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00036975,
+        "upstream_inference_prompt_cost": 0.00006003,
+        "upstream_inference_completions_cost": 0.00030972
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 115,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 69,
+  "tokensOut": 178,
+  "costUsd": 0.00036975,
+  "latencyMs": 3200,
+  "finishReason": "stop"
+}

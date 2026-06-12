@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "qwen/qwen3.5-plus-20260420",
+  "questionId": "qty-007",
+  "answerText": "To make paella for 11 people, you'll need 11 × 100 g = 1100 g of rice. With a 3:1 broth-to-rice ratio by weight, you'll need 3 × 1100 g = 3300 g of broth.\n\nAnswer: 3300 g",
+  "raw": {
+    "id": "gen-1781208174-J8dlyGd7WfNHGw3Wamvw",
+    "object": "chat.completion",
+    "created": 1781208174,
+    "model": "qwen/qwen3.5-plus-20260420",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To make paella for 11 people, you'll need 11 × 100 g = 1100 g of rice. With a 3:1 broth-to-rice ratio by weight, you'll need 3 × 1100 g = 3300 g of broth.\n\nAnswer: 3300 g",
+          "refusal": null,
+          "reasoning": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Number of people: 11\n   - Rice per person: 100 g\n   - Broth-to-rice ratio: 3:1 by weight\n   - Question: How many grams of broth do I need?\n\n2.  **Calculate Total Rice Needed:**\n   - 11 people × 100 g/person = 1100 g of rice\n\n3.  **Calculate Broth Needed:**\n   - Ratio is 3:1 (broth:rice) by weight\n   - Broth = 3 × Rice weight\n   - Broth = 3 × 1100 g = 3300 g\n\n4.  **Verify Calculation:**\n   - 11 * 100 = 1100\n   - 1100 * 3 = 3300\n   - Units: grams\n   - Matches the question's requirements.\n\n5.  **Format Output:**\n   - Provide a concise answer.\n   - End with exactly: \"Answer: 3300 g\"\n\n   Draft: To make paella for 11 people, you'll need 11 × 100 g = 1100 g of rice. With a 3:1 broth-to-rice ratio, you'll need 3 × 1100 g = 3300 g of broth.\n   Answer: 3300 g\n\n6.  **Final Check:**\n   - Accurate? Yes.\n   - Concise? Yes.\n   - Ends with required line? Yes.\n   - All constraints met. Ready.✅",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Number of people: 11\n   - Rice per person: 100 g\n   - Broth-to-rice ratio: 3:1 by weight\n   - Question: How many grams of broth do I need?\n\n2.  **Calculate Total Rice Needed:**\n   - 11 people × 100 g/person = 1100 g of rice\n\n3.  **Calculate Broth Needed:**\n   - Ratio is 3:1 (broth:rice) by weight\n   - Broth = 3 × Rice weight\n   - Broth = 3 × 1100 g = 3300 g\n\n4.  **Verify Calculation:**\n   - 11 * 100 = 1100\n   - 1100 * 3 = 3300\n   - Units: grams\n   - Matches the question's requirements.\n\n5.  **Format Output:**\n   - Provide a concise answer.\n   - End with exactly: \"Answer: 3300 g\"\n\n   Draft: To make paella for 11 people, you'll need 11 × 100 g = 1100 g of rice. With a 3:1 broth-to-rice ratio, you'll need 3 × 1100 g = 3300 g of broth.\n   Answer: 3300 g\n\n6.  **Final Check:**\n   - Accurate? Yes.\n   - Concise? Yes.\n   - Ends with required line? Yes.\n   - All constraints met. Ready.✅",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 95,
+      "completion_tokens": 457,
+      "total_tokens": 552,
+      "cost": 0.0008511,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0008511,
+        "upstream_inference_prompt_cost": 0.0000285,
+        "upstream_inference_completions_cost": 0.0008226
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 375,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 95,
+  "tokensOut": 457,
+  "costUsd": 0.0008511,
+  "latencyMs": 9028,
+  "finishReason": "stop"
+}

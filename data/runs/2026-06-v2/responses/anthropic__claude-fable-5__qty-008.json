@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-008",
+  "answerText": "For a 1:16 ratio, divide the water weight by 16:\n\n750 g ÷ 16 = 46.875 g\n\nSo you'll want about **47 grams** of ground coffee for 750 g of water. A typical kitchen or coffee scale will read this as 46.9 g, and rounding to 47 g is perfectly fine for brewing.\n\nAnswer: 47 g",
+  "raw": {
+    "id": "gen-1781213056-4p0cGdRfZbjBvvIFeR4r",
+    "object": "chat.completion",
+    "created": 1781213056,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "For a 1:16 ratio, divide the water weight by 16:\n\n750 g ÷ 16 = 46.875 g\n\nSo you'll want about **47 grams** of ground coffee for 750 g of water. A typical kitchen or coffee scale will read this as 46.9 g, and rounding to 47 g is perfectly fine for brewing.\n\nAnswer: 47 g",
+          "refusal": null,
+          "reasoning": " So that works out to approximately 46.9 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " So that works out to approximately 46.9 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS3wEKYggOGAIqQFhOw8FiwFY5ZFhbk31UvO5/RMCc307AZQLhYDx8EoBuGAYjuPiBaVN4Pk2dL42RFZGQGQhUTCvpdylwNcbsHUEyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgwe9/Ra7uyAHdF1uFQaDLB/G/EOygUPydgPlSIwFxzZnO5I8QbX831CWBlc9noWl+Oy5nrCyMmHWxLYw7c/cp3Y0/l2lLRhGME+41PDKivftgx7LjtBKmpMSjLG3D86M5dQfz2BYueR1JX/NWw9wZAXXJx/ngWM5qReGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 107,
+      "completion_tokens": 145,
+      "total_tokens": 252,
+      "cost": 0.00832,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00832,
+        "upstream_inference_prompt_cost": 0.00107,
+        "upstream_inference_completions_cost": 0.00725
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 12,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 107,
+  "tokensOut": 145,
+  "costUsd": 0.00832,
+  "latencyMs": 6260,
+  "finishReason": "stop"
+}

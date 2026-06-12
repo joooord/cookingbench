@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "nutr-011",
+  "answerText": "## Step 1: Understand the given information\nThe label provides nutritional information per 100 g of granola: 450 kcal, 8 g protein, 60 g carbs, and 18 g fat. A serving size is 60 g.\n\n## Step 2: Calculate the kcal per serving\nTo find the kcal in one serving (60 g), we need to calculate the kcal per gram and then multiply by the serving size in grams. kcal per gram = 450 kcal / 100 g = 4.5 kcal/g.\n\n## Step 3: Apply the kcal per gram to the serving size\nNow, we multiply the kcal per gram by the serving size (60 g) to find the kcal in one serving. kcal in one serving = 4.5 kcal/g * 60 g = 270 kcal.\n\nThe final answer is: Answer: 270 kcal",
+  "raw": {
+    "id": "gen-1781205011-jz4O1vLztQCZ9XfcQHkc",
+    "object": "chat.completion",
+    "created": 1781205011,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "## Step 1: Understand the given information\nThe label provides nutritional information per 100 g of granola: 450 kcal, 8 g protein, 60 g carbs, and 18 g fat. A serving size is 60 g.\n\n## Step 2: Calculate the kcal per serving\nTo find the kcal in one serving (60 g), we need to calculate the kcal per gram and then multiply by the serving size in grams. kcal per gram = 450 kcal / 100 g = 4.5 kcal/g.\n\n## Step 3: Apply the kcal per gram to the serving size\nNow, we multiply the kcal per gram by the serving size (60 g) to find the kcal in one serving. kcal in one serving = 4.5 kcal/g * 60 g = 270 kcal.\n\nThe final answer is: Answer: 270 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 89,
+      "completion_tokens": 180,
+      "total_tokens": 269,
+      "cost": 0.00012135,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00012135,
+        "upstream_inference_prompt_cost": 0.00001335,
+        "upstream_inference_completions_cost": 0.000108
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 89,
+  "tokensOut": 180,
+  "costUsd": 0.00012135,
+  "latencyMs": 12186,
+  "finishReason": "stop"
+}

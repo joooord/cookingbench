@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-007",
+  "answerText": "For 11 people at 100 g of bomba rice per person, you'll need 1,100 g of rice. Bomba rice absorbs more liquid than other varieties, which is why the 3:1 broth-to-rice ratio works well here.\n\nBroth needed: 1,100 g × 3 = 3,300 g of broth (about 3.3 liters).\n\nAnswer: 3300 g",
+  "raw": {
+    "id": "gen-1781213055-nwdlXUDgP8WIyLcEB76u",
+    "object": "chat.completion",
+    "created": 1781213055,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "For 11 people at 100 g of bomba rice per person, you'll need 1,100 g of rice. Bomba rice absorbs more liquid than other varieties, which is why the 3:1 broth-to-rice ratio works well here.\n\nBroth needed: 1,100 g × 3 = 3,300 g of broth (about 3.3 liters).\n\nAnswer: 3300 g",
+          "refusal": null,
+          "reasoning": " I'm calculating the ingredient quantities: 11 portions at 100 grams each gives 1100 grams of rice, and the broth comes to 3300 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the ingredient quantities: 11 portions at 100 grams each gives 1100 grams of rice, and the broth comes to 3300 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS7AEKYggOGAIqQB0aVXdzSO2zjLx6n8/TeiqW739RzZ/AZL+hpBvUCZnq2WQlS//8GFQRjyuXV8hDa4oe4PzghqeHCi0Iv+CGGSoyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgwCe39USjiJAraRjRkaDOtOP5mh3+LoAnr9WyIwBgvliWM4SjIrSMfjAGgLClj1yI/5zwpUdIwiSOGfqNW1ymxZYx3jFdTWF2EeIbg4KjiStHSho+UmhbJyt+tqiUsFz62pvjpSQyafPPgg1T/oBA+UU1JnS1hLoQluidiaobHXtrWlLugOQRgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 118,
+      "completion_tokens": 151,
+      "total_tokens": 269,
+      "cost": 0.00873,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00873,
+        "upstream_inference_prompt_cost": 0.00118,
+        "upstream_inference_completions_cost": 0.00755
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 34,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 118,
+  "tokensOut": 151,
+  "costUsd": 0.00873,
+  "latencyMs": 4679,
+  "finishReason": "stop"
+}

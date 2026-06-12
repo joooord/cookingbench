@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "conv-019",
+  "answerText": "Convert fan (convection) temp to conventional by adding ~20°C, giving 180°C.  \n180°C = 356°F.  \nAnswer: 356 °F",
+  "raw": {
+    "id": "gen-1781209109-CckaZoUHtAR8lGxYifxc",
+    "object": "chat.completion",
+    "created": 1781209109,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Convert fan (convection) temp to conventional by adding ~20°C, giving 180°C.  \n180°C = 356°F.  \nAnswer: 356 °F",
+          "refusal": null,
+          "reasoning": "The question is: A UK recipe says to bake at 160°C in a fan oven. My American oven is conventional (no fan) and shows Fahrenheit. What temperature should I set?\nFirst, convert 160°C to Fahrenheit: (160 * 9/5) + 32 = 288 + 32 = 320°F. But that's for fan oven.\n\nFor fan ovens, the temperature setting is lower because they circulate air, so equivalent conventional is higher.\n\nCommon rule: Add 25°C or 45°F to fan oven settings for conventional ovens.\n\nLet's calculate properly.\n\nStandard conversion:\n\n- Conventional oven: use the °C or °F directly.\n\n- Fan oven: reduce by 10-20°C or 20-25°F.\n\nFor UK recipes, a common conversion is:\n\nIf recipe says 160 °C fan, set your conventional oven to 180°C (or 350°F).\n\nSince 180°C = 356°F, and ovens are calibrated to 350°F.\n\nBut to be precise, 180°C is approximately 356°F, but many US conversions use 350°F for 160°C fan.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: A UK recipe says to bake at 160°C in a fan oven. My American oven is conventional (no fan) and shows Fahrenheit. What temperature should I set?\nFirst, convert 160°C to Fahrenheit: (160 * 9/5) + 32 = 288 + 32 = 320°F. But that's for fan oven.\n\nFor fan ovens, the temperature setting is lower because they circulate air, so equivalent conventional is higher.\n\nCommon rule: Add 25°C or 45°F to fan oven settings for conventional ovens.\n\nLet's calculate properly.\n\nStandard conversion:\n\n- Conventional oven: use the °C or °F directly.\n\n- Fan oven: reduce by 10-20°C or 20-25°F.\n\nFor UK recipes, a common conversion is:\n\nIf recipe says 160 °C fan, set your conventional oven to 180°C (or 350°F).\n\nSince 180°C = 356°F, and ovens are calibrated to 350°F.\n\nBut to be precise, 180°C is approximately 356°F, but many US conversions use 350°F for 160°C fan.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_3e0fdc19-9155-9bf8-90a1-f6091ed1224b",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 197,
+      "completion_tokens": 1370,
+      "total_tokens": 1567,
+      "cost": 0.00353685,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00353685,
+        "upstream_inference_prompt_cost": 0.00011185,
+        "upstream_inference_completions_cost": 0.003425
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1335,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 197,
+  "tokensOut": 1370,
+  "costUsd": 0.00353685,
+  "latencyMs": 9843,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "conv-023",
+  "answerText": "Australian tablespoons are larger than US tablespoons:\n- 1 Australian tbsp = 20 mL\n- 1 US tbsp ≈ 14.8 mL\n\nSo 3 Australian tablespoons = 60 mL.\n\nConverting: 60 mL ÷ 14.8 mL ≈ 4.06 US tablespoons.\n\nYou should measure about 4 US tablespoons of golden syrup.\n\nAnswer: 4 tbsp",
+  "raw": {
+    "id": "gen-1781211463-0U8l236IqUp1yjR8c4Vx",
+    "object": "chat.completion",
+    "created": 1781211463,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Australian tablespoons are larger than US tablespoons:\n- 1 Australian tbsp = 20 mL\n- 1 US tbsp ≈ 14.8 mL\n\nSo 3 Australian tablespoons = 60 mL.\n\nConverting: 60 mL ÷ 14.8 mL ≈ 4.06 US tablespoons.\n\nYou should measure about 4 US tablespoons of golden syrup.\n\nAnswer: 4 tbsp",
+          "refusal": null,
+          "reasoning": " I'm converting 3 Australian tablespoons to US tablespoons by calculating that 60 mL divided by the US tablespoon volume of 14.79 mL gives approximately 4 US tablespoons.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm converting 3 Australian tablespoons to US tablespoons by calculating that 60 mL divided by the US tablespoon volume of 14.79 mL gives approximately 4 US tablespoons.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EuACCmMIDhgCKkATgF21VpbJXMpucJ7FMm4j7OFhSEFIBKFxeClRQUlTWn5GNxQbMWWC0q9joQxfYr3xQ8dL/jSYtkB2jqAwn3YqMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDI0aoM3sQ5kEzpHyaxoMhhscKcZbsv9ia+LrIjDPw6YyfB4iKGr+wGtJujKaEFrDr7kYYb07csEPhsxePwHntLMd+flYxXh+PI9eemsqqgGk8EhATT1JZ9lCfBVAEKzaMIJ39VQiOwVUIcUc6imMog7iJr/xZwk7AAT9KW2/ETBsCgoxgVTFgIYmx71T1xME84EdkrWpi/qjmYvXWksZwU+svxRFI8oUCuI/SKqg7Ft0xpQhmmIC8IN4WC9X33iOaiESDFlynZG+YH0F9VVvpCXpxM0cv1FlVas6BFQ2x/NGOu9nTvacqD7VaWAA/vDG5G/cvuQTWsPw0hgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 121,
+      "completion_tokens": 236,
+      "total_tokens": 357,
+      "cost": 0.006505,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.006505,
+        "upstream_inference_prompt_cost": 0.000605,
+        "upstream_inference_completions_cost": 0.0059
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 43,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 121,
+  "tokensOut": 236,
+  "costUsd": 0.006505,
+  "latencyMs": 3582,
+  "finishReason": "stop"
+}

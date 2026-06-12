@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-016",
+  "answerText": "## Calculating Calories in 100 ml of Olive Oil\n\n**Step 1: Convert volume to mass**\n100 ml × 0.91 g/ml = **91 g**\n\n**Step 2: Calculate kilocalories**\n91 g × (884 kcal ÷ 100 g) = 91 × 8.84 = **804.4 kcal**\n\nAnswer: 804 kcal",
+  "raw": {
+    "id": "gen-1781210013-I8gcCt8qfZWMkZO0P3Ov",
+    "object": "chat.completion",
+    "created": 1781210013,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Calculating Calories in 100 ml of Olive Oil\n\n**Step 1: Convert volume to mass**\n100 ml × 0.91 g/ml = **91 g**\n\n**Step 2: Calculate kilocalories**\n91 g × (884 kcal ÷ 100 g) = 91 × 8.84 = **804.4 kcal**\n\nAnswer: 804 kcal",
+          "refusal": null,
+          "reasoning": "Mass of 100 ml of olive oil = 100 ml × 0.91 g/ml = 91 g\n\nCalories = 91 g × 884 kcal/100 g = 91 × 8.84 = 804.44 kcal",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Mass of 100 ml of olive oil = 100 ml × 0.91 g/ml = 91 g\n\nCalories = 91 g × 884 kcal/100 g = 91 × 8.84 = 804.44 kcal",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Er8CCmUIDhgCKkDcIUnr3oNzNTV1a3lvTpUOgXv5MPy5MLJRJUj3RKlJ4BHjUElQ+HZpxMhztvZpu7bOQVow0At923Ony19DoadmMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIM1VHAQkiILiOwruuLGgy4+uDfpMHduLeHx2ciMPaAWmmusjiajnM6G+L1QfJLLefdP6cf5Paq4BM9SyytTnkvP4aFjcaT9uW4IhngXSqHAUwGxgWARMYiqYgmHYrOy5ApT+Uc2rdd4c5ueEgQzLnIIJO448mnq/TEiRNWqVNLToJ2B+NofN020VGAZSsM1glDjQ3HMF+42pUd4v+HMwbRiM+KJx9I76roE/HqUfJbBzfAeUaQrwdqZw9hfVHy9mawvg6u20I9fWb5SoezUOTcqBwGY+/+1xgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 89,
+      "completion_tokens": 188,
+      "total_tokens": 277,
+      "cost": 0.003087,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003087,
+        "upstream_inference_prompt_cost": 0.000267,
+        "upstream_inference_completions_cost": 0.00282
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 33,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 89,
+  "tokensOut": 188,
+  "costUsd": 0.003087,
+  "latencyMs": 4901,
+  "finishReason": "stop"
+}

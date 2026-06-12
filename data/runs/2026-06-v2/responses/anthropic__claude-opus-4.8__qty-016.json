@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "qty-016",
+  "answerText": "To end up with 900 g of cooked beef (6 × 150 g), you need to account for the 25% weight loss.\n\nCooked weight = 75% of raw weight.\n\nRaw = 900 g ÷ 0.75 = 1200 g\n\nAnswer: 1200 g",
+  "raw": {
+    "id": "gen-1781211623-eMIzw365eQFD3pyHoH66",
+    "object": "chat.completion",
+    "created": 1781211623,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To end up with 900 g of cooked beef (6 × 150 g), you need to account for the 25% weight loss.\n\nCooked weight = 75% of raw weight.\n\nRaw = 900 g ÷ 0.75 = 1200 g\n\nAnswer: 1200 g",
+          "refusal": null,
+          "reasoning": " I'm working through the weight conversion: if 6 portions weigh 900g cooked and there's a 25% loss during cooking, then the raw weight would be 1200g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm working through the weight conversion: if 6 portions weigh 900g cooked and there's a 25% loss during cooking, then the raw weight would be 1200g.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EqMCCmMIDhgCKkClakNeWKvIzj4djvqIN8ntkCl7yPJYCvD1Mr2T9tlm+0aVSYbI5k64/WND5tolxL1W8B5+7jJglyoIJrdzFcBdMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDM7qIG32NfEUvu7iDxoM1ua7gaG3yXQQmE6vIjAjI0y+sQawV3SCnzUKtU3QIdRqzf4s0MfWCVK0vDChX4eYw5gcm+Gm2Jo2K0GAWHMqbiEa0/3q9XBhJdmJldzLqYFsZtSFRFC89ySYul5JwA8uJiqit2/zpyqNTerbVtaX64ZDBCfDs6CsVB7v1w8PLeOy6eFYbU8zwz2vOl5Sn49dkeLxXDMAgP186i1M5YCOaq25PoyYIoltvf9w7Ff9GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 108,
+      "completion_tokens": 153,
+      "total_tokens": 261,
+      "cost": 0.004365,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004365,
+        "upstream_inference_prompt_cost": 0.00054,
+        "upstream_inference_completions_cost": 0.003825
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 38,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 108,
+  "tokensOut": 153,
+  "costUsd": 0.004365,
+  "latencyMs": 3580,
+  "finishReason": "stop"
+}

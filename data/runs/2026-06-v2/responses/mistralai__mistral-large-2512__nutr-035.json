@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "nutr-035",
+  "answerText": "To calculate the kilocalories per 100 g of the cereal using Atwater factors:\n\n- **Carbohydrate (excluding fibre):**\n  62 g (total carbohydrate) - 9 g (fibre) = 53 g\n  53 g × 4 kcal/g = 212 kcal\n\n- **Fibre:**\n  9 g × 2 kcal/g = 18 kcal\n\n- **Protein:**\n  11 g × 4 kcal/g = 44 kcal\n\n- **Fat:**\n  8 g × 9 kcal/g = 72 kcal\n\n**Total kcal per 100 g:**\n212 (carbohydrate) + 18 (fibre) + 44 (protein) + 72 (fat) = **346 kcal**\n\nAnswer: 346 kcal",
+  "raw": {
+    "id": "gen-1781207352-dzduH2sDOtydCDcZMnBX",
+    "object": "chat.completion",
+    "created": 1781207352,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To calculate the kilocalories per 100 g of the cereal using Atwater factors:\n\n- **Carbohydrate (excluding fibre):**\n  62 g (total carbohydrate) - 9 g (fibre) = 53 g\n  53 g × 4 kcal/g = 212 kcal\n\n- **Fibre:**\n  9 g × 2 kcal/g = 18 kcal\n\n- **Protein:**\n  11 g × 4 kcal/g = 44 kcal\n\n- **Fat:**\n  8 g × 9 kcal/g = 72 kcal\n\n**Total kcal per 100 g:**\n212 (carbohydrate) + 18 (fibre) + 44 (protein) + 72 (fat) = **346 kcal**\n\nAnswer: 346 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 107,
+      "completion_tokens": 186,
+      "total_tokens": 293,
+      "cost": 0.0003253,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 16,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0003253,
+        "upstream_inference_prompt_cost": 0.0000463,
+        "upstream_inference_completions_cost": 0.000279
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 107,
+  "tokensOut": 186,
+  "costUsd": 0.0003253,
+  "latencyMs": 2691,
+  "finishReason": "stop"
+}

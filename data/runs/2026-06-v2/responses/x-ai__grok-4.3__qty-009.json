@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "qty-009",
+  "answerText": "Flour 1000 g, water 680 g, salt 20 g, yeast 12 g.  \nflour: 1000 g  \nwater: 680 g  \nsalt: 20 g  \nyeast: 12 g",
+  "raw": {
+    "id": "gen-1781209232-XWDUdSLbSfDY1aLbzsDE",
+    "object": "chat.completion",
+    "created": 1781209232,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Flour 1000 g, water 680 g, salt 20 g, yeast 12 g.  \nflour: 1000 g  \nwater: 680 g  \nsalt: 20 g  \nyeast: 12 g",
+          "refusal": null,
+          "reasoning": "The problem is: A dough formula in baker's percentages: flour 100%, water 68%, salt 2%, yeast 1.2%. I want exactly 1712 g of total dough. How many grams of each ingredient?\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g\n\n\n## Explanation\n\nThe dough formula is expressed in baker’s percentages relative to flour weight, with the given percentages summing to 171.2% of the flour mass.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem is: A dough formula in baker's percentages: flour 100%, water 68%, salt 2%, yeast 1.2%. I want exactly 1712 g of total dough. How many grams of each ingredient?\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g\n\n\n## Explanation\n\nThe dough formula is expressed in baker’s percentages relative to flour weight, with the given percentages summing to 171.2% of the flour mass.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_5a8859da-64bb-99b5-ba2c-9bad0e5ae9f4",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 211,
+      "completion_tokens": 757,
+      "total_tokens": 968,
+      "cost": 0.00202185,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00202185,
+        "upstream_inference_prompt_cost": 0.00012935,
+        "upstream_inference_completions_cost": 0.0018925
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 708,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 211,
+  "tokensOut": 757,
+  "costUsd": 0.00202185,
+  "latencyMs": 4483,
+  "finishReason": "stop"
+}

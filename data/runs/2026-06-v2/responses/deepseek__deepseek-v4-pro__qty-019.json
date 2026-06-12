@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-019",
+  "answerText": "To calculate the overall hydration percentage including the levain’s flour and water:\n\n- **Total flour** = bread flour (450 g) + whole-wheat flour (90 g) + levain flour (50 g) = 590 g\n- **Total water** = added water (350 g) + levain water (50 g) = 400 g\n- **Hydration** = (400 g / 590 g) × 100 ≈ 67.8%\n\nAnswer: 67.8 %",
+  "raw": {
+    "id": "gen-1781206946-HtPZkC8GiBc2tPYnjaK3",
+    "object": "chat.completion",
+    "created": 1781206946,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To calculate the overall hydration percentage including the levain’s flour and water:\n\n- **Total flour** = bread flour (450 g) + whole-wheat flour (90 g) + levain flour (50 g) = 590 g\n- **Total water** = added water (350 g) + levain water (50 g) = 400 g\n- **Hydration** = (400 g / 590 g) × 100 ≈ 67.8%\n\nAnswer: 67.8 %",
+          "refusal": null,
+          "reasoning": "We need to calculate overall hydration percentage, counting levain's flour and water. The formula: 450 g bread flour, 90 g whole-wheat flour, 100 g levain at 100% hydration (so 50 g flour, 50 g water). Total added water besides levain: 350 g.\n\nTotal flour = bread flour + whole-wheat flour + levain flour = 450 + 90 + 50 = 590 g.\nTotal water = added water (350) + levain water (50) = 400 g.\nHydration % = (total water / total flour) * 100 = (400 / 590) * 100 ≈ 67.7966...%\n\nRounding? Probably to nearest whole number? The question: \"What is the overall hydration percentage, counting the levain's flour and water?\" I'll provide precise calculation. Typically hydration is given as integer or one decimal. I'll round to 68%? But I'll compute exactly: 400/590 * 100 = 67.796610169... So 67.8% or 68%? Let's see. Many bakers round. I'll give 68% maybe. But I'll include two decimal if needed. The format asks \"Answer: <number> %\". I'll put 67.8% if they want precise, or just 68%. Better to be precise: 67.8%. I'll compute: 400/590 = 40/59 ≈ 0.677966, so 67.8%. I'll answer: 67.8% (or 68% if rounding to whole). I'll choose 67.8%.\n\nLet's see: I'll provide answer as 67.8%. The instruction: \"End your reply with a line 'Answer: <number> %'\". So I'll write: \"Answer: 67.8 %\"\n\nBut careful: They might expect integer. I'll check: 67.8 is fine. Or maybe they want 68%. I'll give 67.8%.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to calculate overall hydration percentage, counting levain's flour and water. The formula: 450 g bread flour, 90 g whole-wheat flour, 100 g levain at 100% hydration (so 50 g flour, 50 g water). Total added water besides levain: 350 g.\n\nTotal flour = bread flour + whole-wheat flour + levain flour = 450 + 90 + 50 = 590 g.\nTotal water = added water (350) + levain water (50) = 400 g.\nHydration % = (total water / total flour) * 100 = (400 / 590) * 100 ≈ 67.7966...%\n\nRounding? Probably to nearest whole number? The question: \"What is the overall hydration percentage, counting the levain's flour and water?\" I'll provide precise calculation. Typically hydration is given as integer or one decimal. I'll round to 68%? But I'll compute exactly: 400/590 * 100 = 67.796610169... So 67.8% or 68%? Let's see. Many bakers round. I'll give 68% maybe. But I'll include two decimal if needed. The format asks \"Answer: <number> %\". I'll put 67.8% if they want precise, or just 68%. Better to be precise: 67.8%. I'll compute: 400/590 = 40/59 ≈ 0.677966, so 67.8%. I'll answer: 67.8% (or 68% if rounding to whole). I'll choose 67.8%.\n\nLet's see: I'll provide answer as 67.8%. The instruction: \"End your reply with a line 'Answer: <number> %'\". So I'll write: \"Answer: 67.8 %\"\n\nBut careful: They might expect integer. I'll check: 67.8 is fine. Or maybe they want 68%. I'll give 67.8%.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 109,
+      "completion_tokens": 535,
+      "total_tokens": 644,
+      "cost": 0.000861057,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 51,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000861057,
+        "upstream_inference_prompt_cost": 0.000047322,
+        "upstream_inference_completions_cost": 0.000813735
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 428,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 109,
+  "tokensOut": 535,
+  "costUsd": 0.000861057,
+  "latencyMs": 7807,
+  "finishReason": "stop"
+}

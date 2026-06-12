@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-039",
+  "answerText": "Plain, full-fat strained Greek yogurt typically contains about 9 g of protein per 100 g, since the straining process removes whey and concentrates the milk proteins.\n\nFor a 170 g pot:\n9 g × 1.7 ≈ 15 g of protein\n\nThis matches the nutrition labels of popular brands (e.g., Fage Total 5% lists 15 g protein per 170 g container).\n\nAnswer: 15 g",
+  "raw": {
+    "id": "gen-1781212996-TiGmGU5J2IxSwMRLO3Tf",
+    "object": "chat.completion",
+    "created": 1781212996,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Plain, full-fat strained Greek yogurt typically contains about 9 g of protein per 100 g, since the straining process removes whey and concentrates the milk proteins.\n\nFor a 170 g pot:\n9 g × 1.7 ≈ 15 g of protein\n\nThis matches the nutrition labels of popular brands (e.g., Fage Total 5% lists 15 g protein per 170 g container).\n\nAnswer: 15 g",
+          "refusal": null,
+          "reasoning": " Looking at the protein content in a 170g serving of full-fat Greek yogurt, I'm calculating around 15g of protein based on the typical 9g per 100g ratio, which matches what I'd find in a standard container like Fage Total.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " Looking at the protein content in a 170g serving of full-fat Greek yogurt, I'm calculating around 15g of protein based on the typical 9g per 100g ratio, which matches what I'd find in a standard container like Fage Total.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISzgIKYggOGAIqQESfWsz7wXOwSvovZCjXTlddmumLd7JO+8eIyvDAtILFs86BSshjdGCr2nu5wcrm4uu2NkSvqeEY34qaiS/mw9syDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgzEKezEmZMI30ikVmAaDL7/tSnkLFyFe3lBhiIw4z5s2t/QF1kDV5ppeRKrwZbh+ZSIStfQoxF/z/wtaaIGwO8KgRaZWnZ+n5Mu1Ns9KpkBHxyShj4VSKChQ5ViF7rLpZyIXjzVHlUWqkN+sz2QP9MdXMbYoxfF1ar51NU0RLx+CpH0TNnm9xmdFWDTXR+C2MmkdkIBxfjjboFIZ863FyrJjpb/NZJ9NrLbyXVg0fWyaEAKT1hr8eNP28HKqdyHHL7IsaT/BEQzX2IcC6h2D+91FBxmgU7Xi5I2APQuswlGP8ySUTjIWzwVGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 94,
+      "completion_tokens": 218,
+      "total_tokens": 312,
+      "cost": 0.01184,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01184,
+        "upstream_inference_prompt_cost": 0.00094,
+        "upstream_inference_completions_cost": 0.0109
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 56,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 94,
+  "tokensOut": 218,
+  "costUsd": 0.01184,
+  "latencyMs": 7116,
+  "finishReason": "stop"
+}

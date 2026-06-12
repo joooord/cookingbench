@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "qwen/qwen3.5-plus-20260420",
+  "questionId": "nutr-022",
+  "answerText": "Uncooked white rice typically contains approximately 360–365 kilocalories per 100 grams, depending on the specific variety.\n\nAnswer: 365 kcal",
+  "raw": {
+    "id": "gen-1781207961-3JTHqMbIoIDry9x7gTFz",
+    "object": "chat.completion",
+    "created": 1781207961,
+    "model": "qwen/qwen3.5-plus-20260420",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Uncooked white rice typically contains approximately 360–365 kilocalories per 100 grams, depending on the specific variety.\n\nAnswer: 365 kcal",
+          "refusal": null,
+          "reasoning": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Question: \"About how many kilocalories are in 100 g of dry (uncooked) white rice?\"\n   - Key details: 100g, dry/uncooked, white rice, kilocalories (kcal)\n   - Requirement: Answer accurately and concisely, end with \"Answer: <number> kcal\"\n\n2.  **Identify Core Knowledge Needed:**\n   - Nutritional information for uncooked white rice per 100g\n   - Standard values from reliable sources (USDA, food databases)\n\n3.  **Retrieve/Verify Data:**\n   - USDA FoodData Central: Uncooked white rice (long-grain, regular) typically has around 360-370 kcal per 100g.\n   - Commonly cited value: ~365 kcal per 100g dry white rice.\n   - Let's verify: \n     - Carbs: ~80g, Protein: ~7g, Fat: ~0.5g\n     - Calories from macros: (80*4) + (7*4) + (0.5*9) = 320 + 28 + 4.5 = 352.5 kcal\n     - USDA lists ~365 kcal for long-grain white rice, uncooked.\n     - Short/medium grain might be slightly different but generally in the 350-370 range.\n     - Standard accepted answer in nutrition contexts: ~360-365 kcal.\n\n4.  **Formulate Response:**\n   - Keep it concise.\n   - State the approximate value.\n   - End with the required format.\n   - Example: \"Uncooked white rice typically contains about 360–365 kilocalories per 100 grams. Answer: 365 kcal\"\n\n5.  **Check Constraints:**\n   - Accurate? Yes, aligns with USDA and standard nutritional databases.\n   - Concise? Yes.\n   - Ends with exact phrase? Yes.\n   - Format matches requirement? Yes.\n\n   I'll use 365 as the standard rounded value, but I can also say ~360-365. The prompt says \"About how many\", so a single number is fine. I'll go with 365.\n\n   Final check of the exact wording requirement: \"End your reply with a line \"Answer: <number> kcal\".\"\n   I will make sure the last line is exactly that.\n\n   Draft:\n   Uncooked white rice typically contains approximately 360–365 kilocalories per 100 grams, depending on the specific variety.\n   Answer: 365 kcal\n\n   Matches all constraints. Ready.✅\n   Note: I'll double-check USDA data just to be precise. USDA SR Legacy (2018) for \"Rice, white, long-grain, regular, uncooked\" lists 365 kcal per 100g. Some sources say 360. I'll stick with 365 as it's widely accepted. The prompt says \"About\", so 365 is fine. I could also say 360. I'll go with 365. All good. \n   Output matches response.✅\n   Proceed. \n   Self-Correction/Refinement during thought: \n   Some databases say 356, some 360, some 365. The most common rounded figure used in nutrition is 360 or 365. I'll state ~365. The exact format requires just the number. I'll output exactly as requested.\n   Final: \"Uncooked white rice typically contains about 360–365 kilocalories per 100 grams. Answer: 365 kcal\" -> matches constraint.✅\n   All steps verified. Output matches. \n   Proceeds. \n   [Output Generation] -> \"Uncooked white rice typically contains approximately 360–365 kilocalories per 100 grams. Answer: 365 kcal\" (or similar concise version) -> I'll keep it tight.\n   Actually, to be strictly concise: \"Uncooked white rice contains approximately 365 kilocalories per 100 grams. Answer: 365 kcal\" -> perfect.✅\n   Done. \n   Output matches response. \n   [Final Check of the Prompt]: \"End your reply with a line \"Answer: <number> kcal\".\" -> I will ensure the last line is exactly that.\n   All good. \n   Proceeds. \n   [Output Generation] (matches the final refined version)\n   \"Uncooked white rice typically contains about 360–365 kilocalories per 100 grams. Answer: 365 kcal\" -> Wait, the prompt says \"End your reply with a line \"Answer: <number> kcal\".\" I will make sure it's on its own line.\n   Done. \n   Output matches. \n   [Proceeds]",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Question: \"About how many kilocalories are in 100 g of dry (uncooked) white rice?\"\n   - Key details: 100g, dry/uncooked, white rice, kilocalories (kcal)\n   - Requirement: Answer accurately and concisely, end with \"Answer: <number> kcal\"\n\n2.  **Identify Core Knowledge Needed:**\n   - Nutritional information for uncooked white rice per 100g\n   - Standard values from reliable sources (USDA, food databases)\n\n3.  **Retrieve/Verify Data:**\n   - USDA FoodData Central: Uncooked white rice (long-grain, regular) typically has around 360-370 kcal per 100g.\n   - Commonly cited value: ~365 kcal per 100g dry white rice.\n   - Let's verify: \n     - Carbs: ~80g, Protein: ~7g, Fat: ~0.5g\n     - Calories from macros: (80*4) + (7*4) + (0.5*9) = 320 + 28 + 4.5 = 352.5 kcal\n     - USDA lists ~365 kcal for long-grain white rice, uncooked.\n     - Short/medium grain might be slightly different but generally in the 350-370 range.\n     - Standard accepted answer in nutrition contexts: ~360-365 kcal.\n\n4.  **Formulate Response:**\n   - Keep it concise.\n   - State the approximate value.\n   - End with the required format.\n   - Example: \"Uncooked white rice typically contains about 360–365 kilocalories per 100 grams. Answer: 365 kcal\"\n\n5.  **Check Constraints:**\n   - Accurate? Yes, aligns with USDA and standard nutritional databases.\n   - Concise? Yes.\n   - Ends with exact phrase? Yes.\n   - Format matches requirement? Yes.\n\n   I'll use 365 as the standard rounded value, but I can also say ~360-365. The prompt says \"About how many\", so a single number is fine. I'll go with 365.\n\n   Final check of the exact wording requirement: \"End your reply with a line \"Answer: <number> kcal\".\"\n   I will make sure the last line is exactly that.\n\n   Draft:\n   Uncooked white rice typically contains approximately 360–365 kilocalories per 100 grams, depending on the specific variety.\n   Answer: 365 kcal\n\n   Matches all constraints. Ready.✅\n   Note: I'll double-check USDA data just to be precise. USDA SR Legacy (2018) for \"Rice, white, long-grain, regular, uncooked\" lists 365 kcal per 100g. Some sources say 360. I'll stick with 365 as it's widely accepted. The prompt says \"About\", so 365 is fine. I could also say 360. I'll go with 365. All good. \n   Output matches response.✅\n   Proceed. \n   Self-Correction/Refinement during thought: \n   Some databases say 356, some 360, some 365. The most common rounded figure used in nutrition is 360 or 365. I'll state ~365. The exact format requires just the number. I'll output exactly as requested.\n   Final: \"Uncooked white rice typically contains about 360–365 kilocalories per 100 grams. Answer: 365 kcal\" -> matches constraint.✅\n   All steps verified. Output matches. \n   Proceeds. \n   [Output Generation] -> \"Uncooked white rice typically contains approximately 360–365 kilocalories per 100 grams. Answer: 365 kcal\" (or similar concise version) -> I'll keep it tight.\n   Actually, to be strictly concise: \"Uncooked white rice contains approximately 365 kilocalories per 100 grams. Answer: 365 kcal\" -> perfect.✅\n   Done. \n   Output matches response. \n   [Final Check of the Prompt]: \"End your reply with a line \"Answer: <number> kcal\".\" -> I will ensure the last line is exactly that.\n   All good. \n   Proceeds. \n   [Output Generation] (matches the final refined version)\n   \"Uncooked white rice typically contains about 360–365 kilocalories per 100 grams. Answer: 365 kcal\" -> Wait, the prompt says \"End your reply with a line \"Answer: <number> kcal\".\" I will make sure it's on its own line.\n   Done. \n   Output matches. \n   [Proceeds]",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 68,
+      "completion_tokens": 1166,
+      "total_tokens": 1234,
+      "cost": 0.0021192,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0021192,
+        "upstream_inference_prompt_cost": 0.0000204,
+        "upstream_inference_completions_cost": 0.0020988
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1122,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 68,
+  "tokensOut": 1166,
+  "costUsd": 0.0021192,
+  "latencyMs": 21737,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-013",
+  "answerText": "Cooking two chickens of the same size as one, with space between them, should take roughly the same amount of time as cooking a single chicken. Since each bird is still 1.5 kg and they are not crowded, they will roast in about 75 minutes.\n\nAnswer: 75 minutes",
+  "raw": {
+    "id": "gen-1781206916-VUPjJdHHn5ZnEOZan192",
+    "object": "chat.completion",
+    "created": 1781206916,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Cooking two chickens of the same size as one, with space between them, should take roughly the same amount of time as cooking a single chicken. Since each bird is still 1.5 kg and they are not crowded, they will roast in about 75 minutes.\n\nAnswer: 75 minutes",
+          "refusal": null,
+          "reasoning": "We are asked: \"A 1.5 kg chicken roasts in about 75 minutes at 200°C. I'm roasting two 1.5 kg chickens side by side on the same shelf with space between them. Roughly how many minutes should they take?\"\n\nWhen roasting two chickens of the same size as one, the cooking time generally remains about the same per chicken. The oven temperature and airflow are not significantly changed by adding a second chicken if there is space between them (so they aren't insulating each other). The heat transfer to each chicken is similar. Some recipes suggest adding a small amount of time, but typically it's the same. The question says \"roughly\", and the classic answer is that cooking two separate chickens doesn't double the time; it stays similar. So roughly 75 minutes.\n\nBut let's think: The chickens are side by side with space. In many cooking guidelines, if you put two chickens in the oven, you don't need extra time because each is still 1.5 kg and receives heat. However, the total mass of cold food is larger, so the oven temperature might drop slightly initially, but it recovers. Some sources say add 5-10 minutes, but \"roughly\" suggests the same time. \n\nI'll answer: \"Approximately the same time, about 75 minutes.\"\n\nThe answer format: \"Answer: 75 minutes\"",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A 1.5 kg chicken roasts in about 75 minutes at 200°C. I'm roasting two 1.5 kg chickens side by side on the same shelf with space between them. Roughly how many minutes should they take?\"\n\nWhen roasting two chickens of the same size as one, the cooking time generally remains about the same per chicken. The oven temperature and airflow are not significantly changed by adding a second chicken if there is space between them (so they aren't insulating each other). The heat transfer to each chicken is similar. Some recipes suggest adding a small amount of time, but typically it's the same. The question says \"roughly\", and the classic answer is that cooking two separate chickens doesn't double the time; it stays similar. So roughly 75 minutes.\n\nBut let's think: The chickens are side by side with space. In many cooking guidelines, if you put two chickens in the oven, you don't need extra time because each is still 1.5 kg and receives heat. However, the total mass of cold food is larger, so the oven temperature might drop slightly initially, but it recovers. Some sources say add 5-10 minutes, but \"roughly\" suggests the same time. \n\nI'll answer: \"Approximately the same time, about 75 minutes.\"\n\nThe answer format: \"Answer: 75 minutes\"",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 85,
+      "completion_tokens": 348,
+      "total_tokens": 433,
+      "cost": 0.0005939505,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0005939505,
+        "upstream_inference_prompt_cost": 0.0000646425,
+        "upstream_inference_completions_cost": 0.000529308
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 286,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 85,
+  "tokensOut": 348,
+  "costUsd": 0.0005939505,
+  "latencyMs": 6107,
+  "finishReason": "stop"
+}

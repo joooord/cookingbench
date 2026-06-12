@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "nutr-013",
+  "answerText": "Protein doesn't disappear during cooking—only water is lost. So the total protein stays the same as in the raw chicken.\n\nCalculation:\n- 400 g raw × (23.5 g / 100 g) = 94 g protein\n\nThe cooked weight drops to about 300 g, but it still contains all 94 g of protein.\n\nAnswer: 94 g",
+  "raw": {
+    "id": "gen-1781211572-Y6AF73v8UXYKT215kH4f",
+    "object": "chat.completion",
+    "created": 1781211572,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Protein doesn't disappear during cooking—only water is lost. So the total protein stays the same as in the raw chicken.\n\nCalculation:\n- 400 g raw × (23.5 g / 100 g) = 94 g protein\n\nThe cooked weight drops to about 300 g, but it still contains all 94 g of protein.\n\nAnswer: 94 g",
+          "refusal": null,
+          "reasoning": " Protein content remains constant through cooking since heat only removes water, not the protein itself—so 400g of raw meat with 23.5g protein per 100g yields 94g of protein regardless of preparation method.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " Protein content remains constant through cooking since heat only removes water, not the protein itself—so 400g of raw meat with 23.5g protein per 100g yields 94g of protein regardless of preparation method.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EqwCCmMIDhgCKkAXrwZ8eWrY9iSnVwm8dZY3gpyj9TCAO5GmfHRnJpzrTa21UGj1eR0OF7TLPiKXQOAts3qnOqxYEsaEAEE8+bLLMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDIJsJr9X2liY8JO4mhoMxt0LOpSGc17xpT/FIjD8LB/iV31Wx1M1er8psnKE5/aAQ93vsWqivsoXsBwvLrfdhhoV/uTJ0IiP28/TEjcqd5h+ryU0E48Ll59918ORk3cW9eIlzhtvaw47jR9CupEsc9XkgSuiNlJ4upSQSevvkT4TFXikWUhbwdaFSN8yCwmJLtXjJcVV11CHjjxsYmKtI2VbMtHfxK1XmqUl+rySvzSTocoXfDntG/iCdY9fI5zn9hpf7Dl8GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 138,
+      "completion_tokens": 161,
+      "total_tokens": 299,
+      "cost": 0.004715,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004715,
+        "upstream_inference_prompt_cost": 0.00069,
+        "upstream_inference_completions_cost": 0.004025
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 53,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 138,
+  "tokensOut": 161,
+  "costUsd": 0.004715,
+  "latencyMs": 3388,
+  "finishReason": "stop"
+}

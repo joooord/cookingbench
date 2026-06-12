@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "nutr-008",
+  "answerText": "Banana: 300 g × 89/100 = 267 kcal\nMilk: 200 g × 61/100 = 122 kcal\nTotal: 267 + 122 = 389 kcal\n\nAnswer: 389 kcal",
+  "raw": {
+    "id": "gen-1781211558-RTbeXH3i18nRA75mVQR3",
+    "object": "chat.completion",
+    "created": 1781211558,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Banana: 300 g × 89/100 = 267 kcal\nMilk: 200 g × 61/100 = 122 kcal\nTotal: 267 + 122 = 389 kcal\n\nAnswer: 389 kcal",
+          "refusal": null,
+          "reasoning": " Now I'm calculating the calorie content for each ingredient by multiplying the weight by the calorie density, which gives me a banana at 267 kcal and milk at 122 kcal, totaling 389 kcal for the mixture.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " Now I'm calculating the calorie content for each ingredient by multiplying the weight by the calorie density, which gives me a banana at 267 kcal and milk at 122 kcal, totaling 389 kcal for the mixture.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EpYCCmMIDhgCKkBvJ9XuCF+JYag3xdaz8LwW5TRqk1nU+sox8Qx1nETeJlmF50BO1LOgF/EU8xoPYmVL1cpDDpndFGrkGBQaZIhkMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDGPUheb82L0MrTTydBoMKVEGj16QFmCz2Iy+IjAguRihQtj6J+mZqx8cjwqrsNJ/iWTuFB4sFXi+ylENiRJ44jq1aPxG8w3vKPAzxmsqYU1fhB8th/YYcO3vzm6BrCW689ofB8Md580ipQDXNfCRn0BCCX8nr9NpZ7aGvGWh/rTqSWUNjfJ5zQD+ozYFY7pgJjdbdQH3GDzn+wVNbOR5YppcsRssWD8wvM+gK+atwMsYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 108,
+      "completion_tokens": 127,
+      "total_tokens": 235,
+      "cost": 0.003715,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003715,
+        "upstream_inference_prompt_cost": 0.00054,
+        "upstream_inference_completions_cost": 0.003175
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 51,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 108,
+  "tokensOut": 127,
+  "costUsd": 0.003715,
+  "latencyMs": 2861,
+  "finishReason": "stop"
+}

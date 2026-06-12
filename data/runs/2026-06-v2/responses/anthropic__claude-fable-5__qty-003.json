@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-003",
+  "answerText": "Baker's percentage hydration means water weight is expressed as a percentage of flour weight.\n\n**Calculation:**\n- Water = 800 g × 75% = 800 × 0.75 = **600 g**\n\nThis will give you a fairly wet, extensible dough — typical for ciabatta, rustic breads, or high-hydration sourdough.\n\nAnswer: 600 g",
+  "raw": {
+    "id": "gen-1781213054-SIT5zKE0sxvXDHsKySUR",
+    "object": "chat.completion",
+    "created": 1781213054,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Baker's percentage hydration means water weight is expressed as a percentage of flour weight.\n\n**Calculation:**\n- Water = 800 g × 75% = 800 × 0.75 = **600 g**\n\nThis will give you a fairly wet, extensible dough — typical for ciabatta, rustic breads, or high-hydration sourdough.\n\nAnswer: 600 g",
+          "refusal": null,
+          "reasoning": " So 75% of 800 grams comes to 600 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " So 75% of 800 grams comes to 600 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS2AEKYggOGAIqQGqXGjDCCAta6QS0gtkmsuD2kY7k/RT8duyBy3bcn0Iym2oAJ+Eg1rRFuD0wGTlQlBfqvlWS23RAeldM1Ow0xd0yDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgwKUu6jnoLFkymxv1QaDOWxa6kNMDmsmcb4QiIwOrU6SoGZoOJA0RVfkruyRdm2u/oIwcKQu/CygwrRwPq0hTrb3MU5rwob2MfRWpl9KiSzyZSINYnWV0GVSO4CbQ0P9A++hiVIpNQzmANr8zzuUoLkLv0YAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 95,
+      "completion_tokens": 137,
+      "total_tokens": 232,
+      "cost": 0.0078,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0078,
+        "upstream_inference_prompt_cost": 0.00095,
+        "upstream_inference_completions_cost": 0.00685
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 10,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 95,
+  "tokensOut": 137,
+  "costUsd": 0.0078,
+  "latencyMs": 4721,
+  "finishReason": "stop"
+}

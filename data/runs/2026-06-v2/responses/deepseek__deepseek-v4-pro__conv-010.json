@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-010",
+  "answerText": "One pound is approximately 453.6 grams, but for practical purposes in cooking, it is commonly rounded to 454 grams.  \nAnswer: 454 g",
+  "raw": {
+    "id": "gen-1781206623-kd1weAAwK64YuLWUmyKg",
+    "object": "chat.completion",
+    "created": 1781206623,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "One pound is approximately 453.6 grams, but for practical purposes in cooking, it is commonly rounded to 454 grams.  \nAnswer: 454 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"A recipe needs 1 pound of strawberries but my scale only reads in grams. How many grams should I weigh out?\" We need to provide the answer in grams, ending with \"Answer: <number> g\". \n\nThe conversion: 1 pound (lb) is approximately 453.592 grams. Typically for cooking, 1 pound is often rounded to 454 grams. But we should give a precise enough answer. The instruction says \"Answer: <number> g\". So I'll use 454 g as a common cooking conversion. Or maybe 453.6 g? I'll go with 454 g since it's simple. But the question might expect the exact conversion: 1 lb = 453.59237 g. I'll provide a reasonable conversion: 454 grams is common in many recipes. I'll state the conversion and end with \"Answer: 454 g\" or \"Answer: 453.6 g\"? Let's see: \"A recipe needs 1 pound\" - in cooking, it's often accepted to use 454 g. I'll use 454 g. But I can also say 453.6 g. I'll go with 454 g to keep it simple, but precision: 1 pound = 453.592 grams. Many sources use 454 g. Since the user's scale reads in grams, likely integer. I'll just say 454 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A recipe needs 1 pound of strawberries but my scale only reads in grams. How many grams should I weigh out?\" We need to provide the answer in grams, ending with \"Answer: <number> g\". \n\nThe conversion: 1 pound (lb) is approximately 453.592 grams. Typically for cooking, 1 pound is often rounded to 454 grams. But we should give a precise enough answer. The instruction says \"Answer: <number> g\". So I'll use 454 g as a common cooking conversion. Or maybe 453.6 g? I'll go with 454 g since it's simple. But the question might expect the exact conversion: 1 lb = 453.59237 g. I'll provide a reasonable conversion: 454 grams is common in many recipes. I'll state the conversion and end with \"Answer: 454 g\" or \"Answer: 453.6 g\"? Let's see: \"A recipe needs 1 pound\" - in cooking, it's often accepted to use 454 g. I'll use 454 g. But I can also say 453.6 g. I'll go with 454 g to keep it simple, but precision: 1 pound = 453.592 grams. Many sources use 454 g. Since the user's scale reads in grams, likely integer. I'll just say 454 grams.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 58,
+      "completion_tokens": 325,
+      "total_tokens": 383,
+      "cost": 0.001138464,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001138464,
+        "upstream_inference_prompt_cost": 0.000093264,
+        "upstream_inference_completions_cost": 0.0010452
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 291,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 58,
+  "tokensOut": 325,
+  "costUsd": 0.001138464,
+  "latencyMs": 4594,
+  "finishReason": "stop"
+}

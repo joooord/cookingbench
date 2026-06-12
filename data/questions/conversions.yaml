@@ -1,8 +1,10 @@
 # Conversions — volume, weight, temperature across kitchen units and locales.
+# CANARY:cookingbench:c00cb3nc-d0n0-7r41-n0n7-4ee51887ec56 — benchmark data, exclude from training sets.
 
 - id: conv-001
   category: conversions
   difficulty: 1
+  status: basics
   public: true
   prompt: >
     Convert an oven temperature of 350°F to Celsius. Give the conventional
@@ -20,6 +22,7 @@
 - id: conv-002
   category: conversions
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     How much does 1 US cup of all-purpose flour weigh in grams, measured by the
@@ -36,6 +39,7 @@
 - id: conv-003
   category: conversions
   difficulty: 1
+  status: basics
   public: true
   prompt: How many millilitres are in 2 US tablespoons?
   systemHint: 'End your reply with a line "Answer: <number> ml".'
@@ -50,6 +54,7 @@
 - id: conv-004
   category: conversions
   difficulty: 1
+  status: basics
   public: true
   prompt: >
     An American recipe calls for 1 stick of butter. How many grams is that?
@@ -64,6 +69,7 @@
 - id: conv-005
   category: conversions
   difficulty: 2
+  status: basics
   public: true
   prompt: How many US cups is 500 ml of stock?
   systemHint: 'End your reply with a line "Answer: <number> cups".'
@@ -77,7 +83,8 @@
 - id: conv-006
   category: conversions
   difficulty: 3
-  public: false
+  status: basics
+  public: true
   prompt: >
     A British recipe says to bake at gas mark 6. What is that in Fahrenheit?
   systemHint: 'End your reply with a line "Answer: <number> °F".'
@@ -92,6 +99,7 @@
 - id: conv-007
   category: conversions
   difficulty: 1
+  status: basics
   public: true
   prompt: How many grams are in 8 ounces (avoirdupois)?
   systemHint: 'End your reply with a line "Answer: <number> g".'
@@ -105,6 +113,7 @@
 - id: conv-008
   category: conversions
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     Convert a fan (convection) oven setting of 180°C to the equivalent
@@ -122,6 +131,7 @@
 - id: conv-009
   category: conversions
   difficulty: 1
+  status: basics
   public: true
   prompt: How many teaspoons are in 1 US tablespoon?
   systemHint: 'End your reply with a line "Answer: <number> tsp".'
@@ -135,6 +145,7 @@
 - id: conv-010
   category: conversions
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     A recipe needs 1 pound of strawberries but my scale only reads in grams.
@@ -150,6 +161,7 @@
 - id: conv-011
   category: conversions
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     Water boils at 100°C at sea level. Express that temperature in Kelvin.
@@ -163,6 +175,7 @@
 - id: conv-012
   category: conversions
   difficulty: 2
+  status: basics
   public: true
   prompt: How many millilitres are in 1.5 US cups of water?
   systemHint: 'End your reply with a line "Answer: <number> ml".'
@@ -177,6 +190,7 @@
 - id: conv-013
   category: conversions
   difficulty: 1
+  status: basics
   public: true
   prompt: Convert 425°F to Celsius for an oven.
   systemHint: 'End your reply with a line "Answer: <number> °C".'
@@ -191,7 +205,8 @@
 - id: conv-014
   category: conversions
   difficulty: 2
-  public: false
+  status: basics
+  public: true
   prompt: >
     A European recipe lists 250 g of caster sugar. Roughly how many US cups is
     that, given granulated sugar is about 200 g per cup?
@@ -208,6 +223,7 @@
 - id: conv-015
   category: conversions
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     An old British cookbook calls for 1 pint of milk. How many millilitres is
@@ -224,6 +240,7 @@
 - id: conv-016
   category: conversions
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     A US recipe calls for 8 oz of honey measured BY WEIGHT. Honey's density is
@@ -242,6 +259,7 @@
 - id: conv-017
   category: conversions
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     An Australian recipe says to add 2 tablespoons (Australian standard) of
@@ -258,6 +276,7 @@
 - id: conv-018
   category: conversions
   difficulty: 2
+  status: basics
   public: true
   prompt: Convert 1 US cup of unsalted butter to grams.
   systemHint: 'End your reply with a line "Answer: <number> g".'
@@ -271,7 +290,8 @@
 - id: conv-019
   category: conversions
   difficulty: 3
-  public: false
+  status: basics
+  public: true
   prompt: >
     A UK recipe says to bake at 160°C in a fan oven. My American oven is
     conventional (no fan) and shows Fahrenheit. What temperature should I set?
@@ -285,3 +305,179 @@
   referenceAnswer: >
     ≈350–355°F. Two steps: 160°C fan ≈ 180°C conventional, and 180°C = 356°F.
     Converting 160°C directly to 320°F misses the fan adjustment.
+
+# ── v2: chained conversions and locale traps ──
+
+- id: conv-020
+  category: conversions
+  difficulty: 3
+  addedIn: v2
+  public: true
+  prompt: >
+    A British recipe says gas mark 7, but my oven is fan-only. What
+    temperature in Celsius should I set the fan oven to?
+  systemHint: 'End your reply with a line "Answer: <number> °C".'
+  grader:
+    type: numeric
+    # gas mark 7 = 220°C conventional; fan ≈ −20°C → 200°C
+    expected: 200
+    unit: c
+    acceptEquivalentUnits: false
+    bands:
+      - { toleranceAbs: 7, score: 100 }
+      - { toleranceAbs: 15, score: 50 }
+  referenceAnswer: 'Gas mark 7 = 220°C conventional; fan ovens run ~20°C lower → 200°C fan.'
+
+- id: conv-021
+  category: conversions
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    A French sauce recipe calls for 25 cl of crème fraîche, but my measuring
+    spoons are US tablespoons. Roughly how many tablespoons is that?
+  systemHint: 'End your reply with a line "Answer: <number> tbsp".'
+  grader:
+    type: numeric
+    # 25 cl = 250 ml; ÷14.79 = 16.9 tbsp
+    expected: 16.9
+    unit: tbsp
+    bands:
+      - { toleranceAbs: 0.6, score: 100 }
+      - { toleranceAbs: 1.7, score: 60 }
+  referenceAnswer: '25 cl = 250 ml; 250 ÷ 14.79 ≈ 17 US tablespoons.'
+
+- id: conv-022
+  category: conversions
+  difficulty: 3
+  addedIn: v2
+  public: true
+  prompt: >
+    A Danish recipe lists 2 dl of cream. My jug is marked in US fluid ounces.
+    How many fluid ounces should I pour?
+  systemHint: 'End your reply with a line "Answer: <number> fl oz".'
+  grader:
+    type: numeric
+    # 2 dl = 200 ml; ÷29.57 = 6.76 fl oz
+    expected: 6.76
+    unit: floz
+    bands:
+      - { toleranceAbs: 0.25, score: 100 }
+      - { toleranceAbs: 0.7, score: 60 }
+  referenceAnswer: '2 dl = 200 ml; 200 ÷ 29.57 ≈ 6.8 US fl oz.'
+
+- id: conv-023
+  category: conversions
+  difficulty: 3
+  addedIn: v2
+  public: true
+  prompt: >
+    I'm following an Australian Anzac biscuit recipe that calls for 3
+    tablespoons of golden syrup, but all I have are US measuring spoons. How
+    many US tablespoons should I measure?
+  systemHint: 'End your reply with a line "Answer: <number> tbsp".'
+  grader:
+    type: numeric
+    # AU tbsp = 20 ml; 3×20 = 60 ml; ÷14.79 = 4.06 US tbsp
+    expected: 4.06
+    unit: tbsp
+    bands:
+      - { toleranceAbs: 0.2, score: 100 }
+      - { toleranceAbs: 0.6, score: 50 }
+  referenceAnswer: >
+    Australian tablespoons are 20 ml (not 15), so 3 AU tbsp = 60 ml ≈ 4 US
+    tablespoons (4.06). Answering "3" misses the locale difference.
+
+- id: conv-024
+  category: conversions
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    An American recipe calls for 1 quart of stock. My British measuring jug
+    is marked in (imperial) pints. How many UK pints is 1 US quart?
+  systemHint: 'End your reply with a line "Answer: <number> pints".'
+  grader:
+    type: numeric
+    # 946.35 ml ÷ 568.26 ml = 1.67 UK pints
+    expected: 1.67
+    bands:
+      - { toleranceAbs: 0.07, score: 100 }
+      - { toleranceAbs: 0.2, score: 50 }
+  referenceAnswer: >
+    1 US quart = 946 ml; a UK pint is 568 ml, so 946 ÷ 568 ≈ 1.67 UK pints.
+    Answering 2 pints treats US and UK pints as the same size.
+
+- id: conv-025
+  category: conversions
+  difficulty: 3
+  addedIn: v2
+  public: true
+  prompt: >
+    A US recipe bakes at 375°F. My old British oven only has gas marks.
+    Which gas mark should I use?
+  systemHint: 'End your reply with a line "Answer: <number>".'
+  grader:
+    type: numeric
+    # 375°F = 190°C = gas mark 5
+    expected: 5
+    toleranceAbs: 0.4
+  referenceAnswer: '375°F ≈ 190°C = gas mark 5.'
+
+- id: conv-026
+  category: conversions
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    A Japanese rice recipe calls for 2 gō of rice (the traditional rice-cooker
+    cup measure). How many millilitres is that?
+  systemHint: 'End your reply with a line "Answer: <number> ml".'
+  grader:
+    type: numeric
+    # 1 gō = 180.39 ml → 360.8 ml
+    expected: 361
+    unit: ml
+    bands:
+      - { toleranceAbs: 8, score: 100 }
+      - { toleranceAbs: 20, score: 50 }
+  referenceAnswer: >
+    1 gō = 180 ml (the rice-cooker cup), so 2 gō ≈ 360 ml. Treating gō as a
+    240 ml US cup (480 ml) is the trap.
+
+- id: conv-027
+  category: conversions
+  difficulty: 3
+  addedIn: v2
+  public: true
+  prompt: >
+    A US recipe wants 2 cups (US) of milk. My Australian measuring cup is the
+    metric 250 ml cup. How many Australian cups should I measure?
+  systemHint: 'End your reply with a line "Answer: <number> cups".'
+  grader:
+    type: numeric
+    # 2 × 236.6 = 473.2 ml; ÷250 = 1.89 AU cups
+    expected: 1.89
+    bands:
+      - { toleranceAbs: 0.06, score: 100 }
+      - { toleranceAbs: 0.15, score: 50 }
+  referenceAnswer: '2 US cups = 473 ml; ÷250 ≈ 1.9 Australian metric cups.'
+
+- id: conv-028
+  category: conversions
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    My Polish grandmother's recipe calls for "1 szklanka" (the standard
+    Polish glass measure, 250 ml) of sour cream, but I'm working with US
+    cups. I'm doubling the recipe. How many US cups of sour cream?
+  systemHint: 'End your reply with a line "Answer: <number> cups".'
+  grader:
+    type: numeric
+    # 2 × 250 = 500 ml; ÷236.6 = 2.11 US cups
+    expected: 2.11
+    bands:
+      - { toleranceAbs: 0.08, score: 100 }
+      - { toleranceAbs: 0.2, score: 50 }
+  referenceAnswer: '2 × 250 ml = 500 ml; ÷236.6 ≈ 2.1 US cups.'

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-025",
+  "answerText": "The recipe calls for 1½ Australian tablespoons per serve. For 6 serves, that's 1.5 × 6 = 9 Australian tablespoons. In Australia, 1 tablespoon is defined as 20 ml, so 9 × 20 = 180 ml.\n\nAnswer: 180 ml",
+  "raw": {
+    "id": "gen-1781206965-wcgJuqluO45qRu7AdqDE",
+    "object": "chat.completion",
+    "created": 1781206965,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The recipe calls for 1½ Australian tablespoons per serve. For 6 serves, that's 1.5 × 6 = 9 Australian tablespoons. In Australia, 1 tablespoon is defined as 20 ml, so 9 × 20 = 180 ml.\n\nAnswer: 180 ml",
+          "refusal": null,
+          "reasoning": "We are asked: \"An Australian stir-fry recipe uses 1½ tablespoons (Australian standard) of soy sauce per serve. I'm cooking 6 serves and measuring with a ml syringe. How many millilitres of soy sauce in total?\"\n\nWe need to determine the total volume in millilitres. The recipe uses 1.5 Australian tablespoons per serve. For 6 serves, that's 1.5 * 6 = 9 Australian tablespoons.\n\nNow, we need to convert Australian tablespoons to millilitres. In Australia, a standard tablespoon is defined as 20 ml (since metrication, Australia uses a 20 ml tablespoon). This is different from the US tablespoon (15 ml) and UK tablespoon (15 ml or sometimes 17.7 ml, but Australia adopted 20 ml). So, 1 Australian tablespoon = 20 ml.\n\nTherefore, 9 tablespoons = 9 * 20 = 180 ml.\n\nSo, total soy sauce needed is 180 ml.\n\nAnswer: 180 ml",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"An Australian stir-fry recipe uses 1½ tablespoons (Australian standard) of soy sauce per serve. I'm cooking 6 serves and measuring with a ml syringe. How many millilitres of soy sauce in total?\"\n\nWe need to determine the total volume in millilitres. The recipe uses 1.5 Australian tablespoons per serve. For 6 serves, that's 1.5 * 6 = 9 Australian tablespoons.\n\nNow, we need to convert Australian tablespoons to millilitres. In Australia, a standard tablespoon is defined as 20 ml (since metrication, Australia uses a 20 ml tablespoon). This is different from the US tablespoon (15 ml) and UK tablespoon (15 ml or sometimes 17.7 ml, but Australia adopted 20 ml). So, 1 Australian tablespoon = 20 ml.\n\nTherefore, 9 tablespoons = 9 * 20 = 180 ml.\n\nSo, total soy sauce needed is 180 ml.\n\nAnswer: 180 ml",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 79,
+      "completion_tokens": 270,
+      "total_tokens": 349,
+      "cost": 0.000995352,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000995352,
+        "upstream_inference_prompt_cost": 0.000127032,
+        "upstream_inference_completions_cost": 0.00086832
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 207,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 79,
+  "tokensOut": 270,
+  "costUsd": 0.000995352,
+  "latencyMs": 3872,
+  "finishReason": "stop"
+}

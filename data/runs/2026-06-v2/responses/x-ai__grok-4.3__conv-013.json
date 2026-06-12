@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "conv-013",
+  "answerText": "425°F converts to about 218°C using (425-32)×5/9. \nAnswer: 218 °C",
+  "raw": {
+    "id": "gen-1781209102-UxzbH0gQmaa4msPHydaI",
+    "object": "chat.completion",
+    "created": 1781209102,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "425°F converts to about 218°C using (425-32)×5/9. \nAnswer: 218 °C",
+          "refusal": null,
+          "reasoning": "The task is: \"Convert 425°F to Celsius for an oven.\" I must answer as a knowledgeable cooking assistant, accurately and concisely. End the reply with \"Answer: <number> °C\".\nThe calculation is (425 - 32) * 5/9 = 393 * 5/9 = 1965/9 = 218.333..., so 218°C for oven conversion. But in practice, recipes often use 220°C for 425°F. Since it asks to convert accurately, 218 is better. \n\nAnswer: 218 °C\n\n\n## Explanation\n\nThe conversion follows the standard linear formula C = (F − 32) × 5/9 that derives from the Celsius scale’s zero-point offset and its 9/5 ratio to the Fahrenheit scale.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The task is: \"Convert 425°F to Celsius for an oven.\" I must answer as a knowledgeable cooking assistant, accurately and concisely. End the reply with \"Answer: <number> °C\".\nThe calculation is (425 - 32) * 5/9 = 393 * 5/9 = 1965/9 = 218.333..., so 218°C for oven conversion. But in practice, recipes often use 220°C for 425°F. Since it asks to convert accurately, 218 is better. \n\nAnswer: 218 °C\n\n\n## Explanation\n\nThe conversion follows the standard linear formula C = (F − 32) × 5/9 that derives from the Celsius scale’s zero-point offset and its 9/5 ratio to the Fahrenheit scale.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_f7f650b4-43a5-9de3-995a-e762a40d89d9",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 173,
+      "completion_tokens": 1082,
+      "total_tokens": 1255,
+      "cost": 0.00278685,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00278685,
+        "upstream_inference_prompt_cost": 0.00008185,
+        "upstream_inference_completions_cost": 0.002705
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1056,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 173,
+  "tokensOut": 1082,
+  "costUsd": 0.00278685,
+  "latencyMs": 7155,
+  "finishReason": "stop"
+}

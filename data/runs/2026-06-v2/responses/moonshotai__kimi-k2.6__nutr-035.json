@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "nutr-035",
+  "answerText": "Using the US-label approach, the 62 g total carbohydrate includes 9 g fibre, so the available (digestible) carbohydrate is 62 g − 9 g = 53 g.\n\n- Available carbohydrate: 53 g × 4 kcal/g = 212 kcal  \n- Fibre: 9 g × 2 kcal/g = 18 kcal  \n- Protein: 11 g × 4 kcal/g = 44 kcal  \n- Fat: 8 g × 9 kcal/g = 72 kcal  \n\nTotal = 212 + 18 + 44 + 72 = **346 kcal** per 100 g.\n\nAnswer: 346 kcal",
+  "raw": {
+    "id": "gen-1781203161-nCI5NuT470UospMQeT0h",
+    "object": "chat.completion",
+    "created": 1781203161,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "SiliconFlow",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Using the US-label approach, the 62 g total carbohydrate includes 9 g fibre, so the available (digestible) carbohydrate is 62 g − 9 g = 53 g.\n\n- Available carbohydrate: 53 g × 4 kcal/g = 212 kcal  \n- Fibre: 9 g × 2 kcal/g = 18 kcal  \n- Protein: 11 g × 4 kcal/g = 44 kcal  \n- Fat: 8 g × 9 kcal/g = 72 kcal  \n\nTotal = 212 + 18 + 44 + 72 = **346 kcal** per 100 g.\n\nAnswer: 346 kcal",
+          "refusal": null,
+          "reasoning": "The user wants me to calculate the kilocalories per 100g of a cereal using Atwater factors.\n\nGiven per 100g:\n- Carbohydrate: 62g (of which 9g is fibre)\n- Protein: 11g\n- Fat: 8g\n\nInstructions:\n- Use Atwater factors\n- Fibre counted at 2 kcal/g\n- The carbohydrate figure includes the fibre (US-label style)\n\nStandard Atwater factors:\n- Fat: 9 kcal/g\n- Protein: 4 kcal/g\n- Carbohydrate (available): 4 kcal/g\n- Fibre: 2 kcal/g (as specified)\n\nSince it's US-label style, the 62g carbohydrate includes the 9g fibre.\nSo available carbohydrates = total carbohydrate - fibre = 62g - 9g = 53g.\nFibre = 9g.\n\nCalculation:\n- Available carbs: 53g × 4 kcal/g = 212 kcal\n- Fibre: 9g × 2 kcal/g = 18 kcal\n- Protein: 11g × 4 kcal/g = 44 kcal\n- Fat: 8g × 9 kcal/g = 72 kcal\n\nTotal = 212 + 18 + 44 + 72 = 346 kcal\n\nLet me double-check:\n212 + 18 = 230\n230 + 44 = 274\n274 + 72 = 346\n\nYes, 346 kcal per 100g.\n\nThe question asks to end the reply with a line \"Answer: <number> kcal\".\n\nSo I should provide the calculation and then end with that exact line.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants me to calculate the kilocalories per 100g of a cereal using Atwater factors.\n\nGiven per 100g:\n- Carbohydrate: 62g (of which 9g is fibre)\n- Protein: 11g\n- Fat: 8g\n\nInstructions:\n- Use Atwater factors\n- Fibre counted at 2 kcal/g\n- The carbohydrate figure includes the fibre (US-label style)\n\nStandard Atwater factors:\n- Fat: 9 kcal/g\n- Protein: 4 kcal/g\n- Carbohydrate (available): 4 kcal/g\n- Fibre: 2 kcal/g (as specified)\n\nSince it's US-label style, the 62g carbohydrate includes the 9g fibre.\nSo available carbohydrates = total carbohydrate - fibre = 62g - 9g = 53g.\nFibre = 9g.\n\nCalculation:\n- Available carbs: 53g × 4 kcal/g = 212 kcal\n- Fibre: 9g × 2 kcal/g = 18 kcal\n- Protein: 11g × 4 kcal/g = 44 kcal\n- Fat: 8g × 9 kcal/g = 72 kcal\n\nTotal = 212 + 18 + 44 + 72 = 346 kcal\n\nLet me double-check:\n212 + 18 = 230\n230 + 44 = 274\n274 + 72 = 346\n\nYes, 346 kcal per 100g.\n\nThe question asks to end the reply with a line \"Answer: <number> kcal\".\n\nSo I should provide the calculation and then end with that exact line.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 109,
+      "completion_tokens": 519,
+      "total_tokens": 628,
+      "cost": 0.00215993,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00215993,
+        "upstream_inference_prompt_cost": 0.00008393,
+        "upstream_inference_completions_cost": 0.002076
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 349,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 109,
+  "tokensOut": 519,
+  "costUsd": 0.00215993,
+  "latencyMs": 8053,
+  "finishReason": "stop"
+}

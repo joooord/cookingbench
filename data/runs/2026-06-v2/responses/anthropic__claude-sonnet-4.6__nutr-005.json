@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-005",
+  "answerText": "To find the percent of the daily value:\n\n**690 ÷ 2,300 = 0.30 = 30%**\n\nA serving of this soup provides **30%** of the FDA's recommended daily value for sodium.\n\nAnswer: 30 %",
+  "raw": {
+    "id": "gen-1781210000-Pu5PtEw01FrVVPoguXF1",
+    "object": "chat.completion",
+    "created": 1781210000,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To find the percent of the daily value:\n\n**690 ÷ 2,300 = 0.30 = 30%**\n\nA serving of this soup provides **30%** of the FDA's recommended daily value for sodium.\n\nAnswer: 30 %",
+          "refusal": null,
+          "reasoning": "690 / 2300 = 0.3 = 30%",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "690 / 2300 = 0.3 = 30%",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Et4BCmUIDhgCKkBRW2bRifdYyH+vXNqEbx3Du2a+EEbsfmgQ06HOAdNCO6/qI/8sTABeVE7u/g9salzJU96u7UeX1IpN+L6fi35PMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMNgsrRD2pIywEcZ76GgwsZ6Zbzv6hqywc+qwiMJJvQ0FvaXErWtptI2+qXIDSY02kt9y3UfsY6zCduVLXy1Uztn7L7Hh1BBrDceS7xyonxf8tw/DlmNDWdHuMIwerzO9zw/deR09gqqxs8/0jr/TAwLsk4OxgGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 76,
+      "completion_tokens": 96,
+      "total_tokens": 172,
+      "cost": 0.001668,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001668,
+        "upstream_inference_prompt_cost": 0.000228,
+        "upstream_inference_completions_cost": 0.00144
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 6,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 76,
+  "tokensOut": 96,
+  "costUsd": 0.001668,
+  "latencyMs": 2678,
+  "finishReason": "stop"
+}

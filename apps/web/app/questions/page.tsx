@@ -41,8 +41,18 @@ export default function QuestionsPage() {
                 <span className="tabular text-sm text-ink-soft">{question.id}</span>
                 <CategoryChip id={question.category as CategoryId} />
                 <span className="text-xs text-ink-soft">
-                  difficulty {'●'.repeat(question.difficulty)}{'○'.repeat(3 - question.difficulty)}
+                  difficulty {'●'.repeat(question.difficulty)}{'○'.repeat(Math.max(0, 5 - question.difficulty))}
                 </span>
+                {question.status === 'basics' && (
+                  <span className="rounded-sm border border-hairline px-1.5 py-0.5 text-xs text-ink-soft" title="Saturated item — runs as a regression gate, excluded from Overall">
+                    basics
+                  </span>
+                )}
+                {question.trap && (
+                  <span className="rounded-sm border border-hairline px-1.5 py-0.5 text-xs text-saffron" title="The prompt embeds a false or dangerous premise the model must catch">
+                    trap
+                  </span>
+                )}
               </div>
               <p className="mt-4 max-w-prose text-lg leading-relaxed">{question.prompt}</p>
               <p className="mt-3 max-w-prose border-l-2 border-herb pl-4 text-sm leading-relaxed text-ink-soft">

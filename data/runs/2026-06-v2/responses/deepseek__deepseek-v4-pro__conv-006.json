@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-006",
+  "answerText": "Gas mark 6 corresponds to 400 °F (200 °C) in standard British cooking conversions.\nAnswer: 400 °F",
+  "raw": {
+    "id": "gen-1781206614-t4C6b5Hh1WXFwiUiAKqU",
+    "object": "chat.completion",
+    "created": 1781206614,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Parasail",
+    "system_fingerprint": "vllm-0.20.1rc1.dev1005+gcbf8428d0-tp4-ep-66a5fbd4",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Gas mark 6 corresponds to 400 °F (200 °C) in standard British cooking conversions.\nAnswer: 400 °F",
+          "refusal": null,
+          "reasoning": "We are asked: \"A British recipe says to bake at gas mark 6. What is that in Fahrenheit?\" We need to answer accurately and concisely, ending with \"Answer: <number> °F\".\n\nGas mark 6 in British cooking is equivalent to 400 °F (or 200 °C). The standard conversion: Gas mark 1 = 275 °F, each mark increases by 25 °F. So gas mark 6 = 275 + 5*25 = 275 + 125 = 400 °F. So answer is 400 °F.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A British recipe says to bake at gas mark 6. What is that in Fahrenheit?\" We need to answer accurately and concisely, ending with \"Answer: <number> °F\".\n\nGas mark 6 in British cooking is equivalent to 400 °F (or 200 °C). The standard conversion: Gas mark 1 = 275 °F, each mark increases by 25 °F. So gas mark 6 = 275 + 5*25 = 275 + 125 = 400 °F. So answer is 400 °F.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 53,
+      "completion_tokens": 150,
+      "total_tokens": 203,
+      "cost": 0.00061422,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00061422,
+        "upstream_inference_prompt_cost": 0.00009222,
+        "upstream_inference_completions_cost": 0.000522
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 102,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 53,
+  "tokensOut": 150,
+  "costUsd": 0.00061422,
+  "latencyMs": 9011,
+  "finishReason": "stop"
+}

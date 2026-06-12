@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "nutr-037",
+  "answerText": "A banana contains roughly 89 kcal per 100 g. For a 120 g peeled banana:\n\n120 g × 0.89 kcal/g ≈ 107 kcal\n\nAnswer: 107 kcal",
+  "raw": {
+    "id": "gen-1781211608-CxLx2uZMplZu0II2WzXX",
+    "object": "chat.completion",
+    "created": 1781211608,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A banana contains roughly 89 kcal per 100 g. For a 120 g peeled banana:\n\n120 g × 0.89 kcal/g ≈ 107 kcal\n\nAnswer: 107 kcal",
+          "refusal": null,
+          "reasoning": " A 120g banana contains roughly 107 calories based on the standard density of about 89 kcal per 100g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " A 120g banana contains roughly 107 calories based on the standard density of about 89 kcal per 100g.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EvsBCmMIDhgCKkA4AyFC4tt44dDumbX4rKCj23fiHR/FEbIqw119fVeUF1x84zfvndc1npU7TmHWb2tjSTtKrLZmgBSqPCI3TUhOMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDH2r8jDiHWr1qXDGqRoMra6zNufqYrjoUhMuIjDV8jarWm4x01rWiXz7qUtp1j+FCwXWVemweyS+r3f/6cvlTm7X1SXyoQdvg4ttDXoqRs8yieVThdqHv0QS6RHMUea41o6/jHpPvw5B2ZLEeUV/xqUBFFr8mwKnm3usVHAAs0rz4NxRiChpiPM6Gtvb/S2pDTogSAMYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 82,
+      "completion_tokens": 101,
+      "total_tokens": 183,
+      "cost": 0.002935,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002935,
+        "upstream_inference_prompt_cost": 0.00041,
+        "upstream_inference_completions_cost": 0.002525
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 26,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 82,
+  "tokensOut": 101,
+  "costUsd": 0.002935,
+  "latencyMs": 2664,
+  "finishReason": "stop"
+}

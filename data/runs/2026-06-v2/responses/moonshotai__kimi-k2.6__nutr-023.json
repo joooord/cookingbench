@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "nutr-023",
+  "answerText": " Raw lean trimmed beef sirloin steak contains roughly 21 g of protein and 5 g of fat per 100 g.\n\nProtein: 21 g\nFat: 5 g",
+  "raw": {
+    "id": "gen-1781203037-UjCu4bi4XVouFDSteB2z",
+    "object": "chat.completion",
+    "created": 1781203037,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Phala",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": " Raw lean trimmed beef sirloin steak contains roughly 21 g of protein and 5 g of fat per 100 g.\n\nProtein: 21 g\nFat: 5 g",
+          "refusal": null,
+          "reasoning": " The user wants to know the approximate protein and fat content per 100g of raw beef sirloin steak (lean, fat trimmed). I need to provide accurate numbers and end with the specific two-line format.\n\nAccording to USDA FoodData Central and standard nutritional databases:\n- Raw beef sirloin steak (lean only, trimmed to 0\" fat, choice grade, or similar): \n- Protein: approximately 20-21g per 100g. Usually around 20.9g or 21g.\n- Fat: approximately 8-9g per 100g for lean trimmed sirloin. Wait, let me think carefully.\n\nActually, for \"raw, lean and fat trimmed\":\nUSDA item: Beef, loin, top sirloin steak, separable lean only, trimmed to 0\" fat, all grades, raw\n- Protein: 20.9 g\n- Total lipid (fat): 4.9 g\n\nWait, is that right? Let me recall. Top sirloin lean only raw is quite lean.\nAnother source: Beef, sirloin steak, lean, raw:\n- Protein: ~20.5g\n- Fat: ~6g?\n\nLet me check my internal knowledge base.\nUSDA FoodData Central:\nBeef, loin, top sirloin steak, separable lean only, trimmed to 1/8\" fat, select, raw:\n- Protein: 21.0g\n- Fat: 5.3g\n\nBeef, loin, top sirloin steak, separable lean only, trimmed to 0\" fat, choice, raw:\n- Protein: 20.9g\n- Fat: 4.8g\n\nBut sometimes \"sirloin steak\" can refer to different cuts (top sirloin, bottom sirloin, etc.). The user said \"raw beef sirloin steak (lean, fat trimmed)\". This generally implies the lean portion with external fat trimmed off.\n\nCommon nutritional data often cited:\n- Protein: ~21 g\n- Fat: ~5-7 g\n\nHowever, some generic databases might list slightly higher fat if it's not \"separable lean only\" but just \"lean and fat trimmed\". Let's look for a consensus value.\n\nIf I look at \"Beef, sirloin steak, lean, raw\" in general UK/EU databases:\n- Protein: 20.9 g\n- Fat: 5.4 g\n\nOr sometimes:\n- Protein: 20.3 g\n- Fat: 6.5 g\n\nI think the safest accurate approximate values are:\nProtein: ~21 g\nFat: ~5 g (or ~6 g)\n\nWait, if the user says \"lean, fat trimmed\", that implies it's quite lean. Let's go with USDA \"separable lean only, trimmed to 0 inch fat\":\nProtein: 20.9 g\nFat: 4.9 g\n\nRounding roughly:\nProtein: 21 g\nFat: 5 g\n\nBut I want to make sure. Let me think about other common references.\nRaw sirloin steak (lean):\n- Calories: ~130 kcal per 100g.\n- Protein: ~21g (84 kcal)\n- Fat: ~5g (45 kcal)\n- Carbs: 0g\nTotal = 129 kcal. This matches perfectly.\n\nSo the answer should be roughly 21 g protein and 5 g fat per 100 g.\n\nI need to answer accurately and concisely, then end with exactly:\nProtein: <number> g\nFat: <number> g\n\nLet's draft the response.\n\"Per 100 g, raw lean trimmed beef sirloin steak contains roughly 21 g of protein and 5 g of fat.\"\n\nThen the two lines.\n\nWait, is there any ambiguity about \"sirloin\" vs \"top sirloin\"? Sirloin is generally a bit fattier than tenderloin but leaner than ribeye. With fat trimmed, 5g seems right.\n\nLet me double-check with another source. NCCDB (Nutrition Coordinating Center):\nBeef, sirloin steak, lean only, raw (NCCDB ID maybe?):\nProtein: 20.86g\nFat: 4.92g\nYes.\n\nSo I'll provide:\nProtein: 21 g\nFat: 5 g\n\nI should make sure the final two lines match the requested format exactly, including the spacing and capitalization. The user wrote:\n\"Protein: <number> g\"\n\"Fat: <number> g\"\n\nSo I'll output:\nProtein: 21 g\nFat: 5 g\n\nOr maybe 20.9 and 4.9? The user asked \"roughly\". So integers are appropriate.\n\nLet me ensure the response is concise.\n\"Raw lean trimmed beef sirloin steak has roughly 21 g of protein and 5 g of fat per 100 g.\"\n\nThen the two lines. That's good.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " The user wants to know the approximate protein and fat content per 100g of raw beef sirloin steak (lean, fat trimmed). I need to provide accurate numbers and end with the specific two-line format.\n\nAccording to USDA FoodData Central and standard nutritional databases:\n- Raw beef sirloin steak (lean only, trimmed to 0\" fat, choice grade, or similar): \n- Protein: approximately 20-21g per 100g. Usually around 20.9g or 21g.\n- Fat: approximately 8-9g per 100g for lean trimmed sirloin. Wait, let me think carefully.\n\nActually, for \"raw, lean and fat trimmed\":\nUSDA item: Beef, loin, top sirloin steak, separable lean only, trimmed to 0\" fat, all grades, raw\n- Protein: 20.9 g\n- Total lipid (fat): 4.9 g\n\nWait, is that right? Let me recall. Top sirloin lean only raw is quite lean.\nAnother source: Beef, sirloin steak, lean, raw:\n- Protein: ~20.5g\n- Fat: ~6g?\n\nLet me check my internal knowledge base.\nUSDA FoodData Central:\nBeef, loin, top sirloin steak, separable lean only, trimmed to 1/8\" fat, select, raw:\n- Protein: 21.0g\n- Fat: 5.3g\n\nBeef, loin, top sirloin steak, separable lean only, trimmed to 0\" fat, choice, raw:\n- Protein: 20.9g\n- Fat: 4.8g\n\nBut sometimes \"sirloin steak\" can refer to different cuts (top sirloin, bottom sirloin, etc.). The user said \"raw beef sirloin steak (lean, fat trimmed)\". This generally implies the lean portion with external fat trimmed off.\n\nCommon nutritional data often cited:\n- Protein: ~21 g\n- Fat: ~5-7 g\n\nHowever, some generic databases might list slightly higher fat if it's not \"separable lean only\" but just \"lean and fat trimmed\". Let's look for a consensus value.\n\nIf I look at \"Beef, sirloin steak, lean, raw\" in general UK/EU databases:\n- Protein: 20.9 g\n- Fat: 5.4 g\n\nOr sometimes:\n- Protein: 20.3 g\n- Fat: 6.5 g\n\nI think the safest accurate approximate values are:\nProtein: ~21 g\nFat: ~5 g (or ~6 g)\n\nWait, if the user says \"lean, fat trimmed\", that implies it's quite lean. Let's go with USDA \"separable lean only, trimmed to 0 inch fat\":\nProtein: 20.9 g\nFat: 4.9 g\n\nRounding roughly:\nProtein: 21 g\nFat: 5 g\n\nBut I want to make sure. Let me think about other common references.\nRaw sirloin steak (lean):\n- Calories: ~130 kcal per 100g.\n- Protein: ~21g (84 kcal)\n- Fat: ~5g (45 kcal)\n- Carbs: 0g\nTotal = 129 kcal. This matches perfectly.\n\nSo the answer should be roughly 21 g protein and 5 g fat per 100 g.\n\nI need to answer accurately and concisely, then end with exactly:\nProtein: <number> g\nFat: <number> g\n\nLet's draft the response.\n\"Per 100 g, raw lean trimmed beef sirloin steak contains roughly 21 g of protein and 5 g of fat.\"\n\nThen the two lines.\n\nWait, is there any ambiguity about \"sirloin\" vs \"top sirloin\"? Sirloin is generally a bit fattier than tenderloin but leaner than ribeye. With fat trimmed, 5g seems right.\n\nLet me double-check with another source. NCCDB (Nutrition Coordinating Center):\nBeef, sirloin steak, lean only, raw (NCCDB ID maybe?):\nProtein: 20.86g\nFat: 4.92g\nYes.\n\nSo I'll provide:\nProtein: 21 g\nFat: 5 g\n\nI should make sure the final two lines match the requested format exactly, including the spacing and capitalization. The user wrote:\n\"Protein: <number> g\"\n\"Fat: <number> g\"\n\nSo I'll output:\nProtein: 21 g\nFat: 5 g\n\nOr maybe 20.9 and 4.9? The user asked \"roughly\". So integers are appropriate.\n\nLet me ensure the response is concise.\n\"Raw lean trimmed beef sirloin steak has roughly 21 g of protein and 5 g of fat per 100 g.\"\n\nThen the two lines. That's good.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 80,
+      "completion_tokens": 1053,
+      "total_tokens": 1133,
+      "cost": 0.004931,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004931,
+        "upstream_inference_prompt_cost": 0.0000872,
+        "upstream_inference_completions_cost": 0.0048438
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 937,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 80,
+  "tokensOut": 1053,
+  "costUsd": 0.004931,
+  "latencyMs": 27864,
+  "finishReason": "stop"
+}

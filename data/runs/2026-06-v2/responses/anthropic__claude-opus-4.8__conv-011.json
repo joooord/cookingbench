@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "conv-011",
+  "answerText": "Water boiling at 100°C converts to Kelvin by adding 273.15:\n\n100 + 273.15 = 373.15 K\n\nAnswer: 373.15 K",
+  "raw": {
+    "id": "gen-1781211455-dTSE6pVkvE3mX4evHXFE",
+    "object": "chat.completion",
+    "created": 1781211455,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Water boiling at 100°C converts to Kelvin by adding 273.15:\n\n100 + 273.15 = 373.15 K\n\nAnswer: 373.15 K",
+          "refusal": null,
+          "reasoning": " I'm converting 100°C to Kelvin by adding 273.15 to get 373.15 K.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm converting 100°C to Kelvin by adding 273.15 to get 373.15 K.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Et8BCmMIDhgCKkBiCeTTTGy41ap0jbQIopFDoG8nc8f679WHE9psG9mrTKwzp+tq1rRsn8jAws8HJndDD2ZoYnYsnJ/33OBhjE94Mg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDE2coLlX5IStbCNmdBoMfhNzbN1ObAhEqcOOIjDGLOaqV53va0LY8SkhyTBNShNpQkm2OhKmIO9JQGStaBh1baVgk5w7VssW3/OcO3QqKq//hCNXmvie4c0Zu9pMtnJOqLqX5ertJp7bC7wm2JdGaTcF3BnLPFuFMxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 81,
+      "completion_tokens": 73,
+      "total_tokens": 154,
+      "cost": 0.00223,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00223,
+        "upstream_inference_prompt_cost": 0.000405,
+        "upstream_inference_completions_cost": 0.001825
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 17,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 81,
+  "tokensOut": 73,
+  "costUsd": 0.00223,
+  "latencyMs": 2774,
+  "finishReason": "stop"
+}

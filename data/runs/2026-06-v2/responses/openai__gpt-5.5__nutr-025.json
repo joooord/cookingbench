@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "openai/gpt-5.5",
+  "questionId": "nutr-025",
+  "answerText": "Starting weight: 2 × 300 g = 600 g raw steak.\n\nTrimming off visible fat cap: 15% × 600 g = 90 g removed, leaving about 510 g raw trimmed sirloin.\n\nUsing a typical trimmed raw sirloin estimate per 100 g: about 22 g protein, 6 g fat, 142 kcal.\n\nFor 510 g trimmed raw meat:\n- Protein: 510 × 22 / 100 ≈ 112 g\n- Fat before grilling: 510 × 6 / 100 ≈ 31 g\n- Calories before grilling: 510 × 142 / 100 ≈ 724 kcal\n\nGrilling mostly removes water, but some fat drips off. Assuming about 10% of the remaining fat is lost during BBQ grilling, fat drops to about 28 g, reducing calories by about 28 kcal.\n\nProtein: 112 g\nFat: 28 g\nCalories: 700 kcal",
+  "raw": {
+    "id": "gen-1781211977-MFIDuYWVykO3G3g7S7FL",
+    "object": "chat.completion",
+    "created": 1781211977,
+    "model": "openai/gpt-5.5-20260423",
+    "provider": "OpenAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Starting weight: 2 × 300 g = 600 g raw steak.\n\nTrimming off visible fat cap: 15% × 600 g = 90 g removed, leaving about 510 g raw trimmed sirloin.\n\nUsing a typical trimmed raw sirloin estimate per 100 g: about 22 g protein, 6 g fat, 142 kcal.\n\nFor 510 g trimmed raw meat:\n- Protein: 510 × 22 / 100 ≈ 112 g\n- Fat before grilling: 510 × 6 / 100 ≈ 31 g\n- Calories before grilling: 510 × 142 / 100 ≈ 724 kcal\n\nGrilling mostly removes water, but some fat drips off. Assuming about 10% of the remaining fat is lost during BBQ grilling, fat drops to about 28 g, reducing calories by about 28 kcal.\n\nProtein: 112 g\nFat: 28 g\nCalories: 700 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating nutritional values**\n\nI need to compute the nutrition for cooked steaks. Starting with 600g of raw steak, trimming down to 510g of lean raw meat. Cooking changes the water content, but most macros are retained. For top sirloin steak, raw nutrition is roughly: 22.5g protein, 4g fat, and 131 kcal per 100g. Grilled lean sirloin has around 29g protein and 200 kcal per 100g, giving me a total of about 111g protein, 31g fat, and 766 calories from 383g cooked weight.**Estimating nutritional values**\n\nI need to use the raw macro values for the trimmed sirloin steak, and it looks like 510g gives me about 22g protein, 6g fat, and 140 calories per 100g, resulting in 112g protein, 31g fat, and 714 calories total. \n\nSo, for cooked steak, using USDA data, grilled top sirloin has approximately 220 kcal, 29.8g protein, and 10.6g fat per 100g. With a cooking yield of about 75%, that leads to 383g cooked from 510g raw, which totals approximately 114g protein, 41g fat, and 843 calories. They are slightly different due to water loss and concentrated macros during cooking.**Calculating nutrition for sirloin steaks**\n\nI’m looking into the nutritional data for sirloin steak trimmed to 1/8 fat versus lean only. For a 300g raw steak with a 15% fat cap removed, I'd end up with 510g of raw meat to cook. After grilling and accounting for some fat loss, I estimate about 112g of protein and around 27.5g of fat. The calories add up to roughly 696. If I cross-check with database values, I should see a similar result.**Finalizing macro calculations**\n\nWhen calculating raw energy from macros, using 22g of protein and 6g of fat gives me 142 kcal. So, my estimates are about 112g of protein and 28g of fat, totaling around 700 kcal. This seems low for a sirloin if it’s lean. I should consider the removed fat cap since trimming affects the total weight. My final output needs clear numerical values without ranges, plus I need to mention that these are approximate, focusing on precision for the last few lines.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "**Calculating nutritional values**\n\nI need to compute the nutrition for cooked steaks. Starting with 600g of raw steak, trimming down to 510g of lean raw meat. Cooking changes the water content, but most macros are retained. For top sirloin steak, raw nutrition is roughly: 22.5g protein, 4g fat, and 131 kcal per 100g. Grilled lean sirloin has around 29g protein and 200 kcal per 100g, giving me a total of about 111g protein, 31g fat, and 766 calories from 383g cooked weight.**Estimating nutritional values**\n\nI need to use the raw macro values for the trimmed sirloin steak, and it looks like 510g gives me about 22g protein, 6g fat, and 140 calories per 100g, resulting in 112g protein, 31g fat, and 714 calories total. \n\nSo, for cooked steak, using USDA data, grilled top sirloin has approximately 220 kcal, 29.8g protein, and 10.6g fat per 100g. With a cooking yield of about 75%, that leads to 383g cooked from 510g raw, which totals approximately 114g protein, 41g fat, and 843 calories. They are slightly different due to water loss and concentrated macros during cooking.**Calculating nutrition for sirloin steaks**\n\nI’m looking into the nutritional data for sirloin steak trimmed to 1/8 fat versus lean only. For a 300g raw steak with a 15% fat cap removed, I'd end up with 510g of raw meat to cook. After grilling and accounting for some fat loss, I estimate about 112g of protein and around 27.5g of fat. The calories add up to roughly 696. If I cross-check with database values, I should see a similar result.**Finalizing macro calculations**\n\nWhen calculating raw energy from macros, using 22g of protein and 6g of fat gives me 142 kcal. So, my estimates are about 112g of protein and 28g of fat, totaling around 700 kcal. This seems low for a sirloin if it’s lean. I should consider the removed fat cap since trimming affects the total weight. My final output needs clear numerical values without ranges, plus I need to mention that these are approximate, focusing on precision for the last few lines.",
+              "format": "openai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "gAAAAABqKyNrubb7hCrPu9Spo5LlIMe3_LSuutvp9y13FQ7GM5DGjjMdC0XRjr6p-f5MYzPkV6Lr2Y1VCW5Y5umV5_sDOQlRFROSEKtuJp7jziyzAY0miiOqU71i_qjBzJwFHvnMYTjEPGEqhxDIIzXFd8FAaviKZLO39uP4zl5iXWxL0Su86FAWiUia1QULKEQzNyDzFeohj7PcTQmHfHU6GAoUiiOWkjjj-DpDaZoAfKyGrryzKPYRwRM88WI3hCrnRDB48VbVz1Bnr32Y-rc3ZJ8aMySUMIXlyiWizOJucaOuZDEJ077AR8ssIldu-pIdBKk-KyyPHRJxCzmI-xg8Q8vftD7KLy5FOZZedcEmzzvcOvtshAY4fLolvHEvvtAnmoDTcc94ITjh1HgRGAuZV1rcNjkln5OF8VwBsGd2XFochvVoYFBmuKcTR0CvMbxc22s5gsiYtbQkueVWrXcECm7BCRKSoOGTaReMjx7EmvJBI0T1X9o_qZAcEEAqc0-rZy43wFb_ZOPyx02e7bmDcw3BiJsD9Qxh_-Zyf8E0P9DhhXk9CdkZONZ-t6f92C8m4Es6CNI67pU6UeC1qEPenf46X5CeHf0hRInPUuzW40se90A9dYTw-V3Tn07ElPfZjRRWMQlS-tTFgTOeXafW3t5WZzs5OSimE7AGXutjIXtGPE8cOm4k7y2FIIjt5WuAeAoYrViVdDFTVwFd9lM_5m5Oa0QywYKVLcnxBcsyZ9lWTf_sgHyz7H-foprqxp2FwHjz2cumqE6_M761ZqZb6pMLEuMHi4eJ7w1Q8Ga80Ksvv3aPhiDMFC_tzbsBoQQ-Xw8O6CKvDysuFHzDfNKXBQp0fU760Pn7rfjflNyLQ-c0pShyxOQkir2_o51CsW2qQrXawnfOJH59roZxh0cDTQV_SoIRYe2r5nNBTkwgrA1SfCx7dl_ZhSJm9f6lTRF3n3vOfClQZuhU6ldDCRIXSeZeSYr2IlRLA0be45HI7S8Ea7D5Ky8NuG-bJ8L9hAL02YbYdbT0A0GR4ofTA7ajeCrJTqv8XeJLOUHi8TOEZYQwRGJ9pC8jLIqSbD9IgRAHKjkz9cqwlextCmqGIDUU0mUT2l7oj5nigXEATtPviuU5rJqURUer1thWvLQR5jjGOJ54QcoV4vTb3AmSTOhX_8QTNUqG6FUFJ4mqFyXrtjGxbCSKERaIhyp4ioglUWUSxUe0VxMM8C682-NROiV8kXKtqs_BJxRxlRZd5V2oZPAbApCk3INZ63GdW0DdTCNMC_CjcX49uH5tUvsc3IKPIs54tehDBFeh0dDBhqpxtsRIXa8aeEXNADeh9620skPx31Tlpmk02t6hSKHCqZx_nufZiuEes5pGzJTS_ALdUNAfPiUGQcVYH2XlKaI0AtNkqBF8WhfRzq8vdpNIc5iI0iw3MM4Pm6TQ5McYFG9DFLJ-EcLWm8EKqhcaIG6aSOU8XT6fB9kSQpvV7KbjFjf3LQLOglAq3zNheaqGcKP9pMKpHCvqQJ7raY-aP8I6fKbHiTI5eEvXU3y3AhxjuUJfhXEdOKTW9_hL3SDJvasSe1cWRSDOouugo95lREZwc21fYhnl36g9xydDwrjsq4WXvGtnb-p5k6ZcRsQ2mE6yMdAcPEzAaktMAyu98Yir3W4Ln7oJ-S8PGYZdFzbyn54_guBE77hIfYFKjKB68phW2Lb1Z5HDoqbCC75dv0md6j8Rm7-yoD50NrBDnuY80d-ruKF2-UH-oEwi4xbDtfU4JLvbfP-77mpU5b025qxjZhCGdgIKdgne_l0dJ2jYMIlDw4qSyA9RNkfgo_Bl2Y2_OCFD2wM2R0Alf_3dHiy7GgS9xBge_9CpI_ldqvZLY155_Nf4PCk8pFvil3K4q9uUeDzM8pqm04m2IW-3_A-8EoHhKX9LT_ELOA9a3KR5yZ_tOUlN1gHd_nW0ApFljZn9kSLqo-6NH-gfYBqw3UhDR_RT25cltp0H9_iODNSPOU3-g6uE8VaPog9CcpSPoWJPNsbzLDVXu_uQIVLNV9AewcLFFLbVdljE_NwnqHuHGol3UUB8hMnrGdET2uRlY2dI05_mZityQu8m4jKCU7B2Xxc9DphOCfcpeH_p5JZ0bs6EgkP2yjaaKkjWeu3BE1rJ58eqBHNUS1QuGDyUCPZwuubxPqyW4AufIvI3GFmAXJTW0Z3aY4zFxzIT4Y1GCRjqqXavPBDp81ndl_u-JK-GkH7X0pbPUrcoL-r586TpOLdKCMqm58ssTwD6_JYgGUvU4HyyARhI7xxkvcHjEKYPOgiHM7wQeIrrxzhMCNbZ2H57EmvuJUF-C7dgKpYA_UALPJsOpa78MZ8DmR0zkxKQ_Yj_9lQc9iRixVYnXH3_0G2ooN8vwbTF7ljjIfmf9QKAxYMs_7KsDtRBmByoMD25ZZydPO77v4eZQVNil141kqe5vBJDHiNYZgAa_ZkTp3HK_dDK9cVLcQMtFBO0JYuI5MlCpwHt5UfpZyW-UI_YhRFoNBXOviQXEGl6XIX3masB7nSj7ts1x-gAnshT5Ef7nncy51VPqxHVFrZFsYwKXJMFbsRwYNopdf8STGD18Ux8Wm-GZXbpSJXPVgTI1lyi2JTBKeacPGmOgsL3CWIX62bgxHkmYxvY6GLb6aJZbDPT6zJgamve8tOi44LcD3Bbm5TsewhE6rbsLC9AE8h9IHIQEMHHz3kkCJ54Y71OcQYM94qEFt3Iz54On_CvBtbCu_fIN-C5IBDZP65Cu5OXhZRLb_n7wmUZNagzdVuGUz_PiHuodasv5ce-2uMO8R2RpC4ln3u8So7Wa2nSEJem6LpAWh1qrFXLMNkDHc0wgsdtq3CFgvPj4q18Mj01fmfKiLMp9E4S8cqPs9dM51ECVUK3GMg-tBrp0gqrAt-Lv_0Zu-mRUikQLDLENti0RFqigEeKHJanpAI0F2OYdguh9Q4Bx6OyeDn0oq7MzvqjEHcR5HhH_9ZsOOkDYetQ3Bp3re0yQ0NBeFmUvpIYG8MpXXG4FEJQ5D_PaInu99V4KyZrBQCpheIzpy4CwzAdH3ziEQhAW6ygV-8dgZ9K2-GGnPG8sdJIh34AVQZc1QCJOE6BxD8m6XN1PaN0JbzPU87wMY809nhluD_BEL8o9BEHo1SL9uSsESGq___dC7Zl3H0OibpjcejJZY5uNjaDZ6irEuNp3gUR01sQlQCTAbnzRFt31_bsvDRL51N_3eys8rBgPzpkrwR5phX8IREiS33eXtnx_yWWqeibE5mRcnxyKH3tnoVDZUVzRaQEqPdQs2tpAf1rdBrK-Ajdx2hjA34PKEzvPaNlE7KYx5Nau_31GfXTcsSDL019lGGzjRMRAe2um8DGt9QRcxWGhaLW3ntr1koenbPHBCB55tphx31d9CnK3JLbtKute_Qfd-0K1aSt6eNtncxbYd8qqUonN2H1urIjLYjEYc6xOpEZTKwBXiun-1SMlI6FdzcLHErzI9_oTcJAs0muwPjMr2vEUdYuzFTnO3TIJEpZrC2LkLLMvVhGauemmPVDPrR8BmE6ICOA5svXwWjRiOR8iWK4hgg30weBZJba_u44qy8oNM3o562MakQR4-DAQlGeaH6k5hI94a1cGu1cROtBc_8yr8kkFuintHvFuAQC_nbmTHwmE3oJYbUOwT2VA_6yrnBxUq7ytsBvfvMIb4QUxIdE1sigicfnfbRzoZPqYdvJe5yQF_zNxcisnkjOMEHzhZmcIkGu5acSLRjeAIgd9kkPUUEtstd60UHd8B_obEy3oZd2V3SHkBlksUrvSwb3geTfutywX1Aeib2VmMQlJEDxNZkzjFEIpEtPAMPe-6Du2YfpYPAWbARyQ7W_Dg5sONP6Nggo2aT888rNflTznHMB7S9-fcxXAzFHlDqusPqmZAZhBeuCqPOvC5t4hgG0CatENwQD-FlhXcnRx7tHsCowISA6JJtmJ8-kh5lD4XE1CatRHj7QQ6cJPLcmKHenWNSxNBl4wUz_gMpJJwgfcdF0gc123SSeiY5-kkqoBtY0_Wy29X2dLl3IAjHo0ExOPY-1cEhnvwJ5ntShnt4rru-qTCNvmESFMcSxXcPo-hrxY9uwFZL1peVPFuKy8SM5kmGI2oQy8Oak4l4ncnIUMke_BZJM6gaQqXXG7F6oPg-IR8GyggWYmLi7786wJnJfxzNBdrL2QRpuwM2mBMCgFSQqERvve-kWjmKYxxAWs4VyKDHwf49iZO5P8CXq5yehHCbPpnUpJZK0sqIp7Dup8VpQylD2F5nbQqPkX_FW8GqlPSY6b8uLmGhh7WNMqiahXey7Olgx5PqAdkIgw-dFIlL-rq-_uyrQ-IEa4e0Jbmb2aQAoeeTZJBWqfyIbmyhVz_BC1eGJy5VYgWLGsW3MQLWfz1tDSz3O1SzPeE8Qyxulw1WpCDwjyuk1IOjCM0v80wNBTBH-JXMdtJaSfhrlofxaS5m2XJf_V1LwWpEx-bx4VtBN964eJZsN29LI-tZVL7sABXCXL9Tul7SPwRmUbNy-sCVs3mrw_fFVuWmRP7gyiS3wba1VYMuT4rdh8WVvZx7q3IifwiKrso2eLBmW4GHbsXzcURxTwHxWSJBSNUIa4YQjCTRwStAR-_tPZurr4ou7ixe-yYLBZWzFgeoT_Fi4ss_VWYd9X5HIq4WtPPwwPi95pRN4WZCkJfxlGcAORcA5wEUtYmwi8jTdP0r2IWjbDhsuRKz7xYL69OU_7tn9vCAb8bHdJ46LMybiPLj8pVOjy5WWpWojeRdNDfOhVk3pOydBoVdjvS_jclwVKPzPCUl_k8DSwblkdkrV8oEHwBZ_kOf5HDbGVGmugyiAjvUxB4gAfwNHR6HjkQ5n0-iNjeXpQJvGxZvgEtq8h9uHOXojKgmkrbeSZaU5q25QmH9OnJVNTYGia6Kx1bivC0QDvR2lmGOutmYAnIgszUJ01qnnvBdtyHECNi4hAG9BpKniI9AT2d7NbwFWgYPSqwDUreaOc8MhUgX2za3q3P8oYVxJm3tDKNeN7xsZ3_N8N6mA7BaQBRxp6F32jMgjbE4IYIf13u9iObgfQpaYCVrOsSBtyo5zcAeiR7EasKpDwG_L_jsdo29fNk1dKAHt71xXIv3PPHCglMdF4L70EcyGt8p-dW7X6HbKAPPx7TAHr3VkCgoouYYVFVpL-NEYG4h1OHp6GlQB8ipPVVt123VpufnH1vyOtTybVJmZFGwfHOkvTi9v-liv8k61mcSBa2IJrWUCLls2cYbLqxEAYR1huNlLMcb63sPQ-VpUfgpiy_qW0Sdxmpbc0d01qslR45db7w-eIUc1w71jETfu0AQ3S10lBljMnD9LsL3p1TuA3AgmY5MCHSalFnGvp6pSL3rNAKC1gijVtWglhJ9AByLMkK_mO3eLsHcKmVsAIYrPVeZCVyoSk6OP2zhrGOSmlYzmolMX3nPNTqqWydcumrSYg-KZxouQcsjmUkaQ5mVITlqzvnLP_pC-gk9xKGIUIEx_t0VsSQUlPu7h1b6nfWaGktXdx6hiRcombKYYVhR6BIT0J7FIYOiJr4PEauxrpegLRxpb7gwFm59_0UY08Fi5IyKdpP28GyYWh-F2IgeQOf4NopGvzT3dteDXM-4iWqmyM3kGDpkPQfz9-8SrzuYBAkNIG12Y1_WwWhdGdn_HCs3vhN6sV8kC_agMZTtgYeA7TQuM4kfRXHESvUVL6yhWTDP1zP5-Mw1BxwLl5cVn7WjfWvEWIAOKdgaUKWxROWHai0_jlCjz5Nv7QQ5jzJ8EZL7_SjOa1E2HMiC0FZVNKJM3NpJosqbUhnyg7PU_LYq9bQcLhdfz5aE0HpEksybeojm96c9_QN9qZSkvc83xEhPb4_AJGrjK_pcXDq6JAOQht0e2yzAS29jsj4p67fYqGBuesnFfkKNonUinlRDyfhx7E_2C0LvzEt5fxrJDxtpT4WfJg_dqDz4jIqfZVV7KvG9njtlvw8V3ycRXk8YrHwqN7Oo6qe6D6kVkHxUawEDbtZst1rOexn62N70z__gBV5xVgNj0TnEwG41DwLvpqW0AHmxdujXFoHcn3eCK1l_E21nBk1_o_yxA5FMXTPh7Uw_O3w1e92rzqB0EXRtxIwB2WtNR6p21sTHuCLx2jCfKKTD751lEBcTrZP1UCecQj8wIOF06rwoX9v6BH-nT1KjWroi-PI0pYrelv4J7",
+              "format": "openai-responses-v1",
+              "id": "rs_05d3b6c68316c5fd016a2b2349b70c819592f2db7a99de2a2c",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 117,
+      "completion_tokens": 1238,
+      "total_tokens": 1355,
+      "cost": 0.037725,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.037725,
+        "upstream_inference_prompt_cost": 0.000585,
+        "upstream_inference_completions_cost": 0.03714
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1034,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 117,
+  "tokensOut": 1238,
+  "costUsd": 0.037725,
+  "latencyMs": 36896,
+  "finishReason": "stop"
+}

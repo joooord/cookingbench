@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-003",
+  "answerText": "A 250 g portion of cooked white rice contains:\n\n130 kcal × (250 g ÷ 100 g) = 130 × 2.5 = **325 kcal**\n\nAnswer: 325 kcal",
+  "raw": {
+    "id": "gen-1781213569-oIWDJcX1FPP6jk0EUOMx",
+    "object": "chat.completion",
+    "created": 1781213569,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A 250 g portion of cooked white rice contains:\n\n130 kcal × (250 g ÷ 100 g) = 130 × 2.5 = **325 kcal**\n\nAnswer: 325 kcal",
+          "refusal": null,
+          "reasoning": " I'm calculating 130 times 2.5, which gives me 325.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating 130 times 2.5, which gives me 325.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS1AEKYggOGAIqQHLqfJ4Yl2VgbLWnnTLnB8Xc9gWkAC2uEMrEPDiJBg1LspNUD//5L+6w9P37qJE9HrC0Tf5JBMiJlNThG3PF5S0yDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgy+yivZQxKdideqhXIaDIifIh9sx2qcsMalESIwNjycP4FcJ54wa2mu5/Ra2LLonCCDDQaVWcVwiHTgdOu4Y6zf7Cli8aoS5Lo0b5Y2KiDPsmwbBAK1gcjthezD3dlM6uSl52b1//nF4dCL/+t+6RgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 94,
+      "completion_tokens": 81,
+      "total_tokens": 175,
+      "cost": 0.00499,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00499,
+        "upstream_inference_prompt_cost": 0.00094,
+        "upstream_inference_completions_cost": 0.00405
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 13,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 94,
+  "tokensOut": 81,
+  "costUsd": 0.00499,
+  "latencyMs": 4319,
+  "finishReason": "stop"
+}

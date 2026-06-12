@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "subs-017",
+  "answerText": "To match the fat content of 150 g of butter (which is about 80% fat), you need 120 g of pure fat. Since coconut oil is 100% fat, you should use 120 g.\n\nAnswer: 120 g",
+  "raw": {
+    "id": "gen-1781207211-PQqiKFC2kCrUg0OruHPz",
+    "object": "chat.completion",
+    "created": 1781207211,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To match the fat content of 150 g of butter (which is about 80% fat), you need 120 g of pure fat. Since coconut oil is 100% fat, you should use 120 g.\n\nAnswer: 120 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"A shortbread recipe uses 150 g of butter. I'm substituting refined coconut oil, matching the FAT content rather than total weight — butter is only about 80% fat (the rest is mostly water), while coconut oil is 100% fat. How many grams of coconut oil should I use?\"\n\nWe need to match the fat content. Butter is 150 g, with 80% fat, so fat content = 150 * 0.8 = 120 g of fat. Coconut oil is 100% fat, so to get 120 g of fat, we need 120 g of coconut oil. So answer: 120 g.\n\nEnd with \"Answer: <number> g\". So \"Answer: 120 g\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A shortbread recipe uses 150 g of butter. I'm substituting refined coconut oil, matching the FAT content rather than total weight — butter is only about 80% fat (the rest is mostly water), while coconut oil is 100% fat. How many grams of coconut oil should I use?\"\n\nWe need to match the fat content. Butter is 150 g, with 80% fat, so fat content = 150 * 0.8 = 120 g of fat. Coconut oil is 100% fat, so to get 120 g of fat, we need 120 g of coconut oil. So answer: 120 g.\n\nEnd with \"Answer: <number> g\". So \"Answer: 120 g\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 95,
+      "completion_tokens": 207,
+      "total_tokens": 302,
+      "cost": 0.00044283,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00044283,
+        "upstream_inference_prompt_cost": 0.00008265,
+        "upstream_inference_completions_cost": 0.00036018
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 155,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 95,
+  "tokensOut": 207,
+  "costUsd": 0.00044283,
+  "latencyMs": 3276,
+  "finishReason": "stop"
+}

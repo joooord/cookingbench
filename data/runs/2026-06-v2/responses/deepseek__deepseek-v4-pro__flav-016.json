@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "flav-016",
+  "answerText": "A classic French vinaigrette typically uses a ratio of 3 parts oil to 1 part vinegar.  \nAnswer: 3",
+  "raw": {
+    "id": "gen-1781206705-bkAMRDBt38czS42MNjkP",
+    "object": "chat.completion",
+    "created": 1781206705,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "A classic French vinaigrette typically uses a ratio of 3 parts oil to 1 part vinegar.  \nAnswer: 3",
+          "refusal": null,
+          "reasoning": "We are asked: \"For a classic French vinaigrette, how many parts oil per 1 part vinegar?\" The classic ratio is typically 3 parts oil to 1 part vinegar. So answer: 3.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"For a classic French vinaigrette, how many parts oil per 1 part vinegar?\" The classic ratio is typically 3 parts oil to 1 part vinegar. So answer: 3.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 52,
+      "completion_tokens": 74,
+      "total_tokens": 126,
+      "cost": 0.0001360575,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 23,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0001360575,
+        "upstream_inference_prompt_cost": 0.0000235035,
+        "upstream_inference_completions_cost": 0.000112554
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 45,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 52,
+  "tokensOut": 74,
+  "costUsd": 0.0001360575,
+  "latencyMs": 1528,
+  "finishReason": "stop"
+}

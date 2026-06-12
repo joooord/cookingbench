@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "conv-023",
+  "answerText": "Great question — this matters because Australian and US tablespoons are different sizes:\n\n- **Australian tablespoon** = 20 mL\n- **US tablespoon** ≈ 14.8 mL\n\nSo the recipe calls for 3 × 20 mL = **60 mL** of golden syrup.\n\nConverting: 60 mL ÷ 14.8 mL ≈ 4.05 US tablespoons.\n\nMeasure out **4 US tablespoons** of golden syrup (the extra 0.05 is negligible, especially with a sticky syrup where some clings to the spoon anyway).\n\nTip: Lightly oil the spoon first so the golden syrup slides off cleanly and you get an accurate measure.\n\nAnswer: 4 tbsp",
+  "raw": {
+    "id": "gen-1781212513-XboOGOTh8LN9Qf35j3OF",
+    "object": "chat.completion",
+    "created": 1781212513,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Great question — this matters because Australian and US tablespoons are different sizes:\n\n- **Australian tablespoon** = 20 mL\n- **US tablespoon** ≈ 14.8 mL\n\nSo the recipe calls for 3 × 20 mL = **60 mL** of golden syrup.\n\nConverting: 60 mL ÷ 14.8 mL ≈ 4.05 US tablespoons.\n\nMeasure out **4 US tablespoons** of golden syrup (the extra 0.05 is negligible, especially with a sticky syrup where some clings to the spoon anyway).\n\nTip: Lightly oil the spoon first so the golden syrup slides off cleanly and you get an accurate measure.\n\nAnswer: 4 tbsp",
+          "refusal": null,
+          "reasoning": " I'm converting between Australian and US tablespoons—3 Australian tablespoons equals 60 mL, which works out to roughly 4 US tablespoons.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm converting between Australian and US tablespoons—3 Australian tablespoons equals 60 mL, which works out to roughly 4 US tablespoons.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISyAIKYggOGAIqQHsArcKRQe2zpwyl7J5Yh+kQt2M/nTT2TAI5yzY9xz7lGzSkpU7pk1ekBkmZ/JyGitJMwmQByodmdK9On2mSBjoyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgwv7LyGz35DOGtVlW4aDHMfpKOSGby7KI/bjyIwtPAzWX49OTF+Eon+uSzL/L+nAtOhxc35cHD2BvTM/1MkoJuwhxcZ/UdfJPzw+/OtKpMBzz5y3ULnw0Jfcx23LF8ZQuZUBod0GOnP1uKV+J1TTpwCmwJVQTfnie2T7AryIlduTJ6GW06Xnu86PJywx797ta0KVS7fXl8MXqQ6z7adOkXw3O4ladJNWAbmUBeGXJsH59SZ4FKViEju8TPKVp4l65t3kWkhmgviT2gG25O0iiGkRjpkf2S1kJhqzrvJRB6A7KGiGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 121,
+      "completion_tokens": 329,
+      "total_tokens": 450,
+      "cost": 0.01766,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01766,
+        "upstream_inference_prompt_cost": 0.00121,
+        "upstream_inference_completions_cost": 0.01645
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 35,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 121,
+  "tokensOut": 329,
+  "costUsd": 0.01766,
+  "latencyMs": 6699,
+  "finishReason": "stop"
+}

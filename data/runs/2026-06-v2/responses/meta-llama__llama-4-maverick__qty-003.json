@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "qty-003",
+  "answerText": "To find the amount of water needed, we need to calculate 75% of the flour weight. \n75% of 800 g = (75 / 100) * 800 g = 0.75 * 800 g = 600 g.\n\nAnswer: 600 g",
+  "raw": {
+    "id": "gen-1781205138-C7XicVw8clLV6Bnkh7IN",
+    "object": "chat.completion",
+    "created": 1781205138,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To find the amount of water needed, we need to calculate 75% of the flour weight. \n75% of 800 g = (75 / 100) * 800 g = 0.75 * 800 g = 600 g.\n\nAnswer: 600 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 75,
+      "completion_tokens": 58,
+      "total_tokens": 133,
+      "cost": 0.00004605,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00004605,
+        "upstream_inference_prompt_cost": 0.00001125,
+        "upstream_inference_completions_cost": 0.0000348
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 75,
+  "tokensOut": 58,
+  "costUsd": 0.00004605,
+  "latencyMs": 2823,
+  "finishReason": "stop"
+}

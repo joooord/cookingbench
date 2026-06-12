@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "nutr-033",
+  "answerText": "First, calculate the volume of pure ethanol in the bottle:\n750 ml * 13.5% = 101.25 ml ethanol.\n\nNext, convert ethanol volume to mass using its density:\n101.25 ml * 0.789 g/ml = 79.89 g ethanol.\n\nCalculate calories from ethanol:\n79.89 g * 7 kcal/g = 559.23 kcal.\n\nNow, calculate calories from residual sugar:\nThe bottle has 750 ml (0.75 L) of wine, so residual sugar is:\n0.75 L * 4 g/L = 3 g sugar.\n\nCalculate calories from sugar:\n3 g * 4 kcal/g = 12 kcal.\n\nFinally, sum the calories:\n559.23 kcal (ethanol) + 12 kcal (sugar) = 571.23 kcal.\n\nAnswer: 571 kcal",
+  "raw": {
+    "id": "gen-1781207350-cRqd8AZJ4LeX1K1ZFJIB",
+    "object": "chat.completion",
+    "created": 1781207350,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "First, calculate the volume of pure ethanol in the bottle:\n750 ml * 13.5% = 101.25 ml ethanol.\n\nNext, convert ethanol volume to mass using its density:\n101.25 ml * 0.789 g/ml = 79.89 g ethanol.\n\nCalculate calories from ethanol:\n79.89 g * 7 kcal/g = 559.23 kcal.\n\nNow, calculate calories from residual sugar:\nThe bottle has 750 ml (0.75 L) of wine, so residual sugar is:\n0.75 L * 4 g/L = 3 g sugar.\n\nCalculate calories from sugar:\n3 g * 4 kcal/g = 12 kcal.\n\nFinally, sum the calories:\n559.23 kcal (ethanol) + 12 kcal (sugar) = 571.23 kcal.\n\nAnswer: 571 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 105,
+      "completion_tokens": 205,
+      "total_tokens": 310,
+      "cost": 0.0003528,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 16,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0003528,
+        "upstream_inference_prompt_cost": 0.0000453,
+        "upstream_inference_completions_cost": 0.0003075
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 105,
+  "tokensOut": 205,
+  "costUsd": 0.0003528,
+  "latencyMs": 2986,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-002",
+  "answerText": "A whole lasagna has 2,400 kcal and is divided into 6 equal servings, so each serving contains 2,400 ÷ 6 = 400 kcal.\n\nAnswer: 400 kcal",
+  "raw": {
+    "id": "gen-1781206763-I8fiv2OlVrK8SxDtGVWO",
+    "object": "chat.completion",
+    "created": 1781206763,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "A whole lasagna has 2,400 kcal and is divided into 6 equal servings, so each serving contains 2,400 ÷ 6 = 400 kcal.\n\nAnswer: 400 kcal",
+          "refusal": null,
+          "reasoning": "We are asked: \"A whole lasagna contains 2,400 kcal and is cut into 6 equal servings. How many kilocalories per serving?\" This is simple division: 2400 / 6 = 400 kcal per serving. The answer should end with \"Answer: <number> kcal\". So: Answer: 400 kcal.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A whole lasagna contains 2,400 kcal and is cut into 6 equal servings. How many kilocalories per serving?\" This is simple division: 2400 / 6 = 400 kcal per serving. The answer should end with \"Answer: <number> kcal\". So: Answer: 400 kcal.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 61,
+      "completion_tokens": 113,
+      "total_tokens": 174,
+      "cost": 0.00024969,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00024969,
+        "upstream_inference_prompt_cost": 0.00005307,
+        "upstream_inference_completions_cost": 0.00019662
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 71,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 61,
+  "tokensOut": 113,
+  "costUsd": 0.00024969,
+  "latencyMs": 2840,
+  "finishReason": "stop"
+}

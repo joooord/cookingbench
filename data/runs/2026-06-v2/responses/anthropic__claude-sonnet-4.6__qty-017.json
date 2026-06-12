@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "qty-017",
+  "answerText": "## Scaling the Bread Recipe to 10 Servings\n\n**Original recipe:** 720 g flour for 6 servings\n**Scaling factor:** 10 ÷ 6 = 1.6667\n\n**Total flour needed:**\n720 g × 1.6667 = **1,200 g**\n\n**Flour per serving:**\n1,200 g ÷ 10 = 120 g per serving\n120 g ÷ 28.3495 = **~4.23 oz per serving**\n\n---\n\nTotal: 1200 g\nPer serving: 4.23 oz",
+  "raw": {
+    "id": "gen-1781210085-QsNN6Mh68YuX5JqitRvJ",
+    "object": "chat.completion",
+    "created": 1781210085,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Scaling the Bread Recipe to 10 Servings\n\n**Original recipe:** 720 g flour for 6 servings\n**Scaling factor:** 10 ÷ 6 = 1.6667\n\n**Total flour needed:**\n720 g × 1.6667 = **1,200 g**\n\n**Flour per serving:**\n1,200 g ÷ 10 = 120 g per serving\n120 g ÷ 28.3495 = **~4.23 oz per serving**\n\n---\n\nTotal: 1200 g\nPer serving: 4.23 oz",
+          "refusal": null,
+          "reasoning": "The recipe uses 720 g of flour for 6 servings.\n\nScale to 10 servings:\n720 g ÷ 6 × 10 = 1200 g total flour\n\nPer serving: 1200 g ÷ 10 = 120 g per serving\n\nConvert 120 g to ounces: 120 ÷ 28.3495 ≈ 4.23 oz",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The recipe uses 720 g of flour for 6 servings.\n\nScale to 10 servings:\n720 g ÷ 6 × 10 = 1200 g total flour\n\nPer serving: 1200 g ÷ 10 = 120 g per serving\n\nConvert 120 g to ounces: 120 ÷ 28.3495 ≈ 4.23 oz",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EpgDCmUIDhgCKkDzWUbWSenI7/P8G9w44wZXMR28yPMR+B+wvg1MciNYF/4it61s8Ug9FGnPSVCCacOGp07ii8A9ruqhzk8rHKPgMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMtmg6NsyFSuCrkq3CGgxaXCyyC22rUf3eKwgiMJ1Zrk1/jfKPxwYY1EXpJeYare3nWs/bkV+yqjwiR8yD0+0HruVM0eIqNfzx75JhRSrgAWfZHPYHUc4DnN0pf+s7OzvRhflV2gcbqW+OqB4f3hFWGQDDR5aIUe3qV4NluIUXhmQF1jjugvJWnBkymJ5WrANFimuoaPHWh87bMy7n1LmjeZAq+tviAVee7fFr+TyAPpEHeYsvugftluZyWieb3QF9hOiOwwWFXiqt0ZJcUvrEsXHp14ZXKFfjaHH2/kCsBMM3hO+EotM6sgc1mivofsBJSDRJDY0/ASlntkLCTe8D1zC7Bggd6wwsLJ+X2J2F6+oLatBvA3WTBwyQW/QliPrznWazg1NGFTOqF+wqFE9QGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 97,
+      "completion_tokens": 272,
+      "total_tokens": 369,
+      "cost": 0.004371,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004371,
+        "upstream_inference_prompt_cost": 0.000291,
+        "upstream_inference_completions_cost": 0.00408
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 60,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 97,
+  "tokensOut": 272,
+  "costUsd": 0.004371,
+  "latencyMs": 5898,
+  "finishReason": "stop"
+}

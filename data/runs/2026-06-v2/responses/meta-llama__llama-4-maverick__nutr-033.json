@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "nutr-033",
+  "answerText": "## Step 1: Calculate the volume of alcohol in the bottle\nFirst, we need to find out how much alcohol is in the 750 ml bottle. The wine is 13.5% alcohol by volume. So, the volume of alcohol = 750 ml * 13.5% = 750 * 0.135 = 101.25 ml.\n\n## Step 2: Calculate the mass of alcohol in the bottle\nTo find the mass of alcohol, we use the density of ethanol, which is given as 0.789 g/ml. So, the mass of alcohol = volume of alcohol * density = 101.25 ml * 0.789 g/ml = 79.88625 g.\n\n## Step 3: Calculate the kilocalories from alcohol\nGiven that there are 7 kcal per gram of alcohol, we can calculate the kilocalories from alcohol = mass of alcohol * kcal per gram = 79.88625 g * 7 kcal/g = 559.20375 kcal.\n\n## Step 4: Calculate the kilocalories from residual sugar\nThe wine contains about 4 g of residual sugar per litre. The bottle is 750 ml or 0.75 litres. So, the amount of residual sugar = 4 g/litre * 0.75 litres = 3 g. Given that there are 4 kcal per gram of sugar, the kilocalories from sugar = 3 g * 4 kcal/g = 12 kcal.\n\n## Step 5: Calculate the total kilocalories in the bottle\nTo find the total kilocalories, we add the kilocalories from alcohol and sugar. Total kilocalories = kilocalories from alcohol + kilocalories from sugar = 559.20375 kcal + 12 kcal = 571.20375 kcal.\n\n## Step 6: Round the total kilocalories to a reasonable number of significant figures\nRounding to the nearest whole number, total kilocalories ≈ 571 kcal.\n\nThe final answer is: Answer: 571 kcal",
+  "raw": {
+    "id": "gen-1781205094-BaOpuU7h6pJs4NRrnvwO",
+    "object": "chat.completion",
+    "created": 1781205094,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "## Step 1: Calculate the volume of alcohol in the bottle\nFirst, we need to find out how much alcohol is in the 750 ml bottle. The wine is 13.5% alcohol by volume. So, the volume of alcohol = 750 ml * 13.5% = 750 * 0.135 = 101.25 ml.\n\n## Step 2: Calculate the mass of alcohol in the bottle\nTo find the mass of alcohol, we use the density of ethanol, which is given as 0.789 g/ml. So, the mass of alcohol = volume of alcohol * density = 101.25 ml * 0.789 g/ml = 79.88625 g.\n\n## Step 3: Calculate the kilocalories from alcohol\nGiven that there are 7 kcal per gram of alcohol, we can calculate the kilocalories from alcohol = mass of alcohol * kcal per gram = 79.88625 g * 7 kcal/g = 559.20375 kcal.\n\n## Step 4: Calculate the kilocalories from residual sugar\nThe wine contains about 4 g of residual sugar per litre. The bottle is 750 ml or 0.75 litres. So, the amount of residual sugar = 4 g/litre * 0.75 litres = 3 g. Given that there are 4 kcal per gram of sugar, the kilocalories from sugar = 3 g * 4 kcal/g = 12 kcal.\n\n## Step 5: Calculate the total kilocalories in the bottle\nTo find the total kilocalories, we add the kilocalories from alcohol and sugar. Total kilocalories = kilocalories from alcohol + kilocalories from sugar = 559.20375 kcal + 12 kcal = 571.20375 kcal.\n\n## Step 6: Round the total kilocalories to a reasonable number of significant figures\nRounding to the nearest whole number, total kilocalories ≈ 571 kcal.\n\nThe final answer is: Answer: 571 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 108,
+      "completion_tokens": 420,
+      "total_tokens": 528,
+      "cost": 0.0002682,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002682,
+        "upstream_inference_prompt_cost": 0.0000162,
+        "upstream_inference_completions_cost": 0.000252
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 108,
+  "tokensOut": 420,
+  "costUsd": 0.0002682,
+  "latencyMs": 24885,
+  "finishReason": "stop"
+}

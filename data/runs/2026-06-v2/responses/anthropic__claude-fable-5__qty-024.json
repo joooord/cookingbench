@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-024",
+  "answerText": "Scaling up: 600 ml × (6 ÷ 4) = **900 ml** of stock needed.\n\nConverting to US cups: 1 US cup = 236.6 ml, so 900 ÷ 236.6 ≈ **3.8 cups**.\n\nIn practice, measure 3¾ cups plus a splash — and since stock quantity in soups/stews is forgiving, rounding to 4 cups would also be fine if you prefer a slightly looser consistency.\n\nAnswer: 3.8 cups",
+  "raw": {
+    "id": "gen-1781213166-oZzpp2bUMI5Cl36K55sj",
+    "object": "chat.completion",
+    "created": 1781213166,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Scaling up: 600 ml × (6 ÷ 4) = **900 ml** of stock needed.\n\nConverting to US cups: 1 US cup = 236.6 ml, so 900 ÷ 236.6 ≈ **3.8 cups**.\n\nIn practice, measure 3¾ cups plus a splash — and since stock quantity in soups/stews is forgiving, rounding to 4 cups would also be fine if you prefer a slightly looser consistency.\n\nAnswer: 3.8 cups",
+          "refusal": null,
+          "reasoning": " I'm converting 600 ml to US cups by multiplying by 1.5 to get 900 ml, then dividing by the conversion factor of about 236.6 ml per cup, which gives me roughly 3.8 cups or between 3¾ and 4 cups.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm converting 600 ml to US cups by multiplying by 1.5 to get 900 ml, then dividing by the conversion factor of about 236.6 ml per cup, which gives me roughly 3.8 cups or between 3¾ and 4 cups.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIStwIKYggOGAIqQHoo7ZztfmUgjz33b6jnR1iYGBEuPhSHd1sbuzLN7ZN8NEJhmo3PPrRhNGdPa3i3jcn6hD8uISVahinH5U9dNYgyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgzB4cT7Mz9Zklv/ba0aDNjBASWDn3F5InIuJiIwBa8nsm0TOfgimbJC6h9576lh+IszXTaipYXu/WcrHeOaufP7vA4u1VpGe/Ej7ngyKoIBiQj7bEWvzhu2h6DuhT5O26jzGP3K14is952bJQrV2bIdExkKrLXkI3SJb1UN5VwqqbxKD1e6eKvyJRz/766KUzLn6JJYIosgF6lpC8R4x3mNJ8evoodSu2WThxyVognweHyQkVVTL3izZCBG2zM09Sv/XaLzy7G88AyqgRWkitb0CxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 120,
+      "completion_tokens": 242,
+      "total_tokens": 362,
+      "cost": 0.0133,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0133,
+        "upstream_inference_prompt_cost": 0.0012,
+        "upstream_inference_completions_cost": 0.0121
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 50,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 120,
+  "tokensOut": 242,
+  "costUsd": 0.0133,
+  "latencyMs": 6644,
+  "finishReason": "stop"
+}

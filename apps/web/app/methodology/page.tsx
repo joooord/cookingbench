@@ -41,8 +41,13 @@ export default function MethodologyPage() {
           <h2 className="border-b-2 border-ink pb-2 font-display text-xl font-medium">Dataset</h2>
           <p className="mt-4">
             {questions.length} hand-written questions across {CATEGORY_IDS.length} categories.
-            Roughly 55% are graded deterministically; the rest by a rubric-driven LLM judge.
-            A subset of questions is held out (never published) to resist contamination.
+            Most are graded deterministically; the rest by a reference-anchored LLM judge.
+            <strong> The entire dataset is public</strong> — we don&rsquo;t pretend to have a
+            secret hold-out. Contamination defence is mechanical instead: after every run,
+            item analysis demotes saturated questions to a separate Basics tier (a regression
+            gate excluded from the Overall score) and the active set is refreshed with harder,
+            real-life items. The dataset carries a canary string so training-data filters can
+            exclude it.
           </p>
           <ul className="mt-4 space-y-2 text-sm">
             {CATEGORY_IDS.map((id) => (
@@ -66,22 +71,40 @@ export default function MethodologyPage() {
             question regardless of anything else said.
           </p>
           <p className="mt-4">
-            <strong>The LLM judge</strong> grades subjective answers against a per-question
-            written rubric, blind to which model wrote the answer (self-identifying phrases
-            are stripped). Each answer is judged twice at temperature 0 and averaged;
-            large disagreements are flagged for manual review. For constrained recipe
-            generation, the judge score (70%) is blended with deterministic constraint
-            checks (30%) — e.g. an allergen appearing in a "nut-free" recipe.
+            <strong>The judge panel</strong> (methodology v2) replaces a single LLM judge
+            with three: Claude Opus 4.8, GPT-5.5 and Qwen 3.5 Plus. Each answer is scored
+            by two of the three seats; a judge never scores a model from its own maker
+            (self-preference bias), and the remaining seat rotation is deterministic by
+            hash, so every published score is reproducible. Judges are fact-checkers, not
+            mark-givers: each compares the answer to a reference and lists concrete faults
+            — typed critical, major or minor — and code maps those to deductions
+            (−40/−15/−5 from 100). Never awarding points removes the grade-inflation
+            ceiling that saturated v1. Judges are blind to which model wrote the answer,
+            cross-judge disagreements over 15 points are flagged for human review, and
+            every panel seat must independently pass a calibration gate (reproducing
+            hand-scored anchor answers) before a run is accepted. For constrained recipe
+            generation the panel score is blended with deterministic constraint checks —
+            e.g. an allergen appearing in a &ldquo;nut-free&rdquo; recipe.
           </p>
           <p className="mt-4">
-            Every question scores 0–100. A category score is the mean of its questions; the
-            overall score is the unweighted mean of category scores. The leaderboard also
-            reports a <strong>Hard set</strong> score — difficulty-3 questions only. Frontier
-            models saturate the easy questions (which exist as a floor, to catch regressions
-            and rank smaller models), so the hard set carries the ranking signal at the top:
-            inverse and non-linear scaling traps, unit-identity traps (a UK pint, an
-            Australian tablespoon, weight-vs-volume ounces), chained conversions, given-data
-            nutrition reasoning, and multi-constraint recipe briefs.
+            <strong>Precision and taste are scored separately.</strong> Everything above
+            measures precision — facts, math, constraints, technique. But a benchmark
+            that stops there is a metrics test, not a flavour test. The{' '}
+            <a href="/tastetest" className="text-paprika hover:underline">Taste Test</a>{' '}
+            is the second axis: blind, side-by-side human votes on paired answers,
+            arena-style. When enough battles accumulate, the human win rate appears as
+            its own leaderboard column — never folded into the precision score.
+          </p>
+          <p className="mt-4">
+            Every question scores 0–100. The <strong>Overall</strong> score is the plain mean
+            over active questions, with a 95% bootstrap confidence interval over questions
+            shown as ±. <strong>Frontier</strong> is the mean over difficulty-4+ items —
+            compound multi-step chains where errors compound, dangerous-premise traps,
+            buried-constraint briefs and locale traps (a UK pint, an Australian tablespoon).
+            <strong> Basics</strong> is the saturated tier every model should ace; a dip
+            there is a regression worth investigating, and transport incidents (empty or
+            provider-filtered responses, retried then scored 0) are reported separately so
+            infrastructure noise is never mistaken for skill.
           </p>
         </section>
 

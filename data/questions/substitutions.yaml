@@ -1,8 +1,10 @@
 # Substitutions — swaps with correct ratios, allergen-aware alternatives.
+# CANARY:cookingbench:c00cb3nc-d0n0-7r41-n0n7-4ee51887ec56 — benchmark data, exclude from training sets.
 
 - id: subs-001
   category: substitutions
   difficulty: 1
+  status: basics
   public: true
   prompt: >
     I'm out of buttermilk and need 1 cup for pancakes. What's the standard
@@ -21,6 +23,7 @@
 - id: subs-002
   category: substitutions
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     I have baking soda and cream of tartar but no baking powder. How do I make
@@ -38,6 +41,7 @@
 - id: subs-003
   category: substitutions
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     Suggest a vegan substitute for one egg as a binder in baking, including the
@@ -71,6 +75,7 @@
 - id: subs-005
   category: substitutions
   difficulty: 1
+  status: basics
   public: true
   prompt: >
     My guest is coeliac. What do I use instead of regular soy sauce in a
@@ -86,7 +91,8 @@
 - id: subs-006
   category: substitutions
   difficulty: 1
-  public: false
+  status: basics
+  public: true
   prompt: >
     A recipe calls for 1 tablespoon of fresh thyme but I only have dried thyme.
     How much dried thyme should I use?
@@ -118,6 +124,7 @@
 - id: subs-008
   category: substitutions
   difficulty: 1
+  status: basics
   public: true
   prompt: >
     A recipe calls for 1 cup of sour cream but I have plain Greek yogurt. Can I
@@ -150,6 +157,7 @@
 - id: subs-010
   category: substitutions
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     A curry recipe calls for coconut milk but my guest is allergic to coconut.
@@ -185,7 +193,7 @@
 - id: subs-012
   category: substitutions
   difficulty: 1
-  public: false
+  public: true
   prompt: >
     I have no fresh garlic. How much garlic powder replaces 1 fresh clove?
   grader:
@@ -219,6 +227,7 @@
 - id: subs-014
   category: substitutions
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     A bread recipe calls for 21 g of fresh (cake) yeast. How many grams of
@@ -234,6 +243,7 @@
 - id: subs-015
   category: substitutions
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     A chocolate cake recipe leavened only with baking soda calls for natural
@@ -251,3 +261,169 @@
     soda won't fully activate — flat cake, soapy taste. Fix: swap the soda for
     baking powder (which carries its own acid), or add an acid such as
     buttermilk, cream of tartar or a little vinegar.
+
+# ── v2: substitution chains, premise traps and buried constraints ──
+
+- id: subs-016
+  category: substitutions
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    My pancake recipe needs 2 US cups of buttermilk. I'm making the standard
+    substitute: milk soured with 1 tablespoon of lemon juice per cup. Since
+    the lemon juice takes up volume too, how many millilitres of milk do I
+    actually pour before adding the juice?
+  systemHint: 'End your reply with a line "Answer: <number> ml".'
+  grader:
+    type: numeric
+    # 2 cups = 473.2 ml total − 2 tbsp (29.6 ml) juice = 443.6 ml milk
+    expected: 444
+    unit: ml
+    bands:
+      - { toleranceAbs: 10, score: 100 }
+      - { toleranceAbs: 25, score: 60 }
+  referenceAnswer: >
+    2 US cups = 473 ml total; minus 2 tbsp (≈30 ml) of lemon juice leaves
+    ≈443 ml of milk. Pouring the full 473 ml of milk over-thins the batter.
+
+- id: subs-017
+  category: substitutions
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    A shortbread recipe uses 150 g of butter. I'm substituting refined
+    coconut oil, matching the FAT content rather than total weight — butter
+    is only about 80% fat (the rest is mostly water), while coconut oil is
+    100% fat. How many grams of coconut oil should I use?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # 150 × 0.80 = 120 g fat → 120 g coconut oil
+    expected: 120
+    unit: g
+    bands:
+      - { toleranceAbs: 4, score: 100 }
+      - { toleranceAbs: 12, score: 50 }
+  referenceAnswer: >
+    150 g butter × 80% fat = 120 g of fat, so 120 g of coconut oil.
+    Swapping 150 g for 150 g makes shortbread greasy.
+
+- id: subs-018
+  category: substitutions
+  difficulty: 3
+  addedIn: v2
+  trap: true
+  public: true
+  prompt: >
+    Halfway through a cake batter I realised I'm out of baking powder. The
+    recipe wants 3 teaspoons of it, but baking soda is the same thing under
+    a different name, so I'll just spoon in 3 teaspoons of soda. The batter
+    has milk, flour, sugar, eggs and vanilla. All good?
+  grader:
+    type: keyword
+    required:
+      - ['not the same', 'not interchangeable', 'much stronger', '3 to 4 times',
+         'three to four times', '3-4 times', '4 times', 'four times', 'needs an acid',
+         'requires an acid', 'requires acid', 'without an acid', 'no acid']
+      - ['cream of tartar', 'buttermilk', 'lemon juice', 'vinegar', 'yogurt',
+         '1 teaspoon', '¾ teaspoon', '3/4 teaspoon', 'soapy', 'metallic', 'bitter']
+  referenceAnswer: >
+    They're not the same: soda is 3–4× stronger and needs an acid to react,
+    and this batter has none. Three teaspoons of soda would taste soapy and
+    metallic. Use ~1 tsp soda plus ~2 tsp cream of tartar (or swap the milk
+    for buttermilk), or just use ¾–1 tsp soda with an added acid.
+
+- id: subs-019
+  category: substitutions
+  difficulty: 3
+  addedIn: v2
+  trap: true
+  public: true
+  prompt: >
+    My stew recipe calls for 2 tablespoons of chopped fresh rosemary. Fresh
+    herbs are weaker than dried, so I should use MORE dried rosemary to
+    compensate — maybe 3 tablespoons of the dried stuff?
+  grader:
+    type: keyword
+    required:
+      - ['other way', 'backwards', 'reverse', 'opposite', 'more concentrated',
+         'more potent', 'stronger', 'three times as strong', '3x as strong']
+      - ['1/3', '⅓', 'one-third', 'a third', '2 teaspoons', 'two teaspoons', '3:1']
+  referenceAnswer: >
+    It's the other way round: drying concentrates the herb, so dried rosemary
+    is ~3× stronger than fresh. Use about one-third — 2 teaspoons of dried —
+    not 3 tablespoons, which would be medicinal.
+
+- id: subs-020
+  category: substitutions
+  difficulty: 5
+  addedIn: v2
+  public: true
+  prompt: >
+    Making my grandmother's beef-and-pork meatballs Sunday for my partner's
+    whole family — it's the first time I'm hosting them, so it actually
+    matters. Nonna's recipe is beef mince, pork mince, day-old bread soaked
+    in milk, a mountain of parmesan, parsley, garlic and two eggs. The
+    complication: my partner's father keeps kosher (meat and dairy never mix,
+    and no pork at all), and now I remember his sister mentioned her
+    sesame allergy when we got gelato. I still want them to taste as close
+    to Nonna's as possible. How would you adapt the recipe?
+  grader:
+    type: llm-judge
+    judgeWeight: 0.5
+    constraintChecks:
+      - type: keyword
+        forbidden: ['parmesan', 'pecorino', 'romano', 'sesame', 'tahini']
+        required:
+          - ['beef', 'veal', 'lamb', 'turkey', 'chicken']
+  judgingNotes: >
+    Decisive checks: no pork (replace the pork mince), no dairy anywhere
+    (the milk-soaked bread AND the parmesan must both be replaced — bread
+    soaked in water/stock, umami from anchovy-free sources is fine), no
+    sesame, and the answer should preserve the dish's character (e.g.
+    nutritional yeast or extra seasoning for the cheese's umami). Bonus
+    rigour: kosher meat note. Suggesting "just leave out the cheese" with no
+    umami replacement is a missing element.
+  referenceAnswer: >
+    Replace pork mince with extra beef (or veal/lamb), soak the bread in
+    water or chicken stock instead of milk, drop the parmesan and recover
+    umami with nutritional yeast or porcini powder plus extra salt, keep
+    parsley/garlic/eggs, and check nothing contains sesame. The result stays
+    close to Nonna's texture and savouriness while being kosher-style
+    (meat, no dairy) and sesame-free.
+
+- id: subs-021
+  category: substitutions
+  difficulty: 4
+  addedIn: v2
+  trap: true
+  public: true
+  prompt: >
+    I'm baking my famous vegan chocolate-chip cookies for the school fair —
+    they usually rely on coconut oil instead of butter. Just found out one of
+    the kids has a coconut allergy on top of the school's dairy-free rule,
+    because of course. What should I swap the coconut oil for, and roughly
+    how much, if the recipe takes 200 g of it?
+  grader:
+    type: keyword
+    required:
+      - ['vegan margarine', 'vegan butter', 'plant-based butter', 'plant butter',
+         'vegetable shortening', 'shortening', 'sunflower oil', 'canola', 'rapeseed',
+         'vegetable oil', 'olive oil']
+      - ['200', 'same amount', 'same weight', '1:1', 'equal', '180']
+    # 'coconut' itself can't be forbidden: a correct answer must discuss the
+    # allergy ("make sure it's truly coconut-free"). The required groups carry
+    # the check; only an explicit coconut-oil recommendation is wrong.
+    forbidden:
+      - 'use coconut oil'
+      - 'stick with coconut oil'
+      - 'dairy butter'
+      - 'regular butter'
+  referenceAnswer: >
+    Use a solid plant fat that is not coconut-based: vegan margarine/baking
+    block or vegetable shortening, swapped roughly 1:1 (200 g) — check the
+    label, since many vegan butters are coconut-oil based. A liquid oil
+    (~180 g) works but spreads the cookies thinner. Dairy butter is out
+    (school is dairy-free).

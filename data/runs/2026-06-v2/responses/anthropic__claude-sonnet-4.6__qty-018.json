@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "qty-018",
+  "answerText": "## Working Out the Olive Oil Needed\n\n**Step 1: Scale the recipe from 6 to 10 servings**\n\nScaling factor = 10 ÷ 6 = 5/3\n\nButter needed = 1½ sticks × 5/3 = **2½ sticks of butter**\n\n**Step 2: Convert sticks of butter to millilitres**\n\n1 stick of butter = ½ cup = 120 ml\n\n2½ sticks = 2.5 × 120 ml = **300 ml of butter**\n\n**Step 3: Apply the butter-to-olive oil swap (¾ the volume)**\n\n300 ml × ¾ = **225 ml of olive oil**\n\nAnswer: 225 ml",
+  "raw": {
+    "id": "gen-1781210085-oQNesBTqii1sqDINvlH9",
+    "object": "chat.completion",
+    "created": 1781210085,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Working Out the Olive Oil Needed\n\n**Step 1: Scale the recipe from 6 to 10 servings**\n\nScaling factor = 10 ÷ 6 = 5/3\n\nButter needed = 1½ sticks × 5/3 = **2½ sticks of butter**\n\n**Step 2: Convert sticks of butter to millilitres**\n\n1 stick of butter = ½ cup = 120 ml\n\n2½ sticks = 2.5 × 120 ml = **300 ml of butter**\n\n**Step 3: Apply the butter-to-olive oil swap (¾ the volume)**\n\n300 ml × ¾ = **225 ml of olive oil**\n\nAnswer: 225 ml",
+          "refusal": null,
+          "reasoning": "Let me work through this step by step.\n\nOriginal recipe: serves 6, calls for 1½ sticks of butter.\n\nI need to scale for 10 people.\n\nScaling factor: 10/6\n\nButter needed: 1.5 sticks × (10/6) = 15/6 = 2.5 sticks\n\n1 stick of butter = 113.4 grams, but in terms of volume, 1 stick = ½ cup = 8 tablespoons = 4 oz volume\n\n1 stick of butter = 1/2 cup = 113.4 ml (approximately)\nActually, let me recalculate more precisely. 1 stick equals ½ cup, and since 1 cup is 240 ml, that's 120 ml per stick. So 2.5 sticks comes to 300 ml of butter. If I'm substituting with olive oil, I need ¾ of that volume, which gives me 225 ml.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Let me work through this step by step.\n\nOriginal recipe: serves 6, calls for 1½ sticks of butter.\n\nI need to scale for 10 people.\n\nScaling factor: 10/6\n\nButter needed: 1.5 sticks × (10/6) = 15/6 = 2.5 sticks\n\n1 stick of butter = 113.4 grams, but in terms of volume, 1 stick = ½ cup = 8 tablespoons = 4 oz volume\n\n1 stick of butter = 1/2 cup = 113.4 ml (approximately)\nActually, let me recalculate more precisely. 1 stick equals ½ cup, and since 1 cup is 240 ml, that's 120 ml per stick. So 2.5 sticks comes to 300 ml of butter. If I'm substituting with olive oil, I need ¾ of that volume, which gives me 225 ml.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EvIGCmUIDhgCKkBQM4YUKYk633N0j85Q1j0dgjAHGibJ4fTInyeS9XEtrzXcq/B+Di3eU9Lt3MK/NQohxRUbbfDKLBmroaftJUdPMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMMDp11RxK/Kvz3lndGgy+sIGszrbpCOYZLZ8iMDfHakGnmucEX2utYHqXQRWDRSX2qhCWieicpMjBhls5O9Io0XqcuoFtRSC8STReeyq6BVY88iHWfrcKBGtepqjQkHx5o4vrl+ZN2t+xtAyDNENQfByMgjFuCHNuuwuVVGG4YhwPMhXHv5icWVVn7G+lGlf3lOuA3A+rgCmWHQq+pSXnG/deRshjpWGHq++ZXZBiNYmjwmL8Z3AjmxcPJ1SNuD4vkOZvraMMXKHSRw7BuYEiWegUI3RGgA1U49aElh86St7Fq9kB5FQzKNHs+2Z/5Qib8jl8o1UDKJfEJXSDdqtNyvTtozNy3s8jt4oeqlwl0dqwTWvqZm2/dWKh50kD4sq9cKBHKlX7psYS/91dWgbWdSGo/i5lDi9bPVM/Q/WaFGJZ7eYA7BxlOGKdR73N+BhP6OujRRxtH83dB1s2XTSPAghRa8mWkuStosk+Cl2ed4HK83CK/1RSoRk7tSAAh8dkMLsBjTJsM72GYzhnKVvfk0R45RLWxqYsnw1tSIF8WBjEHqOcqL4Rq6PP/QgCMoT2jZ7ieRo0lgRDFKun0ZhHru7v8YVsJb0T5y+NHyOEXlp0e5UyTiqr1qfengs8VJM54Y+aNYlmYO2q/aOqTM9/7ZzAWPkFaXr41mQCLWvCY8bTGqYEXCVT1zJdc1dHzUjjesJQOb9OeuXmB2uDFyFYRBRMbibrnMq2etQzGBPae4F0+/z/ZMtd0lpjtoUcoVbLCEqUmdEuOVYaiFaLWkghlth9bG0BMXvy7STJquQQyKwUx2Pzn+wb94vg+AgKAmS8mLoc2ugJ/NNCe8ESLuhYL6FxYQikurYcMpYjhhYIC9AwsZNOM48OQezw/h345E8nZNSfjFdIniy4eOTtTb9xecYYclgYmGbLs0uJZCZIq5g+qsF6HoicPkdTYsF3ReWM9+rd0EyJrMkFlNPxzdftORzIJAdUuHsn7Pvx4OljJbaWfVzNuROWhXaY088pAPlv1CRXkEztF7M6GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 111,
+      "completion_tokens": 481,
+      "total_tokens": 592,
+      "cost": 0.007548,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.007548,
+        "upstream_inference_prompt_cost": 0.000333,
+        "upstream_inference_completions_cost": 0.007215
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 167,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 111,
+  "tokensOut": 481,
+  "costUsd": 0.007548,
+  "latencyMs": 9751,
+  "finishReason": "stop"
+}

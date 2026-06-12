@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "nutr-023",
+  "answerText": "Raw lean trimmed beef sirloin steak contains roughly 23 g protein and 4 g fat per 100 g.  \nProtein: 23 g  \nFat: 4 g",
+  "raw": {
+    "id": "gen-1781209198-Bg2RXQHI49vl0pQDSMAX",
+    "object": "chat.completion",
+    "created": 1781209198,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Raw lean trimmed beef sirloin steak contains roughly 23 g protein and 4 g fat per 100 g.  \nProtein: 23 g  \nFat: 4 g",
+          "refusal": null,
+          "reasoning": "The question is: \"Per 100 g, roughly how much protein and how much fat does raw beef sirloin steak (lean, fat trimmed) contain? Give both.\"\nFirst, the user query is: \"Per 100 g, roughly how much protein and how much fat does raw beef sirloin steak (lean, fat trimmed) contain? Give both.\"\n\nI need to provide the answer ending with exactly two lines: \"Protein: <number> g\" and \"Fat: <number g\".\n\nRoughly, from standard nutritional data (USDA):\n\nFor raw beef sirloin, lean, fat trimmed (e.g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"Per 100 g, roughly how much protein and how much fat does raw beef sirloin steak (lean, fat trimmed) contain? Give both.\"\nFirst, the user query is: \"Per 100 g, roughly how much protein and how much fat does raw beef sirloin steak (lean, fat trimmed) contain? Give both.\"\n\nI need to provide the answer ending with exactly two lines: \"Protein: <number> g\" and \"Fat: <number g\".\n\nRoughly, from standard nutritional data (USDA):\n\nFor raw beef sirloin, lean, fat trimmed (e.g.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_b126a12e-c5f6-951c-b2f4-5a56160e8631",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 200,
+      "completion_tokens": 884,
+      "total_tokens": 1084,
+      "cost": 0.0023256,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0023256,
+        "upstream_inference_prompt_cost": 0.0001156,
+        "upstream_inference_completions_cost": 0.00221
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 849,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 200,
+  "tokensOut": 884,
+  "costUsd": 0.0023256,
+  "latencyMs": 6532,
+  "finishReason": "stop"
+}

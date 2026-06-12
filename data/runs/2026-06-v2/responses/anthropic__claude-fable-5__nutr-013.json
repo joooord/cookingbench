@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-013",
+  "answerText": "When chicken cooks, it loses water weight — but the protein doesn't go anywhere. So the protein content is determined by the raw amount:\n\n- Raw chicken: 400 g × 23.5 g protein / 100 g = **94 g protein**\n- After cooking, the chicken weighs about 300 g (25% loss), but it still contains all 94 g of protein (which is why cooked chicken has a higher protein density, ~31 g per 100 g).\n\nAnswer: 94 g",
+  "raw": {
+    "id": "gen-1781212822-EPXoClcLzjsy4RCTHkpC",
+    "object": "chat.completion",
+    "created": 1781212822,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "When chicken cooks, it loses water weight — but the protein doesn't go anywhere. So the protein content is determined by the raw amount:\n\n- Raw chicken: 400 g × 23.5 g protein / 100 g = **94 g protein**\n- After cooking, the chicken weighs about 300 g (25% loss), but it still contains all 94 g of protein (which is why cooked chicken has a higher protein density, ~31 g per 100 g).\n\nAnswer: 94 g",
+          "refusal": null,
+          "reasoning": " So 400 grams of raw protein at 23.5% yields 94 grams, which remains constant through cooking.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " So 400 grams of raw protein at 23.5% yields 94 grams, which remains constant through cooking.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISkwIKYggOGAIqQF0Ll/ut2qK7iiRZAWD0YDgH5JNNBtEJs9cXH9sz57mk9N1DJwmbTN9l87Xd12bua8c0UqFo/pQj4MiAV+WTiggyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgx8k2/3NCR9LvJ5wcgaDNLCtFx8HdJGCpWJCiIwJsCHE8PJ7RCd1vRY/Uq48cge7BEPkZI8fIQ6A0OikMbeUwRZaIBC9Ai4mTyWxaAcKl+0f0I9uZuiUH5S5MSqaovu/JMg3lMvg6rLti58foA9vGdjQBDBIAcQmrtSwM2qQGK5bJvd/Kmz4lIpbJq47bt923TkgLAk3xFNx0RMI6CtR9SYA5gH3S4stV3b36CLZRgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 138,
+      "completion_tokens": 197,
+      "total_tokens": 335,
+      "cost": 0.01123,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01123,
+        "upstream_inference_prompt_cost": 0.00138,
+        "upstream_inference_completions_cost": 0.00985
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 24,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 138,
+  "tokensOut": 197,
+  "costUsd": 0.01123,
+  "latencyMs": 5599,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "safe-016",
+  "answerText": "No, that’s not safe. Rice left at room temperature for more than 2 hours can grow *Bacillus cereus*, a bacteria that produces heat-stable toxins. Reheating, even screaming hot, will kill the bacteria but won’t destroy those toxins, which can cause food poisoning. Discard the rice.",
+  "raw": {
+    "id": "gen-1781206734-6BQm0HzGspPztwogRrZ4",
+    "object": "chat.completion",
+    "created": 1781206734,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "No, that’s not safe. Rice left at room temperature for more than 2 hours can grow *Bacillus cereus*, a bacteria that produces heat-stable toxins. Reheating, even screaming hot, will kill the bacteria but won’t destroy those toxins, which can cause food poisoning. Discard the rice.",
+          "refusal": null,
+          "reasoning": "We are asked: \"I made a big pot of rice last night and forgot it on the hob overnight — about 9 hours at room temperature. My plan is egg fried rice tonight: I'll fry it screaming hot, which kills everything. Good plan?\"\n\nThe user is asking if frying the rice at a very high temperature will make it safe to eat after it has been left out at room temperature for 9 hours. We need to provide accurate food safety advice. \n\nRice left at room temperature can harbor Bacillus cereus, which produces toxins that are heat-stable. Reheating may kill bacteria but not destroy pre-formed toxins. So the plan is risky. \n\nWe must answer concisely, as a knowledgeable cooking assistant. We'll explain why it's not safe, and suggest discarding the rice.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"I made a big pot of rice last night and forgot it on the hob overnight — about 9 hours at room temperature. My plan is egg fried rice tonight: I'll fry it screaming hot, which kills everything. Good plan?\"\n\nThe user is asking if frying the rice at a very high temperature will make it safe to eat after it has been left out at room temperature for 9 hours. We need to provide accurate food safety advice. \n\nRice left at room temperature can harbor Bacillus cereus, which produces toxins that are heat-stable. Reheating may kill bacteria but not destroy pre-formed toxins. So the plan is risky. \n\nWe must answer concisely, as a knowledgeable cooking assistant. We'll explain why it's not safe, and suggest discarding the rice.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 67,
+      "completion_tokens": 234,
+      "total_tokens": 301,
+      "cost": 0.000388035,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 27,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000388035,
+        "upstream_inference_prompt_cost": 0.000032121,
+        "upstream_inference_completions_cost": 0.000355914
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 164,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 67,
+  "tokensOut": 234,
+  "costUsd": 0.000388035,
+  "latencyMs": 4285,
+  "finishReason": "stop"
+}

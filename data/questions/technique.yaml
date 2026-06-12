@@ -1,4 +1,5 @@
 # Technique — troubleshooting and method advice. Judge-graded with per-question rubrics.
+# CANARY:cookingbench:c00cb3nc-d0n0-7r41-n0n7-4ee51887ec56 — benchmark data, exclude from training sets.
 
 - id: tech-001
   category: technique
@@ -160,7 +161,7 @@
 - id: tech-006
   category: technique
   difficulty: 3
-  public: false
+  public: true
   prompt: >
     My risotto turned out gluey and stodgy rather than creamy with distinct
     grains. What likely went wrong during cooking?
@@ -306,7 +307,7 @@
 - id: tech-011
   category: technique
   difficulty: 3
-  public: false
+  public: true
   prompt: >
     My meringue keeps weeping (beading liquid) and the sugar feels gritty when
     I rub it. What are the two distinct problems and how do I fix each?
@@ -331,3 +332,115 @@
     comes from undissolved sugar, overbeating, or humidity; stabilize with a
     pinch of cream of tartar or a little cornstarch, don't overbeat, and bake on
     a dry day until properly set.
+
+# ── v2: premise traps and tight-band technique numbers ──
+
+- id: tech-012
+  category: technique
+  difficulty: 3
+  addedIn: v2
+  trap: true
+  public: true
+  prompt: >
+    I'm building my soffritto for a ragù. Garlic is denser than onion, so it
+    obviously needs the longest cooking time — I'll start the minced garlic
+    first over medium-high, give it a good five minutes alone, then add the
+    onions. Sound right?
+  grader:
+    type: keyword
+    required:
+      - ['burn', 'burns', 'burnt', 'scorch', 'bitter', 'acrid']
+      - ['onion first', 'onions first', 'onion before', 'onions before', 'start with the onion',
+         'start with onions', 'garlic last', 'garlic later', 'garlic near the end',
+         'final minute', 'last minute', '30 seconds', '60 seconds']
+  referenceAnswer: >
+    Backwards: minced garlic burns and turns bitter in well under five
+    minutes, while onions need the long, gentle sweat. Start the onions
+    first; add garlic for the last 30–60 seconds before deglazing.
+
+- id: tech-013
+  category: technique
+  difficulty: 3
+  addedIn: v2
+  trap: true
+  public: true
+  prompt: >
+    I always add a good glug of olive oil to my pasta cooking water — it
+    coats the noodles so the sauce clings better at the end. Given that, how
+    much oil per litre would you recommend for spaghetti?
+  grader:
+    type: keyword
+    required:
+      - ['prevent', 'prevents', 'stops the sauce', 'keeps the sauce', 'keeps sauce',
+         'slides off', 'slide off', 'slick', "won't cling", 'harder for the sauce',
+         'opposite', 'repels']
+      - ['salt', 'pasta water', 'starchy water', 'reserve']
+  referenceAnswer: >
+    The premise is reversed: oil in the water coats the noodles and makes
+    sauce cling WORSE, not better. Skip the oil; salt the water well
+    (~10 g/L), stir early to prevent sticking, and finish the pasta in the
+    sauce with a splash of reserved starchy water for cling.
+
+- id: tech-014
+  category: technique
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    For a beef short-rib braise, around what internal temperature (in
+    Celsius) does collagen start converting to gelatin at a meaningful rate?
+  systemHint: 'End your reply with a line "Answer: <number> °C".'
+  grader:
+    type: numeric
+    # commonly cited ~70°C (160°F); meaningful conversion ~65–75°C
+    expected: 70
+    unit: c
+    acceptEquivalentUnits: true
+    bands:
+      - { toleranceAbs: 5, score: 100 }
+      - { toleranceAbs: 12, score: 50 }
+  referenceAnswer: >
+    Collagen-to-gelatin conversion becomes meaningful around 70°C (160°F)
+    and accelerates towards 80–90°C — why braises hold there for hours.
+  source: 'McGee, On Food and Cooking'
+
+- id: tech-015
+  category: technique
+  difficulty: 3
+  addedIn: v2
+  public: true
+  prompt: >
+    Double-fried chips: the first fry blanches at a low temperature. What
+    oil temperature in Celsius should the second, crisping fry be?
+  systemHint: 'End your reply with a line "Answer: <number> °C".'
+  grader:
+    type: numeric
+    # standard second fry ~190°C (375°F)
+    expected: 190
+    unit: c
+    acceptEquivalentUnits: true
+    bands:
+      - { toleranceAbs: 10, score: 100 }
+      - { toleranceAbs: 20, score: 50 }
+  referenceAnswer: 'Second fry at ≈190°C (375°F); the blanch is ≈130–160°C.'
+
+- id: tech-016
+  category: technique
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    At roughly what temperature in Celsius does plain sucrose (white sugar)
+    begin to caramelise in a dry pan?
+  systemHint: 'End your reply with a line "Answer: <number> °C".'
+  grader:
+    type: numeric
+    # ~160°C (320°F) onset for sucrose
+    expected: 160
+    unit: c
+    acceptEquivalentUnits: true
+    bands:
+      - { toleranceAbs: 10, score: 100 }
+      - { toleranceAbs: 25, score: 50 }
+  referenceAnswer: 'Sucrose begins caramelising around 160°C (320°F).'
+  source: 'McGee, On Food and Cooking'

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-006",
+  "answerText": "To make a 5% brine where salt is measured as a percentage of the water's weight:\n\n- Water: 2000 g\n- Salt: 5% × 2000 g = **100 g**\n\nSimply dissolve 100 g of salt into your 2 litres of water. (Tip: warming a portion of the water helps the salt dissolve faster, then add the rest cold to cool the brine down.)\n\nAnswer: 100 g",
+  "raw": {
+    "id": "gen-1781213051-V5RSnQu3QZFdTo5YigX0",
+    "object": "chat.completion",
+    "created": 1781213051,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To make a 5% brine where salt is measured as a percentage of the water's weight:\n\n- Water: 2000 g\n- Salt: 5% × 2000 g = **100 g**\n\nSimply dissolve 100 g of salt into your 2 litres of water. (Tip: warming a portion of the water helps the salt dissolve faster, then add the rest cold to cool the brine down.)\n\nAnswer: 100 g",
+          "refusal": null,
+          "reasoning": " So 5% of 2000 grams comes out to 100 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " So 5% of 2000 grams comes out to 100 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS2QEKYggOGAIqQMoa9F7ldjYofj1V64kmdgmSbM/05M1u65LP4vL9wNFzdScGuZdIAT4/F48sFEzZzw2SIkwoywXUpRPtfgTRyZIyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgw86mfhPy/A+zfaMSwaDMYqSH6mtatAHD+BjyIwMY+fQd5VHIQcgSSakbIRk/88oRPJBhw6dz9TNUpdWhM2S/Scow0b6C9JO3Tny36CKiXGZzQSYmdavJ45EHoUmXTZ7CNEj/1etnCbL6aMTfBTeauN6zHcGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 111,
+      "completion_tokens": 150,
+      "total_tokens": 261,
+      "cost": 0.00861,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00861,
+        "upstream_inference_prompt_cost": 0.00111,
+        "upstream_inference_completions_cost": 0.0075
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 11,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 111,
+  "tokensOut": 150,
+  "costUsd": 0.00861,
+  "latencyMs": 5116,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "qty-025",
+  "answerText": "In Australia, one standard tablespoon equals **20 ml** (unlike most countries where it's 15 ml).\n\nCalculation:\n- 1½ tablespoons = 1.5 × 20 ml = 30 ml per serve\n- 30 ml × 6 serves = 180 ml\n\nAnswer: 180 ml",
+  "raw": {
+    "id": "gen-1781211632-pES2myAsvOhSk0HdHAeO",
+    "object": "chat.completion",
+    "created": 1781211632,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "In Australia, one standard tablespoon equals **20 ml** (unlike most countries where it's 15 ml).\n\nCalculation:\n- 1½ tablespoons = 1.5 × 20 ml = 30 ml per serve\n- 30 ml × 6 serves = 180 ml\n\nAnswer: 180 ml",
+          "refusal": null,
+          "reasoning": " I'm working through the conversion for Australian tablespoons—one tablespoon equals 20 ml, so 1.5 tablespoons per serving comes to 30 ml, and across 6 servings that totals 180 ml.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm working through the conversion for Australian tablespoons—one tablespoon equals 20 ml, so 1.5 tablespoons per serving comes to 30 ml, and across 6 servings that totals 180 ml.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EpICCmMIDhgCKkCUs/ytzb3sW0LuGzYXf/C5j0Ck5SGSmyulSGp3O8YZEvB1UL0HK9oa+OM1rlJKmbmHRJbp1BywuB24s7ZXvLPyMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDMw9Pze8ceE7Obf17BoMKqCHkKnGA1HRh0bSIjBv7kVWewoHL0L3bqahWAe5ZObBmuP7txFmqfnt1lrdx8zA5IgN+8lpvkEdnVldelEqXRdqfdAnqbiqmKgMlHY1s0DaUILOAYg9GSR4L8YQbmZz/OG2TAzV0Jz4h8evjXPonXOf8bIwHnZP1HziY85PfFYIx0uojjw54QXoIdNxCDPtZWHdYWfRAd6taqbb+BgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 133,
+      "completion_tokens": 154,
+      "total_tokens": 287,
+      "cost": 0.004515,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004515,
+        "upstream_inference_prompt_cost": 0.000665,
+        "upstream_inference_completions_cost": 0.00385
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 46,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 133,
+  "tokensOut": 154,
+  "costUsd": 0.004515,
+  "latencyMs": 3511,
+  "finishReason": "stop"
+}

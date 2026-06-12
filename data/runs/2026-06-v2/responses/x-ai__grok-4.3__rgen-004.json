@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "rgen-004",
+  "answerText": "**Seeded Greek Yogurt Bowl (1 serving)**\n\n- 250 g plain non-fat Greek yogurt  \n- 30 g hemp seeds  \n- 20 g chia seeds  \n- 20 g sliced almonds  \n- Cinnamon + berries to taste  \n\n**Rough protein breakdown**  \n- Greek yogurt (250 g): 28 g  \n- Hemp seeds (30 g): 9.5 g  \n- Chia seeds (20 g): 3.5 g  \n- Almonds (20 g): 4 g  \n\n**Total: ~45 g protein** (no eggs used). Mix yogurt with seeds and nuts; top with cinnamon and berries.",
+  "raw": {
+    "id": "gen-1781209254-wEZW4jaJvuk5m6DEmPFA",
+    "object": "chat.completion",
+    "created": 1781209254,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "**Seeded Greek Yogurt Bowl (1 serving)**\n\n- 250 g plain non-fat Greek yogurt  \n- 30 g hemp seeds  \n- 20 g chia seeds  \n- 20 g sliced almonds  \n- Cinnamon + berries to taste  \n\n**Rough protein breakdown**  \n- Greek yogurt (250 g): 28 g  \n- Hemp seeds (30 g): 9.5 g  \n- Chia seeds (20 g): 3.5 g  \n- Almonds (20 g): 4 g  \n\n**Total: ~45 g protein** (no eggs used). Mix yogurt with seeds and nuts; top with cinnamon and berries.",
+          "refusal": null,
+          "reasoning": "The question is: \"Design a high-protein breakfast with at least 40 g of protein per serving, using no eggs at all. Include a rough per-ingredient protein breakdown that adds up.\"\nFirst, the user wants a high-protein breakfast ≥40g protein, no eggs, with rough per-ingredient protein breakdown that adds up.\n\nI need to design one recipe.\n\nConfidence: This is straightforward, so high confidence, say 80.\n\nStructure: Report the answer, with confidence at end.\n\nMake it natural, 1st person perspective? But instructions say: \"You are speaking directly to the end user.\" But final response as clean answer.\n\nKey: \"Your team's answer should report a confidence (integer between 0 and 100) inside \\confidence{}.\"\n\nSo, final answer like the recipe, then \\confidence{80}\n\n No tools needed, I can recall standard protein values.\n\nRecipe idea: Let's use accurate rough numbers from knowledge.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"Design a high-protein breakfast with at least 40 g of protein per serving, using no eggs at all. Include a rough per-ingredient protein breakdown that adds up.\"\nFirst, the user wants a high-protein breakfast ≥40g protein, no eggs, with rough per-ingredient protein breakdown that adds up.\n\nI need to design one recipe.\n\nConfidence: This is straightforward, so high confidence, say 80.\n\nStructure: Report the answer, with confidence at end.\n\nMake it natural, 1st person perspective? But instructions say: \"You are speaking directly to the end user.\" But final response as clean answer.\n\nKey: \"Your team's answer should report a confidence (integer between 0 and 100) inside \\confidence{}.\"\n\nSo, final answer like the recipe, then \\confidence{80}\n\n No tools needed, I can recall standard protein values.\n\nRecipe idea: Let's use accurate rough numbers from knowledge.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_dd3eaccb-20aa-9c4c-adff-5cec2135e21c",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 182,
+      "completion_tokens": 1706,
+      "total_tokens": 1888,
+      "cost": 0.0043581,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0043581,
+        "upstream_inference_prompt_cost": 0.0000931,
+        "upstream_inference_completions_cost": 0.004265
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1577,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 182,
+  "tokensOut": 1706,
+  "costUsd": 0.0043581,
+  "latencyMs": 11198,
+  "finishReason": "stop"
+}

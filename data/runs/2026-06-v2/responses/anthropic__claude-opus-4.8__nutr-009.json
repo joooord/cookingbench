@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "nutr-009",
+  "answerText": "Fat calories = 27 g × 9 kcal/g = 243 kcal.\nPercentage = 243 ÷ 600 = 40.5%.\n\nAnswer: 40.5 %",
+  "raw": {
+    "id": "gen-1781211561-pluyAUIOmocSGWnpNc3R",
+    "object": "chat.completion",
+    "created": 1781211561,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Fat calories = 27 g × 9 kcal/g = 243 kcal.\nPercentage = 243 ÷ 600 = 40.5%.\n\nAnswer: 40.5 %",
+          "refusal": null,
+          "reasoning": " Fat from the food accounts for about 40.5% of the total calories, since 27 grams of fat multiplied by 9 calories per gram gives 243 calories out of the 600 total.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " Fat from the food accounts for about 40.5% of the total calories, since 27 grams of fat multiplied by 9 calories per gram gives 243 calories out of the 600 total.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EoUCCmMIDhgCKkAiARh35CVrMQskqaeYsLkxB3RuwgTkOzetHAjA4cHoMZE86UbIcUwSLZcfyKsLtRIJWJtowlyOPG2UlD5zqbWtMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDKlZhzPf9WhC4RwjgBoMJx9cNHs2IZWVqL4nIjDe72L3VptNUQOXCwsTcfSti1g3Afz7syIJ8G+SYSjttJhEbl+iTOxyvzSyZ335pNkqUHzHQvnXo5G6fkkbKISB5yfXCxLEXugEu3PRaZ18Vb/gFX6ukCmHElqyVyHtz0DYga75HwVXj+xg90dfcQ6JCAPerQVGQr1By+hMVuU476URGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 104,
+      "completion_tokens": 104,
+      "total_tokens": 208,
+      "cost": 0.00312,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00312,
+        "upstream_inference_prompt_cost": 0.00052,
+        "upstream_inference_completions_cost": 0.0026
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 41,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 104,
+  "tokensOut": 104,
+  "costUsd": 0.00312,
+  "latencyMs": 15671,
+  "finishReason": "stop"
+}

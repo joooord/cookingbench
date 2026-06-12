@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "qty-010",
+  "answerText": "36 muffins is 3 times the original batch (36 ÷ 12 = 3), so you need 3 × 3 = 9 eggs.\n\nAnswer: 9 eggs",
+  "raw": {
+    "id": "gen-1781211618-KWXbKhgSCjWT553mbxfE",
+    "object": "chat.completion",
+    "created": 1781211618,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "36 muffins is 3 times the original batch (36 ÷ 12 = 3), so you need 3 × 3 = 9 eggs.\n\nAnswer: 9 eggs",
+          "refusal": null,
+          "reasoning": " That gives me 9 eggs total.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " That gives me 9 eggs total.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EuMBCmMIDhgCKkBSOP0naKa3K2l84WlSUPt0myfGRMlXaQ42ufWYxd25gCP8Cb+7IMr6HovHQ+XGdyCcs5yq3vZVTKHn5aH/HGAvMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDMiqOVxJD9Pfh1ymRBoMZC8rKwkiYVy+LsFZIjCfhWAeLV+lQvfKuVnEO+qBE2tKJANrfF/MEZ5E4ER/MrfeMJXJHja3JohT41XrkGQqLhyhberO18vRwKsn4ageFX02IQ8TswtG89i7mDNXRkc6l8yHjdpYG2sq1u0sJwoYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 95,
+      "completion_tokens": 85,
+      "total_tokens": 180,
+      "cost": 0.0026,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0026,
+        "upstream_inference_prompt_cost": 0.000475,
+        "upstream_inference_completions_cost": 0.002125
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 7,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 95,
+  "tokensOut": 85,
+  "costUsd": 0.0026,
+  "latencyMs": 2508,
+  "finishReason": "stop"
+}

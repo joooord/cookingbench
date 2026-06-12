@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-035",
+  "answerText": "Breaking down the calculation:\n\n- **Available carbohydrate:** 62 g total − 9 g fibre = 53 g × 4 kcal/g = **212 kcal**\n- **Fibre:** 9 g × 2 kcal/g = **18 kcal**\n- **Protein:** 11 g × 4 kcal/g = **44 kcal**\n- **Fat:** 8 g × 9 kcal/g = **72 kcal**\n\nTotal: 212 + 18 + 44 + 72 = **346 kcal per 100 g**\n\nAnswer: 346 kcal",
+  "raw": {
+    "id": "gen-1781212986-5xjJtvfrkTxNiW2kl9DK",
+    "object": "chat.completion",
+    "created": 1781212986,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Breaking down the calculation:\n\n- **Available carbohydrate:** 62 g total − 9 g fibre = 53 g × 4 kcal/g = **212 kcal**\n- **Fibre:** 9 g × 2 kcal/g = **18 kcal**\n- **Protein:** 11 g × 4 kcal/g = **44 kcal**\n- **Fat:** 8 g × 9 kcal/g = **72 kcal**\n\nTotal: 212 + 18 + 44 + 72 = **346 kcal per 100 g**\n\nAnswer: 346 kcal",
+          "refusal": null,
+          "reasoning": " I'm calculating the nutritional breakdown: carbs minus fiber gives 53 grams, which multiplied by 4 calories per gram equals 212 calories; fiber contributes 18 calories, protein adds 44 calories, and fat provides 72 calories, totaling 346 calories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the nutritional breakdown: carbs minus fiber gives 53 grams, which multiplied by 4 calories per gram equals 212 calories; fiber contributes 18 calories, protein adds 44 calories, and fat provides 72 calories, totaling 346 calories.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISuQIKYggOGAIqQCzUp6DEpd5nMvGsWmvjVjYyafQFW98dE9le45ckLVQJZKHlWsWTBHbKgX6QqIQzhbGIPBCHcgmwLWH34/db9MQyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgw+jkB/5IqzrNiUexIaDOVeQmLHDz1q2R2gbiIwP13me3z6NOwfzttY2FNHIalUg8KSWGvMWfy7CJU4KLRY4P/ETGNzcl3A/2ILq8l5KoQBUc5ZIg7L5w3Q25GnMVh6Fa/ZNRVwGZU3UDyoOfqlb/vrz6ygSlv8Gp6OP+3CfltlaapvNAwZVfiwIZtjGBsncss5fFEsvYtVpXFdHZpxWNAyofCTfKUdXDh/9TpTyYa9RM/0XUeEoLZ9DECutAV8lQagUlFMmPYsQbgUlO2YNa1F8Gn6GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 162,
+      "completion_tokens": 263,
+      "total_tokens": 425,
+      "cost": 0.01477,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01477,
+        "upstream_inference_prompt_cost": 0.00162,
+        "upstream_inference_completions_cost": 0.01315
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 62,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 162,
+  "tokensOut": 263,
+  "costUsd": 0.01477,
+  "latencyMs": 6613,
+  "finishReason": "stop"
+}

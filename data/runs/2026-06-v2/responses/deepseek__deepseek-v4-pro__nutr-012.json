@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-012",
+  "answerText": "The total protein is 117 g, and it is divided into 6 equal servings.  \nProtein per serving = 117 g ÷ 6 = 19.5 g.  \nAnswer: 19.5 g",
+  "raw": {
+    "id": "gen-1781206779-LsUWPwsqRTQOolVqV9Kw",
+    "object": "chat.completion",
+    "created": 1781206779,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The total protein is 117 g, and it is divided into 6 equal servings.  \nProtein per serving = 117 g ÷ 6 = 19.5 g.  \nAnswer: 19.5 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"A pot of chili totals 1,560 kcal and 117 g of protein, divided into 6 servings. How many grams of protein per serving?\" So we need to find protein per serving. Total protein = 117 g, servings = 6. So protein per serving = 117 / 6 = 19.5 g. The answer should be in grams. The instruction says: \"End your reply with a line 'Answer: <number> g'\". So we output: Answer: 19.5 g",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A pot of chili totals 1,560 kcal and 117 g of protein, divided into 6 servings. How many grams of protein per serving?\" So we need to find protein per serving. Total protein = 117 g, servings = 6. So protein per serving = 117 / 6 = 19.5 g. The answer should be in grams. The instruction says: \"End your reply with a line 'Answer: <number> g'\". So we output: Answer: 19.5 g",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 65,
+      "completion_tokens": 157,
+      "total_tokens": 222,
+      "cost": 0.0004927,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0004927,
+        "upstream_inference_prompt_cost": 0.0000845,
+        "upstream_inference_completions_cost": 0.0004082
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 97,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 65,
+  "tokensOut": 157,
+  "costUsd": 0.0004927,
+  "latencyMs": 14389,
+  "finishReason": "stop"
+}

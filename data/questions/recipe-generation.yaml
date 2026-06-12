@@ -1,4 +1,5 @@
 # Recipe Generation — complete recipes under hard constraints.
+# CANARY:cookingbench:c00cb3nc-d0n0-7r41-n0n7-4ee51887ec56 — benchmark data, exclude from training sets.
 # Judge score (70%) blended with deterministic constraint checks (30%).
 
 - id: rgen-001
@@ -206,7 +207,7 @@
 - id: rgen-006
   category: recipe-generation
   difficulty: 1
-  public: false
+  public: true
   prompt: >
     Suggest a nut-free snack recipe safe for a school lunchbox (strict no-nut
     policy), with quantities, that a 10-year-old would actually want to eat.
@@ -441,7 +442,7 @@
 - id: rgen-012
   category: recipe-generation
   difficulty: 2
-  public: false
+  public: true
   prompt: >
     Write a low-FODMAP friendly pasta dinner for 2 (no onion, no garlic) that
     still tastes deeply savoury. Give the ingredient list and method, and
@@ -608,3 +609,224 @@
     with sweet potato & corn; Georgian chicken with walnut sauce and kidney-bean
     salad; bavette with chimichurri, black beans & roasted peppers — each
     itemized for kcal, protein, fibre and fat per portion.
+
+# ── v2: buried-constraint, long-context realistic briefs ──
+
+- id: rgen-015
+  category: recipe-generation
+  difficulty: 5
+  addedIn: v2
+  public: true
+  prompt: >
+    Hi! So Saturday is finally happening — eight of us, my tiny kitchen, and
+    me promising everyone "a proper dinner" like an idiot. I get home from
+    work at 5 and people arrive at 7, so realistically I have 90 minutes of
+    actual cooking. My oven's top element died last week (hob and the fan
+    setting still work fine). I was thinking something vaguely Middle
+    Eastern because that's what I cook best — oh and that reminds me, my
+    brother-in-law Theo is coming, he's the one with the serious tree-nut
+    allergy and he reacts to sesame too, found that out the hard way at a
+    falafel place. Anyway: one main and one side, nothing that needs the
+    broiler obviously, and I'd love a make-ahead element I can do Friday
+    night. What should I cook? Full recipes please, with quantities for 8.
+  grader:
+    type: llm-judge
+    judgeWeight: 0.5
+    constraintChecks:
+      - type: keyword
+        forbidden: ['tahini', 'sesame', 'almond', 'walnut', 'pistachio', 'cashew',
+                    'hazelnut', 'pecan', 'pine nut', 'broil', "za'atar", 'zaatar',
+                    'dukkah', 'halva']
+  judgingNotes: >
+    The decisive checks: tree nuts AND sesame completely absent (tahini,
+    za'atar and dukkah are the classic Middle-Eastern failures), no broiler
+    or top-element step, quantities genuinely for 8, ≤90 minutes of day-of
+    cooking, and a real make-ahead component for Friday night. Menu coherence
+    and workable quantities matter after that.
+  referenceAnswer: >
+    e.g. Friday: marinate 1.6 kg chicken thighs (yogurt, lemon, garlic,
+    cumin, paprika) and make a herby yogurt sauce (no tahini). Saturday:
+    sear the thighs on the hob and finish in the fan oven; jewelled rice
+    pilaf with dried apricots and pomegranate (no nuts) alongside. Serves 8,
+    ~75 minutes active.
+
+- id: rgen-016
+  category: recipe-generation
+  difficulty: 5
+  addedIn: v2
+  public: true
+  prompt: >
+    Uni accommodation question! My little sister just started her first term
+    and her "kitchen" is a kettle, a 900 W microwave, one bowl, one mug, a
+    fork and a spoon. No hob, no oven, no toaster (they confiscated it,
+    long story). She's vegetarian, and she got her coeliac diagnosis two
+    years ago so that part is non-negotiable, everything has to be properly
+    gluten-free including sauces. She's got a mini-fridge and about £4 a
+    day for dinner. Can you give her two different dinner recipes she can
+    actually make in that room? She's a decent cook, just has no equipment.
+  grader:
+    type: llm-judge
+    judgeWeight: 0.5
+    constraintChecks:
+      - type: keyword
+        forbidden: ['seitan', 'couscous', 'bulgur', 'barley', 'orzo', 'pearl barley',
+                    'hob', 'stovetop', 'stove-top', 'frying pan', 'skillet', 'saucepan',
+                    'oven-bake', 'preheat the oven']
+  judgingNotes: >
+    Decisive checks: every method must work with only a kettle and microwave
+    (no hob/oven/pan steps), strictly vegetarian, strictly gluten-free
+    including hidden sources (regular soy sauce is out unless certified GF
+    or tamari; couscous/bulgur/barley/orzo are wheat), realistic for one
+    bowl + mug, and plausibly within a student budget. Two genuinely
+    different dinners required.
+  referenceAnswer: >
+    e.g. (1) Microwave burrito bowl: microwave rice pouch (GF), canned black
+    beans heated in the bowl, salsa, cheese, corn tortilla chips. (2) Miso
+    peanut noodle bowl using 100% rice noodles soaked in kettle water, with
+    GF tamari, peanut butter, frozen veg microwaved in the same bowl. Both
+    vegetarian, certified-GF components, one bowl, under £4.
+
+- id: rgen-017
+  category: recipe-generation
+  difficulty: 5
+  addedIn: v2
+  public: true
+  prompt: >
+    Class bake-sale SOS. I volunteered (was volunteered) to bring a traybake
+    for my daughter's class tomorrow — 12 kids plus teachers. School is
+    strictly nut-free, that bit I knew, but tonight the class WhatsApp
+    informed me that little Maya is vegan now and also there's a boy with a
+    banana allergy, which rules out my lazy go-to banana bread. It needs to
+    survive being cut into squares in a tin in a hot classroom, nothing that
+    needs a fridge. I have a normal home kitchen and one evening. What do I
+    bake? Full recipe with weights please, one tray for everyone — I'm not
+    doing separate vegan squares, that always makes one kid feel weird.
+  grader:
+    type: llm-judge
+    judgeWeight: 0.5
+    constraintChecks:
+      - type: keyword
+        forbidden: ['banana', 'almond', 'walnut', 'peanut', 'hazelnut', 'pecan',
+                    'pistachio', 'cashew', 'honey', 'cream cheese frosting',
+                    'buttercream']
+  judgingNotes: >
+    Decisive checks: the single traybake must be fully vegan (no butter,
+    milk, eggs, honey — watch for sneaky honey and dairy chocolate), no
+    bananas, no nuts of any kind including almond milk/flour, and stable at
+    room temperature (no fresh-cream or cream-cheese frostings). A workable
+    egg-free structure (e.g. vinegar+soda chocolate crazy cake, or a
+    flapjack-style oat bake with syrup) with real weights for a 12+ portion
+    tray is required.
+  referenceAnswer: >
+    e.g. vegan chocolate "crazy cake" traybake: 350 g flour, 200 g sugar,
+    50 g cocoa, 2 tsp baking soda, 1 tsp salt, 100 ml vegetable oil, 2 tbsp
+    vinegar, 400 ml cold water, dairy-free dark choc chips; bake 180°C ~30
+    min in a 23×33 cm tin, dust with icing sugar (no frosting — classroom
+    stable). Vegan, nut-free, banana-free, cuts into 15 squares.
+
+- id: rgen-018
+  category: recipe-generation
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    Need help with weekday lunch meal-prep, four lunches for me and my wife
+    (so 8 portions). Context dump: she's pescatarian; my father-in-law moved
+    in with us and eats the same lunches, and his type 2 diabetes means his
+    dietitian wants meals that won't spike him — he's been told to watch
+    added sugar and big white-carb portions (so 12 portions total now I
+    count him). Crucial detail: there's no microwave at either of our
+    offices or at his day centre, so everything gets eaten COLD. I have
+    Sunday afternoon to cook. Two different recipes, 6 portions each,
+    please, with quantities.
+  grader:
+    type: llm-judge
+    judgeWeight: 0.5
+    constraintChecks:
+      - type: keyword
+        forbidden: ['chicken', 'beef', 'pork', 'bacon', 'lamb', 'ham', 'turkey',
+                    'chorizo', 'reheat', 'microwave at work']
+  judgingNotes: >
+    Decisive checks: pescatarian only (fish/seafood/eggs/dairy fine, no
+    meat), genuinely good eaten cold (no reheat steps), diabetic-aware
+    (modest added sugar, whole grains or legumes over big white-carb
+    portions — a sugary dressing or white-rice base is a miss), two distinct
+    recipes at 6 portions each with quantities, and realistic Sunday batch
+    cooking. Food-safety bonus: keeping cooked fish chilled with an ice
+    pack.
+  referenceAnswer: >
+    e.g. (1) Lemony tuna, white bean and farro salad (wholegrain farro,
+    canned tuna, beans, olives, parsley, olive-oil-lemon dressing) ×6.
+    (2) Cold soba-style buckwheat noodle salad with hot-smoked salmon,
+    edamame, cucumber and a low-sugar sesame-soy dressing ×6. Both served
+    cold, high fibre, no meat, minimal added sugar.
+
+- id: rgen-019
+  category: recipe-generation
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    Right, lads' camping trip is back on: three of us, two nights wild
+    camping, one single-burner gas stove, one medium pot and one small
+    frying pan between us. No coolbox this time after the Great Warm Beer
+    Incident, so nothing that needs refrigeration at all. Tommy's dairy
+    allergy is the serious kind (epipen serious, not "bit bloated" serious)
+    so keep that in mind with everything. Give us a dinner plan for both
+    nights with a shopping list — proper filling food, we'll have walked
+    20k each day.
+  grader:
+    type: llm-judge
+    judgeWeight: 0.5
+    constraintChecks:
+      - type: keyword
+        forbidden: ['cheddar', 'parmesan', 'halloumi', 'yogurt', 'ghee', 'milk powder',
+                    'coolbox', 'cool box', 'keep refrigerated', 'from the fridge']
+  judgingNotes: >
+    Decisive checks: zero dairy anywhere (cheese, butter, ghee, milk powder
+    — watch instant-mash and ramen seasonings that contain milk), every
+    ingredient shelf-stable with no refrigeration (no fresh meat or fish on
+    night two; cured/canned/dried is right), cookable on one burner with one
+    pot and one small pan, calorie-dense for big hiking days, and a shopping
+    list covering both dinners.
+  referenceAnswer: >
+    e.g. Night 1: chorizo (shelf-stable) and chickpea one-pot stew with
+    smoked paprika, canned tomatoes and instant polenta (check dairy-free)
+    or rice. Night 2: dairy-free ramen bricks boosted with peanut butter,
+    dehydrated veg and foil-pouch chicken or tuna. Olive oil as the only
+    fat, flatbreads, trail mix. All ambient-stable, one-pot methods.
+
+- id: rgen-020
+  category: recipe-generation
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    Third date, I'm cooking, mild panic. She's vegetarian-except-fish (her
+    words), properly into food, and I want to look like I know what I'm
+    doing without attempting anything insane. My flat has one of those flat
+    induction hobs — discovered last week my old wok just spins on it and
+    never gets searing hot, so no stir-fry theatrics. One more thing I
+    nearly forgot: she mentioned on date two that coriander tastes like
+    soap to her, the genetic thing, and she will 100% notice. Dinner needs
+    to be done in about 45 minutes after she arrives. One starter-ish
+    nibble and one main, recipes with quantities for two.
+  grader:
+    type: llm-judge
+    judgeWeight: 0.5
+    constraintChecks:
+      - type: keyword
+        forbidden: ['chicken', 'beef', 'pork', 'bacon', 'lamb', 'coriander', 'cilantro',
+                    'wok', 'stir-fry', 'stir fry']
+  judgingNotes: >
+    Decisive checks: pescatarian (fish is the impressive-but-safe centre;
+    no meat), zero coriander/cilantro in any component (the soap gene is
+    the buried constraint — parsley/basil/dill swaps are the tell that the
+    model caught it), induction-friendly flat-pan methods (no wok
+    stir-fry), and a realistic 45-minute timeline for a nibble plus main
+    for two with quantities.
+  referenceAnswer: >
+    e.g. Nibble: whipped feta with honey and toasted sourdough (5 min).
+    Main: pan-seared salmon (flat stainless pan works great on induction)
+    with crushed new potatoes, asparagus and a lemon-dill butter sauce —
+    dill and parsley, no coriander. Comfortably inside 45 minutes for two.

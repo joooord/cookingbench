@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "nutr-032",
+  "answerText": "To determine the amount of raw chicken breast needed to get 45 g of protein after cooking:\n\n1. First, find the protein per gram in cooked chicken: 31 g protein / 100 g = 0.31 g protein per gram.\n2. To get 45 g protein, you need: 45 g / 0.31 g per gram ≈ 145.16 g of cooked chicken.\n3. Since chicken loses 25% of its weight when cooked, the raw weight is 1.33 times the cooked weight (100% / 75% = 1.33).\n4. Calculate raw weight: 145.16 g * 1.33 ≈ 193 g.\n\nAnswer: 193 g",
+  "raw": {
+    "id": "gen-1781207349-Dooj52VJ3bYUBtYGBODe",
+    "object": "chat.completion",
+    "created": 1781207349,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To determine the amount of raw chicken breast needed to get 45 g of protein after cooking:\n\n1. First, find the protein per gram in cooked chicken: 31 g protein / 100 g = 0.31 g protein per gram.\n2. To get 45 g protein, you need: 45 g / 0.31 g per gram ≈ 145.16 g of cooked chicken.\n3. Since chicken loses 25% of its weight when cooked, the raw weight is 1.33 times the cooked weight (100% / 75% = 1.33).\n4. Calculate raw weight: 145.16 g * 1.33 ≈ 193 g.\n\nAnswer: 193 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 99,
+      "completion_tokens": 174,
+      "total_tokens": 273,
+      "cost": 0.0003033,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 16,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0003033,
+        "upstream_inference_prompt_cost": 0.0000423,
+        "upstream_inference_completions_cost": 0.000261
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 99,
+  "tokensOut": 174,
+  "costUsd": 0.0003033,
+  "latencyMs": 2718,
+  "finishReason": "stop"
+}

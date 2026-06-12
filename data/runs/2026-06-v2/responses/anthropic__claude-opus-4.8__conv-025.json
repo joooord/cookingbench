@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "conv-025",
+  "answerText": "Gas Mark 5 corresponds to 375°F (190°C), so that's the setting you should use.\n\nFor reference, the gas mark scale increases by 25°F per mark around this range:\n- Gas Mark 4 = 350°F\n- Gas Mark 5 = 375°F\n- Gas Mark 6 = 400°F\n\nAnswer: 5",
+  "raw": {
+    "id": "gen-1781211466-PV6X5TuhrcLdf4tYPgxZ",
+    "object": "chat.completion",
+    "created": 1781211466,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Gas Mark 5 corresponds to 375°F (190°C), so that's the setting you should use.\n\nFor reference, the gas mark scale increases by 25°F per mark around this range:\n- Gas Mark 4 = 350°F\n- Gas Mark 5 = 375°F\n- Gas Mark 6 = 400°F\n\nAnswer: 5",
+          "refusal": null,
+          "reasoning": " 375°F corresponds to gas mark 5, which is the same temperature at 190°C.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " 375°F corresponds to gas mark 5, which is the same temperature at 190°C.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EoICCmMIDhgCKkCjpzWDO3bbNLQbe7iTsLcnMhA89Mz3vpYpG26XQShTIEo4q+VGrfHe9tvHucSGc3oEAaGV3t/DwCq4O2Un5vjxMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDLSj+9mRtQbwWwHEuRoMsrjVhqBhNjFd6KUKIjDxcu/WjW2XaghIvME/aVC3A9vrrmLOJiG4Q0LSsigGK16dZq8buSH/iXtUQcnhnPMqTapT+GD52mACNKV4jGz04zxVn21BZpOw1L2iJ6jCgcmrTan1bswSMxIvWFpwqA+YscgQafUDYzCCGtnpP6I3Z5dshsmLANyrp0tAPJ/DGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 89,
+      "completion_tokens": 149,
+      "total_tokens": 238,
+      "cost": 0.00417,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00417,
+        "upstream_inference_prompt_cost": 0.000445,
+        "upstream_inference_completions_cost": 0.003725
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 20,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 89,
+  "tokensOut": 149,
+  "costUsd": 0.00417,
+  "latencyMs": 3399,
+  "finishReason": "stop"
+}

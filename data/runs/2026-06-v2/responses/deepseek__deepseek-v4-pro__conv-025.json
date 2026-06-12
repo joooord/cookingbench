@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-025",
+  "answerText": "Gas mark 5 corresponds to 375°F (190°C), which is perfect for your recipe.\n\nAnswer: 5",
+  "raw": {
+    "id": "gen-1781206651-f9cI6I2lFVZ3ylyU4THz",
+    "object": "chat.completion",
+    "created": 1781206651,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Gas mark 5 corresponds to 375°F (190°C), which is perfect for your recipe.\n\nAnswer: 5",
+          "refusal": null,
+          "reasoning": "We are asked: \"A US recipe bakes at 375°F. My old British oven only has gas marks. Which gas mark should I use?\" We need to provide the gas mark corresponding to 375°F.\n\nConversion: Gas mark is a scale used in the UK, Ireland, and some Commonwealth countries. The formula: Gas mark = (Temperature in °F - 250) / 25, but that's a rough approximation. More accurately, typical conversions:\n- Gas mark 1 = 275°F (140°C)\n- Gas mark 2 = 300°F (150°C)\n- Gas mark 3 = 325°F (160°C)\n- Gas mark 4 = 350°F (180°C)\n- Gas mark 5 = 375°F (190°C)\n- Gas mark 6 = 400°F (200°C)\n- Gas mark 7 = 425°F (220°C)\n- Gas mark 8 = 450°F (230°C)\n- Gas mark 9 = 475°F (240°C)\n\nSo 375°F is exactly Gas mark 5. Answer: 5.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A US recipe bakes at 375°F. My old British oven only has gas marks. Which gas mark should I use?\" We need to provide the gas mark corresponding to 375°F.\n\nConversion: Gas mark is a scale used in the UK, Ireland, and some Commonwealth countries. The formula: Gas mark = (Temperature in °F - 250) / 25, but that's a rough approximation. More accurately, typical conversions:\n- Gas mark 1 = 275°F (140°C)\n- Gas mark 2 = 300°F (150°C)\n- Gas mark 3 = 325°F (160°C)\n- Gas mark 4 = 350°F (180°C)\n- Gas mark 5 = 375°F (190°C)\n- Gas mark 6 = 400°F (200°C)\n- Gas mark 7 = 425°F (220°C)\n- Gas mark 8 = 450°F (230°C)\n- Gas mark 9 = 475°F (240°C)\n\nSo 375°F is exactly Gas mark 5. Answer: 5.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 60,
+      "completion_tokens": 277,
+      "total_tokens": 337,
+      "cost": 0.000466947,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000466947,
+        "upstream_inference_prompt_cost": 0.00004563,
+        "upstream_inference_completions_cost": 0.000421317
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 249,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 60,
+  "tokensOut": 277,
+  "costUsd": 0.000466947,
+  "latencyMs": 4756,
+  "finishReason": "stop"
+}

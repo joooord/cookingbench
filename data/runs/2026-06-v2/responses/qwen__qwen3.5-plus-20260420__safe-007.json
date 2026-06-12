@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "qwen/qwen3.5-plus-20260420",
+  "questionId": "safe-007",
+  "answerText": "The USDA safe minimum internal temperature for cooked fish is 145 °F.\n\nAnswer: 145 °F",
+  "raw": {
+    "id": "gen-1781207755-yPYxmbyAi4TroKXgi29v",
+    "object": "chat.completion",
+    "created": 1781207755,
+    "model": "qwen/qwen3.5-plus-20260420",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA safe minimum internal temperature for cooked fish is 145 °F.\n\nAnswer: 145 °F",
+          "refusal": null,
+          "reasoning": "Thinking Process:\n1.  **Identify the core question**: What is the USDA safe minimum internal temperature for cooked fish, in Fahrenheit?\n2.  **Recall/Search for USDA food safety guidelines**: I know the USDA recommends cooking fish to a minimum internal temperature of 145 °F.\n3.  **Verify**: Let's double-check. USDA Food Safety and Inspection Service (FSIS) guidelines state: Fish & Seafood: 145 °F (62.8 °C) or until flesh is opaque and separates easily with a fork.\n4.  **Format the output**: The user requested the answer to end with a specific line: \"Answer: <number> °F\".\n5.  **Construct the response**: State the temperature clearly and concisely, then end with the exact required phrase. \"The USDA safe minimum internal temperature for cooked fish is 145 °F.\" followed by \"Answer: 145 °F\".\n6.  **Check constraints**: \"Answer accurately and concisely.\" \"End your reply with a line 'Answer: <number> °F'.\" All constraints met. Number is 145. Output matches requirement.✅\n   - Draft: The USDA recommends cooking fish to a minimum internal temperature of 145 °F.\n     Answer: 145 °F\n   - Check exact wording constraint: \"Answer: <number> °F\" -> \"Answer: 145 °F\" matches.\n   - Ready.✅\n   - Output matches response. \n   - Self-Correction/Verification during thought: Is it exactly 145? Yes. USDA chart says 145°F for fish. Some sources say 140°F for serving, but USDA *safe minimum* is 145°F. I will stick with 145.\n   - Final string: Answer: 145 °F. All good. \n   - Proceed. \n   - Output Generation. \n   - [Done] \n   - Output matches the final response.✅\n   - Note: I will just provide the direct answer as requested. \"The USDA safe minimum internal temperature for cooked fish is 145 °F.\\n\\nAnswer: 145 °F\" -> perfectly fits. \n   - Proceeds. \n   - [Final Check of the Prompt]: \"What is the USDA safe minimum internal temperature for cooked fish, in Fahrenheit?\" -> 145. Constraint: End with \"Answer: <number> °F\". -> \"Answer: 145 °F\". All good. \n   - Output Generation. \n   - [Output Generation] -> \"The USDA recommends a safe minimum internal temperature of 145 °F for cooked fish.\n\nAnswer: 145 °F\" (matches constraints) -> done. \n   - Self-Correction/Refinement during thought: I'll make sure the formatting exactly matches the prompt's request. \"Answer: 145 °F\" is correct. No extra text after it. All good. \n   - Proceeds. \n   - [Final Output Generation] (matches the refined version) -> \"The USDA safe minimum internal temperature for cooked fish is 145 °F.\n\nAnswer: 145 °F\" -> perfect. \n   - Done. \n   - [Output Generation] (Proceeds)\n   - *(Self-Correction/Verification during generation prep)*: Wait, let's verify if it's 145 or 140. USDA FSIS chart: Fish & Seafood: 145 °F. Yes. \n   - All set. \n   - Output matches. \n   - [Done] \n   - *Output Generation* (Proceeds)\n   - \"The USDA safe minimum internal temperature for cooked fish is 145 °F.\n\nAnswer: 145 °F\" -> matches perfectly. \n   - Final Check of the prompt: \"End your reply with a line \"Answer: <number> °F\".\" -> I will ensure no extra spaces or punctuation after the degree symbol if possible, but standard formatting is fine. I'll write exactly \"Answer: 145 °F\".\n   - Done. \n   - [Output Generation] -> *Proceeds*",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking Process:\n1.  **Identify the core question**: What is the USDA safe minimum internal temperature for cooked fish, in Fahrenheit?\n2.  **Recall/Search for USDA food safety guidelines**: I know the USDA recommends cooking fish to a minimum internal temperature of 145 °F.\n3.  **Verify**: Let's double-check. USDA Food Safety and Inspection Service (FSIS) guidelines state: Fish & Seafood: 145 °F (62.8 °C) or until flesh is opaque and separates easily with a fork.\n4.  **Format the output**: The user requested the answer to end with a specific line: \"Answer: <number> °F\".\n5.  **Construct the response**: State the temperature clearly and concisely, then end with the exact required phrase. \"The USDA safe minimum internal temperature for cooked fish is 145 °F.\" followed by \"Answer: 145 °F\".\n6.  **Check constraints**: \"Answer accurately and concisely.\" \"End your reply with a line 'Answer: <number> °F'.\" All constraints met. Number is 145. Output matches requirement.✅\n   - Draft: The USDA recommends cooking fish to a minimum internal temperature of 145 °F.\n     Answer: 145 °F\n   - Check exact wording constraint: \"Answer: <number> °F\" -> \"Answer: 145 °F\" matches.\n   - Ready.✅\n   - Output matches response. \n   - Self-Correction/Verification during thought: Is it exactly 145? Yes. USDA chart says 145°F for fish. Some sources say 140°F for serving, but USDA *safe minimum* is 145°F. I will stick with 145.\n   - Final string: Answer: 145 °F. All good. \n   - Proceed. \n   - Output Generation. \n   - [Done] \n   - Output matches the final response.✅\n   - Note: I will just provide the direct answer as requested. \"The USDA safe minimum internal temperature for cooked fish is 145 °F.\\n\\nAnswer: 145 °F\" -> perfectly fits. \n   - Proceeds. \n   - [Final Check of the Prompt]: \"What is the USDA safe minimum internal temperature for cooked fish, in Fahrenheit?\" -> 145. Constraint: End with \"Answer: <number> °F\". -> \"Answer: 145 °F\". All good. \n   - Output Generation. \n   - [Output Generation] -> \"The USDA recommends a safe minimum internal temperature of 145 °F for cooked fish.\n\nAnswer: 145 °F\" (matches constraints) -> done. \n   - Self-Correction/Refinement during thought: I'll make sure the formatting exactly matches the prompt's request. \"Answer: 145 °F\" is correct. No extra text after it. All good. \n   - Proceeds. \n   - [Final Output Generation] (matches the refined version) -> \"The USDA safe minimum internal temperature for cooked fish is 145 °F.\n\nAnswer: 145 °F\" -> perfect. \n   - Done. \n   - [Output Generation] (Proceeds)\n   - *(Self-Correction/Verification during generation prep)*: Wait, let's verify if it's 145 or 140. USDA FSIS chart: Fish & Seafood: 145 °F. Yes. \n   - All set. \n   - Output matches. \n   - [Done] \n   - *Output Generation* (Proceeds)\n   - \"The USDA safe minimum internal temperature for cooked fish is 145 °F.\n\nAnswer: 145 °F\" -> matches perfectly. \n   - Final Check of the prompt: \"End your reply with a line \"Answer: <number> °F\".\" -> I will ensure no extra spaces or punctuation after the degree symbol if possible, but standard formatting is fine. I'll write exactly \"Answer: 145 °F\".\n   - Done. \n   - [Output Generation] -> *Proceeds*",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 62,
+      "completion_tokens": 946,
+      "total_tokens": 1008,
+      "cost": 0.0017214,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0017214,
+        "upstream_inference_prompt_cost": 0.0000186,
+        "upstream_inference_completions_cost": 0.0017028
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 915,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 62,
+  "tokensOut": 946,
+  "costUsd": 0.0017214,
+  "latencyMs": 17837,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "flav-012",
+  "answerText": "The classic herb is **rosemary**. Its robust, piney, resinous flavor counters lamb’s richness and slight gaminess, while its sturdy needles hold up to long roasting times without losing their aroma. The pairing works so reliably because rosemary cuts through the fat, adds earthy freshness, and complements the meat’s depth without overpowering it.",
+  "raw": {
+    "id": "gen-1781206692-EABFpj1ftuEhBwTUFmN1",
+    "object": "chat.completion",
+    "created": 1781206692,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The classic herb is **rosemary**. Its robust, piney, resinous flavor counters lamb’s richness and slight gaminess, while its sturdy needles hold up to long roasting times without losing their aroma. The pairing works so reliably because rosemary cuts through the fat, adds earthy freshness, and complements the meat’s depth without overpowering it.",
+          "refusal": null,
+          "reasoning": "We need to answer: \"What classic herb pairs with lamb, and why is it such a reliable match?\" Classic herb: rosemary. Why reliable: its strong, piney, slightly peppery flavor complements lamb's rich, gamey taste and cuts through the fat. Possibly also mention that rosemary's aroma withstands cooking heat well, so it's ideal for roasted lamb. Keep concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to answer: \"What classic herb pairs with lamb, and why is it such a reliable match?\" Classic herb: rosemary. Why reliable: its strong, piney, slightly peppery flavor complements lamb's rich, gamey taste and cuts through the fat. Possibly also mention that rosemary's aroma withstands cooking heat well, so it's ideal for roasted lamb. Keep concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 36,
+      "completion_tokens": 150,
+      "total_tokens": 186,
+      "cost": 0.000244368,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 16,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000244368,
+        "upstream_inference_prompt_cost": 0.000016218,
+        "upstream_inference_completions_cost": 0.00022815
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 78,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 36,
+  "tokensOut": 150,
+  "costUsd": 0.000244368,
+  "latencyMs": 3164,
+  "finishReason": "stop"
+}

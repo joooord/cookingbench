@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "subs-011",
+  "answerText": "No, bread flour is not a good swap for cake flour.\n\nBread flour's high protein (11-13%) develops strong gluten, yielding a tough, dense, chewy result with poor rise instead of the light, tender crumb cake flour (7-9% protein) provides.\n\n**Better fix:** Approximate cake flour by mixing ¾ cup bread flour + ¼ cup cornstarch (sift well) for each cup needed. This lowers effective protein and improves tenderness, though results won't be identical to true cake flour.",
+  "raw": {
+    "id": "gen-1781209332-20w96J2hWboeKNhUkFiu",
+    "object": "chat.completion",
+    "created": 1781209332,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "No, bread flour is not a good swap for cake flour.\n\nBread flour's high protein (11-13%) develops strong gluten, yielding a tough, dense, chewy result with poor rise instead of the light, tender crumb cake flour (7-9% protein) provides.\n\n**Better fix:** Approximate cake flour by mixing ¾ cup bread flour + ¼ cup cornstarch (sift well) for each cup needed. This lowers effective protein and improves tenderness, though results won't be identical to true cake flour.",
+          "refusal": null,
+          "reasoning": "The question is: \"My recipe needs 1 cup of cake flour and I have only bread flour. Is that a good swap? If not, explain what would happen and a better fix.\"\nFirst, the question: Is bread flour a good swap for cake flour? If not, explain what would happen and a better fix.\n\nFrom my knowledge:\n\n- Cake flour: ~7-8% protein, softens texture.\n\n- Bread flour: ~12-14% protein, for structure.\n\nDirect swap: Not 1:1. Bread flour will make cake denser, chewier, less rise due to excess gluten.\n\nWhat happens: Cake will be tough, flat, poor texture.\n\nBetter fix: Use bread flour with cornstarch to lower gluten. For example, replace 1 cup bread flour with 3/4 cup bread flour + 1/4 cup cornstarch to approximate cake flour's protein content (since 3/4*13% ≈ 9.75%, close to 8%).\n\nOr more precisely, calculate: For 1 cup cake (8% protein), use about 0.65-0.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"My recipe needs 1 cup of cake flour and I have only bread flour. Is that a good swap? If not, explain what would happen and a better fix.\"\nFirst, the question: Is bread flour a good swap for cake flour? If not, explain what would happen and a better fix.\n\nFrom my knowledge:\n\n- Cake flour: ~7-8% protein, softens texture.\n\n- Bread flour: ~12-14% protein, for structure.\n\nDirect swap: Not 1:1. Bread flour will make cake denser, chewier, less rise due to excess gluten.\n\nWhat happens: Cake will be tough, flat, poor texture.\n\nBetter fix: Use bread flour with cornstarch to lower gluten. For example, replace 1 cup bread flour with 3/4 cup bread flour + 1/4 cup cornstarch to approximate cake flour's protein content (since 3/4*13% ≈ 9.75%, close to 8%).\n\nOr more precisely, calculate: For 1 cup cake (8% protein), use about 0.65-0.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_ab7e63d9-869b-98f8-aa26-a94a6260d2fb",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 182,
+      "completion_tokens": 1285,
+      "total_tokens": 1467,
+      "cost": 0.0033056,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0033056,
+        "upstream_inference_prompt_cost": 0.0000931,
+        "upstream_inference_completions_cost": 0.0032125
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1181,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 182,
+  "tokensOut": 1285,
+  "costUsd": 0.0033056,
+  "latencyMs": 11874,
+  "finishReason": "stop"
+}

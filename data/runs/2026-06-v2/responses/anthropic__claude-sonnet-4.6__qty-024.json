@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "qty-024",
+  "answerText": "## Scaling the Recipe\n\n**Step 1: Scale the volume from 4 to 6 servings**\n\n$$600 \\text{ ml} \\times \\frac{6}{4} = 600 \\times 1.5 = 900 \\text{ ml}$$\n\n**Step 2: Convert millilitres to US cups**\n\n1 US cup = 236.588 ml\n\n$$\\frac{900}{236.588} \\approx 3.80 \\text{ US cups}$$\n\nThis is very close to **3¾ cups**, which is a practical amount to measure (3 cups + ¾ cup).\n\nAnswer: 3.80 cups",
+  "raw": {
+    "id": "gen-1781210097-6zfY2Vk46uR0rUmH3X4g",
+    "object": "chat.completion",
+    "created": 1781210097,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Scaling the Recipe\n\n**Step 1: Scale the volume from 4 to 6 servings**\n\n$$600 \\text{ ml} \\times \\frac{6}{4} = 600 \\times 1.5 = 900 \\text{ ml}$$\n\n**Step 2: Convert millilitres to US cups**\n\n1 US cup = 236.588 ml\n\n$$\\frac{900}{236.588} \\approx 3.80 \\text{ US cups}$$\n\nThis is very close to **3¾ cups**, which is a practical amount to measure (3 cups + ¾ cup).\n\nAnswer: 3.80 cups",
+          "refusal": null,
+          "reasoning": "The recipe serves 4 and uses 600 ml. I need to scale it to serve 6.\n\nScaled amount = 600 ml × (6/4) = 600 × 1.5 = 900 ml\n\nNow convert 900 ml to US cups.\n1 US cup = 236.588 ml\n\n900 / 236.588 = 3.8039... ≈ 3.80 US cups\n\nSo approximately 3¾ cups (3.8 cups).",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The recipe serves 4 and uses 600 ml. I need to scale it to serve 6.\n\nScaled amount = 600 ml × (6/4) = 600 × 1.5 = 900 ml\n\nNow convert 900 ml to US cups.\n1 US cup = 236.588 ml\n\n900 / 236.588 = 3.8039... ≈ 3.80 US cups\n\nSo approximately 3¾ cups (3.8 cups).",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EswDCmUIDhgCKkB0mmqR0A11HQj8iJIQHaYLHnVwtlrDoolsvj6kkL42c8kj+hOieFst2lPwhznfqGxFTLX0FkzRh5hfm3dawtpPMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMgDrUABAhYLtXc2LRGgyIwt5OOxlAh/1KQegiMGB2NUWUndQUxu8yIzSRyk991u7wYGGw5JyMuyeg9nDH9cg3VPnseJfwSs8T2q249yqUAtvqGy6324wrc2aZxnwDfBiJUssf+H52nw8Eq53N3M07bFgT8j9xdrI1ZYVkyYdOGI2X2CL7zTtE9tBdjhQvnR7tA6mprf6YXUc5GvL1orTOZA++9W+HCHLQSGy9t74XDHTmaSjs4iUjBlae/qhvxC6QdH5IxH0pLd8EGn479T3RdI6v5L1iiuCNyogwfOovGiZSOAGYbbcil6rIJPCcIJqULL1uQrVArhnLgEncJEw9FW1hXtvELQK1ruo8gJivF5jVcmJPNvuT6UN9TtAfmuSTH6cSK3K6763UIiNb42fLJKmEnceZ8toeychE3an68VxfqNouKj+fNXGLxhHhaioBWFTfdwEdrQylq3lcFeshugkDBxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 89,
+      "completion_tokens": 295,
+      "total_tokens": 384,
+      "cost": 0.004692,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004692,
+        "upstream_inference_prompt_cost": 0.000267,
+        "upstream_inference_completions_cost": 0.004425
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 74,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 89,
+  "tokensOut": 295,
+  "costUsd": 0.004692,
+  "latencyMs": 5971,
+  "finishReason": "stop"
+}

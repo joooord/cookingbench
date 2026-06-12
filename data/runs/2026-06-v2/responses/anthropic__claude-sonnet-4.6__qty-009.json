@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "qty-009",
+  "answerText": "## Calculating the Dough Formula\n\n**Total baker's percentage:** 100 + 68 + 2 + 1.2 = **171.2%**\n\n**Flour weight** = 1712 ÷ 1.712 = **1000 g**\n\nThen multiply each percentage by the flour weight:\n\n| Ingredient | Calculation | Weight |\n|------------|-------------|--------|\n| Flour | 1000 × 100% | 1000 g |\n| Water | 1000 × 68% | 680 g |\n| Salt | 1000 × 2% | 20 g |\n| Yeast | 1000 × 1.2% | 12 g |\n| **Total** | | **1712 g** ✓ |\n\n---\n\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g",
+  "raw": {
+    "id": "gen-1781210076-DYw46VZsYGmdUs5CoE9l",
+    "object": "chat.completion",
+    "created": 1781210076,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Calculating the Dough Formula\n\n**Total baker's percentage:** 100 + 68 + 2 + 1.2 = **171.2%**\n\n**Flour weight** = 1712 ÷ 1.712 = **1000 g**\n\nThen multiply each percentage by the flour weight:\n\n| Ingredient | Calculation | Weight |\n|------------|-------------|--------|\n| Flour | 1000 × 100% | 1000 g |\n| Water | 1000 × 68% | 680 g |\n| Salt | 1000 × 2% | 20 g |\n| Yeast | 1000 × 1.2% | 12 g |\n| **Total** | | **1712 g** ✓ |\n\n---\n\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g",
+          "refusal": null,
+          "reasoning": "Baker's percentages are based on flour weight. The total percentage is 100 + 68 + 2 + 1.2 = 171.2%\n\nSo flour = 1712 / 1.712 = 1000 g\n\nWater = 1000 × 0.68 = 680 g\nSalt = 1000 × 0.02 = 20 g\nYeast = 1000 × 0.012 = 12 g\n\nTotal = 1000 + 680 + 20 + 12 = 1712 g ✓",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Baker's percentages are based on flour weight. The total percentage is 100 + 68 + 2 + 1.2 = 171.2%\n\nSo flour = 1712 / 1.712 = 1000 g\n\nWater = 1000 × 0.68 = 680 g\nSalt = 1000 × 0.02 = 20 g\nYeast = 1000 × 0.012 = 12 g\n\nTotal = 1000 + 680 + 20 + 12 = 1712 g ✓",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Es4DCmUIDhgCKkA6ao0NfXjag7qHixjIqUtln4BpNCUSDUSvdQnYpOzZz5DP7DLJW5UrKYzSY92bZzBmsl5YcSnAuXTvncH6jcFxMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIM5U2221nzn+Fa+lyWGgyD3mu71C8/y2aZKJgiMHt7U2nh5rXY/d2BEo3P7m2OSq1avsMoaNXx2EWSstw7WaeKPDSJ7bk2cJVwEtu3QiqWArgIZUm4Pq2DI0Io+K/gusIUCl6wpsBOCZHljuN7V9LwOIx+nvJI9uS9p8+mAzweCvaIF6bfiIQguK6bYCF2t8OcJWqzkIMXmx7h1auIEwImyCPPfYXgp1VEGVmdWoFIFoZnpLIH8I9Rl3Gv0pHHtmZTbmTHl0yoXAkIrOrYVSSvV0zneTsQrxnBJncsm5XY8fV+ai0UdWe8rrHDfdWw0i9nauyw3NZqzY9s/RhebxVBXTqkqW6vbsTRvY42eUVS949E4wrk8esqraHwq98U0gLJeAbyTCkOE7QKH4GMDagC7vTSWPSnTRKIx1LBa7D/mZfet4QypVumL6wfOosM/Yde8Ma/Y0DzaP+DAtvMyTAVAeMQUdp9GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 98,
+      "completion_tokens": 381,
+      "total_tokens": 479,
+      "cost": 0.006009,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.006009,
+        "upstream_inference_prompt_cost": 0.000294,
+        "upstream_inference_completions_cost": 0.005715
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 73,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 98,
+  "tokensOut": 381,
+  "costUsd": 0.006009,
+  "latencyMs": 6598,
+  "finishReason": "stop"
+}

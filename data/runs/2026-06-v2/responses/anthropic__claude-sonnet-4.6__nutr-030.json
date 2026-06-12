@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-030",
+  "answerText": "## Cooking and Protein in Chicken Breast\n\n**The total amount of protein stays roughly the same.** Cooking doesn't destroy or eliminate protein molecules — you're not losing grams of protein by applying heat.\n\n**What cooking *does* do:**\n\n- **Denatures the protein** — heat unravels the tightly folded protein structures (like myosin and actin in muscle). This is why cooked chicken turns firm and opaque instead of soft and translucent. The protein is chemically changed in shape, but it's still protein.\n- **Can slightly improve digestibility** — denatured proteins are actually a bit *easier* for your digestive enzymes to break down, so cooked chicken may be marginally more bioavailable than raw.\n- **Causes moisture loss** — this is the key practical point. As chicken cooks, it loses water and shrinks. So **100g of cooked chicken has more protein per gram than 100g of raw chicken**, simply because water has been driven out and the protein is more concentrated. The absolute amount of protein is essentially unchanged, but the density increases.\n\n**What cooking does *not* do:**\n\n- Does not meaningfully destroy amino acids at normal cooking temperatures\n- Does not significantly reduce the nutritional value of the protein\n\n**Bottom line:** Same protein, just denatured and more concentrated per gram after cooking due to water loss.",
+  "raw": {
+    "id": "gen-1781210034-613vLufBAIwp4rKg0kV7",
+    "object": "chat.completion",
+    "created": 1781210034,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Cooking and Protein in Chicken Breast\n\n**The total amount of protein stays roughly the same.** Cooking doesn't destroy or eliminate protein molecules — you're not losing grams of protein by applying heat.\n\n**What cooking *does* do:**\n\n- **Denatures the protein** — heat unravels the tightly folded protein structures (like myosin and actin in muscle). This is why cooked chicken turns firm and opaque instead of soft and translucent. The protein is chemically changed in shape, but it's still protein.\n- **Can slightly improve digestibility** — denatured proteins are actually a bit *easier* for your digestive enzymes to break down, so cooked chicken may be marginally more bioavailable than raw.\n- **Causes moisture loss** — this is the key practical point. As chicken cooks, it loses water and shrinks. So **100g of cooked chicken has more protein per gram than 100g of raw chicken**, simply because water has been driven out and the protein is more concentrated. The absolute amount of protein is essentially unchanged, but the density increases.\n\n**What cooking does *not* do:**\n\n- Does not meaningfully destroy amino acids at normal cooking temperatures\n- Does not significantly reduce the nutritional value of the protein\n\n**Bottom line:** Same protein, just denatured and more concentrated per gram after cooking due to water loss.",
+          "refusal": null,
+          "reasoning": "The user is asking about what cooking does to protein content in food, using chicken breast as an example.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking about what cooking does to protein content in food, using chicken breast as an example.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "ErICCmUIDhgCKkD+bqT7UuFxPLe9wDmf5k9kfs6qhjMesoBd8RgTIVs+0NbgTv6Qym+7Qeats8Vs9rdxpRpfP/na9Ue/+8gvQ74SMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMibD8xEHbjiKfAj/lGgz0PH+QMsbdmtzNZpoiMBtrdd7A0DeTHeeBBftc8X7nb5FJvCUcNw0M8e9d9/zetPC+CV4xauMUQmFUeSpYSSp78UF739UfmJZMmgr7omY2zTyxcPEgDtEexdsHmWdl2eK8oXzT560rZ1XB7SLurb3bHMmhlllwjPvcf8D1MNTzyPbjUvaTvYnN4gJ7JpfPMJNyMs5Bv095Q8Jtp8z37wcgEEAWmuqnf+wTRDEcvwIIBQgqVgUyMn6DM45xGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 57,
+      "completion_tokens": 343,
+      "total_tokens": 400,
+      "cost": 0.005316,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.005316,
+        "upstream_inference_prompt_cost": 0.000171,
+        "upstream_inference_completions_cost": 0.005145
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 27,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 57,
+  "tokensOut": 343,
+  "costUsd": 0.005316,
+  "latencyMs": 8413,
+  "finishReason": "stop"
+}

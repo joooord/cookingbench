@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "conv-020",
+  "answerText": "Gas mark 7 corresponds to about **220 °C** in a conventional oven. For a fan (convection) oven, you should reduce the temperature by roughly 20 °C, giving **200 °C**.\n\nAnswer: 200 °C",
+  "raw": {
+    "id": "gen-1781211461-6RU0qWHALchapP7TyA4x",
+    "object": "chat.completion",
+    "created": 1781211461,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Gas mark 7 corresponds to about **220 °C** in a conventional oven. For a fan (convection) oven, you should reduce the temperature by roughly 20 °C, giving **200 °C**.\n\nAnswer: 200 °C",
+          "refusal": null,
+          "reasoning": " Gas mark 7 converts to 220°C in a conventional oven, but I need to account for fan ovens running about 20°C cooler, so that would be 200°C.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " Gas mark 7 converts to 220°C in a conventional oven, but I need to account for fan ovens running about 20°C cooler, so that would be 200°C.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EpQCCmMIDhgCKkA3ugZfpNsgC0vEn0YtZUIAVI/OnVlDTUS0RDTb63v6Pt2CVBuF6eVfcoyTy40W4VqeDIHhIr9QDgunq/SKxk/IMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDL3S3fy08qCAIV+7wRoMXXfJnB7Y6P2vPFY0IjAb8giNc/rG5wrBTS5T/NOrYvJXYQFzXovURfg7VaZImtAjWy5lwVtOkvJQJqx6r44qX7ewlq/jXoN519Wca7cfXvb0rw8/YkYx5abu1qWG0g+a3E86j0NnvIAo8pUN9EMFnq313x1psudxOLPb5bpt0v+BmZdfhG/DmVSKfmKtzsPLh+Hr4ggaFZ4zoqtrWOjOGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 97,
+      "completion_tokens": 119,
+      "total_tokens": 216,
+      "cost": 0.00346,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00346,
+        "upstream_inference_prompt_cost": 0.000485,
+        "upstream_inference_completions_cost": 0.002975
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 38,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 97,
+  "tokensOut": 119,
+  "costUsd": 0.00346,
+  "latencyMs": 4895,
+  "finishReason": "stop"
+}

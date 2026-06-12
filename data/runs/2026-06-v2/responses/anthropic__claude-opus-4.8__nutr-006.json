@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "nutr-006",
+  "answerText": "Protein content: 12 g per 40 g scoop = 0.3 g protein per gram of powder.\n\nFor 150 g: 150 × (12 ÷ 40) = 150 × 0.3 = 45 g\n\nAnswer: 45 g",
+  "raw": {
+    "id": "gen-1781211555-t66xU278O45koAQysb82",
+    "object": "chat.completion",
+    "created": 1781211555,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Protein content: 12 g per 40 g scoop = 0.3 g protein per gram of powder.\n\nFor 150 g: 150 × (12 ÷ 40) = 150 × 0.3 = 45 g\n\nAnswer: 45 g",
+          "refusal": null,
+          "reasoning": " I'm calculating the total protein content by figuring out how many scoops are in 150g, then multiplying by the protein per scoop to get 45g total.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the total protein content by figuring out how many scoops are in 150g, then multiplying by the protein per scoop to get 45g total.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EvsBCmMIDhgCKkAq+vgXJ1vOXr/b6sKh4gvrfFSpIV8cZMl3RLkAW18S2hUwAZk7H1F0NjKphCYza0YP4iBmgNN0BquktJEbt5lHMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDMsKLiSK6JnPIFJDSRoMS1GYtzmHemV7d259IjD0FXBGITY/vs7VrPqF5ObkkjZdTY8rvuiR9dZEGFiSUFclZ9tWpPorHTdBVBr8dYkqRr67pnEbzDArPFRJde12d6Xlt7+fVO4OH58w+4W+GF4ajKLWiPOMW09lfjQOYg+01aOV4H+Y3uR7g3HlyrgUwEjKERRhnl8YAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 94,
+      "completion_tokens": 120,
+      "total_tokens": 214,
+      "cost": 0.00347,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00347,
+        "upstream_inference_prompt_cost": 0.00047,
+        "upstream_inference_completions_cost": 0.003
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 37,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 94,
+  "tokensOut": 120,
+  "costUsd": 0.00347,
+  "latencyMs": 2903,
+  "finishReason": "stop"
+}

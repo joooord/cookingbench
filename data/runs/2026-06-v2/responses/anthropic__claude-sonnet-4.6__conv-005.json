@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "conv-005",
+  "answerText": "500 ml of stock is approximately **2.11 US cups** (since 1 US cup = 236.6 ml, so 500 ÷ 236.6 ≈ 2.11). This is often rounded to **2 cups** in recipes.\n\nAnswer: 2.11 cups",
+  "raw": {
+    "id": "gen-1781209817-bVdk28s8EJQyxqApdyO7",
+    "object": "chat.completion",
+    "created": 1781209817,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "500 ml of stock is approximately **2.11 US cups** (since 1 US cup = 236.6 ml, so 500 ÷ 236.6 ≈ 2.11). This is often rounded to **2 cups** in recipes.\n\nAnswer: 2.11 cups",
+          "refusal": null,
+          "reasoning": "500 ml to US cups conversion.\n1 US cup = 236.588 ml\n500 / 236.588 ≈ 2.113 cups\n\nSo approximately 2.11 cups, often rounded to about 2 cups.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "500 ml to US cups conversion.\n1 US cup = 236.588 ml\n500 / 236.588 ≈ 2.113 cups\n\nSo approximately 2.11 cups, often rounded to about 2 cups.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EtUCCmUIDhgCKkB21ZyqkpfgOV0V5OzCJCE06mmdZ3Zp69ATpwF8PvaxDXSxMiB4IU0pzffjLUHtb8VqwJW/iCQGoynIEOM19K6JMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMcYkePPpn2CS4aOdAGgyMdJLgIO8mI/yVt3oiMOcj9VdAMIXC4BUY2c0r4Xy2Z0jnEa08vUxEFhVOPiG2jdmgLcxGCx0k28kHm4knayqdAXWxrDVDxepQT/me0GbCn4aHAoStOpP6SHgjhDES4e9MjKeU8FIRpOE5FMtV6KMLQ+9kyGEiCqkBniga6qLUF5GbInC7t6ZJEJq6i1GeN0ebl15LxzvJvFG64A/rcuaapnJmWEscrSa9CCF2JwhKcWzxAY3vgzQ3nS1xvBFi2jhDaZjcLNoYIMkkB71h4WshTewONStffz2sY2hCxLUYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 54,
+      "completion_tokens": 150,
+      "total_tokens": 204,
+      "cost": 0.002412,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002412,
+        "upstream_inference_prompt_cost": 0.000162,
+        "upstream_inference_completions_cost": 0.00225
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 39,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 54,
+  "tokensOut": 150,
+  "costUsd": 0.002412,
+  "latencyMs": 3733,
+  "finishReason": "stop"
+}

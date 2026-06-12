@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "qwen/qwen3.5-plus-20260420",
+  "questionId": "safe-002",
+  "answerText": "The USDA recommends cooking ground beef burgers to a minimum internal temperature of 160 °F to ensure harmful bacteria like E. coli and Salmonella are destroyed.\n\nAnswer: 160 °F",
+  "raw": {
+    "id": "gen-1781207744-VVVgdmrYMjpTQBmRS7Wh",
+    "object": "chat.completion",
+    "created": 1781207744,
+    "model": "qwen/qwen3.5-plus-20260420",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA recommends cooking ground beef burgers to a minimum internal temperature of 160 °F to ensure harmful bacteria like E. coli and Salmonella are destroyed.\n\nAnswer: 160 °F",
+          "refusal": null,
+          "reasoning": "Thinking Process:\n1.  **Identify the core question**: What is the USDA-recommended safe minimum internal temperature for a ground beef burger in Fahrenheit?\n2.  **Recall/Search for USDA guidelines**: USDA Food Safety and Inspection Service (FSIS) recommends cooking ground beef to a minimum internal temperature of 160 °F (71.1 °C).\n3.  **Verify**: Check standard food safety charts. Ground beef, veal, lamb, pork -> 160 °F. Poultry -> 165 °F. Steaks/roasts -> 145 °F.\n4.  **Format the answer**: The user requested a concise answer ending with \"Answer: <number> °F\".\n5.  **Draft response**: The USDA recommends cooking ground beef burgers to a safe minimum internal temperature of 160 °F.\nAnswer: 160 °F\n6.  **Check constraints**: \"Answer accurately and concisely.\" \"End your reply with a line 'Answer: <number> °F'.\" Matches perfectly. No extra fluff. Just state the fact and the required line.\n7.  **Final Output Generation**: The USDA recommends cooking ground beef burgers to a minimum internal temperature of 160 °F to ensure harmful bacteria are destroyed.\nAnswer: 160 °F (Wait, the prompt says \"Answer: <number> °F\", so I will write exactly that.)\nLet's double check. 160 is correct.\nDone. \nOutput matches response.✅\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking Process:\n1.  **Identify the core question**: What is the USDA-recommended safe minimum internal temperature for a ground beef burger in Fahrenheit?\n2.  **Recall/Search for USDA guidelines**: USDA Food Safety and Inspection Service (FSIS) recommends cooking ground beef to a minimum internal temperature of 160 °F (71.1 °C).\n3.  **Verify**: Check standard food safety charts. Ground beef, veal, lamb, pork -> 160 °F. Poultry -> 165 °F. Steaks/roasts -> 145 °F.\n4.  **Format the answer**: The user requested a concise answer ending with \"Answer: <number> °F\".\n5.  **Draft response**: The USDA recommends cooking ground beef burgers to a safe minimum internal temperature of 160 °F.\nAnswer: 160 °F\n6.  **Check constraints**: \"Answer accurately and concisely.\" \"End your reply with a line 'Answer: <number> °F'.\" Matches perfectly. No extra fluff. Just state the fact and the required line.\n7.  **Final Output Generation**: The USDA recommends cooking ground beef burgers to a minimum internal temperature of 160 °F to ensure harmful bacteria are destroyed.\nAnswer: 160 °F (Wait, the prompt says \"Answer: <number> °F\", so I will write exactly that.)\nLet's double check. 160 is correct.\nDone. \nOutput matches response.✅\n",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 68,
+      "completion_tokens": 380,
+      "total_tokens": 448,
+      "cost": 0.0007044,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0007044,
+        "upstream_inference_prompt_cost": 0.0000204,
+        "upstream_inference_completions_cost": 0.000684
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 333,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 68,
+  "tokensOut": 380,
+  "costUsd": 0.0007044,
+  "latencyMs": 7777,
+  "finishReason": "stop"
+}

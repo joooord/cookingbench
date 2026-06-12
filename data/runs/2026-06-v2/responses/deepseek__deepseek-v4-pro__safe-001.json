@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "safe-001",
+  "answerText": "The USDA recommends cooking chicken breast to a safe minimum internal temperature of 74°C (165°F).  \nAnswer: 74 °C",
+  "raw": {
+    "id": "gen-1781206706-eeg5zNVC1VwVkRikdGwS",
+    "object": "chat.completion",
+    "created": 1781206706,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Together",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA recommends cooking chicken breast to a safe minimum internal temperature of 74°C (165°F).  \nAnswer: 74 °C",
+          "refusal": null,
+          "reasoning": "We are asked: \"What is the USDA-recommended safe minimum internal temperature for chicken breast, in Celsius?\"\n\nWe need to recall the USDA recommended safe minimum internal temperature for chicken breast. The USDA recommends cooking poultry, including chicken breast, to an internal temperature of 165°F (74°C). So in Celsius, it's 74°C.\n\nThe answer should end with \"Answer: <number> °C\". So we output: \"Answer: 74 °C\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"What is the USDA-recommended safe minimum internal temperature for chicken breast, in Celsius?\"\n\nWe need to recall the USDA recommended safe minimum internal temperature for chicken breast. The USDA recommends cooking poultry, including chicken breast, to an internal temperature of 165°F (74°C). So in Celsius, it's 74°C.\n\nThe answer should end with \"Answer: <number> °C\". So we output: \"Answer: 74 °C\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 53,
+      "completion_tokens": 130,
+      "total_tokens": 183,
+      "cost": 0.00054462,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00054462,
+        "upstream_inference_prompt_cost": 0.00009222,
+        "upstream_inference_completions_cost": 0.0004524
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 99,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 53,
+  "tokensOut": 130,
+  "costUsd": 0.00054462,
+  "latencyMs": 5651,
+  "finishReason": "stop"
+}

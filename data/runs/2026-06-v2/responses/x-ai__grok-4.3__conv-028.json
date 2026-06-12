@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "conv-028",
+  "answerText": "250 ml is ~1.06 US cups, so doubled (500 ml) is ~2.11 US cups. \nAnswer: 2.11 cups",
+  "raw": {
+    "id": "gen-1781209122-2aF24e3pB3nLSYxpo8i7",
+    "object": "chat.completion",
+    "created": 1781209122,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "250 ml is ~1.06 US cups, so doubled (500 ml) is ~2.11 US cups. \nAnswer: 2.11 cups",
+          "refusal": null,
+          "reasoning": "The question is: My Polish grandmother's recipe calls for \"1 szklanka\" (the standard Polish glass measure, 250 ml) of sour cream, but I'm working with US cups. I'm doubling the recipe. How many US cup...250 ml is 1.0567 US cups, doubled is 2.1134, so about 2.1 cups? But let's calculate precisely.\n\nI need to use a tool for calculation, but I have no tools, only reasoning.\n\n1 US cup = 236.6 ml approximately.\n\n500 ml / 236.6 ≈ 2.113\n\nPerhaps the answer is 2.1 cups or 2 cups.\n\nIn Polish, szklanka is 250ml, and US cup is different.\n\nI think the expected answer is 2 cups, but that would be inaccurate.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: My Polish grandmother's recipe calls for \"1 szklanka\" (the standard Polish glass measure, 250 ml) of sour cream, but I'm working with US cups. I'm doubling the recipe. How many US cup...250 ml is 1.0567 US cups, doubled is 2.1134, so about 2.1 cups? But let's calculate precisely.\n\nI need to use a tool for calculation, but I have no tools, only reasoning.\n\n1 US cup = 236.6 ml approximately.\n\n500 ml / 236.6 ≈ 2.113\n\nPerhaps the answer is 2.1 cups or 2 cups.\n\nIn Polish, szklanka is 250ml, and US cup is different.\n\nI think the expected answer is 2 cups, but that would be inaccurate.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_fa9a44ba-befb-951f-b152-538258be01b9",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 209,
+      "completion_tokens": 1066,
+      "total_tokens": 1275,
+      "cost": 0.00279185,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00279185,
+        "upstream_inference_prompt_cost": 0.00012685,
+        "upstream_inference_completions_cost": 0.002665
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1034,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 209,
+  "tokensOut": 1066,
+  "costUsd": 0.00279185,
+  "latencyMs": 9995,
+  "finishReason": "stop"
+}

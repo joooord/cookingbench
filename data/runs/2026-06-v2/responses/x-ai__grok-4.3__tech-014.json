@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "tech-014",
+  "answerText": "Collagen in tough beef cuts like short ribs begins a slow, time-dependent hydrolysis to gelatin once the meat's internal temperature exceeds ~60 °C, but the reaction only reaches a practically useful (“meaningful”) rate once the collagen molecules have fully denatured and the temperature is high enough for rapid solubilization—around 70 °C. Below this point the process is too slow for typical braising times; above it, especially in the 70–80 °C range maintained for several hours, the connective tissue breaks down efficiently while the meat remains moist.\nAnswer: 70 °C",
+  "raw": {
+    "id": "gen-1781209373-INU0Gj3PwOMEK7QY0ngv",
+    "object": "chat.completion",
+    "created": 1781209373,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Collagen in tough beef cuts like short ribs begins a slow, time-dependent hydrolysis to gelatin once the meat's internal temperature exceeds ~60 °C, but the reaction only reaches a practically useful (“meaningful”) rate once the collagen molecules have fully denatured and the temperature is high enough for rapid solubilization—around 70 °C. Below this point the process is too slow for typical braising times; above it, especially in the 70–80 °C range maintained for several hours, the connective tissue breaks down efficiently while the meat remains moist.\nAnswer: 70 °C",
+          "refusal": null,
+          "reasoning": "The question is: \"For a beef short-rib braise, around what internal temperature (in Celsius) does collagen start converting to gelatin at a meaningful rate?\"The question is: \"For a beef short-rib braise, around what internal temperature (in Celsius) does collagen start converting to gelatin at a meaningful rate?\"\n\nI need to report the answer with confidence inside \\confidence{}.\n\nI recall that collagen starts to break down into gelatin around 60-65°C, but at 70°C it starts converting meaningfully in moist conditions.\n\nIn sous vide cooking for tenderizing beef, they often use 55-65°C for shorter times, but for longer conversion, higher.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"For a beef short-rib braise, around what internal temperature (in Celsius) does collagen start converting to gelatin at a meaningful rate?\"The question is: \"For a beef short-rib braise, around what internal temperature (in Celsius) does collagen start converting to gelatin at a meaningful rate?\"\n\nI need to report the answer with confidence inside \\confidence{}.\n\nI recall that collagen starts to break down into gelatin around 60-65°C, but at 70°C it starts converting meaningfully in moist conditions.\n\nIn sous vide cooking for tenderizing beef, they often use 55-65°C for shorter times, but for longer conversion, higher.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_9ac4512c-a29f-995d-8a5e-168b86c7d819",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 190,
+      "completion_tokens": 1042,
+      "total_tokens": 1232,
+      "cost": 0.0027081,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0027081,
+        "upstream_inference_prompt_cost": 0.0001031,
+        "upstream_inference_completions_cost": 0.002605
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 924,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 190,
+  "tokensOut": 1042,
+  "costUsd": 0.0027081,
+  "latencyMs": 7235,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-006",
+  "answerText": "The protein powder contains 12 g of protein per 40 g scoop, so the protein content is 12/40 = 0.3 g per gram of powder. For 150 g of powder, the protein amount is 150 × 0.3 = 45 g.\n\nAnswer: 45 g",
+  "raw": {
+    "id": "gen-1781206769-nEgNSMuFP0OUayJKE1ue",
+    "object": "chat.completion",
+    "created": 1781206769,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Parasail",
+    "system_fingerprint": "vllm-0.20.1rc1.dev1005+gcbf8428d0-tp4-ep-66a5fbd4",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The protein powder contains 12 g of protein per 40 g scoop, so the protein content is 12/40 = 0.3 g per gram of powder. For 150 g of powder, the protein amount is 150 × 0.3 = 45 g.\n\nAnswer: 45 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"A protein powder label says one 40 g scoop provides 12 g of protein. How much protein is in 150 g of the powder?\" This is a simple proportion problem. If 40 g of powder contains 12 g of protein, then the protein content per gram is 12/40 = 0.3 g protein per gram of powder. Then for 150 g, protein = 150 * 0.3 = 45 g. So answer is 45 g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A protein powder label says one 40 g scoop provides 12 g of protein. How much protein is in 150 g of the powder?\" This is a simple proportion problem. If 40 g of powder contains 12 g of protein, then the protein content per gram is 12/40 = 0.3 g protein per gram of powder. Then for 150 g, protein = 150 * 0.3 = 45 g. So answer is 45 g.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 63,
+      "completion_tokens": 169,
+      "total_tokens": 232,
+      "cost": 0.00069774,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00069774,
+        "upstream_inference_prompt_cost": 0.00010962,
+        "upstream_inference_completions_cost": 0.00058812
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 88,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 63,
+  "tokensOut": 169,
+  "costUsd": 0.00069774,
+  "latencyMs": 6374,
+  "finishReason": "stop"
+}

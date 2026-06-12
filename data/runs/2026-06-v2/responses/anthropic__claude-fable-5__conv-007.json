@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "conv-007",
+  "answerText": "8 avoirdupois ounces equal 226.8 grams (since 1 ounce = 28.3495 grams, 8 × 28.3495 ≈ 226.796 g). This is commonly rounded to 227 g in recipes, and it's also equivalent to half a pound.\n\nAnswer: 226.8 g",
+  "raw": {
+    "id": "gen-1781212393-6lbugbRMh7eVlb6EPvKe",
+    "object": "chat.completion",
+    "created": 1781212393,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "8 avoirdupois ounces equal 226.8 grams (since 1 ounce = 28.3495 grams, 8 × 28.3495 ≈ 226.796 g). This is commonly rounded to 227 g in recipes, and it's also equivalent to half a pound.\n\nAnswer: 226.8 g",
+          "refusal": null,
+          "reasoning": " Converting 8 ounces to grams by multiplying by the conversion factor of approximately 28.35 grams per ounce, which gives me about 226.8 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " Converting 8 ounces to grams by multiplying by the conversion factor of approximately 28.35 grams per ounce, which gives me about 226.8 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS6gEKYggOGAIqQAqgkxiyyIAoAIwZcF6aR7RNNcQbn6MS27C6K/OMQ4AiNqgAkZj3UV4dQt9bUjAkgq+v6HVpq/LNmImH8ChkYR8yDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgyH6/kVrZ3QMGbnR74aDNyC8db0f0eWMylARiIwGsnhFU+JNUt7whAEk9eeQ+UG4q4M8GtaqJanFY6Ll2su4drRXzXR9Veh1Fg0hY0eKja2d/de/uNEklvH0YLlS7f2ri+dmKH5YfnjpqyUL7YOgBR2Wl9M2JR4WGEWMSxISbSEUJphDggYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 75,
+      "completion_tokens": 128,
+      "total_tokens": 203,
+      "cost": 0.00715,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00715,
+        "upstream_inference_prompt_cost": 0.00075,
+        "upstream_inference_completions_cost": 0.0064
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 36,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 75,
+  "tokensOut": 128,
+  "costUsd": 0.00715,
+  "latencyMs": 4710,
+  "finishReason": "stop"
+}

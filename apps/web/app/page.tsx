@@ -2,11 +2,19 @@ import Link from 'next/link';
 import { CATEGORIES, CATEGORY_IDS } from '@cookingbench/core';
 import { getLatestReport, modelSlug } from '@/lib/data';
 import { CATEGORY_COLORS, formatScore, scoreColor } from '@/lib/format';
+import { getTasteWinrates } from '@/lib/supabase';
 
 export const revalidate = 3600;
 
-export default function LeaderboardPage() {
+export default async function LeaderboardPage() {
   const report = getLatestReport();
+  const methodology = report?.methodologyVersion ?? 'v1';
+  const isV2 = methodology !== 'v1';
+  const winrates = await getTasteWinrates();
+  const taste = new Map(
+    (winrates ?? []).filter((w) => w.battles >= 5).map((w) => [w.model_id, w]),
+  );
+  const showTaste = taste.size > 0;
   return (
     <div>
       <section className="py-16">
@@ -33,6 +41,9 @@ export default function LeaderboardPage() {
           <div className="flex items-baseline justify-between border-b-2 border-ink pb-3">
             <h2 className="font-display text-xl font-medium">
               Leaderboard <span className="text-ink-soft">· run {report.runId}</span>
+              <span className="ml-3 rounded-sm border border-hairline px-2 py-0.5 align-middle text-xs text-ink-soft">
+                methodology {methodology}
+              </span>
             </h2>
             <span className="tabular text-xs text-ink-soft">
               {new Date(report.generatedAt).toISOString().slice(0, 10)}
@@ -44,9 +55,25 @@ export default function LeaderboardPage() {
                 <th className="py-3 pr-2 font-normal">#</th>
                 <th className="py-3 pr-4 font-normal">Model</th>
                 <th className="py-3 pr-4 font-normal">Overall</th>
-                <th className="py-3 pr-4 font-normal" title="Mean score on difficulty-3 questions only — compound math, unit traps, multi-constraint requests">
-                  Hard set
-                </th>
+                {isV2 ? (
+                  <>
+                    <th className="py-3 pr-4 font-normal" title="Mean score on difficulty ≥ 4 questions — compound chains, traps, buried constraints">
+                      Frontier
+                    </th>
+                    <th className="hidden py-3 pr-4 font-normal sm:table-cell" title="Saturated v1 items kept as a regression gate — excluded from Overall">
+                      Basics
+                    </th>
+                  </>
+                ) : (
+                  <th className="py-3 pr-4 font-normal" title="Mean score on difficulty-3 questions only — compound math, unit traps, multi-constraint requests">
+                    Hard set
+                  </th>
+                )}
+                {showTaste && (
+                  <th className="hidden py-3 pr-4 font-normal sm:table-cell" title="Human blind-vote win rate from the Taste Test">
+                    Taste
+                  </th>
+                )}
                 <th className="hidden py-3 pr-4 font-normal md:table-cell">Categories</th>
                 <th className="py-3 text-right font-normal">Run cost</th>
               </tr>
@@ -70,15 +97,58 @@ export default function LeaderboardPage() {
                     >
                       {formatScore(row.overall)}
                     </span>
+                    {row.overallCi && (
+                      <span
+                        className="tabular ml-1 text-xs text-ink-soft"
+                        title="95% bootstrap confidence interval over questions"
+                      >
+                        ±{((row.overallCi[1] - row.overallCi[0]) / 2).toFixed(1)}
+                      </span>
+                    )}
                   </td>
-                  <td className="py-4 pr-4">
-                    <span
-                      className="tabular text-sm"
-                      style={{ color: scoreColor(row.hardSet ?? 0) }}
-                    >
-                      {row.hardSet == null ? '—' : formatScore(row.hardSet)}
-                    </span>
-                  </td>
+                  {isV2 ? (
+                    <>
+                      <td className="py-4 pr-4">
+                        <span
+                          className="tabular text-sm"
+                          style={{ color: scoreColor(row.frontier ?? 0) }}
+                        >
+                          {row.frontier == null ? '—' : formatScore(row.frontier)}
+                        </span>
+                      </td>
+                      <td className="hidden py-4 pr-4 sm:table-cell">
+                        <span className="tabular text-sm text-ink-soft">
+                          {row.basics == null ? '—' : formatScore(row.basics)}
+                        </span>
+                        {(row.incidents ?? 0) > 0 && (
+                          <span
+                            className="ml-1 text-xs text-saffron"
+                            title={`${row.incidents} responses stayed empty/filtered after retries (transport noise, scored 0)`}
+                          >
+                            ⚠{row.incidents}
+                          </span>
+                        )}
+                      </td>
+                    </>
+                  ) : (
+                    <td className="py-4 pr-4">
+                      <span
+                        className="tabular text-sm"
+                        style={{ color: scoreColor(row.hardSet ?? 0) }}
+                      >
+                        {row.hardSet == null ? '—' : formatScore(row.hardSet)}
+                      </span>
+                    </td>
+                  )}
+                  {showTaste && (
+                    <td className="hidden py-4 pr-4 sm:table-cell">
+                      <span className="tabular text-sm text-ink-soft">
+                        {taste.has(row.modelId)
+                          ? `${taste.get(row.modelId)!.win_rate.toFixed(0)}%`
+                          : '—'}
+                      </span>
+                    </td>
+                  )}
                   <td className="hidden py-4 pr-4 md:table-cell">
                     <div className="flex h-3 w-full max-w-72 gap-px">
                       {CATEGORY_IDS.map((category) => {

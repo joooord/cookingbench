@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "qty-003",
+  "answerText": " In baker's percentage, hydration is calculated relative to the flour weight.  \nWater = 800 g × 0.75 = 600 g\n\nAnswer: 600 g",
+  "raw": {
+    "id": "gen-1781203283-rkrX1y4Z7vP11W6JTANB",
+    "object": "chat.completion",
+    "created": 1781203283,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Inceptron",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": " In baker's percentage, hydration is calculated relative to the flour weight.  \nWater = 800 g × 0.75 = 600 g\n\nAnswer: 600 g",
+          "refusal": null,
+          "reasoning": " The user is asking about baker's percentage for hydration. In baker's math, hydration is calculated as the weight of water divided by the weight of flour, expressed as a percentage.\n\nGiven:\n- Flour = 800 g\n- Hydration = 75% (baker's percentage)\n\nFormula:\nHydration % = (Water / Flour) × 100\n\nSo:\nWater = Flour × (Hydration / 100)\nWater = 800 g × 0.75\nWater = 600 g\n\nThe answer should be accurate and concise, ending with \"Answer: <number> g\".\n\nLet me double-check: 75% of 800 is indeed 600. Yes.\n\nI should provide a brief explanation and then the final line in the exact format requested.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " The user is asking about baker's percentage for hydration. In baker's math, hydration is calculated as the weight of water divided by the weight of flour, expressed as a percentage.\n\nGiven:\n- Flour = 800 g\n- Hydration = 75% (baker's percentage)\n\nFormula:\nHydration % = (Water / Flour) × 100\n\nSo:\nWater = Flour × (Hydration / 100)\nWater = 800 g × 0.75\nWater = 600 g\n\nThe answer should be accurate and concise, ending with \"Answer: <number> g\".\n\nLet me double-check: 75% of 800 is indeed 600. Yes.\n\nI should provide a brief explanation and then the final line in the exact format requested.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 72,
+      "completion_tokens": 193,
+      "total_tokens": 265,
+      "cost": 0.00072806,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00072806,
+        "upstream_inference_prompt_cost": 0.00005256,
+        "upstream_inference_completions_cost": 0.0006755
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 163,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 72,
+  "tokensOut": 193,
+  "costUsd": 0.00072806,
+  "latencyMs": 17177,
+  "finishReason": "stop"
+}

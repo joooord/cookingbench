@@ -1,0 +1,141 @@
+# Judge calibration anchors — hand-scored answers each panel judge must
+# reproduce before any paid judging run is accepted (gate: per-judge MAE ≤ 10,
+# no anchor off by more than its toleranceAbs).
+#
+# Calibration philosophy (learned from real panel runs): judges agree tightly
+# on sound answers (≈100) and on single clear faults (≈80-90), but honest
+# judges diverge most on confidently-wrong answers (0–55 is all defensible).
+# So top-of-scale anchors are tight (anti-inflation, the v1 disease) while
+# bottom-of-scale anchors only enforce "garbage must stay low". Severity
+# scheme: critical −40, major −15, minor −5 from 100.
+
+- questionId: tech-003
+  note: perfect answer — zero findings expected
+  expectedScore: 100
+  toleranceAbs: 10
+  answerText: >
+    Resting lets the juices redistribute through the meat as the muscle fibres
+    relax, so they stay in the steak instead of running out when you cut it.
+    Carryover heat also finishes the centre by a few degrees. For a thick
+    ribeye, rest 5–10 minutes, loosely tented with foil so the crust doesn't
+    steam.
+
+- questionId: tech-003
+  note: right mechanism, rest time far too long (~1 major)
+  expectedScore: 85
+  toleranceAbs: 15
+  answerText: >
+    Resting lets the juices redistribute so they don't flood the board when
+    you slice. Rest a thick ribeye for 30 to 40 minutes before serving so it
+    is fully settled.
+
+- questionId: tech-003
+  note: >
+    actively wrong advice — tells the cook not to rest. Confidently wrong on
+    the central question stacks multiple critical/major findings; expect a
+    near-zero score.
+  expectedScore: 30
+  toleranceAbs: 30
+  answerText: >
+    There's no real need to rest a steak — that's an old myth. Cut it
+    immediately while it's hottest; the juices that run out make a great base
+    for a pan sauce, and the steak stays juicier if you eat it right away.
+
+- questionId: tech-001
+  note: perfect diagnosis + rescue — zero findings expected
+  expectedScore: 100
+  toleranceAbs: 10
+  answerText: >
+    Your emulsion broke — either the sauce got too hot or the butter went in
+    faster than the yolks could absorb it. To rescue it: put a fresh egg yolk
+    and a teaspoon of warm water in a clean bowl, then whisk the broken sauce
+    into it drop by drop, exactly as if starting a new batch. For a mild
+    split, whisking in a few drops of warm water vigorously can bring it back
+    on its own.
+
+- questionId: tech-001
+  note: >
+    rescue advice that would re-break the sauce — panel members legitimately
+    differ on whether this is one critical or critical+major(s); the anchor
+    bounds the band, not a point.
+  expectedScore: 25
+  toleranceAbs: 30
+  answerText: >
+    It split because hollandaise is temperamental. The fix is easy: put the
+    pan back over high heat and whisk hard — the heat will melt everything
+    back together into a smooth sauce within a minute or two.
+
+- questionId: flav-002
+  note: textbook answer (acid, correct mechanism) — zero findings expected
+  expectedScore: 100
+  toleranceAbs: 10
+  answerText: >
+    Add a small splash of acid — red wine vinegar or a squeeze of lemon — at
+    the very end, off the heat. Long simmering mutes the tomatoes' natural
+    brightness, and salt can't restore that; acid re-sharpens the flavours so
+    the sauce tastes vivid again instead of flat.
+
+- questionId: flav-002
+  note: correct ingredient but wrong timing guidance (~1 minor/major)
+  expectedScore: 90
+  toleranceAbs: 15
+  answerText: >
+    Stir in a tablespoon of red wine vinegar at the start of the simmer.
+    Acidity is what a flat tomato sauce is missing — it brightens the dull,
+    cooked-down flavours that salt alone can't fix.
+
+- questionId: flav-002
+  note: wrong fix entirely (more oil) — misses acid/umami (1-2 majors)
+  expectedScore: 70
+  toleranceAbs: 25
+  answerText: >
+    Add a generous glug of extra-virgin olive oil at the end. Fat carries
+    flavour, so more oil will make the sauce taste fuller and less dull on
+    the palate.
+
+- questionId: rgen-001
+  note: complete, correct dairy-free recipe for 4 — zero findings expected
+  expectedScore: 100
+  toleranceAbs: 10
+  answerText: >
+    Dairy-Free Pancakes (serves 4). Ingredients: 250 g plain flour, 2 tsp
+    baking powder, 2 tbsp sugar, 1/2 tsp salt, 400 ml oat milk, 2 eggs,
+    3 tbsp neutral oil plus more for the pan, 1 tsp vanilla. Steps: 1) Whisk
+    the dry ingredients. 2) Whisk oat milk, eggs, oil and vanilla; fold into
+    the dry mix until just combined, rest 10 minutes. 3) Heat a lightly oiled
+    pan over medium; pour 60 ml per pancake. 4) Cook until bubbles set at the
+    edges, ~2 minutes, flip once, 1–2 minutes more. Makes about 12 pancakes,
+    three per person for 4 people.
+
+- questionId: rgen-001
+  note: uses melted butter — violates the dairy-free hard constraint (critical, possibly +major)
+  expectedScore: 50
+  toleranceAbs: 25
+  answerText: >
+    Pancakes for 4. Ingredients: 250 g flour, 2 tsp baking powder, 2 tbsp
+    sugar, 1/2 tsp salt, 400 ml almond milk, 2 eggs, 3 tbsp melted butter.
+    Steps: 1) Whisk dry ingredients. 2) Whisk almond milk, eggs and the
+    melted butter; combine with the dry mix. 3) Cook on a medium griddle,
+    flipping when bubbles form. Serves 4 generously.
+
+- questionId: rgen-001
+  note: recipe scaled for 2, not the required 4 (critical constraint miss)
+  expectedScore: 45
+  toleranceAbs: 30
+  answerText: >
+    Easy dairy-free pancakes for 2: 125 g flour, 1 tsp baking powder, 1 tbsp
+    sugar, pinch of salt, 200 ml soy milk, 1 egg, 1.5 tbsp vegetable oil.
+    Whisk dry, whisk wet, combine, and cook in an oiled pan over medium heat,
+    flipping once when bubbles appear. Serves 2 people.
+
+- questionId: rgen-002
+  note: chicken in a vegetarian recipe (critical) — otherwise compliant
+  expectedScore: 50
+  toleranceAbs: 25
+  answerText: >
+    One-Pan 25-Minute Dinner (8 ingredients). Ingredients: 2 chicken breasts,
+    1 can chickpeas, 1 can chopped tomatoes, 1 onion, 2 garlic cloves, 1 tbsp
+    curry powder, 100 g spinach, 150 g couscous. Steps: 0–5 min: brown the
+    diced chicken in oil. 5–8 min: soften onion and garlic, add curry powder.
+    8–20 min: add chickpeas and tomatoes, simmer. 20–23 min: wilt spinach.
+    23–25 min: stir in couscous and 200 ml water, lid on, off heat 5 min.

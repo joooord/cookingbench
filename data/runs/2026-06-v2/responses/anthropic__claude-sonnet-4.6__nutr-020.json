@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-020",
+  "answerText": "Raw, skinless chicken breast is one of the leanest, highest-protein foods available. According to USDA nutritional data, a 100 g raw, skinless chicken breast contains roughly **31 g of protein**, with most of the remaining weight being water (~65–70%) and a small amount of fat (~3–4 g).\n\nAnswer: 31 g",
+  "raw": {
+    "id": "gen-1781210014-xxEBG69DtRsYCfwdQXsy",
+    "object": "chat.completion",
+    "created": 1781210014,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Raw, skinless chicken breast is one of the leanest, highest-protein foods available. According to USDA nutritional data, a 100 g raw, skinless chicken breast contains roughly **31 g of protein**, with most of the remaining weight being water (~65–70%) and a small amount of fat (~3–4 g).\n\nAnswer: 31 g",
+          "refusal": null,
+          "reasoning": "A 100g raw, skinless chicken breast contains approximately 31g of protein according to USDA nutritional data.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "A 100g raw, skinless chicken breast contains approximately 31g of protein according to USDA nutritional data.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "ErUCCmUIDhgCKkBZY9s4v+S+Sl5mPJyijtzSW1ECVKZK5dlj1FB7NGNZhK6rVXp8pSQNWPbnke/S4EO8n2XZtKJcyv8EdD69g4jbMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMI7yVPo1MMRzHwfagGgyy4qzhUorpDtfBEkQiMHztjK6XN99uPPt4ToRhQvO0ROXbToT5O2s6Bq+VZQffEr1cld56n8WGOqVYU9Eh1ip+xXbMytALO72Lzd7MXeMzYlK2G07o15wOcA64Q4YPySFFTwrjZiOUbx1YQuyaB+EARb7pGN2p3x2EYle8QeuTaSnTEIbtXpjPeIzqFglPo2/uqISFBMinj0ownIwMmD4KhM7YLUNUYwLTi+mOA0FbBWoHh5WMMgLEzh5yq3TkGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 70,
+      "completion_tokens": 126,
+      "total_tokens": 196,
+      "cost": 0.0021,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0021,
+        "upstream_inference_prompt_cost": 0.00021,
+        "upstream_inference_completions_cost": 0.00189
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 28,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 70,
+  "tokensOut": 126,
+  "costUsd": 0.0021,
+  "latencyMs": 3189,
+  "finishReason": "stop"
+}

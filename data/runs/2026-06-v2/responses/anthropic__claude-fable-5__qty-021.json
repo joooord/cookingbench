@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-021",
+  "answerText": "To keep the same cake depth, scale ingredients by the **area** of the tin base (since depth is constant).\n\n- Area scales with the square of the diameter ratio: (26 ÷ 20)² = 1.3² = 1.69\n- Sugar needed: 180 g × 1.69 = 304.2 g\n\nSo you should use about 304 g (in practice, 300–305 g works fine — and remember to scale all other ingredients by the same factor of 1.69).\n\nAnswer: 304 g",
+  "raw": {
+    "id": "gen-1781213122-h3Ys69V3ghan3JR4rF8g",
+    "object": "chat.completion",
+    "created": 1781213122,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To keep the same cake depth, scale ingredients by the **area** of the tin base (since depth is constant).\n\n- Area scales with the square of the diameter ratio: (26 ÷ 20)² = 1.3² = 1.69\n- Sugar needed: 180 g × 1.69 = 304.2 g\n\nSo you should use about 304 g (in practice, 300–305 g works fine — and remember to scale all other ingredients by the same factor of 1.69).\n\nAnswer: 304 g",
+          "refusal": null,
+          "reasoning": " When scaling by area, I need to square the linear ratio: 26 divided by 20 gives 1.3, and squaring that yields 1.69. Multiplying the original 180 grams by this factor gives about 304 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " When scaling by area, I need to square the linear ratio: 26 divided by 20 gives 1.3, and squaring that yields 1.69. Multiplying the original 180 grams by this factor gives about 304 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISlAIKYggOGAIqQBNywrBPG6gL0X43mwEt6K7Em+UsYT3mUHzJvuWEjMwcmVJS8LAeI2L4OwXw9i/HOpfPi+PTOsHjnWQnHSg9gLQyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgxS4/9XNqDGeCQliL0aDP+2TvNlm7P6nIESviIwcilLFD09WtgRSfoefUbtQgntBY5QDk1wSHbZzDd0gWaE6V8EpLzHwyBRA/r1XY6/KmCbkYPiEIpSAJ0vG2Z32aFu0y1EbNZ16pMKZ3k48DwSIPHwJ3nUop8pw3bsLWXcUJFPLNmBH+KxvXaBPV/UNLb7waWflm3JAx8M3a8RvBg/V+qjCImYvKuy6OB184uNohUYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 120,
+      "completion_tokens": 212,
+      "total_tokens": 332,
+      "cost": 0.0118,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0118,
+        "upstream_inference_prompt_cost": 0.0012,
+        "upstream_inference_completions_cost": 0.0106
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 48,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 120,
+  "tokensOut": 212,
+  "costUsd": 0.0118,
+  "latencyMs": 7021,
+  "finishReason": "stop"
+}

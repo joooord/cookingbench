@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "qty-024",
+  "answerText": "To determine the amount of chicken stock needed for 6 people, first, we need to scale up the recipe from 4 to 6 servings. The original recipe uses 600 ml for 4 servings. \n\nTo scale it up: 600 ml / 4 servings = 150 ml per serving. For 6 servings: 150 ml/serving * 6 servings = 900 ml.\n\nSince 1 US cup is approximately equal to 236.6 ml, we need to convert 900 ml into US cups. \n\n900 ml / 236.6 ml/US cup = 3.80 US cups.\n\nAnswer: 3.8 cups",
+  "raw": {
+    "id": "gen-1781205175-tu6wpV5fbXCes3B6mvb9",
+    "object": "chat.completion",
+    "created": 1781205175,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To determine the amount of chicken stock needed for 6 people, first, we need to scale up the recipe from 4 to 6 servings. The original recipe uses 600 ml for 4 servings. \n\nTo scale it up: 600 ml / 4 servings = 150 ml per serving. For 6 servings: 150 ml/serving * 6 servings = 900 ml.\n\nSince 1 US cup is approximately equal to 236.6 ml, we need to convert 900 ml into US cups. \n\n900 ml / 236.6 ml/US cup = 3.80 US cups.\n\nAnswer: 3.8 cups",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 87,
+      "completion_tokens": 134,
+      "total_tokens": 221,
+      "cost": 0.00009345,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00009345,
+        "upstream_inference_prompt_cost": 0.00001305,
+        "upstream_inference_completions_cost": 0.0000804
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 87,
+  "tokensOut": 134,
+  "costUsd": 0.00009345,
+  "latencyMs": 4491,
+  "finishReason": "stop"
+}

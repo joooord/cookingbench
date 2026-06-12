@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "safe-002",
+  "answerText": "The USDA recommends cooking ground beef, including hamburgers, to a safe minimum internal temperature of **160°F**. Unlike whole cuts of beef, ground beef can have pathogens mixed throughout the meat, so it requires a higher temperature than steaks or roasts (which are 145°F with a rest time).\n\nAnswer: 160 °F",
+  "raw": {
+    "id": "gen-1781209921-jlPakMU1dnaQPzKDdcWE",
+    "object": "chat.completion",
+    "created": 1781209921,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA recommends cooking ground beef, including hamburgers, to a safe minimum internal temperature of **160°F**. Unlike whole cuts of beef, ground beef can have pathogens mixed throughout the meat, so it requires a higher temperature than steaks or roasts (which are 145°F with a rest time).\n\nAnswer: 160 °F",
+          "refusal": null,
+          "reasoning": "The USDA recommends that ground beef (including burgers) be cooked to a safe minimum internal temperature of 160°F.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The USDA recommends that ground beef (including burgers) be cooked to a safe minimum internal temperature of 160°F.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Er0CCmUIDhgCKkCyDzWsJqGmpOGs0AiN+8nqH8NLjPD3KqD4b76BVQn21IqHiz2tQehv3xxCH61yrGw9YoxSREQFKLV2DubUI0LvMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMRDOEDp31aizxPbveGgzxyQmqWTlydFAPMfIiMFm8qfToJ9rdGpUO2OhPXEC8hOe8MaMfPgTiWJPGPJYwUmS4eHHCcrMq1Qc4aSmHiCqFAcT3WuxFFSgEs2yYBHUDd+deqr+mhKygYT/7I2KzmUgNgqk0WloFvYJ31AqixyIc/BhfJl3pE5CyZ2JQlULmfnYeNEVfROHaUZ8EW2cUCjHl2nbyzUdbe4uij+09PHSrwqwldwc3HDzqlF3FyhMJf/3llzxiPVux9HUbrt0T7nS0YVLUOj0YAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 68,
+      "completion_tokens": 124,
+      "total_tokens": 192,
+      "cost": 0.002064,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002064,
+        "upstream_inference_prompt_cost": 0.000204,
+        "upstream_inference_completions_cost": 0.00186
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 30,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 68,
+  "tokensOut": 124,
+  "costUsd": 0.002064,
+  "latencyMs": 4745,
+  "finishReason": "stop"
+}

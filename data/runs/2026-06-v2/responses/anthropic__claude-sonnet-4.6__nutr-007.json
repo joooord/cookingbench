@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-007",
+  "answerText": "## Calculating Calories Per Iced Cookie\n\n**Step 1: Calories per cookie (dough only)**\n1,800 kcal ÷ 12 cookies = **150 kcal per cookie**\n\n**Step 2: Add the icing**\n150 kcal + 35 kcal = **185 kcal**\n\nAnswer: 185 kcal",
+  "raw": {
+    "id": "gen-1781210001-5HWR68PaC1AV0PAl6mRo",
+    "object": "chat.completion",
+    "created": 1781210001,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Calculating Calories Per Iced Cookie\n\n**Step 1: Calories per cookie (dough only)**\n1,800 kcal ÷ 12 cookies = **150 kcal per cookie**\n\n**Step 2: Add the icing**\n150 kcal + 35 kcal = **185 kcal**\n\nAnswer: 185 kcal",
+          "refusal": null,
+          "reasoning": "Each cookie from dough: 1800/12 = 150 kcal\nPlus icing: 35 kcal\nTotal: 185 kcal",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Each cookie from dough: 1800/12 = 150 kcal\nPlus icing: 35 kcal\nTotal: 185 kcal",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EpYCCmUIDhgCKkAzwPTFLGmqwEg8IyuPtFT0jwiipP/Kd6IT1LGDrGRIyQbtpCku/ToD6NavaL3EPGPdeK6jbCO4Qt/V6qj109w4MhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMql/PHLBpICUtqllUGgyTPwZGGdynbt3Cps0iMBLUG7YS8Q6AiGEbP5RIw8BMNDO2upwQVLzH+eypJN/S0FELFnJOPQd08st16D4flCpfETRKNJRQF+oOY/Xkrj5IAsDUk9FF1cyXI6O4FOKhQI03KpJEyzTt8aC/Jm8MylDrJE5AGKo91FC0LGGJxZyUSLbF5gOep/4u0adEioI5B7jb3GrN2SVssZBN+1oOGOoYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 97,
+      "completion_tokens": 149,
+      "total_tokens": 246,
+      "cost": 0.002526,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002526,
+        "upstream_inference_prompt_cost": 0.000291,
+        "upstream_inference_completions_cost": 0.002235
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 21,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 97,
+  "tokensOut": 149,
+  "costUsd": 0.002526,
+  "latencyMs": 3212,
+  "finishReason": "stop"
+}

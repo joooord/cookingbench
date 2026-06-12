@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "qty-016",
+  "answerText": "## Calculating Raw Mince Needed\n\n**Target cooked weight:**\n6 patties × 150 g = 900 g cooked\n\n**Accounting for 25% cooking loss:**\nThe cooked patty represents 75% of the raw weight.\n\nRaw weight = 900 g ÷ 0.75 = **1,200 g**\n\nAnswer: 1200 g",
+  "raw": {
+    "id": "gen-1781210083-avqggl4nvwKt0aUjCrrA",
+    "object": "chat.completion",
+    "created": 1781210083,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Calculating Raw Mince Needed\n\n**Target cooked weight:**\n6 patties × 150 g = 900 g cooked\n\n**Accounting for 25% cooking loss:**\nThe cooked patty represents 75% of the raw weight.\n\nRaw weight = 900 g ÷ 0.75 = **1,200 g**\n\nAnswer: 1200 g",
+          "refusal": null,
+          "reasoning": "Cooked weight needed: 6 × 150g = 900g\nSince burgers lose 25% during cooking, the cooked weight is 75% of raw weight.\nRaw weight = 900 / 0.75 = 1200g",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Cooked weight needed: 6 × 150g = 900g\nSince burgers lose 25% during cooking, the cooked weight is 75% of raw weight.\nRaw weight = 900 / 0.75 = 1200g",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Et4CCmUIDhgCKkDfLTstP0miBFg/GSCdH+7fBN4vYMo9hbleLf5eVSpe1zXKijO48ZSbvNvmBslWKl0PlP/sRsMu9aAOrRSm2Qa9MhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMhZBIMGXbsSR+D0d7GgxZr1O6aUPXU14/MNYiMGOJ0o8Gw4IVvMW6bGYOQa8B8cXdRTlAC9nOgG0Gq7FTa2yb2itDVNqdgtYW4mwhfiqmAWul442asNzEAvQludOOPdvV1ajZkPswtK3J+f40PMilvE7JCEuO0DsiEyqqGyf+SASp7k+4MoE2a80lhDflTrDCG/l8V5VnQmWwT+fjKOOUHopJT7FoZt1w2vBpp6SGHviX4MVoNZQSafBR3CIGvk2BYRs0wxTzrGt3XyxIDVfnyiCK1EHst5ji/G3rnDzV2StdGi33vT1YCFP0Ym8Kxkwljl21FxAYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 87,
+      "completion_tokens": 168,
+      "total_tokens": 255,
+      "cost": 0.002781,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002781,
+        "upstream_inference_prompt_cost": 0.000261,
+        "upstream_inference_completions_cost": 0.00252
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 40,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 87,
+  "tokensOut": 168,
+  "costUsd": 0.002781,
+  "latencyMs": 3720,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "qty-016",
+  "answerText": "To get 900 g of cooked meat (6 × 150 g), you need to account for the 25% weight loss. Since the cooked weight is 75% of the raw weight:\n\n\\[\n\\text{Raw weight} = \\frac{900}{0.75} = 1200 \\text{ g}\n\\]\n\nAnswer: 1200 g",
+  "raw": {
+    "id": "gen-1781203316-hyEDbLaxZS9PytgN9UI4",
+    "object": "chat.completion",
+    "created": 1781203316,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To get 900 g of cooked meat (6 × 150 g), you need to account for the 25% weight loss. Since the cooked weight is 75% of the raw weight:\n\n\\[\n\\text{Raw weight} = \\frac{900}{0.75} = 1200 \\text{ g}\n\\]\n\nAnswer: 1200 g",
+          "refusal": null,
+          "reasoning": "The user wants to know how much raw mince is needed to end up with 6 cooked patties of 150g each, given that beef burgers lose 25% of their weight during cooking.\n\nFirst, calculate the total weight of cooked patties needed:\n6 patties × 150 g each = 900 g total cooked weight.\n\nSince beef loses 25% of its weight during cooking, the cooked weight is 75% of the raw weight (100% - 25% = 75%).\n\nLet raw weight be R.\nCooked weight = R × (1 - 0.25) = R × 0.75\n\nSo: R × 0.75 = 900 g\nR = 900 / 0.75\nR = 1200 g\n\nAlternatively, per patty:\nEach cooked patty is 150 g, which is 75% of the raw weight.\nRaw weight per patty = 150 / 0.75 = 200 g\nTotal raw weight = 200 g × 6 = 1200 g\n\nSo the answer is 1200 g.\n\nThe user wants the reply to end with a line \"Answer: <number> g\".\n\nLet me make sure the calculation is correct.\nIf raw is 1200 g, and it loses 25%, that's 1200 × 0.25 = 300 g lost.\nRemaining = 1200 - 300 = 900 g.\n900 g / 6 = 150 g per patty. Yes, correct.\n\nNeed to be accurate and concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants to know how much raw mince is needed to end up with 6 cooked patties of 150g each, given that beef burgers lose 25% of their weight during cooking.\n\nFirst, calculate the total weight of cooked patties needed:\n6 patties × 150 g each = 900 g total cooked weight.\n\nSince beef loses 25% of its weight during cooking, the cooked weight is 75% of the raw weight (100% - 25% = 75%).\n\nLet raw weight be R.\nCooked weight = R × (1 - 0.25) = R × 0.75\n\nSo: R × 0.75 = 900 g\nR = 900 / 0.75\nR = 1200 g\n\nAlternatively, per patty:\nEach cooked patty is 150 g, which is 75% of the raw weight.\nRaw weight per patty = 150 / 0.75 = 200 g\nTotal raw weight = 200 g × 6 = 1200 g\n\nSo the answer is 1200 g.\n\nThe user wants the reply to end with a line \"Answer: <number> g\".\n\nLet me make sure the calculation is correct.\nIf raw is 1200 g, and it loses 25%, that's 1200 × 0.25 = 300 g lost.\nRemaining = 1200 - 300 = 900 g.\n900 g / 6 = 150 g per patty. Yes, correct.\n\nNeed to be accurate and concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 81,
+      "completion_tokens": 399,
+      "total_tokens": 480,
+      "cost": 0.001390284,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 55,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001390284,
+        "upstream_inference_prompt_cost": 0.000025704,
+        "upstream_inference_completions_cost": 0.00136458
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 323,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 81,
+  "tokensOut": 399,
+  "costUsd": 0.001390284,
+  "latencyMs": 10925,
+  "finishReason": "stop"
+}

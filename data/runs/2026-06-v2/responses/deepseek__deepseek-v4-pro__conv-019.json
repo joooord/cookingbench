@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-019",
+  "answerText": "To convert a fan oven temperature to a conventional oven in Fahrenheit, first increase the Celsius temperature by about 20°C to account for the lack of a fan, then convert to Fahrenheit.\n\n160°C fan → 180°C conventional  \n(180 × 9/5) + 32 = 356°F\n\nAnswer: 356 °F",
+  "raw": {
+    "id": "gen-1781206640-kS0w69I6tT36JOhqz8pa",
+    "object": "chat.completion",
+    "created": 1781206640,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To convert a fan oven temperature to a conventional oven in Fahrenheit, first increase the Celsius temperature by about 20°C to account for the lack of a fan, then convert to Fahrenheit.\n\n160°C fan → 180°C conventional  \n(180 × 9/5) + 32 = 356°F\n\nAnswer: 356 °F",
+          "refusal": null,
+          "reasoning": "We are asked: \"A UK recipe says to bake at 160°C in a fan oven. My American oven is conventional (no fan) and shows Fahrenheit. What temperature should I set?\"\n\nWe need to convert from fan oven Celsius to conventional oven Fahrenheit. In fan ovens, the temperature is usually reduced by about 20°C compared to conventional ovens because the fan circulates hot air, cooking more efficiently. So if the recipe says 160°C fan, that's equivalent to 180°C conventional (adding 20°C). Then convert 180°C to Fahrenheit: F = (180 * 9/5) + 32 = 324 + 32 = 356°F. Typically, for baking, you might round to 350°F or 360°F? But the exact conversion yields 356°F. Many sources suggest converting 160°C fan to 350°F conventional. But since the instruction says \"Answer: <number> °F\", I'll compute: 180°C = 356°F. Alternatively, some might directly convert 160°C to 320°F then add 25°F? But the standard conversion: fan oven temp is about 20°C less than conventional, so 160°C fan → 180°C conventional → 356°F. I'll answer 356°F, or perhaps 355°F. To be precise: (180*9/5)+32 = 356 exactly. So \"Answer: 356 °F\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A UK recipe says to bake at 160°C in a fan oven. My American oven is conventional (no fan) and shows Fahrenheit. What temperature should I set?\"\n\nWe need to convert from fan oven Celsius to conventional oven Fahrenheit. In fan ovens, the temperature is usually reduced by about 20°C compared to conventional ovens because the fan circulates hot air, cooking more efficiently. So if the recipe says 160°C fan, that's equivalent to 180°C conventional (adding 20°C). Then convert 180°C to Fahrenheit: F = (180 * 9/5) + 32 = 324 + 32 = 356°F. Typically, for baking, you might round to 350°F or 360°F? But the exact conversion yields 356°F. Many sources suggest converting 160°C fan to 350°F conventional. But since the instruction says \"Answer: <number> °F\", I'll compute: 180°C = 356°F. Alternatively, some might directly convert 160°C to 320°F then add 25°F? But the standard conversion: fan oven temp is about 20°C less than conventional, so 160°C fan → 180°C conventional → 356°F. I'll answer 356°F, or perhaps 355°F. To be precise: (180*9/5)+32 = 356 exactly. So \"Answer: 356 °F\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 70,
+      "completion_tokens": 393,
+      "total_tokens": 463,
+      "cost": 0.000650988,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000650988,
+        "upstream_inference_prompt_cost": 0.000053235,
+        "upstream_inference_completions_cost": 0.000597753
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 319,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 70,
+  "tokensOut": 393,
+  "costUsd": 0.000650988,
+  "latencyMs": 6027,
+  "finishReason": "stop"
+}

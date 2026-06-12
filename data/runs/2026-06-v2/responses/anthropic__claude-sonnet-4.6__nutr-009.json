@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-009",
+  "answerText": "## Calculating Calories from Fat\n\n**Step 1: Convert fat grams to calories**\n27 g fat × 9 kcal/g = **243 kcal from fat**\n\n**Step 2: Calculate the percentage**\n(243 ÷ 600) × 100 = **40.5%**\n\nAnswer: 40.5 %",
+  "raw": {
+    "id": "gen-1781210005-HAwSOO6ns4QC8rWNeGoK",
+    "object": "chat.completion",
+    "created": 1781210005,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Calculating Calories from Fat\n\n**Step 1: Convert fat grams to calories**\n27 g fat × 9 kcal/g = **243 kcal from fat**\n\n**Step 2: Calculate the percentage**\n(243 ÷ 600) × 100 = **40.5%**\n\nAnswer: 40.5 %",
+          "refusal": null,
+          "reasoning": "Fat calories = 27 g × 9 kcal/g = 243 kcal\nPercentage = (243 / 600) × 100 = 40.5%",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Fat calories = 27 g × 9 kcal/g = 243 kcal\nPercentage = (243 / 600) × 100 = 40.5%",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EpoCCmUIDhgCKkC4dPxUTKgDKjdF395r/fgLEvdvfutE5J1qNrUTOEn7iK5rWYXPrNTMq9zFGIoqFfZMzpa7FOFz+c45qsuxC3l/MhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMGpWkgsjlJG85QQB7GgyEqIiDEC5DUQzsJxEiMHiB8jTD5UXXzx8l/PT200ja9HBFcjU7l8gMkE9jRTBPxIirsTcV8aOg9JQfXsh3OSpjGL58DkLRCnWmds7zgp5og/+6NhFFsRiAcipZRHtPdVeNt1pkjdpR6LVQpb2mZMw7gzlrIxeexAu7uQ38CAl90PPeJ21c+oCJ6GQoPv2EBUBgZeIEPs/LsG+MeqxTJtw4xX4KGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 82,
+      "completion_tokens": 147,
+      "total_tokens": 229,
+      "cost": 0.002451,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002451,
+        "upstream_inference_prompt_cost": 0.000246,
+        "upstream_inference_completions_cost": 0.002205
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 23,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 82,
+  "tokensOut": 147,
+  "costUsd": 0.002451,
+  "latencyMs": 4178,
+  "finishReason": "stop"
+}

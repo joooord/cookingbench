@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-019",
+  "answerText": "**Calculating total flour and water:**\n\n- Flour: 450 g bread flour + 90 g whole-wheat + 50 g (from levain) = **590 g**\n- Water: 350 g added water + 50 g (from levain) = **400 g**\n\n**Hydration:** 400 ÷ 590 ≈ 0.678 → about **67.8%**\n\nThis is a moderate hydration dough — quite manageable for shaping, with a slightly tighter crumb than higher-hydration (75%+) sourdoughs.\n\nAnswer: 67.8 %",
+  "raw": {
+    "id": "gen-1781213116-GqaG3KnwboBihNH1x4V5",
+    "object": "chat.completion",
+    "created": 1781213116,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Calculating total flour and water:**\n\n- Flour: 450 g bread flour + 90 g whole-wheat + 50 g (from levain) = **590 g**\n- Water: 350 g added water + 50 g (from levain) = **400 g**\n\n**Hydration:** 400 ÷ 590 ≈ 0.678 → about **67.8%**\n\nThis is a moderate hydration dough — quite manageable for shaping, with a slightly tighter crumb than higher-hydration (75%+) sourdoughs.\n\nAnswer: 67.8 %",
+          "refusal": null,
+          "reasoning": " I'm calculating the hydration percentage by adding up all the flour components to get 590 grams total, then dividing the water amount of 400 grams by that, which gives me about 67.8%.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the hydration percentage by adding up all the flour components to get 590 grams total, then dividing the water amount of 400 grams by that, which gives me about 67.8%.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISiQIKYggOGAIqQM5zOrZdI6WLaET6o1YlKuu8d1MFhBG5idKYzOkQDa9QSQOFn76c9Y68rQNOKRvlmI/hZueYv7nMOVukrC1B3eUyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgxdeuITG2enX/cuYWcaDOud7CskM7KrZHBADyIwq1BE5MSF3yZgDTVEwlKipdnto40VsJjAjStjHYdwp1NqvmaofqTC7yjDWT+lDXeCKlUYQ1xMxIPPwbHln/poJWgsRd7kyp5T9PNvmR3avebzOjk8Z23Ue8LQ1tevbEXZrbwQ1zDO+I9MC8hQbZfW2kwNuCRAWsYFzBH172/HLxcgtFISwcsSGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 159,
+      "completion_tokens": 226,
+      "total_tokens": 385,
+      "cost": 0.01289,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01289,
+        "upstream_inference_prompt_cost": 0.00159,
+        "upstream_inference_completions_cost": 0.0113
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 46,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 159,
+  "tokensOut": 226,
+  "costUsd": 0.01289,
+  "latencyMs": 6017,
+  "finishReason": "stop"
+}

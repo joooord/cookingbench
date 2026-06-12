@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-006",
+  "answerText": "## Calculating Protein in 150 g of Powder\n\n**Find the protein ratio:**\n- 40 g of powder → 12 g of protein\n- Protein per gram = 12 ÷ 40 = **0.3 g protein/g powder**\n\n**Scale up to 150 g:**\n- 150 g × 0.3 = **45 g of protein**\n\nAnswer: 45 g",
+  "raw": {
+    "id": "gen-1781210001-Mt9fRZgQYY6bin3qjBEt",
+    "object": "chat.completion",
+    "created": 1781210001,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Calculating Protein in 150 g of Powder\n\n**Find the protein ratio:**\n- 40 g of powder → 12 g of protein\n- Protein per gram = 12 ÷ 40 = **0.3 g protein/g powder**\n\n**Scale up to 150 g:**\n- 150 g × 0.3 = **45 g of protein**\n\nAnswer: 45 g",
+          "refusal": null,
+          "reasoning": "Protein per gram of powder = 12g / 40g = 0.3g protein per gram\n\nIn 150g: 150 × 0.3 = 45g protein",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Protein per gram of powder = 12g / 40g = 0.3g protein per gram\n\nIn 150g: 150 × 0.3 = 45g protein",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EqkCCmUIDhgCKkBKmesa6NeQXL8oN5DSJ5R3I0KQm6KhJ7SIjqOZFpWvCp2mwFvlHaUw+WlJyG80nkaOF7jttHlyXEx6mNpz50YQMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMz9zGuvfAmS07Hw27GgwKnzZRtGS0KkIox8giMHCZx2dP5iF3lz5HaOjbTJrZHBdR6Nqx3wt+4VAwGI/8Vw/HJVj688+VSN7CAbTDNipyx8OgHioxwQK/qshjcwnafbLZsMrwo/59W/QHwWvPDlOBzRcs/i4TIXZBwTJL9Rll6mUViIUoBJ87Pt6dISbTxTgHRe3nRqhiGUsA+1DgwrX0EC4kXrp6qf28xJAK89X7627PiDd39skbDpX17HJnouHGGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 75,
+      "completion_tokens": 162,
+      "total_tokens": 237,
+      "cost": 0.002655,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002655,
+        "upstream_inference_prompt_cost": 0.000225,
+        "upstream_inference_completions_cost": 0.00243
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 27,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 75,
+  "tokensOut": 162,
+  "costUsd": 0.002655,
+  "latencyMs": 3584,
+  "finishReason": "stop"
+}

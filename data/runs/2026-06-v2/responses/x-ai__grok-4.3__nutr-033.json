@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "nutr-033",
+  "answerText": "Volume of ethanol: \\(750 \\times 0.135 = 101.25\\) ml.  \nMass of ethanol: \\(101.25 \\times 0.789 = 79.88625\\) g.  \nAlcohol calories: \\(79.88625 \\times 7 \\approx 559.2\\) kcal.  \nResidual sugar (0.75 L): \\(4 \\times 0.75 = 3\\) g, giving \\(3 \\times 4 = 12\\) kcal.  \nTotal: \\(\\approx 571\\) kcal.  \n\nAnswer: 571 kcal",
+  "raw": {
+    "id": "gen-1781209211-mydbB5Bw47pWhc0Y9lbS",
+    "object": "chat.completion",
+    "created": 1781209211,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Volume of ethanol: \\(750 \\times 0.135 = 101.25\\) ml.  \nMass of ethanol: \\(101.25 \\times 0.789 = 79.88625\\) g.  \nAlcohol calories: \\(79.88625 \\times 7 \\approx 559.2\\) kcal.  \nResidual sugar (0.75 L): \\(4 \\times 0.75 = 3\\) g, giving \\(3 \\times 4 = 12\\) kcal.  \nTotal: \\(\\approx 571\\) kcal.  \n\nAnswer: 571 kcal",
+          "refusal": null,
+          "reasoning": "The problem is: A 750 ml bottle of dry red wine is 13.5% alcohol by volume. Using ethanol density 0.789 g/ml and 7 kcal per gram of alcohol, plus about 4 g of residual sugar per litre at 4 kcal/g, how...First, calculate volume of pure alcohol: 750 ml * 13.5% = 750 * 0.135 = 101.25 ml ethanol.\n\nMass of ethanol: 101.25 * 0.789 = let's compute accurately: 101.25 * 0.789.\n\n0.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem is: A 750 ml bottle of dry red wine is 13.5% alcohol by volume. Using ethanol density 0.789 g/ml and 7 kcal per gram of alcohol, plus about 4 g of residual sugar per litre at 4 kcal/g, how...First, calculate volume of pure alcohol: 750 ml * 13.5% = 750 * 0.135 = 101.25 ml ethanol.\n\nMass of ethanol: 101.25 * 0.789 = let's compute accurately: 101.25 * 0.789.\n\n0.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_8166f725-94ff-9f1a-bf2d-712b588d5662",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 226,
+      "completion_tokens": 734,
+      "total_tokens": 960,
+      "cost": 0.0019831,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0019831,
+        "upstream_inference_prompt_cost": 0.0001481,
+        "upstream_inference_completions_cost": 0.001835
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 616,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 226,
+  "tokensOut": 734,
+  "costUsd": 0.0019831,
+  "latencyMs": 4985,
+  "finishReason": "stop"
+}

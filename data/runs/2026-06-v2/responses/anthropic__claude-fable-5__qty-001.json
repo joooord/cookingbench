@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-001",
+  "answerText": "To scale from 2 loaves to 5 loaves, multiply each ingredient by 2.5:\n\n- **Flour:** 500 g × 2.5 = 1250 g\n- **Water:** 350 g × 2.5 = 875 g\n- **Salt:** 10 g × 2.5 = 25 g\n- **Instant yeast:** 7 g × 2.5 = 17.5 g\n\nThis keeps the hydration at 70% (water as a percentage of flour), so the dough texture and proofing behavior stay the same. Note that with a larger batch, bulk fermentation may take slightly longer to reach full volume, so go by dough appearance rather than time alone.\n\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g",
+  "raw": {
+    "id": "gen-1781212998-V0GwS6PT04XoLoqIWvrI",
+    "object": "chat.completion",
+    "created": 1781212998,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To scale from 2 loaves to 5 loaves, multiply each ingredient by 2.5:\n\n- **Flour:** 500 g × 2.5 = 1250 g\n- **Water:** 350 g × 2.5 = 875 g\n- **Salt:** 10 g × 2.5 = 25 g\n- **Instant yeast:** 7 g × 2.5 = 17.5 g\n\nThis keeps the hydration at 70% (water as a percentage of flour), so the dough texture and proofing behavior stay the same. Note that with a larger batch, bulk fermentation may take slightly longer to reach full volume, so go by dough appearance rather than time alone.\n\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g",
+          "refusal": null,
+          "reasoning": " Now I'm scaling up the recipe by 2.5 times to get the adjusted ingredient quantities.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " Now I'm scaling up the recipe by 2.5 times to get the adjusted ingredient quantities.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISgQIKYggOGAIqQBwmwlFiGmCR/7tCZsMyw7Z24y2tl5JCKLdOf+TuQCVDz1VP6vhsfdq56Q5xhWtWwk8XAFzo5bzEE/z2yDApOiUyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgxULp+zBBq7tUCQUNUaDIAXzwv6B19lGZ25UyIwtkTm5+dkunKXl9R6HQ72Y8kvVa5Mqz/ZtrKT8wTfKrTtnMGx8XgXQau4b520h3qrKk2zUWdP1jJBS3+lqzQIYLKwrwKvdAS9yrMgOAq2r6nuIKz/AViPVzZlo0xePMFcEJyCi+zL0R5ibaWp7p3sG+nsfgza673uZNglL/bIexgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 133,
+      "completion_tokens": 291,
+      "total_tokens": 424,
+      "cost": 0.01588,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01588,
+        "upstream_inference_prompt_cost": 0.00133,
+        "upstream_inference_completions_cost": 0.01455
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 22,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 133,
+  "tokensOut": 291,
+  "costUsd": 0.01588,
+  "latencyMs": 6524,
+  "finishReason": "stop"
+}

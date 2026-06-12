@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "conv-022",
+  "answerText": "A deciliter (dl) is 100 milliliters, so 2 dl = 200 ml.\n\nSince 1 US fluid ounce = 29.57 ml:\n\n200 ÷ 29.57 ≈ **6.76 fl oz**\n\nFor practical pouring, just aim for a little under 7 fl oz on your jug — about 6¾ fl oz. Cream measurements in recipes like this rarely need to be exact to the drop.\n\nAnswer: 6.76 fl oz",
+  "raw": {
+    "id": "gen-1781212515-noQQYtOCvnuGyX6Jn4sf",
+    "object": "chat.completion",
+    "created": 1781212515,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A deciliter (dl) is 100 milliliters, so 2 dl = 200 ml.\n\nSince 1 US fluid ounce = 29.57 ml:\n\n200 ÷ 29.57 ≈ **6.76 fl oz**\n\nFor practical pouring, just aim for a little under 7 fl oz on your jug — about 6¾ fl oz. Cream measurements in recipes like this rarely need to be exact to the drop.\n\nAnswer: 6.76 fl oz",
+          "refusal": null,
+          "reasoning": " I'm converting 2 deciliters to fluid ounces by first converting to milliliters, then dividing by the conversion factor to get approximately 6.76 fl oz.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm converting 2 deciliters to fluid ounces by first converting to milliliters, then dividing by the conversion factor to get approximately 6.76 fl oz.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIShwIKYggOGAIqQMyBJP+VHhk4t0G3Vuf1Wdmf9DkD2GUeJ6RMKVLEQwAcQ3QPzPQ3+tL5wYl7qyzg4vmUikQG9P5X9pOBwUMMAg0yDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgzVSqmNRlJ0NYNjCPcaDINoiLqqVi6K0gd7BSIwx/K9Im9wLzjdIVvhoyEJD8HqPwaNKUSr503g9JVSPMJRlxfu8kN12fy0yq4OsVoGKlNuanC/oKjWF0j6UC8ezheVzmNWqVGzPyrg3rFMd/2hkOpU0V4GK9ByPoFIeVIiUr0Ck3rveS4j6J6rQbeftjEezN9O7hlfFWhe+O87T4A7gNE9kRgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 103,
+      "completion_tokens": 211,
+      "total_tokens": 314,
+      "cost": 0.01158,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01158,
+        "upstream_inference_prompt_cost": 0.00103,
+        "upstream_inference_completions_cost": 0.01055
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 38,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 103,
+  "tokensOut": 211,
+  "costUsd": 0.01158,
+  "latencyMs": 6234,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "nutr-010",
+  "answerText": "A box of 6 bars contains 120 g of protein.\n\nAnswer: 120 g",
+  "raw": {
+    "id": "gen-1781202994-oicMi4Tam4TYlF7FVjHp",
+    "object": "chat.completion",
+    "created": 1781202994,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "StreamLake",
+    "system_fingerprint": "fpv0_af60b866",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "A box of 6 bars contains 120 g of protein.\n\nAnswer: 120 g",
+          "refusal": null,
+          "reasoning": "The user wants me to calculate the total grams of protein in a box of 6 protein bars, where each bar provides 20 g of protein.\n\nCalculation: 20 g/bar × 6 bars = 120 g\n\nI need to answer accurately and concisely, and end the reply with the exact line format: \"Answer: <number> g\".\n\nSo the response should be brief, like:\n\"Each bar has 20 g of protein, so a box of 6 bars contains 120 g of protein.\n\nAnswer: 120 g\"\n\nOr even more concise:\n\"A box of 6 bars contains 120 g of protein.\n\nAnswer: 120 g\"\n\nLet me make sure I follow the instruction exactly: \"End your reply with a line 'Answer: <number> g'.\"\n\nYes, the last line must be exactly that format.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants me to calculate the total grams of protein in a box of 6 protein bars, where each bar provides 20 g of protein.\n\nCalculation: 20 g/bar × 6 bars = 120 g\n\nI need to answer accurately and concisely, and end the reply with the exact line format: \"Answer: <number> g\".\n\nSo the response should be brief, like:\n\"Each bar has 20 g of protein, so a box of 6 bars contains 120 g of protein.\n\nAnswer: 120 g\"\n\nOr even more concise:\n\"A box of 6 bars contains 120 g of protein.\n\nAnswer: 120 g\"\n\nLet me make sure I follow the instruction exactly: \"End your reply with a line 'Answer: <number> g'.\"\n\nYes, the last line must be exactly that format.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 64,
+      "completion_tokens": 193,
+      "total_tokens": 257,
+      "cost": 0.00074952,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00074952,
+        "upstream_inference_prompt_cost": 0.00005472,
+        "upstream_inference_completions_cost": 0.0006948
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 176,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 64,
+  "tokensOut": 193,
+  "costUsd": 0.00074952,
+  "latencyMs": 14614,
+  "finishReason": "stop"
+}

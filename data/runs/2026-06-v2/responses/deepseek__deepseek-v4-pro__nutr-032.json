@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-032",
+  "answerText": "To get 45 g of protein from cooked chicken breast, you need to account for the 25% weight loss during cooking. Cooked chicken has 31 g protein per 100 g, so the protein content in raw chicken is effectively 31 g × 0.75 = 23.25 g per 100 g raw. To get 45 g protein, you need 45 / 0.2325 ≈ 193.5 g of raw breast. Rounding roughly, that's about 194 g.\n\nAnswer: 194 g",
+  "raw": {
+    "id": "gen-1781206849-Ln3rXKOMl9hOyipm9mlq",
+    "object": "chat.completion",
+    "created": 1781206849,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Parasail",
+    "system_fingerprint": "vllm-0.20.1rc1.dev1005+gcbf8428d0-tp4-ep-66a5fbd4",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To get 45 g of protein from cooked chicken breast, you need to account for the 25% weight loss during cooking. Cooked chicken has 31 g protein per 100 g, so the protein content in raw chicken is effectively 31 g × 0.75 = 23.25 g per 100 g raw. To get 45 g protein, you need 45 / 0.2325 ≈ 193.5 g of raw breast. Rounding roughly, that's about 194 g.\n\nAnswer: 194 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"Cooked chicken breast has roughly 31 g of protein per 100 g, and breast meat loses about 25% of its weight from raw to cooked. I want 45 g of protein from tonight's chicken. Roughly how many grams of RAW breast should I put in the pan?\"\n\nWe need to find raw weight. Let raw weight = R grams. After cooking, weight loss is 25%, so cooked weight = R * (1 - 0.25) = 0.75R. Cooked chicken has 31 g protein per 100 g cooked. So protein in cooked chicken = (31/100) * (0.75R) = 0.31 * 0.75R = 0.2325R grams protein. We want that to equal 45 g. So 0.2325R = 45 => R = 45 / 0.2325 ≈ ? Let's compute: 45 / 0.2325 = 45 / (2325/10000) = 45 * (10000/2325) = 450000 / 2325. Simplify: divide numerator and denominator by 75? 75*6=450, so 450000/75=6000, 2325/75=31? 75*31=2325. So 6000/31 ≈ 193.548... So roughly 194 g. But let's check: 0.2325 * 193.548 = 45. So answer: about 194 g. The question says \"roughly\", so we can round to nearest gram. So answer: 194 g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Cooked chicken breast has roughly 31 g of protein per 100 g, and breast meat loses about 25% of its weight from raw to cooked. I want 45 g of protein from tonight's chicken. Roughly how many grams of RAW breast should I put in the pan?\"\n\nWe need to find raw weight. Let raw weight = R grams. After cooking, weight loss is 25%, so cooked weight = R * (1 - 0.25) = 0.75R. Cooked chicken has 31 g protein per 100 g cooked. So protein in cooked chicken = (31/100) * (0.75R) = 0.31 * 0.75R = 0.2325R grams protein. We want that to equal 45 g. So 0.2325R = 45 => R = 45 / 0.2325 ≈ ? Let's compute: 45 / 0.2325 = 45 / (2325/10000) = 45 * (10000/2325) = 450000 / 2325. Simplify: divide numerator and denominator by 75? 75*6=450, so 450000/75=6000, 2325/75=31? 75*31=2325. So 6000/31 ≈ 193.548... So roughly 194 g. But let's check: 0.2325 * 193.548 = 45. So answer: about 194 g. The question says \"roughly\", so we can round to nearest gram. So answer: 194 g.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 93,
+      "completion_tokens": 459,
+      "total_tokens": 552,
+      "cost": 0.00175914,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00175914,
+        "upstream_inference_prompt_cost": 0.00016182,
+        "upstream_inference_completions_cost": 0.00159732
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 244,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 93,
+  "tokensOut": 459,
+  "costUsd": 0.00175914,
+  "latencyMs": 15339,
+  "finishReason": "stop"
+}

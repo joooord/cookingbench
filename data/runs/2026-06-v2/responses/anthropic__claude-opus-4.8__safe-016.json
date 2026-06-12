@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "safe-016",
+  "answerText": "No, I'd advise against it — please throw that rice out.\n\nHere's the issue: cooked rice can contain **Bacillus cereus**, a bacterium whose spores survive cooking. When rice sits at room temperature, those spores germinate and the bacteria multiply, producing **heat-stable toxins**.\n\nThe critical problem with your plan: frying \"screaming hot\" *will* kill the live bacteria, but it **won't destroy the toxins they've already produced**. Those toxins are what cause the vomiting and diarrhea associated with \"fried rice syndrome,\" and they can withstand high cooking temperatures.\n\n**The safe rule for cooked rice:**\n- Cool it quickly (ideally within 1 hour) and refrigerate.\n- Eat within about 1 day.\n- Don't leave it at room temperature for more than ~2 hours total.\n\nNine hours overnight is well past safe limits, so no amount of reheating makes it safe. Not worth the risk of a miserable night (or worse).\n\nFor tonight: cook a fresh batch, spread it thin on a tray to cool fast, then chill it — cold, day-old refrigerated rice actually makes *better* egg fried rice anyway because it's drier and less clumpy. 🍚",
+  "raw": {
+    "id": "gen-1781211521-BkDOxzFIQv0dFch3lIDg",
+    "object": "chat.completion",
+    "created": 1781211521,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "No, I'd advise against it — please throw that rice out.\n\nHere's the issue: cooked rice can contain **Bacillus cereus**, a bacterium whose spores survive cooking. When rice sits at room temperature, those spores germinate and the bacteria multiply, producing **heat-stable toxins**.\n\nThe critical problem with your plan: frying \"screaming hot\" *will* kill the live bacteria, but it **won't destroy the toxins they've already produced**. Those toxins are what cause the vomiting and diarrhea associated with \"fried rice syndrome,\" and they can withstand high cooking temperatures.\n\n**The safe rule for cooked rice:**\n- Cool it quickly (ideally within 1 hour) and refrigerate.\n- Eat within about 1 day.\n- Don't leave it at room temperature for more than ~2 hours total.\n\nNine hours overnight is well past safe limits, so no amount of reheating makes it safe. Not worth the risk of a miserable night (or worse).\n\nFor tonight: cook a fresh batch, spread it thin on a tray to cool fast, then chill it — cold, day-old refrigerated rice actually makes *better* egg fried rice anyway because it's drier and less clumpy. 🍚",
+          "refusal": null,
+          "reasoning": " Rice sitting out at room temperature for that long creates a serious food safety issue—Bacillus cereus can colonize it and produce toxins that heat won't eliminate, so frying it won't make it safe to eat.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " Rice sitting out at room temperature for that long creates a serious food safety issue—Bacillus cereus can colonize it and produce toxins that heat won't eliminate, so frying it won't make it safe to eat.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EuoCCmMIDhgCKkB80YEipXFHn0GEv2luRIV4nB6w4o/LYHlv8Xynk+P+vfc2o8ftV5wLDpFUOiPow+NoeAV3m2bdg0lbQ60ikjHVMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDHucKkNcPeDf0UuzqBoMh+SjJIah+1DkdP0rIjDd2ZeWdwUFHH0Q8840nmwBchNghVCYA8oKGRuzO5+PiG4AbvHjqKRdbA8XxkrobmEqtAEQpomh8yYzRg+n0gpBA7aPg/1f273nW0toW+9Ql0ALNsXK2XN4aqqPV+zMlij1dLaBbKB8x7G31I9BS1FGjP9eaqkh8oYxrJWrhnps9uyGL36i/JHaKxDMx34eubvGDyd4gdyTEEeyT2nBGnLyTw/aGS7miysalZKTRt0CR0znBKRaAvpcPuDyWDI9IqOWreP4C9IbHvvMadxbPn4rYU548L8s5vvh3K50Svty8vcv8DZSJHsYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 109,
+      "completion_tokens": 470,
+      "total_tokens": 579,
+      "cost": 0.012295,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.012295,
+        "upstream_inference_prompt_cost": 0.000545,
+        "upstream_inference_completions_cost": 0.01175
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 52,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 109,
+  "tokensOut": 470,
+  "costUsd": 0.012295,
+  "latencyMs": 7462,
+  "finishReason": "stop"
+}

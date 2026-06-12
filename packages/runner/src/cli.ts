@@ -8,10 +8,11 @@ import {
   type Score,
   type StoredResponse,
 } from '@cookingbench/core';
+import { analyzeRun, writeAnalysis } from './analyze.js';
 import { BudgetExceededError, BudgetGuard } from './budget.js';
-import { REPO_ROOT, buildMessages, loadModels, loadQuestions, maxTokensFor } from './dataset.js';
+import { REPO_ROOT, buildMessages, loadModels, loadQuestions, maxTokensFor, runnableQuestions } from './dataset.js';
 import { assertFreshEstimate, runEstimate } from './estimate.js';
-import { JUDGE_PROMPT_VERSION, judgeAnswer } from './judge.js';
+import { JUDGE_PROMPT_VERSION, judgeAnswerPanel } from './judge.js';
 import { MOCK_MODELS, MockClient, mockJudgeScore } from './mock.js';
 import { OpenRouterClient, fetchCatalog, type CompletionClient } from './openrouter.js';
 import { buildLeaderboard } from './report.js';
@@ -38,12 +39,26 @@ if (existsSync(envPath)) {
 
 const DEFAULTS = {
   temperature: 0,
-  maxTokens: 2000,
-  maxTokensRecipe: 4000,
+  // Flat 8k cap with medium reasoning effort: v1's 2000/4000 caps starved
+  // hidden-reasoning models into empty answers (measuring budgeting, not cooking).
+  maxTokens: 8000,
+  maxTokensRecipe: 8000,
   concurrency: 4,
-  judgeModel: 'google/gemini-3.1-pro-preview',
-  methodologyVersion: 'v1',
+  // Panel judging: two non-conflicted seats score each answer (a judge never
+  // scores its own provider). Seat rotation is deterministic — see panelSeats.
+  judgeModel: 'panel-v1',
+  judgePanel: [
+    'anthropic/claude-opus-4.8',
+    'qwen/qwen3.5-plus-20260420',
+    'openai/gpt-5.5',
+  ],
+  methodologyVersion: 'v2',
 };
+
+/** Empty or filtered completions are transport noise, not skill — retried, then marked. */
+function isTransportFailure(result: { text: string; finishReason?: string }): boolean {
+  return result.text.trim() === '' || result.finishReason === 'content_filter';
+}
 
 function arg(name: string): string | undefined {
   const idx = process.argv.indexOf(`--${name}`);
@@ -94,7 +109,7 @@ function cmdValidate() {
 }
 
 async function cmdEstimate() {
-  const questionsAll = loadQuestions();
+  const questionsAll = runnableQuestions();
   const limit = arg('limit') ? Number(arg('limit')) : undefined;
   const questions = limit ? questionsAll.slice(0, limit) : questionsAll;
   const models = loadModels();
@@ -143,7 +158,7 @@ async function cmdModelsCheck() {
 
 async function cmdRun() {
   const mock = arg('mock') === 'true';
-  const questionsAll = loadQuestions();
+  const questionsAll = runnableQuestions();
   const limit = arg('limit') ? Number(arg('limit')) : undefined;
   const questions = limit ? questionsAll.slice(0, limit) : questionsAll;
   const questionsById = new Map(questions.map((q) => [q.id, q]));
@@ -186,6 +201,7 @@ async function cmdRun() {
     budgetUsdPerModel: mock ? 0 : Number(arg('per-model-budget') ?? 0),
     concurrency: DEFAULTS.concurrency,
     judgeModel: DEFAULTS.judgeModel,
+    judgePanel: DEFAULTS.judgePanel,
     judgePromptVersion: JUDGE_PROMPT_VERSION,
     methodologyVersion: DEFAULTS.methodologyVersion,
     mock,
@@ -212,11 +228,24 @@ async function cmdRun() {
       const promptChars = buildMessages(question).reduce((n, m) => n + m.content.length, 0);
       const worstCase = (promptChars / 4) * 0.00001 + maxTokens * 0.00005;
       budget.assertCanSpend(modelId, worstCase);
-      const result = await client.complete(modelId, buildMessages(question), {
+      let result = await client.complete(modelId, buildMessages(question), {
         temperature: DEFAULTS.temperature,
         maxTokens,
+        reasoning: { effort: 'medium' },
       });
       budget.record(modelId, result.costUsd);
+      let totalCost = result.costUsd;
+      // Empty/filtered completions are transport noise — retry before storing,
+      // with extra token headroom on the second retry.
+      for (let retry = 0; retry < 2 && isTransportFailure(result) && !mock; retry++) {
+        result = await client.complete(modelId, buildMessages(question), {
+          temperature: DEFAULTS.temperature,
+          maxTokens: retry === 0 ? maxTokens : maxTokens * 2,
+          reasoning: { effort: 'medium' },
+        });
+        budget.record(modelId, result.costUsd);
+        totalCost += result.costUsd;
+      }
       const stored: StoredResponse = {
         runId,
         modelId,
@@ -225,9 +254,10 @@ async function cmdRun() {
         raw: result.raw,
         tokensIn: result.tokensIn,
         tokensOut: result.tokensOut,
-        costUsd: result.costUsd,
+        costUsd: totalCost,
         latencyMs: result.latencyMs,
         finishReason: result.finishReason,
+        ...(isTransportFailure(result) ? { transportFailure: true } : {}),
       };
       writeResponse(stored);
       done++;
@@ -326,10 +356,55 @@ async function cmdJudge() {
     console.log('✓ Nothing pending for the judge.');
     return;
   }
-  console.log(`Judging ${pending.length} answers with ${config.judgeModel} (${config.judgePromptVersion})…`);
-
   const client = config.mock ? null : new OpenRouterClient();
+
+  // The judging configuration of record: the current panel. (config.json is
+  // refreshed so the artifact reflects what actually judged this run.)
+  const judgePanel = DEFAULTS.judgePanel;
+  if (!config.mock && (config.judgeModel !== DEFAULTS.judgeModel || !config.judgePanel)) {
+    config.judgeModel = DEFAULTS.judgeModel;
+    config.judgePanel = judgePanel;
+    config.judgePromptVersion = JUDGE_PROMPT_VERSION;
+    writeRunConfig(config);
+  }
+
+  // Judge calibration gate: every panel seat must independently reproduce the
+  // hand-scored anchors before any paid judging is accepted for this run.
+  if (!config.mock) {
+    const { readCalibration, runCalibration } = await import('./calibration.js');
+    const prior = readCalibration(runId);
+    if (
+      prior?.passed &&
+      JSON.stringify(prior.judgePanel) === JSON.stringify(judgePanel) &&
+      prior.judgePromptVersion === JUDGE_PROMPT_VERSION
+    ) {
+      console.log(`✓ Calibration gate already passed (worst per-judge MAE ${prior.mae}).`);
+    } else {
+      console.log(`Calibrating panel [${judgePanel.join(', ')}] against hand-scored anchors…`);
+      const calibration = await runCalibration(
+        client!,
+        config.judgeModel,
+        judgePanel,
+        JUDGE_PROMPT_VERSION,
+        runId,
+        questionsById,
+      );
+      for (const judge of calibration.judges) {
+        console.log(`  ${judge.passed ? '✓' : '✗'} ${judge.judgeModel} — MAE ${judge.mae} (limit 10)`);
+        for (const a of judge.anchors.filter((x) => !x.pass)) {
+          console.log(`      ✗ ${a.questionId} expected ${a.expected} got ${a.got}  ${a.note ?? ''}`);
+        }
+      }
+      if (!calibration.passed) {
+        fail('A panel judge failed the calibration gate — fix the judge/prompt/anchors before judging.');
+      }
+      console.log('✓ Calibration gate passed for all panel seats.');
+    }
+  }
+
+  console.log(`Judging ${pending.length} answers with panel [${judgePanel.join(', ')}] (${config.judgePromptVersion})…`);
   let flagged = 0;
+  const judgeFailures: string[] = [];
   await pool(pending, DEFAULTS.concurrency, async (s) => {
     const question = questionsById.get(s.questionId)!;
     const response = responses.find(
@@ -342,18 +417,30 @@ async function cmdJudge() {
       judgeScore = mockJudgeScore(s.modelId, question);
       judgeDetail = { mockJudge: true };
     } else {
-      const verdict = await judgeAnswer(client!, config.judgeModel, question, response.answerText);
+      let verdict: Awaited<ReturnType<typeof judgeAnswerPanel>>;
+      try {
+        verdict = await judgeAnswerPanel(client!, judgePanel, s.modelId, question, response.answerText);
+      } catch (error) {
+        // One unjudgeable answer must not sink the batch — it stays
+        // judgePending and the next `bench judge` retries just these.
+        judgeFailures.push(`${s.modelId} × ${s.questionId}: ${(error as Error).message.slice(0, 120)}`);
+        return;
+      }
       judgeScore = verdict.score;
       judgeDetail = {
-        criterionScores: verdict.criterionScores,
-        justification: verdict.justification,
+        judges: verdict.judges,
+        findings: verdict.findings,
+        summary: verdict.summary,
+        verdicts: verdict.verdicts,
         disagreement: verdict.disagreement,
         flagged: verdict.flagged,
       };
       if (verdict.flagged) flagged++;
     }
     s.score = blendJudgeScore(question, judgeScore, detail.constraintScore);
-    s.judgeModel = config.mock ? 'mock-judge' : config.judgeModel;
+    s.judgeModel = config.mock
+      ? 'mock-judge'
+      : ((judgeDetail as { judges?: string[] }).judges?.join('+') ?? config.judgeModel);
     s.detail = {
       judgePending: false,
       judgeScore,
@@ -363,7 +450,12 @@ async function cmdJudge() {
     };
   });
   writeScores(runId, scores);
-  console.log(`✓ Judged ${pending.length} answers${flagged > 0 ? ` (${flagged} flagged for manual review)` : ''}`);
+  const judgedCount = pending.length - judgeFailures.length;
+  console.log(`✓ Judged ${judgedCount} answers${flagged > 0 ? ` (${flagged} flagged for manual review)` : ''}`);
+  if (judgeFailures.length > 0) {
+    console.error(`✗ ${judgeFailures.length} answers could not be judged (re-run \`bench judge\` to retry):`);
+    for (const f of judgeFailures.slice(0, 10)) console.error(`    ${f}`);
+  }
   console.log(`Next: pnpm bench report --run ${runId}`);
 }
 
@@ -380,15 +472,23 @@ function cmdReport() {
   const models = config.mock
     ? MOCK_MODELS.map((m) => ({ ...m }))
     : loadModels();
-  const leaderboard = buildLeaderboard(runId, models, questions, responses, scores);
+  const leaderboard = buildLeaderboard(
+    runId,
+    models,
+    questions,
+    responses,
+    scores,
+    config.methodologyVersion ?? 'v2',
+  );
   writeLeaderboard(runId, leaderboard);
-  console.log(`\nCookingBench — run ${runId}\n`);
-  const header = `${'#'.padEnd(3)} ${'model'.padEnd(28)} ${'overall'.padStart(7)} ${'cost'.padStart(9)}`;
+  console.log(`\nCookingBench — run ${runId} (methodology ${leaderboard.methodologyVersion})\n`);
+  const header = `${'#'.padEnd(3)} ${'model'.padEnd(28)} ${'overall'.padStart(7)} ${'95% CI'.padStart(13)} ${'frontier'.padStart(8)} ${'basics'.padStart(7)} ${'inc'.padStart(4)} ${'cost'.padStart(9)}`;
   console.log(header);
   console.log('─'.repeat(header.length));
   leaderboard.rows.forEach((row, i) => {
+    const ci = row.overallCi ? `${row.overallCi[0].toFixed(1)}–${row.overallCi[1].toFixed(1)}` : '—';
     console.log(
-      `${String(i + 1).padEnd(3)} ${row.displayName.padEnd(28)} ${row.overall.toFixed(1).padStart(7)} ${('$' + row.costUsd.toFixed(2)).padStart(9)}`,
+      `${String(i + 1).padEnd(3)} ${row.displayName.padEnd(28)} ${row.overall.toFixed(1).padStart(7)} ${ci.padStart(13)} ${(row.frontier?.toFixed(1) ?? '—').padStart(8)} ${(row.basics?.toFixed(1) ?? '—').padStart(7)} ${String(row.incidents ?? 0).padStart(4)} ${('$' + row.costUsd.toFixed(2)).padStart(9)}`,
     );
   });
   console.log(`\n✓ Leaderboard written to data/runs/${runId}/leaderboard.json`);
@@ -396,6 +496,29 @@ function cmdReport() {
 
 function cmdRuns() {
   for (const id of listRuns()) console.log(`  ${id}`);
+}
+
+function cmdAnalyze() {
+  const runId = arg('run') ?? fail('analyze requires --run <id>');
+  const questions = loadQuestions();
+  const responses = readResponses(runId);
+  const scores = readScores(runId);
+  if (scores.length === 0) fail(`No scores for run ${runId} — grade it first`);
+  const analysis = analyzeRun(runId, questions, responses, scores);
+  writeAnalysis(runId, analysis);
+
+  console.log(`\nItem analysis — run ${runId} (${analysis.models} models, ${analysis.questions} questions)`);
+  console.log(`  all-perfect: ${analysis.allPerfect}   saturated (mean≥95, sd≤5): ${analysis.saturated}\n`);
+  const header = `${'question'.padEnd(11)} ${'grader'.padEnd(13)} ${'mean'.padStart(6)} ${'sd'.padStart(6)} ${'disc'.padStart(6)} ${'anom'.padStart(5)}  verdict`;
+  console.log(header);
+  console.log('─'.repeat(header.length));
+  for (const item of analysis.questionsAnalyzed) {
+    if (item.verdict === 'keep' && !arg('all')) continue;
+    console.log(
+      `${item.questionId.padEnd(11)} ${item.graderType.padEnd(13)} ${item.mean.toFixed(1).padStart(6)} ${item.sd.toFixed(1).padStart(6)} ${item.discrimination.toFixed(1).padStart(6)} ${String(item.anomalies).padStart(5)}  ${item.verdict}`,
+    );
+  }
+  console.log(`\n✓ Analysis written to data/runs/${runId}/analysis.json (use --all true to list kept items too)`);
 }
 
 async function cmdSync() {
@@ -423,6 +546,7 @@ const COMMANDS: Record<string, () => void | Promise<void>> = {
   grade: cmdGrade,
   judge: cmdJudge,
   report: cmdReport,
+  analyze: cmdAnalyze,
   runs: cmdRuns,
   models: cmdModelsCheck,
   sync: cmdSync,
@@ -444,6 +568,7 @@ Commands:
   grade --run <id>               Deterministic grading
   judge --run <id>               LLM-judge grading for subjective questions
   report --run <id>              Build the leaderboard JSON + print the table
+  analyze --run <id> [--all true]  Item analysis: saturation, discrimination, anomalies
   sync [--run <id>]              Upsert dataset (and optionally a run) to Supabase
   publish --run <id>             Make a synced run publicly readable
   runs                           List stored runs`);

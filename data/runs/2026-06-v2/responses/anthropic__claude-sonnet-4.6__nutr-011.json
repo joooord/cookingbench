@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-011",
+  "answerText": "## Calculating Calories in One Serving\n\n**Given information:**\n- Serving size: 60 g\n- Energy per 100 g: 450 kcal\n\n**Calculation:**\n\n$$450 \\text{ kcal} \\times \\frac{60 \\text{ g}}{100 \\text{ g}} = 270 \\text{ kcal}$$\n\nAnswer: 270 kcal",
+  "raw": {
+    "id": "gen-1781210006-gREhb6gFx5i24NKVcVWX",
+    "object": "chat.completion",
+    "created": 1781210006,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Calculating Calories in One Serving\n\n**Given information:**\n- Serving size: 60 g\n- Energy per 100 g: 450 kcal\n\n**Calculation:**\n\n$$450 \\text{ kcal} \\times \\frac{60 \\text{ g}}{100 \\text{ g}} = 270 \\text{ kcal}$$\n\nAnswer: 270 kcal",
+          "refusal": null,
+          "reasoning": "450 kcal per 100g, serving is 60g.\n450 × 0.6 = 270 kcal",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "450 kcal per 100g, serving is 60g.\n450 × 0.6 = 270 kcal",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EoACCmUIDhgCKkC1ISXILBMppKnp3LOnkUqO6pLFFMX/gTnSiMqIXePamb03Hw6sj/Xqc0hXH4CdzDHbMWXITPu8+AQyRoLuOi64MhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMouLWb1O1GvncXjvwGgwOyppRpzA2PH0jt5YiMJTOQTHY+TbbFX3R5lOfnAcz1mkLKc7zYxVyLIRJdOq3i7og8L0o2YtuQ5UV4FzynipJoi2+ZRjKIGn+yO9gMiUU8ItIIwZd//yGoaMcivxAIPrxo4/O5vkzj/F2T/iVgZaVtF67R2vwl39wDn9Nmjg7+dyJSh9oGsKfNxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 100,
+      "completion_tokens": 147,
+      "total_tokens": 247,
+      "cost": 0.002505,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002505,
+        "upstream_inference_prompt_cost": 0.0003,
+        "upstream_inference_completions_cost": 0.002205
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 16,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 100,
+  "tokensOut": 147,
+  "costUsd": 0.002505,
+  "latencyMs": 3627,
+  "finishReason": "stop"
+}

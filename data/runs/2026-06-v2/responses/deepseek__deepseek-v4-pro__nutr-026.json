@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-026",
+  "answerText": "Protein: 40 g  \nFat: 26 g  \nCalories: 394 kcal",
+  "raw": {
+    "id": "gen-1781206818-8yHaSnaqNjyo5LW7Ie3B",
+    "object": "chat.completion",
+    "created": 1781206818,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "GMICloud",
+    "system_fingerprint": "fp_9954b31ca7_prod0820_fp8_kvcache_20260402",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Protein: 40 g  \nFat: 26 g  \nCalories: 394 kcal",
+          "refusal": null,
+          "reasoning": "We are asked: \"A salmon fillet weighs 200 g raw. I'll pan-sear it. Salmon is roughly 20 g protein and 13 g fat per 100 g raw. Cooking causes about 20% weight loss, mostly water (protein and fat are largely retained). Estimate the protein, fat and calories of the cooked fillet.\"\n\nWe need to output three lines: Protein: <number> g, Fat: <number> g, Calories: <number> kcal.\n\nRaw weight = 200g. Raw has per 100g: 20g protein, 13g fat. So total raw: protein = 2 * 20 = 40g, fat = 2 * 13 = 26g. Calories from protein: 40g * 4 kcal/g = 160 kcal, from fat: 26g * 9 kcal/g = 234 kcal, total raw calories = 394 kcal.\n\nCooking causes 20% weight loss. So cooked weight = 200g * 0.8 = 160g. But protein and fat are largely retained, meaning they remain almost the same in absolute terms. Some small loss of fat might occur, but the problem says \"protein and fat are largely retained\", so we assume the cooked fillet still has 40g protein and 26g fat. Then the calories would also be retained (since water loss doesn't affect macronutrient calorie content). However, sometimes pan-searing might render some fat out. But the problem says \"largely retained\" to simplify; likely we should assume no loss. So cooked fillet: protein 40g, fat 26g, calories 394 kcal.\n\nBut the question: \"Estimate the protein, fat and calories of the cooked fillet.\" It might refer to the whole cooked fillet. Or per 100g cooked? Usually, if they ask for \"of the cooked fillet\", that's the entire piece. But it says \"A salmon fillet weighs 200 g raw. ... Estimate the protein, fat and calories of the cooked fillet.\" So yes, the whole cooked piece. So we output absolute amounts.\n\nThus: Protein: 40 g, Fat: 26 g, Calories: ~394 kcal. Actually 40*4=160, 26*9=234, sum=394. So Calories: 394 kcal.\n\nWe'll present that.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A salmon fillet weighs 200 g raw. I'll pan-sear it. Salmon is roughly 20 g protein and 13 g fat per 100 g raw. Cooking causes about 20% weight loss, mostly water (protein and fat are largely retained). Estimate the protein, fat and calories of the cooked fillet.\"\n\nWe need to output three lines: Protein: <number> g, Fat: <number> g, Calories: <number> kcal.\n\nRaw weight = 200g. Raw has per 100g: 20g protein, 13g fat. So total raw: protein = 2 * 20 = 40g, fat = 2 * 13 = 26g. Calories from protein: 40g * 4 kcal/g = 160 kcal, from fat: 26g * 9 kcal/g = 234 kcal, total raw calories = 394 kcal.\n\nCooking causes 20% weight loss. So cooked weight = 200g * 0.8 = 160g. But protein and fat are largely retained, meaning they remain almost the same in absolute terms. Some small loss of fat might occur, but the problem says \"protein and fat are largely retained\", so we assume the cooked fillet still has 40g protein and 26g fat. Then the calories would also be retained (since water loss doesn't affect macronutrient calorie content). However, sometimes pan-searing might render some fat out. But the problem says \"largely retained\" to simplify; likely we should assume no loss. So cooked fillet: protein 40g, fat 26g, calories 394 kcal.\n\nBut the question: \"Estimate the protein, fat and calories of the cooked fillet.\" It might refer to the whole cooked fillet. Or per 100g cooked? Usually, if they ask for \"of the cooked fillet\", that's the entire piece. But it says \"A salmon fillet weighs 200 g raw. ... Estimate the protein, fat and calories of the cooked fillet.\" So yes, the whole cooked piece. So we output absolute amounts.\n\nThus: Protein: 40 g, Fat: 26 g, Calories: ~394 kcal. Actually 40*4=160, 26*9=234, sum=394. So Calories: 394 kcal.\n\nWe'll present that.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 117,
+      "completion_tokens": 514,
+      "total_tokens": 631,
+      "cost": 0.00159384,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00159384,
+        "upstream_inference_prompt_cost": 0.000162864,
+        "upstream_inference_completions_cost": 0.001430976
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 495,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 117,
+  "tokensOut": 514,
+  "costUsd": 0.00159384,
+  "latencyMs": 12890,
+  "finishReason": "stop"
+}

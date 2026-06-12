@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-012",
+  "answerText": "To find the protein per serving, divide the total protein by the number of servings:\n\n117 g ÷ 6 servings = **19.5 g of protein per serving**\n\n(For reference, each serving would also contain 1,560 ÷ 6 = 260 kcal.)\n\nAnswer: 19.5 g",
+  "raw": {
+    "id": "gen-1781212820-CgJPnlB8QQeHej8IBShL",
+    "object": "chat.completion",
+    "created": 1781212820,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To find the protein per serving, divide the total protein by the number of servings:\n\n117 g ÷ 6 servings = **19.5 g of protein per serving**\n\n(For reference, each serving would also contain 1,560 ÷ 6 = 260 kcal.)\n\nAnswer: 19.5 g",
+          "refusal": null,
+          "reasoning": " I'm calculating 117 divided by 6, which gives me 19.5.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating 117 divided by 6, which gives me 19.5.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS0AEKYggOGAIqQNhXZTtC6kT4D8WPZwQiLKpJI+xedU+hKYpWvX8zqp5/ax/fkc6wFfLilVwDPZC2zl+79UWueOkoPYSgif4bsHQyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgyZjQFYJybIPVF3/NMaDJzqjFxEX6+VdlvUWiIwl301e7GKRI41GfPfVbuYodH/CEXhDDvo+2kTvfiYlIs/+niGMme5NWrgugah9gqsKhwauWvgVnAhz3IGVrKGbXfQ/yjvTH9F4iJ1qEPUGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 99,
+      "completion_tokens": 107,
+      "total_tokens": 206,
+      "cost": 0.00634,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00634,
+        "upstream_inference_prompt_cost": 0.00099,
+        "upstream_inference_completions_cost": 0.00535
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 14,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 99,
+  "tokensOut": 107,
+  "costUsd": 0.00634,
+  "latencyMs": 4661,
+  "finishReason": "stop"
+}

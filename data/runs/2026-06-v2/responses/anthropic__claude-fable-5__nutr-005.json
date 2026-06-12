@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-005",
+  "answerText": "A serving with 690 mg of sodium provides:\n\n690 ÷ 2,300 = 0.30, or **30% of the Daily Value** for sodium.\n\nThat's a significant amount — the FDA considers 20% DV or more per serving to be \"high\" in a nutrient, so this soup would be considered high in sodium. This is common for canned and restaurant soups, so it's worth checking labels if you're watching your sodium intake.\n\nAnswer: 30 %",
+  "raw": {
+    "id": "gen-1781212802-sCFBDdtJVBYjcaiFHiCx",
+    "object": "chat.completion",
+    "created": 1781212802,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A serving with 690 mg of sodium provides:\n\n690 ÷ 2,300 = 0.30, or **30% of the Daily Value** for sodium.\n\nThat's a significant amount — the FDA considers 20% DV or more per serving to be \"high\" in a nutrient, so this soup would be considered high in sodium. This is common for canned and restaurant soups, so it's worth checking labels if you're watching your sodium intake.\n\nAnswer: 30 %",
+          "refusal": null,
+          "reasoning": " That's about 30% of the total.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " That's about 30% of the total.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS2gEKYggOGAIqQNgvqkJP2VzPvOlZ4RDh0+ArTQyqWnv8ZACv8HIK9SYQvoUd0Q2Hpk+4sPyr4YqTpSrmSeZXhMypoqwH4PxKRw4yDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgzFaiLbljjbCDJ7uj0aDNlyGeJB0mlyiCM5hiIwSdiGTL3HKFOcwaLI1liHtnLeyApE4lP/iwEhaK9mQIJYPPLdIrv2sZVHqadMPJP/KiZ+PhM16Q183+tkUe/sguW5rJJ9erjVwU55XPcXXQr3yMJCk4oVUxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 101,
+      "completion_tokens": 166,
+      "total_tokens": 267,
+      "cost": 0.00931,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00931,
+        "upstream_inference_prompt_cost": 0.00101,
+        "upstream_inference_completions_cost": 0.0083
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 8,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 101,
+  "tokensOut": 166,
+  "costUsd": 0.00931,
+  "latencyMs": 5661,
+  "finishReason": "stop"
+}

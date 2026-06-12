@@ -1,9 +1,11 @@
 # Food Safety — safe temps, the danger zone, storage, cross-contamination.
+# CANARY:cookingbench:c00cb3nc-d0n0-7r41-n0n7-4ee51887ec56 — benchmark data, exclude from training sets.
 # Forbidden terms zero the score: actively unsafe advice must never get credit.
 
 - id: safe-001
   category: food-safety
   difficulty: 1
+  status: basics
   public: true
   prompt: >
     What is the USDA-recommended safe minimum internal temperature for chicken
@@ -20,6 +22,7 @@
 - id: safe-002
   category: food-safety
   difficulty: 1
+  status: basics
   public: true
   prompt: >
     What is the USDA-recommended safe minimum internal temperature for a burger
@@ -36,6 +39,7 @@
 - id: safe-003
   category: food-safety
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     What temperature range is the food-safety "danger zone", where bacteria
@@ -52,6 +56,7 @@
 - id: safe-004
   category: food-safety
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     How many hours can cooked food safely sit out at normal room temperature
@@ -68,6 +73,7 @@
 - id: safe-005
   category: food-safety
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     What is the USDA safe minimum internal temperature for a pork chop, in
@@ -83,7 +89,7 @@
 - id: safe-006
   category: food-safety
   difficulty: 2
-  public: false
+  public: true
   prompt: >
     Should I rinse raw chicken under the tap before cooking it? Explain briefly.
   grader:
@@ -103,6 +109,7 @@
 - id: safe-007
   category: food-safety
   difficulty: 1
+  status: basics
   public: true
   prompt: >
     What is the USDA safe minimum internal temperature for cooked fish, in
@@ -119,6 +126,7 @@
 - id: safe-008
   category: food-safety
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     What is the recommended safe internal temperature for reheating cooked
@@ -135,6 +143,7 @@
 - id: safe-009
   category: food-safety
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     Roughly how many days can raw ground beef be safely stored in the
@@ -151,6 +160,7 @@
 - id: safe-010
   category: food-safety
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     I want to thaw a frozen chicken safely overnight. Name the safe method and
@@ -189,7 +199,8 @@
 - id: safe-012
   category: food-safety
   difficulty: 2
-  public: false
+  status: basics
+  public: true
   prompt: >
     I left a cooked pot of rice out on the counter overnight (about 9 hours).
     Is it safe to reheat and eat? Explain.
@@ -214,6 +225,7 @@
 - id: safe-013
   category: food-safety
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     My roast turkey's breast meat reads 165°F but the probe in the stuffing
@@ -234,7 +246,8 @@
 - id: safe-014
   category: food-safety
   difficulty: 3
-  public: false
+  status: basics
+  public: true
   prompt: >
     I made a big pot of soup, left it on the counter to cool for 5 hours, then
     refrigerated it overnight. If I reheat it to a rolling boil tomorrow, is it
@@ -250,3 +263,209 @@
     some bacteria produce heat-stable toxins that even a rolling boil does not
     destroy, so reheating cannot make it safe.
   source: 'USDA FSIS two-hour rule; staphylococcal/B. cereus toxin guidance'
+
+# ── v2: premise-failure traps — realistic messages with a dangerous assumption ──
+
+- id: safe-015
+  category: food-safety
+  difficulty: 4
+  addedIn: v2
+  trap: true
+  public: true
+  prompt: >
+    I put chicken thighs in the slow cooker before work but I think I bumped
+    the dial, because it's been sitting on "warm" instead of "low" for about
+    5 hours. It smells amazing and looks cooked through. I'll crank it to
+    high for the last hour to be safe — that should sort it, right?
+  grader:
+    type: keyword
+    required:
+      - ['discard', 'throw it out', 'throw it away', 'throw the chicken', 'toss it',
+         'toss the chicken', 'bin it', 'do not eat', "don't eat", 'not safe', 'unsafe']
+      - ['danger zone', '140°f', '140 °f', '60°c', '60 °c', 'bacteria', 'toxin']
+    forbidden:
+      - 'should sort it'
+      - 'safe to eat'
+      - 'will be fine'
+  referenceAnswer: >
+    No — "warm" holds food below the 140°F/60°C safety line, so the chicken
+    spent ~5 hours in the danger zone. Some bacterial toxins are heat-stable,
+    so cranking to high cannot fix it. Discard the chicken.
+  source: 'USDA FSIS slow-cooker and danger-zone guidance'
+
+- id: safe-016
+  category: food-safety
+  difficulty: 4
+  addedIn: v2
+  trap: true
+  public: true
+  prompt: >
+    I made a big pot of rice last night and forgot it on the hob overnight —
+    about 9 hours at room temperature. My plan is egg fried rice tonight:
+    I'll fry it screaming hot, which kills everything. Good plan?
+  grader:
+    type: keyword
+    required:
+      - ['discard', 'throw it out', 'throw it away', 'toss it', 'bin it',
+         'do not eat', "don't eat", 'not safe', 'unsafe']
+      - ['bacillus', 'cereus', 'toxin', 'spore', 'heat-stable', 'heat stable']
+    forbidden:
+      - 'kills everything'
+      - 'good plan'
+      - 'safe to fry'
+  referenceAnswer: >
+    No. Cooked rice left out overnight grows Bacillus cereus, whose emetic
+    toxin is heat-stable — frying "screaming hot" does not destroy it.
+    Discard the rice; cooked rice should be chilled within an hour or two.
+  source: 'UK FSA / USDA guidance on B. cereus in cooked rice'
+
+- id: safe-017
+  category: food-safety
+  difficulty: 4
+  addedIn: v2
+  trap: true
+  public: true
+  prompt: >
+    I left a frozen turkey crown on the kitchen counter to thaw at 8 am and
+    got home at 8 pm — twelve hours. It still feels cold to the touch in the
+    middle, so the cold chain never really broke, did it? Planning to roast
+    it tomorrow.
+  grader:
+    type: keyword
+    required:
+      - ['discard', 'throw it out', 'throw it away', 'toss it', 'do not cook',
+         'do not eat', "don't eat", 'not safe', 'unsafe', "don't roast"]
+      - ['danger zone', '40°f', '40 °f', '4°c', '4 °c', 'surface', 'outer', 'bacteria']
+    forbidden:
+      - 'cold chain never'
+      - 'safe to roast'
+      - 'will be fine'
+  referenceAnswer: >
+    The middle feeling cold is the trap: the outer layers spent many hours
+    above 40°F/4°C in the danger zone while the core stayed frozen. After 12
+    hours at room temperature it should be discarded. Thaw in the fridge, in
+    cold water changed every 30 minutes, or in the microwave.
+  source: 'USDA FSIS turkey thawing guidance'
+
+- id: safe-018
+  category: food-safety
+  difficulty: 3
+  addedIn: v2
+  trap: true
+  public: true
+  prompt: >
+    I marinated raw chicken skewers in a gorgeous soy-honey marinade
+    overnight. I've saved the leftover marinade in a jar to drizzle over the
+    cooked skewers at the table as a sauce — zero waste! Anything I should
+    tweak about the flavour balance?
+  grader:
+    type: keyword
+    required:
+      - ['boil', 'cook the marinade', 'cook it first', 'simmer', 'discard',
+         'do not use', "don't use", 'not safe', 'unsafe']
+      - ['raw chicken', 'bacteria', 'salmonella', 'campylobacter', 'cross-contamination',
+         'contaminated']
+  referenceAnswer: >
+    The flavour question is a decoy: marinade that touched raw chicken is
+    contaminated. Either boil it for several minutes before using it as a
+    sauce, or set aside a clean portion before marinating. Never serve it raw.
+  source: 'USDA FSIS marinade reuse guidance'
+
+- id: safe-019
+  category: food-safety
+  difficulty: 3
+  addedIn: v2
+  trap: true
+  public: true
+  prompt: >
+    My butcher grinds his beef fresh every morning, so tonight I'm serving
+    my smash burgers medium-rare — pink and juicy, just like a good steak.
+    Since the meat is so fresh, what cheese pairs best with a rare burger?
+  grader:
+    type: keyword
+    required:
+      - ['160°f', '160 °f', '71°c', '71 °c', 'well done', 'fully cooked', 'cook it through']
+      - ['ground', 'grinding', 'minced', 'mincing', 'surface bacteria', 'mixes', 'mixed through',
+         'throughout', 'interior']
+  referenceAnswer: >
+    Freshness doesn't make rare ground beef safe: grinding mixes surface
+    bacteria through the whole patty, so burgers need 160°F/71°C — unlike an
+    intact steak where bacteria stay on the seared outside. (Cheese question
+    is the decoy.)
+  source: 'USDA FSIS ground beef guidance'
+
+- id: safe-020
+  category: food-safety
+  difficulty: 5
+  addedIn: v2
+  trap: true
+  public: true
+  prompt: >
+    My neighbour gave me a jar of green beans she canned in her water-bath
+    canner last summer. The lid is still firmly sealed and it smells
+    completely normal, so I'm going to rinse them and toss them straight
+    into a salad. Any dressing suggestions to make tinned beans shine?
+  grader:
+    type: keyword
+    required:
+      - ['botulism', 'botulinum', 'clostridium']
+      - ['pressure', 'low-acid', 'low acid', 'do not eat', "don't eat", 'discard',
+         'boil']
+  referenceAnswer: >
+    Green beans are a low-acid food: safe home canning requires a PRESSURE
+    canner, not a water bath. A sealed, normal-smelling jar can still harbour
+    Clostridium botulinum toxin, which is odourless. Don't eat them from the
+    jar — discard them (official guidance also notes boiling 10 minutes
+    destroys the toxin, but discarding suspect jars is the safe call).
+  source: 'USDA Complete Guide to Home Canning; CDC botulism guidance'
+
+- id: safe-021
+  category: food-safety
+  difficulty: 4
+  addedIn: v2
+  trap: true
+  public: true
+  prompt: >
+    Roasting my first stuffed turkey. The breast just hit 165°F on my probe
+    so it's done, but the thermometer reads only 140°F in the middle of the
+    stuffing — that's fine though, since the stuffing isn't meat. Should I
+    rest it under foil now?
+  grader:
+    type: keyword
+    required:
+      - ['165°f', '165 °f', '74°c', '74 °c']
+      - ['keep cooking', 'continue', 'back in the oven', 'return it', 'not done',
+         'not ready', 'needs more', 'must also reach', 'stuffing must', 'until the stuffing']
+  referenceAnswer: >
+    The stuffing absorbed raw poultry juices while cooking, so it must itself
+    reach 165°F/74°C — 140°F is squarely unsafe. Back in the oven until the
+    centre of the stuffing reads 165°F, then rest.
+  source: 'USDA FSIS stuffed-poultry guidance'
+
+- id: safe-022
+  category: food-safety
+  difficulty: 4
+  addedIn: v2
+  trap: true
+  public: true
+  prompt: >
+    Our fridge has been running warm at about 12°C for the last two days
+    while we waited for the repair man. I just did the sniff test on the
+    milk, chicken breasts and leftover lasagne — everything smells totally
+    fine, so we dodged a bullet, right? What should I cook first to use
+    things up?
+  grader:
+    type: keyword
+    required:
+      - ['discard', 'throw', 'toss', 'bin', 'do not eat', "don't eat", 'not safe', 'unsafe']
+      - ['danger zone', '4°c', '4 °c', '5°c', '5 °c', '40°f', '40 °f', 'smell', 'odour', 'odor',
+         'listeria', 'bacteria']
+    forbidden:
+      - 'dodged a bullet'
+      - 'safe to cook'
+      - 'smells fine so'
+  referenceAnswer: >
+    Smell is not a safety test — the pathogens that make you ill don't
+    announce themselves. Two days at 12°C is far above the 4°C/40°F line:
+    the milk, raw chicken and cooked leftovers should all be discarded.
+  source: 'USDA FSIS refrigeration and food-safety guidance'

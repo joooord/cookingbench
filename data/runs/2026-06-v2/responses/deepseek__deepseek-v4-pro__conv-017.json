@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-017",
+  "answerText": "In Australia, a standard tablespoon is 20 ml. Therefore, 2 tablespoons equal 40 ml.\n\nAnswer: 40 ml",
+  "raw": {
+    "id": "gen-1781206635-2gUalJtlqPfQQl1QJ4W7",
+    "object": "chat.completion",
+    "created": 1781206635,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "In Australia, a standard tablespoon is 20 ml. Therefore, 2 tablespoons equal 40 ml.\n\nAnswer: 40 ml",
+          "refusal": null,
+          "reasoning": "We are asked: \"An Australian recipe says to add 2 tablespoons (Australian standard) of fish sauce. How many millilitres is that?\"\n\nWe need to recall the Australian standard tablespoon measure. In Australia, a standard tablespoon is defined as 20 ml (as opposed to the US tablespoon which is about 14.8 ml, often rounded to 15 ml, or the UK tablespoon which is 15 ml). In Australia, the metric tablespoon is exactly 20 ml. So 2 Australian tablespoons = 2 * 20 ml = 40 ml.\n\nThe answer should be: 40 ml, and end with \"Answer: 40 ml\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"An Australian recipe says to add 2 tablespoons (Australian standard) of fish sauce. How many millilitres is that?\"\n\nWe need to recall the Australian standard tablespoon measure. In Australia, a standard tablespoon is defined as 20 ml (as opposed to the US tablespoon which is about 14.8 ml, often rounded to 15 ml, or the UK tablespoon which is 15 ml). In Australia, the metric tablespoon is exactly 20 ml. So 2 Australian tablespoons = 2 * 20 ml = 40 ml.\n\nThe answer should be: 40 ml, and end with \"Answer: 40 ml\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 59,
+      "completion_tokens": 161,
+      "total_tokens": 220,
+      "cost": 0.000612648,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000612648,
+        "upstream_inference_prompt_cost": 0.000094872,
+        "upstream_inference_completions_cost": 0.000517776
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 133,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 59,
+  "tokensOut": 161,
+  "costUsd": 0.000612648,
+  "latencyMs": 2594,
+  "finishReason": "stop"
+}

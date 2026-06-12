@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "nutr-007",
+  "answerText": "## Step 1: Calculate the calorie count of one cookie before icing.\nTo find the calorie count of one cookie before icing, we need to divide the total calorie count of the dough by the number of cookies it makes. total_kcal = 1,800, number_of_cookies = 12. kcal_per_cookie = total_kcal / number_of_cookies = 1,800 / 12 = 150 kcal.\n\n## Step 2: Add the calorie count of the icing to the cookie.\nEach cookie is iced with 35 kcal of icing. So, the total calorie count of one finished, iced cookie is the sum of the calorie count of the cookie and the icing. total_kcal_per_iced_cookie = kcal_per_cookie + kcal_of_icing = 150 + 35 = 185 kcal.\n\nThe final answer is: Answer: 185 kcal",
+  "raw": {
+    "id": "gen-1781204998-qxwF36xeo0ooFCRqxPyo",
+    "object": "chat.completion",
+    "created": 1781204998,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "## Step 1: Calculate the calorie count of one cookie before icing.\nTo find the calorie count of one cookie before icing, we need to divide the total calorie count of the dough by the number of cookies it makes. total_kcal = 1,800, number_of_cookies = 12. kcal_per_cookie = total_kcal / number_of_cookies = 1,800 / 12 = 150 kcal.\n\n## Step 2: Add the calorie count of the icing to the cookie.\nEach cookie is iced with 35 kcal of icing. So, the total calorie count of one finished, iced cookie is the sum of the calorie count of the cookie and the icing. total_kcal_per_iced_cookie = kcal_per_cookie + kcal_of_icing = 150 + 35 = 185 kcal.\n\nThe final answer is: Answer: 185 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 87,
+      "completion_tokens": 180,
+      "total_tokens": 267,
+      "cost": 0.00012105,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00012105,
+        "upstream_inference_prompt_cost": 0.00001305,
+        "upstream_inference_completions_cost": 0.000108
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 87,
+  "tokensOut": 180,
+  "costUsd": 0.00012105,
+  "latencyMs": 8604,
+  "finishReason": "stop"
+}

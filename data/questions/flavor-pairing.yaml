@@ -1,4 +1,5 @@
 # Flavour Pairing — pairing logic, balance, cuisine coherence. Judge-graded.
+# CANARY:cookingbench:c00cb3nc-d0n0-7r41-n0n7-4ee51887ec56 — benchmark data, exclude from training sets.
 
 - id: flav-001
   category: flavor-pairing
@@ -149,7 +150,7 @@
 - id: flav-006
   category: flavor-pairing
   difficulty: 2
-  public: false
+  public: true
   prompt: >
     I'm serving a rich, coconut-heavy Thai green curry as the main course.
     Recommend a dessert to follow it and explain why it's the right call.
@@ -305,7 +306,7 @@
 - id: flav-012
   category: flavor-pairing
   difficulty: 1
-  public: false
+  public: true
   prompt: >
     What classic herb pairs with lamb, and why is it such a reliable match?
   grader:
@@ -324,3 +325,117 @@
   referenceAnswer: >
     Rosemary — its piney, resinous aromatics stand up to and cut through lamb's
     rich, slightly gamey fat. Mint (as a sharp sauce) works on the same logic.
+
+# ── v2: buried-constraint pairing and flavour numbers ──
+
+- id: flav-013
+  category: flavor-pairing
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    Putting together a cheese board for Friday — we're finally opening the
+    vintage port my brother brought back from Porto. There'll be six of us:
+    me, my partner, my brother and his wife (she's about five months
+    pregnant now, so exciting!), and two friends from work who eat
+    everything. I want maybe four cheeses that genuinely sing with port,
+    plus accompaniments. What should I buy?
+  grader:
+    type: llm-judge
+    judgeWeight: 0.5
+    constraintChecks:
+      - type: keyword
+        forbidden: ['brie', 'camembert', 'gorgonzola', 'roquefort', 'taleggio',
+                    'unpasteurised', 'unpasteurized', 'raw milk', 'raw-milk']
+        required:
+          - ['pasteuris', 'pasteuriz', 'pregnan']
+  judgingNotes: >
+    The buried constraint: a pregnant guest. Soft mould-ripened cheeses
+    (brie, camembert), soft blues and anything unpasteurised are NHS-listed
+    risks in pregnancy — the classic port pairing (Stilton) is itself a
+    soft-ish blue, so a strong answer either notes hard pasteurised options
+    for her (aged cheddar, gouda, manchego, parmesan-style) or explicitly
+    flags which board items she should skip. Pairing quality with port still
+    matters: aged/hard, salty-sweet logic, dried fruit, walnuts fine.
+  referenceAnswer: >
+    Port-friendly board built around hard, pasteurised cheeses: aged cheddar,
+    aged gouda, manchego and a parmesan-style hard cheese, with quince paste,
+    dried figs and oat crackers. Flag for the pregnant guest: skip soft
+    mould-ripened and unpasteurised cheeses; if Stilton appears for the
+    others, label it clearly.
+  source: 'NHS guidance on cheese in pregnancy'
+
+- id: flav-014
+  category: flavor-pairing
+  difficulty: 4
+  addedIn: v2
+  public: true
+  prompt: >
+    My best mate is hosting taco night and asked me to bring my "famous"
+    taco seasoning. Last time half of us were crying from my habanero blend
+    — brilliant night. Anyway, his new girlfriend is coming and apparently
+    she genuinely cannot handle ANY heat at all, like zero chilli, gets
+    actual stomach pain. He still wants the seasoning to taste big and
+    Mexican, not bland. What blend should I make?
+  grader:
+    type: keyword
+    required:
+      - ['cumin']
+      - ['oregano', 'coriander', 'garlic', 'onion powder', 'lime', 'cocoa', 'annatto',
+         'cinnamon']
+      - ['smoked paprika', 'sweet paprika', 'mild paprika']
+    forbidden:
+      - 'cayenne'
+      - 'habanero'
+      - 'jalapeño'
+      - 'jalapeno'
+      - 'chipotle'
+      - 'chilli flakes'
+      - 'chili flakes'
+      - 'chilli powder'
+      - 'chili powder'
+      - 'hot sauce'
+      - 'red pepper flakes'
+  referenceAnswer: >
+    Build depth without capsaicin: cumin, smoked sweet paprika (capsaicin-
+    free), Mexican oregano, garlic and onion powder, ground coriander, a
+    pinch of cinnamon or cocoa for roundness, salt, and finish with lime
+    zest. All chilli-derived heat (cayenne, chipotle, flakes, hot sauce)
+    stays out.
+
+- id: flav-015
+  category: flavor-pairing
+  difficulty: 3
+  addedIn: v2
+  public: true
+  prompt: >
+    How many grams of salt per litre of pasta-cooking water hits the
+    "well-seasoned, tastes like broth" level most chefs aim for?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # ~1% — 10 g/L (the old "sea water" 35 g/L is far too much)
+    expected: 10
+    unit: g
+    bands:
+      - { toleranceAbs: 3, score: 100 }
+      - { toleranceAbs: 7, score: 50 }
+  referenceAnswer: >
+    ≈10 g per litre (about 1%). Literal seawater salinity (35 g/L) is the
+    overshoot the cliché suggests.
+
+- id: flav-016
+  category: flavor-pairing
+  difficulty: 3
+  addedIn: v2
+  public: true
+  prompt: >
+    For a classic French vinaigrette, how many parts oil per 1 part vinegar?
+  systemHint: 'End your reply with a line "Answer: <number>".'
+  grader:
+    type: numeric
+    expected: 3
+    bands:
+      - { toleranceAbs: 0.5, score: 100 }
+      - { toleranceAbs: 1, score: 50 }
+  referenceAnswer: 'The classic ratio is 3 parts oil to 1 part vinegar.'

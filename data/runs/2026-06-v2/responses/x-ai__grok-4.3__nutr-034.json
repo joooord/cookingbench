@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "nutr-034",
+  "answerText": "The package contains 396 g / 55 g = 7.2 servings total. Half the package is therefore 3.6 servings. At 230 kcal per serving, this equals 828 kcal.  \nAnswer: 828 kcal",
+  "raw": {
+    "id": "gen-1781209212-UhocvQlo3r90J5NpsJDF",
+    "object": "chat.completion",
+    "created": 1781209212,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The package contains 396 g / 55 g = 7.2 servings total. Half the package is therefore 3.6 servings. At 230 kcal per serving, this equals 828 kcal.  \nAnswer: 828 kcal",
+          "refusal": null,
+          "reasoning": "The problem is: A US snack label says: serving size 55 g, 230 calories per serving. The package weighs 396 g and I ate exactly half the package. How many kilocalories did I eat?\n828\n\n## Explanation\n\nThe calculation begins by determining the total number of servings in the package as 396 g divided by the serving size of 55 g, yielding 7.2 servings.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem is: A US snack label says: serving size 55 g, 230 calories per serving. The package weighs 396 g and I ate exactly half the package. How many kilocalories did I eat?\n828\n\n## Explanation\n\nThe calculation begins by determining the total number of servings in the package as 396 g divided by the serving size of 55 g, yielding 7.2 servings.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_16fc4c3d-b0b5-927a-93f9-118f83d9c64f",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 203,
+      "completion_tokens": 647,
+      "total_tokens": 850,
+      "cost": 0.00173685,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00173685,
+        "upstream_inference_prompt_cost": 0.00011935,
+        "upstream_inference_completions_cost": 0.0016175
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 599,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 203,
+  "tokensOut": 647,
+  "costUsd": 0.00173685,
+  "latencyMs": 5323,
+  "finishReason": "stop"
+}

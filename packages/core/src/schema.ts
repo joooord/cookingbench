@@ -15,6 +15,16 @@ export const numericTargetSchema = z.object({
   toleranceAbs: z.number().nonnegative().optional(),
 });
 
+export const toleranceBandSchema = z
+  .object({
+    tolerancePct: z.number().nonnegative().optional(),
+    toleranceAbs: z.number().nonnegative().optional(),
+    score: z.number().min(0).max(100),
+  })
+  .refine((b) => b.tolerancePct !== undefined || b.toleranceAbs !== undefined, {
+    message: 'a tolerance band needs tolerancePct or toleranceAbs',
+  });
+
 const numericGrader = z.object({
   type: z.literal('numeric'),
   expected: z.number(),
@@ -22,6 +32,7 @@ const numericGrader = z.object({
   tolerancePct: z.number().nonnegative().optional(),
   toleranceAbs: z.number().nonnegative().optional(),
   acceptEquivalentUnits: z.boolean().optional(),
+  bands: z.array(toleranceBandSchema).min(1).optional(),
 });
 
 const numericMultiGrader = z.object({
@@ -49,6 +60,8 @@ const keywordGrader = z
 
 const llmJudgeGrader = z.object({
   type: z.literal('llm-judge'),
+  // Optional under judge-v2 (deduction grading): rubric criteria serve only as
+  // attention hints, alongside or instead of question.judgingNotes.
   rubric: z
     .array(rubricCriterionSchema)
     .min(1)
@@ -56,7 +69,8 @@ const llmJudgeGrader = z.object({
       (rubric) =>
         Math.abs(rubric.reduce((sum, c) => sum + c.weight, 0) - 1) < 1e-6,
       { message: 'rubric weights must sum to 1' },
-    ),
+    )
+    .optional(),
   constraintChecks: z
     .array(
       z.union([numericGrader, numericMultiGrader, rangeGrader, keywordGrader]),
@@ -76,10 +90,14 @@ export const graderSpecSchema = z.union([
 export const questionSchema = z.object({
   id: z.string().regex(/^[a-z]+-\d{3}$/, 'id must look like "conv-007"'),
   category: z.enum(CATEGORY_IDS),
-  difficulty: z.union([z.literal(1), z.literal(2), z.literal(3)]),
+  difficulty: z.number().int().min(1).max(5),
+  status: z.enum(['active', 'basics', 'retired']).default('active'),
+  addedIn: z.enum(['v1', 'v2']).default('v1'),
+  trap: z.boolean().default(false),
   prompt: z.string().min(10),
   systemHint: z.string().optional(),
   grader: graderSpecSchema,
+  judgingNotes: z.string().optional(),
   referenceAnswer: z.string().min(1),
   source: z.string().optional(),
   public: z.boolean(),

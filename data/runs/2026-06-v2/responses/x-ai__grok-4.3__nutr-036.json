@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "nutr-036",
+  "answerText": "A 12-inch (medium) takeaway margherita pizza has a standard-crust dough base of ~200 g flour plus minor oil (~900 kcal total). Tomato sauce adds ~40 kcal, mozzarella cheese (~140 g) adds ~400 kcal, and a light olive-oil drizzle adds ~100 kcal. Summing these components for a typical recipe yields an estimate of 1400 kcal for the whole pizza.\n\nAnswer: 1400 kcal",
+  "raw": {
+    "id": "gen-1781209216-LLXHE3okMLiUZc6GMdN0",
+    "object": "chat.completion",
+    "created": 1781209216,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "A 12-inch (medium) takeaway margherita pizza has a standard-crust dough base of ~200 g flour plus minor oil (~900 kcal total). Tomato sauce adds ~40 kcal, mozzarella cheese (~140 g) adds ~400 kcal, and a light olive-oil drizzle adds ~100 kcal. Summing these components for a typical recipe yields an estimate of 1400 kcal for the whole pizza.\n\nAnswer: 1400 kcal",
+          "refusal": null,
+          "reasoning": "The question is: \"Estimate the total kilocalories in a typical takeaway 12-inch margherita pizza (the whole pizza, standard crust).\"\nFirst, the user is asking to estimate the total kilocalories in a typical takeaway 12-inch margherita pizza (whole pizza, standard crust).\n\nI need to provide an estimate and a confidence score inside \\confidence{}.\n\nFrom my knowledge:\n\n- A standard 12-inch (300mm) pizza.\n\n- Margherita: 9-inch or 12-inch often has:\n\nTypical breakdown:\n\n- Dough: ~250-300g, calories ~250 kcal/100g for baked pizza dough → ~700-800 kcal.\n\n- Sauce: ~100-150g tomato-based, ~50-60 kcal/100g → ~75 kcal.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"Estimate the total kilocalories in a typical takeaway 12-inch margherita pizza (the whole pizza, standard crust).\"\nFirst, the user is asking to estimate the total kilocalories in a typical takeaway 12-inch margherita pizza (whole pizza, standard crust).\n\nI need to provide an estimate and a confidence score inside \\confidence{}.\n\nFrom my knowledge:\n\n- A standard 12-inch (300mm) pizza.\n\n- Margherita: 9-inch or 12-inch often has:\n\nTypical breakdown:\n\n- Dough: ~250-300g, calories ~250 kcal/100g for baked pizza dough → ~700-800 kcal.\n\n- Sauce: ~100-150g tomato-based, ~50-60 kcal/100g → ~75 kcal.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_55e7d461-074a-9f65-9749-a1f759986cd3",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 186,
+      "completion_tokens": 1006,
+      "total_tokens": 1192,
+      "cost": 0.0026131,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0026131,
+        "upstream_inference_prompt_cost": 0.0000981,
+        "upstream_inference_completions_cost": 0.002515
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 919,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 186,
+  "tokensOut": 1006,
+  "costUsd": 0.0026131,
+  "latencyMs": 7828,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "safe-013",
+  "answerText": " No — it is not safe to serve yet.\n\n**Guidance:** The USDA requires both the turkey meat **and** the stuffing inside the cavity to reach **165°F**. Even if the breast is at a safe temperature, undercooked stuffing can harbor bacteria from raw poultry juices.\n\n**What to do:** Continue cooking until the stuffing hits 165°F. If the breast is getting overdone, you can remove the turkey from the oven, scoop the stuffing into a baking dish, and finish it separately while the turkey rests.",
+  "raw": {
+    "id": "gen-1781202882-qlPrDwZ6WGJqibjGoVIQ",
+    "object": "chat.completion",
+    "created": 1781202882,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Inceptron",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": " No — it is not safe to serve yet.\n\n**Guidance:** The USDA requires both the turkey meat **and** the stuffing inside the cavity to reach **165°F**. Even if the breast is at a safe temperature, undercooked stuffing can harbor bacteria from raw poultry juices.\n\n**What to do:** Continue cooking until the stuffing hits 165°F. If the breast is getting overdone, you can remove the turkey from the oven, scoop the stuffing into a baking dish, and finish it separately while the turkey rests.",
+          "refusal": null,
+          "reasoning": " The user is asking about food safety regarding a roast turkey where the breast meat has reached 165°F but the stuffing inside the cavity is only at 150°F. They want to know if it's safe to serve now and what the official guidance says.\n\nKey facts:\n- Turkey breast: 165°F (safe for poultry meat)\n- Stuffing inside cavity: 150°F (not yet at safe temp)\n- Family is hungry (time pressure)\n\nFood safety guidance (USDA/FDA):\n- Poultry (including turkey) must reach a minimum internal temperature of 165°F.\n- Stuffing inside poultry must ALSO reach 165°F.\n- The 165°F applies to both the meat and the stuffing because the stuffing can be contaminated by raw poultry juices during cooking, and it is an excellent medium for bacterial growth.\n- If stuffing hasn't reached 165°F, it is not considered safe to eat.\n- Recommendation: Continue cooking until the stuffing reaches 165°F. You can remove the turkey from the oven and scoop out the stuffing into a baking dish to finish cooking faster if the breast is getting too done/overcooked, but you should not serve the stuffing at 150°F.\n\nSo the answer is: No, it is not safe to serve yet. The guidance says both the turkey and the stuffing must reach 165°F. The stuffing needs more cooking time. Suggest removing stuffing to cook separately if the breast is done.\n\nNeed to be accurate and concise as per system prompt.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " The user is asking about food safety regarding a roast turkey where the breast meat has reached 165°F but the stuffing inside the cavity is only at 150°F. They want to know if it's safe to serve now and what the official guidance says.\n\nKey facts:\n- Turkey breast: 165°F (safe for poultry meat)\n- Stuffing inside cavity: 150°F (not yet at safe temp)\n- Family is hungry (time pressure)\n\nFood safety guidance (USDA/FDA):\n- Poultry (including turkey) must reach a minimum internal temperature of 165°F.\n- Stuffing inside poultry must ALSO reach 165°F.\n- The 165°F applies to both the meat and the stuffing because the stuffing can be contaminated by raw poultry juices during cooking, and it is an excellent medium for bacterial growth.\n- If stuffing hasn't reached 165°F, it is not considered safe to eat.\n- Recommendation: Continue cooking until the stuffing reaches 165°F. You can remove the turkey from the oven and scoop out the stuffing into a baking dish to finish cooking faster if the breast is getting too done/overcooked, but you should not serve the stuffing at 150°F.\n\nSo the answer is: No, it is not safe to serve yet. The guidance says both the turkey and the stuffing must reach 165°F. The stuffing needs more cooking time. Suggest removing stuffing to cook separately if the breast is done.\n\nNeed to be accurate and concise as per system prompt.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 70,
+      "completion_tokens": 408,
+      "total_tokens": 478,
+      "cost": 0.0014791,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0014791,
+        "upstream_inference_prompt_cost": 0.0000511,
+        "upstream_inference_completions_cost": 0.001428
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 361,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 70,
+  "tokensOut": 408,
+  "costUsd": 0.0014791,
+  "latencyMs": 27778,
+  "finishReason": "stop"
+}
