@@ -1,6 +1,7 @@
 import { getLatestReport, getPublicQuestions, getResponses } from '@/lib/data';
 import { getTasteWinrates } from '@/lib/supabase';
 import { TasteDuel } from '@/components/TasteDuel';
+import { BriefLabel } from '@/components/BriefLabel';
 
 // A fresh random pair on every load — this page is the human taste signal,
 // served dynamically rather than prerendered.
@@ -99,9 +100,16 @@ export default async function TasteTestPage() {
         you&rsquo;d rather be served.
       </p>
 
-      <div className="mt-12 border-t-2 border-ink pt-6">
-        <p className="text-sm uppercase tracking-wider text-ink-soft">Tonight&rsquo;s brief</p>
-        <p className="mt-3 max-w-prose whitespace-pre-wrap font-display text-xl leading-relaxed">
+      {/* The order ticket: long briefs read better left-aligned, short ones centred. */}
+      <div className="mt-12 border-2 border-ink bg-white px-6 py-8 sm:px-12">
+        <p className="text-center text-sm uppercase tracking-wider text-ink-soft">
+          <BriefLabel />
+        </p>
+        <p
+          className={`mx-auto mt-4 max-w-3xl whitespace-pre-wrap font-display leading-relaxed ${
+            question.prompt.length <= 220 ? 'text-center text-2xl' : 'text-left text-xl'
+          }`}
+        >
           {question.prompt}
         </p>
       </div>
