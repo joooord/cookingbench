@@ -17,7 +17,8 @@ purpose ("metrics test vs flavour test"):
 ## Repo map
 
 ```
-data/questions/*.yaml      the dataset (184 items, schema in packages/core/src/schema.ts)
+data/questions/*.yaml      the dataset (232 items, schema in packages/core/src/schema.ts)
+docs/                      research notes (eval-survey gap analysis with citations)
 data/calibration/anchors.yaml  hand-scored answers every judge must reproduce
 data/runs/<run-id>/        immutable run artifacts: config, responses/, scores, leaderboard, analysis, calibration
 packages/core              types, zod schema, deterministic graders (+ vitest tests)
@@ -57,7 +58,7 @@ Key invariants:
 - Don't commit toy runs: the site shows the **newest** `generatedAt` across
   `data/runs/*`. A regenerated mock run would hijack the homepage.
 
-## Methodology v2 (current) — why it looks like this
+## Methodology v2→v3 — why it looks like this
 
 v1 saturated catastrophically: 84/129 questions perfect-for-everyone, judge gave
 5/5 on 800/970 criteria, top four models within 0.7 points. v2's answers:
@@ -73,7 +74,14 @@ v1 saturated catastrophically: 84/129 questions perfect-for-everyone, judge gave
    premise traps (`trap: true`, keyword grader), buried-constraint long-context
    briefs (llm-judge + deterministic constraintChecks), locale traps (AU tbsp =
    20 ml, UK pint = 568 ml, gas marks, gō), tight-band estimation. Single-hop
-   flashcards are dead — numeric items were 51/52 saturated in v1.
+   flashcards are dead — numeric items were 51/52 saturated in v1. **v3: every
+   active trap has a true-premise control twin** (`pairId` on the twin points
+   at its trap; FalseQA-style) so reflexive premise-rejection can't farm trap
+   points; twins were verified both ways (reference answer scores 100, a
+   canned premise-rejecter scores 0 on all 15). Keyword-grader gotcha found
+   writing them: required groups are substring matches — bare 'safe' hits
+   "unsafe", bare 'yes' hits "yesterday", 'quart' hits "quarter"; use
+   punctuated/phrase forms.
 3. **Judge panel** (judge.ts): Claude Opus 4.8, Qwen 3.5 Plus, GPT-5.5. Two
    seats score each answer; a judge **never scores its own provider** (self-
    preference), the third seat is dropped by deterministic FNV-1a hash
@@ -92,7 +100,15 @@ v1 saturated catastrophically: 84/129 questions perfect-for-everyone, judge gave
    difficulty ≥ 4 mean. `basics` column ≈ 100 for everyone by design. Seeded
    bootstrap 95% CIs over questions shown as ±. `incidents` counts responses
    that stayed empty/filtered after retries (scored 0 but visible — transport
-   noise must never silently masquerade as skill).
+   noise must never silently masquerade as skill). **v3: the bootstrap is
+   paired** — `pairedBootstrap` in report.ts draws one resample set and scores
+   all models on it, and each row gets a 95% `rankCi` (rank interval); never
+   present a rank difference inside overlapping intervals as a finding.
+   `bench analyze` now also emits `judgeAgreement` (interval Krippendorff
+   alpha + Spearman + MAE + per-seat means; alpha deflates under top-heavy
+   skew, so read all three) and `lengthBias` (within-question Spearman of
+   answer length vs judge score). Research basis with citations:
+   docs/eval-research-2026-06.md.
 6. **Taste test**: `/tastetest` page (dynamic route) serves blind pairs; votes
    go to Supabase `taste_votes` (RLS: anon may insert votes and read tallies,
    nothing else; keys in apps/web/lib/supabase.ts are public by design). With
@@ -138,10 +154,13 @@ v1 saturated catastrophically: 84/129 questions perfect-for-everyone, judge gave
   first ask whether the *anchor* encodes a defensible hand-score. Two anchors
   were re-banded because Opus/GPT-5.5 stack findings harder than Gemini did —
   both readings were defensible; the gate now checks bands, not points.
-- **Deduction grading has a verbosity bias**: longer answers expose more
-  surface for findings, which is partly why terse GPT-5.4 Mini topped
-  2026-06-v2 (96.4). The taste test is the designed counterweight. Keep this in
-  mind before celebrating or "fixing" a surprising ranking.
+- **The verbosity-bias theory did not survive measurement.** We assumed
+  deduction grading punishes long answers (more surface for findings) and that
+  this partly explained terse GPT-5.4 Mini topping v2. The v3 `lengthBias`
+  diagnostic run against the v2 artifacts says otherwise: within-question
+  Spearman of length vs judge score is +0.13 (pooled raw −0.317 is a
+  difficulty confound). Treat v2's ranking as more likely genuine, and check
+  the diagnostic each run instead of repeating the theory.
 - **Secrets**: `.env` (repo root, gitignored) holds OPENROUTER_API_KEY; verified
   never committed. The web app reads zero env vars. Supabase anon/publishable
   keys are public by design (RLS-protected).
@@ -157,10 +176,20 @@ v1 saturated catastrophically: 84/129 questions perfect-for-everyone, judge gave
   ones were demoted to `basics` and 33 harder `addedIn: v3` replacements
   authored in the discriminating styles (locale-trap chains, compound scaling,
   estimation bands, dangerous-premise traps). The 3 llm-judge items
-  (flav-003/009/011) stay active by design. Dataset: 217 questions, 102
-  active. Every new deterministic grader was verified to score 100 against
-  its own reference answer. **No run yet** — next paid run needs a fresh
-  `bench estimate` (the gate hashes the question set).
+  (flav-003/009/011) stay active by design. Every new deterministic grader
+  was verified to score 100 against its own reference answer. **No run yet**
+  — next paid run needs a fresh `bench estimate` (the gate hashes the
+  question set).
+- **v3 methodology hardening done 2026-06-12 (evening)**, from a deep-research
+  pass over eval literature (docs/eval-research-2026-06.md has the gap
+  analysis + citations): paired bootstrap + `rankCi` in report.ts;
+  `judgeAgreement` + `lengthBias` in analyze.ts (stats in
+  packages/core/src/stats.ts); 15 true-premise control twins paired to all
+  active traps via the new `pairId` field (dataset now 232 questions, 117
+  active); `/runs` archive on the site (v1 and v2 leaderboards permanently
+  addressable — the homepage still shows only the newest run); near-duplicate
+  shingle audit came back clean (two template-sibling pairs, both basics,
+  different answers). RUNBOOK updated with v3 post-run checks.
 - Open items for a future session:
   - 81 flagged judge disagreements await human review (scores.json,
     `flagged: true`); the methodology page promises an expert layer.

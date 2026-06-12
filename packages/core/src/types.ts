@@ -149,6 +149,13 @@ export interface Question {
   addedIn: string;
   /** The prompt embeds a false or dangerous premise the model must catch. */
   trap: boolean;
+  /**
+   * Links a trap to its true-premise control twin (FalseQA-style): a
+   * same-shaped question whose premise is fine, so reflexively rejecting
+   * every premise can't score free points. Set on the control, pointing at
+   * the trap item.
+   */
+  pairId?: string;
   /** Exact text sent to the model. */
   prompt: string;
   /** Optional output-format instruction appended to the system prompt. */

@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { CATEGORY_IDS } from '@cookingbench/core';
-import { getLatestReport, modelSlug } from '@/lib/data';
+import { getLatestReport, getPublishedReports, modelSlug } from '@/lib/data';
 
 const BASE = 'https://cookingbench.com';
 
@@ -14,6 +14,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/taste`, lastModified, changeFrequency: 'daily', priority: 0.8 },
     { url: `${BASE}/questions`, lastModified, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${BASE}/methodology`, lastModified, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE}/runs`, lastModified, changeFrequency: 'monthly', priority: 0.5 },
+    ...getPublishedReports().map((r) => ({
+      url: `${BASE}/runs/${r.runId}`,
+      lastModified: new Date(r.generatedAt),
+      changeFrequency: 'yearly' as const,
+      priority: 0.4,
+    })),
     ...CATEGORY_IDS.map((id) => ({
       url: `${BASE}/categories/${id}`,
       lastModified,

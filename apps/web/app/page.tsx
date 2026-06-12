@@ -47,6 +47,10 @@ export default async function LeaderboardPage() {
             </h2>
             <span className="tabular text-xs text-ink-soft">
               {new Date(report.generatedAt).toISOString().slice(0, 10)}
+              {' · '}
+              <Link href="/runs" className="underline decoration-hairline underline-offset-4 hover:text-paprika">
+                all runs
+              </Link>
             </span>
           </div>
           <table className="w-full border-collapse text-sm">
@@ -83,7 +87,17 @@ export default async function LeaderboardPage() {
             <tbody>
               {report.rows.map((row, i) => (
                 <tr key={row.modelId} className="border-b border-hairline hover:bg-paper-tint">
-                  <td className="tabular py-4 pr-2 text-ink-soft">{i + 1}</td>
+                  <td className="tabular py-4 pr-2 text-ink-soft">
+                    {i + 1}
+                    {row.rankCi && row.rankCi[0] !== row.rankCi[1] && (
+                      <span
+                        className="ml-1 text-xs"
+                        title={`95% rank interval ${row.rankCi[0]}–${row.rankCi[1]}: positions inside it are within statistical noise`}
+                      >
+                        ({row.rankCi[0]}–{row.rankCi[1]})
+                      </span>
+                    )}
+                  </td>
                   <td className="py-4 pr-4">
                     <Link href={`/models/${modelSlug(row.modelId)}`} className="hover:text-paprika">
                       <span className={i === 0 ? 'font-semibold text-paprika' : 'font-medium'}>

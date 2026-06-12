@@ -94,6 +94,10 @@ export const questionSchema = z.object({
   status: z.enum(['active', 'basics', 'retired']).default('active'),
   addedIn: z.enum(['v1', 'v2', 'v3']).default('v1'),
   trap: z.boolean().default(false),
+  pairId: z
+    .string()
+    .regex(/^[a-z]+-\d{3}$/)
+    .optional(),
   prompt: z.string().min(10),
   systemHint: z.string().optional(),
   grader: graderSpecSchema,

@@ -488,3 +488,30 @@
     light, low-tannin one (Pinot Noir, Gamay/Beaujolais, lightly chilled);
     classically this dish wants a white like Chablis or Muscadet. (Lemon,
     yes — it brightens the brown butter.)
+# ── v3: true-premise control twin for flav-018 (trap-control pair). ──
+
+- id: flav-019
+  category: flavor-pairing
+  difficulty: 3
+  addedIn: v3
+  pairId: flav-018
+  public: true
+  prompt: >
+    Tonight it's a chargrilled ribeye with a peppercorn crust, and I'm opening
+    a big, young, heavily-oaked Cabernet Sauvignon — tannin cuts through steak
+    fat, that's the classic logic, right? Should I decant it or pour straight
+    from the bottle?
+  grader:
+    type: keyword
+    required:
+      - ['yes,', 'yes.', 'yes!', 'yes —', 'yes -', 'classic', 'right', 'correct',
+         'great match', 'perfect match', 'exactly', 'works']
+      - ['fat', 'protein', 'rich']
+      - ['decant']
+  referenceAnswer: >
+    Yes — that's the textbook pairing: the steak's fat and protein bind and
+    soften the Cab's tannins, and the wine's structure stands up to the char
+    and pepper. And do decant it: a big young oaked Cabernet opens up
+    noticeably with 30–60 minutes of air; straight from the bottle it will
+    taste tighter and more astringent than it needs to.
+  source: 'Classic steak–Cabernet pairing logic'

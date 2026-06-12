@@ -511,3 +511,31 @@
     so the gluten relaxes and stops snapping back. The extra flour is making
     it worse: tearing here is not stickiness, and more flour just dries the
     dough out.
+# ── v3: true-premise control twin for tech-012 (trap-control pair). ──
+
+- id: tech-020
+  category: technique
+  difficulty: 3
+  addedIn: v3
+  pairId: tech-012
+  public: true
+  prompt: >
+    For my ragù soffritto I sweat the onions low and slow for ten minutes and
+    only add the minced garlic for the final minute so it doesn't catch. Next
+    decision: does the tomato paste go in before I deglaze with the wine, or
+    after?
+  grader:
+    type: keyword
+    required:
+      - ['before deglazing', 'before the wine', 'before you deglaze',
+         'before adding the wine', 'then deglaze', 'paste first',
+         'prior to deglazing', 'goes in before']
+      - ['caramel', 'fry', 'toast', 'brick', 'darken', 'cooks out', 'cook out',
+         'deepen']
+  referenceAnswer: >
+    Before — fry the tomato paste in the fat with the soffritto for a couple
+    of minutes until it darkens to brick red. That caramelises its sugars,
+    cooks out the raw tinny taste and deepens the whole ragù; then deglaze
+    with the wine and scrape up the fond. (Your onion/garlic sequencing is
+    spot on.)
+  source: 'Standard ragù technique — frying the paste (soffriggere)'

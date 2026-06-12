@@ -49,6 +49,14 @@ export default function MethodologyPage() {
             real-life items. The dataset carries a canary string so training-data filters can
             exclude it.
           </p>
+          <p className="mt-4">
+            <strong>Trap questions have control twins</strong> (methodology v3, after
+            FalseQA): every active dangerous-premise trap is paired with a same-shaped
+            question whose premise is sound. A model that farms traps by reflexively
+            rejecting every premise misses the required content on the twin and loses
+            the points back — being right has to come from reading the situation, not
+            from paranoia.
+          </p>
           <ul className="mt-4 space-y-2 text-sm">
             {CATEGORY_IDS.map((id) => (
               <li key={id} className="flex items-center gap-3">
@@ -101,7 +109,15 @@ export default function MethodologyPage() {
           <p className="mt-4">
             Every question scores 0–100. The <strong>Overall</strong> score is the plain mean
             over active questions, with a 95% bootstrap confidence interval over questions
-            shown as ±. <strong>Frontier</strong> is the mean over difficulty-4+ items —
+            shown as ±. From methodology v3 the bootstrap is <strong>paired</strong>: every
+            resample draws one set of questions and scores all models on it, which is what
+            makes model-vs-model gaps testable at this dataset size — and the leaderboard
+            shows a <strong>95% rank interval</strong> per model; positions inside it are
+            statistical noise, so a #2 with a 1–3 interval has not &ldquo;beaten&rdquo; #3.
+            Run analysis also publishes inter-judge agreement (interval Krippendorff&rsquo;s
+            alpha, Spearman, MAE between the two seats) and a length-bias diagnostic, so
+            the scoring system is itself audited on every run.
+            {' '}<strong>Frontier</strong> is the mean over difficulty-4+ items —
             compound multi-step chains where errors compound, dangerous-premise traps,
             buried-constraint briefs and locale traps (a UK pint, an Australian tablespoon).
             <strong> Basics</strong> is the saturated tier every model should ace; a dip
@@ -133,6 +149,9 @@ export default function MethodologyPage() {
             Models run via OpenRouter at temperature 0 with fixed token caps. Raw responses,
             per-request costs, grading details and the judge configuration are committed to
             the open repository, so every published leaderboard can be rebuilt from git alone.
+            Scores are only comparable within a methodology version; every published run is
+            preserved unchanged in the{' '}
+            <a href="/runs" className="text-paprika hover:underline">run archive</a>.
           </p>
         </section>
 

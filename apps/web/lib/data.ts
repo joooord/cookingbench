@@ -28,6 +28,8 @@ export interface LeaderboardRow {
   /** v2: transport-noise responses (empty/filtered after retries). */
   incidents?: number;
   costUsd: number;
+  /** v3: 95% rank interval from the paired bootstrap, [bestRank, worstRank]. */
+  rankCi?: [number, number];
 }
 
 export interface LeaderboardReport {
@@ -51,6 +53,30 @@ export function getLatestReport(): LeaderboardReport | null {
   if (reports.length === 0) return null;
   reports.sort((a, b) => Date.parse(b.generatedAt) - Date.parse(a.generatedAt));
   return reports[0]!;
+}
+
+/** Published runs follow the "YYYY-MM-vN" convention; canary/mock runs don't. */
+export const PUBLISHED_RUN_ID = /^\d{4}-\d{2}-v\d+$/;
+
+/**
+ * Every published run, newest first — the permanent archive. Scores are only
+ * comparable within a methodology version, so render the version prominently.
+ */
+export function getPublishedReports(): LeaderboardReport[] {
+  if (!existsSync(RUNS_DIR)) return [];
+  return readdirSync(RUNS_DIR)
+    .filter((dir) => PUBLISHED_RUN_ID.test(dir))
+    .map((dir) => join(RUNS_DIR, dir, 'leaderboard.json'))
+    .filter((p) => existsSync(p))
+    .map((p) => readJson<LeaderboardReport>(p))
+    .sort((a, b) => Date.parse(b.generatedAt) - Date.parse(a.generatedAt));
+}
+
+export function getReport(runId: string): LeaderboardReport | null {
+  if (!PUBLISHED_RUN_ID.test(runId)) return null;
+  const path = join(RUNS_DIR, runId, 'leaderboard.json');
+  if (!existsSync(path)) return null;
+  return readJson<LeaderboardReport>(path);
 }
 
 export function getQuestions(): Question[] {

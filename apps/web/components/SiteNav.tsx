@@ -8,6 +8,7 @@ const NAV = [
   { href: '/tastetest', label: 'Taste Test' },
   { href: '/taste', label: 'Taste Board' },
   { href: '/questions', label: 'Questions' },
+  { href: '/runs', label: 'Runs' },
   { href: '/methodology', label: 'Methodology' },
 ] as const;
 

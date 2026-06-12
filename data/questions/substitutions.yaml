@@ -518,3 +518,128 @@
     emulsify and set, and whole milk (~3.5% fat) gives a thin, split mess.
     Use lactose-free cream or coconut cream instead — and note double cream
     contains very little lactose to begin with.
+# ── v3: true-premise control twins for the substitution traps (see food-safety
+#    for the rationale). Correct answers must engage with the quantity, not
+#    reject the premise. ──
+
+- id: subs-026
+  category: substitutions
+  difficulty: 3
+  addedIn: v3
+  pairId: subs-018
+  public: true
+  prompt: >
+    Halfway through a buttermilk pancake batter I realised I'm out of baking
+    soda — the recipe wants 1 teaspoon of it. I do have baking powder, and
+    since powder is weaker than soda I know I'll need more of it. How much
+    should I use, bearing in mind the batter already has buttermilk in it?
+  grader:
+    type: keyword
+    required:
+      - ['3 teaspoons', 'three teaspoons', '3 tsp', '1 tablespoon', 'one tablespoon',
+         'three times', '3 times', '3x', '3×', 'triple']
+      - ['tang', 'acid', 'rise', 'lift', 'leaven']
+  referenceAnswer: >
+    Use about 3 teaspoons (1 tablespoon) of baking powder — powder is roughly
+    a third the strength of soda, so the swap runs 3:1. It will still rise
+    fine; the one change is flavour balance: powder brings its own acid, so
+    the buttermilk's acidity goes un-neutralised and the pancakes come out a
+    touch tangier. Most people like that.
+  source: 'Standard leavener substitution ratios'
+
+- id: subs-027
+  category: substitutions
+  difficulty: 3
+  addedIn: v3
+  pairId: subs-019
+  public: true
+  prompt: >
+    My stew recipe calls for 2 teaspoons of dried rosemary, but I've only got
+    a big bunch of fresh from the garden. Dried is more concentrated, so I
+    should use more fresh to compensate — about how much should I chop in?
+  grader:
+    type: keyword
+    required:
+      - ['2 tablespoons', 'two tablespoons', '6 teaspoons', 'six teaspoons']
+      - ['three times', '3 times', '3×', '3x', '3:1', 'a third', 'one-third', 'third']
+  referenceAnswer: >
+    About 2 tablespoons (6 teaspoons) of chopped fresh rosemary — the rule of
+    thumb is 3× fresh for dried, because drying concentrates the herb to
+    roughly three times the strength. Add it early; rosemary stands up well
+    to long cooking.
+  source: 'Standard fresh:dried herb ratio (3:1)'
+
+- id: subs-028
+  category: substitutions
+  difficulty: 3
+  addedIn: v3
+  pairId: subs-021
+  public: true
+  prompt: >
+    I'm baking chocolate-chip cookies for the school fair and the brief is
+    vegan only — I checked with the organisers and there are no nut or coconut
+    allergies this year. My usual recipe takes 200 g of butter and I want to
+    swap in coconut oil. How much should I use, and refined or unrefined?
+  grader:
+    type: keyword
+    required:
+      - ['1:1', 'same amount', 'equal amount', 'one-for-one', 'one for one',
+         '200', '180']
+      - ['refined']
+      - ['chill', 'spread', 'melt', 'softer', 'firmer']
+  referenceAnswer: >
+    Swap roughly 1:1 — 200 g of coconut oil for 200 g of butter (some bakers
+    drop to ~180 g because butter is ~18% water, but 1:1 works). Use refined
+    unless you want a noticeable coconut flavour — unrefined carries it
+    through. One handling note: coconut oil melts at a lower temperature than
+    butter, so chill the dough before baking or the cookies spread thin.
+  source: 'Standard butter→coconut-oil baking substitution'
+
+- id: subs-029
+  category: substitutions
+  difficulty: 3
+  addedIn: v3
+  pairId: subs-024
+  public: true
+  prompt: >
+    My fruit pie filling thickens with 2 tablespoons of cornstarch, but the
+    box is empty, so plain flour it is. Flour is the weaker thickener, so I
+    know I'll need more of it — how much should I use, and is there anything
+    else to watch when thickening with flour?
+  grader:
+    type: keyword
+    required:
+      - ['4 tablespoons', 'four tablespoons', 'double', 'twice', '2x', '2×']
+      - ['raw', 'cook out', 'cook it out', 'cloudy', 'opaque', 'matte']
+  referenceAnswer: >
+    Use about double — 4 tablespoons of flour for 2 of cornstarch, since flour
+    has roughly half the thickening power. Two things to watch: cook the
+    filling long enough to lose the raw-flour taste (flour needs more cooking
+    than cornstarch), and expect a more opaque, matte filling rather than the
+    glossy clarity cornstarch gives.
+  source: 'Standard starch substitution ratios'
+
+- id: subs-030
+  category: substitutions
+  difficulty: 3
+  addedIn: v3
+  pairId: subs-025
+  public: true
+  prompt: >
+    My friend is lactose intolerant, so for tonight's chocolate ganache I'm
+    swapping the 250 ml of double cream for 250 ml of lactose-free double
+    cream, one for one. That should behave identically, right? And which
+    chocolate works best with it — 54% or 70%?
+  grader:
+    type: keyword
+    required:
+      - ['yes,', 'yes.', 'yes!', 'yes —', 'yes -', 'identical', 'the same',
+         'behaves the same', 'exactly', 'right', 'correct', 'works']
+      - ['lactase', 'fat']
+  referenceAnswer: >
+    Yes — lactose-free double cream is just double cream with lactase added to
+    pre-split the lactose; the fat content is identical, and fat is what makes
+    ganache set, so it behaves exactly the same. For chocolate: 54% gives the
+    classic soft 1:1 ganache; 70% sets firmer and can split more easily, so if
+    you go 70%, add a splash more cream (roughly 1.2:1 cream to chocolate).
+  source: 'Lactose-free dairy composition; standard ganache ratios'

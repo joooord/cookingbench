@@ -101,6 +101,12 @@ function cmdValidate() {
   for (const q of questions) {
     byCategory.set(q.category, (byCategory.get(q.category) ?? 0) + 1);
   }
+  const ids = new Set(questions.map((q) => q.id));
+  const badPairs = questions.filter((q) => q.pairId !== undefined && !ids.has(q.pairId));
+  if (badPairs.length > 0) {
+    for (const q of badPairs) console.error(`  ✗ ${q.id}: pairId "${q.pairId}" does not exist`);
+    process.exit(1);
+  }
   console.log(`✓ ${questions.length} questions valid`);
   for (const [category, count] of [...byCategory].sort()) {
     console.log(`    ${category}: ${count}`);
