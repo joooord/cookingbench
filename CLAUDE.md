@@ -97,7 +97,19 @@ v1 saturated catastrophically: 84/129 questions perfect-for-everyone, judge gave
    go to Supabase `taste_votes` (RLS: anon may insert votes and read tallies,
    nothing else; keys in apps/web/lib/supabase.ts are public by design). With
    5+ battles a model gets a Taste column on the leaderboard — never blended
-   into the precision score.
+   into the precision score. The `/taste` Taste Board ranks models by
+   **Bradley-Terry rating** (packages/core/src/taste.ts: MM fit, ties = half
+   win, phantom-opponent prior, seeded-bootstrap CIs) because raw win% is
+   biased by opponent strength. Votes carry anonymous telemetry (`session_id`
+   localStorage UUID + `vote_ms`, migration 0003 — analysis-grade, spoofable,
+   not auth) and contender sampling is weighted `1/(battles+1)` so new models
+   catch up. `pnpm bench taste-archive` snapshots every vote to
+   `data/taste/votes.ndjson` (stable order ⇒ append-only diffs) + a ratings
+   snapshot — commit it periodically; the ballots, not the board, are the
+   permanent record. The duel UI treats a vote as unconfirmed until the
+   insert succeeds (pending → saved/error with retry) — votes must never be
+   lost silently, and the whole dish card is the tap target (a v1 bug hid the
+   click on the header strip only).
 
 ## Hard-won operational lessons
 

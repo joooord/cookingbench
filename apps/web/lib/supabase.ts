@@ -1,3 +1,5 @@
+import type { TasteVoteRecord } from '@cookingbench/core';
+
 // Anonymous, RLS-protected Supabase access for the taste test. These values
 // are public by design (publishable key + RLS policies allow only voting and
 // reading tallies); env vars override for other deployments.
@@ -18,6 +20,10 @@ export interface TasteVote {
   model_a: string;
   model_b: string;
   winner: 'a' | 'b' | 'tie';
+  /** Anonymous per-browser UUID (localStorage) — analysis-grade, not auth. */
+  session_id?: string | null;
+  /** Milliseconds from pair shown to vote cast. */
+  vote_ms?: number | null;
 }
 
 export async function castTasteVote(vote: TasteVote): Promise<boolean> {
@@ -38,6 +44,34 @@ export interface TasteWinrate {
   model_id: string;
   battles: number;
   win_rate: number;
+}
+
+/**
+ * Every vote ever cast, oldest first, for the Bradley-Terry taste board.
+ * Paginated because PostgREST caps responses at 1000 rows.
+ */
+export async function getAllTasteVotes(): Promise<TasteVoteRecord[] | null> {
+  const pageSize = 1000;
+  const votes: TasteVoteRecord[] = [];
+  try {
+    for (let page = 0; ; page++) {
+      const from = page * pageSize;
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/taste_votes?select=*&order=created_at.asc,id.asc`,
+        {
+          headers: { ...HEADERS, Range: `${from}-${from + pageSize - 1}` },
+          next: { revalidate: 300 },
+        },
+      );
+      if (!res.ok) return null;
+      const rows = (await res.json()) as TasteVoteRecord[];
+      votes.push(...rows);
+      if (rows.length < pageSize) break;
+    }
+    return votes;
+  } catch {
+    return null;
+  }
 }
 
 export async function getTasteWinrates(): Promise<TasteWinrate[] | null> {

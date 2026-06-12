@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: BASE, lastModified, changeFrequency: 'weekly', priority: 1 },
     { url: `${BASE}/tastetest`, lastModified, changeFrequency: 'daily', priority: 0.8 },
+    { url: `${BASE}/taste`, lastModified, changeFrequency: 'daily', priority: 0.8 },
     { url: `${BASE}/questions`, lastModified, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${BASE}/methodology`, lastModified, changeFrequency: 'monthly', priority: 0.6 },
     ...CATEGORY_IDS.map((id) => ({

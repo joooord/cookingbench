@@ -70,8 +70,10 @@ export default async function LeaderboardPage() {
                   </th>
                 )}
                 {showTaste && (
-                  <th className="hidden py-3 pr-4 font-normal sm:table-cell" title="Human blind-vote win rate from the Taste Test">
-                    Taste
+                  <th className="hidden py-3 pr-4 font-normal sm:table-cell" title="Human blind-vote win rate from the Taste Test — full Bradley-Terry standings on the Taste Board">
+                    <Link href="/taste" className="underline decoration-hairline underline-offset-4 hover:text-paprika">
+                      Taste
+                    </Link>
                   </th>
                 )}
                 <th className="hidden py-3 pr-4 font-normal md:table-cell">Categories</th>

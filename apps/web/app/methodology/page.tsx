@@ -92,8 +92,11 @@ export default function MethodologyPage() {
             that stops there is a metrics test, not a flavour test. The{' '}
             <a href="/tastetest" className="text-paprika hover:underline">Taste Test</a>{' '}
             is the second axis: blind, side-by-side human votes on paired answers,
-            arena-style. When enough battles accumulate, the human win rate appears as
-            its own leaderboard column — never folded into the precision score.
+            arena-style. Every ballot is kept forever and a Bradley-Terry rating is
+            fitted to the full history on the{' '}
+            <a href="/taste" className="text-paprika hover:underline">Taste Board</a>;
+            with enough battles the human win rate also appears as its own leaderboard
+            column — never folded into the precision score.
           </p>
           <p className="mt-4">
             Every question scores 0–100. The <strong>Overall</strong> score is the plain mean

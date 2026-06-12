@@ -41,10 +41,27 @@ export default async function TasteTestPage() {
   if (candidates.length < 2) {
     return <p className="py-16 text-ink-soft">Not enough answers for a duel yet.</p>;
   }
-  const first = candidates.splice(Math.floor(Math.random() * candidates.length), 1)[0]!;
-  const second = candidates[Math.floor(Math.random() * candidates.length)]!;
 
   const winrates = await getTasteWinrates();
+
+  // Weight contenders toward under-battled models so battle counts stay
+  // balanced — uniform sampling leaves new models starved of data.
+  const battlesFor = (modelId: string) =>
+    winrates?.find((w) => w.model_id === modelId)?.battles ?? 0;
+  const weightedPick = <T,>(items: T[], weightOf: (item: T) => number): T => {
+    const weights = items.map(weightOf);
+    let roll = Math.random() * weights.reduce((s, w) => s + w, 0);
+    for (let i = 0; i < items.length; i++) {
+      roll -= weights[i]!;
+      if (roll <= 0) return items[i]!;
+    }
+    return items[items.length - 1]!;
+  };
+  const first = weightedPick(candidates, (r) => 1 / (battlesFor(r.modelId) + 1));
+  const second = weightedPick(
+    candidates.filter((r) => r !== first),
+    (r) => 1 / (battlesFor(r.modelId) + 1),
+  );
   const recordFor = (modelId: string) => winrates?.find((w) => w.model_id === modelId);
   const contender = (r: typeof first) => ({
     modelId: r.modelId,
@@ -116,6 +133,11 @@ export default async function TasteTestPage() {
           <p className="mt-3 max-w-md text-xs text-ink-soft">
             Win rates from blind human votes. With 5+ battles a model earns a
             Taste column on the main leaderboard.
+          </p>
+          <p className="mt-2 text-sm">
+            <a href="/taste" className="text-paprika hover:underline">
+              Full taste board — Bradley-Terry ratings &amp; head-to-head records →
+            </a>
           </p>
         </section>
       )}

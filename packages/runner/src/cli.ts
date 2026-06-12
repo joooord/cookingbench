@@ -539,6 +539,11 @@ async function cmdPublish() {
   console.log(`✓ run ${runId} is now publicly readable`);
 }
 
+async function cmdTasteArchive() {
+  const { archiveTasteVotes } = await import('./taste.js');
+  await archiveTasteVotes();
+}
+
 const COMMANDS: Record<string, () => void | Promise<void>> = {
   validate: cmdValidate,
   estimate: cmdEstimate,
@@ -551,6 +556,7 @@ const COMMANDS: Record<string, () => void | Promise<void>> = {
   models: cmdModelsCheck,
   sync: cmdSync,
   publish: cmdPublish,
+  'taste-archive': cmdTasteArchive,
 };
 
 const command = process.argv[2];
@@ -571,6 +577,7 @@ Commands:
   analyze --run <id> [--all true]  Item analysis: saturation, discrimination, anomalies
   sync [--run <id>]              Upsert dataset (and optionally a run) to Supabase
   publish --run <id>             Make a synced run publicly readable
+  taste-archive                  Snapshot all taste votes into data/taste/ (commit to preserve)
   runs                           List stored runs`);
   process.exit(command ? 1 : 0);
 }

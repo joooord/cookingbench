@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useRef, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { voteAction } from '@/app/tastetest/actions';
 
@@ -37,6 +37,20 @@ function rankFor(count: number): string {
   return RANKS.find(([n]) => count >= n)![1];
 }
 
+/** Anonymous per-browser id so analysis can spot repeat/spam voters. */
+function sessionId(): string {
+  try {
+    let id = localStorage.getItem('tastetest-session');
+    if (!id) {
+      id = crypto.randomUUID();
+      localStorage.setItem('tastetest-session', id);
+    }
+    return id;
+  } catch {
+    return '';
+  }
+}
+
 function Toque({ color }: { color: string }) {
   return (
     <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true">
@@ -68,22 +82,29 @@ function DishCard({
   const long = contender.answer.length > 900;
   const revealed = state !== 'open';
 
+  // The whole card is the vote target ("tap the dish"), so the root carries
+  // the click — it can't be a <button> because the expand toggle nests inside.
   return (
     <div
+      role="button"
+      tabIndex={revealed ? -1 : 0}
+      aria-disabled={revealed}
+      onClick={revealed ? undefined : onPick}
+      onKeyDown={(e) => {
+        if (!revealed && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          onPick();
+        }
+      }}
       className={`flex-1 border-2 bg-paper transition-all duration-200 ${
         state === 'picked'
           ? 'border-paprika bg-paper-tint'
           : state === 'passed'
             ? 'border-hairline opacity-60'
-            : 'border-hairline hover:-translate-y-0.5 hover:border-ink'
+            : 'cursor-pointer border-hairline hover:-translate-y-0.5 hover:border-ink'
       }`}
     >
-      <button
-        type="button"
-        onClick={onPick}
-        disabled={revealed}
-        className="block w-full p-5 text-left"
-      >
+      <div className="w-full p-5 text-left">
         <div className="flex items-center justify-between border-b border-hairline pb-3">
           <span className="flex items-center gap-2.5">
             <Toque color={color} />
@@ -103,7 +124,7 @@ function DishCard({
             Crowd record: wins {contender.winRate?.toFixed(0)}% of {contender.battles} battles
           </p>
         )}
-      </button>
+      </div>
       <div className="px-5 pb-5">
         <div className="relative">
           <p
@@ -123,7 +144,10 @@ function DishCard({
         {long && (
           <button
             type="button"
-            onClick={() => setExpanded(!expanded)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setExpanded(!expanded);
+            }}
             className="mt-2 text-xs font-medium text-paprika hover:underline"
           >
             {expanded ? 'Fold it back up ↑' : 'Read the full recipe ↓'}
@@ -136,33 +160,51 @@ function DishCard({
 
 export function TasteDuel({ runId, questionId, a, b }: DuelProps) {
   const router = useRouter();
-  const [voted, setVoted] = useState<'a' | 'b' | 'tie' | null>(null);
-  const [rounds, setRounds] = useState(0);
+  // The pick is made once, blind; status tracks whether it actually reached
+  // the kitchen. A failed save keeps the pick locked and offers a retry —
+  // votes must never be lost silently.
+  const [picked, setPicked] = useState<'a' | 'b' | 'tie' | null>(null);
+  const [status, setStatus] = useState<'open' | 'pending' | 'saved' | 'error'>('open');
+  const [rounds, setRounds] = useState<number | null>(null);
   const [, startTransition] = useTransition();
+  // Component remounts per pairing (keyed by the parent), so mount ≈ pair shown.
+  const shownAt = useRef(Date.now());
 
   useEffect(() => {
     setRounds(Number(localStorage.getItem('tastetest-rounds') ?? 0));
   }, []);
 
-  function vote(winner: 'a' | 'b' | 'tie') {
-    if (voted) return;
-    setVoted(winner);
-    const next = rounds + 1;
-    setRounds(next);
-    localStorage.setItem('tastetest-rounds', String(next));
+  function submit(winner: 'a' | 'b' | 'tie') {
+    setStatus('pending');
     const form = new FormData();
     form.set('runId', runId);
     form.set('questionId', questionId);
     form.set('modelA', a.modelId);
     form.set('modelB', b.modelId);
     form.set('winner', winner);
+    form.set('sessionId', sessionId());
+    form.set('voteMs', String(Date.now() - shownAt.current));
     startTransition(async () => {
-      await voteAction(form);
+      const { ok } = await voteAction(form);
+      if (ok) {
+        setStatus('saved');
+        const next = Number(localStorage.getItem('tastetest-rounds') ?? 0) + 1;
+        localStorage.setItem('tastetest-rounds', String(next));
+        setRounds(next);
+      } else {
+        setStatus('error');
+      }
     });
   }
 
+  function vote(winner: 'a' | 'b' | 'tie') {
+    if (picked) return;
+    setPicked(winner);
+    submit(winner);
+  }
+
   const state = (side: 'a' | 'b'): 'open' | 'picked' | 'passed' =>
-    voted === null ? 'open' : voted === side ? 'picked' : 'passed';
+    picked === null ? 'open' : picked === side ? 'picked' : 'passed';
 
   return (
     <div>
@@ -185,7 +227,7 @@ export function TasteDuel({ runId, questionId, a, b }: DuelProps) {
 
       {/* Controls */}
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3 border-t border-hairline pt-6">
-        {voted === null ? (
+        {status === 'open' && (
           <>
             <span className="text-sm text-ink-soft">Tap the dish you&rsquo;d rather eat —</span>
             <button
@@ -203,10 +245,37 @@ export function TasteDuel({ runId, questionId, a, b }: DuelProps) {
               Pass — serve me another ↻
             </button>
           </>
-        ) : (
+        )}
+        {status === 'pending' && (
+          <span className="text-sm text-ink-soft" role="status">
+            Plating your verdict&hellip;
+          </span>
+        )}
+        {status === 'error' && (
+          <>
+            <span className="text-sm text-paprika" role="alert">
+              Your vote didn&rsquo;t reach the kitchen.
+            </span>
+            <button
+              type="button"
+              onClick={() => picked && submit(picked)}
+              className="border border-paprika px-4 py-2 text-sm font-medium text-paprika transition-colors hover:bg-paprika hover:text-paper"
+            >
+              Try again
+            </button>
+            <button
+              type="button"
+              onClick={() => router.refresh()}
+              className="px-2 py-2 text-sm text-ink-soft transition-colors hover:text-paprika"
+            >
+              Skip it ↻
+            </button>
+          </>
+        )}
+        {status === 'saved' && (
           <>
             <span className="font-display text-base">
-              {voted === 'tie' ? 'A diplomatic palate.' : 'Noted, chef.'}
+              {picked === 'tie' ? 'A diplomatic palate.' : 'Noted, chef.'}
             </span>
             <button
               type="button"
@@ -220,7 +289,7 @@ export function TasteDuel({ runId, questionId, a, b }: DuelProps) {
       </div>
 
       {/* Brigade rank */}
-      {rounds > 0 && (
+      {rounds !== null && rounds > 0 && (
         <p className="mt-4 text-center text-xs text-ink-soft">
           You&rsquo;ve judged <span className="tabular">{rounds}</span>{' '}
           {rounds === 1 ? 'round' : 'rounds'} — current rank:{' '}
