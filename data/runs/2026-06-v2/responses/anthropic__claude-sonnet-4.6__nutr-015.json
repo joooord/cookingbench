@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-015",
+  "answerText": "## Calorie Calculation for a 150 ml Glass of Wine (12% ABV)\n\n### Calories from Alcohol\n| Step | Calculation | Result |\n|------|-------------|--------|\n| Volume of ethanol | 150 ml × 12% | **18 ml** |\n| Mass of ethanol | 18 ml × 0.789 g/ml | **14.20 g** |\n| Calories from ethanol | 14.20 g × 7 kcal/g | **≈ 99.4 kcal** |\n\n### Calories from Residual Sugar\n| Step | Calculation | Result |\n|------|-------------|--------|\n| Calories from sugar | 3 g × 4 kcal/g | **12 kcal** |\n\n### Total\n| Source | Calories |\n|--------|----------|\n| Alcohol | 99.4 kcal |\n| Sugar | 12.0 kcal |\n| **Total** | **≈ 111 kcal** |\n\nAnswer: 111 kcal",
+  "raw": {
+    "id": "gen-1781210009-zNNQZpfcq2C5s18hcB1p",
+    "object": "chat.completion",
+    "created": 1781210009,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Calorie Calculation for a 150 ml Glass of Wine (12% ABV)\n\n### Calories from Alcohol\n| Step | Calculation | Result |\n|------|-------------|--------|\n| Volume of ethanol | 150 ml × 12% | **18 ml** |\n| Mass of ethanol | 18 ml × 0.789 g/ml | **14.20 g** |\n| Calories from ethanol | 14.20 g × 7 kcal/g | **≈ 99.4 kcal** |\n\n### Calories from Residual Sugar\n| Step | Calculation | Result |\n|------|-------------|--------|\n| Calories from sugar | 3 g × 4 kcal/g | **12 kcal** |\n\n### Total\n| Source | Calories |\n|--------|----------|\n| Alcohol | 99.4 kcal |\n| Sugar | 12.0 kcal |\n| **Total** | **≈ 111 kcal** |\n\nAnswer: 111 kcal",
+          "refusal": null,
+          "reasoning": "Let me calculate the calories in a 150 ml glass of wine at 12% alcohol by volume.\n\n**Step 1: Calculate the volume of alcohol**\n150 ml × 12% = 150 × 0.12 = 18 ml of ethanol\n\n**Step 2: Calculate the mass of alcohol**\n18 ml × 0.789 g/ml = 14.202 g of ethanol\n\n**Step 3: Calculate calories from alcohol**\n14.202 g × 7 kcal/g = 99.414 kcal\n\n**Step 4: Calculate calories from residual sugar**\n3 g × 4 kcal/g = 12 kcal\nAdding those together gives me roughly 111 calories for the glass.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Let me calculate the calories in a 150 ml glass of wine at 12% alcohol by volume.\n\n**Step 1: Calculate the volume of alcohol**\n150 ml × 12% = 150 × 0.12 = 18 ml of ethanol\n\n**Step 2: Calculate the mass of alcohol**\n18 ml × 0.789 g/ml = 14.202 g of ethanol\n\n**Step 3: Calculate calories from alcohol**\n14.202 g × 7 kcal/g = 99.414 kcal\n\n**Step 4: Calculate calories from residual sugar**\n3 g × 4 kcal/g = 12 kcal\nAdding those together gives me roughly 111 calories for the glass.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Eq8FCmcIDhACGAIqQIf4o9A/tVvLUstbjz29Ix5/uNaBLvdyzz+2/Y+SqOyewhVqxpekic+KsRHafv/xLmOcotfjns8EmY1+O+djb68yEWNsYXVkZS1zb25uZXQtNC02OABCCHRoaW5raW5nEgwdi7SLSbS9z7aB8TkaDLN/LvdJTcy0ChacwyIw1BhBHmjoWukb4g0atsdWZkp/KhHtKaRkW9Cvsl1e1c4iqpEpTznhIrZb9Hu91syAKvUDy2RuFf+9RMKXXDMC3z0Gf/Qo718PX+2BFt2bltnJwBzlxvHBWEfjlrRDr2wxhu6fzYswbiLPQTPQ3dlUTER9+oW2xaP9QlEhb3rVcMTBCzz7LaoYmLseDb7kEO9m5/9yoKxKhJANm65ffC4bU3+Gyo+O9vrsANTo1yno0n2Bp0FESicIU2Rv4h3gFGjDi8rgzuxToC105iG4NEP6mmxvTIUUxKPwpLS4VB6f4V/fFOCu4iUGocic7KK0UkUoKeMqx7j9V6ZVPsxixJTz5S4QwoJ2I8d2Cw8cH0nX5NAvK9jiBL3VDErsR8gA/2boKxd7QrtrKUGxlQoZcwuAU0sOC2puMETX0QnRDubELvHZPSwL+sT/f3jmv0zGwLh1GEAvAFYkzqmRHk/LzTX40yJ93EckuTLHuuZtSbTfeZqllD93o941yUTG3YPHsyCmsjj+dRm+y3+jd2W6bUMcfj44+FCYcvdDkAT65auaOCEnrhjLXYhMz3hSCJfpR38AsBsLH2TwggXPP6gIYCfZXCONi13DPxYvTo66nFfCfd5KCiiqqF2meFeMiqDJB1O64MT7k3S4z84sCBhYYRDrK0kiZRG2SAnWFQUOH7BM1WqYvMS+kCQJCffDdgY6mKF7THknqjBfsy9ZBVDnI4L5YWqay87K/W21GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 118,
+      "completion_tokens": 477,
+      "total_tokens": 595,
+      "cost": 0.007509,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.007509,
+        "upstream_inference_prompt_cost": 0.000354,
+        "upstream_inference_completions_cost": 0.007155
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 133,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 118,
+  "tokensOut": 477,
+  "costUsd": 0.007509,
+  "latencyMs": 5593,
+  "finishReason": "stop"
+}

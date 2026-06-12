@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "nutr-003",
+  "answerText": "To calculate the kilocalories in a 250 g portion:\n\n\\(130 \\text{ kcal} \\times 2.5 = 325 \\text{ kcal}\\)\n\nAnswer: 325 kcal",
+  "raw": {
+    "id": "gen-1781202966-6ZqptSjSP98NFKJhtBb8",
+    "object": "chat.completion",
+    "created": 1781202966,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To calculate the kilocalories in a 250 g portion:\n\n\\(130 \\text{ kcal} \\times 2.5 = 325 \\text{ kcal}\\)\n\nAnswer: 325 kcal",
+          "refusal": null,
+          "reasoning": "The user is asking a simple math question related to nutrition/cooking.\nCooked white rice: 130 kcal per 100 g.\nPortion size: 250 g.\nCalculation: (130 kcal / 100 g) * 250 g = 1.3 * 250 = 325 kcal.\nI need to answer accurately and concisely, and end with the line \"Answer: <number> kcal\".\nSo the final line should be exactly \"Answer: 325 kcal\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking a simple math question related to nutrition/cooking.\nCooked white rice: 130 kcal per 100 g.\nPortion size: 250 g.\nCalculation: (130 kcal / 100 g) * 250 g = 1.3 * 250 = 325 kcal.\nI need to answer accurately and concisely, and end with the line \"Answer: <number> kcal\".\nSo the final line should be exactly \"Answer: 325 kcal\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 70,
+      "completion_tokens": 148,
+      "total_tokens": 218,
+      "cost": 0.00059265,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00059265,
+        "upstream_inference_prompt_cost": 0.00005985,
+        "upstream_inference_completions_cost": 0.0005328
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 103,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 70,
+  "tokensOut": 148,
+  "costUsd": 0.00059265,
+  "latencyMs": 6378,
+  "finishReason": "stop"
+}

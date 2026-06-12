@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "qty-019",
+  "answerText": "To find the overall hydration percentage, we need to calculate the total flour and total water in the dough.\n\nFirst, let's break down the ingredients:\n- Bread flour: 450 g\n- Whole-wheat flour: 90 g\n- Levain: 50 g flour (since it's at 100% hydration, it contains an equal amount of water and flour), and 50 g water.\n\nTotal flour = 450 g (bread flour) + 90 g (whole-wheat flour) + 50 g (levain flour) = 590 g.\n\nTotal water = 350 g (added water) + 50 g (water from levain) = 400 g.\n\nThe overall hydration percentage is calculated as (Total water / Total flour) * 100.\n\nSo, (400 g / 590 g) * 100 = 67.8%.\n\nAnswer: 67.8 %",
+  "raw": {
+    "id": "gen-1781205166-afgqGJiYLVDBXRYU6Kgm",
+    "object": "chat.completion",
+    "created": 1781205166,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To find the overall hydration percentage, we need to calculate the total flour and total water in the dough.\n\nFirst, let's break down the ingredients:\n- Bread flour: 450 g\n- Whole-wheat flour: 90 g\n- Levain: 50 g flour (since it's at 100% hydration, it contains an equal amount of water and flour), and 50 g water.\n\nTotal flour = 450 g (bread flour) + 90 g (whole-wheat flour) + 50 g (levain flour) = 590 g.\n\nTotal water = 350 g (added water) + 50 g (water from levain) = 400 g.\n\nThe overall hydration percentage is calculated as (Total water / Total flour) * 100.\n\nSo, (400 g / 590 g) * 100 = 67.8%.\n\nAnswer: 67.8 %",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 119,
+      "completion_tokens": 185,
+      "total_tokens": 304,
+      "cost": 0.00012885,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00012885,
+        "upstream_inference_prompt_cost": 0.00001785,
+        "upstream_inference_completions_cost": 0.000111
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 119,
+  "tokensOut": 185,
+  "costUsd": 0.00012885,
+  "latencyMs": 6647,
+  "finishReason": "stop"
+}

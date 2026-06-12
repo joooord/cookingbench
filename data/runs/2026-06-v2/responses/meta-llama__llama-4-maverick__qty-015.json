@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "qty-015",
+  "answerText": "To determine the amount of raw rice needed, we need to divide the desired weight of cooked rice by the factor by which it increases when cooked. \n\nSince white rice triples in weight when cooked, we divide 600 g by 3.\n\n600 g / 3 = 200 g\n\nAnswer: 200 g",
+  "raw": {
+    "id": "gen-1781205157-QkirWJMZRvsGb2OTZ5lf",
+    "object": "chat.completion",
+    "created": 1781205157,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To determine the amount of raw rice needed, we need to divide the desired weight of cooked rice by the factor by which it increases when cooked. \n\nSince white rice triples in weight when cooked, we divide 600 g by 3.\n\n600 g / 3 = 200 g\n\nAnswer: 200 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 75,
+      "completion_tokens": 64,
+      "total_tokens": 139,
+      "cost": 0.00004965,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00004965,
+        "upstream_inference_prompt_cost": 0.00001125,
+        "upstream_inference_completions_cost": 0.0000384
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 75,
+  "tokensOut": 64,
+  "costUsd": 0.00004965,
+  "latencyMs": 2563,
+  "finishReason": "stop"
+}

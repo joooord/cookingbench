@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "nutr-001",
+  "answerText": "The standard Atwater factors are 4 kcal/g for protein, 4 kcal/g for carbohydrates, and 9 kcal/g for fat.  \n40 g protein × 4 = 160 kcal  \n30 g carbohydrates × 4 = 120 kcal  \n20 g fat × 9 = 180 kcal  \nTotal = 460 kcal  \n\nAnswer: 460 kcal",
+  "raw": {
+    "id": "gen-1781209180-AUcJCbqGquXbcT1XpRH2",
+    "object": "chat.completion",
+    "created": 1781209180,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The standard Atwater factors are 4 kcal/g for protein, 4 kcal/g for carbohydrates, and 9 kcal/g for fat.  \n40 g protein × 4 = 160 kcal  \n30 g carbohydrates × 4 = 120 kcal  \n20 g fat × 9 = 180 kcal  \nTotal = 460 kcal  \n\nAnswer: 460 kcal",
+          "refusal": null,
+          "reasoning": "The problem is: A meal contains 40 g of protein, 30 g of carbohydrates and 20 g of fat. Using the standard Atwater factors, how many kilocalories is that in total?\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem is: A meal contains 40 g of protein, 30 g of carbohydrates and 20 g of fat. Using the standard Atwater factors, how many kilocalories is that in total?\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_d89614e0-d2d0-9f8f-923e-bc9af469b527",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 200,
+      "completion_tokens": 502,
+      "total_tokens": 702,
+      "cost": 0.0013706,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0013706,
+        "upstream_inference_prompt_cost": 0.0001156,
+        "upstream_inference_completions_cost": 0.001255
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 429,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 200,
+  "tokensOut": 502,
+  "costUsd": 0.0013706,
+  "latencyMs": 3513,
+  "finishReason": "stop"
+}

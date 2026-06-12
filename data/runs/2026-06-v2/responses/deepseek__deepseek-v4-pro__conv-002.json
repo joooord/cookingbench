@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-002",
+  "answerText": "1 US cup of all-purpose flour, measured by the spoon-and-level method (spooning flour into the cup and leveling off with a straight edge), typically weighs about 120 grams. This value is widely used in baking for accuracy.\n\nAnswer: 120 g",
+  "raw": {
+    "id": "gen-1781206609-4XAzBOHhvgfknCTC8Isd",
+    "object": "chat.completion",
+    "created": 1781206609,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "1 US cup of all-purpose flour, measured by the spoon-and-level method (spooning flour into the cup and leveling off with a straight edge), typically weighs about 120 grams. This value is widely used in baking for accuracy.\n\nAnswer: 120 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"How much does 1 US cup of all-purpose flour weigh in grams, measured by the standard spoon-and-level method?\"\n\nThe standard answer: 1 US cup of all-purpose flour, when measured by spooning the flour into the cup and leveling it off (spoon-and-level method), typically weighs about 120-125 grams. Many sources cite 120g for accurate baking. But the question asks for \"how much ... in grams\" and to end with \"Answer: <number> g\". I should give a precise number. The Gold Standard is often 120 grams. Some use 125g. But the spoon-and-level method usually yields around 120-125g. King Arthur Flour says 120g. So I'll say 120g. But I'll mention the range, but final answer as 120g. The instruction: \"Answer the question accurately and concisely. End your reply with a line 'Answer: <number> g'.\" I'll provide a concise answer and then that line.\n\nI'll say: 1 US cup of all-purpose flour, measured by the spoon-and-level method, weighs approximately 120 grams. Then end with \"Answer: 120 g\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"How much does 1 US cup of all-purpose flour weigh in grams, measured by the standard spoon-and-level method?\"\n\nThe standard answer: 1 US cup of all-purpose flour, when measured by spooning the flour into the cup and leveling it off (spoon-and-level method), typically weighs about 120-125 grams. Many sources cite 120g for accurate baking. But the question asks for \"how much ... in grams\" and to end with \"Answer: <number> g\". I should give a precise number. The Gold Standard is often 120 grams. Some use 125g. But the spoon-and-level method usually yields around 120-125g. King Arthur Flour says 120g. So I'll say 120g. But I'll mention the range, but final answer as 120g. The instruction: \"Answer the question accurately and concisely. End your reply with a line 'Answer: <number> g'.\" I'll provide a concise answer and then that line.\n\nI'll say: 1 US cup of all-purpose flour, measured by the spoon-and-level method, weighs approximately 120 grams. Then end with \"Answer: 120 g\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 58,
+      "completion_tokens": 307,
+      "total_tokens": 365,
+      "cost": 0.001080576,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001080576,
+        "upstream_inference_prompt_cost": 0.000093264,
+        "upstream_inference_completions_cost": 0.000987312
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 251,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 58,
+  "tokensOut": 307,
+  "costUsd": 0.001080576,
+  "latencyMs": 4550,
+  "finishReason": "stop"
+}

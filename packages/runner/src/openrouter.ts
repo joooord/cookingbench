@@ -42,6 +42,26 @@ const RETRYABLE = new Set([408, 429, 500, 502, 503, 504]);
 const MAX_ATTEMPTS = 5;
 
 export class OpenRouterClient implements CompletionClient {
+  private post(modelId: string, messages: ChatMessage[], opts: CompletionOpts): Promise<Response> {
+    return fetch(`${API_BASE}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey()}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': 'https://github.com/joooord/cookingbench',
+        'X-Title': 'CookingBench',
+      },
+      body: JSON.stringify({
+        model: modelId,
+        messages,
+        temperature: opts.temperature,
+        max_tokens: opts.maxTokens,
+        ...(opts.reasoning ? { reasoning: opts.reasoning } : {}),
+        usage: { include: true },
+      }),
+    });
+  }
+
   async complete(
     modelId: string,
     messages: ChatMessage[],
@@ -50,23 +70,18 @@ export class OpenRouterClient implements CompletionClient {
     let lastError: Error | undefined;
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
       const start = Date.now();
-      const res = await fetch(`${API_BASE}/chat/completions`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${apiKey()}`,
-          'Content-Type': 'application/json',
-          'HTTP-Referer': 'https://github.com/joooord/cookingbench',
-          'X-Title': 'CookingBench',
-        },
-        body: JSON.stringify({
-          model: modelId,
-          messages,
-          temperature: opts.temperature,
-          max_tokens: opts.maxTokens,
-          ...(opts.reasoning ? { reasoning: opts.reasoning } : {}),
-          usage: { include: true },
-        }),
-      });
+      let res: Response;
+      try {
+        res = await this.post(modelId, messages, opts);
+      } catch (error) {
+        // Network-level failures (connection terminated, reset, DNS) are as
+        // retryable as a 502 — don't let one dropped socket kill a batch.
+        lastError = new Error(`OpenRouter network error for ${modelId}: ${(error as Error).message}`);
+        if (attempt === MAX_ATTEMPTS) break;
+        const backoff = 2000 * 2 ** (attempt - 1) * (0.8 + Math.random() * 0.4);
+        await new Promise((r) => setTimeout(r, backoff));
+        continue;
+      }
       if (!res.ok) {
         const body = await res.text();
         lastError = new Error(`OpenRouter ${res.status} for ${modelId}: ${body.slice(0, 300)}`);

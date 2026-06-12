@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "nutr-025",
+  "answerText": "First, calculate the trimmed weight:\n- Total raw weight: 2 steaks × 300 g = 600 g\n- Fat trimmed: 15% of 600 g = 90 g\n- Trimmed weight: 600 g - 90 g = **510 g raw**\n\nGrilling causes moisture loss (about 25% of trimmed weight):\n- Cooked weight: 510 g × 0.75 = **382.5 g cooked**\n\nNutritional values per 100 g cooked sirloin steak (USDA data):\n- Protein: 29.8 g\n- Fat: 8.4 g\n- Calories: 210 kcal\n\nFor 382.5 g cooked steak:\n- Protein: 29.8 g × 3.825 ≈ **114 g**\n- Fat: 8.4 g × 3.825 ≈ **32 g**\n- Calories: 210 kcal × 3.825 ≈ **803 kcal**\n\nProtein: 114 g\nFat: 32 g\nCalories: 803 kcal",
+  "raw": {
+    "id": "gen-1781207344-4MlMYeyDuhyJ0rxPw2o9",
+    "object": "chat.completion",
+    "created": 1781207344,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "First, calculate the trimmed weight:\n- Total raw weight: 2 steaks × 300 g = 600 g\n- Fat trimmed: 15% of 600 g = 90 g\n- Trimmed weight: 600 g - 90 g = **510 g raw**\n\nGrilling causes moisture loss (about 25% of trimmed weight):\n- Cooked weight: 510 g × 0.75 = **382.5 g cooked**\n\nNutritional values per 100 g cooked sirloin steak (USDA data):\n- Protein: 29.8 g\n- Fat: 8.4 g\n- Calories: 210 kcal\n\nFor 382.5 g cooked steak:\n- Protein: 29.8 g × 3.825 ≈ **114 g**\n- Fat: 8.4 g × 3.825 ≈ **32 g**\n- Calories: 210 kcal × 3.825 ≈ **803 kcal**\n\nProtein: 114 g\nFat: 32 g\nCalories: 803 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 123,
+      "completion_tokens": 268,
+      "total_tokens": 391,
+      "cost": 0.0004635,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0004635,
+        "upstream_inference_prompt_cost": 0.0000615,
+        "upstream_inference_completions_cost": 0.000402
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 123,
+  "tokensOut": 268,
+  "costUsd": 0.0004635,
+  "latencyMs": 3785,
+  "finishReason": "stop"
+}

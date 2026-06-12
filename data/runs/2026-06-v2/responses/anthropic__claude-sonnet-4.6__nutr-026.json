@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-026",
+  "answerText": "## Pan-Seared Salmon Fillet (200 g raw)\n\n### Starting Macros (Raw)\n| Nutrient | Per 100 g | For 200 g |\n|----------|-----------|-----------|\n| Protein | 20 g | **40 g** |\n| Fat | 13 g | **26 g** |\n\n### Effect of Cooking\n- ~20% weight loss means the fillet drops from 200 g → **~160 g cooked**\n- This lost mass is predominantly **water**, so protein and fat amounts stay essentially the same\n- A small amount of fat may render out during pan-searing, but the question states fat is largely retained\n\n### Calorie Calculation (cooked fillet)\n- Protein: 40 g × 4 kcal/g = **160 kcal**\n- Fat: 26 g × 9 kcal/g = **234 kcal**\n- **Total ≈ 394 kcal**\n\n---\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+  "raw": {
+    "id": "gen-1781210020-TtUBVU2CEdqMml1BG583",
+    "object": "chat.completion",
+    "created": 1781210020,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Pan-Seared Salmon Fillet (200 g raw)\n\n### Starting Macros (Raw)\n| Nutrient | Per 100 g | For 200 g |\n|----------|-----------|-----------|\n| Protein | 20 g | **40 g** |\n| Fat | 13 g | **26 g** |\n\n### Effect of Cooking\n- ~20% weight loss means the fillet drops from 200 g → **~160 g cooked**\n- This lost mass is predominantly **water**, so protein and fat amounts stay essentially the same\n- A small amount of fat may render out during pan-searing, but the question states fat is largely retained\n\n### Calorie Calculation (cooked fillet)\n- Protein: 40 g × 4 kcal/g = **160 kcal**\n- Fat: 26 g × 9 kcal/g = **234 kcal**\n- **Total ≈ 394 kcal**\n\n---\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+          "refusal": null,
+          "reasoning": "The salmon fillet weighs 200g raw.\n- Protein: 20g per 100g raw → 200g raw has 40g protein\n- Fat: 13g per 100g raw → 200g raw has 26g fat\n\nCooking causes ~20% weight loss (mostly water), but protein and fat are largely retained.\n\nSo the cooked fillet retains:\n- Protein: ~40g\n- Fat: ~26g (small amount of fat may render out during pan-searing, but the question says fat is largely retained)\n\nCalories:\n- Protein: 40g × 4 kcal/g = 160 kcal\n- Fat: 26g × 9 kcal/g = 234 kcal\n- Total: approximately 394 kcal",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The salmon fillet weighs 200g raw.\n- Protein: 20g per 100g raw → 200g raw has 40g protein\n- Fat: 13g per 100g raw → 200g raw has 26g fat\n\nCooking causes ~20% weight loss (mostly water), but protein and fat are largely retained.\n\nSo the cooked fillet retains:\n- Protein: ~40g\n- Fat: ~26g (small amount of fat may render out during pan-searing, but the question says fat is largely retained)\n\nCalories:\n- Protein: 40g × 4 kcal/g = 160 kcal\n- Fat: 26g × 9 kcal/g = 234 kcal\n- Total: approximately 394 kcal",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Et4FCmUIDhgCKkASZKCRqTSsTr3v0ZtL1f6CNu7PcKY85k+YL8QGo/pxFdL6TrSVZm1YSOfK5vECIbXIq3B/FtNnDdKViispAZmeMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIM+urxzR55uEdJ+GDKGgxIQ6XX4VevY7qe5F0iMGwqPopDeaZtQYR2IrcsVtathkWdwoXC2qQnXRSBBgmPFlXGPJ77AL8FVe96NnVROiqmBIVdlARyQZ7VXFEnvdgTcf1Qi2Eoi4+s2aTFs3tiXAs7NbLfOWVNE7aGN/dO8NiujJlZOo2Yy5xP2dba5Xhlsfqo8cLouYCcYPg847DNDus+mco9rq7bGLPd1QPU3+hj7yyJnfVkyq/MMHN8FYmH2ba5A7gA87ufrO9CIL2lf2TE6Qsg4bO64eLovRmE0Zz/UXiLNdzPCH55TkmSVVIuzF99bkNKIzmO2UQcoCZfpXTvZQdLVmzuYdz1DMUWsnVxKreoGg+feqjKUPNgJ0f6CaAVyeueVZ4TF0jhnNlA1sq9vjAQWKnEUS36Z4JAHMPXXCXX1FFdCCeJe7Qi1tp26+vPQjP+vbY/sJfgxcEktIRHBylloQsWQ1vOIMTRyBMOnN2EFDaiI0qnyADBx+YMicYbS7NLYRvwGWgm+yjrXSw8F6fE7E6Euk5kwyyD8WfPrYp02qLfQWHSI1lWNa6MG5wdyMAZuxfQoNleaQ6COdXp58Vb4zqoO+lPy2yCua1kQwu6h1tmLTFYWZHVXFUHJqB7iGTMfaIVsFZMfTGyVeI6NiOkkrYF9JDLdWesY8j9wj2IOdFTTwODg+mVYWAXHaqB5LJj63dxEuoBUNa6pUeuE0mr+Rtjabj/9QbhE+gqwuGlT/0QpAq98BXEFtIWzfxF+vWfu905BbjUFz0aldVMqRTneU0KhQvUWIGYOXhPexi2kwA+6+iu8FhlEy6WmNAUYFImQwcYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 138,
+      "completion_tokens": 481,
+      "total_tokens": 619,
+      "cost": 0.007629,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.007629,
+        "upstream_inference_prompt_cost": 0.000414,
+        "upstream_inference_completions_cost": 0.007215
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 139,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 138,
+  "tokensOut": 481,
+  "costUsd": 0.007629,
+  "latencyMs": 9843,
+  "finishReason": "stop"
+}

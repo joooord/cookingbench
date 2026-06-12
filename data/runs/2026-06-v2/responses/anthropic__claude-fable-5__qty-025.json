@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-025",
+  "answerText": "The Australian standard tablespoon is **20 ml** (unlike the US/UK tablespoon, which is 15 ml).\n\n- Per serve: 1½ × 20 ml = 30 ml\n- For 6 serves: 30 ml × 6 = 180 ml\n\nAnswer: 180 ml",
+  "raw": {
+    "id": "gen-1781213178-vZCe53GuGH8gETSzy9II",
+    "object": "chat.completion",
+    "created": 1781213178,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "The Australian standard tablespoon is **20 ml** (unlike the US/UK tablespoon, which is 15 ml).\n\n- Per serve: 1½ × 20 ml = 30 ml\n- For 6 serves: 30 ml × 6 = 180 ml\n\nAnswer: 180 ml",
+          "refusal": null,
+          "reasoning": " I'm calculating the volume needed for a recipe: an Australian tablespoon is 20 ml, so 1.5 tablespoons equals 30 ml per serving, which totals 180 ml across 6 servings.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the volume needed for a recipe: an Australian tablespoon is 20 ml, so 1.5 tablespoons equals 30 ml per serving, which totals 180 ml across 6 servings.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISjQIKYggOGAIqQMbHBTadforGmOKJhnkhpTbMrw2Pi2B0tK5dyr46yAktUZxufeyVrGdmL6cSeeCM1qKYD8suWaQMsz2Oqev6CDsyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgyJRMUAMB28g2/QdjwaDIDucPIQ0xhZpldRTiIwsTNiwz2yaJxoEYOgxaxNhebd3zvetHnnFqRy8MEhVOb5Bds6RSzrYf9M4q3SlC82Klkjwx8mCk0quRDFMNAFhMa/8oxHqBdhgYwGXbjfeBdhB3396aiE8j71bSjCHmps3AyWmK93yGKj2+qvidJkn8wNL97lc7kTeSG1vh8fLSOVPZBfJIz4fS/G5BgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 133,
+      "completion_tokens": 146,
+      "total_tokens": 279,
+      "cost": 0.00863,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00863,
+        "upstream_inference_prompt_cost": 0.00133,
+        "upstream_inference_completions_cost": 0.0073
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 42,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 133,
+  "tokensOut": 146,
+  "costUsd": 0.00863,
+  "latencyMs": 4712,
+  "finishReason": "stop"
+}

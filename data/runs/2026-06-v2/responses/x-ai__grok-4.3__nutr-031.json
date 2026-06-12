@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "nutr-031",
+  "answerText": "Total pasta: 500 g × 3.6 kcal/g = 1800 kcal.  \nButter: 60 g × 7.17 kcal/g = 430.2 kcal.  \nParmesan: 80 g × 4.2 kcal/g = 336 kcal.  \nGrand total: 2566.2 kcal → 513 kcal per portion (rounded).  \nAnswer: 513 kcal",
+  "raw": {
+    "id": "gen-1781209208-WHiws6prpJNp3YS6RLhx",
+    "object": "chat.completion",
+    "created": 1781209208,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Total pasta: 500 g × 3.6 kcal/g = 1800 kcal.  \nButter: 60 g × 7.17 kcal/g = 430.2 kcal.  \nParmesan: 80 g × 4.2 kcal/g = 336 kcal.  \nGrand total: 2566.2 kcal → 513 kcal per portion (rounded).  \nAnswer: 513 kcal",
+          "refusal": null,
+          "reasoning": "The problem is: I cooked a 500 g (dry weight) bag of spaghetti — dry pasta is about 360 kcal per 100 g — and tossed it with 60 g of butter (717 kcal/100 g) and 80 g of grated parmesan (420 kcal/100 g)...Answer: 513 kcal \n\n## Explanation\n\nThe calculation begins by determining the caloric contribution of each ingredient separately based on the provided dry-weight quantities and per-100 g calorie densities.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem is: I cooked a 500 g (dry weight) bag of spaghetti — dry pasta is about 360 kcal per 100 g — and tossed it with 60 g of butter (717 kcal/100 g) and 80 g of grated parmesan (420 kcal/100 g)...Answer: 513 kcal \n\n## Explanation\n\nThe calculation begins by determining the caloric contribution of each ingredient separately based on the provided dry-weight quantities and per-100 g calorie densities.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_91542a41-66ae-9ee3-818a-30b9544755c9",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 233,
+      "completion_tokens": 854,
+      "total_tokens": 1087,
+      "cost": 0.00229185,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00229185,
+        "upstream_inference_prompt_cost": 0.00015685,
+        "upstream_inference_completions_cost": 0.002135
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 771,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 233,
+  "tokensOut": 854,
+  "costUsd": 0.00229185,
+  "latencyMs": 6995,
+  "finishReason": "stop"
+}

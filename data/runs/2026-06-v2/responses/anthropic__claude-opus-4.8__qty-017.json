@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "qty-017",
+  "answerText": "**Scaling the recipe:**\n\n- Flour per serving: 720 g ÷ 6 = 120 g\n- For 10 servings: 120 g × 10 = 1200 g\n- Per serving in ounces: 120 g ÷ 28.3495 ≈ 4.23 oz\n\nTotal: 1200 g\nPer serving: 4.23 oz",
+  "raw": {
+    "id": "gen-1781211624-khEVUMFrnbH9p5vLv9T9",
+    "object": "chat.completion",
+    "created": 1781211624,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Scaling the recipe:**\n\n- Flour per serving: 720 g ÷ 6 = 120 g\n- For 10 servings: 120 g × 10 = 1200 g\n- Per serving in ounces: 120 g ÷ 28.3495 ≈ 4.23 oz\n\nTotal: 1200 g\nPer serving: 4.23 oz",
+          "refusal": null,
+          "reasoning": " I'm converting the portion size from grams to ounces—120 grams per serving comes out to about 4.2 ounces, and scaling that up to 10 servings gives 1200 grams total.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm converting the portion size from grams to ounces—120 grams per serving comes out to about 4.2 ounces, and scaling that up to 10 servings gives 1200 grams total.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "ErMCCmMIDhgCKkDwIxrBknV/UwJfanFfWB/bNgWMcx3nYE9up5FWrN8eHEodS3XgYizzpHF10z2SZBtb+5uaDjpyheZTwsumtfYsMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDLrit2nqdisx1QIwXhoMbnGLcJ11yJIH3ewbIjDo2NPI+HEfnme5rhBw3vCLBe/llwl0pjfezdSKyUdMHCbX3Pv9a32n+hVrBZbDb5Eqfm/kp5JBsKfWl4jfNkunZQq8z8AGthrKcSjlcH9xZUUKeF+nopkjjo1oGQIs9T+0+bBb4exof7w88X/DT/wdqdGpq3rgFlphCH56tB62S0E1nmZ+d/vqv+ELB7UhGsrGw1bH5DixCKSrQeUvKjxinEPYQORWTCgH7pFis6N6sRgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 127,
+      "completion_tokens": 180,
+      "total_tokens": 307,
+      "cost": 0.005135,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.005135,
+        "upstream_inference_prompt_cost": 0.000635,
+        "upstream_inference_completions_cost": 0.0045
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 42,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 127,
+  "tokensOut": 180,
+  "costUsd": 0.005135,
+  "latencyMs": 3313,
+  "finishReason": "stop"
+}

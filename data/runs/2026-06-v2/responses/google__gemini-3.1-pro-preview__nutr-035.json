@@ -1,0 +1,71 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "nutr-035",
+  "answerText": "To calculate the total kilocalories, we use the Atwater factors (4 kcal/g for protein and available carbohydrates, 9 kcal/g for fat) and the provided 2 kcal/g for fibre. \n\nSince the 62 g of total carbohydrates includes the 9 g of fibre, we first find the available (net) carbohydrates:\n*   **Available Carbohydrates:** 62 g (total) - 9 g (fibre) = 53 g\n*   **Calories from Available Carbs:** 53 g × 4 kcal/g = 212 kcal\n*   **Calories from Fibre:** 9 g × 2 kcal/g = 18 kcal\n*   **Calories from Protein:** 11 g × 4 kcal/g = 44 kcal\n*   **Calories from Fat:** 8 g × 9 kcal/g = 72 kcal\n\nTotal kilocalories = 212 + 18 + 44 + 72 = 346 kcal.\n\nAnswer: 346 kcal",
+  "raw": {
+    "id": "gen-1781209524-md9bNgmAcrwkGSSQcCxt",
+    "object": "chat.completion",
+    "created": 1781209524,
+    "model": "google/gemini-3.1-pro-preview-20260219",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To calculate the total kilocalories, we use the Atwater factors (4 kcal/g for protein and available carbohydrates, 9 kcal/g for fat) and the provided 2 kcal/g for fibre. \n\nSince the 62 g of total carbohydrates includes the 9 g of fibre, we first find the available (net) carbohydrates:\n*   **Available Carbohydrates:** 62 g (total) - 9 g (fibre) = 53 g\n*   **Calories from Available Carbs:** 53 g × 4 kcal/g = 212 kcal\n*   **Calories from Fibre:** 9 g × 2 kcal/g = 18 kcal\n*   **Calories from Protein:** 11 g × 4 kcal/g = 44 kcal\n*   **Calories from Fat:** 8 g × 9 kcal/g = 72 kcal\n\nTotal kilocalories = 212 + 18 + 44 + 72 = 346 kcal.\n\nAnswer: 346 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating Energy Content**\n\nI'm focusing on determining the caloric breakdown of the cereal. My current thought process involves applying Atwater factors and accounting for fibre's energy contribution, aiming for a US-label style calculation of total energy.\n\n**Summing Nutritional Values**\n\nI've now calculated the energy content per 100g of the cereal by combining the caloric contributions from available carbohydrates, fibre, protein, and fat, arriving at a total kilocalorie figure.\nAnswer: 346 kcal\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Energy Content**\n\nI'm focusing on determining the caloric breakdown of the cereal. My current thought process involves applying Atwater factors and accounting for fibre's energy contribution, aiming for a US-label style calculation of total energy.\n\n**Summing Nutritional Values**\n\nI've now calculated the energy content per 100g of the cereal by combining the caloric contributions from available carbohydrates, fibre, protein, and fat, arriving at a total kilocalorie figure.\nAnswer: 346 kcal\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "AY89a1+6ResuvyZCnA4sv53Z40rNvEvUz6R+r2grHgatteioQIBqybiBUX8lWad0WV/Ve1wOO6bmsJP+Ud5Y6PmtkCXYimJalbKJRKf67PDWT2pSCSvM/BBrT08GMQGaXonvB/oktxAXX4Zyn68yAqklZnlSXs7BHX5rwwN4ChRMMccwJmT2LkpxY9n7nxr7XFXYJKrcM1cFsJ/acMfQlhlPQFFES9FjEnx+qteYvBDbFEn0fl9M3XZoMas2qhzZt1u8F0DM/Y5uaCVM/+zSWrGQQ5D2cD6eUKy2BRtiw0AqZRUCPao9DNevhA/dt1ZcEkf9/dhh4iHIWCFNUngoQxNgvu2I3daWZR3sqDXnnKY49b7+pLhKRJhQ3UypRKXawBcfAZrK3Hfu1hpZAAaojwAoMF8vLutlVfBBdJHqzPycKtooI4jFfZsKF/aBncYbshI/ts87DqRDLaDOAVSlOJDgcHE2QFHKO2JU8W36Wo8sOMsW28dltCkcTlYQEr84BqIZLjsICA9ndSGDjlVEAs2VdhbGO0SEe0ykkmCuhE526tD3ym07W4/73mpOPhrUB3zKnSL0gS49oMDNbCNluCN5drFmmgUKkZ0ocS8iZNpoENv1+7E4Ep5gfwpP0rhfU8upTccqjWq0SxL7V+fdw7jl8AN7o0mAGeoXI3ydYqR3ExjvRMS+r8nXBk67Nuvvt9O/dmd/MXYipqYMYENw+/hb77y3av9urSmtV0adXZ1jqVUMOU0u5iLqxIlm3jAv61Vu5GItO7IE//wwyFZ2u024OOEcTNJpKgg4XRuNm7bt8eL/WJRm458QniZic3RGdufh+y75d6O1zJ6YySA2vKfLi3DSqNh1DU6PDjCUuUXuNorXVAvLf2YlPeuzspBD6auduw1vtddB2TsVPrK0ZleOulfTpSwkXwqs0JcEvDFjL3/1kKEN63yU+o0krdZdfTb65O4BkcXN31M6sKKQ2fxwGoRO0tmWBQZJDD2WbGZEFXVe7cwW06m3F6cSHKptoj69Ox0MaYvsYG4gh0Z4POn/G/U46jKNBypPyNZInpl19lwQnFTxGXkBKiMfXeErRG93YldSZi3s+zGh2H4ratkWm70DV6XS3ShmCvwqCV8cNk8COBhYWpUG0lZoATndICbAAeSDWV5m0hD/gGmiWb7WD2Ly3lCQSHC242komoA8PXxmXvsr920sGjN80x/Hp/YtrbaZBgDKFV7jN8eIEO8ZV9yNLCuERlaOuWN436koTSsU+qKHrxlTR52ksHcOIzJjHv6NobpbrPg7M37O+/KDMeXWMTuGp013XU07rAplov6IQVii0S7LaUlxXLiXBKC1PeRVN3AgPqoZXt3AvQfXUJubd4ZyViAja8q1y+R6xvVdTxj4L9YhuqzYNRywB9m2Oa+7pmu1n78nqHrXpL+CUd4xWXgj6+upMHIB4dpJaHbBI/PesluScy4wLw1txXoNmUb9GiTy39W9P1w1l/Pku3JRQ0cG/tioPk5R7mHKZzt9HfJKkIj/5Beuw4Mm8YR41x45N0sjE+iuwPw3OJ2dwivBsVje+Ehn0175fLDHILjUXYQlb/5x4i8ng9mjOV6rM5QHXUowA3p9v38LGUrizKhlxJX9r+ulEojjYlja7MY9EqbIfl9NoO02sdNxoEoV+Sd5rT6B5n4iDicjzvjRdKxeoQKcsR78sUahR8axA4uo33MM+zE3zyWMMHxdIFm6CS293iz0HBw9ptqJyAZb6ZKQtWCfM+FGukv5tIm4orOyfHgp0z/MZM+HQHgbeuLyJk3kZYPO7QmGSosFaQgk1/Ah+3DX/Fh26XMJJkf5psfkSG7eWmAsY+LM5eMDEaOIdpv4uEBKV2TaXGIwp0mXg31rtU9NKO1tZY4BNunvpS0Af5uI8Cyv1npyNNO/rI0WjsGboN1eBSDjuPlFAvJ4bpd9l2ZyPe2uCU4bfAeoFTrllJbbQCNjAnF8se875mCiYOpbyApg7hvsyCAmECc0JHMsRhunvEhTixOVYiP8q7RM4WyDo0NdXrkJlZAvE1+CYyvtLWeT7YU4pSDoPQU0W2Zs7bEuHWZARfnNbo+nOgPZrnw/fYZTk8Lovl10CYWBfwyC8XdM4IBLiXzkqgoUAGiI71m91NnRAOL/GLBTlZkHBu4NhNnc2eL5LuHYMH36yeOyBH2k27cLkasITdxE0ebMupHPAchh472j9WWGdKLijF3mo+De1Wtv0nDNmlGp1slMlwaVm6fOhXNndhJVHpcbDMtEaPheqO03UAUz8hvy7V4Lw8k9TP4nIV66C3NiYysOga4HEU3SRDqpMtWd/+aKhx6aW00oozbVfjEfjNhT9xwI1SDlBGs/ZbAKtKPEVc/tFXYSd6sxFOaD5QV9pXsl3qUmvqB8QXuW3qdVsohxvSI3tdFFP1eC9SeRJoA3e61vhj2v8QrlrdR3WuJws3aDBrgAd4d7RHv8feJWcRKt80TkfTGNjjnKXdCvE5nWRezQk0NyY5+zRpox+inXfyOLp4oUVGApAHO54yU9+IVtq2H+oBK1bQlPkx7lFOTp",
+              "format": "google-gemini-v1",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 103,
+      "completion_tokens": 814,
+      "total_tokens": 917,
+      "cost": 0.009974,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.009974,
+        "upstream_inference_prompt_cost": 0.000206,
+        "upstream_inference_completions_cost": 0.009768
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 584,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 103,
+  "tokensOut": 814,
+  "costUsd": 0.009974,
+  "latencyMs": 7974,
+  "finishReason": "stop"
+}

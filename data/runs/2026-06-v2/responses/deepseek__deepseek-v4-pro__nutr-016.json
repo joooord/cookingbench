@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-016",
+  "answerText": "Olive oil provides 884 kcal per 100 g. With a density of 0.91 g/ml, 100 ml of olive oil weighs 100 × 0.91 = 91 g. The energy content is therefore (884 kcal / 100 g) × 91 g = 804.44 kcal.\n\nAnswer: 804.44 kcal",
+  "raw": {
+    "id": "gen-1781206800-KAb9ZV4tMg2wwsfke8qW",
+    "object": "chat.completion",
+    "created": 1781206800,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Olive oil provides 884 kcal per 100 g. With a density of 0.91 g/ml, 100 ml of olive oil weighs 100 × 0.91 = 91 g. The energy content is therefore (884 kcal / 100 g) × 91 g = 804.44 kcal.\n\nAnswer: 804.44 kcal",
+          "refusal": null,
+          "reasoning": "We are asked: \"Olive oil provides 884 kcal per 100 g and has a density of about 0.91 g/ml. How many kilocalories are in 100 ml of olive oil?\"\n\nWe need to compute kcal in 100 ml. Density = 0.91 g/ml, so 100 ml has mass = 100 * 0.91 = 91 g. Then energy = (884 kcal / 100 g) * 91 g = 884 * 0.91 = 804.44 kcal. Round appropriately? The question gave 884 kcal per 100 g and density about 0.91, maybe we keep one decimal? The answer line says \"Answer: <number> kcal\". I'll provide 804.44 or maybe round to 804. But let's see: 884 * 0.91 = 804.44, so 804.44 kcal. I'll give that. Possibly they expect 804.4 or 804. But the instruction: \"Answer: <number> kcal\". I'll put 804.44.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Olive oil provides 884 kcal per 100 g and has a density of about 0.91 g/ml. How many kilocalories are in 100 ml of olive oil?\"\n\nWe need to compute kcal in 100 ml. Density = 0.91 g/ml, so 100 ml has mass = 100 * 0.91 = 91 g. Then energy = (884 kcal / 100 g) * 91 g = 884 * 0.91 = 804.44 kcal. Round appropriately? The question gave 884 kcal per 100 g and density about 0.91, maybe we keep one decimal? The answer line says \"Answer: <number> kcal\". I'll provide 804.44 or maybe round to 804. But let's see: 884 * 0.91 = 804.44, so 804.44 kcal. I'll give that. Possibly they expect 804.4 or 804. But the instruction: \"Answer: <number> kcal\". I'll put 804.44.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 72,
+      "completion_tokens": 300,
+      "total_tokens": 372,
+      "cost": 0.0004880385,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 33,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0004880385,
+        "upstream_inference_prompt_cost": 0.0000317385,
+        "upstream_inference_completions_cost": 0.0004563
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 225,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 72,
+  "tokensOut": 300,
+  "costUsd": 0.0004880385,
+  "latencyMs": 4892,
+  "finishReason": "stop"
+}

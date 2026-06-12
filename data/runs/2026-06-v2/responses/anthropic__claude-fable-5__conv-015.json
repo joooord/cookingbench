@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "conv-015",
+  "answerText": "An imperial (UK) pint is equal to **568 ml** (more precisely, 568.26 ml). This differs from the US pint, which is about 473 ml — so when following old British cookbooks, be sure to use the larger imperial measure. For practical cooking purposes, rounding to 570 ml is also fine.\n\nAnswer: 568 ml",
+  "raw": {
+    "id": "gen-1781212448-29JxkihlsThyYGQCSMU9",
+    "object": "chat.completion",
+    "created": 1781212448,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "An imperial (UK) pint is equal to **568 ml** (more precisely, 568.26 ml). This differs from the US pint, which is about 473 ml — so when following old British cookbooks, be sure to use the larger imperial measure. For practical cooking purposes, rounding to 570 ml is also fine.\n\nAnswer: 568 ml",
+          "refusal": null,
+          "reasoning": " A UK pint is approximately 568 milliliters, though it's often rounded to 568 ml in practice.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " A UK pint is approximately 568 milliliters, though it's often rounded to 568 ml in practice.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS6gEKYggOGAIqQP70LnQLbTPAWoQVISnnPiXjG6/72rab9UU/bPXsCmyavQUNsAWC7pcAKwCj8CwagxBahaX0uc1Io2f30k8SUSMyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgxF9N79hAnYRqw7DF8aDNMBxwe/qPCyUNhcWCIwwsU+0spp4NpU1rYOJf+C+0sSZsj3yt0LXbdWv/k6Cr36Z7hiVB5YbNvYfVJYlMwtKjbYoPrv2Wefac5OUOAZWppHRo0THyUenaWzrGrm1ub60IpZ7xKhsyN9rBlr2Vp2FjheXcZRHXYYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 92,
+      "completion_tokens": 137,
+      "total_tokens": 229,
+      "cost": 0.00777,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00777,
+        "upstream_inference_prompt_cost": 0.00092,
+        "upstream_inference_completions_cost": 0.00685
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 24,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 92,
+  "tokensOut": 137,
+  "costUsd": 0.00777,
+  "latencyMs": 4803,
+  "finishReason": "stop"
+}

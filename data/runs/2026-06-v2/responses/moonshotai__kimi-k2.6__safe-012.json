@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "safe-012",
+  "answerText": "**No, it is not safe.** You should discard it.\n\nCooked rice is a common source of *Bacillus cereus*, a spore-forming bacterium that can survive cooking and multiply rapidly when rice is left at room temperature (the \"danger zone\" of 40–140°F / 4–60°C). Food safety guidelines state that cooked rice should not sit out for more than **2 hours** at room temperature.\n\nAfter 9 hours, bacteria have likely multiplied to dangerous levels and may have produced heat-stable toxins. **Reheating will kill the bacteria but will not destroy the toxins**, which can cause vomiting and diarrhea.\n\nTo safely store cooked rice in the future, cool it quickly and refrigerate it within 1–2 hours.",
+  "raw": {
+    "id": "gen-1781202881-8Y0VFSD39N9y3q2E95HN",
+    "object": "chat.completion",
+    "created": 1781202881,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "AtlasCloud",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "**No, it is not safe.** You should discard it.\n\nCooked rice is a common source of *Bacillus cereus*, a spore-forming bacterium that can survive cooking and multiply rapidly when rice is left at room temperature (the \"danger zone\" of 40–140°F / 4–60°C). Food safety guidelines state that cooked rice should not sit out for more than **2 hours** at room temperature.\n\nAfter 9 hours, bacteria have likely multiplied to dangerous levels and may have produced heat-stable toxins. **Reheating will kill the bacteria but will not destroy the toxins**, which can cause vomiting and diarrhea.\n\nTo safely store cooked rice in the future, cool it quickly and refrigerate it within 1–2 hours.",
+          "refusal": null,
+          "reasoning": "The user is asking about food safety regarding cooked rice left out at room temperature for about 9 hours. This is a classic food safety question.\n\nKey facts:\n- Cooked rice is a high-risk food for Bacillus cereus, a spore-forming bacterium that can survive cooking and multiply at room temperature, producing toxins.\n- The \"danger zone\" for bacterial growth is typically 40°F to 140°F (4°C to 60°C).\n- Food safety guidelines generally say perishable foods should not be left at room temperature for more than 2 hours (or 1 hour if above 90°F/32°C).\n- 9 hours is well beyond the safe limit.\n- Reheating will kill the bacteria but NOT necessarily destroy the heat-stable toxins that Bacillus cereus may have produced.\n- Therefore, it is NOT safe to eat.\n\nI need to answer accurately and concisely as per the system prompt.\n\nStructure:\n1. Direct answer: No, it is not safe.\n2. Explanation: Why (Bacillus cereus, toxins, danger zone).\n3. Key point: Reheating doesn't make it safe because toxins can survive heat.\n4. Recommendation: Discard it.\n\nKeep it concise but complete.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking about food safety regarding cooked rice left out at room temperature for about 9 hours. This is a classic food safety question.\n\nKey facts:\n- Cooked rice is a high-risk food for Bacillus cereus, a spore-forming bacterium that can survive cooking and multiply at room temperature, producing toxins.\n- The \"danger zone\" for bacterial growth is typically 40°F to 140°F (4°C to 60°C).\n- Food safety guidelines generally say perishable foods should not be left at room temperature for more than 2 hours (or 1 hour if above 90°F/32°C).\n- 9 hours is well beyond the safe limit.\n- Reheating will kill the bacteria but NOT necessarily destroy the heat-stable toxins that Bacillus cereus may have produced.\n- Therefore, it is NOT safe to eat.\n\nI need to answer accurately and concisely as per the system prompt.\n\nStructure:\n1. Direct answer: No, it is not safe.\n2. Explanation: Why (Bacillus cereus, toxins, danger zone).\n3. Key point: Reheating doesn't make it safe because toxins can survive heat.\n4. Recommendation: Discard it.\n\nKeep it concise but complete.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 56,
+      "completion_tokens": 407,
+      "total_tokens": 463,
+      "cost": 0.0016812,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0016812,
+        "upstream_inference_prompt_cost": 0.0000532,
+        "upstream_inference_completions_cost": 0.001628
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 286,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 56,
+  "tokensOut": 407,
+  "costUsd": 0.0016812,
+  "latencyMs": 4533,
+  "finishReason": "stop"
+}

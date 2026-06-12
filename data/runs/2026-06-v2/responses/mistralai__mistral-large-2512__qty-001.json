@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "qty-001",
+  "answerText": "To scale the recipe from 2 loaves to 5 loaves, multiply each ingredient by 2.5 (since 5 ÷ 2 = 2.5).\n\nFlour: 1250 g\nWater: 875 g\nSalt: 25 g\nInstant yeast: 17.5 g",
+  "raw": {
+    "id": "gen-1781207354-NuTIxazQQQuxJs7bruWY",
+    "object": "chat.completion",
+    "created": 1781207354,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To scale the recipe from 2 loaves to 5 loaves, multiply each ingredient by 2.5 (since 5 ÷ 2 = 2.5).\n\nFlour: 1250 g\nWater: 875 g\nSalt: 25 g\nInstant yeast: 17.5 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 89,
+      "completion_tokens": 72,
+      "total_tokens": 161,
+      "cost": 0.0001525,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0001525,
+        "upstream_inference_prompt_cost": 0.0000445,
+        "upstream_inference_completions_cost": 0.000108
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 89,
+  "tokensOut": 72,
+  "costUsd": 0.0001525,
+  "latencyMs": 1782,
+  "finishReason": "stop"
+}

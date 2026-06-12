@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "safe-003",
+  "answerText": "The food-safety **\"danger zone\"** is **40°F to 140°F (4°C to 60°C)**. Within this range, bacteria can double in number in as little as 20 minutes, which is why perishable foods should not be left in this range for more than **2 hours** (or 1 hour if the ambient temperature is above 90°F/32°C).",
+  "raw": {
+    "id": "gen-1781209922-YQ4uQ1WQCqK31yY87Alp",
+    "object": "chat.completion",
+    "created": 1781209922,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "The food-safety **\"danger zone\"** is **40°F to 140°F (4°C to 60°C)**. Within this range, bacteria can double in number in as little as 20 minutes, which is why perishable foods should not be left in this range for more than **2 hours** (or 1 hour if the ambient temperature is above 90°F/32°C).",
+          "refusal": null,
+          "reasoning": "The food safety \"danger zone\" is the temperature range where bacteria multiply most rapidly. According to the USDA, this range is 40°F to 140°F (4°C to 60°C).",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The food safety \"danger zone\" is the temperature range where bacteria multiply most rapidly. According to the USDA, this range is 40°F to 140°F (4°C to 60°C).",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EusCCmUIDhgCKkCDspGgLaSUsUOm6ES2JHWSQc5i7cAPSPGUijNpDTDGyZIZda6FWniXbtHp4oI+Mxa5iEcCXOpjfLDaN7vVHhEpMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMfnzajK7Op/qpehmMGgxUw7T05VaSnbYRE8kiMM0CnEwTlhjIoaUpLpUWVOwBAMXfm8pnCxhP9KoRDjCwetF4XqSdhsU79ToUQJuUpiqzAfueSIBXPhH3nro/uTg9NhtwSA//ra6Et5PXVcmKUttR88Q1+PdLj1eTA/g/8K9gs2sopsFb+vVAU32SqH0KWRcbXtwbXO0N7yXFs2LJIyfaA1VhLzZeut7hXqwnLLJliqezo7kuzMhAjpRMWQxSztM8JV5rlYdm4BkdeIGq+vMY5mAPMdcGA2MoPrdCJnrcEEcJfjlz+Ya1soptRIJliX0kTUiBCa1+PrrJLUvKUJFXTPzKGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 51,
+      "completion_tokens": 156,
+      "total_tokens": 207,
+      "cost": 0.002493,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002493,
+        "upstream_inference_prompt_cost": 0.000153,
+        "upstream_inference_completions_cost": 0.00234
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 43,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 51,
+  "tokensOut": 156,
+  "costUsd": 0.002493,
+  "latencyMs": 5460,
+  "finishReason": "stop"
+}

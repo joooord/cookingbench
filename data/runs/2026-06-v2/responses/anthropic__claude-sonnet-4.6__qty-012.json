@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "qty-012",
+  "answerText": "**Calculating gin for the batch:**\n\n- Drinks needed: 25 guests × 2 drinks = **50 drinks**\n- Gin per drink: 60 ml\n- Total gin: 60 ml × 50 = **3,000 ml**\n\nAnswer: 3 litres",
+  "raw": {
+    "id": "gen-1781210077-ndYgmHvYmuv3HKnKHAJ8",
+    "object": "chat.completion",
+    "created": 1781210077,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Calculating gin for the batch:**\n\n- Drinks needed: 25 guests × 2 drinks = **50 drinks**\n- Gin per drink: 60 ml\n- Total gin: 60 ml × 50 = **3,000 ml**\n\nAnswer: 3 litres",
+          "refusal": null,
+          "reasoning": "60 ml gin per drink × 2 drinks × 25 guests = 60 × 50 = 3000 ml = 3 litres",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "60 ml gin per drink × 2 drinks × 25 guests = 60 × 50 = 3000 ml = 3 litres",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EpQCCmUIDhgCKkDh1KzoUC3mzPotsRV9nJnb5vO8aKTW3l9AQypV1CUh3nO4ssNfa9+9oknNhQubF4bmXtSIO35HMOwgg/BHMYmAMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMT1qxdzQ0WjbeWcG5Ggyn59E66RyvoId15+AiMPi8IRDs+GYQgW9oQW2kG6Ul7qOVRQpyHkqZTIy5CN/6y3CDvsx7zMXbGQiDsUHN7ipdVu2HWpUK3qrx9+RkZ/bs21k7XW+Y6rnHUx05dPO5ADuvV/+xbH9168h+3MRx7uEAoUvyTpMLahcWBzLhDUNGGwhf3aTuMGmCpF3KrTEsJ/Jrhra5wZL9sBgcQRnuGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 95,
+      "completion_tokens": 123,
+      "total_tokens": 218,
+      "cost": 0.00213,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00213,
+        "upstream_inference_prompt_cost": 0.000285,
+        "upstream_inference_completions_cost": 0.001845
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 21,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 95,
+  "tokensOut": 123,
+  "costUsd": 0.00213,
+  "latencyMs": 3867,
+  "finishReason": "stop"
+}

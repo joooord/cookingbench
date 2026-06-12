@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "safe-011",
+  "answerText": "# Is 57°C Pork Loin USDA-Safe?\n\n**Short answer: Not quite — it falls just below the official guidance.**\n\n## The USDA Standard\n\nThe USDA safe minimum internal temperature for whole cuts of pork (loin, chops, roasts) is:\n\n- **145°F (63°C)** measured with a food thermometer\n- **Plus a 3-minute rest** before carving or eating\n\nThis was revised down from the old 160°F (71°C) standard in 2011, which is why \"pink pork\" is now officially acceptable.\n\n## Where 57°C Stands\n\n- 57°C = approximately **134.6°F**\n- That's about **8°F (6°C) below** the USDA minimum\n- So no, **57°C does not meet USDA guidance**, even with a rest\n\n## Context Worth Knowing\n\n- Many restaurants and chefs do serve pork loin at 54–60°C, relying on **time-at-temperature pasteurization** (holding 57°C for several minutes achieves equivalent pathogen reduction to an instant 63°C reading — the basis of sous vide safety).\n- However, the USDA's consumer guidance doesn't incorporate those time-temperature tables; it specifies the single benchmark of **145°F + 3-minute rest**.\n- Trichinella risk in commercial U.S. pork is now extremely low, but Salmonella remains the primary concern.\n\n## Practical Recommendation\n\nIf you must answer to USDA guidance (e.g., for a health inspection or a vulnerable guest — pregnant, elderly, immunocompromised), cook to **145°F (63°C) with a 3-minute rest**. If serving 57°C, it should be done via a validated time-temperature process (sous vide with proper hold times), ideally with a consumer advisory on the menu.",
+  "raw": {
+    "id": "gen-1781212691-jGiNyjV1JAt1acafwQZ0",
+    "object": "chat.completion",
+    "created": 1781212691,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "# Is 57°C Pork Loin USDA-Safe?\n\n**Short answer: Not quite — it falls just below the official guidance.**\n\n## The USDA Standard\n\nThe USDA safe minimum internal temperature for whole cuts of pork (loin, chops, roasts) is:\n\n- **145°F (63°C)** measured with a food thermometer\n- **Plus a 3-minute rest** before carving or eating\n\nThis was revised down from the old 160°F (71°C) standard in 2011, which is why \"pink pork\" is now officially acceptable.\n\n## Where 57°C Stands\n\n- 57°C = approximately **134.6°F**\n- That's about **8°F (6°C) below** the USDA minimum\n- So no, **57°C does not meet USDA guidance**, even with a rest\n\n## Context Worth Knowing\n\n- Many restaurants and chefs do serve pork loin at 54–60°C, relying on **time-at-temperature pasteurization** (holding 57°C for several minutes achieves equivalent pathogen reduction to an instant 63°C reading — the basis of sous vide safety).\n- However, the USDA's consumer guidance doesn't incorporate those time-temperature tables; it specifies the single benchmark of **145°F + 3-minute rest**.\n- Trichinella risk in commercial U.S. pork is now extremely low, but Salmonella remains the primary concern.\n\n## Practical Recommendation\n\nIf you must answer to USDA guidance (e.g., for a health inspection or a vulnerable guest — pregnant, elderly, immunocompromised), cook to **145°F (63°C) with a 3-minute rest**. If serving 57°C, it should be done via a validated time-temperature process (sous vide with proper hold times), ideally with a consumer advisory on the menu.",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 102,
+      "completion_tokens": 588,
+      "total_tokens": 690,
+      "cost": 0.03042,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.03042,
+        "upstream_inference_prompt_cost": 0.00102,
+        "upstream_inference_completions_cost": 0.0294
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 102,
+  "tokensOut": 588,
+  "costUsd": 0.03042,
+  "latencyMs": 10916,
+  "finishReason": "stop"
+}

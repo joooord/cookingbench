@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-001",
+  "answerText": "## Calculating Total Kilocalories\n\nUsing the standard **Atwater factors**:\n- Protein = 4 kcal/g\n- Carbohydrates = 4 kcal/g\n- Fat = 9 kcal/g\n\n| Macronutrient | Amount | Factor | Kilocalories |\n|---------------|--------|--------|--------------|\n| Protein | 40 g | × 4 | 160 kcal |\n| Carbohydrates | 30 g | × 4 | 120 kcal |\n| Fat | 20 g | × 9 | 180 kcal |\n| **Total** | | | **460 kcal** |\n\nAnswer: 460 kcal",
+  "raw": {
+    "id": "gen-1781209994-vCkXFjeudBEy6YwxJstE",
+    "object": "chat.completion",
+    "created": 1781209994,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Calculating Total Kilocalories\n\nUsing the standard **Atwater factors**:\n- Protein = 4 kcal/g\n- Carbohydrates = 4 kcal/g\n- Fat = 9 kcal/g\n\n| Macronutrient | Amount | Factor | Kilocalories |\n|---------------|--------|--------|--------------|\n| Protein | 40 g | × 4 | 160 kcal |\n| Carbohydrates | 30 g | × 4 | 120 kcal |\n| Fat | 20 g | × 9 | 180 kcal |\n| **Total** | | | **460 kcal** |\n\nAnswer: 460 kcal",
+          "refusal": null,
+          "reasoning": "Using the Atwater factors:\n- Protein: 4 kcal/g\n- Carbohydrates: 4 kcal/g\n- Fat: 9 kcal/g\n\nProtein: 40 × 4 = 160 kcal\nCarbohydrates: 30 × 4 = 120 kcal\nFat: 20 × 9 = 180 kcal\n\nTotal: 160 + 120 + 180 = 460 kcal",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Using the Atwater factors:\n- Protein: 4 kcal/g\n- Carbohydrates: 4 kcal/g\n- Fat: 9 kcal/g\n\nProtein: 40 × 4 = 160 kcal\nCarbohydrates: 30 × 4 = 120 kcal\nFat: 20 × 9 = 180 kcal\n\nTotal: 160 + 120 + 180 = 460 kcal",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EpsDCmUIDhgCKkCf45K/RrjwgnqayHLSqE/COA6ktR02THSQytlUfs3U9DMKkC9AdfNQdpBOLpe3UYU8kW5DGZZ/W2Yhf2ZtI89uMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMentNdepbnWJTcxPOGgwn9nE86C2YPVdVqEkiMPZ92WvmNqTz8K17Pank/lipWKIbPIC2CeETPcQZWHXav0NESTpRPbQxRvdAxPXhcSrjAXTpdk6QyTld9TJHuw2rG2ewsTuWlQNsHxgHnse01uHyQUVMbPxQGsKN/MFiVstpAtNUis9z/Q6et8BRxf1Oqgypsny6v3cxlYPBt71zvT66yEMcTYWumaZu9m9SD3eLsNqP1oEMwwW+o4ZZVKcrbwjrmSEUbw8OjXWY2Jqsmr3qOssmwAmhxo+k8vOg/DeOozkAtk/XYA2UclniaZkHBU3aOIOsmtnxAcMZZJBvPWBCOS+NWyGnYKZkVc2HnbKQkX/mr/yAt+ypoOXNQdgbwsf0Okbi1lpFq44FWpwBeMBpj07dGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 89,
+      "completion_tokens": 324,
+      "total_tokens": 413,
+      "cost": 0.005127,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.005127,
+        "upstream_inference_prompt_cost": 0.000267,
+        "upstream_inference_completions_cost": 0.00486
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 61,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 89,
+  "tokensOut": 324,
+  "costUsd": 0.005127,
+  "latencyMs": 5325,
+  "finishReason": "stop"
+}

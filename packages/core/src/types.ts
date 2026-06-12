@@ -184,7 +184,10 @@ export interface RunConfig {
   budgetUsdTotal: number;
   budgetUsdPerModel: number;
   concurrency: number;
+  /** Label/back-compat single judge; panel runs list the seats in judgePanel. */
   judgeModel: string;
+  /** v2 panel: distinct judge models; two non-conflicted seats score each answer. */
+  judgePanel?: string[];
   judgePromptVersion: string;
   methodologyVersion: string;
   mock?: boolean;

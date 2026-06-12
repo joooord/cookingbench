@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "conv-019",
+  "answerText": "Fan (convection) ovens cook more efficiently, so a UK fan oven temperature needs to be **increased by about 20°C** for a conventional oven:\n\n- 160°C fan → **180°C conventional**\n- Converting: 180°C × 9/5 + 32 = 356°F\n\nIn practice, American recipes round this to the standard **350°F**, which is the everyday equivalent of 180°C conventional. Bake for the same time as the recipe states, but start checking a few minutes early since ovens vary.\n\nAnswer: 350 °F",
+  "raw": {
+    "id": "gen-1781212458-KdBAWkwnt8sd9JxcJPUJ",
+    "object": "chat.completion",
+    "created": 1781212458,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Fan (convection) ovens cook more efficiently, so a UK fan oven temperature needs to be **increased by about 20°C** for a conventional oven:\n\n- 160°C fan → **180°C conventional**\n- Converting: 180°C × 9/5 + 32 = 356°F\n\nIn practice, American recipes round this to the standard **350°F**, which is the everyday equivalent of 180°C conventional. Bake for the same time as the recipe states, but start checking a few minutes early since ovens vary.\n\nAnswer: 350 °F",
+          "refusal": null,
+          "reasoning": " I'm noting the oven temperature conversions—fan ovens at 160°C are equivalent to conventional ovens at 180°C or about 350°F.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm noting the oven temperature conversions—fan ovens at 160°C are equivalent to conventional ovens at 180°C or about 350°F.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS8gEKYggOGAIqQDxlC5EtNMte3wU0CXDMKGpzrqBkPz34lkDfDC9YyRa0D1EoXLW3kSmvfKrcCAO0OwLvWHdocRrXCMrlCqp5VE4yDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgx0rz2F8d4fA7QrzOsaDJAwYdBfmx1HHXP4iCIwmr05u1838GCB4BL4ewVD81jYtGYGJqfbssOi3BYi4GxbkJFUbSS095PUcqACEdBiKj6xXSVTpSnaQ7eTXEYb6/DrEREIwfOlbOV7CqO9Vt9FKOap4gzFpoANfTwmosBqzyxa/X6YkGWk6Y002kQEVRgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 109,
+      "completion_tokens": 205,
+      "total_tokens": 314,
+      "cost": 0.01134,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01134,
+        "upstream_inference_prompt_cost": 0.00109,
+        "upstream_inference_completions_cost": 0.01025
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 35,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 109,
+  "tokensOut": 205,
+  "costUsd": 0.01134,
+  "latencyMs": 6331,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-023",
+  "answerText": "A 6% brine by weight of the water means:\n\n- Water weight: 2.5 L ≈ 2500 g\n- Salt needed: 2500 g × 0.06 = **150 g**\n- Tablespoons: 150 g ÷ 18 g/tbsp = **8.33 tbsp**\n\nSo you'd use about 8⅓ tablespoons — practically, 8 tablespoons plus 1 teaspoon (since 1 tbsp = 3 tsp).\n\nTip: brine percentages aren't super sensitive, so being off by a teaspoon won't ruin anything. Also note that if you were using kosher salt instead of table salt, the grams-per-tablespoon would be lower (coarser grains), so this conversion only works for your table salt.\n\nAnswer: 8.33 tbsp",
+  "raw": {
+    "id": "gen-1781213168-loCUocHBVsV2u2uBT3qN",
+    "object": "chat.completion",
+    "created": 1781213168,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A 6% brine by weight of the water means:\n\n- Water weight: 2.5 L ≈ 2500 g\n- Salt needed: 2500 g × 0.06 = **150 g**\n- Tablespoons: 150 g ÷ 18 g/tbsp = **8.33 tbsp**\n\nSo you'd use about 8⅓ tablespoons — practically, 8 tablespoons plus 1 teaspoon (since 1 tbsp = 3 tsp).\n\nTip: brine percentages aren't super sensitive, so being off by a teaspoon won't ruin anything. Also note that if you were using kosher salt instead of table salt, the grams-per-tablespoon would be lower (coarser grains), so this conversion only works for your table salt.\n\nAnswer: 8.33 tbsp",
+          "refusal": null,
+          "reasoning": " I'm calculating the salt concentration in the water solution—2.5 liters equals 2500 grams, and a 6% concentration means 150 grams of salt, which converts to about 8.33 tablespoons.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the salt concentration in the water solution—2.5 liters equals 2500 grams, and a 6% concentration means 150 grams of salt, which converts to about 8.33 tablespoons.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS/gEKYggOGAIqQKPAN516q110FunWAnDv689B2gCcKAED2hew90cXkRsYPUYcyI0bQjQ5VKBtnAKwMaE86D8ZguOPcpc+HFMuwOcyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgyWmDBMBfTYqf7c/GwaDKFxQVxiQeKP3Nnb6yIwGaiZs4m7AmrzoY+7C+A//LjjyMlmFV0H9UsoLq5EH0kXbI2pOEmspCR86CERXDIqKkrjlfXdiZ0NyZZAIzGwUCCFI16s96yj3Y5GIlDYhB/sBZAw3P6F7NM5XnDWM/x0X1WwBTP09Ziozmwfwnb81GAHoJHscSdgF1v6exgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 134,
+      "completion_tokens": 305,
+      "total_tokens": 439,
+      "cost": 0.01659,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01659,
+        "upstream_inference_prompt_cost": 0.00134,
+        "upstream_inference_completions_cost": 0.01525
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 46,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 134,
+  "tokensOut": 305,
+  "costUsd": 0.01659,
+  "latencyMs": 7709,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "nutr-032",
+  "answerText": "To get 45 g of protein from cooked chicken at 31 g per 100 g:\n\n**Cooked weight needed:** 45 ÷ 31 × 100 ≈ 145 g cooked\n\n**Raw weight:** Since cooked meat is ~75% of raw weight:\n145 ÷ 0.75 ≈ 194 g raw\n\nAnswer: 194 g",
+  "raw": {
+    "id": "gen-1781211603-gTypxYODMw6MPAz2MNDb",
+    "object": "chat.completion",
+    "created": 1781211603,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To get 45 g of protein from cooked chicken at 31 g per 100 g:\n\n**Cooked weight needed:** 45 ÷ 31 × 100 ≈ 145 g cooked\n\n**Raw weight:** Since cooked meat is ~75% of raw weight:\n145 ÷ 0.75 ≈ 194 g raw\n\nAnswer: 194 g",
+          "refusal": null,
+          "reasoning": " I need to work backwards from the protein requirement. With 31g protein per 100g of cooked meat, I need 145g cooked to hit 45g total protein. Since cooking causes a 25% loss, I'm calculating that the raw weight should be about 194g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I need to work backwards from the protein requirement. With 31g protein per 100g of cooked meat, I need 145g cooked to hit 45g total protein. Since cooking causes a 25% loss, I'm calculating that the raw weight should be about 194g.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EogDCmMIDhgCKkCwsrWypiSQi+pGj0hPdSzQywHbF/koEeKulDO92RqPEJmPgRg+FZNPKJlpBg2cLGkkU2ciuSS/UdqKsQMXc2pnMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDD8UvOMeBDLCjt0S6hoM/K6w4tEHj9OaCRbFIjASy3XV+692790eDWE6t1zg1aOCik+vLNZh2RyjYwFvhPXq7L4VdLcCSng+CvIbL9cq0gFUBsRqG8CJpaUIi4X6MoM0EWj+HiszRkVjQfjJQSZ1z7sQtkj7V/Wr2AGtXTkc8yX14Nzng0fYOAWp1dKHwYihrXEsJebC/9cvkALC73/wCqRsoRAUFR4E6CBmJEI5+cKg9ZhQloJvMwwcxu9IQH6lzr/L+T3LfZu75YVtHSl12fyUdi3FPvCT1C2dOP1cJuI+qLJ4sEp0aNYB5hFpRdpvJdq/oYv/j3LZojNLOGG15QAFSKwfHN3BH6K7jP3Mzni4p91/kJ+Wa1fZZRfpfmh5pUoYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 143,
+      "completion_tokens": 231,
+      "total_tokens": 374,
+      "cost": 0.00649,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00649,
+        "upstream_inference_prompt_cost": 0.000715,
+        "upstream_inference_completions_cost": 0.005775
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 59,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 143,
+  "tokensOut": 231,
+  "costUsd": 0.00649,
+  "latencyMs": 6538,
+  "finishReason": "stop"
+}

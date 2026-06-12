@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-002",
+  "answerText": "To scale the recipe down from 6 servings to 4 servings while keeping proportions, divide 450 g by 6 to get the amount per serving (75 g), then multiply by 4.  \nAnswer: 300 g",
+  "raw": {
+    "id": "gen-1781206884-eVhRPS18eQZPIu0zcbin",
+    "object": "chat.completion",
+    "created": 1781206884,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To scale the recipe down from 6 servings to 4 servings while keeping proportions, divide 450 g by 6 to get the amount per serving (75 g), then multiply by 4.  \nAnswer: 300 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"A pilaf recipe serves 6 and calls for 450 g of basmati rice. How much rice do I need to serve 4, keeping everything in proportion?\" So we need to scale the amount of rice from 6 servings to 4 servings proportionally. Rice per serving: 450 g / 6 = 75 g per serving. For 4 servings: 75 g * 4 = 300 g. So answer is 300 g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A pilaf recipe serves 6 and calls for 450 g of basmati rice. How much rice do I need to serve 4, keeping everything in proportion?\" So we need to scale the amount of rice from 6 servings to 4 servings proportionally. Rice per serving: 450 g / 6 = 75 g per serving. For 4 servings: 75 g * 4 = 300 g. So answer is 300 g.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 68,
+      "completion_tokens": 147,
+      "total_tokens": 215,
+      "cost": 0.000582096,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000582096,
+        "upstream_inference_prompt_cost": 0.000109344,
+        "upstream_inference_completions_cost": 0.000472752
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 99,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 68,
+  "tokensOut": 147,
+  "costUsd": 0.000582096,
+  "latencyMs": 2385,
+  "finishReason": "stop"
+}

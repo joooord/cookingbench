@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "tech-016",
+  "answerText": "Plain sucrose begins to caramelise at around **160 °C (about 320 °F)** in a dry pan. At this point the sugar melts into a clear liquid, and as the temperature climbs toward 170–180 °C it progressively turns golden, then amber, then deep brown as caramelisation reactions break the sucrose down into hundreds of flavourful compounds. Beyond about 190–200 °C it rapidly darkens and turns bitter (burnt).\n\nA few practical tips:\n- Use moderate heat and watch closely — sugar goes from amber to burnt very quickly.\n- Dry caramel (no water) is faster but less forgiving than a wet caramel (sugar + water).\n- Avoid stirring early on; swirl the pan instead to prevent crystallisation.\n\nAnswer: 160 °C",
+  "raw": {
+    "id": "gen-1781213546-qpLnujrMKQpVJcXr4g2A",
+    "object": "chat.completion",
+    "created": 1781213546,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Plain sucrose begins to caramelise at around **160 °C (about 320 °F)** in a dry pan. At this point the sugar melts into a clear liquid, and as the temperature climbs toward 170–180 °C it progressively turns golden, then amber, then deep brown as caramelisation reactions break the sucrose down into hundreds of flavourful compounds. Beyond about 190–200 °C it rapidly darkens and turns bitter (burnt).\n\nA few practical tips:\n- Use moderate heat and watch closely — sugar goes from amber to burnt very quickly.\n- Dry caramel (no water) is faster but less forgiving than a wet caramel (sugar + water).\n- Avoid stirring early on; swirl the pan instead to prevent crystallisation.\n\nAnswer: 160 °C",
+          "refusal": null,
+          "reasoning": " Sucrose starts caramelizing around 160–170°C, though it doesn't fully melt until about 186°C.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " Sucrose starts caramelizing around 160–170°C, though it doesn't fully melt until about 186°C.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS4wIKYggOGAIqQBkCVyJvZ8l0E9gBe802Rn74dRYNTXM16R8Z7o0UwiKGHEEyJ3H2chiuxaPuSBJVjLkSs1ZEI1W6Cx+DNVLpsy4yDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgxdiweXpuAq/4xD658aDFL0FqMQ3weYQRx6dSIwwoeAheKkFdtQiJnWLrTwwn7tW+Ij8AcMkowo13K9SosqEt9ZFMxnrWdp67HwSC72Kq4BCM2aclwJoD1jYacQvxZlmhqU6IYdplUE/X3MlFabP/NHoEVjobiffcZKEPrwgQtYwedNcu/gw2INQi4TbQabBWBxEzpOQPYR4XHCkFehOlMgmLJgSCPwzYfmeVlGQHPhJtctk/w7N5xhbRx6WIS7/8naIcvpuVtWm2l8OcF3MMJF87YpCnA2O4St4CAJLqMWsxnAl8KsVvXEThcIDu2nRPvSsStIFGc5pcNtZt3KGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 95,
+      "completion_tokens": 339,
+      "total_tokens": 434,
+      "cost": 0.0179,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0179,
+        "upstream_inference_prompt_cost": 0.00095,
+        "upstream_inference_completions_cost": 0.01695
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 26,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 95,
+  "tokensOut": 339,
+  "costUsd": 0.0179,
+  "latencyMs": 8557,
+  "finishReason": "stop"
+}

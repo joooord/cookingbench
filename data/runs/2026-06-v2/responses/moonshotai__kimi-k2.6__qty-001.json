@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "qty-001",
+  "answerText": " To make 5 loaves, multiply each ingredient by 2.5:\n\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g",
+  "raw": {
+    "id": "gen-1781203270-e4AMoFOjfe322OyoqMu6",
+    "object": "chat.completion",
+    "created": 1781203270,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Venice",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": " To make 5 loaves, multiply each ingredient by 2.5:\n\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g",
+          "refusal": null,
+          "reasoning": "The user wants to scale a bread recipe from 2 loaves to 5 loaves.\n\nOriginal recipe for 2 loaves:\n- Flour: 500 g\n- Water: 350 g\n- Salt: 10 g\n- Instant yeast: 7 g\n\nScale factor: 5/2 = 2.5\n\nCalculations:\n- Flour: 500 * 2.5 = 1250 g\n- Water: 350 * 2.5 = 875 g\n- Salt: 10 * 2.5 = 25 g\n- Instant yeast: 7 * 2.5 = 17.5 g\n\nThe user wants the answer to end with one line per ingredient in the form \"<ingredient>: <number> g\".\n\nI should provide a concise answer and then the ingredient list in the specified format.\n\nLet me double-check the math:\n500 * 2.5 = 1250 ✓\n350 * 2.5 = 875 ✓\n10 * 2.5 = 25 ✓\n7 * 2.5 = 17.5 ✓\n\nThe format should be exactly:\n<ingredient>: <number> g\n\nSo:\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g\n\nOr maybe capitalize? The prompt says \"<ingredient>: <number> g\", so I should probably use the ingredient names as given. The user wrote \"flour\", \"water\", \"salt\", \"instant yeast\". I'll use those.\n\nWait, the user said \"End your reply with one line per ingredient...\" - this means the last lines of my reply should be the ingredient lines. I can have some introductory text before that.\n\nLet me write a concise response.\n\n\"To make 5 loaves, multiply each ingredient by 2.5 (5 ÷ 2):\n\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g\"\n\nActually, looking at the prompt again: \"End your reply with one line per ingredient in the form \"<ingredient>: <number> g\".\"\n\nSo the very end of the reply must be those lines. I'll keep the text before minimal.\n\n\"Scaled to 5 loaves:\n\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g\"\n\nThat looks good. ",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants to scale a bread recipe from 2 loaves to 5 loaves.\n\nOriginal recipe for 2 loaves:\n- Flour: 500 g\n- Water: 350 g\n- Salt: 10 g\n- Instant yeast: 7 g\n\nScale factor: 5/2 = 2.5\n\nCalculations:\n- Flour: 500 * 2.5 = 1250 g\n- Water: 350 * 2.5 = 875 g\n- Salt: 10 * 2.5 = 25 g\n- Instant yeast: 7 * 2.5 = 17.5 g\n\nThe user wants the answer to end with one line per ingredient in the form \"<ingredient>: <number> g\".\n\nI should provide a concise answer and then the ingredient list in the specified format.\n\nLet me double-check the math:\n500 * 2.5 = 1250 ✓\n350 * 2.5 = 875 ✓\n10 * 2.5 = 25 ✓\n7 * 2.5 = 17.5 ✓\n\nThe format should be exactly:\n<ingredient>: <number> g\n\nSo:\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g\n\nOr maybe capitalize? The prompt says \"<ingredient>: <number> g\", so I should probably use the ingredient names as given. The user wrote \"flour\", \"water\", \"salt\", \"instant yeast\". I'll use those.\n\nWait, the user said \"End your reply with one line per ingredient...\" - this means the last lines of my reply should be the ingredient lines. I can have some introductory text before that.\n\nLet me write a concise response.\n\n\"To make 5 loaves, multiply each ingredient by 2.5 (5 ÷ 2):\n\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g\"\n\nActually, looking at the prompt again: \"End your reply with one line per ingredient in the form \"<ingredient>: <number> g\".\"\n\nSo the very end of the reply must be those lines. I'll keep the text before minimal.\n\n\"Scaled to 5 loaves:\n\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g\"\n\nThat looks good. ",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 91,
+      "completion_tokens": 561,
+      "total_tokens": 652,
+      "cost": 0.002688805,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002688805,
+        "upstream_inference_prompt_cost": 0.00007735,
+        "upstream_inference_completions_cost": 0.002611455
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 444,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 91,
+  "tokensOut": 561,
+  "costUsd": 0.002688805,
+  "latencyMs": 17654,
+  "finishReason": "stop"
+}

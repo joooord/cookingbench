@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-031",
+  "answerText": "## Calorie Calculation\n\n| Ingredient | Weight | kcal/100g | Total kcal |\n|---|---|---|---|\n| Spaghetti (dry) | 500 g | 360 | 1,800 kcal |\n| Butter | 60 g | 717 | 430.2 kcal |\n| Parmesan | 80 g | 420 | 336 kcal |\n| **Total** | | | **2,566.2 kcal** |\n\n**Per portion:** 2,566.2 ÷ 5 = **≈ 513 kcal**\n\nAnswer: 513 kcal",
+  "raw": {
+    "id": "gen-1781210043-W7oips9CQGkOvcweW1Ok",
+    "object": "chat.completion",
+    "created": 1781210043,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Calorie Calculation\n\n| Ingredient | Weight | kcal/100g | Total kcal |\n|---|---|---|---|\n| Spaghetti (dry) | 500 g | 360 | 1,800 kcal |\n| Butter | 60 g | 717 | 430.2 kcal |\n| Parmesan | 80 g | 420 | 336 kcal |\n| **Total** | | | **2,566.2 kcal** |\n\n**Per portion:** 2,566.2 ÷ 5 = **≈ 513 kcal**\n\nAnswer: 513 kcal",
+          "refusal": null,
+          "reasoning": "Let me calculate the total calories:\n\nSpaghetti: 500 g × 360 kcal/100 g = 1800 kcal\nButter: 60 g × 717 kcal/100 g = 430.2 kcal\nParmesan: 80 g × 420 kcal/100 g = 336 kcal\n\nTotal: 1800 + 430.2 + 336 = 2566.2 kcal\n\nPer portion (5 portions): 2566.2 / 5 = 513.24 kcal ≈ 513 kcal",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Let me calculate the total calories:\n\nSpaghetti: 500 g × 360 kcal/100 g = 1800 kcal\nButter: 60 g × 717 kcal/100 g = 430.2 kcal\nParmesan: 80 g × 420 kcal/100 g = 336 kcal\n\nTotal: 1800 + 430.2 + 336 = 2566.2 kcal\n\nPer portion (5 portions): 2566.2 / 5 = 513.24 kcal ≈ 513 kcal",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Et8DCmUIDhgCKkCQAz4IFPew2cT/08ej6NXc5gerzSUhx7rNyrXmWzuq0daSXYc2NUeArxcPyPz3eJweht5tGd2WcoIjwhVb7lEXMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIM/o0hAGfKjxdxXDHKGgwOefDYaUZcvcMDLvUiMJ7Uf6XmeMEEocnFty+REiH1V1pVOMg1ahYJl/xU7/wCVbmqKNnU900v75yOI+IRJSqnAqThKlUhdK0FIHtFCiOlxNr/nWlrcZXFn9Y7JREJdScvR19cnimE5ab7P5MJIlzUmdIVwD584YId3m9rzULEHZKUyRPrfozkHIH5ElylMpOMK6VAdmEc1lUARmZ3NOZisPaafBtzEew20iZn4LDL3m71rxe64ZsQiU+pr6f4Gwi4TTRY9MESZ0SGCAgsWlXnrBX1M7tCpVz2PX5cqkJuAmI+QkAIXnIa/clUrGgLBN3W+yBdAjo+h9lc4tjQ/fV2KEvdUMiWlAO71kvQra9xjjY0UImPJyZOLGOVm4KrzM0ViEwL6wBQ7FrxA9pOBgc1c7OeFB3Onk3yoTeThFKNLUSdQkwgbrZmAOewTgyoahpfaAE0k1lG1XLtZuF5zAYdjP465ri6fxQYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 140,
+      "completion_tokens": 341,
+      "total_tokens": 481,
+      "cost": 0.005535,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.005535,
+        "upstream_inference_prompt_cost": 0.00042,
+        "upstream_inference_completions_cost": 0.005115
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 78,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 140,
+  "tokensOut": 341,
+  "costUsd": 0.005535,
+  "latencyMs": 5111,
+  "finishReason": "stop"
+}

@@ -1,0 +1,71 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "nutr-025",
+  "answerText": "**Reasoning:**\n1. **Calculate Trimmed Weight:** You start with two 300 g steaks, totaling 600 g of raw meat. Trimming the 15% fat cap removes 90 g (600 * 0.15), leaving you with 510 g of raw, lean sirloin. \n2. **Determine Macronutrients:** Grilling causes the meat to lose water weight (about 25-30%), but the total macronutrients remain largely the same as the raw trimmed state. We can calculate the totals based on the 510 g of raw lean meat. \n3. **Apply Standard Values:** On average, 100 g of raw, lean-trimmed sirloin contains approximately 22 g of protein, 5 g of fat, and 133 calories. \n4. **Calculate Totals:** Multiplying these values by 5.1 (for 510 g) gives us approximately 112 g of protein, 25.5 g of fat, and 678 calories. (Values are rounded to the nearest whole number for the final output).\n\nProtein: 112 g\nFat: 26 g\nCalories: 678 kcal",
+  "raw": {
+    "id": "gen-1781209502-K1PvBG4An3cdlSVOfh2p",
+    "object": "chat.completion",
+    "created": 1781209502,
+    "model": "google/gemini-3.1-pro-preview-20260219",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "**Reasoning:**\n1. **Calculate Trimmed Weight:** You start with two 300 g steaks, totaling 600 g of raw meat. Trimming the 15% fat cap removes 90 g (600 * 0.15), leaving you with 510 g of raw, lean sirloin. \n2. **Determine Macronutrients:** Grilling causes the meat to lose water weight (about 25-30%), but the total macronutrients remain largely the same as the raw trimmed state. We can calculate the totals based on the 510 g of raw lean meat. \n3. **Apply Standard Values:** On average, 100 g of raw, lean-trimmed sirloin contains approximately 22 g of protein, 5 g of fat, and 133 calories. \n4. **Calculate Totals:** Multiplying these values by 5.1 (for 510 g) gives us approximately 112 g of protein, 25.5 g of fat, and 678 calories. (Values are rounded to the nearest whole number for the final output).\n\nProtein: 112 g\nFat: 26 g\nCalories: 678 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating Steak Nutrition**\n\nI'm currently focused on determining the final protein, fat, and calorie counts for both grilled sirloin steaks, accounting for the fat trimmed prior to cooking.\n\n**Estimating Nutritional Content**\n\nMy current focus is on solidifying the precise protein, fat, and calorie totals for the grilled sirloin. I'm working with the raw trimmed weight as the basis for these calculations, assuming minimal macro loss during grilling for this lean cut.\n\nProtein: 114.75 g\nFat: 22.95 g\nCalories: 688.5 kcal\n\n**Finalizing Macro Estimates**\n\nI've refined the calculations for the sirloin steaks. By cross-referencing raw trimmed macros with an alternative approach using USDA cooked data, I've converged on a solid estimate. I'll proceed with the raw trimmed weight method for transparency.\n\nProtein: 112 g\nFat: 25 g\nCalories: 678 kcal\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Steak Nutrition**\n\nI'm currently focused on determining the final protein, fat, and calorie counts for both grilled sirloin steaks, accounting for the fat trimmed prior to cooking.\n\n**Estimating Nutritional Content**\n\nMy current focus is on solidifying the precise protein, fat, and calorie totals for the grilled sirloin. I'm working with the raw trimmed weight as the basis for these calculations, assuming minimal macro loss during grilling for this lean cut.\n\nProtein: 114.75 g\nFat: 22.95 g\nCalories: 688.5 kcal\n\n**Finalizing Macro Estimates**\n\nI've refined the calculations for the sirloin steaks. By cross-referencing raw trimmed macros with an alternative approach using USDA cooked data, I've converged on a solid estimate. I'll proceed with the raw trimmed weight method for transparency.\n\nProtein: 112 g\nFat: 25 g\nCalories: 678 kcal\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "google-gemini-v1",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 111,
+      "completion_tokens": 1434,
+      "total_tokens": 1545,
+      "cost": 0.01743,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01743,
+        "upstream_inference_prompt_cost": 0.000222,
+        "upstream_inference_completions_cost": 0.017208
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1163,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 111,
+  "tokensOut": 1434,
+  "costUsd": 0.01743,
+  "latencyMs": 14818,
+  "finishReason": "stop"
+}

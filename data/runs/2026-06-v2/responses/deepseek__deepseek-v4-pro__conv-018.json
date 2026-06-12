@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-018",
+  "answerText": "1 US cup of unsalted butter is approximately 227 grams.  \nAnswer: 227 g",
+  "raw": {
+    "id": "gen-1781206637-caxFfpvbE8h5dpApiNFs",
+    "object": "chat.completion",
+    "created": 1781206637,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Novita",
+    "system_fingerprint": "fp_9954b31ca7_prod0820_fp8_kvcache_20260402",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "1 US cup of unsalted butter is approximately 227 grams.  \nAnswer: 227 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"Convert 1 US cup of unsalted butter to grams.\" We need to answer accurately and concisely, ending with \"Answer: <number> g\". I know that 1 US cup of butter is equivalent to 227 grams approximately. More precisely, butter density is about 0.911 g/mL, and 1 cup = 236.588 mL, so 0.911 * 236.588 ≈ 215.5 grams? Wait, that's not 227. Actually, the common conversion for butter is that 1 stick of butter is 1/2 cup and weighs 113.4 grams. So 1 cup is 2 sticks, 226.8 grams. Typically rounded to 227g. So answer: 227 g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Convert 1 US cup of unsalted butter to grams.\" We need to answer accurately and concisely, ending with \"Answer: <number> g\". I know that 1 US cup of butter is equivalent to 227 grams approximately. More precisely, butter density is about 0.911 g/mL, and 1 cup = 236.588 mL, so 0.911 * 236.588 ≈ 215.5 grams? Wait, that's not 227. Actually, the common conversion for butter is that 1 stick of butter is 1/2 cup and weighs 113.4 grams. So 1 cup is 2 sticks, 226.8 grams. Typically rounded to 227g. So answer: 227 g.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 46,
+      "completion_tokens": 181,
+      "total_tokens": 227,
+      "cost": 0.0006528,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0006528,
+        "upstream_inference_prompt_cost": 0.0000736,
+        "upstream_inference_completions_cost": 0.0005792
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 161,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 46,
+  "tokensOut": 181,
+  "costUsd": 0.0006528,
+  "latencyMs": 2812,
+  "finishReason": "stop"
+}

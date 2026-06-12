@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-035",
+  "answerText": "## Calculation\n\n**Breaking down the carbohydrate figure:**\nSince the 62 g carbohydrate total includes 9 g of fibre (US-label style):\n- Digestible (available) carbohydrate = 62 − 9 = **53 g**\n- Fibre = **9 g**\n\n**Applying Atwater factors:**\n\n| Component | Amount | Factor | kcal |\n|-----------|--------|--------|------|\n| Digestible carbohydrate | 53 g | × 4 kcal/g | 212 kcal |\n| Fibre | 9 g | × 2 kcal/g | 18 kcal |\n| Protein | 11 g | × 4 kcal/g | 44 kcal |\n| Fat | 8 g | × 9 kcal/g | 72 kcal |\n| **Total** | | | **346 kcal** |\n\nAnswer: **346 kcal**",
+  "raw": {
+    "id": "gen-1781210053-GBQbnGe8FPUEnAcsAuEJ",
+    "object": "chat.completion",
+    "created": 1781210053,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Calculation\n\n**Breaking down the carbohydrate figure:**\nSince the 62 g carbohydrate total includes 9 g of fibre (US-label style):\n- Digestible (available) carbohydrate = 62 − 9 = **53 g**\n- Fibre = **9 g**\n\n**Applying Atwater factors:**\n\n| Component | Amount | Factor | kcal |\n|-----------|--------|--------|------|\n| Digestible carbohydrate | 53 g | × 4 kcal/g | 212 kcal |\n| Fibre | 9 g | × 2 kcal/g | 18 kcal |\n| Protein | 11 g | × 4 kcal/g | 44 kcal |\n| Fat | 8 g | × 9 kcal/g | 72 kcal |\n| **Total** | | | **346 kcal** |\n\nAnswer: **346 kcal**",
+          "refusal": null,
+          "reasoning": "Let me work through this carefully.\n\nThe cereal per 100g:\n- Total carbohydrate: 62g (which includes 9g fibre)\n- Protein: 11g\n- Fat: 8g\n\nThe carbohydrate figure includes fibre (US-label style), so:\n- Digestible carbohydrate = 62 - 9 = 53g\n- Fibre = 9g\n\nUsing Atwater factors:\n- Digestible carbohydrate: 53g × 4 kcal/g = 212 kcal\n- Fibre: 9g × 2 kcal/g = 18 kcal\n- Protein: 11g × 4 kcal/g = 44 kcal\n- Fat: 8g × 9 kcal/g = 72 kcal\n\nAdding these up gives me 346 kcal per 100g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Let me work through this carefully.\n\nThe cereal per 100g:\n- Total carbohydrate: 62g (which includes 9g fibre)\n- Protein: 11g\n- Fat: 8g\n\nThe carbohydrate figure includes fibre (US-label style), so:\n- Digestible carbohydrate = 62 - 9 = 53g\n- Fibre = 9g\n\nUsing Atwater factors:\n- Digestible carbohydrate: 53g × 4 kcal/g = 212 kcal\n- Fibre: 9g × 2 kcal/g = 18 kcal\n- Protein: 11g × 4 kcal/g = 44 kcal\n- Fat: 8g × 9 kcal/g = 72 kcal\n\nAdding these up gives me 346 kcal per 100g.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Ep8FCmUIDhgCKkARzRCtzv2pU0fDPE9oU7gXJHveHsXIBGv41y47Q5pY5C5RUzuydSnh1Zva+sP96qvAqIl22Gf/jWVbGpauv54sMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIM9DRf5uq2fvLuxfFYGgzf9vLCni0O3boPJ7UiMMOVz4LlG7Ldh8SUA2YsJUSSPwaaUPrTxGBVMMoLYwkUhbWVYzdUosxm5kjyByQOeyrnA65ZwHLm/qxJRwA9NZBAhcC96jhPx7iU354oR+ikl2/jFVd4yyYbovV/WgSJuQ3XzqgpqFrm2zOqiQjP8HuEM6dfCvXxrvT9b9npNugqG4ZfMOD+P8u9oQbxCxEhg7Ih934LoBUpYs9Za/BdlXcHD+uv9m/mjAZRyKmwoxNKJkwoLc/HaNwCdfgYpky3lWc0HEPgPIZeslsItsYK16pur+/0DgQmIkjNx1p9Djug63UnCPJevr5hVpPDsxqrbd1adyf4g1uszztqjqmEjPNCCYYlUc73C1gXOHSyyxXP3Vj9cHkxNbsVod3Lf6l9J/209s2DCS4E4aGqD04IFjJxHKLRa3+Ghuw2SPDY1Pu6zuimd9EDLv6CCyzhMHsyOi+PuSeFOQSatU1eM1OQCuPzTaZsQCd7PNQVG4+Sh7+UbHBnHLkuwZ/gJfy0rcLdRAZDnfSJMWhqdauBjWR8Ni0DxRetsFXXGrIghEwIj9bJrBB/g/djfdyXNyxhqcxrU5bS/IVcD4GXvZPG+T4zZ9PMaEGAwaLkLbPnUfHRBu+I6cV/tYM1cstMW1UxHpGew2wtJaBJNoQ9uFLW+y6L/F4xcD7FIUYDyyV5SKScfe8NvEwfibXXiySHNwxKFMGEfSm7Oq2WNixXCscYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 132,
+      "completion_tokens": 497,
+      "total_tokens": 629,
+      "cost": 0.007851,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.007851,
+        "upstream_inference_prompt_cost": 0.000396,
+        "upstream_inference_completions_cost": 0.007455
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 134,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 132,
+  "tokensOut": 497,
+  "costUsd": 0.007851,
+  "latencyMs": 7469,
+  "finishReason": "stop"
+}

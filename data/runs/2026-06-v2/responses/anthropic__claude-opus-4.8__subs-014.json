@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "subs-014",
+  "answerText": "To substitute instant (dry) yeast for fresh (cake) yeast, use about one-third the amount, since instant yeast is roughly 3 times more concentrated.\n\n21 g ÷ 3 = 7 g\n\nAnswer: 7 g",
+  "raw": {
+    "id": "gen-1781211754-KhlMerbkGvHWBOP6BTr4",
+    "object": "chat.completion",
+    "created": 1781211754,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To substitute instant (dry) yeast for fresh (cake) yeast, use about one-third the amount, since instant yeast is roughly 3 times more concentrated.\n\n21 g ÷ 3 = 7 g\n\nAnswer: 7 g",
+          "refusal": null,
+          "reasoning": " To convert fresh yeast to instant yeast, I need to divide by 3, so 21 grams of fresh yeast becomes about 7 grams of instant yeast.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " To convert fresh yeast to instant yeast, I need to divide by 3, so 21 grams of fresh yeast becomes about 7 grams of instant yeast.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "ErsCCmMIDhgCKkCK6N7rrYHlSisDp36tg9BefwX1ZihuXNBAwFkruZUrQQv6BvTJNte3o+0ekIwQsrB2HbED2CwITTefj2fxaCHJMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDAr8xMNti7yw73U9rxoMfbPiu7h4xVwFhheTIjC6r+NzE4Rdwvq9ajbQwmyPWq9DwtnHWDaut5v9wTHyRfEkPkE7599k9DVIbSMlWLIqhQERkSDhPMS+b280WTJQe0mwBAAfloQSB/aHQWgfFKI2sHG0KBU7v6gPusRvLZJI8U86FO5yz+p9fF4E+MBnBNvqL2LJtniR7Ux8d5TtDK+sSvDn5RmN+Znvd0kMz1LWbP73mX0rTCyuSN9inYnzVkBdmOkhY3wpaCWC7dpOPSGDdYjYUhFeGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 95,
+      "completion_tokens": 143,
+      "total_tokens": 238,
+      "cost": 0.00405,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00405,
+        "upstream_inference_prompt_cost": 0.000475,
+        "upstream_inference_completions_cost": 0.003575
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 33,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 95,
+  "tokensOut": 143,
+  "costUsd": 0.00405,
+  "latencyMs": 3201,
+  "finishReason": "stop"
+}

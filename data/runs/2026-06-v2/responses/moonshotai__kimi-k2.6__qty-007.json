@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "qty-007",
+  "answerText": "For 11 people you need 1,100 g of rice (11 × 100 g). At a 3:1 broth-to-rice ratio, the broth required is 3 × 1,100 g = 3,300 g.\n\nAnswer: 3300 g",
+  "raw": {
+    "id": "gen-1781203300-LAgTphpS1s2aJ4WnuTJN",
+    "object": "chat.completion",
+    "created": 1781203300,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Decart",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "For 11 people you need 1,100 g of rice (11 × 100 g). At a 3:1 broth-to-rice ratio, the broth required is 3 × 1,100 g = 3,300 g.\n\nAnswer: 3300 g",
+          "refusal": null,
+          "reasoning": "The user wants to know how many grams of broth are needed for paella for 11 people.\n\nGiven:\n- 11 people\n- 100 g of rice per person\n- Broth-to-rice ratio of 3:1 by weight\n\nCalculation:\n- Total rice = 11 people × 100 g/person = 1100 g\n- Broth needed = 1100 g × 3 = 3300 g\n\nI need to answer accurately and concisely, and end with \"Answer: <number> g\".\n\nLet me double-check:\n- Rice per person: 100g\n- People: 11\n- Total rice: 1100g\n- Ratio 3:1 means 3 parts broth to 1 part rice\n- Broth = 3 × 1100g = 3300g\n\nYes, that's correct.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants to know how many grams of broth are needed for paella for 11 people.\n\nGiven:\n- 11 people\n- 100 g of rice per person\n- Broth-to-rice ratio of 3:1 by weight\n\nCalculation:\n- Total rice = 11 people × 100 g/person = 1100 g\n- Broth needed = 1100 g × 3 = 3300 g\n\nI need to answer accurately and concisely, and end with \"Answer: <number> g\".\n\nLet me double-check:\n- Rice per person: 100g\n- People: 11\n- Total rice: 1100g\n- Ratio 3:1 means 3 parts broth to 1 part rice\n- Broth = 3 × 1100g = 3300g\n\nYes, that's correct.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 87,
+      "completion_tokens": 237,
+      "total_tokens": 324,
+      "cost": 0.00089151,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00089151,
+        "upstream_inference_prompt_cost": 0.00006438,
+        "upstream_inference_completions_cost": 0.00082713
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 149,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 87,
+  "tokensOut": 237,
+  "costUsd": 0.00089151,
+  "latencyMs": 949,
+  "finishReason": "stop"
+}

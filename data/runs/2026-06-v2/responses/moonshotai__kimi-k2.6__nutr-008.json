@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "nutr-008",
+  "answerText": " Banana: 300 g × 89 kcal/100 g = 267 kcal  \nWhole milk: 200 g × 61 kcal/100 g = 122 kcal  \nTotal: 267 + 122 = 389 kcal\n\nAnswer: 389 kcal",
+  "raw": {
+    "id": "gen-1781202991-FI0alTTMkl6BQs884c1U",
+    "object": "chat.completion",
+    "created": 1781202991,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Parasail",
+    "system_fingerprint": "vllm-0.20.2rc1.dev1068+g628499d4f-tp8-af1e2bf1",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": " Banana: 300 g × 89 kcal/100 g = 267 kcal  \nWhole milk: 200 g × 61 kcal/100 g = 122 kcal  \nTotal: 267 + 122 = 389 kcal\n\nAnswer: 389 kcal",
+          "refusal": null,
+          "reasoning": " The user wants me to calculate the total calorie count of a smoothie containing 300g of banana and 200g of whole milk.\n\nBanana: 300 g at 89 kcal/100 g\nCalories from banana = 300/100 * 89 = 3 * 89 = 267 kcal\n\nWhole milk: 200 g at 61 kcal/100 g\nCalories from milk = 200/100 * 61 = 2 * 61 = 122 kcal\n\nTotal calories = 267 + 122 = 389 kcal\n\nI need to answer accurately and concisely, and end with \"Answer: <number> kcal\".\n\nLet me double-check:\n- 300g banana × 0.89 kcal/g = 267 kcal\n- 200g milk × 0.61 kcal/g = 122 kcal\n- Total = 389 kcal\n\nYes, that's correct.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " The user wants me to calculate the total calorie count of a smoothie containing 300g of banana and 200g of whole milk.\n\nBanana: 300 g at 89 kcal/100 g\nCalories from banana = 300/100 * 89 = 3 * 89 = 267 kcal\n\nWhole milk: 200 g at 61 kcal/100 g\nCalories from milk = 200/100 * 61 = 2 * 61 = 122 kcal\n\nTotal calories = 267 + 122 = 389 kcal\n\nI need to answer accurately and concisely, and end with \"Answer: <number> kcal\".\n\nLet me double-check:\n- 300g banana × 0.89 kcal/g = 267 kcal\n- 200g milk × 0.61 kcal/g = 122 kcal\n- Total = 389 kcal\n\nYes, that's correct.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 78,
+      "completion_tokens": 257,
+      "total_tokens": 335,
+      "cost": 0.00094856,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 16,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00094856,
+        "upstream_inference_prompt_cost": 0.00004906,
+        "upstream_inference_completions_cost": 0.0008995
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 196,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 78,
+  "tokensOut": 257,
+  "costUsd": 0.00094856,
+  "latencyMs": 2854,
+  "finishReason": "stop"
+}

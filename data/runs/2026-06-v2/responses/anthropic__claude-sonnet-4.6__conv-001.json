@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "conv-001",
+  "answerText": "## Converting 350°F to Celsius\n\nUsing the standard conversion formula:\n\n**(°F − 32) × 5/9 = °C**\n\n(350 − 32) × 5/9 = 318 × 5/9 = **176.7°C**\n\nThis is conventionally rounded to **180°C** for a standard (non-fan/conventional) oven, which is the temperature you'll see in most recipes.\n\n> **Note:** If using a fan-assisted (convection) oven, reduce the temperature by about 20°C (to **160°C**), as the fan circulates heat more efficiently.\n\nAnswer: 180 °C",
+  "raw": {
+    "id": "gen-1781209814-aQhsGkcHFKcRVFBdVO9O",
+    "object": "chat.completion",
+    "created": 1781209814,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Converting 350°F to Celsius\n\nUsing the standard conversion formula:\n\n**(°F − 32) × 5/9 = °C**\n\n(350 − 32) × 5/9 = 318 × 5/9 = **176.7°C**\n\nThis is conventionally rounded to **180°C** for a standard (non-fan/conventional) oven, which is the temperature you'll see in most recipes.\n\n> **Note:** If using a fan-assisted (convection) oven, reduce the temperature by about 20°C (to **160°C**), as the fan circulates heat more efficiently.\n\nAnswer: 180 °C",
+          "refusal": null,
+          "reasoning": "To convert Fahrenheit to Celsius: (°F - 32) × 5/9\n\n(350 - 32) × 5/9 = 318 × 5/9 = 1590/9 = 176.67°C\n\nConventionally rounded to 180°C for a standard (non-fan) oven.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "To convert Fahrenheit to Celsius: (°F - 32) × 5/9\n\n(350 - 32) × 5/9 = 318 × 5/9 = 1590/9 = 176.67°C\n\nConventionally rounded to 180°C for a standard (non-fan) oven.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EvICCmUIDhgCKkADegLDKMOZlN+aPZolB/gMHs0paB6UHl8UZ7/lAyCX3BFgA1yaClh2Oc1jpROyKy7EuxPGKcxgiPevPQjHPWnIMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMKk99XY75KErDGZY7GgyawY1qYhp0SXOWh9giMFUI70afALBHwE3yqE9V84LM+ZRTzIj+dM7yyKVwSqt7cYAgNN363csPhqp6cOpCgiq6Abk5g8zAII6EcSi8mRzFCqEtLo69fmQtNMvNB3Ht+QHCOYO1qKV1aNaNM7umLZ4ftM65n0hNlSWt19QuzfW3V3IMgmOzet/4lPTdmMfEQshRlsqmw6SjBk01xQHz7/RXaZ5r8H0YlWKE4C9xl9aFm9t2ARd+hJ2Vslq3UWXn2wIXKf6ssk2UKJ5Lqh8UEGjOM1YRfGVylO0AN/nwhBSCX307jin2z7Uuus8OjJrv2uypZK1V8xP/2l79DhgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 69,
+      "completion_tokens": 253,
+      "total_tokens": 322,
+      "cost": 0.004002,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004002,
+        "upstream_inference_prompt_cost": 0.000207,
+        "upstream_inference_completions_cost": 0.003795
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 49,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 69,
+  "tokensOut": 253,
+  "costUsd": 0.004002,
+  "latencyMs": 6301,
+  "finishReason": "stop"
+}

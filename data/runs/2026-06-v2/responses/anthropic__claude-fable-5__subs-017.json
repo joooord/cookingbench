@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "subs-017",
+  "answerText": "Butter is about 80% fat, so 150 g of butter contains:\n\n150 g × 0.80 = 120 g of fat\n\nSince refined coconut oil is 100% fat, you only need 120 g of coconut oil to match the fat content.\n\n**Tip:** The ~30 g of \"missing\" weight from butter is mostly water, which contributes slightly to dough hydration and steam. In shortbread this is usually fine (it often makes a more tender, crumbly cookie), but if the dough seems too dry, you can add a teaspoon or two of water or milk.\n\nAnswer: 120 g",
+  "raw": {
+    "id": "gen-1781213423-53zQq2B6xbyONtCjltY6",
+    "object": "chat.completion",
+    "created": 1781213423,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Butter is about 80% fat, so 150 g of butter contains:\n\n150 g × 0.80 = 120 g of fat\n\nSince refined coconut oil is 100% fat, you only need 120 g of coconut oil to match the fat content.\n\n**Tip:** The ~30 g of \"missing\" weight from butter is mostly water, which contributes slightly to dough hydration and steam. In shortbread this is usually fine (it often makes a more tender, crumbly cookie), but if the dough seems too dry, you can add a teaspoon or two of water or milk.\n\nAnswer: 120 g",
+          "refusal": null,
+          "reasoning": " I'm calculating that 150 grams at 80% fat content equals 120 grams of fat, which I'll substitute with coconut oil.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating that 150 grams at 80% fat content equals 120 grams of fat, which I'll substitute with coconut oil.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS8QEKYggOGAIqQBK9sipZs7E7LqBj7tEjtKsipW6EeAX3gtNx3vqqP4s1NYAZY9I8D1cAo9IeuPFcF3MN5BjUGuuIKbv8FDzyQBsyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgyel7u137nymuwcQpcaDP8nb2NYwz3qfiYRgyIwzdylWNNIuf0Gk0y6GrceE2croWE32QimZYBLFO0rqVONS4BVSmaoZzvxh2ktin4PKj37+5AsD35vM+CoveVGQvx6Yyd8wMbHEOHMxtqVazcbosqmFFimqdy/v4EGZ2A4rHz8dBIKrJmjF8JQMJd7GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 147,
+      "completion_tokens": 219,
+      "total_tokens": 366,
+      "cost": 0.01242,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01242,
+        "upstream_inference_prompt_cost": 0.00147,
+        "upstream_inference_completions_cost": 0.01095
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 29,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 147,
+  "tokensOut": 219,
+  "costUsd": 0.01242,
+  "latencyMs": 7251,
+  "finishReason": "stop"
+}

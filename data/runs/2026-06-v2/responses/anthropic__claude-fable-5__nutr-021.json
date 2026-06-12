@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-021",
+  "answerText": "A large whole egg (about 50 g) contains roughly **70–72 kilocalories**. Most of these calories come from fat (about 5 g, ~45 kcal) and protein (about 6 g, ~24 kcal), with minimal carbohydrates. The yolk holds most of the calories (~55 kcal), while the white contributes only about 17 kcal.\n\nAnswer: 72 kcal",
+  "raw": {
+    "id": "gen-1781212878-5xiskPTBwp4WwqBmDtHV",
+    "object": "chat.completion",
+    "created": 1781212878,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A large whole egg (about 50 g) contains roughly **70–72 kilocalories**. Most of these calories come from fat (about 5 g, ~45 kcal) and protein (about 6 g, ~24 kcal), with minimal carbohydrates. The yolk holds most of the calories (~55 kcal), while the white contributes only about 17 kcal.\n\nAnswer: 72 kcal",
+          "refusal": null,
+          "reasoning": " A large egg contains roughly 70-72 calories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " A large egg contains roughly 70-72 calories.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS3gEKYggOGAIqQE7ot4Jsg+icyXxGcQtkNXjvXVEYS4JGCOBj/hqr+iIGGkE+nRQ51tnFJ7hTUHeMn/xydKyBudWtE5l74n61VYkyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgxbxK/TSNYX1k631E0aDDV5DWFwDZAalbk3iSIwV+K0iwkZxGO2tqYtKp5jURCmpSFuCdDYrFiYUQh1W47xt9Q+IURI8YHsyA42sJ4JKirGpsqpVeEphCMt65yqBYDJywjToFoyVPIMqd2iLWqWCiLptkB1ABK+PT4YAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 83,
+      "completion_tokens": 147,
+      "total_tokens": 230,
+      "cost": 0.00818,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00818,
+        "upstream_inference_prompt_cost": 0.00083,
+        "upstream_inference_completions_cost": 0.00735
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 12,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 83,
+  "tokensOut": 147,
+  "costUsd": 0.00818,
+  "latencyMs": 5418,
+  "finishReason": "stop"
+}

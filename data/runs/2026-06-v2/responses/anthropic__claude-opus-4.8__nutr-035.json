@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "nutr-035",
+  "answerText": "Calculation:\n- Carbohydrate excluding fibre: 62 − 9 = 53 g × 4 = 212 kcal\n- Fibre: 9 g × 2 = 18 kcal\n- Protein: 11 g × 4 = 44 kcal\n- Fat: 8 g × 9 = 72 kcal\n\nTotal: 212 + 18 + 44 + 72 = 346 kcal\n\nAnswer: 346 kcal",
+  "raw": {
+    "id": "gen-1781211604-eyvwWexndUu9V9btIWsK",
+    "object": "chat.completion",
+    "created": 1781211604,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Calculation:\n- Carbohydrate excluding fibre: 62 − 9 = 53 g × 4 = 212 kcal\n- Fibre: 9 g × 2 = 18 kcal\n- Protein: 11 g × 4 = 44 kcal\n- Fat: 8 g × 9 = 72 kcal\n\nTotal: 212 + 18 + 44 + 72 = 346 kcal\n\nAnswer: 346 kcal",
+          "refusal": null,
+          "reasoning": " I'm calculating the calorie content by breaking down each macronutrient according to US labeling standards, where the 62g total carbs include 9g of fiber. The non-fiber carbs contribute 212 calories, fiber adds 18, protein provides 44, and fat contributes 72, bringing the total to 346 calories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the calorie content by breaking down each macronutrient according to US labeling standards, where the 62g total carbs include 9g of fiber. The non-fiber carbs contribute 212 calories, fiber adds 18, protein provides 44, and fat contributes 72, bringing the total to 346 calories.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EsIDCmMIDhgCKkAqGmKcMzbyM+Em+eJaEB9IN9qberQBT4xQkmtBTFQxTyyMG2Ope00F1g1jXRL9UUHJCths36vN7MgnzBsFBh7LMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDDEWIN33zZjQ2QPnzRoMnxY+s6FD4x/Wgem5IjCRqrNPPyR9Au3ES9SYJTZMUaebR5KYS5V4ipJQrmMpTvzm79h0jUGzOwq1SRafafkqjALJ6NGbflXgbKGzdN2thlfQCkUjLe4ydxM/fPIb9wFSQAxBjDjQEl8VwqSnc6Nl8BAGBZATZWRjAP9aq4vnaT3JfY06M4/HukqlDBfBe7AgN6K21A/cxvrGCY+DzqOVaiooCCvNwMKh7mvogd6cAs4pyEQaSY0BbwclkMMrOCt0KKv7/jYEP1yC+hV2g+52DfPvOCORx56VLFgGQp3H/nlT3xBQ1P0bzQIQFVpGFMYd5cttONKljYrFShlZyW5jsu65AzlzHSI3Hh7Yu3q860yGlQNr2iQGJNu5pceEtmj/X4PAYjDe5XA02H5lm3VV5JC3UM0TbVfuDd6YwYozXzs+nP3mXoujJM7px1wZGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 162,
+      "completion_tokens": 298,
+      "total_tokens": 460,
+      "cost": 0.00826,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00826,
+        "upstream_inference_prompt_cost": 0.00081,
+        "upstream_inference_completions_cost": 0.00745
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 74,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 162,
+  "tokensOut": 298,
+  "costUsd": 0.00826,
+  "latencyMs": 5784,
+  "finishReason": "stop"
+}

@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "nutr-026",
+  "answerText": "For a 200 g raw salmon fillet:\n- Cooked weight: 200 g × 0.8 = **160 g** (after 20% water loss).\n- Protein: 20 g/100 g × 200 g = **40 g** (retained).\n- Fat: 13 g/100 g × 200 g = **26 g** (retained).\n- Calories: (40 g protein × 4 kcal/g) + (26 g fat × 9 kcal/g) = **384 kcal**.\n\nProtein: 40 g\nFat: 26 g\nCalories: 384 kcal",
+  "raw": {
+    "id": "gen-1781207345-fsmewhTIWYV8sxaw0J2a",
+    "object": "chat.completion",
+    "created": 1781207345,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "For a 200 g raw salmon fillet:\n- Cooked weight: 200 g × 0.8 = **160 g** (after 20% water loss).\n- Protein: 20 g/100 g × 200 g = **40 g** (retained).\n- Fat: 13 g/100 g × 200 g = **26 g** (retained).\n- Calories: (40 g protein × 4 kcal/g) + (26 g fat × 9 kcal/g) = **384 kcal**.\n\nProtein: 40 g\nFat: 26 g\nCalories: 384 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 129,
+      "completion_tokens": 157,
+      "total_tokens": 286,
+      "cost": 0.0002856,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 32,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002856,
+        "upstream_inference_prompt_cost": 0.0000501,
+        "upstream_inference_completions_cost": 0.0002355
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 129,
+  "tokensOut": 157,
+  "costUsd": 0.0002856,
+  "latencyMs": 2548,
+  "finishReason": "stop"
+}

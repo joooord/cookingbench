@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "safe-007",
+  "answerText": "The USDA recommends cooking fish to a safe minimum internal temperature of **145°F**, or until the flesh is opaque and flakes easily with a fork.\n\nAnswer: 145 °F",
+  "raw": {
+    "id": "gen-1781202858-0GVjGPunJcyku2a85ORH",
+    "object": "chat.completion",
+    "created": 1781202858,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Novita",
+    "system_fingerprint": "fpv0_af60b866",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA recommends cooking fish to a safe minimum internal temperature of **145°F**, or until the flesh is opaque and flakes easily with a fork.\n\nAnswer: 145 °F",
+          "refusal": null,
+          "reasoning": "The user is asking for the USDA safe minimum internal temperature for cooked fish in Fahrenheit. I need to provide the accurate temperature according to USDA guidelines and end the reply with the specified format: \"Answer: <number> °F\".\n\n According to USDA Food Safety and Inspection Service (FSIS), the safe minimum internal temperature for cooked fish is 145°F. This applies to most fin fish. The fish should be cooked until it reaches 145°F and flakes easily with a fork.\n\n I should answer concisely and accurately, then end with the required line format.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking for the USDA safe minimum internal temperature for cooked fish in Fahrenheit. I need to provide the accurate temperature according to USDA guidelines and end the reply with the specified format: \"Answer: <number> °F\".\n\n According to USDA Food Safety and Inspection Service (FSIS), the safe minimum internal temperature for cooked fish is 145°F. This applies to most fin fish. The fish should be cooked until it reaches 145°F and flakes easily with a fork.\n\n I should answer concisely and accurately, then end with the required line format.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 56,
+      "completion_tokens": 150,
+      "total_tokens": 206,
+      "cost": 0.0005548,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0005548,
+        "upstream_inference_prompt_cost": 0.0000448,
+        "upstream_inference_completions_cost": 0.00051
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 145,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 56,
+  "tokensOut": 150,
+  "costUsd": 0.0005548,
+  "latencyMs": 7516,
+  "finishReason": "stop"
+}

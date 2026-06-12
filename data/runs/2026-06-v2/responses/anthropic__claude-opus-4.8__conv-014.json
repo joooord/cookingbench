@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "conv-014",
+  "answerText": "250 g ÷ 200 g per cup = 1.25 cups.\n\nAnswer: 1.25 cups",
+  "raw": {
+    "id": "gen-1781211456-BF1KACpMrABcxJ1PluOa",
+    "object": "chat.completion",
+    "created": 1781211456,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "250 g ÷ 200 g per cup = 1.25 cups.\n\nAnswer: 1.25 cups",
+          "refusal": null,
+          "reasoning": " That gives me 1.25 cups for the 250 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " That gives me 1.25 cups for the 250 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EuQBCmMIDhgCKkC6zG7jqlCygGRLTW26AVYfoeAstYchXboFF9iOJoqZf+Dmv9lLZCqXV+wFodW21U/ncFhWXxZaaBt4NeCND4ppMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDETuALhyJe9Ub1mqZxoM4kzNFMBxZT2x4R1wIjDZBSFA0wEpXRHL8RwYMUmAfdVMsjsswevt0TqvEPYRKR/FtoXPfq1fu6ohAYezvLgqL8xq6Ryuzl1t36HF42LqG9maTHSeXyIepXAx+tbAHbz042/HBPOfSUzxx4UILMPiGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 102,
+      "completion_tokens": 62,
+      "total_tokens": 164,
+      "cost": 0.00206,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00206,
+        "upstream_inference_prompt_cost": 0.00051,
+        "upstream_inference_completions_cost": 0.00155
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 11,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 102,
+  "tokensOut": 62,
+  "costUsd": 0.00206,
+  "latencyMs": 2521,
+  "finishReason": "stop"
+}

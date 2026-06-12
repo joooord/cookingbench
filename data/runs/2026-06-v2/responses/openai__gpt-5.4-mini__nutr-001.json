@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "openai/gpt-5.4-mini",
+  "questionId": "nutr-001",
+  "answerText": "Using standard Atwater factors:\n\n- Protein: 40 g × 4 = 160 kcal  \n- Carbohydrates: 30 g × 4 = 120 kcal  \n- Fat: 20 g × 9 = 180 kcal  \n\nTotal = 460 kcal\n\nAnswer: 460 kcal",
+  "raw": {
+    "id": "gen-1781210845-a5re63Uu9DzyEZSITgBD",
+    "object": "chat.completion",
+    "created": 1781210845,
+    "model": "openai/gpt-5.4-mini-20260317",
+    "provider": "OpenAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Using standard Atwater factors:\n\n- Protein: 40 g × 4 = 160 kcal  \n- Carbohydrates: 30 g × 4 = 120 kcal  \n- Fat: 20 g × 9 = 180 kcal  \n\nTotal = 460 kcal\n\nAnswer: 460 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating kcal intake**\n\nI need to compute the total: 40 times 4 plus 30 times 4 plus 20 times 9. That works out to 160 plus 120 plus 180, which gives me 460. I have to make sure I conclude with the line: \"Answer: 460 kcal.\" I want to keep it simple and clear, just as the user would expect!",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "**Calculating kcal intake**\n\nI need to compute the total: 40 times 4 plus 30 times 4 plus 20 times 9. That works out to 160 plus 120 plus 180, which gives me 460. I have to make sure I conclude with the line: \"Answer: 460 kcal.\" I want to keep it simple and clear, just as the user would expect!",
+              "format": "openai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "gAAAAABqKx7fAalGcmnboCNVkqvHWG5x9SkVYxT0UnIHhFJwBTtyapTnbZnt-xlpNuo2IbbgdkNcT-Gi3RDQ89MjKdTqTSz7tL9uu0NPFt0ZI3xcT2V37pm2gbeArp_QySxJOP7x8bIhklXFycvJto5JxmDZQywtEtrhZwoQxXcrPD3suMdCEmi8F_8C4jOlrB8-M09sLV-M2iwKkgrW8hjNNk_boqdyFo07XGHWDLB_V9ODAd-_EQJcYR8tiUzmBpoYpVmBRPmBAk5xAH_Wm3J8nMfpvMAgLCGgO9i7Kn9Em0GwcRE0Uor9TJdw3_r4omCdEy1bLy9mLn1VdOXMRtUerK6JGe5q-hyk9M24jYRzsW-ejkO71ebkUNGdTg6uJdJXotTqILcevLwm8QFRPKpo65zuUXW4ExRDIywwt-KrX8rOt17J4MJDzQ-AvUQVXneYEX8MtgfMVNuwJ71_2Zh59B29Z6J2joAM9yjRQAkiaqEH4-FVB-6_5E3ikc9Iy9livdy1ViYVW1GnFEdacY8xwm0GXytvq8sFDDHAlyT_i4BkRBVete8tHDfSc-YDO2XOSULxJrv0JjhouF4oDN_NK1QZ-zpfycZEfn2-UmOrjL4cQS8PLSLDv2Sgk6DvZwSybafgIupQ0eBl3YY6klU3BJA-MvsKS9cq1mBBYdXYNTCOVbYbXIGkI3i6z_hOq7e2JXYESnulgOIE0oc875on2yt3xrVT81daNE_cyn7X2lNzhVYfETBzqkXYTpNIYN7P89iAxqrObhjrDwTpezIJRX6xGSyaSluDKQ8yLsH-l18v0NTRpPXDm10aOicYQNI6SMt_U4N9J2iOSisVvAI2nO6BePVJVx5aHT-_J6qz6JXYB-ckTx3dfRLeK2j0HfdYzaNq4bA6Lf0Ig4tk5ug_aaPC0TvLED9KrDTPCsEHw1butzRF2fNaxO2_sGTYsxd2BYFiQze12nwfjsfG7PDiH2qYAuSp-oplQyC_pcQszFUvrfgJwQwNBi63PmisnP0p27b_HpLuOR48-N5CLzWI70g8cBKNvhMHAE-541CfDgBqteTEH7l-nDK8dLrWyasOii2PN7wR",
+              "format": "openai-responses-v1",
+              "id": "rs_0778f25982d3066a016a2b1edd76288196bdcf32a7750041fa",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 78,
+      "completion_tokens": 110,
+      "total_tokens": 188,
+      "cost": 0.0005535,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0005535,
+        "upstream_inference_prompt_cost": 0.0000585,
+        "upstream_inference_completions_cost": 0.000495
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 43,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 78,
+  "tokensOut": 110,
+  "costUsd": 0.0005535,
+  "latencyMs": 2236,
+  "finishReason": "stop"
+}

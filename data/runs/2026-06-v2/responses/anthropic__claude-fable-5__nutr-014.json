@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-014",
+  "answerText": "Boiling pasta doesn't add or remove any meaningful calories — the pasta simply absorbs water, which increases its weight but contains no energy. So the 75 g of dry spaghetti (270 kcal) becomes ~190 g of cooked spaghetti with the same calorie content.\n\nThis is why cooked pasta has a lower calorie density (~142 kcal per 100 g) than dry pasta (~360 kcal per 100 g) — the energy is just \"diluted\" by water.\n\nAnswer: 270 kcal",
+  "raw": {
+    "id": "gen-1781212865-vYn8z1SAOanxogjl0oaj",
+    "object": "chat.completion",
+    "created": 1781212865,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Boiling pasta doesn't add or remove any meaningful calories — the pasta simply absorbs water, which increases its weight but contains no energy. So the 75 g of dry spaghetti (270 kcal) becomes ~190 g of cooked spaghetti with the same calorie content.\n\nThis is why cooked pasta has a lower calorie density (~142 kcal per 100 g) than dry pasta (~360 kcal per 100 g) — the energy is just \"diluted\" by water.\n\nAnswer: 270 kcal",
+          "refusal": null,
+          "reasoning": " The calorie content stays at 270 kcal regardless of how much water the food absorbs during cooking.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " The calorie content stays at 270 kcal regardless of how much water the food absorbs during cooking.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISggIKYggOGAIqQDsualj/zZ9D8pO32IMlcFd2e3oEWH+sKW++Zzkf3QxlU+vkFfQmdJlFRAc6JwRiRSloUBjzKVEYV2BlLJ8AtqMyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgxsIU4vyR5puoRYwxsaDLZ6uk7jIqcSoHLPySIwLFPEYOddXF7XkUkwjKkA+PcEvgR0N3zRxgTCZ9iVrhmSpQaJcBRya5CcWC5VsAeMKk5q+b05hn8YB+kswrmad1k0n498V/9mleohNRU64rtS4DiJl2UmLzGv9Q3h6gjuG+r9+saWu82GtEKSA4bSQxX2B9zZyVj7fr2iI3iu2nAYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 117,
+      "completion_tokens": 195,
+      "total_tokens": 312,
+      "cost": 0.01092,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01092,
+        "upstream_inference_prompt_cost": 0.00117,
+        "upstream_inference_completions_cost": 0.00975
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 25,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 117,
+  "tokensOut": 195,
+  "costUsd": 0.01092,
+  "latencyMs": 7124,
+  "finishReason": "stop"
+}

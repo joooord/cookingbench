@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "conv-024",
+  "answerText": "A US quart is approximately 946 mL, while an imperial (UK) pint is approximately 568 mL.\n\n946 ÷ 568 ≈ 1.67 imperial pints.\n\nSo 1 US quart is roughly 1⅔ UK pints.\n\nAnswer: 1.67 pints",
+  "raw": {
+    "id": "gen-1781211464-yBKn1JSZSQfgrIeYeAvn",
+    "object": "chat.completion",
+    "created": 1781211464,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A US quart is approximately 946 mL, while an imperial (UK) pint is approximately 568 mL.\n\n946 ÷ 568 ≈ 1.67 imperial pints.\n\nSo 1 US quart is roughly 1⅔ UK pints.\n\nAnswer: 1.67 pints",
+          "refusal": null,
+          "reasoning": " I'm converting a US quart to imperial pints by first converting to milliliters, then dividing by the milliliter equivalent of an imperial pint, which gives me approximately 1.67 imperial pints.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm converting a US quart to imperial pints by first converting to milliliters, then dividing by the milliliter equivalent of an imperial pint, which gives me approximately 1.67 imperial pints.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EtYCCmMIDhgCKkDC3GlYSH3R6OGx60uOzHpNMFxeQMyYgBuDMbWxLMJzh+x0UhCriS4BYhr/9AMmQnBLkcU4ONI2te2WsiM3ZGNPMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDGvMfWZWEBo7oBJuJhoMZiaVN3AE9XEcEt4wIjDWW2b1xOL3EAPp8NoeerXsYzMFO49wJBQpa2vLdqxjKKPf2ssu6FkHfhbiMAh1fXkqoAErP4M7myH1HI+VYyLtFfe+0SizgOx5eHHijnouzlP0yIHoTDafjDbJ14B6AWck3tDyE3DhoHtfFLgyg7U7Bn1E1MqU/V1v/LV0WvcE5kEtoE4/1Vf3LR2GASUnE0Bsw8ItPRRn7QvhmYl+/9xcAbQCb/OyNiitMOccOnOJAI9r5v+fMqVmB7Dmw9Ll0bfobUY4jx2c/+cvMHTlWrmUOzuyGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 105,
+      "completion_tokens": 178,
+      "total_tokens": 283,
+      "cost": 0.004975,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004975,
+        "upstream_inference_prompt_cost": 0.000525,
+        "upstream_inference_completions_cost": 0.00445
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 49,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 105,
+  "tokensOut": 178,
+  "costUsd": 0.004975,
+  "latencyMs": 3143,
+  "finishReason": "stop"
+}

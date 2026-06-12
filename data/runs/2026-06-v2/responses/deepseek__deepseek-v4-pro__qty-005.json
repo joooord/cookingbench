@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-005",
+  "answerText": "To scale the recipe, set up a proportion:  \n250 g butter / 24 cookies = x g butter / 90 cookies  \nCross-multiply: 24x = 250 × 90 → 24x = 22500 → x = 22500 ÷ 24 = 937.5  \nAnswer: 937.5 g",
+  "raw": {
+    "id": "gen-1781206888-dPXMA86TplhRrzou85Ru",
+    "object": "chat.completion",
+    "created": 1781206888,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "DigitalOcean",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To scale the recipe, set up a proportion:  \n250 g butter / 24 cookies = x g butter / 90 cookies  \nCross-multiply: 24x = 250 × 90 → 24x = 22500 → x = 22500 ÷ 24 = 937.5  \nAnswer: 937.5 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"My cookie recipe makes 24 cookies and uses 250 g of butter. I need 90 cookies for a bake sale. How much butter do I need, in grams?\" This is a simple proportion problem. Butter needed = (250 g / 24 cookies) * 90 cookies = (250 * 90) / 24 = (22500) / 24 = 937.5 g. So the answer is 937.5 g. I need to end with \"Answer: <number>",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"My cookie recipe makes 24 cookies and uses 250 g of butter. I need 90 cookies for a bake sale. How much butter do I need, in grams?\" This is a simple proportion problem. Butter needed = (250 g / 24 cookies) * 90 cookies = (250 * 90) / 24 = (22500) / 24 = 937.5 g. So the answer is 937.5 g. I need to end with \"Answer: <number>",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 69,
+      "completion_tokens": 183,
+      "total_tokens": 252,
+      "cost": 0.000643365,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000643365,
+        "upstream_inference_prompt_cost": 0.000102051,
+        "upstream_inference_completions_cost": 0.000541314
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 86,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 69,
+  "tokensOut": 183,
+  "costUsd": 0.000643365,
+  "latencyMs": 45074,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "nutr-021",
+  "answerText": " A large whole egg weighing about 50 g contains roughly 70–72 kcal; precise USDA data list approximately 72 kcal for a 50 g large egg.\n\nAnswer: 72 kcal",
+  "raw": {
+    "id": "gen-1781203035-6JijOMdnjRMYH3ruKe6i",
+    "object": "chat.completion",
+    "created": 1781203035,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Ambient",
+    "system_fingerprint": "vllm-0.22.0-tp8-ep-def7b9ad",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": " A large whole egg weighing about 50 g contains roughly 70–72 kcal; precise USDA data list approximately 72 kcal for a 50 g large egg.\n\nAnswer: 72 kcal",
+          "refusal": null,
+          "reasoning": " The user is asking for the approximate number of kilocalories (kcal) in one large whole egg weighing about 50 grams.\n\nI need to provide an accurate and concise answer.\n\nStandard nutritional information:\n- One large egg (50g) typically contains about 70-72 kcal.\n- Some sources say 72 kcal, others say around 70-78 kcal.\n- USDA data: 1 large egg (50g) = approximately 72 kcal.\n- Often rounded to 70 or 75 kcal in general dietary guidance.\n\nThe user asks for \"approximately\" and specifies \"about 50 g\". The most commonly cited figure is around 70-72 kcal. I should give a clear approximate number. 70 or 72 are both fine. I'll say approximately 70–72 kcal, or just pick the most standard ~72 kcal. But since they want a concise answer ending with \"Answer: <number> kcal\", I should probably provide a single number. 70 is a very common round approximation, but 72 is more precise per USDA. Let me check: USDA FoodData Central lists \"Egg, whole, raw, fresh\" as 72 kcal per 50g (1 large). \n\nSo I'll state approximately 72 kilocalories (often rounded to 70).\n\nWait, the format requires ending with exactly: \"Answer: <number> kcal\". So I need to make sure the final line is exactly that.\n\nLet me draft:\nA large whole egg (about 50 g) contains approximately 72 kilocalories, though it is often rounded to 70 kcal in general nutrition guidance.\n\nAnswer: 72 kcal\n\nOr should I use 70? 72 is more accurate for 50g. I'll go with 72, or mention both but put 72 in the final line. The prompt says \"End your reply with a line 'Answer: <number> kcal'.\" So the final line must match that pattern.\n\nLet's provide a concise answer and end with the required line.\n\n\"A large whole egg weighing about 50 g contains roughly 70–72 kcal. USDA data list approximately 72 kcal per 50 g large egg.\n\nAnswer: 72 kcal\"\n\nThis seems good.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " The user is asking for the approximate number of kilocalories (kcal) in one large whole egg weighing about 50 grams.\n\nI need to provide an accurate and concise answer.\n\nStandard nutritional information:\n- One large egg (50g) typically contains about 70-72 kcal.\n- Some sources say 72 kcal, others say around 70-78 kcal.\n- USDA data: 1 large egg (50g) = approximately 72 kcal.\n- Often rounded to 70 or 75 kcal in general dietary guidance.\n\nThe user asks for \"approximately\" and specifies \"about 50 g\". The most commonly cited figure is around 70-72 kcal. I should give a clear approximate number. 70 or 72 are both fine. I'll say approximately 70–72 kcal, or just pick the most standard ~72 kcal. But since they want a concise answer ending with \"Answer: <number> kcal\", I should probably provide a single number. 70 is a very common round approximation, but 72 is more precise per USDA. Let me check: USDA FoodData Central lists \"Egg, whole, raw, fresh\" as 72 kcal per 50g (1 large). \n\nSo I'll state approximately 72 kilocalories (often rounded to 70).\n\nWait, the format requires ending with exactly: \"Answer: <number> kcal\". So I need to make sure the final line is exactly that.\n\nLet me draft:\nA large whole egg (about 50 g) contains approximately 72 kilocalories, though it is often rounded to 70 kcal in general nutrition guidance.\n\nAnswer: 72 kcal\n\nOr should I use 70? 72 is more accurate for 50g. I'll go with 72, or mention both but put 72 in the final line. The prompt says \"End your reply with a line 'Answer: <number> kcal'.\" So the final line must match that pattern.\n\nLet's provide a concise answer and end with the required line.\n\n\"A large whole egg weighing about 50 g contains roughly 70–72 kcal. USDA data list approximately 72 kcal per 50 g large egg.\n\nAnswer: 72 kcal\"\n\nThis seems good.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 61,
+      "completion_tokens": 510,
+      "total_tokens": 571,
+      "cost": 0.00176977,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00176977,
+        "upstream_inference_prompt_cost": 0.00004087,
+        "upstream_inference_completions_cost": 0.0017289
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 451,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 61,
+  "tokensOut": 510,
+  "costUsd": 0.00176977,
+  "latencyMs": 5870,
+  "finishReason": "stop"
+}

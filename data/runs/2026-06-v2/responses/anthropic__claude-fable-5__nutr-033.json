@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-033",
+  "answerText": "## Calculation\n\n**Alcohol calories:**\n- Alcohol volume: 750 ml × 0.135 = 101.25 ml\n- Alcohol mass: 101.25 ml × 0.789 g/ml = 79.89 g\n- Calories: 79.89 g × 7 kcal/g ≈ **559.2 kcal**\n\n**Residual sugar calories:**\n- Sugar in bottle: 4 g/L × 0.75 L = 3 g\n- Calories: 3 g × 4 kcal/g = **12 kcal**\n\n**Total:** 559.2 + 12 ≈ 571 kcal\n\nThat works out to roughly 95 kcal per standard 125 ml glass — almost all of it from the alcohol itself.\n\nAnswer: 571 kcal",
+  "raw": {
+    "id": "gen-1781212980-bg4jkRK96U8niLx0egPQ",
+    "object": "chat.completion",
+    "created": 1781212980,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Calculation\n\n**Alcohol calories:**\n- Alcohol volume: 750 ml × 0.135 = 101.25 ml\n- Alcohol mass: 101.25 ml × 0.789 g/ml = 79.89 g\n- Calories: 79.89 g × 7 kcal/g ≈ **559.2 kcal**\n\n**Residual sugar calories:**\n- Sugar in bottle: 4 g/L × 0.75 L = 3 g\n- Calories: 3 g × 4 kcal/g = **12 kcal**\n\n**Total:** 559.2 + 12 ≈ 571 kcal\n\nThat works out to roughly 95 kcal per standard 125 ml glass — almost all of it from the alcohol itself.\n\nAnswer: 571 kcal",
+          "refusal": null,
+          "reasoning": " I'm calculating the calorie content of a 750ml bottle of wine by breaking down the alcohol and sugar contributions separately, then adding them together for a total of around 571 calories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the calorie content of a 750ml bottle of wine by breaking down the alcohol and sugar contributions separately, then adding them together for a total of around 571 calories.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS4gIKYggOGAIqQOvZt2S/cMvlJHaKM6cyisdB+5PtNlsHpwvSA1oEJSaxNz29EYIAct3X/Wmm/3atdqvYmpv4euoR00Y/h9plfNwyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgzqRKQyKtYBk7x7QNQaDB2NdEGopTv4Zn/eSiIwqQVRSOMl+zglX6g2LA0XE6p95esucbnZGqXatpyHom114UZeiR0sWbKUKs/GtmmXKq0BFSHlo5sLTluJ4HInzfwYkxb6HVMDok+QdlTXB42zfoC7EQ95vCy2p2W1BE+Urope8MI/gE6C7dXn8vBSqSUE1jtXvBUFYr+CFkm+DewreqA60FwX+vIy8PdhiQKo8d/LRlQ0c+XEqwhhNo9oRAqelpXjtHzt323lxVk17SR6i6+2i2mcCisCXyM79O0RdwMrLDqchdvCJs6FftnEj1RP5WxQEGJz087uIpKjkIYYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 159,
+      "completion_tokens": 370,
+      "total_tokens": 529,
+      "cost": 0.02009,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.02009,
+        "upstream_inference_prompt_cost": 0.00159,
+        "upstream_inference_completions_cost": 0.0185
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 48,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 159,
+  "tokensOut": 370,
+  "costUsd": 0.02009,
+  "latencyMs": 6746,
+  "finishReason": "stop"
+}

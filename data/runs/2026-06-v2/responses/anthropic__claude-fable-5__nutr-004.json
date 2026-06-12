@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-004",
+  "answerText": "Fat provides about 9 kcal per gram. Since olive oil is essentially pure fat:\n\n13.5 g × 9 kcal/g = 121.5 kcal\n\nSo one tablespoon of olive oil contains roughly 120 kcal.\n\nAnswer: 120 kcal",
+  "raw": {
+    "id": "gen-1781212801-XXRubrIXSKshM3ayANAS",
+    "object": "chat.completion",
+    "created": 1781212801,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Fat provides about 9 kcal per gram. Since olive oil is essentially pure fat:\n\n13.5 g × 9 kcal/g = 121.5 kcal\n\nSo one tablespoon of olive oil contains roughly 120 kcal.\n\nAnswer: 120 kcal",
+          "refusal": null,
+          "reasoning": " I'm calculating the caloric content by multiplying 13.5 grams by 9 calories per gram, which gives me approximately 120 calories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the caloric content by multiplying 13.5 grams by 9 calories per gram, which gives me approximately 120 calories.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS7AEKYggOGAIqQFMlQ+4dHWc/Om2LZsg07YgGCQumjicFU3wni9ZBppoqdINU92wV25x5rD9Vz6/g3lRtl5LsVQRet4DXOdixVx8yDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgzNXt09Pj9m3t923aIaDNVNM5XKVik7lHKxAyIwK+eXPb0RW4b8kr7ab+CwNSZK6nndPmC0Q67B+dd04bxMVQhtS8+JFyptEO61ecIxKjiS93ccvMoXOfh4IPh0R5aQai5ZicANFWAttDWTf9kjLVOOxBY/v1vwt2008hCb4bB7sChCPX+DOxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 104,
+      "completion_tokens": 126,
+      "total_tokens": 230,
+      "cost": 0.00734,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00734,
+        "upstream_inference_prompt_cost": 0.00104,
+        "upstream_inference_completions_cost": 0.0063
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 33,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 104,
+  "tokensOut": 126,
+  "costUsd": 0.00734,
+  "latencyMs": 4766,
+  "finishReason": "stop"
+}

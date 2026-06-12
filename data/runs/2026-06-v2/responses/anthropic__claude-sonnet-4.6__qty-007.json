@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "qty-007",
+  "answerText": "## Calculating Broth for Paella\n\n**Step 1: Calculate total rice needed**\n11 people × 100 g per person = **1,100 g of rice**\n\n**Step 2: Apply the broth-to-rice ratio (3:1)**\n1,100 g × 3 = **3,300 g of broth**\n\nAnswer: 3300 g",
+  "raw": {
+    "id": "gen-1781210074-iaWpnZsjel93AUyPJb0r",
+    "object": "chat.completion",
+    "created": 1781210074,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Calculating Broth for Paella\n\n**Step 1: Calculate total rice needed**\n11 people × 100 g per person = **1,100 g of rice**\n\n**Step 2: Apply the broth-to-rice ratio (3:1)**\n1,100 g × 3 = **3,300 g of broth**\n\nAnswer: 3300 g",
+          "refusal": null,
+          "reasoning": "Rice needed: 11 people × 100 g = 1100 g\nBroth-to-rice ratio = 3:1\nBroth needed = 1100 × 3 = 3300 g",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Rice needed: 11 people × 100 g = 1100 g\nBroth-to-rice ratio = 3:1\nBroth needed = 1100 × 3 = 3300 g",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EqwCCmUIDhgCKkB8I2g9e7V+d65uCpDXUpxUegwWt9G8hZnDBlgnFzy7ivOTvO6m8MyCueWBNWodWfodOx06qJThHXNuoIebtplvMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIM+OI24NcQrybp3DaCGgyQ+nq/IkJscplSNjUiMFCwqWJ+xRFOnORqPd6HBqs72ZdRVq+HpOZVys+wZZnX9ftmEAL12qR0dXdWcaqm3Sp1AkMWXxrpCB89FrMYRWJ1Hc8CAicczI7upTFSGF66aGQjU+ENHOFKAhrOYLTP1qZgdqohMbNi/ng8ubWIViTjA4FEJOg7DDFhKUoQy7ezleTT/7N4yUNq2O/quFKKSXMw4l/5/2VSBidXqWPe1DG87JdDHMzNGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 96,
+      "completion_tokens": 161,
+      "total_tokens": 257,
+      "cost": 0.002703,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002703,
+        "upstream_inference_prompt_cost": 0.000288,
+        "upstream_inference_completions_cost": 0.002415
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 28,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 96,
+  "tokensOut": 161,
+  "costUsd": 0.002703,
+  "latencyMs": 3163,
+  "finishReason": "stop"
+}

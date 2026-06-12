@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "nutr-039",
+  "answerText": "Plain, full-fat strained Greek yogurt typically contains about **9 g of protein per 100 g**.\n\nFor a 170 g pot:\n- 9 g × 1.7 = ~15 g\n\nAnswer: 15 g",
+  "raw": {
+    "id": "gen-1781211610-A5rexEQfBK1scFYYTitZ",
+    "object": "chat.completion",
+    "created": 1781211610,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Plain, full-fat strained Greek yogurt typically contains about **9 g of protein per 100 g**.\n\nFor a 170 g pot:\n- 9 g × 1.7 = ~15 g\n\nAnswer: 15 g",
+          "refusal": null,
+          "reasoning": " Looking at the protein content in full-fat Greek yogurt, which has about 9g per 100g, so a 170g serving would give roughly 15-16g of protein.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " Looking at the protein content in full-fat Greek yogurt, which has about 9g per 100g, so a 170g serving would give roughly 15-16g of protein.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Ep4DCmMIDhgCKkDVrjQZHw8hHH8nyKANVFroqzdPq5WCPy3XosMeqiV0KVON8Wt2skVH94AcqSry2GaGYxpWhpTwDDODq643jVwJMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDGz4YvMLWbF7pVGn8BoMj9fe7oy/W3KOdPhyIjBhHOFYYOgMrmO0BcvZcYLCsFm23vT5CB1ySHmcCmWUS0lrzFA5k2U+vrpCqLStgFMq6AHQY/nIVauYDtKdL+2IyOnX9vgo0asuSu42rZqIiLir+X6dU6CLpOl1DZSh4nUDRfjUePAvjgPF7QX7KBUIXFn/2rSohSsNfKUaqZVaB98uA4WMl4UKRcabQd5Dha8R7b6Sv0z3tnhGAoELg0USVjCxymaHORBGdXftH8fDrH0ptZxo4oQfl6caG35+Ovor4kDmyxMFrWhN0nSFTw56C32FDYsNck+9GCLLbk9fKGv6mksqKCCzM9p1PohOL6zlrVtR5tC9OmDgI+roIQNCatMST9PplRBFZNr4agE7Cj0b3NGZ50b4aO2OGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 94,
+      "completion_tokens": 177,
+      "total_tokens": 271,
+      "cost": 0.004895,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004895,
+        "upstream_inference_prompt_cost": 0.00047,
+        "upstream_inference_completions_cost": 0.004425
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 36,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 94,
+  "tokensOut": 177,
+  "costUsd": 0.004895,
+  "latencyMs": 3522,
+  "finishReason": "stop"
+}

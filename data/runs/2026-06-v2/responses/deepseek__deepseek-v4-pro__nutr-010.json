@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-010",
+  "answerText": "A single protein bar contains 20 g of protein. For a box of 6 bars, multiply 20 g by 6 to get the total protein content: 20 × 6 = 120 g.\n\nAnswer: 120 g",
+  "raw": {
+    "id": "gen-1781206776-TIY5EZGjcb86BP857lvO",
+    "object": "chat.completion",
+    "created": 1781206776,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "A single protein bar contains 20 g of protein. For a box of 6 bars, multiply 20 g by 6 to get the total protein content: 20 × 6 = 120 g.\n\nAnswer: 120 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"A protein bar provides 20 g of protein. How many grams of protein are in a box of 6 bars?\" So we need to multiply 20 g by 6. 20 * 6 = 120. So answer is 120 g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A protein bar provides 20 g of protein. How many grams of protein are in a box of 6 bars?\" So we need to multiply 20 g by 6. 20 * 6 = 120. So answer is 120 g.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 58,
+      "completion_tokens": 107,
+      "total_tokens": 165,
+      "cost": 0.0003536,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0003536,
+        "upstream_inference_prompt_cost": 0.0000754,
+        "upstream_inference_completions_cost": 0.0002782
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 44,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 58,
+  "tokensOut": 107,
+  "costUsd": 0.0003536,
+  "latencyMs": 2187,
+  "finishReason": "stop"
+}

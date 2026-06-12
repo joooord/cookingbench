@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "conv-016",
+  "answerText": "To convert ounces (weight) to milliliters (volume), follow these steps:\n\n1. Convert ounces to grams:\n   1 oz ≈ 28.35 g\n   8 oz × 28.35 g/oz = 226.8 g\n\n2. Use the density of honey to find the volume:\n   Density = mass / volume → Volume = mass / density\n   Volume = 226.8 g / 1.42 g/ml ≈ 159.72 ml\n\nAnswer: 160 ml",
+  "raw": {
+    "id": "gen-1781207302-g5PYU4hSHuQKHI48gs62",
+    "object": "chat.completion",
+    "created": 1781207302,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To convert ounces (weight) to milliliters (volume), follow these steps:\n\n1. Convert ounces to grams:\n   1 oz ≈ 28.35 g\n   8 oz × 28.35 g/oz = 226.8 g\n\n2. Use the density of honey to find the volume:\n   Density = mass / volume → Volume = mass / density\n   Volume = 226.8 g / 1.42 g/ml ≈ 159.72 ml\n\nAnswer: 160 ml",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 73,
+      "completion_tokens": 125,
+      "total_tokens": 198,
+      "cost": 0.000224,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000224,
+        "upstream_inference_prompt_cost": 0.0000365,
+        "upstream_inference_completions_cost": 0.0001875
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 73,
+  "tokensOut": 125,
+  "costUsd": 0.000224,
+  "latencyMs": 1811,
+  "finishReason": "stop"
+}

@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "nutr-025",
+  "answerText": "To estimate the nutritional content of the cooked steaks, we first need to determine their weight after trimming. \n\n1. Initial total weight = 2 steaks * 300 g = 600 g\n2. Weight removed due to trimming = 15% of 600 g = 0.15 * 600 g = 90 g\n3. Total weight after trimming = 600 g - 90 g = 510 g\n\nSirloin steak is typically around 25-30% fat and 20-25% protein when raw, but these values can vary. For the sake of estimation, let's assume the raw sirloin steak (before trimming) is approximately 25% fat and 22% protein.\n\n1. Initial total fat = 25% of 600 g = 0.25 * 600 g = 150 g\n2. Initial total protein = 22% of 600 g = 0.22 * 600 g = 132 g\n\nWhen trimming the fat cap, we are removing a significant portion of the fat. Let's assume the fat cap is mostly fat (about 80% fat). The weight removed is 90 g, so the fat removed is approximately 80% of 90 g = 0.8 * 90 g = 72 g.\n\n1. Fat remaining after trimming = Initial total fat - Fat removed = 150 g - 72 g = 78 g\n2. Protein remaining after trimming = Initial total protein (since we're not removing significant protein with the fat cap) = 132 g\n\nNow, let's consider the effect of grilling. Grilling can cause a loss of moisture and some fat, but the protein content remains relatively stable. The cooking loss (moisture and fat) for grilled steak can be around 25-30%. Let's assume an average cooking loss of 27.5%.\n\n1. Weight after cooking = Total weight after trimming * (1 - cooking loss) = 510 g * (1 - 0.275) = 510 g * 0.725 = 369.75 g\n\nTo estimate the nutritional content after cooking, we need to adjust the fat and protein content according to the cooking loss.\n\n1. Total fat after cooking: Some fat is lost during cooking. Let's assume the fat loss is proportional to the cooking loss, but since fat is more likely to melt and be lost, let's directly calculate the remaining fat. The exact fat loss is hard to quantify without specific data, but we can simplify by assuming the fat content after cooking is a proportion of the remaining weight. However, a more straightforward approach is to directly adjust the initial fat content for the loss. Assuming the fat loss is significant and roughly proportional to the overall weight loss, we simplify the calculation: Fat after cooking = 78 g * (369.75 g / 510 g) = 78 g * 0.725 = 56.55 g\n2. Total protein after cooking = 132 g (since protein doesn't significantly change with cooking) * (369.75 g / 510 g) = 132 g * 0.725 = 95.7 g\n\nTo estimate calories, we use the fact that protein and fat provide approximately 4 kcal/g and 9 kcal/g, respectively.\n\n1. Calories from protein = 95.7 g * 4 kcal/g = 382.8 kcal\n2. Calories from fat = 56.55 g * 9 kcal/g = 508.95 kcal\n3. Total calories = 382.8 kcal + 508.95 kcal = 891.75 kcal\n\nProtein: 96 g\nFat: 57 g\nCalories: 892 kcal",
+  "raw": {
+    "id": "gen-1781205056-F9By2Zd0VBPobgKH2mAe",
+    "object": "chat.completion",
+    "created": 1781205056,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To estimate the nutritional content of the cooked steaks, we first need to determine their weight after trimming. \n\n1. Initial total weight = 2 steaks * 300 g = 600 g\n2. Weight removed due to trimming = 15% of 600 g = 0.15 * 600 g = 90 g\n3. Total weight after trimming = 600 g - 90 g = 510 g\n\nSirloin steak is typically around 25-30% fat and 20-25% protein when raw, but these values can vary. For the sake of estimation, let's assume the raw sirloin steak (before trimming) is approximately 25% fat and 22% protein.\n\n1. Initial total fat = 25% of 600 g = 0.25 * 600 g = 150 g\n2. Initial total protein = 22% of 600 g = 0.22 * 600 g = 132 g\n\nWhen trimming the fat cap, we are removing a significant portion of the fat. Let's assume the fat cap is mostly fat (about 80% fat). The weight removed is 90 g, so the fat removed is approximately 80% of 90 g = 0.8 * 90 g = 72 g.\n\n1. Fat remaining after trimming = Initial total fat - Fat removed = 150 g - 72 g = 78 g\n2. Protein remaining after trimming = Initial total protein (since we're not removing significant protein with the fat cap) = 132 g\n\nNow, let's consider the effect of grilling. Grilling can cause a loss of moisture and some fat, but the protein content remains relatively stable. The cooking loss (moisture and fat) for grilled steak can be around 25-30%. Let's assume an average cooking loss of 27.5%.\n\n1. Weight after cooking = Total weight after trimming * (1 - cooking loss) = 510 g * (1 - 0.275) = 510 g * 0.725 = 369.75 g\n\nTo estimate the nutritional content after cooking, we need to adjust the fat and protein content according to the cooking loss.\n\n1. Total fat after cooking: Some fat is lost during cooking. Let's assume the fat loss is proportional to the cooking loss, but since fat is more likely to melt and be lost, let's directly calculate the remaining fat. The exact fat loss is hard to quantify without specific data, but we can simplify by assuming the fat content after cooking is a proportion of the remaining weight. However, a more straightforward approach is to directly adjust the initial fat content for the loss. Assuming the fat loss is significant and roughly proportional to the overall weight loss, we simplify the calculation: Fat after cooking = 78 g * (369.75 g / 510 g) = 78 g * 0.725 = 56.55 g\n2. Total protein after cooking = 132 g (since protein doesn't significantly change with cooking) * (369.75 g / 510 g) = 132 g * 0.725 = 95.7 g\n\nTo estimate calories, we use the fact that protein and fat provide approximately 4 kcal/g and 9 kcal/g, respectively.\n\n1. Calories from protein = 95.7 g * 4 kcal/g = 382.8 kcal\n2. Calories from fat = 56.55 g * 9 kcal/g = 508.95 kcal\n3. Total calories = 382.8 kcal + 508.95 kcal = 891.75 kcal\n\nProtein: 96 g\nFat: 57 g\nCalories: 892 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 123,
+      "completion_tokens": 760,
+      "total_tokens": 883,
+      "cost": 0.00047445,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00047445,
+        "upstream_inference_prompt_cost": 0.00001845,
+        "upstream_inference_completions_cost": 0.000456
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 123,
+  "tokensOut": 760,
+  "costUsd": 0.00047445,
+  "latencyMs": 60906,
+  "finishReason": "stop"
+}

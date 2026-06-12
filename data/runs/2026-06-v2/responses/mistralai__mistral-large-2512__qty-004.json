@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "qty-004",
+  "answerText": "To maintain the same batter depth when increasing the tin size from 20 cm to 25 cm, you need to scale the ingredients by the ratio of the areas of the two tins.\n\nThe area of a circle is πr², where r is the radius.\n\n- Area of 20 cm tin: π × (10 cm)² = 100π cm²\n- Area of 25 cm tin: π × (12.5 cm)² = 156.25π cm²\n\nThe scaling factor is the ratio of the larger tin's area to the smaller tin's area:\n156.25π / 100π = 1.5625\n\nAnswer: 1.5625",
+  "raw": {
+    "id": "gen-1781207356-YSGViKg8bcgwkQxLOMel",
+    "object": "chat.completion",
+    "created": 1781207356,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To maintain the same batter depth when increasing the tin size from 20 cm to 25 cm, you need to scale the ingredients by the ratio of the areas of the two tins.\n\nThe area of a circle is πr², where r is the radius.\n\n- Area of 20 cm tin: π × (10 cm)² = 100π cm²\n- Area of 25 cm tin: π × (12.5 cm)² = 156.25π cm²\n\nThe scaling factor is the ratio of the larger tin's area to the smaller tin's area:\n156.25π / 100π = 1.5625\n\nAnswer: 1.5625",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 86,
+      "completion_tokens": 164,
+      "total_tokens": 250,
+      "cost": 0.000289,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000289,
+        "upstream_inference_prompt_cost": 0.000043,
+        "upstream_inference_completions_cost": 0.000246
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 86,
+  "tokensOut": 164,
+  "costUsd": 0.000289,
+  "latencyMs": 2322,
+  "finishReason": "stop"
+}

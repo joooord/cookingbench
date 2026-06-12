@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-026",
+  "answerText": "Since cooking loss is mostly water, the protein and fat from the raw fillet are essentially all retained in the cooked piece — the cooked fillet just weighs less (about 160 g after 20% loss).\n\n**Calculations (based on 200 g raw):**\n- Protein: 20 g/100 g × 200 g = **40 g**\n- Fat: 13 g/100 g × 200 g = **26 g**\n- Calories: (40 g × 4 kcal/g) + (26 g × 9 kcal/g) = 160 + 234 = **≈394 kcal**\n\nNote: this assumes a dry sear or non-stick pan. If you cook in oil, add roughly 40–120 kcal depending on how much oil clings to the fish (a teaspoon absorbed adds ~4–5 g fat).\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+  "raw": {
+    "id": "gen-1781212894-fabraqPAFsxhGRsUts7u",
+    "object": "chat.completion",
+    "created": 1781212894,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Since cooking loss is mostly water, the protein and fat from the raw fillet are essentially all retained in the cooked piece — the cooked fillet just weighs less (about 160 g after 20% loss).\n\n**Calculations (based on 200 g raw):**\n- Protein: 20 g/100 g × 200 g = **40 g**\n- Fat: 13 g/100 g × 200 g = **26 g**\n- Calories: (40 g × 4 kcal/g) + (26 g × 9 kcal/g) = 160 + 234 = **≈394 kcal**\n\nNote: this assumes a dry sear or non-stick pan. If you cook in oil, add roughly 40–120 kcal depending on how much oil clings to the fish (a teaspoon absorbed adds ~4–5 g fat).\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+          "refusal": null,
+          "reasoning": " I'm calculating the nutritional breakdown for a 200g raw portion—40g protein and 26g fat that remain stable through cooking, which gives me 394 calories total using the standard macronutrient conversion factors.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the nutritional breakdown for a 200g raw portion—40g protein and 26g fat that remain stable through cooking, which gives me 394 calories total using the standard macronutrient conversion factors.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS/wIKYggOGAIqQJATg5ENQb0T93WShJPWu8ZyysdAZr7Dmlf6izxpjariyJMFm83i0vAcr7UIvVMCPvXDmiroK1ETrgvGV+XCI8IyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgwnzeKxYoTqP8Wv5+0aDFbsiha1PeKiI0mUvSIwoi34elf0zlwgD+Z3KOFYQtA86S9qDuVDyMaoNnH6NdYM0zVp/ga1n7/bTcOvKxK/KsoB8dHjqUHEwe20Aj1dcEA8O9YBUih1XfeZjo4IFc/VEBkI9FPFkDAoV5FD97bfL08QhlNKs1bjcLIStYS5M7ilwOBcJpQX/DD6TbHhUsZtNDpiIv6w+wFgEmMYLbHOApUtT2Cln5tw2O1vsYKvnDjQbY5AZZd6vb8ySi3E2SQI43PAc8PxXHAsa5SvZJ1h5WlRuUC4AL6e+PLi6vbRQmHRxppFPyMTJdaYcbM25FDLd9Y1Stpyk6oUdydUun7V1Xe+rUXctVlKp9jkdhgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 184,
+      "completion_tokens": 392,
+      "total_tokens": 576,
+      "cost": 0.02144,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.02144,
+        "upstream_inference_prompt_cost": 0.00184,
+        "upstream_inference_completions_cost": 0.0196
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 54,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 184,
+  "tokensOut": 392,
+  "costUsd": 0.02144,
+  "latencyMs": 8551,
+  "finishReason": "stop"
+}

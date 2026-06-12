@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "qty-017",
+  "answerText": "For 10 servings, scale by 10/6 to get 1200 g flour total (120 g per serving, or 4.23 oz). \nTotal: 1200 g\nPer serving: 4.23 oz",
+  "raw": {
+    "id": "gen-1781209239-FzvpkSOiwM3x3cIoc9uX",
+    "object": "chat.completion",
+    "created": 1781209239,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "For 10 servings, scale by 10/6 to get 1200 g flour total (120 g per serving, or 4.23 oz). \nTotal: 1200 g\nPer serving: 4.23 oz",
+          "refusal": null,
+          "reasoning": "The task is: \"A bread recipe serving 6 uses 720 g of flour. Scale it to 10 servings, then tell me BOTH the total flour needed in grams AND the flour per serving in ounces.\"\nTotal: 1200 g\nPer serving: 4.23 oz\n\n\n## Explanation\n\nThe scaling process begins by dividing the original 720 g total by the 6 servings to obtain the base amount of 120 g per serving. Multiplication of this base amount by the target of 10 servings then yields the required 1200 g total, equivalently computed as 720 × (10/6) = 720 × 5/3 = 1200 g. For the per-serving amount in ounces, the 120 g value is divided by the standard conversion factor 28.3495 g/oz, producing 120 ÷  28.3495 ≈ 4.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The task is: \"A bread recipe serving 6 uses 720 g of flour. Scale it to 10 servings, then tell me BOTH the total flour needed in grams AND the flour per serving in ounces.\"\nTotal: 1200 g\nPer serving: 4.23 oz\n\n\n## Explanation\n\nThe scaling process begins by dividing the original 720 g total by the 6 servings to obtain the base amount of 120 g per serving. Multiplication of this base amount by the target of 10 servings then yields the required 1200 g total, equivalently computed as 720 × (10/6) = 720 × 5/3 = 1200 g. For the per-serving amount in ounces, the 120 g value is divided by the standard conversion factor 28.3495 g/oz, producing 120 ÷  28.3495 ≈ 4.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_294b5f33-ae73-9ac5-9243-4f1e4f5b82fc",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 209,
+      "completion_tokens": 1208,
+      "total_tokens": 1417,
+      "cost": 0.00314685,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00314685,
+        "upstream_inference_prompt_cost": 0.00012685,
+        "upstream_inference_completions_cost": 0.00302
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1160,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 209,
+  "tokensOut": 1208,
+  "costUsd": 0.00314685,
+  "latencyMs": 6681,
+  "finishReason": "stop"
+}

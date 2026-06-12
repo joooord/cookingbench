@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "nutr-026",
+  "answerText": "## Estimate\n\nSince protein and fat are largely retained during cooking, I'll base the nutrition on the **raw 200 g** values (the weight loss is mostly water).\n\n**Raw 200 g salmon:**\n- Protein: 200 g × (20 g / 100 g) = **40 g**\n- Fat: 200 g × (13 g / 100 g) = **26 g**\n\n**Calories** (using 4 kcal/g protein, 9 kcal/g fat):\n- From protein: 40 × 4 = 160 kcal\n- From fat: 26 × 9 = 234 kcal\n- Total ≈ 394 kcal\n\n*Note: This excludes any oil used for pan-searing. Adding 1 tbsp of oil would contribute roughly +14 g fat and +120 kcal.*\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+  "raw": {
+    "id": "gen-1781211587-c5KWVGWPsFE4s8DDGhkY",
+    "object": "chat.completion",
+    "created": 1781211587,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Estimate\n\nSince protein and fat are largely retained during cooking, I'll base the nutrition on the **raw 200 g** values (the weight loss is mostly water).\n\n**Raw 200 g salmon:**\n- Protein: 200 g × (20 g / 100 g) = **40 g**\n- Fat: 200 g × (13 g / 100 g) = **26 g**\n\n**Calories** (using 4 kcal/g protein, 9 kcal/g fat):\n- From protein: 40 × 4 = 160 kcal\n- From fat: 26 × 9 = 234 kcal\n- Total ≈ 394 kcal\n\n*Note: This excludes any oil used for pan-searing. Adding 1 tbsp of oil would contribute roughly +14 g fat and +120 kcal.*\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+          "refusal": null,
+          "reasoning": " I'm calculating the nutritional breakdown for a 200g salmon fillet: 40g protein and 26g fat that remain after cooking, which comes to roughly 394 calories when accounting for the caloric density of each macronutrient.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the nutritional breakdown for a 200g salmon fillet: 40g protein and 26g fat that remain after cooking, which comes to roughly 394 calories when accounting for the caloric density of each macronutrient.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EoIDCmMIDhgCKkAl//od6k09BraXP0YHTkMDtePrmfEB8MGLMWQRmMBl316bxKn/DfDA97v+KNdxAh6Mdl3/1mPssojoZK4e7JYUMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDK0lTpUT2pZ3it90GxoM7unhWD1P0vOxLsigIjCulHhKuNR1rFMF6g/iJJ/N8mFwP1XxQteWwu5X1tUi0upvblnSlMdB+wgRUnKYNAgqzAGXF6BDp44LCsyN34UTo8FD04IwsJRoKjAbs9i0l0GhKfHL1766GVwAoOusCohSnFV/T8ZgzirMfOPyuOF9G9fv5cOu3bWblTf5mV7Cu+g9/IcG2HqaN6t7Agdgl0ggbzDfEmMy3+lvTZG7HMqbUM5+IFew4ZC65toIe4HNRGoFT3bMJkdaMgzQfnvupCaUTa6QYcfbTBatIBS0rOhTg2sytySwGIvnFNGTvTPz1kMB0BFvm8JDV7Oi/9IL/giE72PzbjSDv4BIyaGcLhcYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 184,
+      "completion_tokens": 379,
+      "total_tokens": 563,
+      "cost": 0.010395,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.010395,
+        "upstream_inference_prompt_cost": 0.00092,
+        "upstream_inference_completions_cost": 0.009475
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 55,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 184,
+  "tokensOut": 379,
+  "costUsd": 0.010395,
+  "latencyMs": 8581,
+  "finishReason": "stop"
+}

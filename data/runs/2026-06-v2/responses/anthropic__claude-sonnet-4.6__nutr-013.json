@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-013",
+  "answerText": "## Calculating Protein in Cooked Chicken\n\n**Step 1: Find total protein in the raw chicken**\n- 400 g raw × (23.5 g protein / 100 g) = **94 g of protein**\n\n**Step 2: Account for cooking**\n- The protein stays in the meat (only water and a little fat are lost)\n- The 25% weight loss doesn't reduce the protein content\n\n**Result:** The cooked chicken weighs about 300 g (400 g × 0.75), but still contains the same 94 g of protein — now just more concentrated (~31.3 g per 100 g cooked).\n\nAnswer: 94 g",
+  "raw": {
+    "id": "gen-1781210009-a7bx6Th1NcJ6WpNC67aJ",
+    "object": "chat.completion",
+    "created": 1781210009,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Calculating Protein in Cooked Chicken\n\n**Step 1: Find total protein in the raw chicken**\n- 400 g raw × (23.5 g protein / 100 g) = **94 g of protein**\n\n**Step 2: Account for cooking**\n- The protein stays in the meat (only water and a little fat are lost)\n- The 25% weight loss doesn't reduce the protein content\n\n**Result:** The cooked chicken weighs about 300 g (400 g × 0.75), but still contains the same 94 g of protein — now just more concentrated (~31.3 g per 100 g cooked).\n\nAnswer: 94 g",
+          "refusal": null,
+          "reasoning": "Raw chicken breast: 23.5 g protein per 100 g\nI cook 400 g of raw chicken breast.\n\nProtein in 400 g raw = 400 × 23.5/100 = 94 g\n\nThe protein stays the same during cooking (weight loss is mainly water).\n\nSo the cooked result contains 94 g of protein.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Raw chicken breast: 23.5 g protein per 100 g\nI cook 400 g of raw chicken breast.\n\nProtein in 400 g raw = 400 × 23.5/100 = 94 g\n\nThe protein stays the same during cooking (weight loss is mainly water).\n\nSo the cooked result contains 94 g of protein.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EsIDCmUIDhgCKkA6YboB766f2eJcg2SxS3qzLqMkGqvfRyXvFMxbDcbCLegqT27ZxKf5KP6BRjb8wiCH8Cl78H9Toygbophqns07MhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMrCXlGGfMJI9SmMHfGgx/ue6Piz9U4vc2e5YiMEal8e+o396UFfXRZBXZoU8je3x+O8HYOQEKvwEtgEsjJIFERnP+VhjustFy6BQx3CqKAg7xEXG/rAnC4QLo+BNowjLeDfhw/XPwsUjUmpCd01Swy+i5vT9UcbAUpIn3vGe9MWXMLR2DWmiLLXEOwCzZFjryqe6bzRJYpSb6FlvLfIUsEmeUnC3mbA7W4zBlVsn0bxdTJYoGO5y5DVExoHmW26ul2L6kJ4jvxiUBqMDgZdOQHbZmmcZgiqkn3PHg1u/gPijCTalhXslTryahCPocQ20kN/+kajsWecm3zMnNADvgCbSAZOa7zdEiRPMTIJpZtzyC9qqspi/VnzUmh35HSMi+dTZStVQ8k7voKOmY8F1el9NQg9/nEGQSxc33cevWeg7MVSUTacn1UqrnPXElrFw8V6aPEdN9hyg1GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 103,
+      "completion_tokens": 259,
+      "total_tokens": 362,
+      "cost": 0.004194,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004194,
+        "upstream_inference_prompt_cost": 0.000309,
+        "upstream_inference_completions_cost": 0.003885
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 68,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 103,
+  "tokensOut": 259,
+  "costUsd": 0.004194,
+  "latencyMs": 5478,
+  "finishReason": "stop"
+}

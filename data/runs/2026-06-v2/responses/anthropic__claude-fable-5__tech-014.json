@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "tech-014",
+  "answerText": "Collagen begins to denature and slowly convert to gelatin starting around 60–65 °C, but for a braise like beef short ribs, the conversion only happens at a *meaningful, practical rate* once the meat's internal temperature reaches roughly **70 °C** and ideally climbs to 80–90 °C, where hydrolysis speeds up dramatically.\n\nThat's why braises are held for hours at a gentle simmer — keeping the meat in that 80–90 °C zone gives collagen-rich cuts time to break down into silky gelatin, making the ribs tender and the sauce rich.\n\nAnswer: 70 °C",
+  "raw": {
+    "id": "gen-1781213495-5VzjevA5n4D6z1r9vD9T",
+    "object": "chat.completion",
+    "created": 1781213495,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Collagen begins to denature and slowly convert to gelatin starting around 60–65 °C, but for a braise like beef short ribs, the conversion only happens at a *meaningful, practical rate* once the meat's internal temperature reaches roughly **70 °C** and ideally climbs to 80–90 °C, where hydrolysis speeds up dramatically.\n\nThat's why braises are held for hours at a gentle simmer — keeping the meat in that 80–90 °C zone gives collagen-rich cuts time to break down into silky gelatin, making the ribs tender and the sauce rich.\n\nAnswer: 70 °C",
+          "refusal": null,
+          "reasoning": " Collagen starts converting to gelatin around 70°C, with the ideal braising temperature sitting a bit higher at 80–90°C.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " Collagen starts converting to gelatin around 70°C, with the ideal braising temperature sitting a bit higher at 80–90°C.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS0gIKYggOGAIqQBITAbNxaP5FDb633YUQrfo7m4ElGiTpqn1bKpaKbKEGUbViwdqQa763wl4y3CGI+wngPhnTUWv6hur1oiqJpNcyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgy7iyk7EtBHHxBA0EsaDGLWuf3pVr31Y6eshCIwPDhUhXfK2Ib1Rt+yt6RmT95hvKKhogAykZBIEXa4pTW10aoZkDzF/x6rUi0CSvg3Kp0Buwh+WjwW6cNOGIE9g6iH62kyAzFwb7ZXRseSdtuIIJoexMGLAehX5rG63sQj00t84pmycQDZTQ9ssl65N8C++8Yl4xU5ZQDGPW3d309MvMujeuCl4ONbpf8j8Mx85YIg1mSxkEvEtCK/V8/2R9wRK7As4y9VJOx4VgxDTzSZX4cg0Nha0kljEdzBJRIi/YKQ0lfz1URRn6zZjsoxjxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 101,
+      "completion_tokens": 268,
+      "total_tokens": 369,
+      "cost": 0.01441,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01441,
+        "upstream_inference_prompt_cost": 0.00101,
+        "upstream_inference_completions_cost": 0.0134
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 33,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 101,
+  "tokensOut": 268,
+  "costUsd": 0.01441,
+  "latencyMs": 6972,
+  "finishReason": "stop"
+}

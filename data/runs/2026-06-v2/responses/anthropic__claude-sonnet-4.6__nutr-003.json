@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-003",
+  "answerText": "To find the kilocalories in a 250 g portion, simply scale up from the per-100 g value:\n\n130 kcal × (250 ÷ 100) = 130 × 2.5 = **325 kcal**\n\nAnswer: 325 kcal",
+  "raw": {
+    "id": "gen-1781209997-rGfrY4glLAEcD5MoaIS6",
+    "object": "chat.completion",
+    "created": 1781209997,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To find the kilocalories in a 250 g portion, simply scale up from the per-100 g value:\n\n130 kcal × (250 ÷ 100) = 130 × 2.5 = **325 kcal**\n\nAnswer: 325 kcal",
+          "refusal": null,
+          "reasoning": "130 kcal per 100g × 2.5 = 325 kcal",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "130 kcal per 100g × 2.5 = 325 kcal",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EusBCmUIDhgCKkB6NsT5YBmzq3QvE/C4sF3vRsxj+RfPOJicHdWdHlI49X3VHUKEoye4YIreUPZbFWgfNkMznxwjcwc3OqNwatkJMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMJIcxzKqHQiUEc7wwGgxBb6ubcU6tZS5xPrAiMC4Tea+ysFBkTXxzpGDoLD1vW2fdqfipNYIy7obquJI3XKIdqwcORwhjc+p7PJGfryo0bOBga528b0iuVS5qOA5e92eVNBY07/m0QgKf7tUwFUgJ20zZY0lvfpzPBG7LHxW9N3kGYxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 77,
+      "completion_tokens": 110,
+      "total_tokens": 187,
+      "cost": 0.001881,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001881,
+        "upstream_inference_prompt_cost": 0.000231,
+        "upstream_inference_completions_cost": 0.00165
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 10,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 77,
+  "tokensOut": 110,
+  "costUsd": 0.001881,
+  "latencyMs": 4304,
+  "finishReason": "stop"
+}

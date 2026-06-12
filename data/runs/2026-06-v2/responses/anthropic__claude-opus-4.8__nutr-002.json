@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "nutr-002",
+  "answerText": "Each serving contains 2,400 ÷ 6 = 400 kcal.\n\nAnswer: 400 kcal",
+  "raw": {
+    "id": "gen-1781211546-4kp8W9Enye9JDlqwYTe6",
+    "object": "chat.completion",
+    "created": 1781211546,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Each serving contains 2,400 ÷ 6 = 400 kcal.\n\nAnswer: 400 kcal",
+          "refusal": null,
+          "reasoning": " I'm calculating that 2400 divided by 6 equals 400.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating that 2400 divided by 6 equals 400.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EtMBCmMIDhgCKkDgWHk6BmkN/rc2rbNjiJ5iR5pXZPuopsdBPVENlNoFf4hPnS6JJJoNHgMY/JLPARXBZLAZitF8S5Hmdjso2ZQyMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDAG5DH+sHhY1AyT/PRoMCzDx/5PEBtD3JSMIIjA0RndLCAN+cpq6yKMAQCfd8jc3yoyMRx9Otd3EvkuhBmJ6Tgzn2nGQ3+6O4H8dbpwqHlnAXCpYjwysY0icYZ6YWbrxudAH7sDVILdhuHyghhgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 97,
+      "completion_tokens": 51,
+      "total_tokens": 148,
+      "cost": 0.00176,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00176,
+        "upstream_inference_prompt_cost": 0.000485,
+        "upstream_inference_completions_cost": 0.001275
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 13,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 97,
+  "tokensOut": 51,
+  "costUsd": 0.00176,
+  "latencyMs": 2669,
+  "finishReason": "stop"
+}

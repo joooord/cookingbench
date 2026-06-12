@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "qty-011",
+  "answerText": "## Scaling the Stock for 3 People\n\nThe original recipe serves 8 and uses 2,500 ml of stock.\n\n**Stock per person:** 2,500 ÷ 8 = 312.5 ml\n\n**For 3 people:** 312.5 × 3 = **937.5 ml**\n\nAnswer: 937.5 ml",
+  "raw": {
+    "id": "gen-1781210077-W5pGisGZHikYm8oXmuFl",
+    "object": "chat.completion",
+    "created": 1781210077,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Scaling the Stock for 3 People\n\nThe original recipe serves 8 and uses 2,500 ml of stock.\n\n**Stock per person:** 2,500 ÷ 8 = 312.5 ml\n\n**For 3 people:** 312.5 × 3 = **937.5 ml**\n\nAnswer: 937.5 ml",
+          "refusal": null,
+          "reasoning": "The recipe serves 8 and calls for 2.5 litres of stock.\n\nFor 3 people: (3/8) × 2.5 litres = 7.5/8 = 0.9375 litres = 937.5 ml",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The recipe serves 8 and calls for 2.5 litres of stock.\n\nFor 3 people: (3/8) × 2.5 litres = 7.5/8 = 0.9375 litres = 937.5 ml",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EscCCmcIDhACGAIqQFN2LTPowF1qHGYLqU3D92H5rGFc/MUqa7FR+M/dmHq2jT3m8hS1yqStgG9GhzRiyF3K3qA/CIl+XofQTpAWdEMyEWNsYXVkZS1zb25uZXQtNC02OABCCHRoaW5raW5nEgyGc6qTNrJidlyP3xcaDIOWwqYIYzQ4yJS+rSIw8XMv7Q889hMH5g4IjBNt0hZZbye0GxxW2yZGCnMjoFXBzs2ZcbXT26GaLJr2NvAIKo0BXdgAOCF4kqywisWvNZeEW3tv1AUvZKueOopiHzOPBRlizw9nnanY1M03Hs+qyGgawJ06G5u8MEES4wQvNDL/sw0MBACu+WfisNECiniOuGGxKNi8fqVTzT6dZgyEQ1H4qALzQAC4NNAl0HYGrloUyRH/XZtEMsGFjo0pHaHvAhqpMah9mCc+8WSmoK3sGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 82,
+      "completion_tokens": 169,
+      "total_tokens": 251,
+      "cost": 0.002781,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002781,
+        "upstream_inference_prompt_cost": 0.000246,
+        "upstream_inference_completions_cost": 0.002535
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 33,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 82,
+  "tokensOut": 169,
+  "costUsd": 0.002781,
+  "latencyMs": 3243,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "qty-002",
+  "answerText": "To scale from 6 to 4 servings, multiply by 4/6 (or 2/3):\n\n450 g × (4 ÷ 6) = 450 × 2/3 = **300 g**\n\nAnswer: 300 g",
+  "raw": {
+    "id": "gen-1781210069-p4qKSQ5BKKiDNrsoXXJe",
+    "object": "chat.completion",
+    "created": 1781210069,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To scale from 6 to 4 servings, multiply by 4/6 (or 2/3):\n\n450 g × (4 ÷ 6) = 450 × 2/3 = **300 g**\n\nAnswer: 300 g",
+          "refusal": null,
+          "reasoning": "450g / 6 * 4 = 300g",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "450g / 6 * 4 = 300g",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Et0BCmcIDhACGAIqQBxd0nk8A8kyvXMT0TeoyNT1BELuZWKXMUgRRTJinbLeff6FWRsuuxr5AMV1wukwV56dYCSrFkSJv/CD2sX8EJcyEWNsYXVkZS1zb25uZXQtNC02OABCCHRoaW5raW5nEgy0o7V+lgmZnKJcciQaDFesuo7USAjQvZUqbiIwmhiQnyRvpxijg6631AEt12kSszMCBSfn2XlYCyHJhXCtiLwFrxSSl/qE9Q3DAmJcKiRF1DtyixEYAbGPPkN2yrPAO99Nq8IcR/xMGQ2M1fart5fuLd4YAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 79,
+      "completion_tokens": 97,
+      "total_tokens": 176,
+      "cost": 0.001692,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001692,
+        "upstream_inference_prompt_cost": 0.000237,
+        "upstream_inference_completions_cost": 0.001455
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 5,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 79,
+  "tokensOut": 97,
+  "costUsd": 0.001692,
+  "latencyMs": 2318,
+  "finishReason": "stop"
+}

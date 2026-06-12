@@ -2,13 +2,19 @@ import Link from 'next/link';
 import { CATEGORIES, CATEGORY_IDS } from '@cookingbench/core';
 import { getLatestReport, modelSlug } from '@/lib/data';
 import { CATEGORY_COLORS, formatScore, scoreColor } from '@/lib/format';
+import { getTasteWinrates } from '@/lib/supabase';
 
 export const revalidate = 3600;
 
-export default function LeaderboardPage() {
+export default async function LeaderboardPage() {
   const report = getLatestReport();
   const methodology = report?.methodologyVersion ?? 'v1';
   const isV2 = methodology !== 'v1';
+  const winrates = await getTasteWinrates();
+  const taste = new Map(
+    (winrates ?? []).filter((w) => w.battles >= 5).map((w) => [w.model_id, w]),
+  );
+  const showTaste = taste.size > 0;
   return (
     <div>
       <section className="py-16">
@@ -61,6 +67,11 @@ export default function LeaderboardPage() {
                 ) : (
                   <th className="py-3 pr-4 font-normal" title="Mean score on difficulty-3 questions only — compound math, unit traps, multi-constraint requests">
                     Hard set
+                  </th>
+                )}
+                {showTaste && (
+                  <th className="hidden py-3 pr-4 font-normal sm:table-cell" title="Human blind-vote win rate from the Taste Test">
+                    Taste
                   </th>
                 )}
                 <th className="hidden py-3 pr-4 font-normal md:table-cell">Categories</th>
@@ -126,6 +137,15 @@ export default function LeaderboardPage() {
                         style={{ color: scoreColor(row.hardSet ?? 0) }}
                       >
                         {row.hardSet == null ? '—' : formatScore(row.hardSet)}
+                      </span>
+                    </td>
+                  )}
+                  {showTaste && (
+                    <td className="hidden py-4 pr-4 sm:table-cell">
+                      <span className="tabular text-sm text-ink-soft">
+                        {taste.has(row.modelId)
+                          ? `${taste.get(row.modelId)!.win_rate.toFixed(0)}%`
+                          : '—'}
                       </span>
                     </td>
                   )}

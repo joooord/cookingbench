@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "qty-024",
+  "answerText": "Scaling up: 600 ml × (6/4) = 900 ml needed.\n\nConverting to US cups: 1 US cup ≈ 236.6 ml, so 900 ÷ 236.6 ≈ 3.8 cups (about 3¾ cups).\n\nAnswer: 3.8 cups",
+  "raw": {
+    "id": "gen-1781211632-xBZuvGTVRlshhmB1KsFK",
+    "object": "chat.completion",
+    "created": 1781211632,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Scaling up: 600 ml × (6/4) = 900 ml needed.\n\nConverting to US cups: 1 US cup ≈ 236.6 ml, so 900 ÷ 236.6 ≈ 3.8 cups (about 3¾ cups).\n\nAnswer: 3.8 cups",
+          "refusal": null,
+          "reasoning": " I'm scaling the recipe from 4 servings to 6, which gives me 900 ml, then converting that to US cups—about 3¾ cups.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm scaling the recipe from 4 servings to 6, which gives me 900 ml, then converting that to US cups—about 3¾ cups.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EugCCmMIDhgCKkBQ1PC91jhS5K5uy/6ST8zoqgLPi7feMfdyQ6kj8hRiI3O8oOyaWQS2PN8fsSbUTpibDvMaRIBMfENIDDOv7UGWMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDEK8XjVdH5X6jgK4MxoMkyGaKXKDEpodmgMzIjAGeKyx435S3Z29J5+6YyBz2WE2wWXUx2XiE7LoCGZvonsGN0zU6VPELllcrzuHeRIqsgGeHwN0ggGogHhQ3KJ6uR/HBVugF2zgKWkUWQW2aXpi+F7eW9vNT75ySE+wQ0YVv9koOppUtO6OgEyvnwzbwamLYGsGPiNpA4Vfgmu6I6TLI8ECF3HJl8AjAVwoYTb+knwfT3JfvIl4+4o2diUpAFaAvAd8mWtvBQ2cVUo9FtGvUSEGbNWY0jNl9jivIM2DWC02AUWCC4Xcz8pOiXW/oLiSLuje1c7QwJpmi3My//aG8aBEGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 120,
+      "completion_tokens": 200,
+      "total_tokens": 320,
+      "cost": 0.0056,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0056,
+        "upstream_inference_prompt_cost": 0.0006,
+        "upstream_inference_completions_cost": 0.005
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 31,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 120,
+  "tokensOut": 200,
+  "costUsd": 0.0056,
+  "latencyMs": 6609,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-002",
+  "answerText": "## Lasagna Calorie Calculation\n\nTo find the calories per serving, simply divide the total calories by the number of servings:\n\n**2,400 kcal ÷ 6 servings = 400 kcal per serving**\n\nAnswer: 400 kcal",
+  "raw": {
+    "id": "gen-1781209995-9Oc96FkZfEKxropebD4z",
+    "object": "chat.completion",
+    "created": 1781209995,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Lasagna Calorie Calculation\n\nTo find the calories per serving, simply divide the total calories by the number of servings:\n\n**2,400 kcal ÷ 6 servings = 400 kcal per serving**\n\nAnswer: 400 kcal",
+          "refusal": null,
+          "reasoning": "2,400 ÷ 6 = 400",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "2,400 ÷ 6 = 400",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EtgBCmUIDhgCKkDmSLY2QiFkier9MAM1DaZ+MNzqEe628HTdVudseDZ7y7hdGMQknTkEuuF9QE3DxpF6BbMZHIW2plTfz/dQUXIHMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMbJiG7EqgmA4+vuB+GgzsysgWYipc3za8aQ0iMFk27nCTkKJAqG6WfvDQxVIOgfsi6bK3VvaMDU5ZD3+WI6uJ74OPR601l3B2fWGnASohWf9JxTCiWVbRbFh9spboZJfGHHd+XsLP00HPUSna0MP2GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 76,
+      "completion_tokens": 98,
+      "total_tokens": 174,
+      "cost": 0.001698,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001698,
+        "upstream_inference_prompt_cost": 0.000228,
+        "upstream_inference_completions_cost": 0.00147
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 5,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 76,
+  "tokensOut": 98,
+  "costUsd": 0.001698,
+  "latencyMs": 3165,
+  "finishReason": "stop"
+}

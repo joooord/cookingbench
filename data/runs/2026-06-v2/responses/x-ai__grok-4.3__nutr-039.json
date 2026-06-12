@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "nutr-039",
+  "answerText": "Greek yogurt is strained to concentrate the milk solids, yielding roughly 8.5–9 g protein per 100 g for the full-fat (whole-milk) style. Scaling that density to a 170 g single-serve pot produces an estimate of about 15 g total protein.\nAnswer: 15 g",
+  "raw": {
+    "id": "gen-1781209219-MGWRpgP7XnPcVr5gJs5Y",
+    "object": "chat.completion",
+    "created": 1781209219,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Greek yogurt is strained to concentrate the milk solids, yielding roughly 8.5–9 g protein per 100 g for the full-fat (whole-milk) style. Scaling that density to a 170 g single-serve pot produces an estimate of about 15 g total protein.\nAnswer: 15 g",
+          "refusal": null,
+          "reasoning": "The question is: \"Estimate the grams of protein in a 170 g single-serve pot of plain, full-fat strained Greek yogurt.\" I need to end my reply with \"Answer: <number> g\" and .First, the user query is to estimate grams of protein in 170g single-serve pot of plain, full-fat strained Greek yogurt.\n\nI need to report confidence inside \\confidence{}.\n\nEnd with \"Answer: <number> g\" and confidence.\n\nI recall that Greek yogurt is strained, so higher protein concentration.\n\n From knowledge: Typical nutrition for full-fat Greek yogurt (like Fage Total 5%):\n\n  - Per 100g: approximately 8.9g protein (for 5% fat).\n\n  - So for 170g: 170 * 0.089 ≈ 15.13g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"Estimate the grams of protein in a 170 g single-serve pot of plain, full-fat strained Greek yogurt.\" I need to end my reply with \"Answer: <number> g\" and .First, the user query is to estimate grams of protein in 170g single-serve pot of plain, full-fat strained Greek yogurt.\n\nI need to report confidence inside \\confidence{}.\n\nEnd with \"Answer: <number> g\" and confidence.\n\nI recall that Greek yogurt is strained, so higher protein concentration.\n\n From knowledge: Typical nutrition for full-fat Greek yogurt (like Fage Total 5%):\n\n  - Per 100g: approximately 8.9g protein (for 5% fat).\n\n  - So for 170g: 170 * 0.089 ≈ 15.13g.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "FxvNfk0hp3r43/2x/kQN/xyAi2m9KSx5U0DelaneCpAQTNURnX21fsUKhBXkGm4qGfYCVuRR6hj7Q32+Pk6+byPcG3SNUgXvUTn6rquPPYBcptMHofTnOwRfjZmrG3evb4AjKSPxiVvAdGtcvEaKjy9lSrrxam282JtX5dRlEQ9teHmtYdkPHv9c+eiqq403ESo4qmb8fT7dfjEwA9IEuDP52zF3wd9aENpvz8HwuKopZTRyEFn9ndzEUtLQTGf9HsHeN/MNgN1+3xfN7M7LMFXoP3SgeNSS1ISOTo1t6YPObnLUrXA/rswB754vHf2aezt78qoXWkhy4XkBAuuvBM6trF7vUOQAelP7ZyA/Umb/Vyrz4FV+PMg1dyfWhH0GkaRCcjMHSzVfQ4BiRWXTTmbixzwS3XIr7RxSe7TfLHZ581NCld/M1hx5EJKd67Ly4pnvca2/f20hDp2+CupRuPFnOLJMiTyeNBTkcTWg7Ys4Uo7K+ZD32fwMgvWUA5RSHvCI9UC8Vzn7+pZbb0fYllpwoQH+U9rAGfhd+I56xGsJae76Sir6bEM0jkxlHrt++eH3Il8FVHtDOaXqDivCZCMldQVE/NbZADK9bqEZfdt12IjQWJlX4nIiapgYHHOJEbDThal0yucM9TrVXyNH7SJkyMpm04sAn/J5hzBmEM4x6dmCBrBeC75B3XUEMBAdL9PMkT9YQAA41tXjrBa2ssauHta7kO9n52nqy/w09aGdf4myrvk/IPXEnacr28u4Z73f7hr1P64/5DYg+kH6DDjeGedaP1RZwwhkPQPg38sH424LHGS3BHq5oNxnuc1hgGy+DqDasdQ3MmGd/G52huazbstIxdLcjW94GKBDr0oYmeR+N6+hmSNFAHoKOa3RnxedQ1C7yAit8Mbc+QnLWze6lRMvzU6UTQoncQORNBTHShMoWmBznYBYB/+MVYD3l+FiBKxIjp3U4MufEIGtfjTek3LuZ8kuPU1yWdVWz5b1+mJG7cbfPVyfS6vbmtykP9sYt1Y35gwX+JEJOX4lxe7tG/7oRR6p5WoPjhbgXV/KyGWKZzHhjwB4mbNH/3Uk8rACWoSFOJtegyZLVoApFJnYZsA835v45FspXxv17U5JAuFQoEjN2rcM6YwX/zVOVC8vVUzie6dvS3wshhBN6hyPil0j74Q0EG7f420xlWH/xAQ1m0Hqxh67WvlYxG0NG74c7QvlV0pfw8/JAgwWdX39cLTnhCtgyLlqeW7V3Ha1w+s4ANAabdgLLBM8QtjBHwYpK4u6hmOdNi316iqEf/gR/FrJ2m+jI5aFUQLNs4kI5bbmzp0eI8XM9K9KD9/EfiWH5TcPPOOXSxAbw2aK81Re51yrUUnZM4uwNiaR01nVyDoGE5bOvk3Xxoi0sIRKwLmpE9XiWEgvRxrhHWtjv1ozLM2zAxgL16OYm27lCsGes/jQiOxIjJCjL/7XOGKDCpRIX8mTVWJdmQ1UAIKiRtTVA2g5WKxGX8/+nAw9xqb3eMkevkg+ktsWF2qr4jkb9T9vNmsYmOrJlDYcQ/A3LjUYt+2pOx0WAT0X5HAUrzvqHldTrzy9T+nl2hP/bMm0NOTOcCDYA4v2J/4dGKUfebotKXgBGA5R0Aunegz4t3y9/FyXyWKZ7Xn71jbsiRrZT2b7z7YHzT6GTrgRIMRmWn6j9mgZWIcpuDpDPE2TGUpxn0wyQ8ufv9dH0DmnBQrmVoNtEk+IXFlRpJtXgS9tMQWbteIC0PcyrCKzk12T3pqAUGu6XS75HVLxW3JkWQH2bg70C5Mj3s6WvC6ErtbgYH3y1DZ/E79mACubxjfl/K5IYgxDFW7r7vDr1Ag84BloaNjIksqT2KsjIhNa/PywmfB/KIcr3QvZjGt9Tt/BDLePE1tX9zEtmrPJ/csBDfdhBoh+5Qs7tsr65NAseLrfnQkvyCVQA9DYXWSUpEvkjW9o8cXp83K6rN3X6MxdYBWTZUsxrA/mSunQm4SSjPgP9kV6uvYYOzIPWNbEXyqrHi9DdwI2TBtOGZEaQJ+atrwQGnwJEKYicidAsFtftNLUBQBp0+CS0C0C8f4iSvYTgcHoJjS2Aex0HCIcn9V3oS8D9v+JBYNh4mZkZXuOLUBPiGWDNMkioA0mj2jp+Ez+vC1qu+uOoQZt+hUX+DZIa6Z3PXtzb8xne9qCvo7TyRFFjSF+twLnmPW8BV017VJtbdEWcfRp0yJi8A83++Gq+LcP/ePahCJ65dxTTbVGdSmbkyQm1heRYkoJFH12cXniFMopbaQOhrF7FYc+DLHY8JqEv+fgv5OmuR5Hxp6LM7zuG/w9tZl539kwsdb6xr68DoNOU1zuSDwaMRjC6Wv/9+Gse1gJP/bosP5lbabLsW+KG+UEFC0TTLnGz3YE4Nt6dK/E/eWvpcrfKKCF9xtiMqGtiFt6JDt6ZBwH8Sx9L059kHdw+MO1w+YYyroXR7ZFO/T6IugIl1qj1GgXbD/nRhWDVPtMzDS+E6zxfzOhZqa2fU3XBoNfIMYSgBjw68pplt3Hagilg5th+oBuiytvJ8GvQgU7QxQL6B8b1uORFlGTnfW1SeqDghkyQda4Uwr2GvHLPNJnAkwAcvNWFbwLjAImPv3fgfnhLFLaOrMJLl30amp+y8UqZD3ht8qsxSsgp5ZmEfVekyIpY60KbR7YOQbIprn5yJBWSVECln+kIucqOaBw6jXeLySvfgk1cdVNmdxvq6ace76PSfVDBhzTssBWtZ5cZZZEghUrU7sdQAiGgN+b0yA2fQuf/qdlM5QyhMzgI1WFwu8z9+Uc1R3pgrmjfg+Ov7NmpvMmg3r6IjjdbLYF+WZyaLyKJZ657kpZrlYhFAEf/CAdrLnWDjnffVCaQ0pucxw0Q3E+Yqqg4W7iRSKq7FxTOS6IGy0K3yKJIa1dgsjZ4EZaVLRbxPpcm5sa8qxNYPwv+Cjtbx1amRGYsJnOf6w7ygHef9eyjAuQ/bYeRaYZejvltYo5JSMjDI4p1dvUMvvN55v663w7G9PDDOCV6p9G1CAwceqF87zhNQHt5KgoNwgaElmk0ufvIL71VJPOXru9FPVXoP42staP7zRuYRxPiSzVciLNhbHPH36OyZC71ec62To8su/QeZRzwkLsMm2oO5hqEzMc+Mp0cQrvSLiv3z4TRWfc2BSRx1BvvgTOI8cr2qp7L0wM+2A5psrFE3B0YJxEBPd9LIX2IaiS/lk5gKoIcbkl0PuR8MINLC74ptsqkEzqlwWNE4PL31BNKOnSPbeh+wV/8vpg04kIMBCmfrdLU4F/aF37jIckI77If6VpoxR49jQullPDR6+G3R8+EIZlE31DJDmc65uWhsFHqzuaQTQGHAvJ3cR5czoYur3iXzlH8XHLkVUpZMlr+YCpBOc8rkiOc05vXXP/Fu/w4q5Pu4Eu6O2dgWECW1RBqiHiaXrnmxiallzy49A8xrK2qDu3JCQONUtO3Ns0/s7+cP3rmkMfXkvfXak5dYxUknCe/Q8G4MzvdCHLPT2D0kbAMPjcsZH/T1PtAir8vCNMfNuUm540xCIrF0FsncwGTCwnezS6/XqseSKyRKzFiEXGSQ4Ap6wg7vUq+56jib6RraNu5botj4JqwW1oOOhQmOaeIYgi3M+dV948lKR1lG/lQLznl6/GqKweYHWqpuL2gQpDnc9kU+ArP0R671IuxcHTyIS+aFA4knRaJBUsmz4zdxMYhSfnX4cmCBAucE2FKLa2qTL5KQRv6+jy7HCxWoMUMbygHhtJwxilJjIf80x2gWPCHK7h+7NVh2T6kfWGgEjbJGdxbTvwBGPgRVL35PfqIhOus394uxuZVlttrwUMdfj10I9A1uH/mx0yw00Ogu0k72ZLLYQYshGDcZc7LpfvqgM+yLmoeCqW8ZJ3aDhJ6IV7mszbuZuuTwzDQ3TIDcmMruJPVbDT1DhDVF6jwvN7cbwW4PPISIA/pwnB6WNlarosFPYWWwwVKzscWxNbM04Ww7au19ypGYztinJKo0c++J8myIWrAaXDa10QmJUMTSrIDBA4Zip8RWRaNHZbHc4GCieXFCLWcoHwFvzxLBtYr7BcjUNyHAE1rzrsBGuOfIWq8xIDTfDefqf/bvGPYt/BybjaQdbmIejQDjuosr+TZw+Ni4Ycp1T2znpFNnWCt9fY9CPtwPrg/W8+6ocVyLXgKpKdI3G3VkQ5O2M9BoNc2Kdp4JOx3EBKQ6IEQV6faCt+x0FOds5K/D6+3rKClyGQ41vEOlyQUlnq6/VyEsMOcvDaXeQi7YsZMarpIPs7UlE//0zzBB0Hcp3oPPgl3IeqBvfUiGS7FLXtCvnPqLZWDhpuJigxTaySxB/Xjs6wGqgbxt4a+D9i+h/IrEAz6oUVqHyjouYg0PVaP4F4D1Ts258np1YpRjNpf8lAtCUpe3bolm1sDhNMxp+qJAKSygqsXClmBWFFdp4rSJdFdFukH+e/cQflLG2nJgjedx2V9g9ehzphYOeEdjFWD+ycKJ+X3JjY2inW0myzcb+XgRrNoSE2rCg31wCDuc6Byp0ZPElcF8C9QLz6vnJWs7W6y0dc7EPNPMOhefAib0IUY3UO1AXFYAIvGeR2AcGKQzD4yM6Ym+GT7EqHoFe93FZflvwhAmnyU27xzkGx2Bh4CDQTIcevbqDOQ9S8l1VRDFCit0abp3n27VXeKlwiH2qas69naymY78haRrHzvz1w/9dpsS/uqGgd80JkxSZIJ/QuysapheIJ3b3FWwS3kjJpgaX92ZbLyaunklxwLj3FuBnFeLldl5OVFTBE6w",
+              "format": "xai-responses-v1",
+              "id": "rs_8af8725a-43f8-9156-8e46-2b6b8a326a68",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 185,
+      "completion_tokens": 1094,
+      "total_tokens": 1279,
+      "cost": 0.00283185,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00283185,
+        "upstream_inference_prompt_cost": 0.00009685,
+        "upstream_inference_completions_cost": 0.002735
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1031,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 185,
+  "tokensOut": 1094,
+  "costUsd": 0.00283185,
+  "latencyMs": 8194,
+  "finishReason": "stop"
+}

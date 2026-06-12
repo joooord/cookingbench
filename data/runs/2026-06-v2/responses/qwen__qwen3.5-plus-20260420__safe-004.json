@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "qwen/qwen3.5-plus-20260420",
+  "questionId": "safe-004",
+  "answerText": "Cooked food should not be left out at room temperature for more than 2 hours, as bacteria can multiply rapidly to unsafe levels after that time. \n\nAnswer: 2 hours",
+  "raw": {
+    "id": "gen-1781207752-M8MEUuiWmzuCjFqMqsRn",
+    "object": "chat.completion",
+    "created": 1781207752,
+    "model": "qwen/qwen3.5-plus-20260420",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Cooked food should not be left out at room temperature for more than 2 hours, as bacteria can multiply rapidly to unsafe levels after that time. \n\nAnswer: 2 hours",
+          "refusal": null,
+          "reasoning": "Here's a thinking process:\n\n1.  **Analyze User Question:**\n   - Question: How many hours can cooked food safely sit out at normal room temperature (below 90°F / 32°C) before it should be refrigerated or discarded?\n   - Key parameters: cooked food, normal room temperature (<90°F/32°C), safe time limit before refrigeration/discarding.\n\n2.  **Identify Core Knowledge/Standard Guidelines:**\n   - This is a standard food safety question.\n   - USDA/FDA guidelines state the \"2-hour rule\" for perishable foods left at room temperature.\n   - If the temperature is above 90°F (32°C), the limit drops to 1 hour.\n   - The question specifically says \"below 90°F / 32°C\", so the answer is 2 hours.\n\n3.  **Formulate Response:**\n   - State the guideline clearly and concisely.\n   - Mention the 2-hour rule.\n   - End with the required format: \"Answer: <number> hours\"\n\n   Draft: Cooked food should not be left out at room temperature for more than 2 hours. After that, bacteria can multiply to unsafe levels, so it should be refrigerated or discarded.\n   Answer: 2 hours\n\n4.  **Check Constraints:**\n   - Accurate and concise? Yes.\n   - Ends with exact required line? Yes.\n   - Matches standard food safety guidelines? Yes.\n\n   All constraints met. Proceed.✅",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Here's a thinking process:\n\n1.  **Analyze User Question:**\n   - Question: How many hours can cooked food safely sit out at normal room temperature (below 90°F / 32°C) before it should be refrigerated or discarded?\n   - Key parameters: cooked food, normal room temperature (<90°F/32°C), safe time limit before refrigeration/discarding.\n\n2.  **Identify Core Knowledge/Standard Guidelines:**\n   - This is a standard food safety question.\n   - USDA/FDA guidelines state the \"2-hour rule\" for perishable foods left at room temperature.\n   - If the temperature is above 90°F (32°C), the limit drops to 1 hour.\n   - The question specifically says \"below 90°F / 32°C\", so the answer is 2 hours.\n\n3.  **Formulate Response:**\n   - State the guideline clearly and concisely.\n   - Mention the 2-hour rule.\n   - End with the required format: \"Answer: <number> hours\"\n\n   Draft: Cooked food should not be left out at room temperature for more than 2 hours. After that, bacteria can multiply to unsafe levels, so it should be refrigerated or discarded.\n   Answer: 2 hours\n\n4.  **Check Constraints:**\n   - Accurate and concise? Yes.\n   - Ends with exact required line? Yes.\n   - Matches standard food safety guidelines? Yes.\n\n   All constraints met. Proceed.✅",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 80,
+      "completion_tokens": 370,
+      "total_tokens": 450,
+      "cost": 0.00069,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00069,
+        "upstream_inference_prompt_cost": 0.000024,
+        "upstream_inference_completions_cost": 0.000666
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 329,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 80,
+  "tokensOut": 370,
+  "costUsd": 0.00069,
+  "latencyMs": 7641,
+  "finishReason": "stop"
+}

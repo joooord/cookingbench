@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "safe-013",
+  "answerText": "**No, it's not safe to serve yet.**\n\nUSDA guidance requires that **both** the turkey and the stuffing reach a minimum internal temperature of 165°F (74°C). The stuffing sits in the cavity where it can absorb juices from raw poultry, so it must hit 165°F to kill bacteria like Salmonella. At 150°F, harmful pathogens may still survive.\n\nContinue roasting (covered loosely with foil if the breast is browning too much) until a thermometer inserted into the center of the stuffing reads 165°F. Then rest the turkey 15–20 minutes before carving. If you're short on time, you can scoop the stuffing into a baking dish and finish it in a 350°F oven while the turkey rests.",
+  "raw": {
+    "id": "gen-1781209168-EUxhExVXdh43St8yjvJz",
+    "object": "chat.completion",
+    "created": 1781209168,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "**No, it's not safe to serve yet.**\n\nUSDA guidance requires that **both** the turkey and the stuffing reach a minimum internal temperature of 165°F (74°C). The stuffing sits in the cavity where it can absorb juices from raw poultry, so it must hit 165°F to kill bacteria like Salmonella. At 150°F, harmful pathogens may still survive.\n\nContinue roasting (covered loosely with foil if the breast is browning too much) until a thermometer inserted into the center of the stuffing reads 165°F. Then rest the turkey 15–20 minutes before carving. If you're short on time, you can scoop the stuffing into a baking dish and finish it in a 350°F oven while the turkey rests.",
+          "refusal": null,
+          "reasoning": "The question is: \"My roast turkey's breast meat reads 165°F but the probe in the stuffing inside the cavity reads only 150°F. The family is hungry — is it safe to serve now? What does the guidance say...",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"My roast turkey's breast meat reads 165°F but the probe in the stuffing inside the cavity reads only 150°F. The family is hungry — is it safe to serve now? What does the guidance say...",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_824cc92f-ba76-9dce-97b8-0da0f97f946b",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 191,
+      "completion_tokens": 502,
+      "total_tokens": 693,
+      "cost": 0.00135935,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00135935,
+        "upstream_inference_prompt_cost": 0.00010435,
+        "upstream_inference_completions_cost": 0.001255
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 357,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 191,
+  "tokensOut": 502,
+  "costUsd": 0.00135935,
+  "latencyMs": 3623,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "qty-012",
+  "answerText": "Gin per drink: 60 ml\nTotal drinks: 25 guests × 2 = 50 drinks\nTotal gin: 60 ml × 50 = 3000 ml = 3 litres\n\nAnswer: 3 litres",
+  "raw": {
+    "id": "gen-1781211619-DJ3t73QEvixg58JuTCjz",
+    "object": "chat.completion",
+    "created": 1781211619,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Gin per drink: 60 ml\nTotal drinks: 25 guests × 2 = 50 drinks\nTotal gin: 60 ml × 50 = 3000 ml = 3 litres\n\nAnswer: 3 litres",
+          "refusal": null,
+          "reasoning": " I'm calculating the total gin needed: 60 milliliters per drink times 50 total drinks for 25 guests having two each comes to 3 liters.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the total gin needed: 60 milliliters per drink times 50 total drinks for 25 guests having two each comes to 3 liters.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EpsCCmMIDhgCKkBFm5WboI93zdxvRQO39mc+aOtRbXilXSsKKPIZmSWbkocGTI2WAPCQs96yGXuCxhxhIbv9vHobZDe9YuNNcGGOMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDP3bKo5urCfbTG0F1RoMxoxS/p2GYtYOIA0HIjBU1KnkELYzG/m3qlSnPKx/PSXP0Ud+JhRMVrPgAeJCbDLbJQgbCD7n5A4AygDU1i4qZlT3yHXuzguVb03Z/pZSay44NRZDxHfl6UI9RUOpdlpKNR3xHTYC7i1QqDfqR/PztYp8XkFBb0VoZtlskSSlgotwpo8dwyBBHIiu/juRW+jr+eRP4PAr4GyEhxS7jq1wf6v3wtcyQBgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 123,
+      "completion_tokens": 128,
+      "total_tokens": 251,
+      "cost": 0.003815,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003815,
+        "upstream_inference_prompt_cost": 0.000615,
+        "upstream_inference_completions_cost": 0.0032
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 34,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 123,
+  "tokensOut": 128,
+  "costUsd": 0.003815,
+  "latencyMs": 3368,
+  "finishReason": "stop"
+}

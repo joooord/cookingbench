@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-005",
+  "answerText": "To scale the recipe, find butter per cookie, then multiply by 90:\n\n- Butter per cookie: 250 g ÷ 24 = 10.4167 g\n- For 90 cookies: 10.4167 g × 90 = 937.5 g\n\nThat's the equivalent of 3.75 batches of your original recipe (90 ÷ 24 = 3.75, and 3.75 × 250 g = 937.5 g).\n\nAnswer: 937.5 g",
+  "raw": {
+    "id": "gen-1781213055-kPrja8mZPx0dgDffOJxZ",
+    "object": "chat.completion",
+    "created": 1781213055,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To scale the recipe, find butter per cookie, then multiply by 90:\n\n- Butter per cookie: 250 g ÷ 24 = 10.4167 g\n- For 90 cookies: 10.4167 g × 90 = 937.5 g\n\nThat's the equivalent of 3.75 batches of your original recipe (90 ÷ 24 = 3.75, and 3.75 × 250 g = 937.5 g).\n\nAnswer: 937.5 g",
+          "refusal": null,
+          "reasoning": " I'm calculating the sugar content per cookie by dividing 250 grams by 24, then multiplying that amount by 90 cookies to get a total of 937.5 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the sugar content per cookie by dividing 250 grams by 24, then multiplying that amount by 90 cookies to get a total of 937.5 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS8gEKYggOGAIqQB4qe/h5jfYqJK1DVf/L7rxgLDZNJ/o4NvyD9B0CGgb/+Q5qNqUG/it022Wf4TUc26lQchTV6egZt0xte1L/BlkyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgywfpLdWcgPTxqvGm0aDEpfFNtcg0HyCjbJViIwBsDWtzIyLIslctij7lFh4Wje4tkuiyr/g7lBs5U3ZPFEB4ALhgWMGeU9rJd/pVcCKj5Lj4F8s5/k4H1cEn/U3JbhFWTJRM6jhi51I2rqzNVlBBBigxG5xH3RRZP6cDDRhykuc161hXCijqCDCswezxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 107,
+      "completion_tokens": 181,
+      "total_tokens": 288,
+      "cost": 0.01012,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01012,
+        "upstream_inference_prompt_cost": 0.00107,
+        "upstream_inference_completions_cost": 0.00905
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 37,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 107,
+  "tokensOut": 181,
+  "costUsd": 0.01012,
+  "latencyMs": 6565,
+  "finishReason": "stop"
+}

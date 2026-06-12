@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "safe-014",
+  "answerText": "No, it is not safe to eat.  \n\n**Reasoning:**  \nPerishable foods like soup must not be left at room temperature for more than **2 hours** (or 1 hour above 90°F), as bacteria multiply rapidly in the \"danger zone\" between 40°F and 140°F. Your soup sat out for **5 hours**, giving harmful bacteria such as *Staphylococcus aureus*, *Bacillus cereus*, and *Clostridium perfringens* ample time to grow and potentially produce heat-stable toxins.  \n\nReheating to a rolling boil will kill most live bacteria but **does not destroy these toxins**, which can still cause foodborne illness. Therefore, even after boiling, the soup is unsafe and should be discarded.",
+  "raw": {
+    "id": "gen-1781206731-LAjmW6C1zkw8O0HxDTUE",
+    "object": "chat.completion",
+    "created": 1781206731,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "No, it is not safe to eat.  \n\n**Reasoning:**  \nPerishable foods like soup must not be left at room temperature for more than **2 hours** (or 1 hour above 90°F), as bacteria multiply rapidly in the \"danger zone\" between 40°F and 140°F. Your soup sat out for **5 hours**, giving harmful bacteria such as *Staphylococcus aureus*, *Bacillus cereus*, and *Clostridium perfringens* ample time to grow and potentially produce heat-stable toxins.  \n\nReheating to a rolling boil will kill most live bacteria but **does not destroy these toxins**, which can still cause foodborne illness. Therefore, even after boiling, the soup is unsafe and should be discarded.",
+          "refusal": null,
+          "reasoning": "We are asked: \"I made a big pot of soup, left it on the counter to cool for 5 hours, then refrigerated it overnight. If I reheat it to a rolling boil tomorrow, is it safe to eat? Explain the reasoning.\"\n\nThis is a food safety question. The key point is the 5 hours at room temperature. According to the USDA, perishable food should not be left at room temperature for more than 2 hours (1 hour if above 90°F). Bacteria grow rapidly in the \"danger zone\" between 40°F and 140°F. Leaving soup out for 5 hours allows bacteria to multiply to potentially unsafe levels. Some bacteria produce heat-stable toxins that are not destroyed by reheating. For example, Staphylococcus aureus can produce toxins that cause foodborne illness, and boiling will not destroy them. Also, Bacillus cereus and Clostridium perfringens spores can survive cooking and germinate, then produce toxins. Reheating to a rolling boil may kill live bacteria but not necessarily inactivate toxins. So the answer is: No, it is not safe because it was in the danger zone too long, and reheating might not destroy heat-stable toxins. \n\nI need to explain reasoning.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"I made a big pot of soup, left it on the counter to cool for 5 hours, then refrigerated it overnight. If I reheat it to a rolling boil tomorrow, is it safe to eat? Explain the reasoning.\"\n\nThis is a food safety question. The key point is the 5 hours at room temperature. According to the USDA, perishable food should not be left at room temperature for more than 2 hours (1 hour if above 90°F). Bacteria grow rapidly in the \"danger zone\" between 40°F and 140°F. Leaving soup out for 5 hours allows bacteria to multiply to potentially unsafe levels. Some bacteria produce heat-stable toxins that are not destroyed by reheating. For example, Staphylococcus aureus can produce toxins that cause foodborne illness, and boiling will not destroy them. Also, Bacillus cereus and Clostridium perfringens spores can survive cooking and germinate, then produce toxins. Reheating to a rolling boil may kill live bacteria but not necessarily inactivate toxins. So the answer is: No, it is not safe because it was in the danger zone too long, and reheating might not destroy heat-stable toxins. \n\nI need to explain reasoning.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 67,
+      "completion_tokens": 414,
+      "total_tokens": 481,
+      "cost": 0.00065763,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 33,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00065763,
+        "upstream_inference_prompt_cost": 0.000027936,
+        "upstream_inference_completions_cost": 0.000629694
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 254,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 67,
+  "tokensOut": 414,
+  "costUsd": 0.00065763,
+  "latencyMs": 6599,
+  "finishReason": "stop"
+}

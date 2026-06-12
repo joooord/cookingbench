@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Question } from '@cookingbench/core';
-import { anonymizeAnswer, buildJudgeMessages, parseJudgeResponse } from '../src/judge.js';
+import { anonymizeAnswer, buildJudgeMessages, panelSeats, parseJudgeResponse } from '../src/judge.js';
 
 const question: Question = {
   id: 'tech-001',
@@ -94,5 +94,37 @@ describe('judge-v2 prompt assembly', () => {
 
   it('anonymizes model self-identification', () => {
     expect(anonymizeAnswer('As ChatGPT, I suggest whisking.')).not.toMatch(/chatgpt/i);
+  });
+});
+
+describe('panel seat assignment', () => {
+  const PANEL = ['anthropic/claude-opus-4.8', 'qwen/qwen3.5-plus-20260420', 'openai/gpt-5.5'];
+
+  it('never lets a judge score its own provider', () => {
+    expect(panelSeats(PANEL, 'anthropic/claude-fable-5', 'tech-001')).toEqual([
+      'qwen/qwen3.5-plus-20260420',
+      'openai/gpt-5.5',
+    ]);
+    expect(panelSeats(PANEL, 'openai/gpt-5.4-mini', 'tech-001')).toEqual([
+      'anthropic/claude-opus-4.8',
+      'qwen/qwen3.5-plus-20260420',
+    ]);
+    expect(panelSeats(PANEL, 'qwen/qwen3.5-plus-20260420', 'tech-001')).toEqual([
+      'anthropic/claude-opus-4.8',
+      'openai/gpt-5.5',
+    ]);
+  });
+
+  it('rotates the dropped seat deterministically for non-conflicted candidates', () => {
+    const a = panelSeats(PANEL, 'moonshotai/kimi-k2.6', 'tech-001');
+    const b = panelSeats(PANEL, 'moonshotai/kimi-k2.6', 'tech-001');
+    expect(a).toEqual(b); // reproducible
+    expect(a).toHaveLength(2);
+    // across many questions, all three judges get seat time
+    const used = new Set<string>();
+    for (let i = 0; i < 30; i++) {
+      for (const seat of panelSeats(PANEL, 'moonshotai/kimi-k2.6', `q-${i}`)) used.add(seat);
+    }
+    expect(used.size).toBe(3);
   });
 });

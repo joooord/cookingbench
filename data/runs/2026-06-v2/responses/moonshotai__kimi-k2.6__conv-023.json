@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "conv-023",
+  "answerText": " Australian tablespoons are 20 mL, while US tablespoons are about 15 mL. So 3 Australian tablespoons equals 60 mL, which is 4 US tablespoons.\n\nAnswer: 4 tbsp",
+  "raw": {
+    "id": "gen-1781202433-DomqGDzOJiiANcDvJeIJ",
+    "object": "chat.completion",
+    "created": 1781202433,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": " Australian tablespoons are 20 mL, while US tablespoons are about 15 mL. So 3 Australian tablespoons equals 60 mL, which is 4 US tablespoons.\n\nAnswer: 4 tbsp",
+          "refusal": null,
+          "reasoning": "The user is asking about converting between Australian tablespoons and US tablespoons for a recipe.\n\nKey facts:\n- Australian (Anzac) recipe calls for 3 Australian tablespoons of golden syrup.\n- Australian tablespoon = 20 mL\n- US tablespoon = 15 mL (approximately 14.8 mL, but standard cooking conversion is 15 mL)\n\nSo:\n3 Australian tablespoons = 3 × 20 mL = 60 mL\n60 mL ÷ 15 mL/US tablespoon = 4 US tablespoons\n\nAlternatively, using the exact conversion where 1 US tablespoon = 14.7868 mL:\n60 ÷ 14.7868 ≈ 4.06 US tablespoons, which rounds to 4 US tablespoons.\n\nSo the answer is 4 US tablespoons.\n\nI need to answer accurately and concisely, and end with \"Answer: <number> tbsp\". ",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking about converting between Australian tablespoons and US tablespoons for a recipe.\n\nKey facts:\n- Australian (Anzac) recipe calls for 3 Australian tablespoons of golden syrup.\n- Australian tablespoon = 20 mL\n- US tablespoon = 15 mL (approximately 14.8 mL, but standard cooking conversion is 15 mL)\n\nSo:\n3 Australian tablespoons = 3 × 20 mL = 60 mL\n60 mL ÷ 15 mL/US tablespoon = 4 US tablespoons\n\nAlternatively, using the exact conversion where 1 US tablespoon = 14.7868 mL:\n60 ÷ 14.7868 ≈ 4.06 US tablespoons, which rounds to 4 US tablespoons.\n\nSo the answer is 4 US tablespoons.\n\nI need to answer accurately and concisely, and end with \"Answer: <number> tbsp\". ",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 76,
+      "completion_tokens": 224,
+      "total_tokens": 300,
+      "cost": 0.0008218,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 32,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0008218,
+        "upstream_inference_prompt_cost": 0.0000378,
+        "upstream_inference_completions_cost": 0.000784
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 185,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 76,
+  "tokensOut": 224,
+  "costUsd": 0.0008218,
+  "latencyMs": 9848,
+  "finishReason": "stop"
+}

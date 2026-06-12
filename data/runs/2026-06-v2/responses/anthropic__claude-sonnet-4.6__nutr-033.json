@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-033",
+  "answerText": "## Kilocalorie Calculation for a 750 ml Bottle of Dry Red Wine\n\n### Calories from Alcohol\n\n| Step | Calculation | Result |\n|------|------------|--------|\n| Volume of pure ethanol | 750 ml × 13.5% | 101.25 ml |\n| Mass of ethanol | 101.25 ml × 0.789 g/ml | 79.89 g |\n| Calories from ethanol | 79.89 g × 7 kcal/g | **559.2 kcal** |\n\n### Calories from Residual Sugar\n\n| Step | Calculation | Result |\n|------|------------|--------|\n| Residual sugar in bottle | 4 g/L × 0.75 L | 3 g |\n| Calories from sugar | 3 g × 4 kcal/g | **12 kcal** |\n\n### Total\n\n**559.2 + 12 = ~571 kcal**\n\nAnswer: 571 kcal",
+  "raw": {
+    "id": "gen-1781210048-YcyRwL3dLozT32buWLGL",
+    "object": "chat.completion",
+    "created": 1781210048,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Kilocalorie Calculation for a 750 ml Bottle of Dry Red Wine\n\n### Calories from Alcohol\n\n| Step | Calculation | Result |\n|------|------------|--------|\n| Volume of pure ethanol | 750 ml × 13.5% | 101.25 ml |\n| Mass of ethanol | 101.25 ml × 0.789 g/ml | 79.89 g |\n| Calories from ethanol | 79.89 g × 7 kcal/g | **559.2 kcal** |\n\n### Calories from Residual Sugar\n\n| Step | Calculation | Result |\n|------|------------|--------|\n| Residual sugar in bottle | 4 g/L × 0.75 L | 3 g |\n| Calories from sugar | 3 g × 4 kcal/g | **12 kcal** |\n\n### Total\n\n**559.2 + 12 = ~571 kcal**\n\nAnswer: 571 kcal",
+          "refusal": null,
+          "reasoning": "Let me calculate the kilocalories in a 750 ml bottle of dry red wine.\n\n**Step 1: Calculate alcohol calories**\n- Volume of alcohol = 750 ml × 13.5% = 750 × 0.135 = 101.25 ml\n- Mass of alcohol = 101.25 ml × 0.789 g/ml = 79.886 g\n- Calories from alcohol = 79.886 g × 7 kcal/g = 559.2 kcal\n\n**Step 2: Calculate residual sugar calories**\n- Residual sugar = 4 g/L × 0.75 L = 3 g\n- Calories from sugar = 3 g × 4 kcal/g = 12 kcal\n\nAdding those together gives me a total of about 571 kilocalories for the bottle.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Let me calculate the kilocalories in a 750 ml bottle of dry red wine.\n\n**Step 1: Calculate alcohol calories**\n- Volume of alcohol = 750 ml × 13.5% = 750 × 0.135 = 101.25 ml\n- Mass of alcohol = 101.25 ml × 0.789 g/ml = 79.886 g\n- Calories from alcohol = 79.886 g × 7 kcal/g = 559.2 kcal\n\n**Step 2: Calculate residual sugar calories**\n- Residual sugar = 4 g/L × 0.75 L = 3 g\n- Calories from sugar = 3 g × 4 kcal/g = 12 kcal\n\nAdding those together gives me a total of about 571 kilocalories for the bottle.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EtcFCmUIDhgCKkBJ390wTWkivklQLwG9BsYB/8MHjoQVDBINjE8q/3Kh+Uk1476W5QcQk2WvPMDDkDDMCcCw/UWQCl6DE4rQKS7SMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMvGB/s6FL1Yt8XaYuGgxRvy/XuoGwfAehKHwiMF7+eUXcbwYtChOV1yaVmQnddkwUznsWnA+JjMiqnU7ILGspii1HngHYv5zwBDcRtSqfBOXlEYAdLRKZM0W5Z3lwmmMK6X4tRNyHi37YJhIzOS9QYwaqy+pfYKvT0fKFm+h69ZTPD74awVMXKFu2X3j4GL/utPH0WdsO+vuQv6kjBpMG1ORy0AYvVbamg/UkKU4Z+gtcqB375/s0r1oyEsUoMoqHnpVOCCqpTcHGV67uzV1Y4lpn50l6oRKNVwMe0OipSUEM4kOKGVUrrs6f3yX5i60+KvFHkVrytvPldgjkhHg1KuqFYhM0VcMHvLC+as6TnkcRSVaG5G1B+ZFSkpfMhvpkUwqjB88+yvZcsCnDamnYv0EgcvboUs6dTigtgYwwEhjKpl0nTTlkpSRKPhef27tLSe/EDW6/8dL8umIUf0CSpL0Qj4yRXCUwpu6Sc13zz8sRMsvCAIRPt50BI/TyDilmLQEmW867Dleww0ShrbA+jqg7nPBE1PxJcpcDznXO/l3a6KF41SqwkC2eblAhk3PAJm+d25DkTyC0X6bRUw7Mx+C0AGbHoPAucU1hsku2HMydgSkm5FIcwbWW5uesv0BFObpmj+u207jZedokhg03a1fEyTz81/g22SWAJw9ykI5Sbdsh/Cd5x+3ARlCx0lKSHk11A0S+8EIvdNYPQorBbzM2sMLkKxhhWcXA/dwCvi68HKh8AWkgzdoO2ReB6jcaC9+12JIGfPsxegu++GamPiPvhWClYUu+BXBXJ3JYHvmDGht5lc2dJQyiTZ+LZhgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 122,
+      "completion_tokens": 494,
+      "total_tokens": 616,
+      "cost": 0.007776,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.007776,
+        "upstream_inference_prompt_cost": 0.000366,
+        "upstream_inference_completions_cost": 0.00741
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 139,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 122,
+  "tokensOut": 494,
+  "costUsd": 0.007776,
+  "latencyMs": 8483,
+  "finishReason": "stop"
+}

@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "nutr-026",
+  "answerText": "The raw 200 g fillet contains 40 g protein and 26 g fat. These macros are retained after cooking while weight drops 20 % to 160 g. Calories are obtained from standard Atwater factors (protein 4 kcal/g, fat 9 kcal/g).\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+  "raw": {
+    "id": "gen-1781209200-QUzKwRthJKaELHmZfrrN",
+    "object": "chat.completion",
+    "created": 1781209200,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The raw 200 g fillet contains 40 g protein and 26 g fat. These macros are retained after cooking while weight drops 20 % to 160 g. Calories are obtained from standard Atwater factors (protein 4 kcal/g, fat 9 kcal/g).\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+          "refusal": null,
+          "reasoning": "The question is: A salmon fillet weighs 200 g raw. I'll pan-sear it. Salmon is roughly 20 g protein and 13 g fat per 100 g raw. Cooking causes about 20% weight loss, mostly water (protein and fat are ...Protein: 40 g\nFat: 26 g\nCalories: 394 kcal\n\n\n## Explanation\n\nThe raw fillet composition is first scaled directly from the given per-100 g values: 200 g raw salmon therefore contains 40 g protein and 26 g fat. Because the 20 % weight loss occurs predominantly as water while protein and fat are retained with negligible loss, the cooked fillet retains exactly these same absolute masses of 40 g protein and 26 g fat.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: A salmon fillet weighs 200 g raw. I'll pan-sear it. Salmon is roughly 20 g protein and 13 g fat per 100 g raw. Cooking causes about 20% weight loss, mostly water (protein and fat are ...Protein: 40 g\nFat: 26 g\nCalories: 394 kcal\n\n\n## Explanation\n\nThe raw fillet composition is first scaled directly from the given per-100 g values: 200 g raw salmon therefore contains 40 g protein and 26 g fat. Because the 20 % weight loss occurs predominantly as water while protein and fat are retained with negligible loss, the cooked fillet retains exactly these same absolute masses of 40 g protein and 26 g fat.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_6f70578b-b670-90d9-8448-50477998bf64",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 241,
+      "completion_tokens": 1088,
+      "total_tokens": 1329,
+      "cost": 0.00288685,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00288685,
+        "upstream_inference_prompt_cost": 0.00016685,
+        "upstream_inference_completions_cost": 0.00272
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1016,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 241,
+  "tokensOut": 1088,
+  "costUsd": 0.00288685,
+  "latencyMs": 7424,
+  "finishReason": "stop"
+}

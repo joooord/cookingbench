@@ -18,10 +18,8 @@ export interface CalibrationAnchor {
   answerText: string;
 }
 
-export interface CalibrationResult {
+export interface JudgeCalibration {
   judgeModel: string;
-  judgePromptVersion: string;
-  atIso: string;
   mae: number;
   passed: boolean;
   anchors: Array<{
@@ -31,6 +29,18 @@ export interface CalibrationResult {
     got: number;
     pass: boolean;
   }>;
+}
+
+export interface CalibrationResult {
+  /** Panel label or single judge id. */
+  judgeModel: string;
+  judgePanel?: string[];
+  judgePromptVersion: string;
+  atIso: string;
+  /** Worst per-judge MAE. */
+  mae: number;
+  passed: boolean;
+  judges: JudgeCalibration[];
 }
 
 export function loadAnchors(): CalibrationAnchor[] {
@@ -47,20 +57,13 @@ export function readCalibration(runId: string): CalibrationResult | null {
   return JSON.parse(readFileSync(path, 'utf8')) as CalibrationResult;
 }
 
-/**
- * The judge gate (README Phase 3): before any paid judging, the judge must
- * reproduce 12 hand-scored anchor answers within tolerance. Catches a drifted
- * judge model, a broken prompt, or a severity scheme that stopped biting.
- */
-export async function runCalibration(
+async function calibrateOne(
   client: CompletionClient,
   judgeModel: string,
-  judgePromptVersion: string,
-  runId: string,
+  anchors: CalibrationAnchor[],
   questionsById: Map<string, Question>,
-): Promise<CalibrationResult> {
-  const anchors = loadAnchors();
-  const results: CalibrationResult['anchors'] = [];
+): Promise<JudgeCalibration> {
+  const results: JudgeCalibration['anchors'] = [];
   for (const anchor of anchors) {
     const question = questionsById.get(anchor.questionId);
     if (!question) throw new Error(`Calibration anchor references unknown question ${anchor.questionId}`);
@@ -76,13 +79,41 @@ export async function runCalibration(
   }
   const mae =
     results.reduce((sum, r) => sum + Math.abs(r.got - r.expected), 0) / Math.max(results.length, 1);
-  const result: CalibrationResult = {
+  return {
     judgeModel,
-    judgePromptVersion,
-    atIso: new Date().toISOString(),
     mae: Math.round(mae * 10) / 10,
     passed: mae <= MAE_LIMIT && results.every((r) => r.pass),
     anchors: results,
+  };
+}
+
+/**
+ * The judge gate (README Phase 3): before any paid judging, EVERY panel seat
+ * must independently reproduce the hand-scored anchors within tolerance.
+ * Catches a drifted judge model, a broken prompt, or a severity scheme that
+ * stopped biting.
+ */
+export async function runCalibration(
+  client: CompletionClient,
+  judgeLabel: string,
+  judgePanel: string[],
+  judgePromptVersion: string,
+  runId: string,
+  questionsById: Map<string, Question>,
+): Promise<CalibrationResult> {
+  const anchors = loadAnchors();
+  const judges: JudgeCalibration[] = [];
+  for (const judgeModel of judgePanel) {
+    judges.push(await calibrateOne(client, judgeModel, anchors, questionsById));
+  }
+  const result: CalibrationResult = {
+    judgeModel: judgeLabel,
+    judgePanel,
+    judgePromptVersion,
+    atIso: new Date().toISOString(),
+    mae: Math.max(...judges.map((j) => j.mae)),
+    passed: judges.every((j) => j.passed),
+    judges,
   };
   writeFileSync(calibrationPath(runId), JSON.stringify(result, null, 2));
   return result;

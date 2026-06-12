@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "nutr-027",
+  "answerText": "Boiled broccoli loses significantly more vitamin C.\n\n**Mechanism:** Vitamin C is both water-soluble and heat-sensitive. When broccoli is boiled in plenty of water, the ascorbic acid leaches out of the plant tissue into the surrounding cooking water, which is usually discarded. Prolonged heat also accelerates its oxidative degradation. Steaming minimizes this loss because the broccoli has little to no direct contact with water, so the vitamin C remains in the vegetable rather than dissolving away.",
+  "raw": {
+    "id": "gen-1781203065-Mq7gxmYQMJBa43fAC5KM",
+    "object": "chat.completion",
+    "created": 1781203065,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "AtlasCloud",
+    "system_fingerprint": "fpv0_af60b866",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Boiled broccoli loses significantly more vitamin C.\n\n**Mechanism:** Vitamin C is both water-soluble and heat-sensitive. When broccoli is boiled in plenty of water, the ascorbic acid leaches out of the plant tissue into the surrounding cooking water, which is usually discarded. Prolonged heat also accelerates its oxidative degradation. Steaming minimizes this loss because the broccoli has little to no direct contact with water, so the vitamin C remains in the vegetable rather than dissolving away.",
+          "refusal": null,
+          "reasoning": "The user is asking a question about vitamin C retention in broccoli when boiled versus steamed. I need to answer accurately and concisely.\n\nKey facts:\n1. Broccoli boiled in plenty of water loses more vitamin C than steamed broccoli.\n2. Mechanism: Vitamin C (ascorbic acid) is water-soluble and heat-sensitive. When boiled in plenty of water, the vitamin C leaches out into the cooking water, which is often discarded. Additionally, heat degrades it. Steaming minimizes water contact, so less leaching occurs, though some heat degradation still happens.\n\nI should structure the answer clearly:\n- Direct answer: Boiled loses more.\n- Mechanism explanation: Water solubility + leaching + heat degradation + water discarded.\n- Contrast with steaming: Minimal water contact, so less leaching.\n\nKeep it concise as requested.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking a question about vitamin C retention in broccoli when boiled versus steamed. I need to answer accurately and concisely.\n\nKey facts:\n1. Broccoli boiled in plenty of water loses more vitamin C than steamed broccoli.\n2. Mechanism: Vitamin C (ascorbic acid) is water-soluble and heat-sensitive. When boiled in plenty of water, the vitamin C leaches out into the cooking water, which is often discarded. Additionally, heat degrades it. Steaming minimizes water contact, so less leaching occurs, though some heat degradation still happens.\n\nI should structure the answer clearly:\n- Direct answer: Boiled loses more.\n- Mechanism explanation: Water solubility + leaching + heat degradation + water discarded.\n- Contrast with steaming: Minimal water contact, so less leaching.\n\nKeep it concise as requested.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 51,
+      "completion_tokens": 273,
+      "total_tokens": 324,
+      "cost": 0.00114045,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00114045,
+        "upstream_inference_prompt_cost": 0.00004845,
+        "upstream_inference_completions_cost": 0.001092
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 213,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 51,
+  "tokensOut": 273,
+  "costUsd": 0.00114045,
+  "latencyMs": 18054,
+  "finishReason": "stop"
+}

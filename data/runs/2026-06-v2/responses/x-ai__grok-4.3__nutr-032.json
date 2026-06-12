@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "nutr-032",
+  "answerText": "Cooked chicken provides 31 g protein per 100 g.  \nTo obtain 45 g protein therefore requires  \n\\(45 \\times 100 / 31 \\approx 145\\) g of cooked meat.  \n\nBecause cooking removes 25 % of the raw weight, cooked weight = 75 % of raw weight.  \nHence raw weight = \\(145 / 0.75 \\approx 193.5\\) g (roughly 194 g).  \n\nAnswer: 194 g",
+  "raw": {
+    "id": "gen-1781209210-wgeJJIf62W21NBbFhfNJ",
+    "object": "chat.completion",
+    "created": 1781209210,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Cooked chicken provides 31 g protein per 100 g.  \nTo obtain 45 g protein therefore requires  \n\\(45 \\times 100 / 31 \\approx 145\\) g of cooked meat.  \n\nBecause cooking removes 25 % of the raw weight, cooked weight = 75 % of raw weight.  \nHence raw weight = \\(145 / 0.75 \\approx 193.5\\) g (roughly 194 g).  \n\nAnswer: 194 g",
+          "refusal": null,
+          "reasoning": "The problem states: Cooked chicken breast has roughly 31 g of protein per 100 g, and breast meat loses about 25% of its weight from raw to cooked. I want 45 g of protein from tonight's chicken. Roughl...193.5g roughly, confidence high.\n\nBut let's confirm.\n\nThe protein per 100g cooked means that in the cooked meat, there are 31g protein in 100g cooked meat.\n\nAssuming the protein amount is fixed, yes.\n\nIf raw has certain protein density, but they didn't give raw protein, so this way.\n\nI think 194g is fine, but roughly, perhaps 200g.\n\nCalculate precisely: 45 / (31/100) = 45 *100/31 =4500/31≈145.1613g cooked.\n\nRaw =145.1613 /0.75 =145.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem states: Cooked chicken breast has roughly 31 g of protein per 100 g, and breast meat loses about 25% of its weight from raw to cooked. I want 45 g of protein from tonight's chicken. Roughl...193.5g roughly, confidence high.\n\nBut let's confirm.\n\nThe protein per 100g cooked means that in the cooked meat, there are 31g protein in 100g cooked meat.\n\nAssuming the protein amount is fixed, yes.\n\nIf raw has certain protein density, but they didn't give raw protein, so this way.\n\nI think 194g is fine, but roughly, perhaps 200g.\n\nCalculate precisely: 45 / (31/100) = 45 *100/31 =4500/31≈145.1613g cooked.\n\nRaw =145.1613 /0.75 =145.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_e3472d56-5d19-9880-9fc2-d191e9c1a0e8",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 220,
+      "completion_tokens": 1188,
+      "total_tokens": 1408,
+      "cost": 0.0031106,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0031106,
+        "upstream_inference_prompt_cost": 0.0001406,
+        "upstream_inference_completions_cost": 0.00297
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1092,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 220,
+  "tokensOut": 1188,
+  "costUsd": 0.0031106,
+  "latencyMs": 7774,
+  "finishReason": "stop"
+}

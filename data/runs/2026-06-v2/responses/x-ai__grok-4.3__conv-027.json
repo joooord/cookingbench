@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "conv-027",
+  "answerText": "A US cup is ~236.6 ml so 2 US cups = ~473 ml. Divide by the Australian 250 ml cup size to get ~1.89 (round to 1.9).\nAnswer: 1.9 cups",
+  "raw": {
+    "id": "gen-1781209120-vbBQhDr5VePaalRyghzk",
+    "object": "chat.completion",
+    "created": 1781209120,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "A US cup is ~236.6 ml so 2 US cups = ~473 ml. Divide by the Australian 250 ml cup size to get ~1.89 (round to 1.9).\nAnswer: 1.9 cups",
+          "refusal": null,
+          "reasoning": "The problem is: A US recipe wants 2 cups (US) of milk. My Australian measuring cup is the metric 250 ml cup. How many Australian cups should I measure?First, the user is asking: A US recipe wants 2 cups (US) of milk. My Australian measuring cup is the metric 250 ml cup. How many Australian cups should I measure?\n\nI need to convert 2 US cups to metric cups of 250 ml.\n\nStandard conversion:\n- 1 US cup = 236.588 ml (precise value)\n- So 2 US cups = 473.176 ml\n- Australian cup = 250 ml\n- Number = 473.176 / 250 ≈ 1.8927\n\nCommonly approximated as 1.9 Australian cups.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem is: A US recipe wants 2 cups (US) of milk. My Australian measuring cup is the metric 250 ml cup. How many Australian cups should I measure?First, the user is asking: A US recipe wants 2 cups (US) of milk. My Australian measuring cup is the metric 250 ml cup. How many Australian cups should I measure?\n\nI need to convert 2 US cups to metric cups of 250 ml.\n\nStandard conversion:\n- 1 US cup = 236.588 ml (precise value)\n- So 2 US cups = 473.176 ml\n- Australian cup = 250 ml\n- Number = 473.176 / 250 ≈ 1.8927\n\nCommonly approximated as 1.9 Australian cups.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_29dec53c-f5a2-9cd5-b813-394b374b3977",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 195,
+      "completion_tokens": 1097,
+      "total_tokens": 1292,
+      "cost": 0.00285185,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00285185,
+        "upstream_inference_prompt_cost": 0.00010935,
+        "upstream_inference_completions_cost": 0.0027425
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1048,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 195,
+  "tokensOut": 1097,
+  "costUsd": 0.00285185,
+  "latencyMs": 8474,
+  "finishReason": "stop"
+}

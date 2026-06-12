@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "conv-001",
+  "answerText": "To convert Fahrenheit to Celsius, use the formula:\n°C = (°F - 32) × 5/9\n\nFor 350°F:\n(350 - 32) × 5/9 = 318 × 5/9 ≈ 175.56\n\nConventional (non-fan) ovens typically round to the nearest 5 or 10 degrees.\n\nAnswer: 175 °C",
+  "raw": {
+    "id": "gen-1781207293-3kI87PmUeeR630HmcyKe",
+    "object": "chat.completion",
+    "created": 1781207293,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To convert Fahrenheit to Celsius, use the formula:\n°C = (°F - 32) × 5/9\n\nFor 350°F:\n(350 - 32) × 5/9 = 318 × 5/9 ≈ 175.56\n\nConventional (non-fan) ovens typically round to the nearest 5 or 10 degrees.\n\nAnswer: 175 °C",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 61,
+      "completion_tokens": 99,
+      "total_tokens": 160,
+      "cost": 0.000179,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000179,
+        "upstream_inference_prompt_cost": 0.0000305,
+        "upstream_inference_completions_cost": 0.0001485
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 61,
+  "tokensOut": 99,
+  "costUsd": 0.000179,
+  "latencyMs": 2091,
+  "finishReason": "stop"
+}

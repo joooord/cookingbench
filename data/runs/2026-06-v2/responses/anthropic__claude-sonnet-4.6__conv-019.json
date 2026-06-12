@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "conv-019",
+  "answerText": "## Converting Fan Oven to Conventional + Celsius to Fahrenheit\n\n**Step 1: Adjust for oven type**\nFan (convection) ovens are more efficient, so add ~20°C when switching to a conventional oven:\n> 160°C (fan) → **180°C** (conventional)\n\n**Step 2: Convert Celsius to Fahrenheit**\nUsing the formula °F = (°C × 9/5) + 32:\n> (180 × 9/5) + 32 = 324 + 32 = **356°F**\n\n**Round to the nearest standard setting → 350°F**\n\nThis is a very common baking temperature (Gas Mark 4), so you're in safe territory. Just keep an eye on your bake since all ovens vary slightly.\n\nAnswer: 350 °F",
+  "raw": {
+    "id": "gen-1781209833-ClkdR0AmhrslTOuqfch0",
+    "object": "chat.completion",
+    "created": 1781209833,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Converting Fan Oven to Conventional + Celsius to Fahrenheit\n\n**Step 1: Adjust for oven type**\nFan (convection) ovens are more efficient, so add ~20°C when switching to a conventional oven:\n> 160°C (fan) → **180°C** (conventional)\n\n**Step 2: Convert Celsius to Fahrenheit**\nUsing the formula °F = (°C × 9/5) + 32:\n> (180 × 9/5) + 32 = 324 + 32 = **356°F**\n\n**Round to the nearest standard setting → 350°F**\n\nThis is a very common baking temperature (Gas Mark 4), so you're in safe territory. Just keep an eye on your bake since all ovens vary slightly.\n\nAnswer: 350 °F",
+          "refusal": null,
+          "reasoning": "The user has a UK recipe that calls for 160°C in a fan oven. They need to convert this to Fahrenheit for a conventional (non-fan) oven.\n\nStep 1: Convert fan oven temperature to conventional oven temperature.\nFan ovens typically run about 20°C hotter (more efficiently), so for a conventional oven, you add about 20°C.\n160°C (fan) → 180°C (conventional)\n\nStep 2: Convert 180°C to Fahrenheit.\nUsing the conversion formula, 180°C converts to 356°F, which rounds down to 350°F—the nearest standard oven temperature.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user has a UK recipe that calls for 160°C in a fan oven. They need to convert this to Fahrenheit for a conventional (non-fan) oven.\n\nStep 1: Convert fan oven temperature to conventional oven temperature.\nFan ovens typically run about 20°C hotter (more efficiently), so for a conventional oven, you add about 20°C.\n160°C (fan) → 180°C (conventional)\n\nStep 2: Convert 180°C to Fahrenheit.\nUsing the conversion formula, 180°C converts to 356°F, which rounds down to 350°F—the nearest standard oven temperature.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EtsGCmUIDhgCKkDpz2jxdQ063jnRO1qC8BipctIo/kpFKgVFi2hGDoTG05r/lNJe4jAB6Kmcl5/Jd1kq/LjqCLNIz77rVh6IBahSMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMEnTfyIkY86p0TF0qGgwFeP5eiyVNk8pArkAiMJHye/9uOsgSfO3x9DR1jdJa8OcDIXOhvsT01ME5JqsCWbvcc46rnZNhPnETPPktLCqjBc0o47EYMru/Nudtuns4mKy+yz3tHydx+7+6PsNQi65645cgOe0xXB+fb7qlKxL49k60kC9DkZeQUnJ47JQgQI1hTvuHwN7NiRoZywA7JcyQLEgfu2ldcPC9jc2q7bksQ10tszcswTd2oCHEJVV56YLemt0mSyq02evMKY7PWUyizRSa/krtKD+W5Tz7TqRfeLdSeELiE2jkXycI+7lWaLXkImuD1aNzhIRDnocluFDSLwuya4YWxigf933gzGrs3/B3c9qCpXKdVPuKqYbgTkFavNeONrvanEpsYhPss6kOomiaqfALJaXkyTzOouiNTCGieDM8Y5991DsRTCFKGXT+ly83+ZiLc507cp6Qi+TnsLQdnTQT9V0veJQdR+U50RiZQxyZ/ykBYcwGJsDT31uxQWgUBL9na9fWLgfkjlTXvYu3XpOlAvo7Dm7iq3MvBhp9XVmFot8opbZG6LecHph81jwVDP8b4+XqDe4lVcw+e8ktvEj4lx9G5CpI5jsmIqLYlZlKnSNQszbg1QG6ueUNP13Lqu+8JtTC2VnQj9LcfqQSxuIBOOOoQg2Qgd06uWCKYAZ/ADv1rQCjUrg991WoLu3gEN930qg5piBjd1JYa3gdkFdDtXfDGaVb0QF5wLzwGPsuIu9o0YskiaSg/QMbFqD3CFLxaDt6dcLLIXN/YtdJXPhQNEgKBU7VgnbhSAZ0amukPYLLWbpta44envIOl/JxAmSS1236n9XgMS10+CmK9ce4FM4/1Xvljy/WKcgkEyjWAb6S5qG7gkRK5lSkAXGMkZcjRnVynpsl75Dkr5K+OGb+E+jcf8XInoWH7tOSbsoIXy9q28G2PWJj2k6hcfr+qSD32QR8cbnuCzja7WLtXg2NS+aJQV6GTCxQhJyQ9BgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 83,
+      "completion_tokens": 429,
+      "total_tokens": 512,
+      "cost": 0.006684,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.006684,
+        "upstream_inference_prompt_cost": 0.000249,
+        "upstream_inference_completions_cost": 0.006435
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 142,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 83,
+  "tokensOut": 429,
+  "costUsd": 0.006684,
+  "latencyMs": 14307,
+  "finishReason": "stop"
+}

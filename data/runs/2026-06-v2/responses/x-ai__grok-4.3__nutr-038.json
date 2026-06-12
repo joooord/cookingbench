@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "nutr-038",
+  "answerText": "Two large eggs: ~144 kcal.  \nKnob of butter (~1 tbsp): ~100 kcal.  \nSplash whole milk (~2 tbsp): ~20 kcal.  \nTwo slices white bread: ~150 kcal.  \nButter for toast (~2 tsp total): ~70 kcal.  \n\nSum: ~484 kcal (rounded estimate 480).  \nAnswer: 480 kcal",
+  "raw": {
+    "id": "gen-1781209218-WvhCgHfrn7ltZmIBlQvw",
+    "object": "chat.completion",
+    "created": 1781209218,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Two large eggs: ~144 kcal.  \nKnob of butter (~1 tbsp): ~100 kcal.  \nSplash whole milk (~2 tbsp): ~20 kcal.  \nTwo slices white bread: ~150 kcal.  \nButter for toast (~2 tsp total): ~70 kcal.  \n\nSum: ~484 kcal (rounded estimate 480).  \nAnswer: 480 kcal",
+          "refusal": null,
+          "reasoning": "The question is: \"Estimate the total kilocalories of this breakfast: two large eggs scrambled with a knob of butter and a splash of whole milk, plus two slices of buttered white toast.\"\nFirst, recall standard calorie values:\n\n- Large egg: ~70 kcal each (actually 72-78, let's use 70 for estimate). Two: 140 kcal.\n\nMore precisely, one large egg has 72 kcal (USDA: 70-78 depending on size, average 72).\n\nBut let's use common 80 kcal for egg sometimes, but stick to 70.\n\nBetter: standard nutrition:\n\n- 1 large egg: 72 kcal\n\n- 2: 144 kcal\n\n- Butter: 1 knob ~1 tsp = 34 kcal (but for eggs, maybe 1 tbsp=102, but knob is small 50 kcal)\n\n- Splash milk: 1/4 cup whole milk ~40 kcal (whole milk 150 kcal/cup, 1/4=37.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"Estimate the total kilocalories of this breakfast: two large eggs scrambled with a knob of butter and a splash of whole milk, plus two slices of buttered white toast.\"\nFirst, recall standard calorie values:\n\n- Large egg: ~70 kcal each (actually 72-78, let's use 70 for estimate). Two: 140 kcal.\n\nMore precisely, one large egg has 72 kcal (USDA: 70-78 depending on size, average 72).\n\nBut let's use common 80 kcal for egg sometimes, but stick to 70.\n\nBetter: standard nutrition:\n\n- 1 large egg: 72 kcal\n\n- 2: 144 kcal\n\n- Butter: 1 knob ~1 tsp = 34 kcal (but for eggs, maybe 1 tbsp=102, but knob is small 50 kcal)\n\n- Splash milk: 1/4 cup whole milk ~40 kcal (whole milk 150 kcal/cup, 1/4=37.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_57463d9c-0aef-98a6-bd21-d7440a14ff64",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 197,
+      "completion_tokens": 1461,
+      "total_tokens": 1658,
+      "cost": 0.00376435,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00376435,
+        "upstream_inference_prompt_cost": 0.00011185,
+        "upstream_inference_completions_cost": 0.0036525
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1387,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 197,
+  "tokensOut": 1461,
+  "costUsd": 0.00376435,
+  "latencyMs": 10169,
+  "finishReason": "stop"
+}

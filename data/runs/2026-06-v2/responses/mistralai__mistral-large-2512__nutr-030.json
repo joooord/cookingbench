@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "nutr-030",
+  "answerText": "Cooking **does not significantly change the total protein content** of food like chicken breast. However, it **alters the protein's structure and digestibility**:\n\n- **What cooking does**:\n  - **Denatures proteins**: Heat unfolds (denatures) protein molecules, breaking weak bonds and changing their shape. This makes them easier to digest.\n  - **Improves bioavailability**: Denaturation can make some amino acids more accessible for absorption.\n  - **Reduces anti-nutrients**: Cooking can deactivate certain compounds (e.g., enzyme inhibitors) that might interfere with protein digestion.\n\n- **What cooking does not do**:\n  - **Destroy or remove protein**: The total amount of protein remains largely the same (though some may leach into cooking liquids).\n  - **Create new proteins**: Cooking doesn’t synthesize additional protein; it only modifies existing molecules.\n\n**Example**: A raw chicken breast has ~31g protein per 100g, while a cooked one has ~31g (accounting for moisture loss). The protein is just more digestible after cooking.",
+  "raw": {
+    "id": "gen-1781207348-VCDZWTJkzeXURG7UYJUs",
+    "object": "chat.completion",
+    "created": 1781207348,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Cooking **does not significantly change the total protein content** of food like chicken breast. However, it **alters the protein's structure and digestibility**:\n\n- **What cooking does**:\n  - **Denatures proteins**: Heat unfolds (denatures) protein molecules, breaking weak bonds and changing their shape. This makes them easier to digest.\n  - **Improves bioavailability**: Denaturation can make some amino acids more accessible for absorption.\n  - **Reduces anti-nutrients**: Cooking can deactivate certain compounds (e.g., enzyme inhibitors) that might interfere with protein digestion.\n\n- **What cooking does not do**:\n  - **Destroy or remove protein**: The total amount of protein remains largely the same (though some may leach into cooking liquids).\n  - **Create new proteins**: Cooking doesn’t synthesize additional protein; it only modifies existing molecules.\n\n**Example**: A raw chicken breast has ~31g protein per 100g, while a cooked one has ~31g (accounting for moisture loss). The protein is just more digestible after cooking.",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 50,
+      "completion_tokens": 225,
+      "total_tokens": 275,
+      "cost": 0.0003625,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0003625,
+        "upstream_inference_prompt_cost": 0.000025,
+        "upstream_inference_completions_cost": 0.0003375
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 50,
+  "tokensOut": 225,
+  "costUsd": 0.0003625,
+  "latencyMs": 4754,
+  "finishReason": "stop"
+}

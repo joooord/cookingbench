@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "qty-018",
+  "answerText": "First, convert the butter to millilitres:\n1 stick of butter = 113 grams ≈ 120 ml (since butter is ~0.9 g/ml).\n1½ sticks = 1.5 × 120 ml = 180 ml butter.\n\nFor 10 people (scaling factor = 10/6 ≈ 1.67):\n180 ml × 1.67 ≈ 300 ml butter.\n\nOlive oil swap (¾ volume of butter):\n300 ml × 0.75 = 225 ml.\n\nAnswer: 225 ml",
+  "raw": {
+    "id": "gen-1781207362-hkSGhOhI9pHMN8tVjbtJ",
+    "object": "chat.completion",
+    "created": 1781207362,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "First, convert the butter to millilitres:\n1 stick of butter = 113 grams ≈ 120 ml (since butter is ~0.9 g/ml).\n1½ sticks = 1.5 × 120 ml = 180 ml butter.\n\nFor 10 people (scaling factor = 10/6 ≈ 1.67):\n180 ml × 1.67 ≈ 300 ml butter.\n\nOlive oil swap (¾ volume of butter):\n300 ml × 0.75 = 225 ml.\n\nAnswer: 225 ml",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 99,
+      "completion_tokens": 135,
+      "total_tokens": 234,
+      "cost": 0.000252,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000252,
+        "upstream_inference_prompt_cost": 0.0000495,
+        "upstream_inference_completions_cost": 0.0002025
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 99,
+  "tokensOut": 135,
+  "costUsd": 0.000252,
+  "latencyMs": 3701,
+  "finishReason": "stop"
+}

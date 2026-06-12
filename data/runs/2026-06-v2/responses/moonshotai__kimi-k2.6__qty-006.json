@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "qty-006",
+  "answerText": "To make a 5% brine based on the water's weight, multiply the water weight by 0.05:\n\n0.05 × 2000 g = 100 g\n\nAnswer: 100 g",
+  "raw": {
+    "id": "gen-1781203298-Rza9KPaEoLnqnXHlcula",
+    "object": "chat.completion",
+    "created": 1781203298,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "StreamLake",
+    "system_fingerprint": "fpv0_69dc6732",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To make a 5% brine based on the water's weight, multiply the water weight by 0.05:\n\n0.05 × 2000 g = 100 g\n\nAnswer: 100 g",
+          "refusal": null,
+          "reasoning": "The user wants to make a 5% brine where salt is measured as a percentage of the water's weight.\nWater weight: 2000 g\nPercentage: 5%\n\nCalculation: 5% of 2000 g = 0.05 × 2000 = 100 g\n\nThe answer should be accurate and concise, ending with \"Answer: <number> g\".\n\nLet me double-check:\n- 5% brine by water weight\n- 2000 g water\n- 0.05 × 2000 = 100 g salt\n\nThis is straightforward. I should be concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants to make a 5% brine where salt is measured as a percentage of the water's weight.\nWater weight: 2000 g\nPercentage: 5%\n\nCalculation: 5% of 2000 g = 0.05 × 2000 = 100 g\n\nThe answer should be accurate and concise, ending with \"Answer: <number> g\".\n\nLet me double-check:\n- 5% brine by water weight\n- 2000 g water\n- 0.05 × 2000 = 100 g salt\n\nThis is straightforward. I should be concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 85,
+      "completion_tokens": 171,
+      "total_tokens": 256,
+      "cost": 0.000688275,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000688275,
+        "upstream_inference_prompt_cost": 0.000072675,
+        "upstream_inference_completions_cost": 0.0006156
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 111,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 85,
+  "tokensOut": 171,
+  "costUsd": 0.000688275,
+  "latencyMs": 5414,
+  "finishReason": "stop"
+}

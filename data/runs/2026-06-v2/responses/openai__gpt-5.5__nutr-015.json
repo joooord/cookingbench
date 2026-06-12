@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "openai/gpt-5.5",
+  "questionId": "nutr-015",
+  "answerText": "Alcohol: 150 ml × 12% = 18 ml ethanol  \n18 ml × 0.789 g/ml = 14.2 g ethanol  \n14.2 g × 7 kcal/g = 99.4 kcal  \n\nSugar: 3 g × 4 kcal/g = 12 kcal  \n\nTotal = 99.4 + 12 = 111.4 kcal  \n\nAnswer: 111 kcal",
+  "raw": {
+    "id": "gen-1781211969-o9YlMzdRquZHIYwFq4na",
+    "object": "chat.completion",
+    "created": 1781211969,
+    "model": "openai/gpt-5.5-20260423",
+    "provider": "OpenAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Alcohol: 150 ml × 12% = 18 ml ethanol  \n18 ml × 0.789 g/ml = 14.2 g ethanol  \n14.2 g × 7 kcal/g = 99.4 kcal  \n\nSugar: 3 g × 4 kcal/g = 12 kcal  \n\nTotal = 99.4 + 12 = 111.4 kcal  \n\nAnswer: 111 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating total calories**\n\nI need to provide a concise answer here. First, I’m calculating the ethanol content: 150 ml multiplied by 12% equals 18 ml of ethanol. Using a density of 0.789, that converts to about 14.202 grams. The calories from the alcohol would be 99.414. Then, I’m adding the sugar content, which is 3 grams times 4 calories each, resulting in 12 calories. So the total comes to approximately 111.414 kcal, so I will use 111 kcal.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "**Calculating total calories**\n\nI need to provide a concise answer here. First, I’m calculating the ethanol content: 150 ml multiplied by 12% equals 18 ml of ethanol. Using a density of 0.789, that converts to about 14.202 grams. The calories from the alcohol would be 99.414. Then, I’m adding the sugar content, which is 3 grams times 4 calories each, resulting in 12 calories. So the total comes to approximately 111.414 kcal, so I will use 111 kcal.",
+              "format": "openai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "gAAAAABqKyNG8F6JPpO_lvYyt0L2yN4nXHJ48yu7lw36JNsjbdkeH9R6ko9fhOkKSbRRWWgn7pRXClNO4ZPBmaSEol2qpTw5XR0vaqGCB4CesSSkDsFl869_LVzZXVlvDVBxmd4iGMMNcC5t8eLK2M9mDDfGZzJDz_SIcPgnx49oC1WrPEBaXy52MOfR6RghYY_-jJMzcAfOGjjxM9erSfVvJRX_51DJCcfnzlyR3pLdj91flq_8Pj5XWWH_-6JEPCX3lZ_CQ3lWCfYdJpyxT-A1n7D1lNx5iCpOVByRwHk56djvbd3iBrDUXFZuIAVf8AV-3bUnHR4RV77doISU96rLilgywcwsO5eYgSH12CwSsW6cm8-KDEB10Ug_zVULw7r_6bMaRzPPFGP3FOdHwVncDeMn7NeDl3B_GL1KUGQtV8WE0qaxoGOLvUWvF5d0XZ58aN_MzLuB76-vE6jDZrKu_B0quZ0Fay7rI5qlVJQJ2Z5o4gZXW39POub4udFznVeKTABN6pMDZSvGJzOCQ-lC0U3ToTYS5Z1bQzgwUiOioqwzzQt0mXHmvSQyvauZ28SWhKiAd9xan770H-c46XXK1KpihmdyDbGfV84FFJGMDZGnKMdRJMgzq9MFeJNcVC33jEmZX0WBUMw-CL2HmM65LwjZrL2ioWlOfZtqx4leOgP6NKCEQr0O3gNyXHq6N8H1y8ACvSCbc9tFjT07kFHKdTLvwx0GYxkIdqt3TG3o5PenwS0pAZSGQyrkN8NA5tIOtXMNLPvMgKc5PY8oW8-P1Thiz-D0RQheAikhuNv-Gp8IOd5Hrfieohpd7bKoUszHDZ-laQbvT5amncdW2GJyXEgUm11OvkWzHpenLXiYrSp-FZz20T6nocrw4BLhqxhnRo4sfvhoO-AHKBF93WL-48R00Fr-VwiOrV9mI4VhhM0ID7D8P_UdebRF18nSrz1xYeKduv3zpr6VzQA5sjiOURjZ7YdcROGr_WAKjd30BSuDDJSjCBZP1zSy8MdBi83-n9lH6i2LbmDoVA-67qsswulcf9lJDEenpjUtU7nuY7G6cuvv56Km9Ej7bMXmy_lnJF4uWvoa52BDZ8_PGnVJBK4aWV3xPwPJZJe1PtbBa7Ea_YfcXqvgE6vbYilfRrNx4v_Ey92MLeLjWBjGujL-MilXp4JYvNPzdlKzPrve-vEnnJb7E8KlvS0sK9uLcGhx3OBycSrQqgZvbLVLVO2lSpihBzKU3Uuph2f_UjuI797IvuWB5xIEUzeTsEAJc6BoqxbJvVhTlxdX64f9iImX9_LFTbxQ5A==",
+              "format": "openai-responses-v1",
+              "id": "rs_082526e74ff965f4016a2b2342f6688196843adeced3f504d7",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 99,
+      "completion_tokens": 178,
+      "total_tokens": 277,
+      "cost": 0.005835,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.005835,
+        "upstream_inference_prompt_cost": 0.000495,
+        "upstream_inference_completions_cost": 0.00534
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 88,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 99,
+  "tokensOut": 178,
+  "costUsd": 0.005835,
+  "latencyMs": 4932,
+  "finishReason": "stop"
+}

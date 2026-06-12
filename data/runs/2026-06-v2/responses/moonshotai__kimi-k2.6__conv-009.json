@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "conv-009",
+  "answerText": " There are 3 teaspoons in 1 US tablespoon.\n\nAnswer: 3 tsp",
+  "raw": {
+    "id": "gen-1781202316-K7uoUXAeUN4ItUjPUmHY",
+    "object": "chat.completion",
+    "created": 1781202316,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "DigitalOcean",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": " There are 3 teaspoons in 1 US tablespoon.\n\nAnswer: 3 tsp",
+          "refusal": null,
+          "reasoning": " The user is asking a straightforward conversion question: how many teaspoons are in 1 US tablespoon. This is a standard culinary measurement. \n\n1 US tablespoon = 3 US teaspoons.\n\nI need to answer accurately and concisely, and end with the format \"Answer: <number> tsp\".\n\nSo the answer should be something like:\n\"There are 3 teaspoons in 1 US tablespoon.\n\nAnswer: 3 tsp\"\n\nOr just directly state it concisely.\n\nLet me verify: Yes, in US customary units, 1 tablespoon = 3 teaspoons exactly. (1 tablespoon = 14.7868 mL, 1 teaspoon = 4.92892 mL, and 14.7868/4.92892 = 3 exactly by definition).\n\nI should be concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " The user is asking a straightforward conversion question: how many teaspoons are in 1 US tablespoon. This is a standard culinary measurement. \n\n1 US tablespoon = 3 US teaspoons.\n\nI need to answer accurately and concisely, and end with the format \"Answer: <number> tsp\".\n\nSo the answer should be something like:\n\"There are 3 teaspoons in 1 US tablespoon.\n\nAnswer: 3 tsp\"\n\nOr just directly state it concisely.\n\nLet me verify: Yes, in US customary units, 1 tablespoon = 3 teaspoons exactly. (1 tablespoon = 14.7868 mL, 1 teaspoon = 4.92892 mL, and 14.7868/4.92892 = 3 exactly by definition).\n\nI should be concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 53,
+      "completion_tokens": 186,
+      "total_tokens": 239,
+      "cost": 0.0006751975,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0006751975,
+        "upstream_inference_prompt_cost": 0.0000427975,
+        "upstream_inference_completions_cost": 0.0006324
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 164,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 53,
+  "tokensOut": 186,
+  "costUsd": 0.0006751975,
+  "latencyMs": 4152,
+  "finishReason": "stop"
+}

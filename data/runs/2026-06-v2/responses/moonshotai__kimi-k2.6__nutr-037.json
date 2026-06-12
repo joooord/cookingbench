@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "nutr-037",
+  "answerText": "A peeled banana contains roughly 89 kcal per 100 g. For a 120 g portion, that comes to about 105 kcal.\n\nAnswer: 105 kcal",
+  "raw": {
+    "id": "gen-1781203169-frmIdGZk0pUlImJSY8Gi",
+    "object": "chat.completion",
+    "created": 1781203169,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_8cab9aba",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "A peeled banana contains roughly 89 kcal per 100 g. For a 120 g portion, that comes to about 105 kcal.\n\nAnswer: 105 kcal",
+          "refusal": null,
+          "reasoning": "The user wants an estimate of the kilocalories (kcal) in a large banana weighing 120 g peeled.\n\nI need to recall or calculate the caloric content.\nBananas are roughly 89 kcal per 100 grams (USDA data).\nSo for 120 g: 89 * 1.2 = 106.8 kcal.\nAlternatively, some sources say ~95 kcal per 100g or around 105 calories for a medium banana (~118g).\nA large banana is often cited as 120-135 calories.\nLet's calculate precisely based on standard nutritional data.\nUSDA says 89 kcal/100g for raw banana.\n120 g * 0.89 kcal/g = 106.8 kcal.\nRounding to a reasonable estimate: ~105-110 kcal.\nI should provide the estimate and end with the exact format requested.\n\nLet's double check common references:\n- Medium banana (118g): ~105 kcal.\n- Large banana (136g): ~121 kcal.\nWait, the user specifies 120 g peeled. That is actually between small and medium/large. A \"large\" banana in USDA database is often 136g. But the user explicitly says 120 g peeled. So I should base it on the weight given.\n120 g * 0.89 = 106.8 kcal.\nLet's say approximately 105 kcal, or round to 110 kcal. The user asks for an estimate. 105 or 110 is fine. Let's go with ~105 kcal to be precise, or just say approximately 105–110 kcal. But the final line must be \"Answer: <number> kcal\". I need to pick a number. 105 or 110 or 107. Let's provide ~105 kcal.\n\nActually, let's look at the USDA entry:\nBananas, raw: 89 kcal per 100g.\n120g = 106.8 kcal.\nRounding to nearest 5 or 10: 105 or 110.\nI will state the calculation and give 105 kcal as a reasonable estimate. Or 107. But the instruction says \"Answer: <number> kcal\". A whole number is best. Let's round to 105.\n\nWait, is there a standard \"large banana\" calorie count?\nMany dietetics sources say:\n- Small (6\"-7\", 101g): 90 kcal\n- Medium (7\"-8\", 118g): 105 kcal\n- Large (8\"-9\", 136g): 120 kcal\n- Extra large (9\"+, 152g): 135 kcal\n\nA 120 g banana is slightly above medium, so ~105-110 kcal is very accurate.\nI will say approximately 105 kcal.\n\nLet's construct the response.\n\"A peeled banana has roughly 89 kcal per 100 g. For a 120 g piece, that comes to about 105–110 kcal.\"\nThen final line: \"Answer: 105 kcal\" or \"Answer: 110 kcal\". I'll pick 105 as it's closer to the exact 106.8, but 110 is also a common rounded estimate. Let's provide 105 as it's standard for ~118g, and 120g is slightly more, maybe 107. I'll just say \"about 105 kcal\" or \"about 110 kcal\". Since the user asked for an estimate, and the format requires a single number, I'll use 105. Actually, let's do the math: 89 * 1.2 = 106.8. Rounding to nearest whole number: 107. Rounding to nearest 5: 105. I'll provide 105 as it's a very common dietary rounding for this size, but I could also just say ~107. Let's go with 105 for simplicity, or 110 to be safe? No, let's be as accurate as possible. 107 is the closest integer. But standard nutrition labels might say 105. I'll say \"approximately 105 kcal (about 89 kcal per 100 g).\" and end with Answer: 105 kcal.\n\nLet me reconsider. Is there any ambiguity? \"large banana weighing 120 g peeled\". Yes, peeled weight is the edible portion. So 120g edible.\nCalculation: 120 * 0.89 = 106.8.\nMaybe I should say ~107 kcal and answer 107. But 105 is more standard. However, the prompt asks to answer accurately. 107 is more accurate than 105. But it's an \"estimate\". I'll provide ~105 kcal and answer 105. Hmm.\nLet's check another source. USDA FoodData Central: Bananas, raw: Energy 89 kcal per 100g. NLEA serving 126g = 112 kcal. Wait. 126g * 0.89 = 112.14. So yes.\nFor 120g: 106.8.\nIf I say ~105, that's off by less than 2%. That's fine.\nBut maybe I should say \"about 105–110 kcal\" and then pick 105 for the line? Or 110?\nWhat if I say \"approximately 105 kcal\"? Fine.\nWhat if I say \"approximately 110 kcal\"? That's off by 3%. Also fine.\nI'll stick with 105.\n\nLet's write the final response.\n\"A peeled banana provides roughly 89 kcal per 100 g. A 120 g serving therefore contains approximately 105 kcal.\"\nAnswer: 105 kcal\n\nWait, I want to make sure I don't violate the \"concisely\" instruction. It's already concise.\nFinal check on output format. \"End your reply with a line 'Answer: <number> kcal'.\"\nSo my last line must be exactly that format. No period after? The instruction says \"Answer: <number> kcal\". I'll follow that literally.\n\nLet's verify no hidden traps. \"kilocalories\" is the same as \"Calories\" (capital C). The user asked for kilocalories. My answer is in kcal. Correct.\nWeight is peeled. Correct.\nEverything looks good.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants an estimate of the kilocalories (kcal) in a large banana weighing 120 g peeled.\n\nI need to recall or calculate the caloric content.\nBananas are roughly 89 kcal per 100 grams (USDA data).\nSo for 120 g: 89 * 1.2 = 106.8 kcal.\nAlternatively, some sources say ~95 kcal per 100g or around 105 calories for a medium banana (~118g).\nA large banana is often cited as 120-135 calories.\nLet's calculate precisely based on standard nutritional data.\nUSDA says 89 kcal/100g for raw banana.\n120 g * 0.89 kcal/g = 106.8 kcal.\nRounding to a reasonable estimate: ~105-110 kcal.\nI should provide the estimate and end with the exact format requested.\n\nLet's double check common references:\n- Medium banana (118g): ~105 kcal.\n- Large banana (136g): ~121 kcal.\nWait, the user specifies 120 g peeled. That is actually between small and medium/large. A \"large\" banana in USDA database is often 136g. But the user explicitly says 120 g peeled. So I should base it on the weight given.\n120 g * 0.89 = 106.8 kcal.\nLet's say approximately 105 kcal, or round to 110 kcal. The user asks for an estimate. 105 or 110 is fine. Let's go with ~105 kcal to be precise, or just say approximately 105–110 kcal. But the final line must be \"Answer: <number> kcal\". I need to pick a number. 105 or 110 or 107. Let's provide ~105 kcal.\n\nActually, let's look at the USDA entry:\nBananas, raw: 89 kcal per 100g.\n120g = 106.8 kcal.\nRounding to nearest 5 or 10: 105 or 110.\nI will state the calculation and give 105 kcal as a reasonable estimate. Or 107. But the instruction says \"Answer: <number> kcal\". A whole number is best. Let's round to 105.\n\nWait, is there a standard \"large banana\" calorie count?\nMany dietetics sources say:\n- Small (6\"-7\", 101g): 90 kcal\n- Medium (7\"-8\", 118g): 105 kcal\n- Large (8\"-9\", 136g): 120 kcal\n- Extra large (9\"+, 152g): 135 kcal\n\nA 120 g banana is slightly above medium, so ~105-110 kcal is very accurate.\nI will say approximately 105 kcal.\n\nLet's construct the response.\n\"A peeled banana has roughly 89 kcal per 100 g. For a 120 g piece, that comes to about 105–110 kcal.\"\nThen final line: \"Answer: 105 kcal\" or \"Answer: 110 kcal\". I'll pick 105 as it's closer to the exact 106.8, but 110 is also a common rounded estimate. Let's provide 105 as it's standard for ~118g, and 120g is slightly more, maybe 107. I'll just say \"about 105 kcal\" or \"about 110 kcal\". Since the user asked for an estimate, and the format requires a single number, I'll use 105. Actually, let's do the math: 89 * 1.2 = 106.8. Rounding to nearest whole number: 107. Rounding to nearest 5: 105. I'll provide 105 as it's a very common dietary rounding for this size, but I could also just say ~107. Let's go with 105 for simplicity, or 110 to be safe? No, let's be as accurate as possible. 107 is the closest integer. But standard nutrition labels might say 105. I'll say \"approximately 105 kcal (about 89 kcal per 100 g).\" and end with Answer: 105 kcal.\n\nLet me reconsider. Is there any ambiguity? \"large banana weighing 120 g peeled\". Yes, peeled weight is the edible portion. So 120g edible.\nCalculation: 120 * 0.89 = 106.8.\nMaybe I should say ~107 kcal and answer 107. But 105 is more standard. However, the prompt asks to answer accurately. 107 is more accurate than 105. But it's an \"estimate\". I'll provide ~105 kcal and answer 105. Hmm.\nLet's check another source. USDA FoodData Central: Bananas, raw: Energy 89 kcal per 100g. NLEA serving 126g = 112 kcal. Wait. 126g * 0.89 = 112.14. So yes.\nFor 120g: 106.8.\nIf I say ~105, that's off by less than 2%. That's fine.\nBut maybe I should say \"about 105–110 kcal\" and then pick 105 for the line? Or 110?\nWhat if I say \"approximately 105 kcal\"? Fine.\nWhat if I say \"approximately 110 kcal\"? That's off by 3%. Also fine.\nI'll stick with 105.\n\nLet's write the final response.\n\"A peeled banana provides roughly 89 kcal per 100 g. A 120 g serving therefore contains approximately 105 kcal.\"\nAnswer: 105 kcal\n\nWait, I want to make sure I don't violate the \"concisely\" instruction. It's already concise.\nFinal check on output format. \"End your reply with a line 'Answer: <number> kcal'.\"\nSo my last line must be exactly that format. No period after? The instruction says \"Answer: <number> kcal\". I'll follow that literally.\n\nLet's verify no hidden traps. \"kilocalories\" is the same as \"Calories\" (capital C). The user asked for kilocalories. My answer is in kcal. Correct.\nWeight is peeled. Correct.\nEverything looks good.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 56,
+      "completion_tokens": 1314,
+      "total_tokens": 1370,
+      "cost": 0.0053092,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0053092,
+        "upstream_inference_prompt_cost": 0.0000532,
+        "upstream_inference_completions_cost": 0.005256
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1160,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 56,
+  "tokensOut": 1314,
+  "costUsd": 0.0053092,
+  "latencyMs": 100644,
+  "finishReason": "stop"
+}

@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "nutr-024",
+  "answerText": "A medium apple (≈120 g) with skin contains 2.4 g dietary fibre per 100 g (USDA data). Scaling gives 120 × 2.4 / 100 = 2.88 g, which rounds to approximately 3 g.\nAnswer: 3 g",
+  "raw": {
+    "id": "gen-1781209198-E3iQMiNF0OQGK2HTQe1M",
+    "object": "chat.completion",
+    "created": 1781209198,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "A medium apple (≈120 g) with skin contains 2.4 g dietary fibre per 100 g (USDA data). Scaling gives 120 × 2.4 / 100 = 2.88 g, which rounds to approximately 3 g.\nAnswer: 3 g",
+          "refusal": null,
+          "reasoning": "The question is: \"Approximately how many grams of fibre are in a medium (≈120 g) apple with skin?\" I need to answer as a cooking assistant, accurately and concisely. End with \"Answer: <number> g\".First, the question is: Approximately how many grams of fibre are in a medium (≈120 g) apple with skin?\n\nI need to report the answer as: Answer: <number> g, and include \\confidence{xx} at the end.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"Approximately how many grams of fibre are in a medium (≈120 g) apple with skin?\" I need to answer as a cooking assistant, accurately and concisely. End with \"Answer: <number> g\".First, the question is: Approximately how many grams of fibre are in a medium (≈120 g) apple with skin?\n\nI need to report the answer as: Answer: <number> g, and include \\confidence{xx} at the end.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_d1a38ef4-73ee-9beb-a277-0f4ac183b9c9",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 181,
+      "completion_tokens": 674,
+      "total_tokens": 855,
+      "cost": 0.00177685,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00177685,
+        "upstream_inference_prompt_cost": 0.00009185,
+        "upstream_inference_completions_cost": 0.001685
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 616,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 181,
+  "tokensOut": 674,
+  "costUsd": 0.00177685,
+  "latencyMs": 4951,
+  "finishReason": "stop"
+}

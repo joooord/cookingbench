@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "nutr-035",
+  "answerText": "## Step 1: Calculate the energy from carbohydrate\nFirst, we need to calculate the energy from the carbohydrate. The total carbohydrate is 62 g, and it includes 9 g of fibre. Using Atwater factors, carbohydrate (other than fibre) is counted at 4 kcal/g, and fibre is counted at 2 kcal/g. So, the energy from carbohydrate = (62 g - 9 g) * 4 kcal/g + 9 g * 2 kcal/g.\n\n## Step 2: Perform the carbohydrate energy calculation\nEnergy from carbohydrate = (53 g) * 4 kcal/g + 9 g * 2 kcal/g = 212 kcal + 18 kcal = 230 kcal.\n\n## Step 3: Calculate the energy from protein\nThe energy from protein is calculated using the Atwater factor for protein, which is 4 kcal/g. Given that there are 11 g of protein, the energy from protein = 11 g * 4 kcal/g.\n\n## Step 4: Perform the protein energy calculation\nEnergy from protein = 11 g * 4 kcal/g = 44 kcal.\n\n## Step 5: Calculate the energy from fat\nThe energy from fat is calculated using the Atwater factor for fat, which is 9 kcal/g. Given that there are 8 g of fat, the energy from fat = 8 g * 9 kcal/g.\n\n## Step 6: Perform the fat energy calculation\nEnergy from fat = 8 g * 9 kcal/g = 72 kcal.\n\n## Step 7: Sum the energies from carbohydrate, protein, and fat to get the total energy\nTotal energy = Energy from carbohydrate + Energy from protein + Energy from fat = 230 kcal + 44 kcal + 72 kcal.\n\n## Step 8: Perform the total energy calculation\nTotal energy = 230 kcal + 44 kcal + 72 kcal = 346 kcal.\n\nThe final answer is: Answer: 346 kcal",
+  "raw": {
+    "id": "gen-1781205117-kBoPD5ovi2EX0DVrDCFq",
+    "object": "chat.completion",
+    "created": 1781205117,
+    "model": "meta-llama/llama-4-maverick-17b-128e-instruct",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "## Step 1: Calculate the energy from carbohydrate\nFirst, we need to calculate the energy from the carbohydrate. The total carbohydrate is 62 g, and it includes 9 g of fibre. Using Atwater factors, carbohydrate (other than fibre) is counted at 4 kcal/g, and fibre is counted at 2 kcal/g. So, the energy from carbohydrate = (62 g - 9 g) * 4 kcal/g + 9 g * 2 kcal/g.\n\n## Step 2: Perform the carbohydrate energy calculation\nEnergy from carbohydrate = (53 g) * 4 kcal/g + 9 g * 2 kcal/g = 212 kcal + 18 kcal = 230 kcal.\n\n## Step 3: Calculate the energy from protein\nThe energy from protein is calculated using the Atwater factor for protein, which is 4 kcal/g. Given that there are 11 g of protein, the energy from protein = 11 g * 4 kcal/g.\n\n## Step 4: Perform the protein energy calculation\nEnergy from protein = 11 g * 4 kcal/g = 44 kcal.\n\n## Step 5: Calculate the energy from fat\nThe energy from fat is calculated using the Atwater factor for fat, which is 9 kcal/g. Given that there are 8 g of fat, the energy from fat = 8 g * 9 kcal/g.\n\n## Step 6: Perform the fat energy calculation\nEnergy from fat = 8 g * 9 kcal/g = 72 kcal.\n\n## Step 7: Sum the energies from carbohydrate, protein, and fat to get the total energy\nTotal energy = Energy from carbohydrate + Energy from protein + Energy from fat = 230 kcal + 44 kcal + 72 kcal.\n\n## Step 8: Perform the total energy calculation\nTotal energy = 230 kcal + 44 kcal + 72 kcal = 346 kcal.\n\nThe final answer is: Answer: 346 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 110,
+      "completion_tokens": 402,
+      "total_tokens": 512,
+      "cost": 0.0002577,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002577,
+        "upstream_inference_prompt_cost": 0.0000165,
+        "upstream_inference_completions_cost": 0.0002412
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 110,
+  "tokensOut": 402,
+  "costUsd": 0.0002577,
+  "latencyMs": 21584,
+  "finishReason": "stop"
+}

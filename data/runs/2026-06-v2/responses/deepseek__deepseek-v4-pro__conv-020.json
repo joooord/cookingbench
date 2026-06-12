@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-020",
+  "answerText": "Gas mark 7 corresponds to 220°C in a conventional oven. For fan-only ovens, you generally reduce the temperature by 20°C, giving a setting of 200°C.\n\nAnswer: 200 °C",
+  "raw": {
+    "id": "gen-1781206641-r3Sj7KYP6U3GjTXxzKYD",
+    "object": "chat.completion",
+    "created": 1781206641,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Gas mark 7 corresponds to 220°C in a conventional oven. For fan-only ovens, you generally reduce the temperature by 20°C, giving a setting of 200°C.\n\nAnswer: 200 °C",
+          "refusal": null,
+          "reasoning": "We are asked: \"A British recipe says gas mark 7, but my oven is fan-only. What temperature in Celsius should I set the fan oven to?\"\n\nWe need to convert gas mark 7 to Celsius for a fan oven. Typically, gas mark 7 is equivalent to 220°C (425°F) for conventional ovens. But for fan ovens, you typically reduce the temperature by about 20°C (or sometimes 25°C). So fan oven temperature would be around 200°C.\n\nStandard conversion: Gas mark 7 = 220°C (conventional). For fan oven, subtract 20°C, giving 200°C.\n\nThus the answer is 200°C. I'll answer accordingly with the required ending.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A British recipe says gas mark 7, but my oven is fan-only. What temperature in Celsius should I set the fan oven to?\"\n\nWe need to convert gas mark 7 to Celsius for a fan oven. Typically, gas mark 7 is equivalent to 220°C (425°F) for conventional ovens. But for fan ovens, you typically reduce the temperature by about 20°C (or sometimes 25°C). So fan oven temperature would be around 200°C.\n\nStandard conversion: Gas mark 7 = 220°C (conventional). For fan oven, subtract 20°C, giving 200°C.\n\nThus the answer is 200°C. I'll answer accordingly with the required ending.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 63,
+      "completion_tokens": 207,
+      "total_tokens": 270,
+      "cost": 0.000767016,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000767016,
+        "upstream_inference_prompt_cost": 0.000101304,
+        "upstream_inference_completions_cost": 0.000665712
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 158,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 63,
+  "tokensOut": 207,
+  "costUsd": 0.000767016,
+  "latencyMs": 3175,
+  "finishReason": "stop"
+}

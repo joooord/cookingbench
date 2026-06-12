@@ -71,16 +71,29 @@ export default function MethodologyPage() {
             question regardless of anything else said.
           </p>
           <p className="mt-4">
-            <strong>The LLM judge</strong> (methodology v2) is a fact-checker, not a
-            mark-giver: it compares each answer to a reference and lists concrete faults —
-            each typed critical, major or minor — and code maps those to deductions
-            (−40/−15/−5 from 100). It never awards points, which removes the grade-inflation
-            ceiling that saturated v1. The judge is blind to which model wrote the answer,
-            judges twice at temperature 0, flags large disagreements for human review, and
-            must pass a calibration gate (reproducing hand-scored anchor answers) before any
-            run is accepted. For constrained recipe generation the judge score is blended
-            with deterministic constraint checks — e.g. an allergen appearing in a
-            &ldquo;nut-free&rdquo; recipe.
+            <strong>The judge panel</strong> (methodology v2) replaces a single LLM judge
+            with three: Claude Opus 4.8, GPT-5.5 and Qwen 3.5 Plus. Each answer is scored
+            by two of the three seats; a judge never scores a model from its own maker
+            (self-preference bias), and the remaining seat rotation is deterministic by
+            hash, so every published score is reproducible. Judges are fact-checkers, not
+            mark-givers: each compares the answer to a reference and lists concrete faults
+            — typed critical, major or minor — and code maps those to deductions
+            (−40/−15/−5 from 100). Never awarding points removes the grade-inflation
+            ceiling that saturated v1. Judges are blind to which model wrote the answer,
+            cross-judge disagreements over 15 points are flagged for human review, and
+            every panel seat must independently pass a calibration gate (reproducing
+            hand-scored anchor answers) before a run is accepted. For constrained recipe
+            generation the panel score is blended with deterministic constraint checks —
+            e.g. an allergen appearing in a &ldquo;nut-free&rdquo; recipe.
+          </p>
+          <p className="mt-4">
+            <strong>Precision and taste are scored separately.</strong> Everything above
+            measures precision — facts, math, constraints, technique. But a benchmark
+            that stops there is a metrics test, not a flavour test. The{' '}
+            <a href="/tastetest" className="text-paprika hover:underline">Taste Test</a>{' '}
+            is the second axis: blind, side-by-side human votes on paired answers,
+            arena-style. When enough battles accumulate, the human win rate appears as
+            its own leaderboard column — never folded into the precision score.
           </p>
           <p className="mt-4">
             Every question scores 0–100. The <strong>Overall</strong> score is the plain mean

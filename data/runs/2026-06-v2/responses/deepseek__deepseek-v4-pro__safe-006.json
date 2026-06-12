@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "safe-006",
+  "answerText": "No, you should not rinse raw chicken. Washing can spread harmful bacteria, like Campylobacter and Salmonella, through splashing water onto surfaces, utensils, and other foods (cross-contamination). Cooking the chicken to a safe internal temperature (165°F/74°C) will kill any bacteria, so rinsing is unnecessary and increases food safety risks.",
+  "raw": {
+    "id": "gen-1781206718-Ufo4n0kTIErf57Xi8fKE",
+    "object": "chat.completion",
+    "created": 1781206718,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "No, you should not rinse raw chicken. Washing can spread harmful bacteria, like Campylobacter and Salmonella, through splashing water onto surfaces, utensils, and other foods (cross-contamination). Cooking the chicken to a safe internal temperature (165°F/74°C) will kill any bacteria, so rinsing is unnecessary and increases food safety risks.",
+          "refusal": null,
+          "reasoning": "We are asked: \"Should I rinse raw chicken under the tap before cooking it? Explain briefly.\"\n\nI need to provide a knowledgeable cooking assistant response. The answer should be accurate and concise. \n\nThe key fact: rinsing raw chicken is not recommended by food safety experts because it can spread bacteria like Campylobacter and Salmonella through water splashes, leading to cross-contamination. Cooking to proper temperature kills bacteria. So, rinse is not needed.\n\nI should answer no, and explain why briefly.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Should I rinse raw chicken under the tap before cooking it? Explain briefly.\"\n\nI need to provide a knowledgeable cooking assistant response. The answer should be accurate and concise. \n\nThe key fact: rinsing raw chicken is not recommended by food safety experts because it can spread bacteria like Campylobacter and Salmonella through water splashes, leading to cross-contamination. Cooking to proper temperature kills bacteria. So, rinse is not needed.\n\nI should answer no, and explain why briefly.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 35,
+      "completion_tokens": 175,
+      "total_tokens": 210,
+      "cost": 0.0002816325,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 16,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002816325,
+        "upstream_inference_prompt_cost": 0.0000154575,
+        "upstream_inference_completions_cost": 0.000266175
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 100,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 35,
+  "tokensOut": 175,
+  "costUsd": 0.0002816325,
+  "latencyMs": 3440,
+  "finishReason": "stop"
+}

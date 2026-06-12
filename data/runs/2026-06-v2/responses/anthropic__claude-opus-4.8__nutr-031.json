@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "nutr-031",
+  "answerText": "**Calculation:**\n\n- Spaghetti: 500 g × 3.6 kcal/g = 1800 kcal\n- Butter: 60 g × 7.17 kcal/g = 430.2 kcal\n- Parmesan: 80 g × 4.20 kcal/g = 336 kcal\n\n**Total:** 1800 + 430.2 + 336 = 2566.2 kcal\n\n**Per portion:** 2566.2 ÷ 5 ≈ 513 kcal\n\nAnswer: 513 kcal",
+  "raw": {
+    "id": "gen-1781211599-LE8PTZIGyHfyN5sII1Nm",
+    "object": "chat.completion",
+    "created": 1781211599,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Calculation:**\n\n- Spaghetti: 500 g × 3.6 kcal/g = 1800 kcal\n- Butter: 60 g × 7.17 kcal/g = 430.2 kcal\n- Parmesan: 80 g × 4.20 kcal/g = 336 kcal\n\n**Total:** 1800 + 430.2 + 336 = 2566.2 kcal\n\n**Per portion:** 2566.2 ÷ 5 ≈ 513 kcal\n\nAnswer: 513 kcal",
+          "refusal": null,
+          "reasoning": " Now I'm calculating the calorie breakdown for each ingredient in the pasta dish—pasta contributes the bulk at 1800 calories, with butter and Parmesan adding around 430 and 336 calories respectively, bringing the total to about 2566 calories, which works out to roughly 513 calories per serving across the five portions.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " Now I'm calculating the calorie breakdown for each ingredient in the pasta dish—pasta contributes the bulk at 1800 calories, with butter and Parmesan adding around 430 and 336 calories respectively, bringing the total to about 2566 calories, which works out to roughly 513 calories per serving across the five portions.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EvkCCmMIDhgCKkADBagzTVKz4jcf/rKziiq8ZVPqjG1hrsQFxxqCdocGxfK7e6yNfrfaV2CxQHC3ytHpIKdR/1D9gvXXHAfS/P0IMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDJe4dZ4a+Hqj2aCjGRoMR1raeLU5E5zybt1+IjBiWwu9ayrPELVgZ3a0l4KN3jlkXPncOO/meA1qXqbGmlVYvf3w7/JbfLBLXwED1lsqwwFaue1diGXCL9TomjprqesBDENOMW0sa4k327yK00AKzx5iMLu5otr1/8jbjHkPAkYH7Al9uK+1K0ydHuKhpU/g8qc+oelFw3xdVca8Op7eyNBe23nE4GfFDc4BDXJzPekhLMbuqniEDI2kmMGqoZVczGnPFzH7vHEPlsHLaFPxhp8JZ1v+uYM66TOmhhAp0fxJsgdowq5eriFHpD7/0eQSBMcU9tu6fx8a/rXofOiSPSK73nx1cD+rlPsmwIqZLLi286IYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 168,
+      "completion_tokens": 296,
+      "total_tokens": 464,
+      "cost": 0.00824,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00824,
+        "upstream_inference_prompt_cost": 0.00084,
+        "upstream_inference_completions_cost": 0.0074
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 81,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 168,
+  "tokensOut": 296,
+  "costUsd": 0.00824,
+  "latencyMs": 4708,
+  "finishReason": "stop"
+}

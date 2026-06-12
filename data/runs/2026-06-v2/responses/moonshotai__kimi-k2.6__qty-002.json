@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "qty-002",
+  "answerText": "To serve 4, multiply the original amount by 4/6:\n\n450 g × (4/6) = 450 g × (2/3) = 300 g\n\nAnswer: 300 g",
+  "raw": {
+    "id": "gen-1781203280-6du8WUWjtY4lu9Tv4hTH",
+    "object": "chat.completion",
+    "created": 1781203280,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "SiliconFlow",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To serve 4, multiply the original amount by 4/6:\n\n450 g × (4/6) = 450 g × (2/3) = 300 g\n\nAnswer: 300 g",
+          "refusal": null,
+          "reasoning": "The user wants to know how much rice is needed to serve 4 people when a recipe for 6 people calls for 450 g of basmati rice. This is a simple proportion problem.\n\nOriginal: 6 servings = 450 g\nTarget: 4 servings = ? g\n\nCalculation: (450 g / 6 servings) * 4 servings = 75 g * 4 = 300 g\n\nOr: 450 * (4/6) = 450 * (2/3) = 300 g\n\nSo the answer is 300 g.\n\nI need to answer accurately and concisely, and end with \"Answer: <number> g\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants to know how much rice is needed to serve 4 people when a recipe for 6 people calls for 450 g of basmati rice. This is a simple proportion problem.\n\nOriginal: 6 servings = 450 g\nTarget: 4 servings = ? g\n\nCalculation: (450 g / 6 servings) * 4 servings = 75 g * 4 = 300 g\n\nOr: 450 * (4/6) = 450 * (2/3) = 300 g\n\nSo the answer is 300 g.\n\nI need to answer accurately and concisely, and end with \"Answer: <number> g\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 76,
+      "completion_tokens": 181,
+      "total_tokens": 257,
+      "cost": 0.00078252,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00078252,
+        "upstream_inference_prompt_cost": 0.00005852,
+        "upstream_inference_completions_cost": 0.000724
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 138,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 76,
+  "tokensOut": 181,
+  "costUsd": 0.00078252,
+  "latencyMs": 2961,
+  "finishReason": "stop"
+}

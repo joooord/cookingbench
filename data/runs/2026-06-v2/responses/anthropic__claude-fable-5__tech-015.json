@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "tech-015",
+  "answerText": "For double-fried chips, the first fry blanches the potatoes at around 130–140 °C to cook them through. The second fry, which crisps and browns the exterior, should be done at a much hotter temperature — about **190 °C**. Fry for 2–3 minutes until golden and crisp, then drain and season immediately.\n\nAnswer: 190 °C",
+  "raw": {
+    "id": "gen-1781213547-00I4vtwajVFZWom7P4pk",
+    "object": "chat.completion",
+    "created": 1781213547,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "For double-fried chips, the first fry blanches the potatoes at around 130–140 °C to cook them through. The second fry, which crisps and browns the exterior, should be done at a much hotter temperature — about **190 °C**. Fry for 2–3 minutes until golden and crisp, then drain and season immediately.\n\nAnswer: 190 °C",
+          "refusal": null,
+          "reasoning": " The second fry temperature for chips is typically around 190°C, though some sources suggest 180°C as the lower end of the range, following an initial fry at 130-140°C.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " The second fry temperature for chips is typically around 190°C, though some sources suggest 180°C as the lower end of the range, following an initial fry at 130-140°C.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS3wIKYggOGAIqQBSAGOSatawRNBevcn8kGxTywSr2zVTYRuIulEYybHxkyqo2hPz3kT/lJte8aGKMBAKZte9LW42r58FQYFAcW/MyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgzNHzXB3spT0YAZQJUaDAJquiJbqhMbmYehXiIwW3TgV8JOIv2l8F45QMSM1ODCCgERYQBV4hSxt80yqY8cyB++Q0pY+qv0XgimU83HKqoBaR3H6Iina4VSMzhzrV9w1YVPxeeJAWGNaR+VmR7TNYRkk/HYUARo5GHHafbxywTo6zTwiCwhf6cn/plo963cxrl7ctTFTtjCREFjqjYp8hCieYRRWaTn5xlauJQq+XNl3fyt4QoasyzAHMyqnsLkZsSv3sKDKDG8iYTonwTSIAmdwj2xE52GZUcXh+4oVS0Mo1VPvHH7ITSVA+UKnRYMVytEQ+mcRwSEg6QYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 99,
+      "completion_tokens": 182,
+      "total_tokens": 281,
+      "cost": 0.01009,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01009,
+        "upstream_inference_prompt_cost": 0.00099,
+        "upstream_inference_completions_cost": 0.0091
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 45,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 99,
+  "tokensOut": 182,
+  "costUsd": 0.01009,
+  "latencyMs": 6001,
+  "finishReason": "stop"
+}

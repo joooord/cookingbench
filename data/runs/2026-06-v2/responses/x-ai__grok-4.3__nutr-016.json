@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "nutr-016",
+  "answerText": "100 ml of olive oil has a mass of 0.91 g/ml × 100 ml = 91 g.  \nEnergy content: 91 g × (884 kcal / 100 g) = 804.44 kcal (approximately 804 kcal given the \"about\" density).  \n\nAnswer: 804 kcal",
+  "raw": {
+    "id": "gen-1781209193-MmHMzfVfjs1igdfVMivL",
+    "object": "chat.completion",
+    "created": 1781209193,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "100 ml of olive oil has a mass of 0.91 g/ml × 100 ml = 91 g.  \nEnergy content: 91 g × (884 kcal / 100 g) = 804.44 kcal (approximately 804 kcal given the \"about\" density).  \n\nAnswer: 804 kcal",
+          "refusal": null,
+          "reasoning": "The problem is: Olive oil provides 884 kcal per 100 g and has a density of about 0.91 g/ml. How many kilocalories are in 100 ml of olive oil?\nAnswer: 804.44 kcal \n\n## Explanation\n\nThe calculation begins by converting the given volume of 100 ml to mass using the oil’s density of 0.91 g ml−1, yielding mass = 0.91 g ml−1 × 100 ml = 91 g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem is: Olive oil provides 884 kcal per 100 g and has a density of about 0.91 g/ml. How many kilocalories are in 100 ml of olive oil?\nAnswer: 804.44 kcal \n\n## Explanation\n\nThe calculation begins by converting the given volume of 100 ml to mass using the oil’s density of 0.91 g ml−1, yielding mass = 0.91 g ml−1 × 100 ml = 91 g.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_a2a9b300-e02c-9b15-968c-06acc6f3510b",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 199,
+      "completion_tokens": 901,
+      "total_tokens": 1100,
+      "cost": 0.00236685,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00236685,
+        "upstream_inference_prompt_cost": 0.00011435,
+        "upstream_inference_completions_cost": 0.0022525
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 837,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 199,
+  "tokensOut": 901,
+  "costUsd": 0.00236685,
+  "latencyMs": 6321,
+  "finishReason": "stop"
+}

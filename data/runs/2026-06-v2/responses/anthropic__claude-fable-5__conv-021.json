@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "conv-021",
+  "answerText": "25 cl equals 250 ml. A US tablespoon holds about 14.8 ml, so:\n\n250 ÷ 14.8 ≈ 16.9 tablespoons\n\nThat's roughly **17 tablespoons** — or more practically, about **1 cup plus 1 tablespoon** (since 16 tbsp = 1 US cup). For a sauce, measuring out a cup and adding a splash more will be plenty accurate.\n\nAnswer: 17 tbsp",
+  "raw": {
+    "id": "gen-1781212510-QyGg9K3ayYQL2qwgI2Ku",
+    "object": "chat.completion",
+    "created": 1781212510,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "25 cl equals 250 ml. A US tablespoon holds about 14.8 ml, so:\n\n250 ÷ 14.8 ≈ 16.9 tablespoons\n\nThat's roughly **17 tablespoons** — or more practically, about **1 cup plus 1 tablespoon** (since 16 tbsp = 1 US cup). For a sauce, measuring out a cup and adding a splash more will be plenty accurate.\n\nAnswer: 17 tbsp",
+          "refusal": null,
+          "reasoning": " I'm converting 25 centiliters to milliliters, then dividing by the milliliter equivalent of a US tablespoon to get approximately 17 tablespoons.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm converting 25 centiliters to milliliters, then dividing by the milliliter equivalent of a US tablespoon to get approximately 17 tablespoons.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISjwIKYggOGAIqQBoIdCWLiDv9W8JhkyU3wRybAw0g0KYfErl4pLd9Zl9pSpJOrd5+SWi4TnWS/C1+/iJiwoSdrkoiMU8l+rQ3fGYyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgwqdISHsuKKsxsy/HAaDLomp3CyeXscJERheCIw8RBekh0hQJVsHqQxoqMQrvB0m1XVK+KWDNCIHIpSHLVtt/L6fohd9rZtgAK+oqqgKluBLerJ7q192kZOTQc+wbsGLE5wh6whGCwh6Iz+pDPR7YdfXUeGr2mnh22PsM96gESVqbsrT7bMeLot6RaUkLCy6r/jcV3e2FCNw6vAC/pX5PzcvfYG8dMUtiv8GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 111,
+      "completion_tokens": 215,
+      "total_tokens": 326,
+      "cost": 0.01186,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01186,
+        "upstream_inference_prompt_cost": 0.00111,
+        "upstream_inference_completions_cost": 0.01075
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 37,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 111,
+  "tokensOut": 215,
+  "costUsd": 0.01186,
+  "latencyMs": 6297,
+  "finishReason": "stop"
+}

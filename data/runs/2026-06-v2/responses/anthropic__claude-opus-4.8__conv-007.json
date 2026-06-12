@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "conv-007",
+  "answerText": "One avoirdupois ounce equals 28.349523125 grams. Multiplying by 8 gives approximately 226.80 grams.\n\nAnswer: 226.8 g",
+  "raw": {
+    "id": "gen-1781211452-oZmPWRAKAKk5IEnmciGT",
+    "object": "chat.completion",
+    "created": 1781211452,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "One avoirdupois ounce equals 28.349523125 grams. Multiplying by 8 gives approximately 226.80 grams.\n\nAnswer: 226.8 g",
+          "refusal": null,
+          "reasoning": " I'm converting 8 avoirdupois ounces to grams by multiplying the conversion factor of 28.349523125 grams per ounce, which gives me 226.796185 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm converting 8 avoirdupois ounces to grams by multiplying the conversion factor of 28.349523125 grams per ounce, which gives me 226.796185 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EpQCCmMIDhgCKkDrPpS7YNoSVfEkVe0uQEP4LQlh4+NuLJTdhacrKiYo0+OOLpeeRU/TGvlLW0dhip+5W5bBEmQI0qU7RFmGxPKWMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDEfUtKhxNVJ9BiZoTxoMO2sBwCrlapryfF8YIjB4RQJr3DClc/r/fKgy5YgQltPlh5cM7JsOexkJ24Df5V7dzVU674Pvu/ffLdsrIzkqX0xyx578hXf0ttZVpdYLatY75kE1hHO7x7wLNK+4hjfam5MwU+Ey3BFMd8lIAa+RNR7ZTjb/BUPpHUxnf0DeR9CvDoHtdG4Y/OIRu9wRlwVnWWU6EMG1DULtttBso/veGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 75,
+      "completion_tokens": 102,
+      "total_tokens": 177,
+      "cost": 0.002925,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002925,
+        "upstream_inference_prompt_cost": 0.000375,
+        "upstream_inference_completions_cost": 0.00255
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 37,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 75,
+  "tokensOut": 102,
+  "costUsd": 0.002925,
+  "latencyMs": 3166,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "conv-001",
+  "answerText": "350°F converts mathematically to about 176.7°C using the formula (°F − 32) × 5/9. In cooking, this is conventionally rounded to **180°C** for a standard (non-fan) oven — this is the most common \"moderate oven\" temperature in recipes. (If you were using a fan/convection oven, you'd typically reduce it to about 160°C.)\n\nAnswer: 180 °C",
+  "raw": {
+    "id": "gen-1781212388-Bol68ycNAmx6VUoTBEqp",
+    "object": "chat.completion",
+    "created": 1781212388,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "350°F converts mathematically to about 176.7°C using the formula (°F − 32) × 5/9. In cooking, this is conventionally rounded to **180°C** for a standard (non-fan) oven — this is the most common \"moderate oven\" temperature in recipes. (If you were using a fan/convection oven, you'd typically reduce it to about 160°C.)\n\nAnswer: 180 °C",
+          "refusal": null,
+          "reasoning": " I'm converting 350°F to Celsius using the standard formula, which gives me about 176.7°C, though 180°C is the conventional rounded temperature for a standard oven.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm converting 350°F to Celsius using the standard formula, which gives me about 176.7°C, though 180°C is the conventional rounded temperature for a standard oven.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISmgIKYggOGAIqQJz0I8txEf75+21oxPARjkPPKPUGfyDrjhWHGHh7nGM+4EfuyJIQzUg/PUWFpv7A65K2qSKZZOtG75ZicgCyOBsyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgzDjif5G9L2d4fryLgaDKrGUD40ByfFxmLAUyIwRJK+Sr2hHRhAcFqIBW4VhN9yZjDpIYp1bxjI0hORnzEIib8nfSqLitOFI2cheG04KmZHHVGVlEZdBt2MTYN78MgGuucfR6PSY6g+71wL2saMsD6ZlfQsucah/ce3YXvRDsVN4ymKYIOmF7f4QmiMKdA3KPZtkQOrqnJlqQRe//+R2U1vclxNlD8o2C99EQOtKxuPJISPhE4YAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 93,
+      "completion_tokens": 178,
+      "total_tokens": 271,
+      "cost": 0.00983,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00983,
+        "upstream_inference_prompt_cost": 0.00093,
+        "upstream_inference_completions_cost": 0.0089
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 44,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 93,
+  "tokensOut": 178,
+  "costUsd": 0.00983,
+  "latencyMs": 5152,
+  "finishReason": "stop"
+}

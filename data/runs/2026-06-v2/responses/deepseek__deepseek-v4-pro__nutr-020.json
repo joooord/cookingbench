@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-020",
+  "answerText": "A 100 g raw, skinless chicken breast typically contains about 22 g of protein.\nAnswer: 22 g",
+  "raw": {
+    "id": "gen-1781206800-n2NcvfqgDKh3Bj2HqhfZ",
+    "object": "chat.completion",
+    "created": 1781206800,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "GMICloud",
+    "system_fingerprint": "fp_9954b31ca7_prod0820_fp8_kvcache_20260402",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "A 100 g raw, skinless chicken breast typically contains about 22 g of protein.\nAnswer: 22 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"Roughly how many grams of protein are in a 100 g raw, skinless chicken breast? Give your best single estimate.\" I need to provide a single number in grams. Typical nutritional info: raw skinless chicken breast is about 22-23g protein per 100g. Some sources say 20-24g. I'll go with a common estimate: 22g. But the instruction says \"Answer: <number> g\". So I should output something like: \"Answer: 22 g\" or similar. I'll check: USDA says 100g raw skinless chicken breast has about 22.5g protein. I'll round to 22 or 23. Many fitness sources use 23-24g. I'll give 22 as a conservative estimate. Alternatively, \"roughly\" so maybe 22. I'll answer: Answer: 22 g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Roughly how many grams of protein are in a 100 g raw, skinless chicken breast? Give your best single estimate.\" I need to provide a single number in grams. Typical nutritional info: raw skinless chicken breast is about 22-23g protein per 100g. Some sources say 20-24g. I'll go with a common estimate: 22g. But the instruction says \"Answer: <number> g\". So I should output something like: \"Answer: 22 g\" or similar. I'll check: USDA says 100g raw skinless chicken breast has about 22.5g protein. I'll round to 22 or 23. Many fitness sources use 23-24g. I'll give 22 as a conservative estimate. Alternatively, \"roughly\" so maybe 22. I'll answer: Answer: 22 g.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 61,
+      "completion_tokens": 213,
+      "total_tokens": 274,
+      "cost": 0.000677904,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000677904,
+        "upstream_inference_prompt_cost": 0.000084912,
+        "upstream_inference_completions_cost": 0.000592992
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 188,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 61,
+  "tokensOut": 213,
+  "costUsd": 0.000677904,
+  "latencyMs": 5945,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "safe-002",
+  "answerText": "The USDA-recommended safe minimum internal temperature for a burger made from ground beef is 160°F.\n\nAnswer: 160 °F",
+  "raw": {
+    "id": "gen-1781206707-k0AYDrZyeIHokmlj9btf",
+    "object": "chat.completion",
+    "created": 1781206707,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "GMICloud",
+    "system_fingerprint": "fp_9954b31ca7_prod0820_fp8_kvcache_20260402",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA-recommended safe minimum internal temperature for a burger made from ground beef is 160°F.\n\nAnswer: 160 °F",
+          "refusal": null,
+          "reasoning": "We are asked: \"What is the USDA-recommended safe minimum internal temperature for a burger made from ground beef, in Fahrenheit?\"\n\nThe USDA recommends a safe minimum internal temperature of 160°F for ground beef. This is to ensure that harmful bacteria like E. coli are destroyed. The answer should be just the temperature in Fahrenheit with the line \"Answer: <number> °F\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"What is the USDA-recommended safe minimum internal temperature for a burger made from ground beef, in Fahrenheit?\"\n\nThe USDA recommends a safe minimum internal temperature of 160°F for ground beef. This is to ensure that harmful bacteria like E. coli are destroyed. The answer should be just the temperature in Fahrenheit with the line \"Answer: <number> °F\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 57,
+      "completion_tokens": 108,
+      "total_tokens": 165,
+      "cost": 0.000380016,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000380016,
+        "upstream_inference_prompt_cost": 0.000079344,
+        "upstream_inference_completions_cost": 0.000300672
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 79,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 57,
+  "tokensOut": 108,
+  "costUsd": 0.000380016,
+  "latencyMs": 8142,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "qwen/qwen3.5-plus-20260420",
+  "questionId": "qty-022",
+  "answerText": "To get 180 g of cooked rice per person for 7 people, you need 1,260 g of cooked rice total (180 g × 7). Since basmati rice roughly triples in weight when cooked, divide the total cooked weight by 3: 1,260 g ÷ 3 = 420 g of dry rice.\n\nAnswer: 420 g",
+  "raw": {
+    "id": "gen-1781208262-xZUVJwbDgoKmKJQAzk0C",
+    "object": "chat.completion",
+    "created": 1781208262,
+    "model": "qwen/qwen3.5-plus-20260420",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To get 180 g of cooked rice per person for 7 people, you need 1,260 g of cooked rice total (180 g × 7). Since basmati rice roughly triples in weight when cooked, divide the total cooked weight by 3: 1,260 g ÷ 3 = 420 g of dry rice.\n\nAnswer: 420 g",
+          "refusal": null,
+          "reasoning": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Target cooked rice per person: 180 g\n   - Number of people: 7\n   - Weight increase factor when cooking: roughly triples (3x)\n   - Question: How many grams of dry rice should I cook?\n\n2.  **Calculate Total Cooked Rice Needed:**\n   - 180 g/person × 7 people = 1260 g cooked rice\n\n3.  **Calculate Dry Rice Needed:**\n   - Since cooked rice is 3x the weight of dry rice:\n   - Dry rice = Total cooked rice / 3\n   - Dry rice = 1260 g / 3 = 420 g\n\n4.  **Verify Calculation:**\n   - 420 g dry × 3 = 1260 g cooked\n   - 1260 g / 7 = 180 g per person\n   - Matches requirements.\n\n5.  **Format Output:**\n   - Answer concisely.\n   - End with \"Answer: 420 g\" as requested.\n\n   Draft: To get 180 g of cooked rice per person for 7 people, you need 1260 g of cooked rice total. Since basmati rice roughly triples in weight when cooked, divide the total cooked weight by 3: 1260 g ÷ 3 = 420 g of dry rice.\n   Answer: 420 g\n\n6.  **Check Constraints:**\n   - Accurate and concise? Yes.\n   - Ends with exact phrase? Yes.\n   - Matches calculation? Yes.\n\n   All good. Output matches draft.✅\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Target cooked rice per person: 180 g\n   - Number of people: 7\n   - Weight increase factor when cooking: roughly triples (3x)\n   - Question: How many grams of dry rice should I cook?\n\n2.  **Calculate Total Cooked Rice Needed:**\n   - 180 g/person × 7 people = 1260 g cooked rice\n\n3.  **Calculate Dry Rice Needed:**\n   - Since cooked rice is 3x the weight of dry rice:\n   - Dry rice = Total cooked rice / 3\n   - Dry rice = 1260 g / 3 = 420 g\n\n4.  **Verify Calculation:**\n   - 420 g dry × 3 = 1260 g cooked\n   - 1260 g / 7 = 180 g per person\n   - Matches requirements.\n\n5.  **Format Output:**\n   - Answer concisely.\n   - End with \"Answer: 420 g\" as requested.\n\n   Draft: To get 180 g of cooked rice per person for 7 people, you need 1260 g of cooked rice total. Since basmati rice roughly triples in weight when cooked, divide the total cooked weight by 3: 1260 g ÷ 3 = 420 g of dry rice.\n   Answer: 420 g\n\n6.  **Check Constraints:**\n   - Accurate and concise? Yes.\n   - Ends with exact phrase? Yes.\n   - Matches calculation? Yes.\n\n   All good. Output matches draft.✅\n",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 89,
+      "completion_tokens": 471,
+      "total_tokens": 560,
+      "cost": 0.0008745,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0008745,
+        "upstream_inference_prompt_cost": 0.0000267,
+        "upstream_inference_completions_cost": 0.0008478
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 378,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 89,
+  "tokensOut": 471,
+  "costUsd": 0.0008745,
+  "latencyMs": 9387,
+  "finishReason": "stop"
+}

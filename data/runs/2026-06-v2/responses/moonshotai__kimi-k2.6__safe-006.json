@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "safe-006",
+  "answerText": "No. Rinsing raw chicken spreads bacteria like Salmonella and Campylobacter through water splashes onto nearby surfaces, utensils, and other foods. Cooking chicken to an internal temperature of 165°F (74°C) safely kills any surface bacteria, so rinsing is unnecessary and risky. Just pat it dry with a paper towel if needed for your recipe.",
+  "raw": {
+    "id": "gen-1781202856-bgp2cSuBQ9rsEOzBb0ew",
+    "object": "chat.completion",
+    "created": 1781202856,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "No. Rinsing raw chicken spreads bacteria like Salmonella and Campylobacter through water splashes onto nearby surfaces, utensils, and other foods. Cooking chicken to an internal temperature of 165°F (74°C) safely kills any surface bacteria, so rinsing is unnecessary and risky. Just pat it dry with a paper towel if needed for your recipe.",
+          "refusal": null,
+          "reasoning": "The user is asking whether they should rinse raw chicken under the tap before cooking it, and wants a brief explanation. This is a food safety question.\n\nKey facts:\n- USDA and other food safety organizations recommend NOT rinsing raw chicken.\n- Reason: Rinsing can spread bacteria (like Salmonella and Campylobacter) through water splashes (aerosols) onto surfaces, utensils, other foods, and clothing within a ~3-foot radius.\n- Cooking chicken to the proper internal temperature (165°F/74°C) kills bacteria, so rinsing is unnecessary for safety.\n- If anything was on the chicken, rinsing doesn't remove it effectively anyway; cooking does the actual sanitizing.\n\nNeed to answer accurately and concisely as per system prompt.\n\nStructure:\n- Direct answer: No.\n- Brief explanation: It spreads bacteria via splashing water droplets.\n- Proper alternative: Pat dry if needed, but focus on cooking to proper temp and preventing cross-contamination.\n\nKeep it brief.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking whether they should rinse raw chicken under the tap before cooking it, and wants a brief explanation. This is a food safety question.\n\nKey facts:\n- USDA and other food safety organizations recommend NOT rinsing raw chicken.\n- Reason: Rinsing can spread bacteria (like Salmonella and Campylobacter) through water splashes (aerosols) onto surfaces, utensils, other foods, and clothing within a ~3-foot radius.\n- Cooking chicken to the proper internal temperature (165°F/74°C) kills bacteria, so rinsing is unnecessary for safety.\n- If anything was on the chicken, rinsing doesn't remove it effectively anyway; cooking does the actual sanitizing.\n\nNeed to answer accurately and concisely as per system prompt.\n\nStructure:\n- Direct answer: No.\n- Brief explanation: It spreads bacteria via splashing water droplets.\n- Proper alternative: Pat dry if needed, but focus on cooking to proper temp and preventing cross-contamination.\n\nKeep it brief.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 42,
+      "completion_tokens": 276,
+      "total_tokens": 318,
+      "cost": 0.000958608,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 26,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000958608,
+        "upstream_inference_prompt_cost": 0.000014688,
+        "upstream_inference_completions_cost": 0.00094392
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 201,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 42,
+  "tokensOut": 276,
+  "costUsd": 0.000958608,
+  "latencyMs": 7767,
+  "finishReason": "stop"
+}

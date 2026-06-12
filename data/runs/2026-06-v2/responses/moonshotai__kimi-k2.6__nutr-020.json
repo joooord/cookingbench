@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "moonshotai/kimi-k2.6",
+  "questionId": "nutr-020",
+  "answerText": " A 100 g raw, skinless chicken breast contains roughly 23 g of protein.\n\nAnswer: 23 g",
+  "raw": {
+    "id": "gen-1781203032-aFnpQ030OGWXaodqZcXe",
+    "object": "chat.completion",
+    "created": 1781203032,
+    "model": "moonshotai/kimi-k2.6-20260420",
+    "provider": "Venice",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": " A 100 g raw, skinless chicken breast contains roughly 23 g of protein.\n\nAnswer: 23 g",
+          "refusal": null,
+          "reasoning": "The user is asking for a rough estimate of the amount of protein in 100 grams of raw, skinless chicken breast. This is a standard nutritional fact.\n\nAccording to USDA data and common nutritional databases:\n- Raw, skinless chicken breast typically contains about 23 grams of protein per 100 grams.\n- Some sources say 22-24 grams, with 23 grams being a very commonly cited figure.\n- Cooked chicken breast has higher protein per 100g (around 31g) because water is lost during cooking, but the question specifically asks for raw.\n\nSo the best single estimate is approximately 23 grams.\n\nI need to answer accurately and concisely, and end with the line \"Answer: <number> g\".\n\nLet me verify: USDA FoodData Central shows that 100g of raw, skinless chicken breast (broilers or fryers, meat only, raw) contains about 23.09g protein. So 23g is the best estimate.\n\nThe format requires ending with \"Answer: <number> g\". ",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking for a rough estimate of the amount of protein in 100 grams of raw, skinless chicken breast. This is a standard nutritional fact.\n\nAccording to USDA data and common nutritional databases:\n- Raw, skinless chicken breast typically contains about 23 grams of protein per 100 grams.\n- Some sources say 22-24 grams, with 23 grams being a very commonly cited figure.\n- Cooked chicken breast has higher protein per 100g (around 31g) because water is lost during cooking, but the question specifically asks for raw.\n\nSo the best single estimate is approximately 23 grams.\n\nI need to answer accurately and concisely, and end with the line \"Answer: <number> g\".\n\nLet me verify: USDA FoodData Central shows that 100g of raw, skinless chicken breast (broilers or fryers, meat only, raw) contains about 23.09g protein. So 23g is the best estimate.\n\nThe format requires ending with \"Answer: <number> g\". ",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 67,
+      "completion_tokens": 235,
+      "total_tokens": 302,
+      "cost": 0.001150875,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001150875,
+        "upstream_inference_prompt_cost": 0.00005695,
+        "upstream_inference_completions_cost": 0.001093925
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 237,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 67,
+  "tokensOut": 235,
+  "costUsd": 0.001150875,
+  "latencyMs": 5773,
+  "finishReason": "stop"
+}

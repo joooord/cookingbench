@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "qwen/qwen3.5-plus-20260420",
+  "questionId": "safe-011",
+  "answerText": "No, 57°C is not within USDA safe guidance. The official USDA minimum for whole cuts of pork is **63°C (145°F)** internal temperature, followed by a **3-minute rest time** before carving or serving.",
+  "raw": {
+    "id": "gen-1781207773-mU3ehiTu1OtLOVY1aowT",
+    "object": "chat.completion",
+    "created": 1781207773,
+    "model": "qwen/qwen3.5-plus-20260420",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "No, 57°C is not within USDA safe guidance. The official USDA minimum for whole cuts of pork is **63°C (145°F)** internal temperature, followed by a **3-minute rest time** before carving or serving.",
+          "refusal": null,
+          "reasoning": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - **Food:** Pork loin (whole cut)\n   - **Requested doneness:** Medium rare at 57°C\n   - **Question:** Is that within USDA safe guidance for whole pork? What is the official safe minimum plus rest?\n   - **Requirement:** Answer the safety question directly.\n\n2.  **Identify Key Facts Needed:**\n   - USDA safe minimum internal temperature for whole cuts of pork\n   - Rest time requirement\n   - Convert/compare with 57°C\n   - Determine if 57°C is within USDA guidance\n\n3.  **Retrieve Knowledge (Internal):**\n   - USDA updated pork cooking guidelines in 2011.\n   - Safe minimum internal temperature for whole cuts of pork (like chops, roasts, loin) is 145°F (63°C) as measured with a food thermometer before removing meat from the heat source.\n   - Must allow a 3-minute rest time before carving or consuming.\n   - Ground pork remains at 160°F (71°C).\n   - 57°C converts to approximately 134.6°F.\n   - 57°C is below the USDA recommended 63°C (145°F).\n   - Therefore, 57°C is NOT within USDA safe guidance for whole pork.\n\n4.  **Formulate Response (Mental Refinement):**\n   - Direct answer first: No, 57°C is not within USDA safe guidance.\n   - State official minimum: 63°C (145°F) internal temperature.\n   - State rest requirement: 3-minute rest time.\n   - Keep it concise as requested.\n\n   Draft: No, 57°C is below the USDA safe minimum. The official USDA guideline for whole cuts of pork is 63°C (145°F) internal temperature, followed by a 3-minute rest time before serving.\n\n5.  **Check Against Requirements:**\n   - Answers safety question directly? Yes.\n   - Mentions if 57°C is within guidance? Yes (no).\n   - States official safe minimum plus rest? Yes (63°C/145°F + 3 min rest).\n   - Concise? Yes.\n   - Accurate per USDA? Yes.\n\n   All good. Output matches draft.✅",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - **Food:** Pork loin (whole cut)\n   - **Requested doneness:** Medium rare at 57°C\n   - **Question:** Is that within USDA safe guidance for whole pork? What is the official safe minimum plus rest?\n   - **Requirement:** Answer the safety question directly.\n\n2.  **Identify Key Facts Needed:**\n   - USDA safe minimum internal temperature for whole cuts of pork\n   - Rest time requirement\n   - Convert/compare with 57°C\n   - Determine if 57°C is within USDA guidance\n\n3.  **Retrieve Knowledge (Internal):**\n   - USDA updated pork cooking guidelines in 2011.\n   - Safe minimum internal temperature for whole cuts of pork (like chops, roasts, loin) is 145°F (63°C) as measured with a food thermometer before removing meat from the heat source.\n   - Must allow a 3-minute rest time before carving or consuming.\n   - Ground pork remains at 160°F (71°C).\n   - 57°C converts to approximately 134.6°F.\n   - 57°C is below the USDA recommended 63°C (145°F).\n   - Therefore, 57°C is NOT within USDA safe guidance for whole pork.\n\n4.  **Formulate Response (Mental Refinement):**\n   - Direct answer first: No, 57°C is not within USDA safe guidance.\n   - State official minimum: 63°C (145°F) internal temperature.\n   - State rest requirement: 3-minute rest time.\n   - Keep it concise as requested.\n\n   Draft: No, 57°C is below the USDA safe minimum. The official USDA guideline for whole cuts of pork is 63°C (145°F) internal temperature, followed by a 3-minute rest time before serving.\n\n5.  **Check Against Requirements:**\n   - Answers safety question directly? Yes.\n   - Mentions if 57°C is within guidance? Yes (no).\n   - States official safe minimum plus rest? Yes (63°C/145°F + 3 min rest).\n   - Concise? Yes.\n   - Accurate per USDA? Yes.\n\n   All good. Output matches draft.✅",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 74,
+      "completion_tokens": 570,
+      "total_tokens": 644,
+      "cost": 0.0010482,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0010482,
+        "upstream_inference_prompt_cost": 0.0000222,
+        "upstream_inference_completions_cost": 0.001026
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 515,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 74,
+  "tokensOut": 570,
+  "costUsd": 0.0010482,
+  "latencyMs": 12214,
+  "finishReason": "stop"
+}

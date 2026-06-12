@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-003",
+  "answerText": "The baker's percentage for hydration is based on the weight of flour. At 75% hydration, the water weight is 75% of the flour weight.\n\nCalculation: 800 g flour × 0.75 = 600 g water.\n\nAnswer: 600 g",
+  "raw": {
+    "id": "gen-1781206886-f4blv8MjRuclV3cuWY88",
+    "object": "chat.completion",
+    "created": 1781206886,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Novita",
+    "system_fingerprint": "fp_9954b31ca7_prod0820_fp8_kvcache_20260402",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The baker's percentage for hydration is based on the weight of flour. At 75% hydration, the water weight is 75% of the flour weight.\n\nCalculation: 800 g flour × 0.75 = 600 g water.\n\nAnswer: 600 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"I'm making a dough with 800 g of flour at 75% hydration (baker's percentage). How much water should I add, in grams?\"\n\nBaker's percentage: hydration % = (mass of water / mass of flour) × 100. So 75% hydration means water mass = 0.75 × flour mass = 0.75 × 800 g = 600 g.\n\nSo answer: 600 g.\n\nWe must end with \"Answer: <number> g\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"I'm making a dough with 800 g of flour at 75% hydration (baker's percentage). How much water should I add, in grams?\"\n\nBaker's percentage: hydration % = (mass of water / mass of flour) × 100. So 75% hydration means water mass = 0.75 × flour mass = 0.75 × 800 g = 600 g.\n\nSo answer: 600 g.\n\nWe must end with \"Answer: <number> g\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 66,
+      "completion_tokens": 161,
+      "total_tokens": 227,
+      "cost": 0.0006208,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0006208,
+        "upstream_inference_prompt_cost": 0.0001056,
+        "upstream_inference_completions_cost": 0.0005152
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 106,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 66,
+  "tokensOut": 161,
+  "costUsd": 0.0006208,
+  "latencyMs": 2368,
+  "finishReason": "stop"
+}

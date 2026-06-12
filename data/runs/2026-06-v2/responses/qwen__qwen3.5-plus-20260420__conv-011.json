@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "qwen/qwen3.5-plus-20260420",
+  "questionId": "conv-011",
+  "answerText": "To convert a temperature from Celsius to Kelvin, you add 273.15 to the Celsius value.\n\n$$100 + 273.15 = 373.15$$\n\nAnswer: 373.15 K",
+  "raw": {
+    "id": "gen-1781207510-wiVpc39qYfZjHSSs8rUz",
+    "object": "chat.completion",
+    "created": 1781207510,
+    "model": "qwen/qwen3.5-plus-20260420",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To convert a temperature from Celsius to Kelvin, you add 273.15 to the Celsius value.\n\n$$100 + 273.15 = 373.15$$\n\nAnswer: 373.15 K",
+          "refusal": null,
+          "reasoning": "Thinking Process:\n\n1.  **Identify the core question:** Convert 100°C to Kelvin.\n2.  **Recall the conversion formula:** $K = °C + 273.15$.\n3.  **Perform the calculation:** $100 + 273.15 = 373.15$.\n4.  **Format the output:** The user requested a specific ending format: \"Answer: <number> K\".\n5.  **Draft the response:** Water boils at 100°C. To convert Celsius to Kelvin, add 273.15. So, 100 + 273.15 = 373.15 K.\n6.  **Final check:** Does it meet all constraints? Yes. Accurate, concise, correct ending format.\n\n*Self-Correction/Refinement:* Sometimes people use 273 instead of 273.15 for simplicity, but 273.15 is the standard scientific conversion. I will provide 373.15.\n\nCalculation: $100 + 273.15 = 373.15$.\n\nFinal string: Answer: 373.15 K.\nWait, let's keep it simple. 373.15 is precise. 373 is often accepted in general contexts, but 373.15 is better. I'll stick with 373.15.\n\nLet's double check the prompt constraints: \"Answer: <number> K\".\nSo the last line must be exactly that.\n\nResponse:\nTo convert Celsius to Kelvin, you add 273.15 to the Celsius temperature.\n$100 + 273.15 = 373.15$\n\nAnswer: 373.15 K\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking Process:\n\n1.  **Identify the core question:** Convert 100°C to Kelvin.\n2.  **Recall the conversion formula:** $K = °C + 273.15$.\n3.  **Perform the calculation:** $100 + 273.15 = 373.15$.\n4.  **Format the output:** The user requested a specific ending format: \"Answer: <number> K\".\n5.  **Draft the response:** Water boils at 100°C. To convert Celsius to Kelvin, add 273.15. So, 100 + 273.15 = 373.15 K.\n6.  **Final check:** Does it meet all constraints? Yes. Accurate, concise, correct ending format.\n\n*Self-Correction/Refinement:* Sometimes people use 273 instead of 273.15 for simplicity, but 273.15 is the standard scientific conversion. I will provide 373.15.\n\nCalculation: $100 + 273.15 = 373.15$.\n\nFinal string: Answer: 373.15 K.\nWait, let's keep it simple. 373.15 is precise. 373 is often accepted in general contexts, but 373.15 is better. I'll stick with 373.15.\n\nLet's double check the prompt constraints: \"Answer: <number> K\".\nSo the last line must be exactly that.\n\nResponse:\nTo convert Celsius to Kelvin, you add 273.15 to the Celsius temperature.\n$100 + 273.15 = 373.15$\n\nAnswer: 373.15 K\n",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 64,
+      "completion_tokens": 477,
+      "total_tokens": 541,
+      "cost": 0.0008778,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0008778,
+        "upstream_inference_prompt_cost": 0.0000192,
+        "upstream_inference_completions_cost": 0.0008586
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 416,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 64,
+  "tokensOut": 477,
+  "costUsd": 0.0008778,
+  "latencyMs": 9337,
+  "finishReason": "stop"
+}

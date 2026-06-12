@@ -12,7 +12,7 @@ import { analyzeRun, writeAnalysis } from './analyze.js';
 import { BudgetExceededError, BudgetGuard } from './budget.js';
 import { REPO_ROOT, buildMessages, loadModels, loadQuestions, maxTokensFor, runnableQuestions } from './dataset.js';
 import { assertFreshEstimate, runEstimate } from './estimate.js';
-import { JUDGE_PROMPT_VERSION, judgeAnswer } from './judge.js';
+import { JUDGE_PROMPT_VERSION, judgeAnswerPanel } from './judge.js';
 import { MOCK_MODELS, MockClient, mockJudgeScore } from './mock.js';
 import { OpenRouterClient, fetchCatalog, type CompletionClient } from './openrouter.js';
 import { buildLeaderboard } from './report.js';
@@ -44,7 +44,14 @@ const DEFAULTS = {
   maxTokens: 8000,
   maxTokensRecipe: 8000,
   concurrency: 4,
-  judgeModel: 'google/gemini-3.1-pro-preview',
+  // Panel judging: two non-conflicted seats score each answer (a judge never
+  // scores its own provider). Seat rotation is deterministic — see panelSeats.
+  judgeModel: 'panel-v1',
+  judgePanel: [
+    'anthropic/claude-opus-4.8',
+    'qwen/qwen3.5-plus-20260420',
+    'openai/gpt-5.5',
+  ],
   methodologyVersion: 'v2',
 };
 
@@ -194,6 +201,7 @@ async function cmdRun() {
     budgetUsdPerModel: mock ? 0 : Number(arg('per-model-budget') ?? 0),
     concurrency: DEFAULTS.concurrency,
     judgeModel: DEFAULTS.judgeModel,
+    judgePanel: DEFAULTS.judgePanel,
     judgePromptVersion: JUDGE_PROMPT_VERSION,
     methodologyVersion: DEFAULTS.methodologyVersion,
     mock,
@@ -350,41 +358,53 @@ async function cmdJudge() {
   }
   const client = config.mock ? null : new OpenRouterClient();
 
-  // Judge calibration gate: the judge must reproduce hand-scored anchors
-  // before any paid judging is accepted for this run.
+  // The judging configuration of record: the current panel. (config.json is
+  // refreshed so the artifact reflects what actually judged this run.)
+  const judgePanel = DEFAULTS.judgePanel;
+  if (!config.mock && (config.judgeModel !== DEFAULTS.judgeModel || !config.judgePanel)) {
+    config.judgeModel = DEFAULTS.judgeModel;
+    config.judgePanel = judgePanel;
+    config.judgePromptVersion = JUDGE_PROMPT_VERSION;
+    writeRunConfig(config);
+  }
+
+  // Judge calibration gate: every panel seat must independently reproduce the
+  // hand-scored anchors before any paid judging is accepted for this run.
   if (!config.mock) {
     const { readCalibration, runCalibration } = await import('./calibration.js');
     const prior = readCalibration(runId);
     if (
       prior?.passed &&
-      prior.judgeModel === config.judgeModel &&
+      JSON.stringify(prior.judgePanel) === JSON.stringify(judgePanel) &&
       prior.judgePromptVersion === JUDGE_PROMPT_VERSION
     ) {
-      console.log(`✓ Calibration gate already passed (MAE ${prior.mae}).`);
+      console.log(`✓ Calibration gate already passed (worst per-judge MAE ${prior.mae}).`);
     } else {
-      console.log(`Calibrating judge ${config.judgeModel} against hand-scored anchors…`);
+      console.log(`Calibrating panel [${judgePanel.join(', ')}] against hand-scored anchors…`);
       const calibration = await runCalibration(
         client!,
         config.judgeModel,
+        judgePanel,
         JUDGE_PROMPT_VERSION,
         runId,
         questionsById,
       );
-      for (const a of calibration.anchors) {
-        console.log(
-          `  ${a.pass ? '✓' : '✗'} ${a.questionId.padEnd(10)} expected ${String(a.expected).padStart(3)}  got ${String(a.got).padStart(5)}  ${a.note ?? ''}`,
-        );
+      for (const judge of calibration.judges) {
+        console.log(`  ${judge.passed ? '✓' : '✗'} ${judge.judgeModel} — MAE ${judge.mae} (limit 10)`);
+        for (const a of judge.anchors.filter((x) => !x.pass)) {
+          console.log(`      ✗ ${a.questionId} expected ${a.expected} got ${a.got}  ${a.note ?? ''}`);
+        }
       }
-      console.log(`  MAE ${calibration.mae} (limit 10)`);
       if (!calibration.passed) {
-        fail('Judge failed the calibration gate — fix the judge/prompt/anchors before judging.');
+        fail('A panel judge failed the calibration gate — fix the judge/prompt/anchors before judging.');
       }
-      console.log('✓ Calibration gate passed.');
+      console.log('✓ Calibration gate passed for all panel seats.');
     }
   }
 
-  console.log(`Judging ${pending.length} answers with ${config.judgeModel} (${config.judgePromptVersion})…`);
+  console.log(`Judging ${pending.length} answers with panel [${judgePanel.join(', ')}] (${config.judgePromptVersion})…`);
   let flagged = 0;
+  const judgeFailures: string[] = [];
   await pool(pending, DEFAULTS.concurrency, async (s) => {
     const question = questionsById.get(s.questionId)!;
     const response = responses.find(
@@ -397,9 +417,18 @@ async function cmdJudge() {
       judgeScore = mockJudgeScore(s.modelId, question);
       judgeDetail = { mockJudge: true };
     } else {
-      const verdict = await judgeAnswer(client!, config.judgeModel, question, response.answerText);
+      let verdict: Awaited<ReturnType<typeof judgeAnswerPanel>>;
+      try {
+        verdict = await judgeAnswerPanel(client!, judgePanel, s.modelId, question, response.answerText);
+      } catch (error) {
+        // One unjudgeable answer must not sink the batch — it stays
+        // judgePending and the next `bench judge` retries just these.
+        judgeFailures.push(`${s.modelId} × ${s.questionId}: ${(error as Error).message.slice(0, 120)}`);
+        return;
+      }
       judgeScore = verdict.score;
       judgeDetail = {
+        judges: verdict.judges,
         findings: verdict.findings,
         summary: verdict.summary,
         verdicts: verdict.verdicts,
@@ -409,7 +438,9 @@ async function cmdJudge() {
       if (verdict.flagged) flagged++;
     }
     s.score = blendJudgeScore(question, judgeScore, detail.constraintScore);
-    s.judgeModel = config.mock ? 'mock-judge' : config.judgeModel;
+    s.judgeModel = config.mock
+      ? 'mock-judge'
+      : ((judgeDetail as { judges?: string[] }).judges?.join('+') ?? config.judgeModel);
     s.detail = {
       judgePending: false,
       judgeScore,
@@ -419,7 +450,12 @@ async function cmdJudge() {
     };
   });
   writeScores(runId, scores);
-  console.log(`✓ Judged ${pending.length} answers${flagged > 0 ? ` (${flagged} flagged for manual review)` : ''}`);
+  const judgedCount = pending.length - judgeFailures.length;
+  console.log(`✓ Judged ${judgedCount} answers${flagged > 0 ? ` (${flagged} flagged for manual review)` : ''}`);
+  if (judgeFailures.length > 0) {
+    console.error(`✗ ${judgeFailures.length} answers could not be judged (re-run \`bench judge\` to retry):`);
+    for (const f of judgeFailures.slice(0, 10)) console.error(`    ${f}`);
+  }
   console.log(`Next: pnpm bench report --run ${runId}`);
 }
 

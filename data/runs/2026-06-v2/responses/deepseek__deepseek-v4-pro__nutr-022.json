@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-022",
+  "answerText": "Dry white rice typically contains about 365 kilocalories per 100 grams.  \nAnswer: 365 kcal",
+  "raw": {
+    "id": "gen-1781206806-WsMVJIjMWHc58emoXYiT",
+    "object": "chat.completion",
+    "created": 1781206806,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Dry white rice typically contains about 365 kilocalories per 100 grams.  \nAnswer: 365 kcal",
+          "refusal": null,
+          "reasoning": "We are asked: \"About how many kilocalories are in 100 g of dry (uncooked) white rice?\" We need to answer accurately and concisely, ending with \"Answer: <number> kcal\".\n\nDry white rice typically has around 350-370 kcal per 100g. A common value is 365 kcal. I'll use a standard value: 100g of uncooked white rice contains about 365 kilocalories. I'll answer: \"Answer: 365 kcal\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"About how many kilocalories are in 100 g of dry (uncooked) white rice?\" We need to answer accurately and concisely, ending with \"Answer: <number> kcal\".\n\nDry white rice typically has around 350-370 kcal per 100g. A common value is 365 kcal. I'll use a standard value: 100g of uncooked white rice contains about 365 kilocalories. I'll answer: \"Answer: 365 kcal\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 54,
+      "completion_tokens": 127,
+      "total_tokens": 181,
+      "cost": 0.0004004,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0004004,
+        "upstream_inference_prompt_cost": 0.0000702,
+        "upstream_inference_completions_cost": 0.0003302
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 96,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 54,
+  "tokensOut": 127,
+  "costUsd": 0.0004004,
+  "latencyMs": 2295,
+  "finishReason": "stop"
+}

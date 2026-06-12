@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "safe-008",
+  "answerText": "Cooked leftovers should be reheated until they reach an internal temperature of **74°C (165°F)** throughout, as measured with a food thermometer. This temperature is sufficient to kill harmful bacteria that may have grown during storage.\n\nA few quick tips:\n- Stir food during reheating (especially in a microwave) to eliminate cold spots.\n- Bring sauces, soups, and gravies to a rolling boil.\n- Reheat leftovers only once, and don't refreeze food that has already been reheated.\n\nAnswer: 74 °C",
+  "raw": {
+    "id": "gen-1781212697-EL4tDGZ2HFbNaYGZnNIi",
+    "object": "chat.completion",
+    "created": 1781212697,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Cooked leftovers should be reheated until they reach an internal temperature of **74°C (165°F)** throughout, as measured with a food thermometer. This temperature is sufficient to kill harmful bacteria that may have grown during storage.\n\nA few quick tips:\n- Stir food during reheating (especially in a microwave) to eliminate cold spots.\n- Bring sauces, soups, and gravies to a rolling boil.\n- Reheat leftovers only once, and don't refreeze food that has already been reheated.\n\nAnswer: 74 °C",
+          "refusal": null,
+          "reasoning": " The safe internal temperature for reheated leftovers is 165°F, which converts to approximately 74°C.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " The safe internal temperature for reheated leftovers is 165°F, which converts to approximately 74°C.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISmQIKYggOGAIqQHHqN0la0U7SweJrbXcvVVot/rvHPrRkPB5WasFKCzuUKDvE1zOW6pBu8q3mCL0FM3FElsJVJE/auBnDw5sZ/eEyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgyk/ikp89IObQ4TWmoaDI01x1hoPz++w4CcXiIwa/Xa3atu2Siq2HesPZHBZpiMi2skDfbek2fE5L5M18hRBhpB0Xb9nuns6ZyPEy0kKmUcpEDu0WRD/TJ/uZw3+hfYXT48NcPyebk5H0Pg1JH6Eb3i5boJ3XIv8fjM7uNZmP42wt711XXNCv/rBMsGb5FEXdERbMhOqqjbeDLOZzRQsVg7JoqlL6RY3L2WPlaPbAp5oFiPmxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 86,
+      "completion_tokens": 222,
+      "total_tokens": 308,
+      "cost": 0.01196,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01196,
+        "upstream_inference_prompt_cost": 0.00086,
+        "upstream_inference_completions_cost": 0.0111
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 27,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 86,
+  "tokensOut": 222,
+  "costUsd": 0.01196,
+  "latencyMs": 6294,
+  "finishReason": "stop"
+}

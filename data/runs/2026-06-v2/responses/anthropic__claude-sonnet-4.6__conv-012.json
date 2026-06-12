@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "conv-012",
+  "answerText": "## Converting 1.5 US Cups to Millilitres\n\n1 US cup = **236.588 ml**\n\nSo: 1.5 × 236.588 = **354.88 ml**\n\nAnswer: 354.88 ml",
+  "raw": {
+    "id": "gen-1781209824-8aAUXa35xrAkH27pt9LM",
+    "object": "chat.completion",
+    "created": 1781209824,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Converting 1.5 US Cups to Millilitres\n\n1 US cup = **236.588 ml**\n\nSo: 1.5 × 236.588 = **354.88 ml**\n\nAnswer: 354.88 ml",
+          "refusal": null,
+          "reasoning": "1 US cup = 236.588 ml\n1.5 US cups = 1.5 × 236.588 = 354.882 ml ≈ 354.88 ml",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "1 US cup = 236.588 ml\n1.5 US cups = 1.5 × 236.588 = 354.882 ml ≈ 354.88 ml",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EpUCCmUIDhgCKkBjMSlAxJp3WG/pXJsSQxCFn78ykbu2RPb+nixzvK2Cb1syHLVChmOqbTTo/nlchkbrK+C76R58Obld9heB8gTgMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIM+Ej/tgJWWX30EjXeGgzS8kELyjV5LahFIcQiMAbl6UssHkSXXvCuZuS/uH20gfS9DTZ5+mJqKnrfV7K0LbrY8H4mGtX412xO+foTkCpeYV/YXO1b+ymHs66zadkEyQznMkMs6IBaxEymwCwULnjYS0pnl+XhHdnZmXJuf5NF7VAg5SJT+aFoUxleJ5c6iS2K/Li7e/av0Nmxxbf6kTxBi7kfv0+rGES58e5ITBgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 59,
+      "completion_tokens": 124,
+      "total_tokens": 183,
+      "cost": 0.002037,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002037,
+        "upstream_inference_prompt_cost": 0.000177,
+        "upstream_inference_completions_cost": 0.00186
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 21,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 59,
+  "tokensOut": 124,
+  "costUsd": 0.002037,
+  "latencyMs": 3654,
+  "finishReason": "stop"
+}

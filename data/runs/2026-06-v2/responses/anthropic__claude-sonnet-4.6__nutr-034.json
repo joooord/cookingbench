@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-034",
+  "answerText": "## Calculating Kilocalories for Half the Package\n\n**Step 1: Find how much you ate**\n396 g ÷ 2 = **198 g**\n\n**Step 2: Determine how many servings that represents**\n198 g ÷ 55 g per serving = **3.6 servings**\n\n**Step 3: Calculate total calories**\n3.6 servings × 230 calories = **828 calories**\n\n*Note: On US nutrition labels, \"calories\" are already expressed in kilocalories (kcal).*\n\nAnswer: **828 kcal**",
+  "raw": {
+    "id": "gen-1781210050-6BDOZlrkWcB9f7Odmx09",
+    "object": "chat.completion",
+    "created": 1781210050,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Calculating Kilocalories for Half the Package\n\n**Step 1: Find how much you ate**\n396 g ÷ 2 = **198 g**\n\n**Step 2: Determine how many servings that represents**\n198 g ÷ 55 g per serving = **3.6 servings**\n\n**Step 3: Calculate total calories**\n3.6 servings × 230 calories = **828 calories**\n\n*Note: On US nutrition labels, \"calories\" are already expressed in kilocalories (kcal).*\n\nAnswer: **828 kcal**",
+          "refusal": null,
+          "reasoning": "The package weighs 396 g. Half the package = 198 g.\n\nServing size = 55 g, 230 calories per serving.\n\nCalories per gram = 230/55\n\nCalories in 198 g = (230/55) × 198 = 230 × 198/55 = 230 × 3.6 = 828 kcal\n\nLet me verify: 198/55 = 3.6 servings. 3.6 × 230 = 828 kcal.\n\nOn US labels, \"calories\" means kilocalories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The package weighs 396 g. Half the package = 198 g.\n\nServing size = 55 g, 230 calories per serving.\n\nCalories per gram = 230/55\n\nCalories in 198 g = (230/55) × 198 = 230 × 198/55 = 230 × 3.6 = 828 kcal\n\nLet me verify: 198/55 = 3.6 servings. 3.6 × 230 = 828 kcal.\n\nOn US labels, \"calories\" means kilocalories.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EoEECmUIDhgCKkDUM51OeSvis01AHXidbuD1Z2RQ0DrnZ/1ej+X3X7IZXeCYWnh3QJYfv1vH57L9ntLqFQRn5xNtO2+gYtCr/EH4MhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMC2PFh4Ji4I7Z9JuJGgwRbD1e0BWtJwHWohkiMHcwWOwMOu82zSt7AHcPFnpWT5xhUrj5nASSc9EJKpZak4dg8b2fK8Q4uz+dbzLtqCrJAq5zj7OJIITW6JQq8P4PDkLukddrAhR/7Sou5TYtl82pf6uRA3BLPQSHUrU6tkNBjIc9T30ir/9jPLv+Q4qWPaedSEl5HB4x2LUzJ1lHBLklIV2+pR6G0A2PzRt6lQhm3bwEu0POcoeY56J9wxKcRP4ANQ3ze6bVOTpBXqdJfOOyAUdZC0Vm18XQFTrKKaQJ3lGH70J4HPDUgldrmAPXF6Qx27y2mOaA6t5MdIET9LLvtVRmf1UhNbcZ4xRI7tS0ejJfG7V8DG39tnRKvKHBPYC5bZIwT3TGUGwciX36YqQ150/lbBDfxiGSw3StKtnvvkFzZaLqTZZ/hl7o9yimlzA/etCrJ8lNrhex7uaiVzsjn3IOm90zAwLjPoGalNy8bqFK0AUROpkaE1eih8rg+lw8k89hXbuFoKLqnmHTyPuzP7jUBAj7GU19GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 90,
+      "completion_tokens": 298,
+      "total_tokens": 388,
+      "cost": 0.00474,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00474,
+        "upstream_inference_prompt_cost": 0.00027,
+        "upstream_inference_completions_cost": 0.00447
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 88,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 90,
+  "tokensOut": 298,
+  "costUsd": 0.00474,
+  "latencyMs": 7023,
+  "finishReason": "stop"
+}

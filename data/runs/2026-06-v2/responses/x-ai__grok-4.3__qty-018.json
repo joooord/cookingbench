@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "qty-018",
+  "answerText": "The recipe scales by a factor of 10/6 = 5/3.  \nThis requires 1.5 sticks × 5/3 = 2.5 sticks of butter.  \nUsing the common cooking approximation of 1 stick = 120 ml gives a butter volume of 300 ml.  \nOlive oil is then ¾ of that volume: 0.75 × 300 ml = 225 ml.  \n\nAnswer: 225 ml",
+  "raw": {
+    "id": "gen-1781209241-XqCr4as7Mwmq43YDxgYY",
+    "object": "chat.completion",
+    "created": 1781209241,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The recipe scales by a factor of 10/6 = 5/3.  \nThis requires 1.5 sticks × 5/3 = 2.5 sticks of butter.  \nUsing the common cooking approximation of 1 stick = 120 ml gives a butter volume of 300 ml.  \nOlive oil is then ¾ of that volume: 0.75 × 300 ml = 225 ml.  \n\nAnswer: 225 ml",
+          "refusal": null,
+          "reasoning": "The problem: Original recipe serves 6, calls for 1½ sticks of butter. Now baking for 10 people, out of butter, use olive oil at ¾ the volume of the butter. How many ml of olive oil?\nFirst, calculate the scaled amount.\n\nOriginal: 1.5 sticks for 6 people.\n\nFor 10 people: scale by 10/6 = 5/3.\n\n1.5 * 5/3 = 2.5 sticks needed.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem: Original recipe serves 6, calls for 1½ sticks of butter. Now baking for 10 people, out of butter, use olive oil at ¾ the volume of the butter. How many ml of olive oil?\nFirst, calculate the scaled amount.\n\nOriginal: 1.5 sticks for 6 people.\n\nFor 10 people: scale by 10/6 = 5/3.\n\n1.5 * 5/3 = 2.5 sticks needed.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_b70fb3da-a1b0-9024-9629-df8a421e5ce1",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 219,
+      "completion_tokens": 936,
+      "total_tokens": 1155,
+      "cost": 0.00247935,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00247935,
+        "upstream_inference_prompt_cost": 0.00013935,
+        "upstream_inference_completions_cost": 0.00234
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 844,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 219,
+  "tokensOut": 936,
+  "costUsd": 0.00247935,
+  "latencyMs": 6511,
+  "finishReason": "stop"
+}

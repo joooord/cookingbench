@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-011",
+  "answerText": "Water boils at 100°C, and converting Celsius to Kelvin requires adding 273.15. Thus, 100°C = 100 + 273.15 = 373.15 K.\n\nAnswer: 373.15 K",
+  "raw": {
+    "id": "gen-1781206624-AleSDvwfJdv2QshwCbDl",
+    "object": "chat.completion",
+    "created": 1781206624,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "GMICloud",
+    "system_fingerprint": "fp_9954b31ca7_prod0820_fp8_kvcache_20260402",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Water boils at 100°C, and converting Celsius to Kelvin requires adding 273.15. Thus, 100°C = 100 + 273.15 = 373.15 K.\n\nAnswer: 373.15 K",
+          "refusal": null,
+          "reasoning": "We are asked: \"Water boils at 100°C at sea level. Express that temperature in Kelvin.\"\n\nThe conversion from Celsius to Kelvin is K = °C + 273.15. Typically, for many practical purposes, 273 is used, but the exact conversion is 273.15. The question likely expects the exact conversion: 100°C = 373.15 K. However, it might be acceptable to say 373 K if using the approximation. Since the instruction says \"Answer: <number> K\", we need to output a number. I'll provide 373.15 K to be precise. But let's see: The question says \"Express that temperature in Kelvin.\" It doesn't specify significant figures, but 100°C is an exact integer, so 373.15 K is exact. I'll answer with 373.15 K.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Water boils at 100°C at sea level. Express that temperature in Kelvin.\"\n\nThe conversion from Celsius to Kelvin is K = °C + 273.15. Typically, for many practical purposes, 273 is used, but the exact conversion is 273.15. The question likely expects the exact conversion: 100°C = 373.15 K. However, it might be acceptable to say 373 K if using the approximation. Since the instruction says \"Answer: <number> K\", we need to output a number. I'll provide 373.15 K to be precise. But let's see: The question says \"Express that temperature in Kelvin.\" It doesn't specify significant figures, but 100°C is an exact integer, so 373.15 K is exact. I'll answer with 373.15 K.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 51,
+      "completion_tokens": 227,
+      "total_tokens": 278,
+      "cost": 0.00070296,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00070296,
+        "upstream_inference_prompt_cost": 0.000070992,
+        "upstream_inference_completions_cost": 0.000631968
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 178,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 51,
+  "tokensOut": 227,
+  "costUsd": 0.00070296,
+  "latencyMs": 9147,
+  "finishReason": "stop"
+}

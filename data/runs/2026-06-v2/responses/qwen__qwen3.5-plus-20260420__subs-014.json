@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "qwen/qwen3.5-plus-20260420",
+  "questionId": "subs-014",
+  "answerText": "The standard conversion ratio for fresh yeast to instant yeast is 3:1. Simply divide the fresh yeast amount by 3: 21 g ÷ 3 = 7 g.\n\nAnswer: 7 g",
+  "raw": {
+    "id": "gen-1781208695-kRyZxHzDkqlrqEmkiIPj",
+    "object": "chat.completion",
+    "created": 1781208695,
+    "model": "qwen/qwen3.5-plus-20260420",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The standard conversion ratio for fresh yeast to instant yeast is 3:1. Simply divide the fresh yeast amount by 3: 21 g ÷ 3 = 7 g.\n\nAnswer: 7 g",
+          "refusal": null,
+          "reasoning": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Recipe calls for: 21 g of fresh (cake) yeast\n   - Question: How many grams of instant yeast should be used instead?\n   - Constraint: End reply with \"Answer: <number> g\"\n\n2.  **Identify Key Knowledge:**\n   - Yeast conversion ratios are standard in baking:\n     - Fresh yeast : Active dry yeast : Instant yeast\n     - Common ratio: 3 : 2 : 1 (by weight)\n     - Specifically, instant yeast is about 1/3 the weight of fresh yeast.\n     - Some sources say 1/3, some say slightly less (like 0.33x or 0.35x), but 1/3 is the standard rule of thumb.\n     - Let's verify: 21 g fresh yeast ÷ 3 = 7 g instant yeast.\n\n3.  **Calculate:**\n   - 21 g fresh yeast × (1/3) = 7 g instant yeast.\n\n4.  **Formulate Response:**\n   - State the conversion ratio clearly.\n   - Provide the calculation.\n   - End with the exact required format.\n   - Keep it concise as instructed.\n\n   Draft: The standard conversion ratio for fresh yeast to instant yeast is 3:1. So, divide the fresh yeast amount by 3. 21 g ÷ 3 = 7 g. \n   Answer: 7 g\n\n5.  **Check Constraints:**\n   - Accurate? Yes, 3:1 is standard.\n   - Concise? Yes.\n   - Ends with exact format? Yes.\n   - Number matches? Yes.\n\n   All good. Proceed.✅",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Here's a thinking process:\n\n1.  **Analyze User Input:**\n   - Recipe calls for: 21 g of fresh (cake) yeast\n   - Question: How many grams of instant yeast should be used instead?\n   - Constraint: End reply with \"Answer: <number> g\"\n\n2.  **Identify Key Knowledge:**\n   - Yeast conversion ratios are standard in baking:\n     - Fresh yeast : Active dry yeast : Instant yeast\n     - Common ratio: 3 : 2 : 1 (by weight)\n     - Specifically, instant yeast is about 1/3 the weight of fresh yeast.\n     - Some sources say 1/3, some say slightly less (like 0.33x or 0.35x), but 1/3 is the standard rule of thumb.\n     - Let's verify: 21 g fresh yeast ÷ 3 = 7 g instant yeast.\n\n3.  **Calculate:**\n   - 21 g fresh yeast × (1/3) = 7 g instant yeast.\n\n4.  **Formulate Response:**\n   - State the conversion ratio clearly.\n   - Provide the calculation.\n   - End with the exact required format.\n   - Keep it concise as instructed.\n\n   Draft: The standard conversion ratio for fresh yeast to instant yeast is 3:1. So, divide the fresh yeast amount by 3. 21 g ÷ 3 = 7 g. \n   Answer: 7 g\n\n5.  **Check Constraints:**\n   - Accurate? Yes, 3:1 is standard.\n   - Concise? Yes.\n   - Ends with exact format? Yes.\n   - Number matches? Yes.\n\n   All good. Proceed.✅",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 73,
+      "completion_tokens": 434,
+      "total_tokens": 507,
+      "cost": 0.0008031,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0008031,
+        "upstream_inference_prompt_cost": 0.0000219,
+        "upstream_inference_completions_cost": 0.0007812
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 384,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 73,
+  "tokensOut": 434,
+  "costUsd": 0.0008031,
+  "latencyMs": 8582,
+  "finishReason": "stop"
+}

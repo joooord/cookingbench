@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "safe-012",
+  "answerText": "No, it is not safe to eat the rice. Cooked rice left at room temperature for more than 2 hours can develop **Bacillus cereus**, a bacteria that produces toxins resistant to reheating. These toxins can cause food poisoning, leading to symptoms like nausea, vomiting, and diarrhea.\n\n**Key points:**\n- **2-hour rule:** Perishable food (including rice) should not sit at room temperature for more than 2 hours (1 hour if above 90°F/32°C).\n- **Reheating won’t help:** While reheating may kill bacteria, it does not destroy the heat-stable toxins.\n- **When in doubt, throw it out:** Discard the rice to avoid risk.\n\nFor safety, refrigerate cooked rice within 2 hours of cooking.",
+  "raw": {
+    "id": "gen-1781207325-Y88202yeLI8VMsXhENyC",
+    "object": "chat.completion",
+    "created": 1781207325,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "No, it is not safe to eat the rice. Cooked rice left at room temperature for more than 2 hours can develop **Bacillus cereus**, a bacteria that produces toxins resistant to reheating. These toxins can cause food poisoning, leading to symptoms like nausea, vomiting, and diarrhea.\n\n**Key points:**\n- **2-hour rule:** Perishable food (including rice) should not sit at room temperature for more than 2 hours (1 hour if above 90°F/32°C).\n- **Reheating won’t help:** While reheating may kill bacteria, it does not destroy the heat-stable toxins.\n- **When in doubt, throw it out:** Discard the rice to avoid risk.\n\nFor safety, refrigerate cooked rice within 2 hours of cooking.",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 50,
+      "completion_tokens": 164,
+      "total_tokens": 214,
+      "cost": 0.000271,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000271,
+        "upstream_inference_prompt_cost": 0.000025,
+        "upstream_inference_completions_cost": 0.000246
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 50,
+  "tokensOut": 164,
+  "costUsd": 0.000271,
+  "latencyMs": 3180,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-010",
+  "answerText": "To find the total protein in a box of 6 bars, simply multiply:\n\n20 g × 6 = **120 g**\n\nAnswer: 120 g",
+  "raw": {
+    "id": "gen-1781210005-b6a9HlXt0PhOzicCRcnf",
+    "object": "chat.completion",
+    "created": 1781210005,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To find the total protein in a box of 6 bars, simply multiply:\n\n20 g × 6 = **120 g**\n\nAnswer: 120 g",
+          "refusal": null,
+          "reasoning": "20 g × 6 = 120 g",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "20 g × 6 = 120 g",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EtkBCmUIDhgCKkAfL+pPFp08CqzVgib9x6kgpK9Dax8fVwrTAddZQB1TwK8kjt81JeF04R8q7jd0rbezwCZHlDW064n+cj7qXaolMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMEQTfJWFB1YhIVLSoGgzVCruR/M3rZ59mmmIiMB5KzMBx4nDRyDHSUB9BIAeR0sYpBgZKPfVpuvP7WyfCSoET5VGZ/mtabcIZHR72aCoiZmbSJi0Bd0Q1rpKLc49SdwmLvOd5QKckvxGXyUALzNYN/BgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 69,
+      "completion_tokens": 68,
+      "total_tokens": 137,
+      "cost": 0.001227,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001227,
+        "upstream_inference_prompt_cost": 0.000207,
+        "upstream_inference_completions_cost": 0.00102
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 5,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 69,
+  "tokensOut": 68,
+  "costUsd": 0.001227,
+  "latencyMs": 1802,
+  "finishReason": "stop"
+}

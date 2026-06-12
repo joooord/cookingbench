@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-022",
+  "answerText": "Dry (uncooked) white rice contains roughly **360–370 kcal per 100 g**, with about 365 kcal being the commonly cited value (USDA data for long-grain white rice).\n\nFor context, most of those calories come from carbohydrates (~80 g per 100 g), with small amounts of protein (~7 g) and very little fat (~0.7 g). Note that *cooked* white rice has far fewer calories per 100 g (~130 kcal) because it absorbs water during cooking.\n\nAnswer: 365 kcal",
+  "raw": {
+    "id": "gen-1781212883-QmwVVnbNuTS5hierZ8u2",
+    "object": "chat.completion",
+    "created": 1781212883,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Dry (uncooked) white rice contains roughly **360–370 kcal per 100 g**, with about 365 kcal being the commonly cited value (USDA data for long-grain white rice).\n\nFor context, most of those calories come from carbohydrates (~80 g per 100 g), with small amounts of protein (~7 g) and very little fat (~0.7 g). Note that *cooked* white rice has far fewer calories per 100 g (~130 kcal) because it absorbs water during cooking.\n\nAnswer: 365 kcal",
+          "refusal": null,
+          "reasoning": " Dry white rice contains about 365 calories per 100 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " Dry white rice contains about 365 calories per 100 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS5wEKYggOGAIqQMddXnfkpBL3D+uqLCM1dg9r+7CDqop5oURkC4k4gk3XSXk1BJ0CjGp6bwstYtASGgeMp2hV3M5kJrE0BbiseicyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgwXXmnP0sKYakyuSeYaDBDA5ix2t6J1Q35xASIwdxbb8p91diz9Gntw8Ak73qx8/DOm5z3WHYMuqF51SkjWOuKORtXO1mflEK6HkwahKjNTGmX7RF+HG0A9qiSk3oGbSs5q1LHo4tuuui9OsVyUM4q/TdS3R/BlW9mO5dQKnnzGuxAYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 83,
+      "completion_tokens": 194,
+      "total_tokens": 277,
+      "cost": 0.01053,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01053,
+        "upstream_inference_prompt_cost": 0.00083,
+        "upstream_inference_completions_cost": 0.0097
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 15,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 83,
+  "tokensOut": 194,
+  "costUsd": 0.01053,
+  "latencyMs": 5586,
+  "finishReason": "stop"
+}

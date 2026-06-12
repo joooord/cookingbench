@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "nutr-025",
+  "answerText": "## Reasoning\n\n**Step 1 — Raw weight**\n2 × 300 g = **600 g raw**\n\n**Step 2 — Trim the fat cap (−15%)**\n600 g × 0.15 = 90 g removed\n600 − 90 = **510 g raw trimmed (lean) meat**\n\n**Step 3 — Cooking loss from grilling**\nGrilling typically loses ~25% of weight (mostly water + some fat drip).\n510 g × 0.75 ≈ **383 g cooked**\n\n**Step 4 — Nutrition of lean, grilled sirloin (per 100 g cooked)**\n- Protein ≈ 29 g\n- Fat ≈ 8 g\n- Calories ≈ 190 kcal\n\n**Step 5 — Scale to 383 g**\n- Protein: 29 × 3.83 ≈ **111 g**\n- Fat: 8 × 3.83 ≈ **31 g**\n- Calories: 190 × 3.83 ≈ **725 kcal**\n (cross-check: 111 g × 4 + 31 g × 9 ≈ 444 + 279 ≈ 723 kcal ✓)\n\nThese are estimates; actual values vary with the exact cut, marbling, and how well-done you grill them.\n\nProtein: 111 g\nFat: 31 g\nCalories: 725 kcal",
+  "raw": {
+    "id": "gen-1781211586-kRO7FNr7KS0tLBErSg2d",
+    "object": "chat.completion",
+    "created": 1781211586,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Reasoning\n\n**Step 1 — Raw weight**\n2 × 300 g = **600 g raw**\n\n**Step 2 — Trim the fat cap (−15%)**\n600 g × 0.15 = 90 g removed\n600 − 90 = **510 g raw trimmed (lean) meat**\n\n**Step 3 — Cooking loss from grilling**\nGrilling typically loses ~25% of weight (mostly water + some fat drip).\n510 g × 0.75 ≈ **383 g cooked**\n\n**Step 4 — Nutrition of lean, grilled sirloin (per 100 g cooked)**\n- Protein ≈ 29 g\n- Fat ≈ 8 g\n- Calories ≈ 190 kcal\n\n**Step 5 — Scale to 383 g**\n- Protein: 29 × 3.83 ≈ **111 g**\n- Fat: 8 × 3.83 ≈ **31 g**\n- Calories: 190 × 3.83 ≈ **725 kcal**\n (cross-check: 111 g × 4 + 31 g × 9 ≈ 444 + 279 ≈ 723 kcal ✓)\n\nThese are estimates; actual values vary with the exact cut, marbling, and how well-done you grill them.\n\nProtein: 111 g\nFat: 31 g\nCalories: 725 kcal",
+          "refusal": null,
+          "reasoning": " I'm calculating the final cooked weight of the steaks after accounting for trimming and water loss during grilling, then working through the nutritional breakdown based on lean sirloin values per 100g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the final cooked weight of the steaks after accounting for trimming and water loss during grilling, then working through the nutritional breakdown based on lean sirloin values per 100g.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EvIGCmMIDhgCKkARqyhrv7tJanKePm0/s6E0fsaPlFjibrM3OlDoP1HSubJfGqJ5Nq6ZLlapZnKf/kQfWlaZvvXhHKJl+S7xB9zEMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDIdxPVvEWaZuVN/GqRoMXZJFVuPRqv2p+YlLIjCj5Vy6XBdZuaBhXwVsEJ+rtIlygdVxiyh62htMQPlHEaBzKh+fz3kuM1XEA8nueYMqvAVCgclVYLd/cRrUMzrn4SRLM4zrZxXzjDgLMOMVgTypkBo5XRcDBaoigqyBekcVoNJnD415aJV3cSpwyWkvwufsPl9e5/aWNm9cvqqCAIq+yG2ZwGWcwEgha04l+0vQT2E4G5g9oFS4PjkSwuGhzoIxu+L4jJ9to8F9RLWxbBDwoxuGfYD5waQ1OZuS4ul1SAcFE3klSnUIietF62zS39DUTxNY8Dte634ZXJXzdON8IChV29hi01ODAmTE1tT7zYdXQm98PcwGhA3XWEIP7uubt+QhihuZc3TV64827S2V+srGUeGA7nYRK+OSYeKDgldoBgJAki4s2q5O6+KNbryaDW+3MFOBSK7rFBuMq1epy6hJnMyMHbPkHhPo+8BXVl9wRu94JeB4t3XMWlVOQOeUoo+XF8lf7yPzxe0RHenqTak0pL5oALhFDoi/8pt4C2uU8ZQT2SjJwLf4P5AhM4APkiG0DaWIrAMTdHpLStPW63khEpebHZ+Nl0Q9i1EvwRsVTfgl1Z4FiYj5tHeODezIpGi8+jw+rbJ7H73cVY3GJ5BWoX+mN+gLWkl0F8S9+oG5fxTXNtxxdfXldRT1T4iUAONkHXJsljbZYb5SjZjDWfPbeLim+kqkYmOMhfYkdgSy4ZjQ3h+fmmCMVPe6qajlhD+XWiL4xuosOdswSBI+419sKMiLzIrb2RctO+pyGIOcGdOi36UtwtAPXRRsXbWnpM8g8L9fPyfbLK/F7Xh5jplrzThAxXqoHze1rYfszhGtrEdGv2TLtLw9Sv8QFsfE3PgSjY7txV0/FIktO0gp6HhNVvzrftYMKgxmcCevngp1J8tN+gOJInXv4o/mGVWvlYE9AkLgp97pPfHdXxvQ1IDx2XqVY68b6G/itJQzuLE5qvf0aoVKmXBkeH8JJXZ/Sc5z/RZcE2smUed3GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 171,
+      "completion_tokens": 816,
+      "total_tokens": 987,
+      "cost": 0.021255,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.021255,
+        "upstream_inference_prompt_cost": 0.000855,
+        "upstream_inference_completions_cost": 0.0204
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 51,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 171,
+  "tokensOut": 816,
+  "costUsd": 0.021255,
+  "latencyMs": 9386,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-002",
+  "answerText": "To scale the recipe from 6 servings down to 4, multiply the rice by 4/6 (two-thirds):\n\n- 450 g ÷ 6 = 75 g per serving\n- 75 g × 4 = 300 g\n\nRemember to scale the cooking liquid and seasonings by the same ratio (two-thirds) to keep the pilaf balanced.\n\nAnswer: 300 g",
+  "raw": {
+    "id": "gen-1781213002-GyYgk4Uf1U5uLv3pEdJD",
+    "object": "chat.completion",
+    "created": 1781213002,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To scale the recipe from 6 servings down to 4, multiply the rice by 4/6 (two-thirds):\n\n- 450 g ÷ 6 = 75 g per serving\n- 75 g × 4 = 300 g\n\nRemember to scale the cooking liquid and seasonings by the same ratio (two-thirds) to keep the pilaf balanced.\n\nAnswer: 300 g",
+          "refusal": null,
+          "reasoning": " I'm calculating the serving size by dividing 450 by 6 to get 75 grams per serving, then multiplying by 4 to get 300 grams total.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm calculating the serving size by dividing 450 by 6 to get 75 grams per serving, then multiplying by 4 to get 300 grams total.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS6AEKYggOGAIqQH9VcJQvww8OUdRRBdUz7nJBrVj4+hsDZgIwchvQGHfTpcjjtbZLYoR8UH7wOSmWZyouqHnMiMLnvZjg9svwUygyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgz8YfLAxF2lXWzCU8MaDAyF0C+XB2nt+TWtoCIwRrNDQ0z/44RaEeZB+Xv0rY98tYFDGNW5IbYa04guUUGaV2M8SvFmr9i8ECPx9kaRKjR786CIAOOZ7ETC18aYzngkFG03+ctkVp1w+3rvlEFkHOGdAiXEI42JhMe00hazdRe0qynIGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 105,
+      "completion_tokens": 152,
+      "total_tokens": 257,
+      "cost": 0.00865,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00865,
+        "upstream_inference_prompt_cost": 0.00105,
+        "upstream_inference_completions_cost": 0.0076
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 33,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 105,
+  "tokensOut": 152,
+  "costUsd": 0.00865,
+  "latencyMs": 6055,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "conv-006",
+  "answerText": "Gas mark 6 corresponds to approximately 200°C, which is 400°F.\n\nAnswer: 400 °F",
+  "raw": {
+    "id": "gen-1781211451-AqkUuC7Ic8eUlXJPWuYy",
+    "object": "chat.completion",
+    "created": 1781211451,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Gas mark 6 corresponds to approximately 200°C, which is 400°F.\n\nAnswer: 400 °F",
+          "refusal": null,
+          "reasoning": " Gas mark 6 corresponds to 200°C or 400°F.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " Gas mark 6 corresponds to 200°C or 400°F.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EusBCmMIDhgCKkCJAgdvHoOvGHBldDIW0qPQXIhzBBS+9xKHbsNpfownHnhQwKke6s7nsrwaFoiXqOMib+Nvg6qmrkoj4mCAs89NMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDAlVr2pdTj5Xv7rXJRoMsUyte+/Vl6NgVHq6IjCRT08jFTFyTHKE0WTYC+whuzo73jguqCM6616PkhgLMwXaE4D4a9OWmV2N4YUu5r0qNr1g8dz8C4DbV20b5ipYBX8uqc+FWCnh7HZwdLfKWxLsNHoTxg/c8kSVgq3oTGIw0iiJa5BFVxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 84,
+      "completion_tokens": 63,
+      "total_tokens": 147,
+      "cost": 0.001995,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001995,
+        "upstream_inference_prompt_cost": 0.00042,
+        "upstream_inference_completions_cost": 0.001575
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 12,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 84,
+  "tokensOut": 63,
+  "costUsd": 0.001995,
+  "latencyMs": 2532,
+  "finishReason": "stop"
+}

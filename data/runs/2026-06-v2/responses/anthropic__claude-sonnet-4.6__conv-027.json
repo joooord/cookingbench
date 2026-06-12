@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "conv-027",
+  "answerText": "## Converting US Cups to Australian Metric Cups\n\n**US cup** = 236.6 mL\n**2 US cups** = 473.2 mL\n\n**Australian cup** = 250 mL\n\n473.2 ÷ 250 = **1.89 Australian cups**\n\nIn practical terms, you'd measure just a tiny bit shy of **1⅞ Australian cups** — though for most recipes, simply using **1.9 cups** (or rounding to **2 cups** minus about 1½ tablespoons) will be close enough without affecting the outcome.\n\nAnswer: 1.89 cups",
+  "raw": {
+    "id": "gen-1781209847-b38D62DztcqAbg1nSFbZ",
+    "object": "chat.completion",
+    "created": 1781209847,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Converting US Cups to Australian Metric Cups\n\n**US cup** = 236.6 mL\n**2 US cups** = 473.2 mL\n\n**Australian cup** = 250 mL\n\n473.2 ÷ 250 = **1.89 Australian cups**\n\nIn practical terms, you'd measure just a tiny bit shy of **1⅞ Australian cups** — though for most recipes, simply using **1.9 cups** (or rounding to **2 cups** minus about 1½ tablespoons) will be close enough without affecting the outcome.\n\nAnswer: 1.89 cups",
+          "refusal": null,
+          "reasoning": "A US cup is 236.588 mL.\n\n2 US cups = 2 × 236.588 = 473.176 mL\n\nAustralian cup = 250 mL\n\n473.176 / 250 = 1.893 cups\n\nSo approximately 1.9 Australian cups.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "A US cup is 236.588 mL.\n\n2 US cups = 2 × 236.588 = 473.176 mL\n\nAustralian cup = 250 mL\n\n473.176 / 250 = 1.893 cups\n\nSo approximately 1.9 Australian cups.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EuUCCmcIDhACGAIqQLOlG88shi1MsvabJeLeR3oDr7CFJ4j+GxRkaktv+n6JFK+kYlJIN9l0Z3jyS1fT3we07T28oRsAIX4p2KtbBXgyEWNsYXVkZS1zb25uZXQtNC02OABCCHRoaW5raW5nEgwS3CpPYcFPonX08JIaDE95WyeHjDFKShD6JSIwbjUnjgz6jC4qzPaph61PmyKxt5jcCcLUTPH/tAqKf47/wYouB9IOcV0Lg2V+k0O1KqsB2JyZURcfrxkKtphc12duqnhsjc5fvQ+bTwYFNCBUz9Gnme1L4MAVlhduMCHKQ9BEqIawIfIz2or5T+k6epjeHqmh6nGeGGcqDcJv0nz7JVc1F8n/HKVedLpbRW4N1K5G0lJN2EK2zxDW4wgGtvE6fDUnyHTguXW6mbV+EW1v5dSNOm1+4urkjQr9jgRsX+x9zvbraogHCwCPUsHDiLJ81NTyzymVJx4ro8QtGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 77,
+      "completion_tokens": 236,
+      "total_tokens": 313,
+      "cost": 0.003771,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003771,
+        "upstream_inference_prompt_cost": 0.000231,
+        "upstream_inference_completions_cost": 0.00354
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 45,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 77,
+  "tokensOut": 236,
+  "costUsd": 0.003771,
+  "latencyMs": 4774,
+  "finishReason": "stop"
+}

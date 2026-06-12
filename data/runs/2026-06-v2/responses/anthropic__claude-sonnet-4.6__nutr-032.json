@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "nutr-032",
+  "answerText": "## Working Through the Problem\n\n**Step 1: How much cooked chicken do I need?**\n- Need 45 g of protein\n- Cooked breast = 31 g protein per 100 g\n- Cooked chicken needed: 45 ÷ 0.31 ≈ **145 g cooked**\n\n**Step 2: Convert cooked weight back to raw**\n- Chicken loses 25% of weight when cooked → cooked = 75% of raw\n- Raw weight needed: 145 ÷ 0.75 ≈ **193 g raw**\n\nSo put roughly **~195 g** of raw chicken breast in the pan.\n\nAnswer: 193 g",
+  "raw": {
+    "id": "gen-1781210046-vnuM5i7zQMBL4cLNTvHb",
+    "object": "chat.completion",
+    "created": 1781210046,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Working Through the Problem\n\n**Step 1: How much cooked chicken do I need?**\n- Need 45 g of protein\n- Cooked breast = 31 g protein per 100 g\n- Cooked chicken needed: 45 ÷ 0.31 ≈ **145 g cooked**\n\n**Step 2: Convert cooked weight back to raw**\n- Chicken loses 25% of weight when cooked → cooked = 75% of raw\n- Raw weight needed: 145 ÷ 0.75 ≈ **193 g raw**\n\nSo put roughly **~195 g** of raw chicken breast in the pan.\n\nAnswer: 193 g",
+          "refusal": null,
+          "reasoning": "Let me work through this step by step.\n\n1. I need 45 g of protein\n2. Cooked chicken breast has 31 g protein per 100 g cooked\n3. So I need: 45 / 0.31 = 145.16 g of cooked chicken\n\n4. Raw chicken loses 25% of its weight when cooked, meaning cooked weight = 75% of raw weight\n5. So raw weight = cooked weight / 0.75 = 145.16 / 0.75 = 193.5 g\n\nRoughly 193-194 g of raw chicken breast.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Let me work through this step by step.\n\n1. I need 45 g of protein\n2. Cooked chicken breast has 31 g protein per 100 g cooked\n3. So I need: 45 / 0.31 = 145.16 g of cooked chicken\n\n4. Raw chicken loses 25% of its weight when cooked, meaning cooked weight = 75% of raw weight\n5. So raw weight = cooked weight / 0.75 = 145.16 / 0.75 = 193.5 g\n\nRoughly 193-194 g of raw chicken breast.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EsUECmUIDhgCKkAEWEuFt+vTfu+qGAmrE5lWS5+RF1/hr6H0XeCsTo/4O9lX+ZAkUYqLR1gNY9ubvm+DhZrZ7lhL5LBjg4m1gqS3MhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMOMdoz5q718TUK93AGgxdvop4VOEI5YodER0iMIOr5b6EPpMnuJLzMHb7LQEr3FBzhu1265Phxw9GP2qYusFlkBqd4YWQou9TxIZJfCqNA9VmtJk182zrfJ+WMAly8UYUTw1I5ySnZUEatlEB8naE407zOk0EiwuxLVyq3cqFW/F6UanherGKx+vtQNWHRpTKpmeXIp2hV1gDEb8n+xXhDz2lor/nRjyFwr7SizH/8rw3Pch1vm/3ZKIXxYva3Y35o0sb8jVGAhiCg2o9djnBrxINgQGGVr+0qS+F9DLvsbCEvwa/9fyg3/TXjbnurDZjqs8Hj8VyGU+7PGMjuuEa/ATXh9+g07rw1T7yezok3x68hou5K/p6W56L5q67ZjokDUa8yPw1IokRLlsOmx77VdrkJ9EyDjHmg/fS5uMya8OewPSl2wM9i3neeUdVJwgiJUZvaW5U8Z7zW1Prt0+yusND8kk2Cm0LLwh0m5GxVf56ZqcvmXRaCXSW4ScXrJFadnxhne71Htw4mIZfLBJ6yRZbrORKKf72BB8fEEav9UJ0oYxVuD0q3stJe8zBWR58lYiVxEd0BMCwz88wUa9oj0hF7nXgaPpAqiOKfUiT2/akTaL1Sib0XNyX9McYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 108,
+      "completion_tokens": 329,
+      "total_tokens": 437,
+      "cost": 0.005259,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.005259,
+        "upstream_inference_prompt_cost": 0.000324,
+        "upstream_inference_completions_cost": 0.004935
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 102,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 108,
+  "tokensOut": 329,
+  "costUsd": 0.005259,
+  "latencyMs": 7773,
+  "finishReason": "stop"
+}

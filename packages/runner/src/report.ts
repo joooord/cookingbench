@@ -93,6 +93,8 @@ export function buildLeaderboard(
   for (const s of scores) {
     const q = questionsById.get(s.questionId);
     if (!q || q.status === 'retired') continue;
+    // Unjudged answers are missing data, not zeros — report.ts warns upstream.
+    if ((s.detail as { judgePending?: boolean }).judgePending) continue;
     if (!byModel.has(s.modelId)) {
       byModel.set(s.modelId, { active: [], basics: [], frontier: [], perCategory: new Map() });
     }

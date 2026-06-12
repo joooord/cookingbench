@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "safe-009",
+  "answerText": "Raw ground beef should be stored in the refrigerator at or below 40°F (4°C) for no more than 1–2 days before cooking or freezing.  \nAnswer: 1-2 days",
+  "raw": {
+    "id": "gen-1781206722-Rx4yvOExeSRBD2nVxuse",
+    "object": "chat.completion",
+    "created": 1781206722,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "GMICloud",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Raw ground beef should be stored in the refrigerator at or below 40°F (4°C) for no more than 1–2 days before cooking or freezing.  \nAnswer: 1-2 days",
+          "refusal": null,
+          "reasoning": "We are asked: \"Roughly how many days can raw ground beef be safely stored in the refrigerator at or below 40°F (4°C) before cooking or freezing?\"\n\nAccording to USDA guidelines, raw ground beef can be refrigerated safely for 1-2 days. The typical recommendation is 1-2 days. The question asks \"roughly how many days\", so 1-2 days. I'll answer with 1-2 days, but the format says \"Answer: <number> days\". I should provide the number. Since it says \"roughly how many days\", maybe 1-2. But could just say 2. I'll check: USDA says ground meat, poultry, and fish have a shorter shelf life than whole cuts; ground beef: 1-2 days. The question likely expects \"1-2\" or \"2\". I'll give \"1-2\" as the range. But the instruction says \"<number> days\", so I'll put \"1-2\". Alternatively, to be safe, I'll write \"1-2\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Roughly how many days can raw ground beef be safely stored in the refrigerator at or below 40°F (4°C) before cooking or freezing?\"\n\nAccording to USDA guidelines, raw ground beef can be refrigerated safely for 1-2 days. The typical recommendation is 1-2 days. The question asks \"roughly how many days\", so 1-2 days. I'll answer with 1-2 days, but the format says \"Answer: <number> days\". I should provide the number. Since it says \"roughly how many days\", maybe 1-2. But could just say 2. I'll check: USDA says ground meat, poultry, and fish have a shorter shelf life than whole cuts; ground beef: 1-2 days. The question likely expects \"1-2\" or \"2\". I'll give \"1-2\" as the range. But the instruction says \"<number> days\", so I'll put \"1-2\". Alternatively, to be safe, I'll write \"1-2\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 67,
+      "completion_tokens": 268,
+      "total_tokens": 335,
+      "cost": 0.000839376,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000839376,
+        "upstream_inference_prompt_cost": 0.000093264,
+        "upstream_inference_completions_cost": 0.000746112
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 224,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 67,
+  "tokensOut": 268,
+  "costUsd": 0.000839376,
+  "latencyMs": 5325,
+  "finishReason": "stop"
+}

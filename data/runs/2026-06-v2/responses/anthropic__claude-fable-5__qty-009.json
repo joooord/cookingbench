@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-009",
+  "answerText": "In baker's percentages, every ingredient is expressed relative to the flour weight (flour = 100%). \n\n**Step 1:** Sum the percentages: 100 + 68 + 2 + 1.2 = **171.2%**\n\n**Step 2:** Find the flour weight: 1712 g ÷ 1.712 = **1000 g**\n\n**Step 3:** Calculate each ingredient from the flour weight:\n- Water: 1000 × 0.68 = 680 g\n- Salt: 1000 × 0.02 = 20 g\n- Yeast: 1000 × 0.012 = 12 g\n\n**Check:** 1000 + 680 + 20 + 12 = 1712 g ✓\n\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g",
+  "raw": {
+    "id": "gen-1781213059-OxsqLutg77bAKHdZdbEB",
+    "object": "chat.completion",
+    "created": 1781213059,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "In baker's percentages, every ingredient is expressed relative to the flour weight (flour = 100%). \n\n**Step 1:** Sum the percentages: 100 + 68 + 2 + 1.2 = **171.2%**\n\n**Step 2:** Find the flour weight: 1712 g ÷ 1.712 = **1000 g**\n\n**Step 3:** Calculate each ingredient from the flour weight:\n- Water: 1000 × 0.68 = 680 g\n- Salt: 1000 × 0.02 = 20 g\n- Yeast: 1000 × 0.012 = 12 g\n\n**Check:** 1000 + 680 + 20 + 12 = 1712 g ✓\n\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g",
+          "refusal": null,
+          "reasoning": " I'm working through a baker's percentage calculation—the total comes to 171.2%, so I'm scaling the flour weight of 1000g as my base, then calculating the other ingredients: 680g water, 20g salt, and 12g yeast.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " I'm working through a baker's percentage calculation—the total comes to 171.2%, so I'm scaling the flour weight of 1000g as my base, then calculating the other ingredients: 680g water, 20g salt, and 12g yeast.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISmwIKYggOGAIqQBuPz9Ybtw5y4thf37zeFkuWIng2ceGu9hseAWrdzsM3+PcphlbMD2nEiwYPwWn+IbUBp3hmj11JDScif3IZMAsyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgxwa1rEnoNsFcwTFgUaDEFBoAY+QnKcUgvaQiIwnHvtfLEOMMlmIL0vKLWG1ylTyR6G/KKPR8AicldD5Nv0Z+qoucztgPOAS74deyaKKmePmzYotiFu6WfLh7FK+IMvnjl0Q0+KYGJkxeXQBPzLV7M8kAU06RpoA6tNcZAyIoyurbUxJqwQJVBKFiQtmz98bVfEEBRjBTswRyDfyamBlOiqmB1tJzhcw1yF3HhBvmI1UeAHaAjeGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 130,
+      "completion_tokens": 315,
+      "total_tokens": 445,
+      "cost": 0.01705,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01705,
+        "upstream_inference_prompt_cost": 0.0013,
+        "upstream_inference_completions_cost": 0.01575
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 54,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 130,
+  "tokensOut": 315,
+  "costUsd": 0.01705,
+  "latencyMs": 6144,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "conv-017",
+  "answerText": "In Australia, the standard tablespoon is **20 ml** (unlike the US/UK/NZ, where it's 15 ml). So 2 Australian tablespoons of fish sauce equals 2 × 20 ml = 40 ml.\n\nThis is worth noting if you're using measuring spoons from another country — a US tablespoon set would give you only 30 ml, noticeably less in a flavour-critical ingredient like fish sauce.\n\nAnswer: 40 ml",
+  "raw": {
+    "id": "gen-1781212453-3uZgsOQDtSCsGhMJZLQu",
+    "object": "chat.completion",
+    "created": 1781212453,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "In Australia, the standard tablespoon is **20 ml** (unlike the US/UK/NZ, where it's 15 ml). So 2 Australian tablespoons of fish sauce equals 2 × 20 ml = 40 ml.\n\nThis is worth noting if you're using measuring spoons from another country — a US tablespoon set would give you only 30 ml, noticeably less in a flavour-critical ingredient like fish sauce.\n\nAnswer: 40 ml",
+          "refusal": null,
+          "reasoning": " Two Australian tablespoons equals 40 milliliters.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " Two Australian tablespoons equals 40 milliliters.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS8AEKYggOGAIqQGFai0kP67x+kNoo+Mhj8vNpRdLaCq1MeiOmPdL7RNS9osRbXhYXoo/M/U6XELjXZFh4GBo5hE/ipEAcmm8UoUgyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgy2Vq6PZc/DFMgLWd4aDCiYA43vsIrtiuDvoyIwD0WRhVZvlgbRL/6DWIqsqmpn+YHw8KAOWkBExaxi8o9qKSXFWgikgG9lqc27JQVMKjx1bSX+lDMa6k9qHMnkW8UqNGt6HEbQSYVWdF5Fnjj0WX8PevLpAZyvpQF/wek6YxzN5yKfMHpBjVwiIhoYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 96,
+      "completion_tokens": 182,
+      "total_tokens": 278,
+      "cost": 0.01006,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01006,
+        "upstream_inference_prompt_cost": 0.00096,
+        "upstream_inference_completions_cost": 0.0091
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 13,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 96,
+  "tokensOut": 182,
+  "costUsd": 0.01006,
+  "latencyMs": 5578,
+  "finishReason": "stop"
+}

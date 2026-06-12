@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "qty-010",
+  "answerText": "To make 36 muffins, you need **3 times** the original recipe (36 ÷ 12 = 3).\n\nSo you'll need 3 × 3 = **9 eggs**.\n\nAnswer: 9 eggs",
+  "raw": {
+    "id": "gen-1781210076-DZhl0kGQkBU1xaeEJdTF",
+    "object": "chat.completion",
+    "created": 1781210076,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To make 36 muffins, you need **3 times** the original recipe (36 ÷ 12 = 3).\n\nSo you'll need 3 × 3 = **9 eggs**.\n\nAnswer: 9 eggs",
+          "refusal": null,
+          "reasoning": "36 muffins / 12 muffins = 3 times the recipe\n3 eggs × 3 = 9 eggs",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "36 muffins / 12 muffins = 3 times the recipe\n3 eggs × 3 = 9 eggs",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EokCCmUIDhgCKkD8TTXzYbzzTdN7RLQapjrvAYveWLia1VOjUo6orHd9H71jGlABtp4tFz4HFmduoETVutkxmwm/3bbv+6atpPiCMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMpddHhTkO/40/vlnSGgzs+RFPNi9DvBNnsFIiMJc7JK7nTcQuqYQFaWrG3ReRKkmL68R3ptbyf9STlUpfUFnuP5y6YesAtcSwfDjn0SpS8VLPEL/C6Hd3xLH63+Dtg86B/uZ2RIQQ3ULvmoQLjqWXkHKOz4DPeyU0+bgFpZ9lTxkz26YsJp1A6CANGzkeC+BbGCTtseDFYa+GewjCw04V6RgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 74,
+      "completion_tokens": 108,
+      "total_tokens": 182,
+      "cost": 0.001842,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001842,
+        "upstream_inference_prompt_cost": 0.000222,
+        "upstream_inference_completions_cost": 0.00162
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 18,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 74,
+  "tokensOut": 108,
+  "costUsd": 0.001842,
+  "latencyMs": 3586,
+  "finishReason": "stop"
+}

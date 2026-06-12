@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-009",
+  "answerText": "Here are the amounts for 1712 g total dough:\n\nFlour: 1000 g\nWater: 680 g\nSalt: 20 g\nYeast: 12 g",
+  "raw": {
+    "id": "gen-1781206904-Fqx5Zkl46p0TYpmO7FCU",
+    "object": "chat.completion",
+    "created": 1781206904,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "DigitalOcean",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Here are the amounts for 1712 g total dough:\n\nFlour: 1000 g\nWater: 680 g\nSalt: 20 g\nYeast: 12 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"A dough formula in baker's percentages: flour 100%, water 68%, salt 2%, yeast 1.2%. I want exactly 1712 g of total dough. How many grams of each ingredient?\"\n\nBaker's percentages are based on flour weight as 100%. The total percentage is 100% + 68% + 2% + 1.2% = 171.2%. Total dough weight desired is 1712 g. So the flour weight is (total weight) / (total percentage) * 100%? Actually, if total percentage is 171.2%, that means the total weight is 171.2% of the flour weight. So flour weight = total weight / (total percentage / 100) = 1712 / 1.712. Let's compute: 1712 / 1.712 = 1000? Because 1712 / 1.712 = 1712000 / 1712 = 1000. Yes, 1712 / 1.712 = 1000 exactly.\n\nSo flour = 1000 g.\nWater = 68% of flour = 0.68 * 1000 = 680 g.\nSalt = 2% of flour = 20 g.\nYeast = 1.2% of flour = 12 g.\n\nCheck total: 1000 + 680 + 20 + 12 = 1712 g. Perfect.\n\nNow answer accurately and concisely. End with one line per ingredient in the form \"<ingredient>: <number> g\". So:\n\nHere are the amounts for 1712 g total dough:\n\nFlour: 1000 g\nWater: 680 g\nSalt: 20 g\nYeast: ",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A dough formula in baker's percentages: flour 100%, water 68%, salt 2%, yeast 1.2%. I want exactly 1712 g of total dough. How many grams of each ingredient?\"\n\nBaker's percentages are based on flour weight as 100%. The total percentage is 100% + 68% + 2% + 1.2% = 171.2%. Total dough weight desired is 1712 g. So the flour weight is (total weight) / (total percentage) * 100%? Actually, if total percentage is 171.2%, that means the total weight is 171.2% of the flour weight. So flour weight = total weight / (total percentage / 100) = 1712 / 1.712. Let's compute: 1712 / 1.712 = 1000? Because 1712 / 1.712 = 1712000 / 1712 = 1000. Yes, 1712 / 1.712 = 1000 exactly.\n\nSo flour = 1000 g.\nWater = 68% of flour = 0.68 * 1000 = 680 g.\nSalt = 2% of flour = 20 g.\nYeast = 1.2% of flour = 12 g.\n\nCheck total: 1000 + 680 + 20 + 12 = 1712 g. Perfect.\n\nNow answer accurately and concisely. End with one line per ingredient in the form \"<ingredient>: <number> g\". So:\n\nHere are the amounts for 1712 g total dough:\n\nFlour: 1000 g\nWater: 680 g\nSalt: 20 g\nYeast: ",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 84,
+      "completion_tokens": 409,
+      "total_tokens": 493,
+      "cost": 0.001334058,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001334058,
+        "upstream_inference_prompt_cost": 0.000124236,
+        "upstream_inference_completions_cost": 0.001209822
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 280,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 84,
+  "tokensOut": 409,
+  "costUsd": 0.001334058,
+  "latencyMs": 34004,
+  "finishReason": "stop"
+}

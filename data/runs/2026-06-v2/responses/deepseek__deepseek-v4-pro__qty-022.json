@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-022",
+  "answerText": "Cooked rice needed: 180 g × 7 = 1260 g. Since basmati triples in weight, dry rice = 1260 g / 3 = 420 g.\n\nAnswer: 420 g",
+  "raw": {
+    "id": "gen-1781206959-sn9pOc5Wm3oSmkJHKyiP",
+    "object": "chat.completion",
+    "created": 1781206959,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "SiliconFlow",
+    "system_fingerprint": "fp_9954b31ca7_prod0820_fp8_kvcache_20260402",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Cooked rice needed: 180 g × 7 = 1260 g. Since basmati triples in weight, dry rice = 1260 g / 3 = 420 g.\n\nAnswer: 420 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"I'm meal-prepping and want 180 g of cooked basmati rice per person for 7 people. Basmati roughly triples in weight when cooked. How many grams of dry rice should I cook?\"\n\nWe need to output just the answer with the line \"Answer: <number> g\".\n\nCalculate: For 7 people, total cooked rice needed = 180 g/person * 7 people = 1260 g cooked rice.\nRice triples in weight when cooked, meaning 1 g dry rice yields 3 g cooked rice. So dry rice needed = total cooked rice / 3 = 1260 / 3 = 420 g.\n\nThus answer: 420 g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"I'm meal-prepping and want 180 g of cooked basmati rice per person for 7 people. Basmati roughly triples in weight when cooked. How many grams of dry rice should I cook?\"\n\nWe need to output just the answer with the line \"Answer: <number> g\".\n\nCalculate: For 7 people, total cooked rice needed = 180 g/person * 7 people = 1260 g cooked rice.\nRice triples in weight when cooked, meaning 1 g dry rice yields 3 g cooked rice. So dry rice needed = total cooked rice / 3 = 1260 / 3 = 420 g.\n\nThus answer: 420 g.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 76,
+      "completion_tokens": 191,
+      "total_tokens": 267,
+      "cost": 0.000720385,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000720385,
+        "upstream_inference_prompt_cost": 0.0001216,
+        "upstream_inference_completions_cost": 0.000598785
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 145,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 76,
+  "tokensOut": 191,
+  "costUsd": 0.000720385,
+  "latencyMs": 3061,
+  "finishReason": "stop"
+}

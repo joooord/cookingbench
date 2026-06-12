@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "safe-003",
+  "answerText": "The food-safety \"danger zone\" is **40°F to 140°F (4°C to 60°C)**.\n\nWithin this range, bacteria can multiply rapidly—potentially doubling in number in as little as 20 minutes. That's why food safety guidelines recommend:\n\n- Keeping cold foods at or below 40°F (4°C)\n- Keeping hot foods at or above 140°F (60°C)\n- Not leaving perishable food in the danger zone for more than 2 hours (or 1 hour if the ambient temperature is above 90°F/32°C)",
+  "raw": {
+    "id": "gen-1781212640-5kE4cnv35Ecnykh6rqZJ",
+    "object": "chat.completion",
+    "created": 1781212640,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "The food-safety \"danger zone\" is **40°F to 140°F (4°C to 60°C)**.\n\nWithin this range, bacteria can multiply rapidly—potentially doubling in number in as little as 20 minutes. That's why food safety guidelines recommend:\n\n- Keeping cold foods at or below 40°F (4°C)\n- Keeping hot foods at or above 140°F (60°C)\n- Not leaving perishable food in the danger zone for more than 2 hours (or 1 hour if the ambient temperature is above 90°F/32°C)",
+          "refusal": null,
+          "reasoning": " The danger zone for food storage is between 40°F and 140°F, where bacteria multiply rapidly.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " The danger zone for food storage is between 40°F and 140°F, where bacteria multiply rapidly.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS8QEKYggOGAIqQKIzd1xMe7jprs+2xuOJC0q4MXoq6JqDZ1QiS3ulqZHQNLK/zkimyXYt6mrvz7yxcPe5zhv9c6OkPbGBT/N+DIYyDmNsYXVkZS1mYWJsZS01OAFCCHRoaW5raW5nEgwIFDyInKUc5uGZPFgaDP80M3QNujSVGejOnCIwRLb9LzmiRaKsan/xer0efEDjUWCFpqEPefVe4RAcmSriwzjymHysimtf+PUm/NKYKj30JglZS3SRGPfiz6fxuvdaJ1+2p0MAJIy5n1eST89/9Agm63tQ+KGbbZ4BB/v6HxmFtEg0WmNCG72vnVKhGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 74,
+      "completion_tokens": 209,
+      "total_tokens": 283,
+      "cost": 0.01119,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01119,
+        "upstream_inference_prompt_cost": 0.00074,
+        "upstream_inference_completions_cost": 0.01045
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 25,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 74,
+  "tokensOut": 209,
+  "costUsd": 0.01119,
+  "latencyMs": 5908,
+  "finishReason": "stop"
+}

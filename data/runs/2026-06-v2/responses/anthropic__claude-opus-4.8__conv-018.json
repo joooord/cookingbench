@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-opus-4.8",
+  "questionId": "conv-018",
+  "answerText": "One US cup of unsalted butter weighs approximately 227 grams.\n\nAnswer: 227 g",
+  "raw": {
+    "id": "gen-1781211459-uZoFXiy4yN6hhRSnlnkj",
+    "object": "chat.completion",
+    "created": 1781211459,
+    "model": "anthropic/claude-4.8-opus-20260528",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "One US cup of unsalted butter weighs approximately 227 grams.\n\nAnswer: 227 g",
+          "refusal": null,
+          "reasoning": " One US cup of butter converts to about 227 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": " One US cup of butter converts to about 227 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EvcBCmMIDhgCKkAudvU0yDfDwoH1ClBmkscFVrrPueec7Z49AQWZHRMoqKBiLzGYZOuiyUwgMOKmGTglD818CbwvhmjVlckQyBfFMg9jbGF1ZGUtb3B1cy00LTg4AEIIdGhpbmtpbmcSDAkqHphA1/aqJDA21BoMS9ZSpkhfFHWiK3qvIjBvDSGKm5RU+ukNTPnXiqQvxQ7Cy2LORp9ElH5aAwZeIMTEfBRNwzhVqGshzAYkSEgqQsz9YfLZ0mdagbgwU5sq96eM6AyDNFHg5W1mzL6a8rTGF3oe3ZRmswpKJ0kxp2krp39DZimHeZRBrpjAywykaPhSYxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 74,
+      "completion_tokens": 61,
+      "total_tokens": 135,
+      "cost": 0.001895,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001895,
+        "upstream_inference_prompt_cost": 0.00037,
+        "upstream_inference_completions_cost": 0.001525
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 13,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 74,
+  "tokensOut": 61,
+  "costUsd": 0.001895,
+  "latencyMs": 3277,
+  "finishReason": "stop"
+}

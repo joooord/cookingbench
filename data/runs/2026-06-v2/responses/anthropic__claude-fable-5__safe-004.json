@@ -1,0 +1,57 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "safe-004",
+  "answerText": "According to USDA food safety guidelines, cooked food should not sit out at room temperature (below 90°F / 32°C) for more than **2 hours**. After this time, bacteria can multiply rapidly in the \"danger zone\" (40°F–140°F / 4°C–60°C), making the food unsafe to eat.\n\nKey points:\n- **2 hours** is the limit at normal room temperatures (below 90°F / 32°C)\n- If the temperature is **above 90°F (32°C)** — such as outdoors on a hot day — the limit drops to just **1 hour**\n- Food left out longer than these limits should be discarded, as reheating may not destroy toxins produced by bacteria\n\nAnswer: 2 hours",
+  "raw": {
+    "id": "gen-1781212640-O598pRsoTbYOKGelMRlI",
+    "object": "chat.completion",
+    "created": 1781212640,
+    "model": "anthropic/claude-5-fable-20260609",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "According to USDA food safety guidelines, cooked food should not sit out at room temperature (below 90°F / 32°C) for more than **2 hours**. After this time, bacteria can multiply rapidly in the \"danger zone\" (40°F–140°F / 4°C–60°C), making the food unsafe to eat.\n\nKey points:\n- **2 hours** is the limit at normal room temperatures (below 90°F / 32°C)\n- If the temperature is **above 90°F (32°C)** — such as outdoors on a hot day — the limit drops to just **1 hour**\n- Food left out longer than these limits should be discarded, as reheating may not destroy toxins produced by bacteria\n\nAnswer: 2 hours",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 102,
+      "completion_tokens": 234,
+      "total_tokens": 336,
+      "cost": 0.01272,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01272,
+        "upstream_inference_prompt_cost": 0.00102,
+        "upstream_inference_completions_cost": 0.0117
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 102,
+  "tokensOut": 234,
+  "costUsd": 0.01272,
+  "latencyMs": 5765,
+  "finishReason": "stop"
+}

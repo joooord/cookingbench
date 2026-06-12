@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "openai/gpt-5.4-mini",
+  "questionId": "nutr-033",
+  "answerText": "Alcohol:  \n- 750 ml × 13.5% = 101.25 ml ethanol  \n- 101.25 ml × 0.789 g/ml = 79.87 g ethanol  \n- 79.87 g × 7 kcal/g = 559.1 kcal  \n\nResidual sugar:  \n- 4 g/L × 0.75 L = 3 g sugar  \n- 3 g × 4 kcal/g = 12 kcal  \n\nTotal = 559.1 + 12 = 571.1 kcal, about **571 kcal**.\n\nAnswer: 571 kcal",
+  "raw": {
+    "id": "gen-1781210868-OVFkb2TkAsg07yxXvSgD",
+    "object": "chat.completion",
+    "created": 1781210868,
+    "model": "openai/gpt-5.4-mini-20260317",
+    "provider": "OpenAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Alcohol:  \n- 750 ml × 13.5% = 101.25 ml ethanol  \n- 101.25 ml × 0.789 g/ml = 79.87 g ethanol  \n- 79.87 g × 7 kcal/g = 559.1 kcal  \n\nResidual sugar:  \n- 4 g/L × 0.75 L = 3 g sugar  \n- 3 g × 4 kcal/g = 12 kcal  \n\nTotal = 559.1 + 12 = 571.1 kcal, about **571 kcal**.\n\nAnswer: 571 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating kcal in a beverage**\n\nI need to compute the calories in a 750 ml bottle at 13.5% ABV. This means the ethanol volume is 101.25 ml, giving a mass of 79.87 g. From the alcohol, I get about 559.1 kcal. With 4 g of residual sugar per liter, the total for 0.75 L ends up being 3 g, which adds another 12 kcal. So, the grand total is around 571.1 kcal. I’ll round that to 571 kcal.  \nAnswer: 571 kcal",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "**Calculating kcal in a beverage**\n\nI need to compute the calories in a 750 ml bottle at 13.5% ABV. This means the ethanol volume is 101.25 ml, giving a mass of 79.87 g. From the alcohol, I get about 559.1 kcal. With 4 g of residual sugar per liter, the total for 0.75 L ends up being 3 g, which adds another 12 kcal. So, the grand total is around 571.1 kcal. I’ll round that to 571 kcal.  \nAnswer: 571 kcal",
+              "format": "openai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "gAAAAABqKx72aK3C_d4Q-aaL_HIaMW9oEEnznru7xNLGAHX5l6mUdXXHim6wxglucXcQegFuqrLJZo-IlBLVuv26iJsaJosv2tbz-VXitNHceoF_d3VHGE8EQEmZEJo6HzNRhqOc2MpBeO3M1fNy6bnCjR3qHQrHC8Na6cnb3ATORC6OtDWvAn8aaHZCUP2J1s2RXeOwTsFlvAmzSGV-baH8GP-ZlQCQPZOuxg5fN0iQDx_um8h4GgP3P1QyJD1HJa5trbR92A0kgu5JQMd-GTPunX7Ix878z5obJesdmoCkiY60u4AuLLNRisH78dnQf8Ix6Tcta-1kfyi0ufvVJWHi6CI_DuG-X9lGUV6FOvIHZGniSG7FM4r1I6NQPCmz0X0_dJ-Sck9VXSyOkBsIfTd2_Ap2ECspmQKI0Zy5XEVqbUhe3eZx7yzokrWio4Hhprjnv8lQjojgHo06cODi-GsJwtU3wlwM5OFULSNep1RyPGcuehpgoLspRAE0B19iF6iF_KGqhZR9W5R7clzXQu8qnExsLPp5KhH43dYE48hwNwlL8rZFeEwtd0WBKNNA1PL9VAMn3bmzW5Qg9lqx3EecHmZCAOHpC2HEwSK031_xu1_IvEZDYoyX_qISjNKe8Fajy0W_qHF-h43IJ11BWtaMiwZkpd5M2NwL9x69r9-k-SmNb-PJ1--jlxIkrvCjEFKTJD461x3FyJcsGllyZVDxCYMGHgTlRdmiLqhILY-uqXx8TPDcb-LQoK5nEVFEGp47unByMxBowVN_OhfZ02rGx9PxBvNhl9ypRFHZnrQAc9PfGr-ihKzCfaI2ohOnc5VfFO4ZR0UGYSwgII2W0TNVz-T_eptst82NiIwv3LzhGuCrhjiAsZz_Ni45mczKdl6qoy9wl-4ZGMn48zdIyRAvUz-e3Gy-NgAZUl9SNVHNSqSY96kZkvucaztsvgD3zB7krmgZccJeC2-f658U9yMw_5Z6ALww3bWh76hzC6exACGuy3KCt8haSkZnbnOceyLKdRFyXmnft9ADlu2UYMnIy6fJG1fgtUOZ20oZgyL2hoJ-CUYahcbhUmKP-BR1i7KzabzBIkC7P_-oP0wkB55PYb2wt91mlxmKGV-XgENEeodM-cX8t6d2pFf6gf7TcDGifTxeliBxtsOEd59CHRjQW9vOmao-K4HtxAe_6y22GSvKBkvyTZgYiM9Dha5pBYY6fzvuX_6rkW-8ds-lDyceA_By9PcFa7fur0MyEMcZS9CdZj5YNmFh1627emQahLbYtJ1nhtB5kigRUnBDfa1R6H2sxc-YII1jL0mzNgHDgkGwG2QVgi-CL_glMYWsH7UTw8yMi15_tFNOibLemQaTnMp9UQwQrXhhEyVb00_e_kvQbxQZpbqMIy7nNg8ib7q8iNssGR4o",
+              "format": "openai-responses-v1",
+              "id": "rs_0cdcef5b15da23a1016a2b1ef4a52c8190b0aaba7394172ba9",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 104,
+      "completion_tokens": 244,
+      "total_tokens": 348,
+      "cost": 0.001176,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001176,
+        "upstream_inference_prompt_cost": 0.000078,
+        "upstream_inference_completions_cost": 0.001098
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 116,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 104,
+  "tokensOut": 244,
+  "costUsd": 0.001176,
+  "latencyMs": 2730,
+  "finishReason": "stop"
+}

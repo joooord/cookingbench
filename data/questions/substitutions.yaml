@@ -413,8 +413,12 @@
          'vegetable shortening', 'shortening', 'sunflower oil', 'canola', 'rapeseed',
          'vegetable oil', 'olive oil']
       - ['200', 'same amount', 'same weight', '1:1', 'equal', '180']
+    # 'coconut' itself can't be forbidden: a correct answer must discuss the
+    # allergy ("make sure it's truly coconut-free"). The required groups carry
+    # the check; only an explicit coconut-oil recommendation is wrong.
     forbidden:
-      - 'coconut'
+      - 'use coconut oil'
+      - 'stick with coconut oil'
       - 'dairy butter'
       - 'regular butter'
   referenceAnswer: >

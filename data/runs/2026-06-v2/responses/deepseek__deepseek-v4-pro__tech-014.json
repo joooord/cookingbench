@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "tech-014",
+  "answerText": "Collagen begins converting to gelatin at a meaningful rate when the internal temperature reaches around 70°C. At this point, the triple-helix structure unravels and hydrolyzes into gelatin, which is essential for tender, succulent braised short ribs.\n\nAnswer: 70 °C",
+  "raw": {
+    "id": "gen-1781207286-2XCEfUL32kMTJ9Ewl39O",
+    "object": "chat.completion",
+    "created": 1781207286,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "Parasail",
+    "system_fingerprint": "vllm-0.20.1rc1.dev1005+gcbf8428d0-tp4-ep-66a5fbd4",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Collagen begins converting to gelatin at a meaningful rate when the internal temperature reaches around 70°C. At this point, the triple-helix structure unravels and hydrolyzes into gelatin, which is essential for tender, succulent braised short ribs.\n\nAnswer: 70 °C",
+          "refusal": null,
+          "reasoning": "We are asked: \"For a beef short-rib braise, around what internal temperature (in Celsius) does collagen start converting to gelatin at a meaningful rate?\" \n\nI need to recall the temperature at which collagen breaks down into gelatin. Collagen begins to denature and convert to gelatin at temperatures around 60°C (140°F) and above, but the rate becomes meaningful typically around 70-80°C (160-175°F). For braising, the target internal temperature is often around 90-95°C (195-203°F) for full breakdown, but the question asks \"around what internal temperature does collagen start converting to gelatin at a meaningful rate?\" So the meaningful rate likely starts around 70°C. Many sources say collagen starts to break down at 160°F (71°C) and the process accelerates at 180°F (82°C). I'll answer with a specific number. I'll say around 70°C. But I need to be accurate. I'll check: In meat science, collagen shrinkage begins at about 60°C, but conversion to gelatin requires higher temperatures and time. The meaningful rate for braising is often cited as 160°F (71°C). I'll answer 70°C. The instruction: \"End your reply with a line 'Answer: <number> °C'.\" So I'll output a concise answer and then that line.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"For a beef short-rib braise, around what internal temperature (in Celsius) does collagen start converting to gelatin at a meaningful rate?\" \n\nI need to recall the temperature at which collagen breaks down into gelatin. Collagen begins to denature and convert to gelatin at temperatures around 60°C (140°F) and above, but the rate becomes meaningful typically around 70-80°C (160-175°F). For braising, the target internal temperature is often around 90-95°C (195-203°F) for full breakdown, but the question asks \"around what internal temperature does collagen start converting to gelatin at a meaningful rate?\" So the meaningful rate likely starts around 70°C. Many sources say collagen starts to break down at 160°F (71°C) and the process accelerates at 180°F (82°C). I'll answer with a specific number. I'll say around 70°C. But I need to be accurate. I'll check: In meat science, collagen shrinkage begins at about 60°C, but conversion to gelatin requires higher temperatures and time. The meaningful rate for braising is often cited as 160°F (71°C). I'll answer 70°C. The instruction: \"End your reply with a line 'Answer: <number> °C'.\" So I'll output a concise answer and then that line.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 63,
+      "completion_tokens": 355,
+      "total_tokens": 418,
+      "cost": 0.00134502,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00134502,
+        "upstream_inference_prompt_cost": 0.00010962,
+        "upstream_inference_completions_cost": 0.0012354
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 316,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 63,
+  "tokensOut": 355,
+  "costUsd": 0.00134502,
+  "latencyMs": 11645,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "safe-005",
+  "answerText": "The USDA safe minimum internal temperature for a pork chop is **145°F**. Immediately after taking it off the heat, you should **let it rest for at least 3 minutes** before carving or serving. This rest time allows the temperature to remain constant or continue rising slightly, which helps destroy any remaining pathogens.",
+  "raw": {
+    "id": "gen-1781206716-WVuduqriIldW5hx9v19w",
+    "object": "chat.completion",
+    "created": 1781206716,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA safe minimum internal temperature for a pork chop is **145°F**. Immediately after taking it off the heat, you should **let it rest for at least 3 minutes** before carving or serving. This rest time allows the temperature to remain constant or continue rising slightly, which helps destroy any remaining pathogens.",
+          "refusal": null,
+          "reasoning": "We are asked: \"What is the USDA safe minimum internal temperature for a pork chop, in Fahrenheit, and what should you do immediately after taking it off the heat?\"\n\nI need to recall USDA guidelines. For pork chops, the safe minimum internal temperature is 145°F (with a 3-minute rest time). The question asks for the temperature in Fahrenheit and what to do immediately after taking it off the heat. The rest time is part of the recommendation: after reaching 145°F, let it rest for 3 minutes before carving or consuming. So the answer: 145°F, and let it rest for 3 minutes. I'll phrase it clearly.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"What is the USDA safe minimum internal temperature for a pork chop, in Fahrenheit, and what should you do immediately after taking it off the heat?\"\n\nI need to recall USDA guidelines. For pork chops, the safe minimum internal temperature is 145°F (with a 3-minute rest time). The question asks for the temperature in Fahrenheit and what to do immediately after taking it off the heat. The rest time is part of the recommendation: after reaching 145°F, let it rest for 3 minutes before carving or consuming. So the answer: 145°F, and let it rest for 3 minutes. I'll phrase it clearly.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 49,
+      "completion_tokens": 201,
+      "total_tokens": 250,
+      "cost": 0.00039237,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00039237,
+        "upstream_inference_prompt_cost": 0.00004263,
+        "upstream_inference_completions_cost": 0.00034974
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 136,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 49,
+  "tokensOut": 201,
+  "costUsd": 0.00039237,
+  "latencyMs": 14996,
+  "finishReason": "stop"
+}

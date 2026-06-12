@@ -1,0 +1,65 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "tech-003",
+  "answerText": "Resting a thick ribeye allows the muscle fibers to relax and reabsorb the juices that have been driven toward the center during cooking. If you slice it immediately, those juices will spill out, leaving the meat drier. For a thick-cut ribeye (1½–2 inches), rest it **5–10 minutes** loosely tented with foil. This also lets carryover cooking gently finish the steak without overcooking.",
+  "raw": {
+    "id": "gen-1781207243-Te4bfyDbwtJBlCYilfsi",
+    "object": "chat.completion",
+    "created": 1781207243,
+    "model": "deepseek/deepseek-v4-pro-20260423",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Resting a thick ribeye allows the muscle fibers to relax and reabsorb the juices that have been driven toward the center during cooking. If you slice it immediately, those juices will spill out, leaving the meat drier. For a thick-cut ribeye (1½–2 inches), rest it **5–10 minutes** loosely tented with foil. This also lets carryover cooking gently finish the steak without overcooking.",
+          "refusal": null,
+          "reasoning": "We need to answer: \"Why should I rest a thick ribeye steak after cooking, and roughly how long should I rest it?\" \n\nThe user asks for reasons and time. I'll provide a concise explanation: resting allows juices to redistribute, preventing them from spilling out when cut. For a thick ribeye (like 1.5-2 inches), rest about 5-10 minutes, loosely tented with foil. I'll mention that internal temperature continues to rise a bit (carryover cooking). I'll keep it accurate and concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to answer: \"Why should I rest a thick ribeye steak after cooking, and roughly how long should I rest it?\" \n\nThe user asks for reasons and time. I'll provide a concise explanation: resting allows juices to redistribute, preventing them from spilling out when cut. For a thick ribeye (like 1.5-2 inches), rest about 5-10 minutes, loosely tented with foil. I'll mention that internal temperature continues to rise a bit (carryover cooking). I'll keep it accurate and concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 41,
+      "completion_tokens": 199,
+      "total_tokens": 240,
+      "cost": 0.0005707,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0005707,
+        "upstream_inference_prompt_cost": 0.0000533,
+        "upstream_inference_completions_cost": 0.0005174
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 122,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 41,
+  "tokensOut": 199,
+  "costUsd": 0.0005707,
+  "latencyMs": 6470,
+  "finishReason": "stop"
+}

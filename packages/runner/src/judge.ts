@@ -53,6 +53,7 @@ export function buildJudgeMessages(question: Question, answerText: string) {
     '- major: a materially wrong quantity/temperature/time/technique claim, or a missing element the question explicitly required.',
     '- minor: imprecision, a small omission, or an unclear instruction that a competent cook would survive.',
     'Do not list style, verbosity, or formatting as faults. The reference shows ONE good answer, not the only one — a different but equally sound approach is not a fault. Do not invent faults to seem rigorous: an answer that is sound and complete has zero findings.',
+    'List each DISTINCT underlying mistake exactly once. If one root error shows up in several places (a forbidden ingredient in the list and again in the steps, or one wrong claim repeated), report it as a single finding, not several.',
     'Respond with STRICT JSON only, no markdown:',
     '{"findings":[{"quote":"<≤15 words quoted from the candidate, or \'omission\'>","issue":"<what is wrong>","severity":"critical|major|minor"}],"summary":"<1-2 sentences>"}',
   ].join('\n');
@@ -97,9 +98,104 @@ export function parseJudgeResponse(question: Question, text: string): JudgeVerdi
   };
 }
 
+/** One verdict from one judge, with empty/truncated-output escalation. */
+async function singleVerdict(
+  client: CompletionClient,
+  judgeModel: string,
+  question: Question,
+  answerText: string,
+): Promise<JudgeVerdict> {
+  const messages = buildJudgeMessages(question, answerText);
+  // Reasoning judges can burn the whole token cap on hidden thinking or
+  // return empty text outright: cap effort low, escalate tokens on retry.
+  let lastError: Error | undefined;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const result = await client.complete(judgeModel, messages, {
+      temperature: 0,
+      maxTokens: 2000 * (attempt + 1),
+      reasoning: { effort: 'low' },
+    });
+    try {
+      return parseJudgeResponse(question, result.text);
+    } catch (err) {
+      lastError = err as Error;
+    }
+  }
+  throw lastError ?? new Error(`Judge ${judgeModel} failed on ${question.id}`);
+}
+
+/** Provider prefix of an OpenRouter slug ("anthropic/claude-x" → "anthropic"). */
+function providerOf(modelId: string): string {
+  return modelId.split('/')[0] ?? modelId;
+}
+
+/** Deterministic 32-bit FNV-1a hash — seat assignment must be reproducible. */
+function fnv1a(text: string): number {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < text.length; i++) {
+    h ^= text.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return h >>> 0;
+}
+
 /**
- * Judge an answer twice and average; flags large score disagreement for
- * manual review. Both verdicts are returned for the published artifact.
+ * Pick two panel seats for a (candidate, question) pair:
+ * - a judge NEVER scores its own provider's models (self-preference bias);
+ * - otherwise the excluded seat rotates deterministically by hash, so seat
+ *   load is balanced and any published score is reproducible.
+ */
+export function panelSeats(panel: string[], candidateModelId: string, questionId: string): string[] {
+  const eligible = panel.filter((j) => providerOf(j) !== providerOf(candidateModelId));
+  if (eligible.length <= 2) return eligible;
+  const drop = fnv1a(`${candidateModelId}|${questionId}`) % eligible.length;
+  return eligible.filter((_, i) => i !== drop);
+}
+
+export interface PanelVerdict extends JudgeVerdict {
+  judges: string[];
+  verdicts: Array<JudgeVerdict & { judgeModel: string }>;
+  disagreement: number;
+  flagged: boolean;
+}
+
+/**
+ * Panel judging: two distinct judges score each answer once; the mean is the
+ * score, and large cross-judge disagreement is flagged for human review.
+ */
+export async function judgeAnswerPanel(
+  client: CompletionClient,
+  panel: string[],
+  candidateModelId: string,
+  question: Question,
+  answerText: string,
+): Promise<PanelVerdict> {
+  const seats = panelSeats(panel, candidateModelId, question.id);
+  if (seats.length < 2) {
+    throw new Error(`Panel too small for ${candidateModelId} on ${question.id} (need 2 non-conflicted judges)`);
+  }
+  const verdicts = await Promise.all(
+    seats.map(async (judgeModel) => ({
+      judgeModel,
+      ...(await singleVerdict(client, judgeModel, question, answerText)),
+    })),
+  );
+  const [a, b] = verdicts as [PanelVerdict['verdicts'][number], PanelVerdict['verdicts'][number]];
+  const disagreement = Math.abs(a.score - b.score);
+  return {
+    score: (a.score + b.score) / 2,
+    findings: a.findings,
+    summary: a.summary,
+    judges: seats,
+    verdicts,
+    disagreement,
+    flagged: disagreement > 15,
+  };
+}
+
+/**
+ * Single-judge double-scoring (used by the calibration gate, which calibrates
+ * each panel member independently).
  */
 export async function judgeAnswer(
   client: CompletionClient,
@@ -107,27 +203,9 @@ export async function judgeAnswer(
   question: Question,
   answerText: string,
 ): Promise<JudgeVerdict & { verdicts: JudgeVerdict[]; disagreement: number; flagged: boolean }> {
-  const messages = buildJudgeMessages(question, answerText);
   const verdicts: JudgeVerdict[] = [];
   for (let i = 0; i < 2; i++) {
-    // Reasoning judges can burn the whole token cap on hidden thinking, so cap
-    // effort low, leave headroom, and retry once on truncated/invalid output.
-    let lastError: Error | undefined;
-    for (let attempt = 0; attempt < 2; attempt++) {
-      const result = await client.complete(judgeModel, messages, {
-        temperature: 0,
-        maxTokens: 2000,
-        reasoning: { effort: 'low' },
-      });
-      try {
-        verdicts.push(parseJudgeResponse(question, result.text));
-        lastError = undefined;
-        break;
-      } catch (err) {
-        lastError = err as Error;
-      }
-    }
-    if (lastError) throw lastError;
+    verdicts.push(await singleVerdict(client, judgeModel, question, answerText));
   }
   const [a, b] = verdicts as [JudgeVerdict, JudgeVerdict];
   const disagreement = Math.abs(a.score - b.score);

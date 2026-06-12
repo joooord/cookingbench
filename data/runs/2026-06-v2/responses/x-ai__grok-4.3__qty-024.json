@@ -1,0 +1,72 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "x-ai/grok-4.3",
+  "questionId": "qty-024",
+  "answerText": "Scale the stock by 6/4 = 1.5, giving 900 ml.  \nDivide by the standard US cup volume of 236.588 ml: 900 / 236.588 ≈ 3.8.  \n\nAnswer: 3.8 cups",
+  "raw": {
+    "id": "gen-1781209247-AW75BTEQ3LQw3vk1uvZr",
+    "object": "chat.completion",
+    "created": 1781209247,
+    "model": "x-ai/grok-4.3-20260430",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Scale the stock by 6/4 = 1.5, giving 900 ml.  \nDivide by the standard US cup volume of 236.588 ml: 900 / 236.588 ≈ 3.8.  \n\nAnswer: 3.8 cups",
+          "refusal": null,
+          "reasoning": "The problem: A British recipe serving 4 uses 600 ml of chicken stock. Scaling to serve 6, using US cups. How many US cups of stock?\nFirst, scale: 600 ml for 4, to 6: 600 * (6/4) = 900 ml.\n\nUS cup: 1 US cup = 236.588 ml (exact US liquid cup).\n\n900 / 236.588 ≈ 3.8037, so about 3 3/4 or 3.8 cups.\n\nBut likely expect 3.8 or 4, but I think 3.8.\n\nMany recipes round to 4 cups, but calculation is 3.8.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem: A British recipe serving 4 uses 600 ml of chicken stock. Scaling to serve 6, using US cups. How many US cups of stock?\nFirst, scale: 600 ml for 4, to 6: 600 * (6/4) = 900 ml.\n\nUS cup: 1 US cup = 236.588 ml (exact US liquid cup).\n\n900 / 236.588 ≈ 3.8037, so about 3 3/4 or 3.8 cups.\n\nBut likely expect 3.8 or 4, but I think 3.8.\n\nMany recipes round to 4 cups, but calculation is 3.8.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_60be3726-278d-99e6-a892-2b7d7c727a9a",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 205,
+      "completion_tokens": 1116,
+      "total_tokens": 1321,
+      "cost": 0.00291185,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00291185,
+        "upstream_inference_prompt_cost": 0.00012185,
+        "upstream_inference_completions_cost": 0.00279
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1061,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 205,
+  "tokensOut": 1116,
+  "costUsd": 0.00291185,
+  "latencyMs": 6140,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "subs-017",
+  "answerText": "## Matching the Fat Content\n\n**Fat in 150 g of butter:**\n150 g × 80% = **120 g of fat**\n\n**Coconut oil needed to deliver 120 g of fat:**\nSince coconut oil is 100% fat → 120 g ÷ 1.00 = **120 g**\n\n> **Note:** Because you're using less fat (by weight), your shortbread may be slightly drier/crumblier than usual — the water in butter contributes a small amount of moisture to the dough. You might want to add a teaspoon or so of cold water if the dough seems too dry.\n\nAnswer: 120 g",
+  "raw": {
+    "id": "gen-1781210673-C0GLRYLXqIfydmLkbqwW",
+    "object": "chat.completion",
+    "created": 1781210673,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Matching the Fat Content\n\n**Fat in 150 g of butter:**\n150 g × 80% = **120 g of fat**\n\n**Coconut oil needed to deliver 120 g of fat:**\nSince coconut oil is 100% fat → 120 g ÷ 1.00 = **120 g**\n\n> **Note:** Because you're using less fat (by weight), your shortbread may be slightly drier/crumblier than usual — the water in butter contributes a small amount of moisture to the dough. You might want to add a teaspoon or so of cold water if the dough seems too dry.\n\nAnswer: 120 g",
+          "refusal": null,
+          "reasoning": "Butter is 80% fat, so 150g of butter contains 150 × 0.80 = 120g of fat.\n\nCoconut oil is 100% fat, so to get 120g of fat from coconut oil, I need 120g of coconut oil.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Butter is 80% fat, so 150g of butter contains 150 × 0.80 = 120g of fat.\n\nCoconut oil is 100% fat, so to get 120g of fat from coconut oil, I need 120g of coconut oil.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Eu8CCmUIDhgCKkDT7CqaglgluMJ5j26WatOVi92qhQie1xaVryXYe6ZJpOnn8RR/fhPycERdlPxJA3F0iKx4vaPVNizR9cSAvO50MhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIMjy6seSd75ZYrqrBjGgwuBk6XSAwLZiSwBHwiMGCZw9KWw19v4OWa0l/UIWQcB+K3XgaxwSLD5btHpLdk4FKaPAb6YQ5Zd1rRoedLvCq3AYL1jb9/o7D71AVgGUXjb4wYPREr9LkFtxTomlwSyu59zVTQeTEnNS3GxRwuJJLQxVbADjtlPEIQDxfzo7wLsAIXB6B4KcFzm7529dT4EE6EwEPFsUpXpE8+onm/NgeXGrCuaFByjlZSAORdWwfZoUd1P0ZzD6osoryio/qrh6JUew9lJP7tLszQc5wOalZb0I/BmbZ/DYS+BekwnLfAEhv65siC+nl/FJ09uptmf1SvZcpsKZjmURgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 111,
+      "completion_tokens": 239,
+      "total_tokens": 350,
+      "cost": 0.003918,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003918,
+        "upstream_inference_prompt_cost": 0.000333,
+        "upstream_inference_completions_cost": 0.003585
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 44,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 111,
+  "tokensOut": 239,
+  "costUsd": 0.003918,
+  "latencyMs": 5297,
+  "finishReason": "stop"
+}

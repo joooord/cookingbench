@@ -1,0 +1,66 @@
+{
+  "runId": "2026-06-v2",
+  "modelId": "anthropic/claude-sonnet-4.6",
+  "questionId": "conv-009",
+  "answerText": "There are **3 teaspoons** in 1 US tablespoon. This is a standard measurement used in American cooking.\n\nAnswer: 3 tsp",
+  "raw": {
+    "id": "gen-1781209821-Via0AyvwL8dA46PKn2IC",
+    "object": "chat.completion",
+    "created": 1781209821,
+    "model": "anthropic/claude-4.6-sonnet-20260217",
+    "provider": "Anthropic",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "There are **3 teaspoons** in 1 US tablespoon. This is a standard measurement used in American cooking.\n\nAnswer: 3 tsp",
+          "refusal": null,
+          "reasoning": "1 US tablespoon = 3 teaspoons",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "1 US tablespoon = 3 teaspoons",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EuUBCmUIDhgCKkCtHUh4uaeNBxe9llv1bVmYWU7UjiHJ1gPMmz+yzxSvlNAx2Z3OiAxD1vHUEXPS4WLlzaNbKJ0ZMmjcrgeiXF0rMhFjbGF1ZGUtc29ubmV0LTQtNjgAQgh0aGlua2luZxIM+PcdMpNoI2yFdr0HGgziZwJp0N6e0dlie54iMBWuk2vkcZF/ze847JDjTewwfvYelEGCrnIbNLFm0NWZ/g8mEY/nMXSShsB/87rYmSoum5kfFbi6pTof/7F8MeQmb2sqOyZl5wA4sxKRdw/eoZD/tCO5PFy8PVy8tfRg0hgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 58,
+      "completion_tokens": 67,
+      "total_tokens": 125,
+      "cost": 0.001179,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001179,
+        "upstream_inference_prompt_cost": 0.000174,
+        "upstream_inference_completions_cost": 0.001005
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 8,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 58,
+  "tokensOut": 67,
+  "costUsd": 0.001179,
+  "latencyMs": 1920,
+  "finishReason": "stop"
+}
