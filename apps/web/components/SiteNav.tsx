@@ -34,9 +34,9 @@ export function SiteNav() {
         aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
         onClick={() => setOpen(!open)}
-        className="flex h-9 w-9 items-center justify-center sm:hidden"
+        className="flex h-11 w-11 items-center justify-center sm:hidden"
       >
-        <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+        <svg width="27" height="27" viewBox="0 0 22 22" aria-hidden="true">
           {open ? (
             <g stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
               <line x1="5" y1="5" x2="17" y2="17" />
