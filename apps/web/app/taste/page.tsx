@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { computeTasteRatings, headToHead } from '@cookingbench/core';
-import { getLatestReport, modelSlug } from '@/lib/data';
+import { getLatestReport, getLatestTastePanel, modelSlug } from '@/lib/data';
 import { scoreColor } from '@/lib/format';
 import { getAllTasteVotes } from '@/lib/supabase';
 
@@ -41,6 +41,9 @@ export default async function TasteBoardPage() {
   const ranked = ratings.filter((r) => r.battles >= MIN_BATTLES);
   const provisional = ratings.filter((r) => r.battles < MIN_BATTLES);
   const h2h = headToHead(votes);
+  // The LLM critics' panel — its own separate ratings from committed run
+  // artifacts, never merged with the crowd rows above (null until a real run).
+  const panel = getLatestTastePanel();
 
   const nameFor = (modelId: string) => rows.get(modelId)?.displayName ?? modelId;
   const ModelName = ({ modelId, bold }: { modelId: string; bold?: boolean }) =>
@@ -249,6 +252,70 @@ export default async function TasteBoardPage() {
               </tbody>
             </table>
           </div>
+        </section>
+      )}
+
+      {panel && panel.ratings.length > 0 && (
+        <section className="mt-16 border-t-2 border-ink pt-6">
+          <h2 className="font-display text-xl font-medium">
+            The critics&rsquo; table{' '}
+            <span className="text-ink-soft">· a panel of AI judges</span>
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm text-ink-soft">
+            A separate signal: a panel of frontier models blind-tastes the same paired
+            answers. Every duel is judged twice with the two answers swapped (to cancel
+            position bias), and no judge ever scores a duel involving its own provider. Its
+            Bradley-Terry ratings live here, alongside the crowd&rsquo;s — <strong>never
+            blended</strong> with the human votes above or with the precision score.
+          </p>
+          <table className="mt-4 w-full border-collapse text-sm">
+            <thead>
+              <tr className="border-b border-hairline text-left text-xs uppercase tracking-wider text-ink-soft">
+                <th className="py-3 pr-2 font-normal">#</th>
+                <th className="py-3 pr-4 font-normal">Model</th>
+                <th className="py-3 pr-4 font-normal">Rating</th>
+                <th className="hidden py-3 pr-4 font-normal sm:table-cell">Win rate</th>
+                <th className="py-3 pr-4 font-normal">Record</th>
+                <th className="hidden py-3 text-right font-normal sm:table-cell">Battles</th>
+              </tr>
+            </thead>
+            <tbody>
+              {panel.ratings.map((r, i) => (
+                <tr key={r.modelId} className="border-b border-hairline hover:bg-paper-tint">
+                  <td className="tabular py-4 pr-2 text-ink-soft">{i + 1}</td>
+                  <td className="py-4 pr-4">
+                    <ModelName modelId={r.modelId} bold={i === 0} />
+                  </td>
+                  <td className="py-4 pr-4">
+                    <span className="tabular text-base font-medium">{Math.round(r.rating)}</span>
+                    {r.ci95 && (
+                      <span className="tabular ml-1 text-xs text-ink-soft">
+                        ±{Math.round((r.ci95[1] - r.ci95[0]) / 2)}
+                      </span>
+                    )}
+                  </td>
+                  <td className="hidden py-4 pr-4 sm:table-cell">
+                    <span className="tabular" style={{ color: scoreColor(r.winRate) }}>
+                      {r.winRate.toFixed(0)}%
+                    </span>
+                  </td>
+                  <td className="tabular py-4 pr-4 text-ink-soft">
+                    {r.wins}–{r.battles - r.wins - r.ties}
+                    {r.ties > 0 ? `–${r.ties}` : ''}
+                  </td>
+                  <td className="tabular hidden py-4 text-right text-ink-soft sm:table-cell">
+                    {r.battles}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="mt-3 text-xs text-ink-soft">
+            Panel: {panel.panel.join(', ')}. {panel.totalVotes.toLocaleString()} seat-votes
+            from run <span className="tabular">{panel.runId}</span>, reproducible from the
+            committed{' '}
+            <span className="tabular">data/runs/{panel.runId}/taste-panel/</span> artifacts.
+          </p>
         </section>
       )}
 

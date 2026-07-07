@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { computeTasteRatings, headToHead, type TasteVoteRecord } from '../src/taste.js';
+import {
+  computeTasteRatings,
+  headToHead,
+  mulberry32,
+  type PanelTasteVote,
+  type TasteVoteRecord,
+} from '../src/taste.js';
 
 function vote(
   model_a: string,
@@ -79,5 +85,45 @@ describe('headToHead', () => {
     const h2h = headToHead(votes);
     expect(h2h.get('x::y')).toEqual({ wins: 1, losses: 1, ties: 1 });
     expect(h2h.get('y::x')).toEqual({ wins: 1, losses: 1, ties: 1 });
+  });
+});
+
+describe('PanelTasteVote', () => {
+  it('feeds computeTasteRatings unchanged (extra fields ignored, seat-ties counted)', () => {
+    // Same structure as human votes plus judge_model; a seat flip-flop is a tie.
+    const votes: PanelTasteVote[] = [
+      ...Array.from({ length: 6 }, () => ({
+        run_id: 'r',
+        question_id: 'q',
+        model_a: 'alpha',
+        model_b: 'beta',
+        winner: 'a' as const,
+        judge_model: 'j/one',
+        position_consistent: true,
+      })),
+      ...Array.from({ length: 2 }, () => ({
+        run_id: 'r',
+        question_id: 'q',
+        model_a: 'alpha',
+        model_b: 'beta',
+        winner: 'tie' as const,
+        judge_model: 'j/two',
+        position_consistent: false,
+      })),
+    ];
+    const ratings = computeTasteRatings(votes);
+    expect(ratings.map((r) => r.modelId)).toEqual(['alpha', 'beta']);
+    const alpha = ratings.find((r) => r.modelId === 'alpha')!;
+    expect(alpha.battles).toBe(8);
+    expect(alpha.ties).toBe(2);
+    expect(alpha.wins).toBe(6);
+  });
+});
+
+describe('mulberry32', () => {
+  it('is deterministic for a given seed', () => {
+    const a = mulberry32(123);
+    const b = mulberry32(123);
+    expect([a(), a(), a()]).toEqual([b(), b(), b()]);
   });
 });

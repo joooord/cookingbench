@@ -125,12 +125,12 @@ async function singleVerdict(
 }
 
 /** Provider prefix of an OpenRouter slug ("anthropic/claude-x" → "anthropic"). */
-function providerOf(modelId: string): string {
+export function providerOf(modelId: string): string {
   return modelId.split('/')[0] ?? modelId;
 }
 
 /** Deterministic 32-bit FNV-1a hash — seat assignment must be reproducible. */
-function fnv1a(text: string): number {
+export function fnv1a(text: string): number {
   let h = 0x811c9dc5;
   for (let i = 0; i < text.length; i++) {
     h ^= text.charCodeAt(i);

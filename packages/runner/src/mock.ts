@@ -74,3 +74,22 @@ export function mockJudgeScore(modelId: string, question: Question): number {
   if (modelId === 'mock/decent-cook') return question.difficulty >= 3 ? 40 : 80;
   return 20;
 }
+
+/** Persona quality ranking for the mock taste panel (perfect > decent > sloppy). */
+const MOCK_TASTE_RANK: Record<string, number> = {
+  'mock/perfect-chef': 3,
+  'mock/decent-cook': 2,
+  'mock/sloppy-intern': 1,
+};
+
+/**
+ * Deterministic pairwise taste verdict for the mock panel: the better persona
+ * wins, equal personas tie. Lets `bench taste-judge --mock` exercise planning,
+ * storage, ndjson and rating math for $0.
+ */
+export function mockTasteVerdict(modelA: string, modelB: string): 'a' | 'b' | 'tie' {
+  const a = MOCK_TASTE_RANK[modelA] ?? 0;
+  const b = MOCK_TASTE_RANK[modelB] ?? 0;
+  if (a === b) return 'tie';
+  return a > b ? 'a' : 'b';
+}

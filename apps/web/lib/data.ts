@@ -1,7 +1,7 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { parse } from 'yaml';
-import type { CategoryId, Question, Score, StoredResponse } from '@cookingbench/core';
+import type { CategoryId, Question, Score, StoredResponse, TasteRating } from '@cookingbench/core';
 
 // Data source v1: committed run artifacts in the repo (fully reproducible from
 // git). The Supabase-backed source slots in here once runs are synced.
@@ -51,6 +51,35 @@ export function getLatestReport(): LeaderboardReport | null {
   if (reports.length === 0) return null;
   reports.sort((a, b) => Date.parse(b.generatedAt) - Date.parse(a.generatedAt));
   return reports[0]!;
+}
+
+export interface TastePanelSummary {
+  runId: string;
+  generatedAt: string;
+  promptVersion: string;
+  panel: string[];
+  pairsPerQuestion: number;
+  mock: boolean;
+  totalVotes: number;
+  ratings: TasteRating[];
+}
+
+/**
+ * The newest committed LLM taste-panel summary (the "Critics' Panel"), skipping
+ * mock runs so a throwaway `--mock` artifact never surfaces on the site. Read
+ * from committed run artifacts, exactly like the precision leaderboard — the
+ * human crowd board is fetched live from Supabase and stays entirely separate.
+ */
+export function getLatestTastePanel(): TastePanelSummary | null {
+  if (!existsSync(RUNS_DIR)) return null;
+  const summaries = readdirSync(RUNS_DIR)
+    .map((dir) => join(RUNS_DIR, dir, 'taste-panel', 'summary.json'))
+    .filter((p) => existsSync(p))
+    .map((p) => readJson<TastePanelSummary>(p))
+    .filter((s) => !s.mock);
+  if (summaries.length === 0) return null;
+  summaries.sort((a, b) => Date.parse(b.generatedAt) - Date.parse(a.generatedAt));
+  return summaries[0]!;
 }
 
 export function getQuestions(): Question[] {

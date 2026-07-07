@@ -1,0 +1,114 @@
+# Taste-panel calibration anchors — pairs where one answer is clearly better
+# than the other. Before any paid taste judging, EVERY panel seat must prefer
+# the `good` answer over the `bad` one in BOTH positions (good-as-A and
+# good-as-B). This catches a position-biased, verbosity-biased or safety-blind
+# taste judge without spending a penny on contender answers.
+#
+# The `bad` answer is deliberately plausible-looking but decisively worse:
+# it violates a stated constraint, gives unsafe/incoherent advice, or would
+# simply taste worse. `allowTie: true` marks a genuinely close pair where a tie
+# is also an acceptable verdict.
+# Anchor questions must be active llm-judge items.
+
+- questionId: rgen-001
+  note: allergen/dietary violation — dairy-free brief, but the bad answer uses butter and milk
+  good: >
+    Dairy-free pancakes for 4: whisk 300 g plain flour, 2 tbsp sugar, 2 tsp
+    baking powder and a pinch of salt. Add 480 ml unsweetened oat or soy milk,
+    2 tbsp neutral oil and 1 tsp vanilla; mix to a lumpy batter. Cook in a
+    lightly oiled non-stick pan, ~2 minutes a side. Serve with maple syrup.
+  bad: >
+    Fluffy pancakes for 4: 300 g flour, 2 tsp baking powder, 2 eggs, 480 ml
+    whole milk and 50 g melted butter. Cook in a buttered pan and serve with a
+    knob of butter and syrup. Rich and classic.
+
+- questionId: rgen-017
+  note: buried constraints — the bad answer is banana bread with nuts, violating vegan/nut/banana rules
+  good: >
+    A single vegan, nut-free traybake that survives a hot classroom with no
+    fridge: an oat-and-jam flapjack. Melt 150 g vegan block with 120 g golden
+    syrup and 80 g sugar, stir into 300 g oats and 100 g sunflower seeds, press
+    into one tray, bake at 170°C for ~25 min, cool and cut into squares. No
+    dairy, eggs, nuts or banana; stable at room temperature.
+  bad: >
+    My go-to banana bread, baked as one tray and cut into squares: mash 3
+    bananas with 2 eggs and 100 g butter, fold in flour and a handful of
+    chopped walnuts, bake and slice. Everyone loves it and it travels well.
+
+- questionId: tech-001
+  note: dangerous/incoherent technique — the bad answer's rescue would not work
+  good: >
+    Your hollandaise split because it got too hot or the butter went in too
+    fast. Take it off the heat. In a clean bowl, whisk a fresh egg yolk with a
+    teaspoon of warm water until pale, then very slowly whisk the broken sauce
+    into it a little at a time to rebuild the emulsion. Keep it warm, not hot.
+  bad: >
+    Just crank the heat up under the sauce and whisk hard — the extra heat will
+    cook it back together. If that fails, pour in a good splash of cold water
+    and microwave it for a minute to smooth it out.
+
+- questionId: rgen-002
+  note: ignored constraints — one-pan, 30 minutes, vegetarian; the bad answer breaks all three
+  good: >
+    One-pan vegetarian dinner in 30 minutes: heat oil in a large frying pan,
+    soften an onion and garlic, add a tin of chickpeas, a tin of chopped
+    tomatoes, spinach and cumin; simmer 12–15 minutes, stir through feta and
+    serve with bread. One pan, well under 30 minutes, fully vegetarian.
+  bad: >
+    Braised beef short rib: sear the ribs in one pan, then transfer to a pot
+    with stock and wine and braise for 3 hours until tender, reducing the sauce
+    separately. Serve with mash cooked in another pot. Worth the wait.
+
+- questionId: flav-002
+  note: correct mechanism vs a bland non-fix — flat tomato sauce needs acid/umami, not just more salt and sugar
+  good: >
+    Add a small splash of red wine vinegar or a squeeze of lemon at the end.
+    Long simmering mutes the tomatoes' brightness; a little acid re-sharpens
+    the flavours that salt alone can't lift. A parmesan rind or a mashed
+    anchovy for umami depth is another strong fix.
+  bad: >
+    Just add more salt and a big spoon of sugar, and keep simmering it for
+    another hour. More salt and sugar and more time will always make a sauce
+    taste better and richer.
+
+- questionId: flav-001
+  note: verbosity probe — the terse-but-right garnish should beat the long-but-generic answer
+  good: >
+    Three elements that each counter the soup's sweet, smooth body: toasted
+    pumpkin seeds for crunch, a swirl of crème fraîche for cool acidity and
+    fat, and crisp sage or a few drops of chilli oil for aromatic lift.
+  bad: >
+    Garnishes are a wonderful way to elevate any soup and there are truly
+    countless options to consider depending on your personal taste and the
+    occasion. You might think about colours, textures, temperatures, seasonal
+    produce, cultural traditions, plating styles and so much more. A good
+    garnish should always look attractive and inviting, and presentation is
+    key. Really, the possibilities are endless, so feel free to experiment
+    with whatever toppings you happen to have and enjoy the creative process.
+
+- questionId: rgen-021
+  note: buried allergen + coeliac constraints — the bad answer uses wheat pasta and a pine-nut pesto
+  good: >
+    One big bowl of gluten-free, nut-free pesto pasta everyone can eat. Cook
+    gluten-free corn-and-rice fusilli. For the pesto, blitz basil, toasted
+    sunflower seeds (in place of pine nuts), hard cheese, a little garlic,
+    lemon, salt and olive oil. Toss through with a splash of pasta water.
+    Gluten-free for Theo and nut-free for the school, in a single dish.
+  bad: >
+    My sister's classic pesto pasta: cook regular spaghetti, then stir through
+    a pesto of basil, plenty of pine nuts, parmesan, garlic and olive oil.
+    Quick, crowd-pleasing and always a hit with the kids.
+
+- questionId: flav-019
+  note: genuinely close pair — both match acid to the fish, so a tie is acceptable
+  allowTie: true
+  good: >
+    Match the acid to the fish. Oily mackerel takes a sharp, assertive acid —
+    a gooseberry or rhubarb sauce, or a bracing pickled shallot — to cut the
+    fat. Delicate sole wants a gentle acid, a soft lemon-butter or a light
+    squeeze of lemon, so it isn't overwhelmed. Robust fish, robust acid;
+    delicate fish, restrained acid.
+  bad: >
+    For the rich mackerel, serve a tart rhubarb compote to slice through the
+    oiliness. For the delicate sole, a simple squeeze of lemon and a little
+    beurre blanc keeps it light. The stronger fish can handle the sharper acid.

@@ -11,21 +11,41 @@ import {
 import { analyzeRun, writeAnalysis } from './analyze.js';
 import { BudgetExceededError, BudgetGuard } from './budget.js';
 import { REPO_ROOT, buildMessages, loadModels, loadQuestions, maxTokensFor, runnableQuestions } from './dataset.js';
-import { assertFreshEstimate, runEstimate } from './estimate.js';
+import {
+  assertFreshEstimate,
+  assertFreshTasteEstimate,
+  runEstimate,
+  runTasteEstimate,
+} from './estimate.js';
 import { JUDGE_PROMPT_VERSION, judgeAnswerPanel } from './judge.js';
-import { MOCK_MODELS, MockClient, mockJudgeScore } from './mock.js';
+import { MOCK_MODELS, MockClient, mockJudgeScore, mockTasteVerdict } from './mock.js';
 import { OpenRouterClient, fetchCatalog, type CompletionClient } from './openrouter.js';
 import { buildLeaderboard } from './report.js';
 import {
+  buildPanelSummary,
+  buildTasteJudgeMessages,
+  judgePair,
+  pairVerdictToVotes,
+  planPairs,
+  TASTE_JUDGE_PROMPT_VERSION,
+  type PairVerdictRecord,
+  type PlannedPair,
+} from './tastejudge.js';
+import type { PanelTasteVote } from '@cookingbench/core';
+import {
   hasResponse,
+  hasTasteVerdict,
   listRuns,
   readResponses,
   readRunConfig,
   readScores,
+  readTasteVerdicts,
   writeLeaderboard,
   writeResponse,
   writeRunConfig,
   writeScores,
+  writeTasteVerdict,
+  writeTastePanelArtifacts,
 } from './store.js';
 
 // Minimal .env loader (repo root) — real values never override an explicit env.
@@ -53,6 +73,18 @@ const DEFAULTS = {
     'openai/gpt-5.5',
   ],
   methodologyVersion: 'v2',
+  // Taste panel: pairwise A-vs-B judging excludes BOTH contenders' providers, so
+  // five provider-distinct seats guarantee ≥2 eligible for any duel in the
+  // 13-model roster. Kept separate from the precision panel above.
+  tasteJudgePanel: [
+    'anthropic/claude-opus-4.8',
+    'openai/gpt-5.5',
+    'qwen/qwen3.5-plus-20260420',
+    'google/gemini-3.1-pro-preview',
+    'x-ai/grok-4.3',
+  ],
+  tasteMaxTokens: 800,
+  tastePairsPerQuestion: 4,
 };
 
 /** Empty or filtered completions are transport noise, not skill — retried, then marked. */
@@ -541,6 +573,197 @@ async function cmdPublish() {
   console.log(`✓ run ${runId} is now publicly readable`);
 }
 
+// ── LLM taste panel: pairwise A-vs-B judging, feeding the same Bradley-Terry
+//    ratings as the human crowd but kept in committed artifacts, never blended. ──
+
+/**
+ * The taste-duel pool and pair plan for a run: the same subjective items the
+ * public /tastetest serves (llm-judge, active, public), the usable stored
+ * answers per question, and the deterministic balanced pair plan.
+ */
+function tastePlan(runId: string) {
+  const config = readRunConfig(runId);
+  const questions = loadQuestions();
+  const questionsById = new Map(questions.map((q) => [q.id, q]));
+  const modelSet = new Set(config.models);
+  let pool = questions.filter(
+    (q) => q.grader.type === 'llm-judge' && q.status === 'active' && q.public,
+  );
+  const only = arg('questions');
+  if (only) {
+    const ids = new Set(only.split(',').map((s) => s.trim()));
+    pool = pool.filter((q) => ids.has(q.id));
+  }
+
+  const responses = readResponses(runId);
+  const answersByQuestion = new Map<string, Map<string, string>>();
+  for (const r of responses) {
+    if (!modelSet.has(r.modelId)) continue;
+    const usable = r.answerText.trim() !== '' && !(r as { transportFailure?: boolean }).transportFailure;
+    if (!usable) continue;
+    let byModel = answersByQuestion.get(r.questionId);
+    if (!byModel) answersByQuestion.set(r.questionId, (byModel = new Map()));
+    byModel.set(r.modelId, r.answerText);
+  }
+  const eligibleByQuestion = new Map<string, string[]>();
+  for (const q of pool) {
+    const models = [...(answersByQuestion.get(q.id)?.keys() ?? [])].sort();
+    if (models.length >= 2) eligibleByQuestion.set(q.id, models);
+  }
+  const pairsPerQuestion = Number(arg('pairs-per-question') ?? DEFAULTS.tastePairsPerQuestion);
+  const plan = planPairs(runId, pool, eligibleByQuestion, pairsPerQuestion);
+  return { config, questionsById, answersByQuestion, plan, pairsPerQuestion };
+}
+
+const pairKeyOf = (p: PlannedPair) => `${p.questionId}:${p.modelA}:${p.modelB}`;
+
+async function cmdTasteEstimate() {
+  const runId = arg('run') ?? fail('taste-estimate requires --run <id>');
+  const { questionsById, answersByQuestion, plan, pairsPerQuestion } = tastePlan(runId);
+  if (plan.length === 0) fail('No eligible duels to estimate (need ≥2 usable answers per item).');
+  // Mean built-message length across the plan → prompt-token estimate.
+  let charSum = 0;
+  for (const p of plan) {
+    const answers = answersByQuestion.get(p.questionId)!;
+    const messages = buildTasteJudgeMessages(
+      questionsById.get(p.questionId)!,
+      answers.get(p.modelA)!,
+      answers.get(p.modelB)!,
+    );
+    charSum += messages.reduce((n, m) => n + m.content.length, 0);
+  }
+  const meanPromptChars = charSum / plan.length;
+  console.log(
+    `Taste panel plan: ${plan.length} duels × ${pairsPerQuestion}/question × 2 seats × 2 orders…`,
+  );
+  const record = await runTasteEstimate(
+    DEFAULTS.tasteJudgePanel,
+    plan.map(pairKeyOf),
+    meanPromptChars,
+    DEFAULTS.tasteMaxTokens,
+  );
+  console.log(`    ${record.judgeCalls} judge calls across the panel`);
+  console.log(`\n  TOTAL worst case: $${record.totalWorstCaseUsd.toFixed(2)}`);
+  console.log('  (Worst case assumes every call hits the full token cap — actuals run far lower.)');
+  console.log(`\n✓ Taste estimate saved. Valid for 24h. Now: pnpm bench taste-judge --run ${runId} --budget <usd>`);
+}
+
+async function cmdTasteJudge() {
+  const runId = arg('run') ?? fail('taste-judge requires --run <id>');
+  const mock = arg('mock') === 'true';
+  const { config, questionsById, answersByQuestion, plan, pairsPerQuestion } = tastePlan(runId);
+  if (plan.length === 0) fail('No eligible duels (need ≥2 usable answers per active llm-judge item).');
+  const panel = DEFAULTS.tasteJudgePanel;
+  const isMock = mock || Boolean(config.mock);
+
+  if (!isMock) {
+    const estimate = assertFreshTasteEstimate(panel, plan.map(pairKeyOf), DEFAULTS.tasteMaxTokens);
+    const totalBudget = Number(arg('budget') ?? NaN);
+    if (!Number.isFinite(totalBudget)) fail('A paid taste run requires --budget <usd> (hard cap).');
+    console.log(
+      `Taste estimate on file: worst case $${estimate.totalWorstCaseUsd.toFixed(2)} | hard cap $${totalBudget.toFixed(2)}`,
+    );
+    if (estimate.totalWorstCaseUsd > totalBudget) {
+      fail(`Worst-case taste estimate exceeds the budget cap. Raise --budget or lower --pairs-per-question.`);
+    }
+    // Taste calibration gate: every seat must prefer the good answer over the
+    // plainly-worse one in both positions before any paid duel is accepted.
+    const { readTasteCalibration, runTasteCalibration } = await import('./tastecalibration.js');
+    const prior = readTasteCalibration(runId);
+    if (prior?.passed && JSON.stringify(prior.panel) === JSON.stringify(panel) && prior.promptVersion === TASTE_JUDGE_PROMPT_VERSION) {
+      console.log('✓ Taste calibration gate already passed.');
+    } else {
+      console.log(`Calibrating taste panel [${panel.join(', ')}] against good/bad anchors…`);
+      const calibration = await runTasteCalibration(new OpenRouterClient(), panel, runId, questionsById);
+      for (const judge of calibration.judges) {
+        console.log(`  ${judge.passed ? '✓' : '✗'} ${judge.judgeModel}`);
+        for (const a of judge.anchors.filter((x) => !x.pass)) {
+          console.log(`      ✗ ${a.questionId}: forward=${a.forward} reversed=${a.reversed}  ${a.note ?? ''}`);
+        }
+      }
+      if (!calibration.passed) fail('A taste seat failed calibration (position/verbosity/safety bias) — fix before judging.');
+      console.log('✓ Taste calibration gate passed for all seats.');
+    }
+  }
+
+  const budget = new BudgetGuard(
+    isMock ? Infinity : Number(arg('budget')),
+    Infinity,
+  );
+  const client = isMock ? null : new OpenRouterClient();
+  const nowIso = new Date().toISOString();
+  const todo = plan.filter((p) => !hasTasteVerdict(runId, p.questionId, p.modelA, p.modelB));
+  console.log(
+    `Taste-judging ${todo.length} of ${plan.length} duels (${pairsPerQuestion}/question, resume-aware)${isMock ? ' [mock]' : ''}…`,
+  );
+
+  let flipflops = 0;
+  const failures: string[] = [];
+  await pool(todo, DEFAULTS.concurrency, async (p) => {
+    const question = questionsById.get(p.questionId)!;
+    const answers = answersByQuestion.get(p.questionId)!;
+    let record: PairVerdictRecord;
+    try {
+      if (isMock) {
+        const winner = mockTasteVerdict(p.modelA, p.modelB);
+        const { tastePanelSeats } = await import('./tastejudge.js');
+        const seats = tastePanelSeats(panel, p.modelA, p.modelB, question.id);
+        record = {
+          runId,
+          questionId: p.questionId,
+          modelA: p.modelA,
+          modelB: p.modelB,
+          promptVersion: TASTE_JUDGE_PROMPT_VERSION,
+          judgedAt: nowIso,
+          costUsd: 0,
+          seats: seats.map((judgeModel) => ({
+            judgeModel,
+            forward: { winner, reason: 'mock' },
+            reversed: { winner, reason: 'mock' },
+            final: winner,
+            positionConsistent: true,
+          })),
+        };
+      } else {
+        record = await judgePair(client!, panel, runId, question, p.modelA, p.modelB, answers, nowIso);
+        budget.record('taste', record.costUsd);
+      }
+    } catch (error) {
+      failures.push(`${p.questionId} ${p.modelA} vs ${p.modelB}: ${(error as Error).message.slice(0, 120)}`);
+      return;
+    }
+    if (record.seats.some((s) => !s.positionConsistent)) flipflops++;
+    writeTasteVerdict(record);
+  });
+
+  // Regenerate the derived artifacts from ALL stored verdicts (resume-consistent).
+  const allVerdicts = readTasteVerdicts(runId);
+  const votes: PanelTasteVote[] = allVerdicts.flatMap(pairVerdictToVotes);
+  const summary = buildPanelSummary(runId, votes, {
+    panel,
+    pairsPerQuestion,
+    mock: isMock,
+    generatedAt: nowIso,
+  });
+  writeTastePanelArtifacts(runId, votes, summary);
+
+  console.log(
+    `✓ ${allVerdicts.length} duels judged → ${votes.length} panel votes${flipflops ? ` (${flipflops} position flip-flops → tie)` : ''}`,
+  );
+  if (failures.length > 0) {
+    console.error(`✗ ${failures.length} duels failed (re-run to retry):`);
+    for (const f of failures.slice(0, 10)) console.error(`    ${f}`);
+  }
+  const top = summary.ratings.slice(0, 5);
+  if (top.length > 0) {
+    console.log('\n  Critics’ panel (top 5 by rating):');
+    for (const r of top) {
+      console.log(`    ${r.modelId.padEnd(34)} ${r.rating.toFixed(0)}   ${r.battles} battles`);
+    }
+  }
+  console.log(`\n✓ Artifacts in data/runs/${runId}/taste-panel/ (commit to publish)`);
+}
+
 async function cmdTasteArchive() {
   const { archiveTasteVotes } = await import('./taste.js');
   await archiveTasteVotes();
@@ -558,6 +781,8 @@ const COMMANDS: Record<string, () => void | Promise<void>> = {
   models: cmdModelsCheck,
   sync: cmdSync,
   publish: cmdPublish,
+  'taste-estimate': cmdTasteEstimate,
+  'taste-judge': cmdTasteJudge,
   'taste-archive': cmdTasteArchive,
 };
 
@@ -579,7 +804,11 @@ Commands:
   analyze --run <id> [--all true]  Item analysis: saturation, discrimination, anomalies
   sync [--run <id>]              Upsert dataset (and optionally a run) to Supabase
   publish --run <id>             Make a synced run publicly readable
-  taste-archive                  Snapshot all taste votes into data/taste/ (commit to preserve)
+  taste-estimate --run <id> [--pairs-per-question N] [--questions a,b]
+                                 Worst-case cost of an LLM taste-panel run
+  taste-judge --run <id> --budget <usd> [--pairs-per-question N] [--questions a,b] [--mock]
+                                 Pairwise LLM taste judging → data/runs/<id>/taste-panel/
+  taste-archive                  Snapshot all human taste votes into data/taste/ (commit to preserve)
   runs                           List stored runs`);
   process.exit(command ? 1 : 0);
 }
