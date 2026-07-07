@@ -59,6 +59,7 @@
 - id: subs-004
   category: substitutions
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     A recipe calls for 1 cup of cake flour but I only have all-purpose flour
@@ -174,6 +175,7 @@
 - id: subs-011
   category: substitutions
   difficulty: 3
+  status: basics
   public: true
   prompt: >
     My recipe needs 1 cup of cake flour and I have only bread flour. Is that a
@@ -267,6 +269,7 @@
 - id: subs-016
   category: substitutions
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -290,6 +293,7 @@
 - id: subs-017
   category: substitutions
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -413,17 +417,124 @@
          'vegetable shortening', 'shortening', 'sunflower oil', 'canola', 'rapeseed',
          'vegetable oil', 'olive oil']
       - ['200', 'same amount', 'same weight', '1:1', 'equal', '180']
-    # 'coconut' itself can't be forbidden: a correct answer must discuss the
-    # allergy ("make sure it's truly coconut-free"). The required groups carry
-    # the check; only an explicit coconut-oil recommendation is wrong.
-    forbidden:
-      - 'use coconut oil'
-      - 'stick with coconut oil'
-      - 'dairy butter'
-      - 'regular butter'
+    # No forbidden list. Every candidate term here is one a *correct* answer must
+    # say in order to rule it OUT — "many vegan butters use coconut oil" or
+    # "dairy butter is out (school is dairy-free)". The keyword grader only sees
+    # negation placed *before* a term, so these post-hoc exclusions read as
+    # violations and zeroed correct answers (both Geminis, run 2026-06-v2). The
+    # required groups already force naming a valid non-coconut, non-dairy fat.
   referenceAnswer: >
     Use a solid plant fat that is not coconut-based: vegan margarine/baking
     block or vegetable shortening, swapped roughly 1:1 (200 g) — check the
     label, since many vegan butters are coconut-oil based. A liquid oil
     (~180 g) works but spreads the cookies thinner. Dairy butter is out
     (school is dairy-free).
+
+# ── v3: multi-function and chemistry substitutions ──
+
+- id: subs-022
+  category: substitutions
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    My recipe calls for 2 teaspoons of baking powder, but I only have
+    bicarbonate of soda and cream of tartar. I'm mixing into 300 g of flour.
+    Give the exact amounts to replace the 2 teaspoons of baking powder.
+  grader:
+    type: llm-judge
+    constraintChecks:
+      - type: keyword
+        required:
+          - ['cream of tartar']
+          - ['bicarbonate', 'bicarb', 'baking soda']
+  judgingNotes: >
+    The correct replacement is the classic 1 part bicarbonate of soda to 2 parts
+    cream of tartar: for 2 tsp of baking powder that is about ½ tsp of
+    bicarbonate of soda plus 1 tsp of cream of tartar (a small ¼ tsp of
+    cornflour to keep it dry is optional). Reward naming both, in roughly that
+    2:1 tartar-to-soda ratio, and noting it should be baked promptly because
+    this single-acting mix reacts as soon as it is wet. A critical fault is
+    getting the ratio backwards (more soda than tartar) or omitting the acid.
+  referenceAnswer: >
+    Replace the 2 teaspoons of baking powder with ½ teaspoon of bicarbonate of
+    soda plus 1 teaspoon of cream of tartar — the classic 1 part soda to 2 parts
+    cream of tartar. Stir it evenly through the 300 g of flour and bake promptly,
+    since this single-acting mixture starts reacting as soon as it gets wet.
+
+- id: subs-023
+  category: substitutions
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    A recipe needs self-raising flour but I have plain flour and baking powder.
+    The standard is about 2 teaspoons (10 g) of baking powder per 200 g of plain
+    flour. I'm scaling my recipe up to 350 g of plain flour. How many grams of
+    baking powder do I add?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # 10 g per 200 g → 10 × 350/200 = 17.5 g
+    expected: 17.5
+    unit: g
+    bands:
+      - { toleranceAbs: 1, score: 100 }
+      - { toleranceAbs: 3, score: 50 }
+  referenceAnswer: >
+    17.5 g. Self-raising flour is plain flour plus about 10 g of baking powder
+    per 200 g, so for 350 g you need 10 × 350 ÷ 200 = 17.5 g of baking powder.
+
+- id: subs-024
+  category: substitutions
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    A dense chocolate cake uses 3 eggs, which both bind the batter and give it
+    lift. I need it fully egg-free (vegan). What do I use, and roughly how much,
+    to cover BOTH jobs?
+  grader:
+    type: llm-judge
+    constraintChecks:
+      - type: keyword
+        required:
+          - ['flax', 'aquafaba', 'chia', 'apple sauce', 'applesauce', 'yogurt', 'banana']
+          - ['baking powder', 'baking soda', 'bicarb', 'vinegar', 'lemon', 'leaven']
+  judgingNotes: >
+    The key insight is that eggs do two jobs here — binding/moisture AND leavening
+    — and a single one-to-one swap only covers the first. A strong answer splits
+    the functions: a binder such as a flax egg (1 tbsp ground flax + 3 tbsp
+    water) or aquafaba (~3 tbsp per egg) for structure and moisture, PLUS extra
+    chemical lift (about ½–1 tsp baking powder, or ¼ tsp bicarbonate of soda with
+    an acid like vinegar or lemon) to replace the leavening. A critical fault is
+    recommending only a binder (e.g. "just use 3 flax eggs") and ignoring the
+    lost lift, which yields a dense brick.
+  referenceAnswer: >
+    Split the two jobs. For binding and moisture, replace each egg with a flax
+    egg (1 tablespoon ground flaxseed plus 3 tablespoons water, rested until
+    gloopy) or about 3 tablespoons of aquafaba — three of them for the 3 eggs.
+    Those don't leaven, so also add lift: roughly ½ to 1 teaspoon of baking
+    powder, or ¼ teaspoon of bicarbonate of soda plus an acid such as a spoon of
+    vinegar or lemon juice. That keeps the crumb from turning into a dense brick.
+
+- id: subs-025
+  category: substitutions
+  difficulty: 3
+  addedIn: v3
+  public: true
+  prompt: >
+    My American recipe calls for 1 cup of half-and-half, which I can't buy here.
+    Half-and-half is roughly equal parts whole milk and single cream. How many
+    millilitres of each do I combine to make 1 US cup?
+  systemHint: 'Give the milk and the cream each in millilitres.'
+  grader:
+    type: numeric-multi
+    scoring: proportional
+    targets:
+      - { label: milk, expected: 118, unit: ml, toleranceAbs: 12 }
+      - { label: cream, expected: 118, unit: ml, toleranceAbs: 12 }
+  referenceAnswer: >
+    Half-and-half is about 10–12% fat, roughly equal parts whole milk and single
+    cream. For 1 US cup (237 ml), combine about 118 ml of whole milk with 118 ml
+    of single cream.

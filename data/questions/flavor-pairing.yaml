@@ -64,6 +64,7 @@
 - id: flav-003
   category: flavor-pairing
   difficulty: 1
+  status: basics
   public: true
   prompt: >
     I'm making a salad of ripe pears, toasted walnuts and bitter leaves. Which
@@ -226,6 +227,7 @@
 - id: flav-009
   category: flavor-pairing
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     I'm building a cheese board with one soft, one hard, and one blue cheese.
@@ -280,6 +282,7 @@
 - id: flav-011
   category: flavor-pairing
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     A vegetable soup I made is one-note and bland despite seasoning with salt.
@@ -378,24 +381,27 @@
     actual stomach pain. He still wants the seasoning to taste big and
     Mexican, not bland. What blend should I make?
   grader:
-    type: keyword
-    required:
-      - ['cumin']
-      - ['oregano', 'coriander', 'garlic', 'onion powder', 'lime', 'cocoa', 'annatto',
-         'cinnamon']
-      - ['smoked paprika', 'sweet paprika', 'mild paprika']
-    forbidden:
-      - 'cayenne'
-      - 'habanero'
-      - 'jalapeño'
-      - 'jalapeno'
-      - 'chipotle'
-      - 'chilli flakes'
-      - 'chili flakes'
-      - 'chilli powder'
-      - 'chili powder'
-      - 'hot sauce'
-      - 'red pepper flakes'
+    # Was a pure keyword grader; its forbidden list zeroed correct answers
+    # that mentioned chillies only to exclude them, warn about grinder/jar
+    # cross-contamination, or offer a separate opt-in hot sauce. "Don't
+    # RECOMMEND heat" needs a judge, not a substring match.
+    type: llm-judge
+    constraintChecks:
+      - type: keyword
+        required:
+          - ['cumin']
+          - ['oregano', 'coriander', 'garlic', 'onion powder', 'lime', 'cocoa', 'annatto',
+             'cinnamon']
+          - ['smoked paprika', 'sweet paprika', 'mild paprika']
+  judgingNotes: >
+    Critical fault if the recommended blend itself contains any capsaicin
+    source — cayenne, chipotle, any chilli powder or flakes, hot chillies,
+    hot sauce ("chili powder" blends count; plain paprika does not). Merely
+    mentioning chillies in order to exclude them, warning about
+    cross-contamination from a shared grinder or jar, or offering a clearly
+    separate opt-in hot condiment for the other guests is NOT a fault. The
+    blend should still taste big and Mexican: reward depth built from cumin,
+    paprika, oregano, garlic/onion, coriander, lime, cocoa or similar.
   referenceAnswer: >
     Build depth without capsaicin: cumin, smoked sweet paprika (capsaicin-
     free), Mexican oregano, garlic and onion powder, ground coriander, a
@@ -406,6 +412,7 @@
 - id: flav-015
   category: flavor-pairing
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -427,6 +434,7 @@
 - id: flav-016
   category: flavor-pairing
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -439,3 +447,94 @@
       - { toleranceAbs: 0.5, score: 100 }
       - { toleranceAbs: 1, score: 50 }
   referenceAnswer: 'The classic ratio is 3 parts oil to 1 part vinegar.'
+
+# ── v3: salt-budget numerics and allergen-constrained flavour building ──
+
+- id: flav-017
+  category: flavor-pairing
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    I'm seasoning a lasagne to a finished salt level of about 1% by weight. The
+    assembled dish weighs 2000 g, and the ragù and béchamel already contribute
+    roughly 12 g of salt between them. How many more grams of salt should the
+    rest of the seasoning add?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # target salt 0.01 × 2000 = 20 g; already 12 g; add 8 g
+    expected: 8
+    unit: g
+    bands:
+      - { toleranceAbs: 1, score: 100 }
+      - { toleranceAbs: 2.5, score: 50 }
+  referenceAnswer: >
+    About 8 g more. A 1% finished salt level on a 2000 g lasagne is 20 g of salt
+    in total; the ragù and béchamel already supply about 12 g, so the remaining
+    seasoning should add roughly 20 − 12 = 8 g.
+
+- id: flav-018
+  category: flavor-pairing
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    I'm making a big pot of dal for a dinner where one guest has a severe allium
+    allergy — no onion, garlic, shallot, leek or chives, and no asafoetida
+    (hing), which is often cut with garlic and wheat. I still want it to taste
+    deep and complete, not flat. What aromatics and spices should I build the
+    flavour on?
+  grader:
+    type: llm-judge
+    constraintChecks:
+      - type: keyword
+        required:
+          - ['ginger']
+          - ['cumin', 'mustard seed', 'coriander', 'fennel', 'curry lea', 'garam masala', 'tomato']
+  judgingNotes: >
+    Critical fault if the recommended base itself includes any allium — onion,
+    garlic, shallot, leek, chives — or asafoetida/hing. Merely naming them to say
+    "leave these out" is fine and not a fault. Reward a genuinely deep-tasting
+    allium-free base: fresh ginger, whole spices bloomed in ghee or oil (cumin,
+    mustard, coriander, fennel), curry leaves, tomato for savoury body, tamarind
+    or lime for acidity, and a finishing garam masala or tarka. A flat "just use
+    salt and turmeric" answer is weak.
+  referenceAnswer: >
+    Build the depth from non-allium aromatics. Start a tarka of ginger, cumin
+    and mustard seeds bloomed in ghee or oil, with curry leaves and whole
+    coriander and fennel; add tomato for savoury body and tamarind or lime at the
+    end for brightness. Ground turmeric, coriander and a good garam masala round
+    it out, with a pinch of sugar to balance. Skip asafoetida here, since
+    commercial hing is usually cut with garlic and wheat. No onion, garlic,
+    shallot, leek or chives at all — the ginger-and-toasted-spice base carries
+    the complete, savoury note in their place.
+
+- id: flav-019
+  category: flavor-pairing
+  difficulty: 3
+  addedIn: v3
+  public: true
+  prompt: >
+    I'm serving two fish courses: a rich, oily grilled mackerel and a delicate
+    steamed sole. For each, pick an acidic accompaniment and explain why the
+    right choice differs between the two fish.
+  grader:
+    type: llm-judge
+  judgingNotes: >
+    The principle to reward: match the strength of the acid to the richness and
+    delicacy of the fish. Oily, strong mackerel wants a sharp, assertive acid
+    (gooseberry, rhubarb, a bracing pickle or sharp vinegar) to cut through the
+    fat; delicate steamed sole would be overwhelmed by that and wants a gentle
+    acid (a soft lemon-butter/beurre blanc or a light squeeze of lemon) that
+    brightens without dominating. A strong answer gives a concrete pairing for
+    each AND explains the contrast. A weak answer suggests the same generic
+    "squeeze of lemon" for both without addressing why they differ.
+  referenceAnswer: >
+    Match the acid's strength to the fish. Oily, robust mackerel takes a sharp,
+    assertive acid to cut the fat — a gooseberry or rhubarb sauce, or a bracing
+    pickled shallot with sharp vinegar; it can stand up to the punch. Delicate
+    steamed sole would be flattened by that, so give it a gentle acid — a soft
+    lemon-butter (beurre blanc) or just a light squeeze of lemon — that brightens
+    without overwhelming the mild flesh. The rule of thumb: robust fish takes
+    robust acid, delicate fish takes restrained acid.

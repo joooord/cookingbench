@@ -90,6 +90,7 @@
 - id: qty-006
   category: quantities-scaling
   difficulty: 2
+  status: basics
   public: true
   prompt: >
     I want to make a 5% brine, with salt measured as a percentage of the water's
@@ -330,6 +331,7 @@
 - id: qty-019
   category: quantities-scaling
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -353,6 +355,7 @@
 - id: qty-020
   category: quantities-scaling
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -376,6 +379,7 @@
 - id: qty-021
   category: quantities-scaling
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -399,6 +403,7 @@
 - id: qty-022
   category: quantities-scaling
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -420,6 +425,7 @@
 - id: qty-023
   category: quantities-scaling
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -441,6 +447,7 @@
 - id: qty-024
   category: quantities-scaling
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -461,6 +468,7 @@
 - id: qty-025
   category: quantities-scaling
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -478,3 +486,159 @@
   referenceAnswer: >
     The Australian tablespoon is 20 ml, so 1.5 × 20 × 6 = 180 ml. Assuming a
     15 ml tablespoon (≈133 ml) misses the locale.
+
+# ── v3: yield/waste chains, levain accounting, area scaling, batch dilution ──
+
+- id: qty-026
+  category: quantities-scaling
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    A soup needs 900 g of peeled, seeded butternut squash. Whole squash loses
+    about 30% of its weight to peel and seeds, and it's sold as whole squashes
+    of roughly 1.1 kg each. How many whole squashes must I buy?
+  systemHint: 'End your reply with a line "Answer: <number>".'
+  grader:
+    type: numeric
+    # need 900 g usable; at 70% yield need 900/0.7 ≈ 1286 g raw; /1100 g = 1.17 → 2
+    expected: 2
+    toleranceAbs: 0.4
+  referenceAnswer: >
+    You must buy 2 squashes. 900 g of usable flesh at a 70% yield means about
+    1286 g of raw squash, and since each squash is roughly 1100 g, a single one
+    is not enough — you need two. Ignoring the 30% waste is the trap.
+
+- id: qty-027
+  category: quantities-scaling
+  difficulty: 5
+  addedIn: v3
+  public: true
+  prompt: >
+    My sourdough formula is 78% hydration on 1000 g of total flour, and it uses
+    a 200 g levain built at 100% hydration (equal flour and water). The 1000 g
+    total flour and the hydration target both already INCLUDE the levain's flour
+    and water. How many grams of water do I add to the final dough?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # total water = 0.78 × 1000 = 780 g; levain supplies 100 g water; add 680 g
+    expected: 680
+    unit: g
+    bands:
+      - { toleranceAbs: 15, score: 100 }
+      - { toleranceAbs: 45, score: 50 }
+  referenceAnswer: >
+    680 g. The target water is 78% of 1000 g of flour = 780 g total; the 200 g
+    levain already contains 100 g of that water (and 100 g of the flour), so you
+    add 780 − 100 = 680 g of water to the final dough. Forgetting the levain's
+    water gives the wrong 780 g.
+
+- id: qty-028
+  category: quantities-scaling
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    A brownie recipe fills a 20 cm square tin and uses 3 eggs and 300 g of
+    sugar. I'm switching to a 23 × 33 cm rectangular tin. Scale the recipe by
+    area: how many eggs (rounded to a whole number) and how many grams of sugar?
+  systemHint: 'Give the eggs and the sugar each with its number.'
+  grader:
+    type: numeric-multi
+    scoring: proportional
+    targets:
+      - { label: egg, expected: 6, toleranceAbs: 0.4 }
+      - { label: sugar, expected: 569, unit: g, toleranceAbs: 25 }
+  referenceAnswer: >
+    The rectangular tin is 23 × 33 = 759 cm², versus 20 × 20 = 400 cm² — a
+    factor of about 1.9. Eggs: 3 × 1.9 ≈ 5.7, so round up to 6 eggs. Sugar:
+    300 g × 1.9 ≈ 569 g. Scaling by a side length instead of area is the trap.
+
+- id: qty-029
+  category: quantities-scaling
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    I want to serve 12 people 150 g of cooked pulled pork each. Pork shoulder
+    loses about 40% of its weight during slow cooking. How many kilograms of
+    raw shoulder should I start with?
+  systemHint: 'End your reply with a line "Answer: <number> kg".'
+  grader:
+    type: numeric
+    # cooked needed 12×150 = 1800 g; keep 60% → raw = 1800/0.6 = 3000 g = 3 kg
+    expected: 3
+    unit: kg
+    bands:
+      - { toleranceAbs: 0.15, score: 100 }
+      - { tolerancePct: 12, score: 50 }
+  referenceAnswer: >
+    3 kg. You need 12 × 150 g = 1800 g of cooked pork; at 40% cooking loss you
+    keep 60%, so the raw weight is 1800 ÷ 0.6 = 3000 g = 3 kg.
+
+- id: qty-030
+  category: quantities-scaling
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    A pizza dough is 65% water, 2.5% salt and 0.7% yeast in baker's percentages
+    (all relative to the flour). I want to end up with 1200 g of dough in total.
+    How many grams of flour do I need?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # dough = flour × (1 + 0.65 + 0.025 + 0.007) = flour × 1.682; 1200/1.682 ≈ 713 g
+    expected: 713
+    unit: g
+    bands:
+      - { toleranceAbs: 15, score: 100 }
+      - { toleranceAbs: 45, score: 50 }
+  referenceAnswer: >
+    About 713 g of flour. The dough weighs the flour plus 65% water plus 2.5%
+    salt plus 0.7% yeast = 167.2% of the flour, so flour = 1200 ÷ 1.682 ≈ 713 g.
+
+- id: qty-031
+  category: quantities-scaling
+  difficulty: 3
+  addedIn: v3
+  public: true
+  prompt: >
+    My vinaigrette is 3 parts oil to 1 part vinegar by volume, and I need
+    320 ml of dressing in total. How many millilitres of vinegar do I use?
+  systemHint: 'End your reply with a line "Answer: <number> ml".'
+  grader:
+    type: numeric
+    # vinegar is 1 part in 4 → 320/4 = 80 ml
+    expected: 80
+    unit: ml
+    bands:
+      - { toleranceAbs: 4, score: 100 }
+      - { toleranceAbs: 12, score: 50 }
+  referenceAnswer: >
+    80 ml of vinegar. A 3:1 oil-to-vinegar ratio means vinegar is one part in
+    four, so 320 ml ÷ 4 = 80 ml (with 240 ml of oil). Dividing 320 by 3 is the
+    common mistake.
+
+- id: qty-032
+  category: quantities-scaling
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    I'm batching negronis for 15 people: 30 ml each of gin, Campari and sweet
+    vermouth per drink, and I add water equal to 20% of the spirit volume for
+    dilution. What is the total batch volume in millilitres?
+  systemHint: 'End your reply with a line "Answer: <number> ml".'
+  grader:
+    type: numeric
+    # per drink 90 ml spirits × 15 = 1350 ml; + 20% water → 1350 × 1.2 = 1620 ml
+    expected: 1620
+    unit: ml
+    bands:
+      - { toleranceAbs: 40, score: 100 }
+      - { toleranceAbs: 120, score: 50 }
+  referenceAnswer: >
+    1620 ml. Each drink is 3 × 30 ml = 90 ml of spirits; for 15 drinks that is
+    1350 ml, and adding 20% water for dilution gives 1350 × 1.2 = 1620 ml.

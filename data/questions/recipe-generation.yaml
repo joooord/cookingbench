@@ -830,3 +830,82 @@
     Main: pan-seared salmon (flat stainless pan works great on induction)
     with crushed new potatoes, asparagus and a lemon-dill butter sauce —
     dill and parsley, no coriander. Comfortably inside 45 minutes for two.
+
+# ── v3: briefs with conflicting requests and buried allergen/equipment limits ──
+
+- id: rgen-021
+  category: recipe-generation
+  difficulty: 5
+  addedIn: v3
+  public: true
+  prompt: >
+    My daughter's whole class is coming for her birthday tea — 14 kids. The
+    school's strict nut-free rule applies. My sister swears by her "secret
+    ingredient" pesto pasta and told me to use it. And one of the mums mentioned
+    at pickup, just once in passing, that little Theo is coeliac. I want ONE dish
+    everyone can eat — no separate plates. Give me the recipe.
+  grader:
+    type: llm-judge
+    judgeWeight: 0.6
+    constraintChecks:
+      - type: keyword
+        required:
+          - ['gluten-free', 'gluten free', 'gf pasta', 'rice pasta', 'corn pasta', 'buckwheat']
+          - ['sunflower', 'pumpkin seed', 'pepita', 'nut-free', 'seed', 'without pine nut']
+  judgingNotes: >
+    Two buried, decisive constraints must both be met. It must be gluten-free
+    (Theo is coeliac — so gluten-free pasta, and confirm the pesto has no wheat).
+    It must be nut-free for the school — traditional pesto uses pine nuts and
+    often cashews, so a nut-free pesto is required (e.g. pine nuts swapped for
+    toasted sunflower or pumpkin seeds). And it must be a single dish everyone
+    eats. A recipe using ordinary wheat pasta, or a standard pine-nut/cashew
+    pesto, fails even if it sounds delicious. Naming an allergen only to exclude
+    it ("swap the pine nuts for…") is correct, not a fault.
+  referenceAnswer: >
+    Make one big bowl of gluten-free, nut-free pesto pasta that every child can
+    eat. Use gluten-free pasta (corn or rice fusilli holds its shape well). For
+    the pesto, make it nut-free: blitz about 60 g basil, 50 g toasted sunflower
+    or pumpkin seeds in place of pine nuts, 40 g hard cheese (or a nut-free
+    dairy-free alternative), a small garlic clove, lemon, salt and ~120 ml olive
+    oil. Toss it through the cooked, drained pasta with a splash of the cooking
+    water. This stays gluten-free for Theo and nut-free for the school in a
+    single dish, so no separate plates. Check every jar and label, since
+    shop-bought pesto usually contains both wheat traces and nuts.
+
+- id: rgen-022
+  category: recipe-generation
+  difficulty: 5
+  addedIn: v3
+  public: true
+  prompt: >
+    Family reunion and I'm on main-dish duty for 13 people. The catch: the one
+    oven is taken all afternoon by my aunt's turkey and locked at 160°C fan — I
+    get whatever shelf fits alongside it. There's no spare hob or stovetop, and
+    I've got about 75 minutes of hands-on time before everyone arrives. Give me a
+    main that feeds 13 from that oven alone.
+  grader:
+    type: llm-judge
+    judgeWeight: 0.6
+    constraintChecks:
+      - type: keyword
+        required:
+          - ['160', 'same temperature', 'fan', 'the oven', 'tray', 'roast', 'bake']
+          - ['13', 'thirteen', 'two trays', 'per person', 'serves', 'portion']
+  judgingNotes: >
+    Decisive constraints: oven-only, with NO hob/stovetop step at all (no "sear
+    first", no "simmer on the stove"); it must work at the fixed 160°C fan the
+    turkey needs (don't tell them to crank the oven up); it must fit alongside a
+    turkey; scale to feed 13; and be doable in ~75 minutes of hands-on prep. A
+    dish that needs the hob, a different oven temperature, or that only serves
+    four to six people fails. Reward a scaled traybake or similar that goes in
+    raw and shares the turkey's oven.
+  referenceAnswer: >
+    Do a big oven traybake that shares the turkey's 160°C fan oven and needs no
+    hob at all. For example, two large trays of chicken-thigh-and-vegetable
+    traybake: about 26 bone-in thighs (two per person for 13), tossed raw with
+    sliced potatoes, onions, peppers, olive oil, lemon and herbs, straight into
+    the oven at 160°C fan. At that gentle temperature give them roughly 70–90
+    minutes, turning once, until the thickest thigh reads 75°C. If a tray can go
+    hotter for the last 15 minutes once the turkey comes out to rest, do that for
+    colour. Everything goes in raw — no searing, no stovetop — the chopping is
+    about 30–40 minutes, well inside your 75, and two trays comfortably feed 13.

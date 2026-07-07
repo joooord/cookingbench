@@ -361,6 +361,7 @@
 - id: tech-013
   category: technique
   difficulty: 3
+  status: basics
   addedIn: v2
   trap: true
   public: true
@@ -407,6 +408,7 @@
 - id: tech-015
   category: technique
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -427,6 +429,7 @@
 - id: tech-016
   category: technique
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -444,3 +447,97 @@
       - { toleranceAbs: 25, score: 50 }
   referenceAnswer: 'Sucrose begins caramelising around 160°C (320°F).'
   source: 'McGee, On Food and Cooking'
+
+# ── v3: diagnosis briefs with buried culprits, and tight technique numerics ──
+
+- id: tech-017
+  category: technique
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    My macarons keep coming out cracked, with no "feet" and hollow inside. I
+    aged the egg whites, sifted the almond flour twice, rested the piped shells
+    40 minutes until a skin formed, and baked at 150°C. Oh — I also coloured the
+    batter with a few drops of liquid food colouring to get them really vibrant.
+    What went wrong?
+  grader:
+    type: llm-judge
+    constraintChecks:
+      - type: keyword
+        required:
+          - ['liquid', 'water-based', 'water based', 'moisture', 'gel', 'powder']
+  judgingNotes: >
+    The decisive culprit is the liquid food colouring. Everything else the baker
+    lists is correct (aged whites, sifted flour, a proper 40-minute skin, a
+    sensible 150°C), so the odd one out is the water-based colouring, which adds
+    moisture that thins the batter and destabilises the meringue — giving cracked
+    tops, no feet and hollow shells. A strong answer identifies that and says to
+    switch to gel or powder colouring. Merely reciting generic macaron tips
+    (oven temperature, macaronage, resting) without singling out the liquid
+    colour is a weak answer; a critical fault is blaming something the baker
+    already did correctly.
+  referenceAnswer: >
+    The likely culprit is the liquid food colouring. You did the important
+    things right — aged whites, sifted flour, a proper 40-minute skin, a
+    reasonable 150°C — so the odd one out is the few drops of liquid colour.
+    Water-based colouring adds moisture that thins the batter and destabilises
+    the meringue, which is exactly what produces cracked tops, missing feet and
+    hollow shells. Switch to gel or powder colouring. If cracks persist after
+    that, double-check the oven really sits at 150°C and that you're not
+    over-mixing the macaronage.
+
+- id: tech-018
+  category: technique
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    My homemade mayonnaise started thick but then went thin and split — there's
+    oil pooling on top and it won't come back together. I was adding the oil
+    quite fast near the end. What caused it, and how do I fix this batch?
+  grader:
+    type: llm-judge
+    constraintChecks:
+      - type: keyword
+        required:
+          - ['too fast', 'too quickly', 'quickly', 'fast', 'overwhelm', 'broke the emulsion']
+          - ['new yolk', 'fresh yolk', 'start again', 'new base', 'clean bowl',
+             'whisk the broken', 'drizzle', 'slowly', 'teaspoon of water', 'mustard']
+  judgingNotes: >
+    Cause: adding the oil too fast broke the emulsion — the yolk couldn't take up
+    the oil quickly enough so it separated. Rescue: do NOT keep whisking the
+    split batch; start a fresh base (a new egg yolk, or a teaspoon of mustard or
+    warm water) in a clean bowl and slowly drizzle the broken mayonnaise into it
+    while whisking, then continue with any remaining oil. A critical fault is
+    advising to simply "keep whisking" the broken batch or to add more oil, which
+    won't recombine it.
+  referenceAnswer: >
+    You broke the emulsion by adding the oil too fast — the yolk couldn't absorb
+    it quickly enough, so it separated. Don't just keep whisking the split
+    batch. Instead start a fresh base in a clean bowl — a new egg yolk, or a
+    teaspoon of mustard or warm water — and very slowly drizzle the broken
+    mayonnaise into it while whisking, then continue with any oil you hadn't yet
+    added. Going slowly is the whole trick.
+
+- id: tech-019
+  category: technique
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    For crème anglaise, at roughly what custard temperature (in Celsius) does it
+    thicken enough to "coat the back of a spoon", and at what temperature do the
+    eggs start to scramble and curdle? Give both.
+  grader:
+    type: numeric-multi
+    scoring: proportional
+    targets:
+      - { label: thicken, expected: 83, unit: c, toleranceAbs: 3 }
+      - { label: curdle, expected: 87, unit: c, toleranceAbs: 3 }
+  referenceAnswer: >
+    Crème anglaise thickens and coats the back of a spoon at about 83°C
+    (roughly 82–84°C), and the eggs begin to curdle and scramble just above
+    that, around 87°C. That narrow window is why you cook it gently and pull it
+    off the heat right at 83 to 84°C.
+  source: 'Standard custard/nappé temperatures (~82–85°C)'

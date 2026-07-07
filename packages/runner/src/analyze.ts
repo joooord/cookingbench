@@ -19,7 +19,16 @@ export interface QuestionAnalysis {
   discrimination: number;
   /** Responses with empty text or a non-stop finish reason (transport noise). */
   anomalies: number;
-  verdict: 'retire-candidate' | 'basics-candidate' | 'keep';
+  verdict: 'retire-candidate' | 'basics-candidate' | 'grader-audit' | 'keep';
+}
+
+export interface AnalyzeOptions {
+  /**
+   * The run's judge prompt version. Under judge-v2 (deduction grading) an
+   * all-perfect llm-judge item IS genuine saturation and gets demoted; under
+   * v1 (absolute rubric) it is not treated as evidence.
+   */
+  judgePromptVersion?: string;
 }
 
 export interface RunAnalysis {
@@ -48,7 +57,9 @@ export function analyzeRun(
   questions: Question[],
   responses: StoredResponse[],
   scores: Score[],
+  opts: AnalyzeOptions = {},
 ): RunAnalysis {
+  const judgeV2 = opts.judgePromptVersion === 'judge-v2';
   const questionsById = new Map(questions.map((q) => [q.id, q]));
 
   // Model ranking by mean score, for the discrimination split.
@@ -84,20 +95,31 @@ export function analyzeRun(
     const values = qScores.map((s) => s.score);
     const mean = values.reduce((a, b) => a + b, 0) / values.length;
     const sd = Math.sqrt(values.reduce((a, b) => a + (b - mean) ** 2, 0) / values.length);
-    const top = qScores.filter((s) => topHalf.has(s.modelId)).map((s) => s.score);
-    const bottom = qScores.filter((s) => !topHalf.has(s.modelId)).map((s) => s.score);
     const avg = (v: number[]) => (v.length ? v.reduce((a, b) => a + b, 0) / v.length : 0);
     const anomalous = anomalousModels.get(questionId) ?? new Set<string>();
     const anomalies = anomalous.size;
     const allPerfect = values.every((v) => v === 100);
     // Spread caused purely by transport anomalies (empty/filtered/truncated
-    // responses) is not skill signal — judge the item on the clean scores.
-    const cleanValues = qScores.filter((s) => !anomalous.has(s.modelId)).map((s) => s.score);
+    // responses) is not skill signal — judge the item on the clean scores, and
+    // exclude anomalous models from the discrimination split too, so a
+    // reproducible content_filter can't manufacture negative discrimination.
+    const cleanScores = qScores.filter((s) => !anomalous.has(s.modelId));
+    const cleanValues = cleanScores.map((s) => s.score);
     const cleanPerfect = cleanValues.length > 0 && cleanValues.every((v) => v === 100);
-    // llm-judge items are never demoted here: judge-v2 (deduction grading)
-    // changes their scoring regime entirely, so v1 saturation is not evidence.
-    const verdict: QuestionAnalysis['verdict'] =
-      q.grader.type !== 'llm-judge' && cleanPerfect ? 'basics-candidate' : 'keep';
+    const top = cleanScores.filter((s) => topHalf.has(s.modelId)).map((s) => s.score);
+    const bottom = cleanScores.filter((s) => !topHalf.has(s.modelId)).map((s) => s.score);
+    const discrimination = Math.round((avg(top) - avg(bottom)) * 10) / 10;
+    // Demote saturated items to basics. Deterministic items are demoted when
+    // every clean score is 100; llm-judge items only under judge-v2 (deduction
+    // grading), where all-perfect is genuine saturation rather than a v1 rubric
+    // artifact. A deterministic item where weaker models beat stronger ones with
+    // real spread is flagged `grader-audit` — usually a mis-keyed grader.
+    let verdict: QuestionAnalysis['verdict'] = 'keep';
+    if (cleanPerfect && (q.grader.type !== 'llm-judge' || judgeV2)) {
+      verdict = 'basics-candidate';
+    } else if (q.grader.type !== 'llm-judge' && discrimination <= -10 && sd >= 20) {
+      verdict = 'grader-audit';
+    }
     items.push({
       questionId,
       category: q.category,
@@ -109,7 +131,7 @@ export function analyzeRun(
       min: Math.min(...values),
       max: Math.max(...values),
       allPerfect,
-      discrimination: Math.round((avg(top) - avg(bottom)) * 10) / 10,
+      discrimination,
       anomalies,
       verdict,
     });

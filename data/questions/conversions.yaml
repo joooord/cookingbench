@@ -331,6 +331,7 @@
 - id: conv-021
   category: conversions
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -350,6 +351,7 @@
 - id: conv-022
   category: conversions
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -369,6 +371,7 @@
 - id: conv-023
   category: conversions
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -411,6 +414,7 @@
 - id: conv-025
   category: conversions
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -427,6 +431,7 @@
 - id: conv-026
   category: conversions
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -448,6 +453,7 @@
 - id: conv-027
   category: conversions
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -466,6 +472,7 @@
 - id: conv-028
   category: conversions
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -481,3 +488,164 @@
       - { toleranceAbs: 0.08, score: 100 }
       - { toleranceAbs: 0.2, score: 50 }
   referenceAnswer: '2 × 250 ml = 500 ml; ÷236.6 ≈ 2.1 US cups.'
+
+# ── v3: multi-hop chains and stacked locale traps (errors compound) ──
+
+- id: conv-029
+  category: conversions
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    A Japanese recipe calls for 3 gō of uncooked short-grain rice. One gō is
+    the 180 ml rice-cooker cup, and this rice packs at about 0.85 g per ml.
+    How many grams of rice is that?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # 3 × 180 ml = 540 ml; × 0.85 g/ml ≈ 459 g
+    expected: 459
+    unit: g
+    bands:
+      - { toleranceAbs: 12, score: 100 }
+      - { tolerancePct: 10, score: 50 }
+  referenceAnswer: >
+    459 g. Three gō is 3 × 180 ml = 540 ml, and at 0.85 g per ml that is about
+    459 g. Treating a gō as a 240 ml US cup, or skipping the density step,
+    is the trap.
+  source: '1 gō = 180.39 ml (traditional Japanese measure)'
+
+- id: conv-030
+  category: conversions
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    A German baking recipe lists 300 g of golden syrup, but I can only measure
+    by volume with US tablespoons. Golden syrup weighs about 1.43 g per ml.
+    How many US tablespoons should I measure out?
+  systemHint: 'End your reply with a line "Answer: <number> tbsp".'
+  grader:
+    type: numeric
+    # 300 g ÷ 1.43 g/ml ≈ 210 ml; ÷ 14.79 ml/tbsp ≈ 14.2 tbsp
+    expected: 14.2
+    unit: tbsp
+    bands:
+      - { toleranceAbs: 0.7, score: 100 }
+      - { toleranceAbs: 1.6, score: 50 }
+  referenceAnswer: >
+    About 14 tablespoons. 300 g ÷ 1.43 g per ml gives roughly 210 ml, and 210
+    divided by 14.79 ml per US tablespoon is about 14.2 tablespoons. Skipping
+    the density step and treating grams as millilitres is the mistake.
+
+- id: conv-031
+  category: conversions
+  difficulty: 5
+  addedIn: v3
+  public: true
+  prompt: >
+    A 1960s British recipe says: bake at gas mark 4, use 1 imperial pint of
+    cream and 6 imperial fluid ounces of milk. My kitchen is metric-and-Celsius.
+    Give the oven temperature in °C, the cream in millilitres, and the milk in
+    millilitres.
+  systemHint: 'Give the oven, cream and milk each with its number and unit.'
+  grader:
+    type: numeric-multi
+    scoring: proportional
+    targets:
+      - { label: oven, expected: 177, unit: c, toleranceAbs: 5 }
+      - { label: cream, expected: 568, unit: ml, toleranceAbs: 12 }
+      - { label: milk, expected: 170, unit: ml, toleranceAbs: 8 }
+  referenceAnswer: >
+    Oven: gas mark 4 is 177°C. Cream: 1 imperial pint is 568 ml. Milk: 6
+    imperial fluid ounces is 170 ml — the imperial fluid ounce is 28.4 ml, not
+    the US 29.6 ml, so this is not 177 ml.
+  source: 'Gas mark 4 = 350°F; imperial pint = 568 ml; imperial fl oz = 28.4 ml'
+
+- id: conv-032
+  category: conversions
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    An American recipe calls for 2 sticks of butter and 1¾ cups of granulated
+    sugar. I only have a gram scale. Granulated sugar is about 200 g per US
+    cup. What is the combined weight of the butter and sugar in grams?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # 2 sticks = 227 g; 1.75 cups × 200 g = 350 g; total 577 g
+    expected: 577
+    unit: g
+    bands:
+      - { toleranceAbs: 15, score: 100 }
+      - { toleranceAbs: 40, score: 50 }
+  referenceAnswer: >
+    577 g. Two sticks of butter is 227 g, and 1¾ cups of sugar at 200 g per
+    cup is 350 g, so 227 + 350 = 577 g in total.
+
+- id: conv-033
+  category: conversions
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    A vintage recipe measures flour in "teacups". A British teacup here is
+    200 ml, and the flour weighs 128 g per US cup (a US cup is 237 ml). If the
+    recipe calls for 3 teacups of flour, how many grams is that?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # 3 × 200 ml = 600 ml; density 128/237 = 0.540 g/ml; 600 × 0.540 ≈ 324 g
+    expected: 324
+    unit: g
+    bands:
+      - { toleranceAbs: 12, score: 100 }
+      - { tolerancePct: 12, score: 50 }
+  referenceAnswer: >
+    About 324 g. Three 200 ml teacups is 600 ml of flour; the flour's density
+    is 128 g ÷ 237 ml ≈ 0.54 g per ml, so 600 × 0.54 ≈ 324 g. Treating a
+    teacup as a 237 ml US cup would wrongly give about 384 g.
+
+- id: conv-034
+  category: conversions
+  difficulty: 3
+  addedIn: v3
+  public: true
+  prompt: >
+    A vintage American recipe calls for "1 coffee cup" of milk. In old cookbooks
+    a coffee cup is 6 US fluid ounces, not the modern 8-ounce measuring cup.
+    How many millilitres is 1 coffee cup?
+  systemHint: 'End your reply with a line "Answer: <number> ml".'
+  grader:
+    type: numeric
+    # 6 × 29.57 ml = 177 ml
+    expected: 177
+    unit: ml
+    bands:
+      - { toleranceAbs: 6, score: 100 }
+      - { toleranceAbs: 15, score: 50 }
+  referenceAnswer: >
+    About 177 ml. A coffee cup is 6 US fluid ounces, and 6 × 29.57 ml ≈ 177 ml.
+    Using the modern 8-ounce cup (237 ml) is the trap.
+
+- id: conv-035
+  category: conversions
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    A French patisserie recipe lists 500 g bread flour, 300 ml water and an
+    oven of 220°C. I bake American-style. Give the flour in US cups (bread
+    flour is 127 g per cup), the water in US cups, and the oven in °F.
+  systemHint: 'Give the flour, water and oven each with its number and unit.'
+  grader:
+    type: numeric-multi
+    scoring: proportional
+    targets:
+      - { label: flour, expected: 3.94, unit: cup, toleranceAbs: 0.2 }
+      - { label: water, expected: 1.27, unit: cup, toleranceAbs: 0.12 }
+      - { label: oven, expected: 428, unit: f, toleranceAbs: 6 }
+  referenceAnswer: >
+    Flour: 500 g ÷ 127 g per cup ≈ 3.94 cups. Water: 300 ml ÷ 237 ml per cup ≈
+    1.27 cups. Oven: 220°C = 428°F.

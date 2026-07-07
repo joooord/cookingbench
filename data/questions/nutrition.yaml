@@ -523,6 +523,7 @@
 - id: nutr-031
   category: nutrition
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -548,6 +549,7 @@
 - id: nutr-032
   category: nutrition
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -571,6 +573,7 @@
 - id: nutr-033
   category: nutrition
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -595,6 +598,7 @@
 - id: nutr-034
   category: nutrition
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -615,6 +619,7 @@
 - id: nutr-035
   category: nutrition
   difficulty: 4
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -659,6 +664,7 @@
 - id: nutr-037
   category: nutrition
   difficulty: 3
+  status: basics
   addedIn: v2
   public: true
   prompt: >
@@ -714,3 +720,145 @@
       - { toleranceAbs: 3, score: 100 }
       - { toleranceAbs: 6, score: 50 }
   referenceAnswer: 'Strained Greek yogurt runs ≈9–10 g protein per 100 g → ≈15–17 g per 170 g pot.'
+
+# ── v3: compound macro chains and tight-band restaurant estimation ──
+
+- id: nutr-040
+  category: nutrition
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    Estimate the total kilocalories in a restaurant chicken tikka masala —
+    about 450 g of sauce and chicken — served with 250 g of cooked white rice.
+    Give a single number.
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: numeric
+    # CTM ~160 kcal/100 g → ~720; rice ~130 kcal/100 g × 250 → ~325; ~1045 total
+    expected: 1050
+    unit: kcal
+    bands:
+      - { toleranceAbs: 200, score: 100 }
+      - { toleranceAbs: 400, score: 50 }
+  referenceAnswer: >
+    Roughly 1000 to 1100 kcal. Restaurant chicken tikka masala runs about 150
+    to 180 kcal per 100 g because of the cream, butter and oil, so around 720
+    kcal for 450 g, plus about 325 kcal for 250 g of cooked rice at ~130 kcal
+    per 100 g — near 1050 kcal in total.
+  source: 'Typical UK restaurant/takeaway nutrition data for CTM and boiled rice'
+
+- id: nutr-041
+  category: nutrition
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    I cook a whole 500 g bag of dried red lentils and split the batch evenly
+    across 4 meals. Dried lentils have about 24 g of protein per 100 g. How many
+    grams of protein are in each meal?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # protein is on the dry weight: 500 × 0.24 = 120 g; /4 = 30 g
+    expected: 30
+    unit: g
+    bands:
+      - { toleranceAbs: 2, score: 100 }
+      - { toleranceAbs: 6, score: 50 }
+  referenceAnswer: >
+    30 g per meal. Protein is measured on the dried lentils: 500 g × 24 g per
+    100 g = 120 g of protein in the batch, split over 4 meals = 30 g each.
+    Cooking only adds water, so don't rescale by the cooked weight.
+
+- id: nutr-042
+  category: nutrition
+  difficulty: 4
+  addedIn: v3
+  public: true
+  prompt: >
+    I simmer a sauce with 500 ml of wine (12% alcohol by volume), uncovered, for
+    30 minutes, then divide it into 5 portions. Ethanol's density is about
+    0.789 g/ml and roughly 35% of the alcohol survives a 30-minute simmer.
+    Approximately how many grams of alcohol remain per portion?
+  systemHint: 'End your reply with a line "Answer: <number> g".'
+  grader:
+    type: numeric
+    # ethanol: 500×0.12 = 60 ml → ×0.789 = 47.3 g; ×0.35 = 16.6 g; /5 = 3.3 g
+    expected: 3.3
+    unit: g
+    bands:
+      - { toleranceAbs: 0.8, score: 100 }
+      - { toleranceAbs: 1.6, score: 50 }
+  referenceAnswer: >
+    About 3.3 g per portion. 500 ml of 12% wine holds 60 ml of ethanol, which is
+    60 × 0.789 ≈ 47 g; after a 30-minute simmer roughly 35% remains, about 16.5
+    g, divided over 5 portions ≈ 3.3 g each. "All the alcohol cooks off" is a
+    myth.
+  source: 'USDA Table of Nutrient Retention Factors (alcohol retention)'
+
+- id: nutr-043
+  category: nutrition
+  difficulty: 5
+  addedIn: v3
+  public: true
+  prompt: >
+    I brine a chicken in 2 litres of a 6% salt solution (60 g of salt per litre).
+    The meat takes up about 10% of the brine's salt, and I serve it in 6
+    portions. Roughly how many milligrams of SODIUM are in each portion? (Sodium
+    is about 39% of the mass of salt.)
+  systemHint: 'End your reply with a line "Answer: <number> mg".'
+  grader:
+    type: numeric
+    # salt in brine 60×2 = 120 g; absorbed 10% = 12 g; sodium 12×0.39 = 4.7 g = 4700 mg; /6 ≈ 785 mg
+    expected: 786
+    unit: mg
+    bands:
+      - { toleranceAbs: 130, score: 100 }
+      - { toleranceAbs: 320, score: 50 }
+  referenceAnswer: >
+    About 790 mg of sodium per portion. The 2 litres of 6% brine holds 120 g of
+    salt; the meat takes up roughly 10% = 12 g of salt, which is 12 × 0.39 ≈ 4.7
+    g of sodium, or about 4700 mg. Split over 6 portions that is roughly 785 mg
+    each. Reporting the salt rather than the sodium is the trap.
+
+- id: nutr-044
+  category: nutrition
+  difficulty: 3
+  addedIn: v3
+  public: true
+  prompt: >
+    Estimate the kilocalories in a 16 oz latte made with 350 ml of whole milk
+    and a 30 ml pump of vanilla syrup. Give a single number.
+  systemHint: 'End your reply with a line "Answer: <number> kcal".'
+  grader:
+    type: numeric
+    # whole milk ~64 kcal/100 ml × 350 ≈ 224; vanilla syrup ~75 kcal/30 ml; ≈ 300
+    expected: 300
+    unit: kcal
+    bands:
+      - { toleranceAbs: 80, score: 100 }
+      - { toleranceAbs: 150, score: 50 }
+  referenceAnswer: >
+    Around 300 kcal. About 350 ml of whole milk is roughly 225 kcal (whole milk
+    is ~64 kcal per 100 ml), and a 30 ml pump of vanilla syrup adds about 75
+    kcal of sugar — near 300 kcal in total.
+
+- id: nutr-045
+  category: nutrition
+  difficulty: 3
+  addedIn: v3
+  public: true
+  prompt: >
+    A 250 g portion of macaroni cheese provides 520 kcal and 34 g of fat. What
+    percentage of its calories come from fat?
+  systemHint: 'End your reply with a line "Answer: <number> %".'
+  grader:
+    type: numeric
+    # fat kcal = 34 × 9 = 306; /520 = 0.588 → ~59%
+    expected: 59
+    toleranceAbs: 3
+  referenceAnswer: >
+    About 59%. Fat gives 9 kcal per gram, so 34 g of fat is 306 kcal; 306 ÷ 520
+    total kcal ≈ 0.59, meaning roughly 59% of the calories come from fat.
+    Dividing grams of fat by kcal (34 ÷ 520) is the mistake.

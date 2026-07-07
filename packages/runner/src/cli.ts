@@ -504,7 +504,9 @@ function cmdAnalyze() {
   const responses = readResponses(runId);
   const scores = readScores(runId);
   if (scores.length === 0) fail(`No scores for run ${runId} — grade it first`);
-  const analysis = analyzeRun(runId, questions, responses, scores);
+  const analysis = analyzeRun(runId, questions, responses, scores, {
+    judgePromptVersion: readRunConfig(runId).judgePromptVersion,
+  });
   writeAnalysis(runId, analysis);
 
   console.log(`\nItem analysis — run ${runId} (${analysis.models} models, ${analysis.questions} questions)`);
