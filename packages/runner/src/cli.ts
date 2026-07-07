@@ -129,14 +129,24 @@ async function pool<T>(items: T[], concurrency: number, worker: (item: T) => Pro
 function cmdValidate() {
   const questions = loadQuestions();
   const models = loadModels();
-  const byCategory = new Map<string, number>();
+  const byCategory = new Map<string, { active: number; basics: number; retired: number }>();
   for (const q of questions) {
-    byCategory.set(q.category, (byCategory.get(q.category) ?? 0) + 1);
+    const row = byCategory.get(q.category) ?? { active: 0, basics: 0, retired: 0 };
+    row[q.status] += 1;
+    byCategory.set(q.category, row);
   }
+  const totals = { active: 0, basics: 0, retired: 0 };
   console.log(`✓ ${questions.length} questions valid`);
-  for (const [category, count] of [...byCategory].sort()) {
-    console.log(`    ${category}: ${count}`);
+  console.log(`    ${'category'.padEnd(20)} ${'total'.padStart(6)} ${'active'.padStart(7)} ${'basics'.padStart(7)} ${'retired'.padStart(8)}`);
+  for (const [category, c] of [...byCategory].sort()) {
+    const total = c.active + c.basics + c.retired;
+    totals.active += c.active;
+    totals.basics += c.basics;
+    totals.retired += c.retired;
+    console.log(`    ${category.padEnd(20)} ${String(total).padStart(6)} ${String(c.active).padStart(7)} ${String(c.basics).padStart(7)} ${String(c.retired).padStart(8)}`);
   }
+  const grand = totals.active + totals.basics + totals.retired;
+  console.log(`    ${'— all —'.padEnd(20)} ${String(grand).padStart(6)} ${String(totals.active).padStart(7)} ${String(totals.basics).padStart(7)} ${String(totals.retired).padStart(8)}`);
   console.log(`✓ ${models.length} models valid (${models.filter((m) => m.active).length} active)`);
 }
 
@@ -764,6 +774,19 @@ async function cmdTasteJudge() {
   console.log(`\n✓ Artifacts in data/runs/${runId}/taste-panel/ (commit to publish)`);
 }
 
+async function cmdFlagged() {
+  const runId = arg('run') ?? fail('flagged requires --run <id>');
+  const questions = loadQuestions();
+  const responses = readResponses(runId);
+  const scores = readScores(runId);
+  if (scores.length === 0) fail(`No scores for run ${runId} — grade and judge it first`);
+  const { buildFlaggedReport, writeFlaggedReport } = await import('./flagged.js');
+  const { markdown, count } = buildFlaggedReport(runId, questions, responses, scores);
+  const path = writeFlaggedReport(runId, markdown);
+  console.log(`✓ ${count} flagged answer${count === 1 ? '' : 's'} written to ${path.replace(REPO_ROOT + '/', '')}`);
+  if (count === 0) console.log('  (No panel disagreements to review — nothing flagged.)');
+}
+
 async function cmdTasteArchive() {
   const { archiveTasteVotes } = await import('./taste.js');
   await archiveTasteVotes();
@@ -781,6 +804,7 @@ const COMMANDS: Record<string, () => void | Promise<void>> = {
   models: cmdModelsCheck,
   sync: cmdSync,
   publish: cmdPublish,
+  flagged: cmdFlagged,
   'taste-estimate': cmdTasteEstimate,
   'taste-judge': cmdTasteJudge,
   'taste-archive': cmdTasteArchive,
@@ -802,6 +826,7 @@ Commands:
   judge --run <id>               LLM-judge grading for subjective questions
   report --run <id>              Build the leaderboard JSON + print the table
   analyze --run <id> [--all true]  Item analysis: saturation, discrimination, anomalies
+  flagged --run <id>             Export judge-disagreement answers for human review (markdown)
   sync [--run <id>]              Upsert dataset (and optionally a run) to Supabase
   publish --run <id>             Make a synced run publicly readable
   taste-estimate --run <id> [--pairs-per-question N] [--questions a,b]

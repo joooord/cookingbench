@@ -42,7 +42,15 @@ pnpm bench grade --run <id>          # deterministic; preserves prior judge resu
 pnpm bench judge --run <id>          # panel judging; calibration gate runs first
 pnpm bench analyze --run <id>        # saturation/discrimination ratchet — run after EVERY run
 pnpm bench report --run <id>         # leaderboard.json + table
+pnpm bench flagged --run <id>        # export judge-disagreement worksheet (data/runs/<id>/flagged-review.md)
 git add data/runs/<id> && commit && push   # publish; site picks newest leaderboard by generatedAt
+
+# LLM taste panel (independent of the precision run above; never blended):
+pnpm bench taste-estimate --run <id> [--pairs-per-question N]
+pnpm bench taste-judge --run <id> --budget <usd> [--pairs-per-question N] [--mock]
+#   pairwise A-vs-B duels on the run's subjective answers; taste calibration
+#   gate runs first; artifacts in data/runs/<id>/taste-panel/ (commit to publish
+#   the /taste critics' table). Reproducible; feeds the same Bradley-Terry math.
 ```
 
 Key invariants:
@@ -110,6 +118,20 @@ v1 saturated catastrophically: 84/129 questions perfect-for-everyone, judge gave
    insert succeeds (pending → saved/error with retry) — votes must never be
    lost silently, and the whole dish card is the tap target (a v1 bug hid the
    click on the header strip only).
+7. **Taste critics' panel** (v3, `packages/runner/src/tastejudge.ts`): an LLM
+   "team of judges" that blind-tastes the SAME paired answers as the crowd, as a
+   separate signal — never blended with the human vote or the precision score.
+   Pairwise A-vs-B preference (prompt ignores length/formatting to fight the
+   deduction-grading verbosity bias); each duel judged twice with positions
+   swapped (flip-flop ⇒ tie) to cancel position bias; a 5-provider panel that
+   excludes BOTH contenders' providers so ≥2 seats always remain; deterministic
+   balanced pair planning (reuses `providerOf`/`fnv1a` from judge.ts and
+   `mulberry32`/`computeTasteRatings` from core). Its own calibration gate
+   (`taste-anchors.yaml`: every seat must prefer a good answer over a
+   plainly-worse one in both positions). Verdicts live ONLY in committed
+   artifacts (`data/runs/<id>/taste-panel/`), never in Supabase — reproducible
+   from git. Surfaces on `/taste` as a second table via `getLatestTastePanel()`
+   (skips `mock:true` summaries); homepage untouched until a paid run proves it.
 
 ## Hard-won operational lessons
 
@@ -146,23 +168,42 @@ v1 saturated catastrophically: 84/129 questions perfect-for-everyone, judge gave
   never committed. The web app reads zero env vars. Supabase anon/publishable
   keys are public by design (RLS-protected).
 
-## State as of 2026-06-12
+## State as of 2026-07-07 (v3 content + taste-panel machinery landed, unrun)
 
-- Published runs: `2026-06-v1` (10 models, methodology v1, saturated — kept as
-  an immutable artifact) and `2026-06-v2` (13 models × 184 questions, panel-
-  judged, spread 96.4–82.0). v1-era canary runs (`canary`, `canary2`) are also
-  committed; their timestamps are older so they never surface on the site.
+- Published runs unchanged: `2026-06-v1` (v1, saturated, immutable) and
+  `2026-06-v2` (13 models × 184 questions, panel-judged, spread 96.4–82.0).
+  These artifacts are NOT re-graded; the v3 dataset only affects future runs.
+- **v3 dataset ratchet (done, awaiting a paid run):** 36 saturated active items
+  demoted to basics (33 analyzer-flagged deterministic + flav-003/009/011
+  llm-judge, demoted manually — the analyzer now does this itself under
+  judge-v2). Three negative-discrimination graders fixed: flav-014 keyword →
+  llm-judge, safe-016 broader discard synonyms, subs-021 forbidden list dropped
+  (post-term negation like "dairy butter is out" was zeroing correct answers —
+  a fresh instance of the keyword-trap lesson). 36 new `addedIn: v3` items
+  authored in the proven discriminating styles, refilling the active set to 102
+  (dataset now 220 total). All covered by `packages/runner/test/dataset.test.ts`
+  (perfect-chef = 100, non-vacuous, grader-audit regressions).
+- **Taste critics' panel (machinery done, unrun):** see Methodology point 7.
+  `bench taste-judge --mock` exercises the whole chain for $0; the first PAID
+  taste-panel run + its calibration are a future session's job.
+- **Analyzer upgraded:** demotes saturated llm-judge items under judge-v2,
+  excludes transport anomalies from discrimination, and emits a new
+  `grader-audit` verdict for mis-keyed deterministic graders.
+- **Housekeeping:** `bench flagged --run 2026-06-v2` wrote the 81-item
+  `flagged-review.md` worksheet (the expert-layer on-ramp); methodology page
+  de-staled (taste test is live) and gained a critics'-panel paragraph;
+  `bench validate` now prints per-category active/basics/retired counts.
 - Open items for a future session:
-  - `bench analyze --run 2026-06-v2` flags 36 still-all-perfect active items —
-    demote to basics and author harder replacements (v3 ratchet turn).
-  - 81 flagged judge disagreements await human review (scores.json,
-    `flagged: true`); the methodology page promises an expert layer.
-  - One answer unjudged after repeated prose-not-JSON from a judge seat
-    (kimi-k2.6 × flav-005) — excluded from means; `bench judge --run
-    2026-06-v2` retries it.
-  - Targets not yet met: active all-perfect 35% (goal ≤15%), judged-100s 52%
-    (goal <35%). Direction is right (was 65%/74%); content difficulty is the
-    remaining lever, not scoring mechanics.
-- Spend so far: ~$55.6 of the user's OpenRouter credits across both runs,
-  judging and calibration. The user tops up willingly when asked, in ~£10
-  increments, and cares that models get a *fair* shot (see Kimi, above).
+  - Run the v3 benchmark (`2026-07-v3` or similar) + the taste panel; then
+    `bench analyze` to see whether v3 hit the targets and to produce the next
+    demotion list. Two taste seats (Gemini 3.1 Pro, Grok 4.3) are unproven as
+    judges — the taste calibration gate screens them before any paid vote.
+  - Targets before v3 run: active all-perfect 35% (goal ≤15%), judged-100s 52%
+    (goal <35%). The v3 authoring is the lever aimed at these.
+  - One answer unjudged after prose-not-JSON from a judge seat (kimi-k2.6 ×
+    flav-005) — `bench judge --run 2026-06-v2` retries it (v2 artifact only).
+  - 81 flagged v2 disagreements now collated in flagged-review.md for the
+    promised expert layer.
+- Spend so far: ~$55.6 of OpenRouter credits (both v2-era runs). No spend this
+  session — all v3 work is content, machinery, tests and docs. The user tops up
+  willingly in ~£10 increments and cares that models get a *fair* shot.

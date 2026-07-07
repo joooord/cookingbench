@@ -118,12 +118,24 @@ export default function MethodologyPage() {
           <p className="mt-4">
             An AI judge scales, but it shares the blind spots of the models it grades. So
             grading is layered: deterministic checks need no opinion at all; the LLM judge
-            handles the subjective bulk; and a sampled and flagged set of answers — anything
-            the double-judge disagreed on, plus a random audit slice — is reviewed by people
-            who actually cook. We are recruiting professional chefs and nutritionists for
-            that expert layer, and their verdicts calibrate the judge over time. A future
-            public &ldquo;taste test&rdquo; mode will let visitors blind-vote on paired
-            answers, arena-style, as a third independent signal.
+            handles the subjective bulk; and a sampled and flagged set of answers — every
+            duel the two judge seats disagreed on by more than 15 points, exported by{' '}
+            <code className="text-sm">bench flagged</code> as a review worksheet — is put in
+            front of people who actually cook. We are recruiting professional chefs and
+            nutritionists for that expert layer, and their verdicts calibrate the judge over
+            time. The public{' '}
+            <a href="/tastetest" className="text-paprika hover:underline">Taste Test</a>,
+            described above, is already live as a third independent signal.
+          </p>
+          <p className="mt-4">
+            <strong>The critics&rsquo; panel (arriving with the next run).</strong> Alongside
+            the human crowd, a panel of frontier models blind-tastes the same paired answers
+            in a pairwise A-vs-B duel. Each duel is judged twice with the two answers swapped
+            to cancel position bias, no judge ever scores a duel involving its own provider,
+            and every seat must first prefer a known-good answer over a plainly-worse one — in
+            both positions — to pass a calibration gate. Its Bradley-Terry ratings sit on the{' '}
+            <a href="/taste" className="text-paprika hover:underline">Taste Board</a> as their
+            own table, never blended with the human votes or the precision score.
           </p>
         </section>
 
