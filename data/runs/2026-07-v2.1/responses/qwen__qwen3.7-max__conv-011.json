@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "conv-011",
+  "answerText": "To convert Celsius to Kelvin, you add 273.15 to the Celsius temperature (100 + 273.15 = 373.15).\n\nAnswer: 373.15 K",
+  "raw": {
+    "id": "gen-1785345750-eTwWrlHEgq4K5XTO73hR",
+    "object": "chat.completion",
+    "created": 1785345750,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To convert Celsius to Kelvin, you add 273.15 to the Celsius temperature (100 + 273.15 = 373.15).\n\nAnswer: 373.15 K",
+          "refusal": null,
+          "reasoning": "Thinking Process:\n\n1.  **Identify the core question:** Convert 100°C to Kelvin.\n2.  **Recall the conversion formula:** $K = °C + 273.15$\n3.  **Perform the calculation:** $100 + 273.15 = 373.15$\n4.  **Format the output:** The user requested an accurate and concise answer, ending with a specific format: \"Answer: <number> K\".\n5.  **Draft the response:**\n    *   Brief explanation: To convert Celsius to Kelvin, add 273.15 to the Celsius temperature.\n    *   Calculation: 100 + 273.15 = 373.15\n    *   Required ending: Answer: 373.15 K\n6.  **Refine for conciseness:** \"To convert Celsius to Kelvin, you add 273.15 to the Celsius temperature. Therefore, 100°C + 273.15 = 373.15 K.\n    Answer: 373.15 K\" (Wait, standard rounding might just be 373.15, let's use 373.15). Let's just output the exact value.\n    Actually, 273.15 is the exact offset. So 373.15 is correct.\n    Let's write a very concise response.\n    \"To convert Celsius to Kelvin, add 273.15.\n    100 + 273.15 = 373.15\n\n    Answer: 373.15 K\"\n    Wait, can I just say \"Answer: 373.15 K\" or do I need text before it? \"Answer the question accurately and concisely. End your reply with a line...\"\n    Let's provide one sentence of context, then the answer line.\n    \"To convert Celsius to Kelvin, add 273.15 to the Celsius value (100 + 273.15 = 373.15).\n    Answer: 373.15 K\"\n    Perfect. Keep it simple. Less is more.\n\nWait, is it sometimes rounded to 373 K? Yes, in some basic chemistry contexts, but 373.15 is more accurate. I will use 373.15.\n\nLet's double check.\n°C to K: K = °C + 273.15\n100 + 273.15 = 373.15.\nEnd line: Answer: 373.15 K.\nDone.\n**End of thought process**\nTo convert Celsius to Kelvin, you add 273.15 to the Celsius temperature (100 + 273.15 = 373.15).\n\nAnswer: 373.15 K\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking Process:\n\n1.  **Identify the core question:** Convert 100°C to Kelvin.\n2.  **Recall the conversion formula:** $K = °C + 273.15$\n3.  **Perform the calculation:** $100 + 273.15 = 373.15$\n4.  **Format the output:** The user requested an accurate and concise answer, ending with a specific format: \"Answer: <number> K\".\n5.  **Draft the response:**\n    *   Brief explanation: To convert Celsius to Kelvin, add 273.15 to the Celsius temperature.\n    *   Calculation: 100 + 273.15 = 373.15\n    *   Required ending: Answer: 373.15 K\n6.  **Refine for conciseness:** \"To convert Celsius to Kelvin, you add 273.15 to the Celsius temperature. Therefore, 100°C + 273.15 = 373.15 K.\n    Answer: 373.15 K\" (Wait, standard rounding might just be 373.15, let's use 373.15). Let's just output the exact value.\n    Actually, 273.15 is the exact offset. So 373.15 is correct.\n    Let's write a very concise response.\n    \"To convert Celsius to Kelvin, add 273.15.\n    100 + 273.15 = 373.15\n\n    Answer: 373.15 K\"\n    Wait, can I just say \"Answer: 373.15 K\" or do I need text before it? \"Answer the question accurately and concisely. End your reply with a line...\"\n    Let's provide one sentence of context, then the answer line.\n    \"To convert Celsius to Kelvin, add 273.15 to the Celsius value (100 + 273.15 = 373.15).\n    Answer: 373.15 K\"\n    Perfect. Keep it simple. Less is more.\n\nWait, is it sometimes rounded to 373 K? Yes, in some basic chemistry contexts, but 373.15 is more accurate. I will use 373.15.\n\nLet's double check.\n°C to K: K = °C + 273.15\n100 + 273.15 = 373.15.\nEnd line: Answer: 373.15 K.\nDone.\n**End of thought process**\nTo convert Celsius to Kelvin, you add 273.15 to the Celsius temperature (100 + 273.15 = 373.15).\n\nAnswer: 373.15 K\n",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 64,
+      "completion_tokens": 733,
+      "total_tokens": 797,
+      "cost": 0.003337925,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003337925,
+        "upstream_inference_prompt_cost": 0.0000944,
+        "upstream_inference_completions_cost": 0.003243525
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 677,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 64,
+  "tokensOut": 733,
+  "costUsd": 0.003337925,
+  "latencyMs": 15012,
+  "finishReason": "stop"
+}

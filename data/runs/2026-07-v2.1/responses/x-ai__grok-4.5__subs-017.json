@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "subs-017",
+  "answerText": "Butter is approximately 80% fat, so 150 g butter provides \\(0.8 \\times 150 = 120\\) g of fat.  \nCoconut oil is 100% fat, therefore 120 g of coconut oil supplies the same amount of fat.\n\nAnswer: 120 g",
+  "raw": {
+    "id": "gen-1785345632-P9AYBri8BRaIihDTiuNf",
+    "object": "chat.completion",
+    "created": 1785345632,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Butter is approximately 80% fat, so 150 g butter provides \\(0.8 \\times 150 = 120\\) g of fat.  \nCoconut oil is 100% fat, therefore 120 g of coconut oil supplies the same amount of fat.\n\nAnswer: 120 g",
+          "refusal": null,
+          "reasoning": "The problem is: A shortbread recipe uses 150 g of butter. I'm substituting refined coconut oil, matching the FAT content rather than total weight — butter is only about 80% fat (the rest is mostly wat...",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem is: A shortbread recipe uses 150 g of butter. I'm substituting refined coconut oil, matching the FAT content rather than total weight — butter is only about 80% fat (the rest is mostly wat...",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "QmiOkRW8nlUuXyW1pjegeqkYpFqk+Rw0sZ1QWSImne8y6eGOmwga3Y6dAm5nvb/rmK8j0/5uIEvtiXHT7B8ZJJcyV4mba33ZUysHOtG7ucuKQb7fUD+ocCFj1YP7DTS6vxjand9tyxp7GHxBN4O/oPzeIqLqTHbTGbwrCgj/msgKGLx+pVDnMnSdBMoQwLHjuXGtAfbFpd7fBdZFVQiDM0d/O+yaPW6GjX3a4uRP5OY9ZhUUoBGXGA9sZC3Glr5TDrnSdQxwsjkJqGzlXgE+GBs/6RcezulKfs3DWvJY6GMTSf7wRei32hhCCwBKYA5w1sayUyXeJOI3dMH+SWBRvE64J3ZOuLKfDqhTUUv9tGIek/bcAAF42X9I3k2taL/BXh7gn0fsnJjoJ64nXf3fgzHvNby7bbRyRsVG7OZPbFHGR2pRPDGxprMhjbBZL6OiJljZlgE9/lht4WxrvOgxlg0QASiozcLBK0N6+uKDoR5t2/I8reYOmYDSYkwuALk04+0lvTEVN4rLq/btP6y3Awfv4qUzniYjTHviwJKl4/l9F5GquPoDw1896WhtdhhWiI2fiKqExha+LgjD+B78MFXykKvlJkINgE6Y4Yp54PE0ORLqRH37sS1UosHNuOyzw0R4qjujFE9eejh5w7XNRLBmPBhGkQ",
+              "format": "xai-responses-v1",
+              "id": "rs_ab92451a-f347-9239-99dc-bb96ac73623b",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 298,
+      "completion_tokens": 186,
+      "total_tokens": 484,
+      "cost": 0.001712,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001712,
+        "upstream_inference_prompt_cost": 0.000596,
+        "upstream_inference_completions_cost": 0.001116
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 127,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 298,
+  "tokensOut": 186,
+  "costUsd": 0.001712,
+  "latencyMs": 2880,
+  "finishReason": "stop"
+}

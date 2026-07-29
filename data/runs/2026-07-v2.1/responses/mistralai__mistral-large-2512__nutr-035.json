@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "nutr-035",
+  "answerText": "To calculate the kilocalories per 100 g of the cereal using Atwater factors:\n\n1. **Carbohydrates (excluding fibre):**\n   Total carbohydrates = 62 g (including fibre)\n   Fibre = 9 g\n   Net carbohydrates = 62 g - 9 g = 53 g\n   Atwater factor for carbohydrates = 4 kcal/g\n   Energy from net carbohydrates = 53 g × 4 kcal/g = 212 kcal\n\n2. **Fibre:**\n   Atwater factor for fibre = 2 kcal/g\n   Energy from fibre = 9 g × 2 kcal/g = 18 kcal\n\n3. **Protein:**\n   Protein = 11 g\n   Atwater factor for protein = 4 kcal/g\n   Energy from protein = 11 g × 4 kcal/g = 44 kcal\n\n4. **Fat:**\n   Fat = 8 g\n   Atwater factor for fat = 9 kcal/g\n   Energy from fat = 8 g × 9 kcal/g = 72 kcal\n\n**Total energy per 100 g:**\n212 kcal (carbs) + 18 kcal (fibre) + 44 kcal (protein) + 72 kcal (fat) = **346 kcal**\n\nAnswer: 346 kcal",
+  "raw": {
+    "id": "gen-1785348045-VcQETDjdJdKVKhnWDHzA",
+    "object": "chat.completion",
+    "created": 1785348045,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To calculate the kilocalories per 100 g of the cereal using Atwater factors:\n\n1. **Carbohydrates (excluding fibre):**\n   Total carbohydrates = 62 g (including fibre)\n   Fibre = 9 g\n   Net carbohydrates = 62 g - 9 g = 53 g\n   Atwater factor for carbohydrates = 4 kcal/g\n   Energy from net carbohydrates = 53 g × 4 kcal/g = 212 kcal\n\n2. **Fibre:**\n   Atwater factor for fibre = 2 kcal/g\n   Energy from fibre = 9 g × 2 kcal/g = 18 kcal\n\n3. **Protein:**\n   Protein = 11 g\n   Atwater factor for protein = 4 kcal/g\n   Energy from protein = 11 g × 4 kcal/g = 44 kcal\n\n4. **Fat:**\n   Fat = 8 g\n   Atwater factor for fat = 9 kcal/g\n   Energy from fat = 8 g × 9 kcal/g = 72 kcal\n\n**Total energy per 100 g:**\n212 kcal (carbs) + 18 kcal (fibre) + 44 kcal (protein) + 72 kcal (fat) = **346 kcal**\n\nAnswer: 346 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 107,
+      "completion_tokens": 288,
+      "total_tokens": 395,
+      "cost": 0.0004783,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 16,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0004783,
+        "upstream_inference_prompt_cost": 0.0000463,
+        "upstream_inference_completions_cost": 0.000432
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 107,
+  "tokensOut": 288,
+  "costUsd": 0.0004783,
+  "latencyMs": 3615,
+  "finishReason": "stop"
+}

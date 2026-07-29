@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-018",
+  "answerText": "1 US cup of unsalted butter is equivalent to 227 grams.\nAnswer: 227 g",
+  "raw": {
+    "id": "gen-1785347110-Zqm8nIFosrOTJiDYfgq9",
+    "object": "chat.completion",
+    "created": 1785347110,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "1 US cup of unsalted butter is equivalent to 227 grams.\nAnswer: 227 g",
+          "refusal": null,
+          "reasoning": "We need to convert 1 US cup of unsalted butter to grams. The density of butter is typically around 0.911 g/ml, but for baking, standard conversion is: 1 cup of butter = 227 grams (this is a common conversion: 1 US cup of butter = 2 sticks = 8 ounces = 227 grams). However, I should confirm: unsalted butter is same density as salted butter, so 1 cup unsalted butter = 227 g. The instruction says: \"End your reply with a line 'Answer: <number> g'\". So I'll output: Answer: 227 g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to convert 1 US cup of unsalted butter to grams. The density of butter is typically around 0.911 g/ml, but for baking, standard conversion is: 1 cup of butter = 227 grams (this is a common conversion: 1 US cup of butter = 2 sticks = 8 ounces = 227 grams). However, I should confirm: unsalted butter is same density as salted butter, so 1 cup unsalted butter = 227 g. The instruction says: \"End your reply with a line 'Answer: <number> g'\". So I'll output: Answer: 227 g.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 46,
+      "completion_tokens": 151,
+      "total_tokens": 197,
+      "cost": 0.000492768,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000492768,
+        "upstream_inference_prompt_cost": 0.000065136,
+        "upstream_inference_completions_cost": 0.000427632
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 130,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 46,
+  "tokensOut": 151,
+  "costUsd": 0.000492768,
+  "latencyMs": 3319,
+  "finishReason": "stop"
+}

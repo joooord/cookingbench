@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "qty-002",
+  "answerText": "To scale the recipe from 6 to 4 servings, first find the amount of rice per person (450 g ÷ 6 = 75 g). Then, multiply that amount by your desired number of servings (75 g × 4 = 300 g).\n\nAnswer: 300 g",
+  "raw": {
+    "id": "gen-1785346276-Fc4EMlqcgNbdGT3yen4K",
+    "object": "chat.completion",
+    "created": 1785346276,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To scale the recipe from 6 to 4 servings, first find the amount of rice per person (450 g ÷ 6 = 75 g). Then, multiply that amount by your desired number of servings (75 g × 4 = 300 g).\n\nAnswer: 300 g",
+          "refusal": null,
+          "reasoning": "Thinking:\n\n1.  **Analyze the Request:**\n    *   Recipe serves: 6 people\n    *   Rice needed for 6 people: 450 g\n    *   Target servings: 4 people\n    *   Condition: Keep everything in proportion\n    *   Constraint: Answer accurately and concisely. End with \"Answer: <number> g\".\n\n2.  **Calculate the proportion:**\n    *   Rice per person = 450 g / 6 = 75 g/person\n    *   Rice for 4 people = 75 g/person * 4 people = 300 g\n\n3.  **Format the Output:**\n    *   Concise explanation.\n    *   Ending line: \"Answer: 300 g\"\n\n4.  **Draft the response:**\n    To find the amount of rice needed for 4 servings, first determine the amount of rice per serving by dividing the total rice by the original number of servings: 450 g / 6 = 75 g per serving. Then, multiply this by the new number of servings: 75 g * 4 = 300 g.\n    Answer: 300 g\n\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number> g\"? Yes. (Answer: 300 g)\n    *   No extra text after the final line. Ensure exact match.\n\nLet's refine the text for maximum conciseness.\n\"To scale the recipe from 6 to 4 servings, calculate the rice per person (450 g / 6 = 75 g) and multiply by 4 (75 g * 4 = 300 g).\n\nAnswer: 300 g\"\nPerfect. Keep it simple.\nWait, \"Answer: <number> g\" -> \"Answer: 300 g\". Exactly.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking:\n\n1.  **Analyze the Request:**\n    *   Recipe serves: 6 people\n    *   Rice needed for 6 people: 450 g\n    *   Target servings: 4 people\n    *   Condition: Keep everything in proportion\n    *   Constraint: Answer accurately and concisely. End with \"Answer: <number> g\".\n\n2.  **Calculate the proportion:**\n    *   Rice per person = 450 g / 6 = 75 g/person\n    *   Rice for 4 people = 75 g/person * 4 people = 300 g\n\n3.  **Format the Output:**\n    *   Concise explanation.\n    *   Ending line: \"Answer: 300 g\"\n\n4.  **Draft the response:**\n    To find the amount of rice needed for 4 servings, first determine the amount of rice per serving by dividing the total rice by the original number of servings: 450 g / 6 = 75 g per serving. Then, multiply this by the new number of servings: 75 g * 4 = 300 g.\n    Answer: 300 g\n\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number> g\"? Yes. (Answer: 300 g)\n    *   No extra text after the final line. Ensure exact match.\n\nLet's refine the text for maximum conciseness.\n\"To scale the recipe from 6 to 4 servings, calculate the rice per person (450 g / 6 = 75 g) and multiply by 4 (75 g * 4 = 300 g).\n\nAnswer: 300 g\"\nPerfect. Keep it simple.\nWait, \"Answer: <number> g\" -> \"Answer: 300 g\". Exactly.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 82,
+      "completion_tokens": 510,
+      "total_tokens": 592,
+      "cost": 0.0023777,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0023777,
+        "upstream_inference_prompt_cost": 0.00012095,
+        "upstream_inference_completions_cost": 0.00225675
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 437,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 82,
+  "tokensOut": 510,
+  "costUsd": 0.0023777,
+  "latencyMs": 10843,
+  "finishReason": "stop"
+}

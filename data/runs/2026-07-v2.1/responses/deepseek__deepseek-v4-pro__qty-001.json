@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-001",
+  "answerText": "To scale the recipe from 2 loaves to 5 loaves, multiply each ingredient by 2.5.  \nFlour: 1250 g  \nWater: 875 g  \nSalt: 25 g  \nInstant yeast: 17.5 g",
+  "raw": {
+    "id": "gen-1785347375-CWbcUw8MwWSis0EM4cMN",
+    "object": "chat.completion",
+    "created": 1785347375,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "GMICloud",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To scale the recipe from 2 loaves to 5 loaves, multiply each ingredient by 2.5.  \nFlour: 1250 g  \nWater: 875 g  \nSalt: 25 g  \nInstant yeast: 17.5 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"A bread recipe makes 2 loaves using 500 g flour, 350 g water, 10 g salt and 7 g instant yeast. Scale it to 5 loaves. Give each ingredient in grams.\"\n\nWe need to scale the recipe from 2 loaves to 5 loaves. The scaling factor is 5/2 = 2.5.\n\nFor each ingredient, multiply the original quantity by 2.5:\n\n- Flour: 500 * 2.5 = 1250 g\n- Water: 350 * 2.5 = 875 g\n- Salt: 10 * 2.5 = 25 g\n- Instant yeast: 7 * 2.5 = 17.5 g\n\nGive each ingredient in grams. The instruction: \"End your reply with one line per ingredient in the form '<ingredient>: <number> g'.\" We'll provide the answer concisely, then list the ingredients.\n\nAnswer: To scale from 2 loaves to 5 loaves, multiply each ingredient by 2.5. Flour: 1250 g, Water: 875 g, Salt: 25 g, Instant yeast: 17.5 g. Then output the lines.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A bread recipe makes 2 loaves using 500 g flour, 350 g water, 10 g salt and 7 g instant yeast. Scale it to 5 loaves. Give each ingredient in grams.\"\n\nWe need to scale the recipe from 2 loaves to 5 loaves. The scaling factor is 5/2 = 2.5.\n\nFor each ingredient, multiply the original quantity by 2.5:\n\n- Flour: 500 * 2.5 = 1250 g\n- Water: 350 * 2.5 = 875 g\n- Salt: 10 * 2.5 = 25 g\n- Instant yeast: 7 * 2.5 = 17.5 g\n\nGive each ingredient in grams. The instruction: \"End your reply with one line per ingredient in the form '<ingredient>: <number> g'.\" We'll provide the answer concisely, then list the ingredients.\n\nAnswer: To scale from 2 loaves to 5 loaves, multiply each ingredient by 2.5. Flour: 1250 g, Water: 875 g, Salt: 25 g, Instant yeast: 17.5 g. Then output the lines.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 84,
+      "completion_tokens": 314,
+      "total_tokens": 398,
+      "cost": 0.0004831632,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0004831632,
+        "upstream_inference_prompt_cost": 0.0000570024,
+        "upstream_inference_completions_cost": 0.0004261608
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 260,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 84,
+  "tokensOut": 314,
+  "costUsd": 0.0004831632,
+  "latencyMs": 16601,
+  "finishReason": "stop"
+}

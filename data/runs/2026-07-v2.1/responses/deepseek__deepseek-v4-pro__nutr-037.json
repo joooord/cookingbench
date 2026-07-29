@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-037",
+  "answerText": "A large peeled banana (120 g) provides roughly 107 kilocalories, based on the average of 89 kcal per 100 g.\nAnswer: 107 kcal",
+  "raw": {
+    "id": "gen-1785347364-BKZ4dmIwHypbmXE5xTLl",
+    "object": "chat.completion",
+    "created": 1785347364,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "A large peeled banana (120 g) provides roughly 107 kilocalories, based on the average of 89 kcal per 100 g.\nAnswer: 107 kcal",
+          "refusal": null,
+          "reasoning": "We are asked: \"Estimate the kilocalories in a large banana weighing 120 g peeled.\" So we need to provide the estimated calories for a peeled large banana of that weight. A typical large banana might be around 120g with peel? But the prompt says \"weighing 120 g peeled\", so it's the edible portion. Bananas have about 89 kcal per 100g according to USDA. So 120g * 89 kcal/100g = 106.8 kcal. Or roughly 105-110. I'll compute precisely: 89 * 1.2 = 106.8. So estimate: approximately 107 kcal. I'll round to nearest whole number. So answer: 107 kcal. But I should say \"Answer: 107 kcal\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Estimate the kilocalories in a large banana weighing 120 g peeled.\" So we need to provide the estimated calories for a peeled large banana of that weight. A typical large banana might be around 120g with peel? But the prompt says \"weighing 120 g peeled\", so it's the edible portion. Bananas have about 89 kcal per 100g according to USDA. So 120g * 89 kcal/100g = 106.8 kcal. Or roughly 105-110. I'll compute precisely: 89 * 1.2 = 106.8. So estimate: approximately 107 kcal. I'll round to nearest whole number. So answer: 107 kcal. But I should say \"Answer: 107 kcal\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 50,
+      "completion_tokens": 199,
+      "total_tokens": 249,
+      "cost": 0.0002801344,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002801344,
+        "upstream_inference_prompt_cost": 0.000031265,
+        "upstream_inference_completions_cost": 0.0002488694
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 163,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 50,
+  "tokensOut": 199,
+  "costUsd": 0.0002801344,
+  "latencyMs": 4816,
+  "finishReason": "stop"
+}

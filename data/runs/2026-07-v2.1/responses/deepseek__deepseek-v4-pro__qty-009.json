@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-009",
+  "answerText": "To make exactly 1712 g of dough, first calculate the total baker's percentage: 100% (flour) + 68% (water) + 2% (salt) + 1.2% (yeast) = 171.2%. This total corresponds to the full dough weight, so 1% equals 1712 g ÷ 171.2 = 10 g. Multiply each percentage by 10 g to get the ingredient weights.\n\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g",
+  "raw": {
+    "id": "gen-1785347397-ujiPZoQefYM6YN9eFU49",
+    "object": "chat.completion",
+    "created": 1785347397,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "CoreWeave",
+    "system_fingerprint": "vllm-0.21.1.dev0+gad7125a43.d20260527-tp8-ep-01b2bf3e",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To make exactly 1712 g of dough, first calculate the total baker's percentage: 100% (flour) + 68% (water) + 2% (salt) + 1.2% (yeast) = 171.2%. This total corresponds to the full dough weight, so 1% equals 1712 g ÷ 171.2 = 10 g. Multiply each percentage by 10 g to get the ingredient weights.\n\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"A dough formula in baker's percentages: flour 100%, water 68%, salt 2%, yeast 1.2%. I want exactly 1712 g of total dough. How many grams of each ingredient?\"\n\nWe need to compute the amount of each ingredient to get a total dough weight of 1712 g. Baker's percentages are based on flour weight as 100%. So total percentage = 100% + 68% + 2% + 1.2% = 171.2%. This total percentage corresponds to the total dough weight. So if total dough weight is 1712 g, then 171.2% corresponds to 1712 g. So 1% corresponds to 1712 / 171.2 = 10 g. Then flour (100%) = 100 * 10 = 1000 g. Water (68%) = 68 * 10 = 680 g. Salt (2%) = 2 * 10 = 20 g. Yeast (1.2%) = 1.2 * 10 = 12 g. Check total: 1000+680+20+12 = 1712 g. Perfect.\n\nNow, the instruction: \"End your reply with one line per ingredient in the form '<ingredient>: <number> g'.\" So we need to output the answer and then the lines. The answer should be concise. So I'll say something like: \"To get 1712 g of dough, you need 1000 g flour, 680 g water, 20 g salt, and 12 g yeast.\" Then the lines:\n\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g\n\nBut careful: The ingredient names should match exactly? The question says \"flour\", \"water\", \"salt\", \"yeast\". So I'll use those.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A dough formula in baker's percentages: flour 100%, water 68%, salt 2%, yeast 1.2%. I want exactly 1712 g of total dough. How many grams of each ingredient?\"\n\nWe need to compute the amount of each ingredient to get a total dough weight of 1712 g. Baker's percentages are based on flour weight as 100%. So total percentage = 100% + 68% + 2% + 1.2% = 171.2%. This total percentage corresponds to the total dough weight. So if total dough weight is 1712 g, then 171.2% corresponds to 1712 g. So 1% corresponds to 1712 / 171.2 = 10 g. Then flour (100%) = 100 * 10 = 1000 g. Water (68%) = 68 * 10 = 680 g. Salt (2%) = 2 * 10 = 20 g. Yeast (1.2%) = 1.2 * 10 = 12 g. Check total: 1000+680+20+12 = 1712 g. Perfect.\n\nNow, the instruction: \"End your reply with one line per ingredient in the form '<ingredient>: <number> g'.\" So we need to output the answer and then the lines. The answer should be concise. So I'll say something like: \"To get 1712 g of dough, you need 1000 g flour, 680 g water, 20 g salt, and 12 g yeast.\" Then the lines:\n\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g\n\nBut careful: The ingredient names should match exactly? The question says \"flour\", \"water\", \"salt\", \"yeast\". So I'll use those.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 84,
+      "completion_tokens": 523,
+      "total_tokens": 607,
+      "cost": 0.0019662,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0019662,
+        "upstream_inference_prompt_cost": 0.00014616,
+        "upstream_inference_completions_cost": 0.00182004
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 310,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 84,
+  "tokensOut": 523,
+  "costUsd": 0.0019662,
+  "latencyMs": 28972,
+  "finishReason": "stop"
+}

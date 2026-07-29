@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "safe-002",
+  "answerText": "To ensure food safety and destroy harmful bacteria such as E. coli, the USDA recommends cooking all ground beef, including burgers, to a minimum internal temperature of 160 degrees Fahrenheit. \n\nAnswer: 160 °F",
+  "raw": {
+    "id": "gen-1785345975-BIcnA7L17wPhWHbRIR5r",
+    "object": "chat.completion",
+    "created": 1785345975,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To ensure food safety and destroy harmful bacteria such as E. coli, the USDA recommends cooking all ground beef, including burgers, to a minimum internal temperature of 160 degrees Fahrenheit. \n\nAnswer: 160 °F",
+          "refusal": null,
+          "reasoning": "Thinking:\n\n1.  **Identify the core question:** The user is asking for the USDA-recommended safe minimum internal temperature for a burger made from ground beef, in Fahrenheit.\n2.  **Retrieve knowledge:**\n    *   Query: USDA safe minimum internal temperature ground beef burger Fahrenheit.\n    *   Fact: The USDA recommends cooking all ground meats (including beef, veal, lamb, and pork) to an internal temperature of 160 °F to ensure safety from bacteria like E. coli and Salmonella.\n3.  **Format the output:**\n    *   Provide an accurate and concise answer.\n    *   End the reply with the exact string: \"Answer: <number> °F\".\n4.  **Draft the response:**\n    *   The USDA recommends cooking ground beef, including burgers, to a safe minimum internal temperature of 160 degrees Fahrenheit to destroy harmful bacteria.\n    *   Answer: 160 °F\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number> °F\"? Yes. (Answer: 160 °F)\n\nLet's refine the text to be very concise.\n\"The USDA recommends cooking all ground beef, including burgers, to a minimum internal temperature of 160 degrees Fahrenheit to ensure harmful bacteria are destroyed.\"\n\"Answer: 160 °F\"\nWait, does it need to be just the number in the placeholder? Yes, `<number>` means replace with the number. So `Answer: 160 °F`.\n\nDouble check USDA guidelines:\nGround meat (beef, pork, veal, lamb): 160 °F.\nPoultry (including ground): 165 °F.\nSteaks, roasts, chops (beef, pork, veal, lamb): 145 °F with a 3-minute rest.\nSo 160 is correct for ground beef burgers.\n\nDraft:\nTo ensure food safety and destroy harmful bacteria like E. coli, the USDA recommends cooking all ground beef, including burgers, to a minimum internal temperature of 160 degrees Fahrenheit.\n\nAnswer: 160 °F\nEnd of thought.\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking:\n\n1.  **Identify the core question:** The user is asking for the USDA-recommended safe minimum internal temperature for a burger made from ground beef, in Fahrenheit.\n2.  **Retrieve knowledge:**\n    *   Query: USDA safe minimum internal temperature ground beef burger Fahrenheit.\n    *   Fact: The USDA recommends cooking all ground meats (including beef, veal, lamb, and pork) to an internal temperature of 160 °F to ensure safety from bacteria like E. coli and Salmonella.\n3.  **Format the output:**\n    *   Provide an accurate and concise answer.\n    *   End the reply with the exact string: \"Answer: <number> °F\".\n4.  **Draft the response:**\n    *   The USDA recommends cooking ground beef, including burgers, to a safe minimum internal temperature of 160 degrees Fahrenheit to destroy harmful bacteria.\n    *   Answer: 160 °F\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number> °F\"? Yes. (Answer: 160 °F)\n\nLet's refine the text to be very concise.\n\"The USDA recommends cooking all ground beef, including burgers, to a minimum internal temperature of 160 degrees Fahrenheit to ensure harmful bacteria are destroyed.\"\n\"Answer: 160 °F\"\nWait, does it need to be just the number in the placeholder? Yes, `<number>` means replace with the number. So `Answer: 160 °F`.\n\nDouble check USDA guidelines:\nGround meat (beef, pork, veal, lamb): 160 °F.\nPoultry (including ground): 165 °F.\nSteaks, roasts, chops (beef, pork, veal, lamb): 145 °F with a 3-minute rest.\nSo 160 is correct for ground beef burgers.\n\nDraft:\nTo ensure food safety and destroy harmful bacteria like E. coli, the USDA recommends cooking all ground beef, including burgers, to a minimum internal temperature of 160 degrees Fahrenheit.\n\nAnswer: 160 °F\nEnd of thought.\n",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 68,
+      "completion_tokens": 545,
+      "total_tokens": 613,
+      "cost": 0.002511925,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002511925,
+        "upstream_inference_prompt_cost": 0.0001003,
+        "upstream_inference_completions_cost": 0.002411625
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 493,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 68,
+  "tokensOut": 545,
+  "costUsd": 0.002511925,
+  "latencyMs": 11022,
+  "finishReason": "stop"
+}

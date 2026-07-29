@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "qty-002",
+  "answerText": "The recipe must be scaled by the factor \\(4/6 = 2/3\\).\n\n\\[\n450 \\times \\frac{2}{3} = 300\n\\]\n\nAnswer: 300 g",
+  "raw": {
+    "id": "gen-1785345394-CpZu8nw9I68vgyjfw53k",
+    "object": "chat.completion",
+    "created": 1785345394,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The recipe must be scaled by the factor \\(4/6 = 2/3\\).\n\n\\[\n450 \\times \\frac{2}{3} = 300\n\\]\n\nAnswer: 300 g",
+          "refusal": null,
+          "reasoning": "The problem is: A pilaf recipe serves 6 and calls for 450 g of basmati rice. How much rice do I need to serve 4, keeping everything in proportion?\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem is: A pilaf recipe serves 6 and calls for 450 g of basmati rice. How much rice do I need to serve 4, keeping everything in proportion?\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "O2RHkAw3memz/9fyd0D5IxjXlUeHL+dr9yLKpTCDb0H9ZMICa81ubaxSmdOmuL/9JMu8QY+7N9LcdBr4d0hw9uUbUw2SqXXmwNcsmcMFdBUf4egyS3td5532oHwfX3/OHMfd95A6/3vKupHkPR0JUc8oo5HIl/6zaC+HFeBIAOuytWU2jru8B+OftzmEyIt8aaN493o8OMBB0octzCMC5ycVy/ltZCt15StpDWoluHFcai33d3DzNLdCXb4gkX4WWKDgWXlD6NQhDGartS7Z9TT+L4QU6KhABIzVLHPXdCF1gHkE07m/hYQJv4NwPaRV8aOf1mgmRTemN3yL/tJTZ9MDsziQnTn+5B/2NSiGP/SZHuwW6kz8sSsmoqutbQDYryq3PnH+xo5Yww2ut+mepmqdFNdNOQ0SjfjaQvzEEdfxTjTI4qL4ihdlcWp5kpw/VUC3hsZiQfstKbNGj4m7DHmUv+KRjLt+PSg24Hk",
+              "format": "xai-responses-v1",
+              "id": "rs_ecfd837d-de68-9bba-a7e4-ba653a51212c",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 272,
+      "completion_tokens": 161,
+      "total_tokens": 433,
+      "cost": 0.0012924,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0012924,
+        "upstream_inference_prompt_cost": 0.0003264,
+        "upstream_inference_completions_cost": 0.000966
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 117,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 272,
+  "tokensOut": 161,
+  "costUsd": 0.0012924,
+  "latencyMs": 2557,
+  "finishReason": "stop"
+}

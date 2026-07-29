@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "safe-009",
+  "answerText": "Raw ground beef is highly perishable due to its increased surface area.  \nPer USDA food-safety guidelines, it should be cooked or frozen within 1–2 days of refrigerated storage at ≤40 °F (4 °C).  \n\nAnswer: 2 days",
+  "raw": {
+    "id": "gen-1785345304-YX2MdAGxb2KX3VpKH1uN",
+    "object": "chat.completion",
+    "created": 1785345304,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Raw ground beef is highly perishable due to its increased surface area.  \nPer USDA food-safety guidelines, it should be cooked or frozen within 1–2 days of refrigerated storage at ≤40 °F (4 °C).  \n\nAnswer: 2 days",
+          "refusal": null,
+          "reasoning": "The question is: \"Roughly how many days can raw ground beef be safely stored in the refrigerator at or below 40°F (4°C) before cooking or freezing?\"\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"Roughly how many days can raw ground beef be safely stored in the refrigerator at or below 40°F (4°C) before cooking or freezing?\"\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "eAW1/kdWpmz2t0o8g9ECpqXlK5y6+Rp/Z1/OZnilZv4qNESQrm4LNa02jzOJrWLVgTRZTj9AxnhN+3EFNN7q1KtphZNoGUAfp901t02/AhTbKBkjyg6RqKqyxvMoT+PKa/OEYlWpQEy+xu9jgkxeiAy+CowuK7uyppKDvPhbwFbzkbL3aCzgqX/AoneUgIX3Yp1Tz/idlQI1CB2QWfWJvOcSnlyidqn7BbUspC1VhGH/M8UpeFVhKSGmhR5qa2DK5u/6RhziZKU8XxLSCP20TID9mmFtqE9nx62YuwMdRhoqbihozOvxGIW9a3byk75dQp+8SQGWEMZ3b9mEJsdGf8uOmZ338TCNPnlhOVG9UDNPym2vjCBNtsN6TSvg15Tz2vCV8kUGILWG/yasap9W6h3yLt6CK9E05suicLiI0K9XowYAXg6W3mCi6SWbt4+uHbRT01Ql7bv18whFxw8M89pHv2daloidxRuvHJH6GwPrnlG/mXKjENFyAZUoN5kcR4thGiDkgf7MPFeIG2FIyPi/7G6zmnosZGkDTskZQja7/ZQHuBJDsFeOYRlYe0W9S58ke/LX3I6+QS00d2LJjXnN7YGiN6kswy/XmtnriRyIuwKzqsuPTD40lFRTBvX8G+QJV9JcWou4W5H3Vpxb62aLENqlIXDkeHnRT93JnfVN6HtSWMUohBfYc9Vjn6WgaV3Y1wD+29JYxmG49PHa2vyVrDiShUubclxYZIGF7SBltRUNrY94bfyhQrT55MvdNsmH/g/5SZcthUVTB9GTsqr0VY+TxeYQC/IByDJKVs0td0KSZsXrrhEVJbYHSA0bspTFz8LckZ+f9tYQIEe+Nxd0FpMeYt1WVegI1A8cmig3Sl2pHXZmeMUqns05MqjWO1a+JC2dCJWHnpWeh1hXQhlodNELcSkyycL53j0EF+b446/DLya7Xtj/g6PEAj1HYng0tw5lw9AmxBQ+9eag2XnREuDS/ngzVHRooJXygmkFZfCGdlquP6knsdwfG242Bm1RM0EJoYPkB+tCfNBR",
+              "format": "xai-responses-v1",
+              "id": "rs_3ca22dff-a505-95e4-8474-ed8f1600ec4b",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 270,
+      "completion_tokens": 254,
+      "total_tokens": 524,
+      "cost": 0.0018464,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0018464,
+        "upstream_inference_prompt_cost": 0.0003224,
+        "upstream_inference_completions_cost": 0.001524
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 201,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 270,
+  "tokensOut": 254,
+  "costUsd": 0.0018464,
+  "latencyMs": 4006,
+  "finishReason": "stop"
+}

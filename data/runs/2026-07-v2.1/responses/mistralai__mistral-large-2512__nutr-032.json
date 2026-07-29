@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "nutr-032",
+  "answerText": "To get 45 g of protein from cooked chicken breast:\n1. First, find how many grams of cooked chicken provide 45 g protein:\n   45 g protein ÷ (31 g protein / 100 g cooked) = 145.16 g cooked chicken.\n2. Since cooking reduces weight by 25 %, raw weight is 100 / 75 = 1.333× cooked weight.\n3. 145.16 g cooked × 1.333 ≈ 193.5 g raw.\n\nAnswer: 194 g",
+  "raw": {
+    "id": "gen-1785348043-Ov4o7ZCj9DmYrhUMHaHG",
+    "object": "chat.completion",
+    "created": 1785348043,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To get 45 g of protein from cooked chicken breast:\n1. First, find how many grams of cooked chicken provide 45 g protein:\n   45 g protein ÷ (31 g protein / 100 g cooked) = 145.16 g cooked chicken.\n2. Since cooking reduces weight by 25 %, raw weight is 100 / 75 = 1.333× cooked weight.\n3. 145.16 g cooked × 1.333 ≈ 193.5 g raw.\n\nAnswer: 194 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 99,
+      "completion_tokens": 133,
+      "total_tokens": 232,
+      "cost": 0.0002418,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 16,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002418,
+        "upstream_inference_prompt_cost": 0.0000423,
+        "upstream_inference_completions_cost": 0.0001995
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 99,
+  "tokensOut": 133,
+  "costUsd": 0.0002418,
+  "latencyMs": 2319,
+  "finishReason": "stop"
+}

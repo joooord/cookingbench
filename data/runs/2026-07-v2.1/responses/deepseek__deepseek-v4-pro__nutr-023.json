@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-023",
+  "answerText": "Raw beef sirloin steak (lean, fat trimmed) provides roughly 22 g of protein and 6 g of fat per 100 g.\nProtein: 22 g\nFat: 6 g",
+  "raw": {
+    "id": "gen-1785347320-41DNxRaCQUUvc4tIRJCg",
+    "object": "chat.completion",
+    "created": 1785347320,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "AtlasCloud",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Raw beef sirloin steak (lean, fat trimmed) provides roughly 22 g of protein and 6 g of fat per 100 g.\nProtein: 22 g\nFat: 6 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"Per 100 g, roughly how much protein and how much fat does raw beef sirloin steak (lean, fat trimmed) contain? Give both.\"\n\nWe need to provide the nutritional values for raw beef sirloin steak, lean only, fat trimmed, per 100g. I recall typical values: lean beef sirloin, raw, trimmed of fat, has about 20-22g protein and 5-7g fat per 100g. But I should be accurate. Let's think: USDA data for beef, top sirloin, separable lean only, trimmed to 0\" fat, raw. According to USDA, 100g raw top sirloin (lean only) has about 21.8g protein, 5.59g fat, and 137 calories. Another source might say 21g protein, 6g fat. So roughly, protein: 22g, fat: 6g. But the question says \"roughly\", so I can give approximate numbers. I'll go with 22g protein and 6g fat per 100g. I'll respond concisely then end with the required lines.\n\nAnswer: Raw beef sirloin steak (lean, fat trimmed) provides roughly 22 g of protein and 6 g of fat per 100 g.\nProtein: 22 g\nFat: 6 g",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Per 100 g, roughly how much protein and how much fat does raw beef sirloin steak (lean, fat trimmed) contain? Give both.\"\n\nWe need to provide the nutritional values for raw beef sirloin steak, lean only, fat trimmed, per 100g. I recall typical values: lean beef sirloin, raw, trimmed of fat, has about 20-22g protein and 5-7g fat per 100g. But I should be accurate. Let's think: USDA data for beef, top sirloin, separable lean only, trimmed to 0\" fat, raw. According to USDA, 100g raw top sirloin (lean only) has about 21.8g protein, 5.59g fat, and 137 calories. Another source might say 21g protein, 6g fat. So roughly, protein: 22g, fat: 6g. But the question says \"roughly\", so I can give approximate numbers. I'll go with 22g protein and 6g fat per 100g. I'll respond concisely then end with the required lines.\n\nAnswer: Raw beef sirloin steak (lean, fat trimmed) provides roughly 22 g of protein and 6 g of fat per 100 g.\nProtein: 22 g\nFat: 6 g",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 73,
+      "completion_tokens": 329,
+      "total_tokens": 402,
+      "cost": 0.00123466,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00123466,
+        "upstream_inference_prompt_cost": 0.00012264,
+        "upstream_inference_completions_cost": 0.00111202
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 287,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 73,
+  "tokensOut": 329,
+  "costUsd": 0.00123466,
+  "latencyMs": 7770,
+  "finishReason": "stop"
+}

@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "nutr-032",
+  "answerText": "The cooked chicken provides 31 g protein per 100 g, so 45 g protein requires  \n\\[\n\\frac{45}{31}\\times 100\\approx 145.16\\,\\text{g of cooked chicken}.\n\\]\n\nBreast meat loses 25 % of its weight on cooking, therefore the cooked weight is 75 % of the raw weight.  \nSolving for the required raw weight gives  \n\\[\n\\frac{145.16}{0.75}\\approx 193.55\\,\\text{g},\n\\]  \nwhich rounds to roughly 194 g.\n\nAnswer: 194 g",
+  "raw": {
+    "id": "gen-1785345368-7BFwEGh3ysRnL2BMhVlJ",
+    "object": "chat.completion",
+    "created": 1785345368,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The cooked chicken provides 31 g protein per 100 g, so 45 g protein requires  \n\\[\n\\frac{45}{31}\\times 100\\approx 145.16\\,\\text{g of cooked chicken}.\n\\]\n\nBreast meat loses 25 % of its weight on cooking, therefore the cooked weight is 75 % of the raw weight.  \nSolving for the required raw weight gives  \n\\[\n\\frac{145.16}{0.75}\\approx 193.55\\,\\text{g},\n\\]  \nwhich rounds to roughly 194 g.\n\nAnswer: 194 g",
+          "refusal": null,
+          "reasoning": "The problem states: Cooked chicken breast has roughly 31 g of protein per 100 g, and breast meat loses about 25% of its weight from raw to cooked. I want 45 g of protein from tonight's chicken. Roughl...To get 45 g of protein, you need about 145 g of cooked chicken (since 31 g protein per 100 g cooked).",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem states: Cooked chicken breast has roughly 31 g of protein per 100 g, and breast meat loses about 25% of its weight from raw to cooked. I want 45 g of protein from tonight's chicken. Roughl...To get 45 g of protein, you need about 145 g of cooked chicken (since 31 g protein per 100 g cooked).",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_5c1f7b2f-4e96-91c3-8be7-9ea03604cebc",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 297,
+      "completion_tokens": 609,
+      "total_tokens": 906,
+      "cost": 0.0040304,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0040304,
+        "upstream_inference_prompt_cost": 0.0003764,
+        "upstream_inference_completions_cost": 0.003654
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 488,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 297,
+  "tokensOut": 609,
+  "costUsd": 0.0040304,
+  "latencyMs": 10302,
+  "finishReason": "stop"
+}

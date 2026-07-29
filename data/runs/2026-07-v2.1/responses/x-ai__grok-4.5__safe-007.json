@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "safe-007",
+  "answerText": "The USDA recommends cooking fish to a safe minimum internal temperature of 145°F (measured with a food thermometer at the thickest part).\n\nAnswer: 145 °F",
+  "raw": {
+    "id": "gen-1785345301-ZHo8gwz9Zvd2cZLmzbcj",
+    "object": "chat.completion",
+    "created": 1785345301,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA recommends cooking fish to a safe minimum internal temperature of 145°F (measured with a food thermometer at the thickest part).\n\nAnswer: 145 °F",
+          "refusal": null,
+          "reasoning": "The question is: \"What is the USDA safe minimum internal temperature for cooked fish, in Fahrenheit?\" I need to answer accurately and concisely, ending with \"Answer: <number> °F\".\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"What is the USDA safe minimum internal temperature for cooked fish, in Fahrenheit?\" I need to answer accurately and concisely, ending with \"Answer: <number> °F\".\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "0WB0yROqokfefJJnCnxthNtUd5a8PZWWGSvFVPh3FFJ+NEDrgE8J/m8QDh58klMpVFPNSKdxdbQS4Zl1nnHe1JmQU7HCRdIuT22wU+u1itviTvHM7PoRSoXSt6I2OQsURtcmCQe+dbMicdTARYtxJ/+q7kDMaENpl5/RzywqZjt+VjLONtyp9qU5gyx5VStRt1HpATvZv1nyDnpE1RVtNx83Xeb+JqOHza94MSo9r6r322ODLJAvhdlf96M6UieuebyzaVsWP97gZ67NVkNOLjjt/y54yCM+2R8+Wr45t+M4EAiFTUHcK0ViMZXhcHv2V6WNJ6loEBTAWqcd3cw+AtTVXlIP6491qUXG6yiLEESDMFFg1PqrvDPmITQg+ZFIxaZC6lji5alVCWyNm5BKiD6dPoNQb5U7CG+BWx/gFa0/9z1rgeuKD7tP62mm71hAO0upaT+npg2toWAGfmRnP3HidkyqJX5VfQ09dOqXLX4C1UKWhuUH+x4P83SJ64o5Ue3VMmhefUME96V9fAdEgEqzlIJ6xG6fbe4+0JvI8ORsZHd40iKiTMlQCRuM1dBB0dC/BlYRWLPMuFfnQqZoozjNerTjbMaxFSid4qf+74EVem4qr+ga+J/4kQruYZWpvmPiTIfGGdFA/EF3N5lHjDMGnkLqi8cDhs7zUCSSmSZEoM0+i1HWh4ZXgktbT/xhawK3U3CDcCIzJzY1zLEewmGBLaiDotEi+m3V5CsooYgIFzyUkoFTKWgxnHKLMZ4vvT60v18zspuG1QmUSOrEFNRj",
+              "format": "xai-responses-v1",
+              "id": "rs_8ad59a1e-7e9a-9751-9439-495f231bdd7a",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 254,
+      "completion_tokens": 185,
+      "total_tokens": 439,
+      "cost": 0.0014004,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0014004,
+        "upstream_inference_prompt_cost": 0.0002904,
+        "upstream_inference_completions_cost": 0.00111
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 150,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 254,
+  "tokensOut": 185,
+  "costUsd": 0.0014004,
+  "latencyMs": 3565,
+  "finishReason": "stop"
+}

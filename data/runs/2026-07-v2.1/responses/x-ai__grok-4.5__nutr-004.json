@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "nutr-004",
+  "answerText": "Fat provides 9 kcal per gram.  \n\\[13.5\\,\\mathrm{g}\\times9\\,\\mathrm{kcal/g}=121.5\\,\\mathrm{kcal}\\approx120\\,\\mathrm{kcal}.\\]\n\nAnswer: 120 kcal",
+  "raw": {
+    "id": "gen-1785345335-HSPHPx2oas4QMn1J8okL",
+    "object": "chat.completion",
+    "created": 1785345335,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Fat provides 9 kcal per gram.  \n\\[13.5\\,\\mathrm{g}\\times9\\,\\mathrm{kcal/g}=121.5\\,\\mathrm{kcal}\\approx120\\,\\mathrm{kcal}.\\]\n\nAnswer: 120 kcal",
+          "refusal": null,
+          "reasoning": "The question is: \"One tablespoon of olive oil weighs about 13.5 g and is essentially 100% fat. Roughly how many kilocalories does it contain?\"\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"One tablespoon of olive oil weighs about 13.5 g and is essentially 100% fat. Roughly how many kilocalories does it contain?\"\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "x2weutGK7+igyppdpDvldlyu1Nu6bYDuD+mwBQm0na799nPr3C3e0vshDoWHTUrE7H7WZRuuucfWEPFuBRxvvUqWKIrDIdnuxDJif5w6VuFUw5Ut3hDu0eTZ4D8ZusrBpZm4fwvDKk2Ma9roS7SIUZRFf5t+cpAjVV0kkfucnT2a/cpHWIH9kTWZx/tSh90c8VL+nLbg/VJR5yj0m9Hy4LPFNliYrbfSNDe968/CoO7Q5PFM9mx/1DPl4R2EjTFZUFeDfw+Yl1SbSlJBf2yXKk5WI1BHDKeONUTo254frtsRAFp9+s5DPzKLl5ZbGWKVukJetiQ0VmquvUPIJrJdK62A5k/KlDURxlpz18pej8tG7sIdppFCvG3dVcg3vYwEnbZDYGfnNMk+zuyRzoPYmpB/Mtw6V1dXxlD6aZcEg6XjJFyDjNIGQKi0xVYYfcKlKVH+42IEYEk/dZVQDRQmNz5xQLCd6OolBrvYbIZns5k2j1hHgsDnemCXAyh2Q7slKlwAkLTDkzu8kKZxhw",
+              "format": "xai-responses-v1",
+              "id": "rs_cfc47117-dbc9-9ac6-891c-3e34f12794c8",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 269,
+      "completion_tokens": 156,
+      "total_tokens": 425,
+      "cost": 0.0012564,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0012564,
+        "upstream_inference_prompt_cost": 0.0003204,
+        "upstream_inference_completions_cost": 0.000936
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 107,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 269,
+  "tokensOut": 156,
+  "costUsd": 0.0012564,
+  "latencyMs": 2794,
+  "finishReason": "stop"
+}

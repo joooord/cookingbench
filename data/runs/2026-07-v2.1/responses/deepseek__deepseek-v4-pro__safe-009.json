@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "safe-009",
+  "answerText": "Raw ground beef can be safely refrigerated for 1 to 2 days at or below 40°F (4°C) before cooking or freezing.  \nAnswer: 2 days",
+  "raw": {
+    "id": "gen-1785347219-ZzbysJVt48Xf7kxiKddE",
+    "object": "chat.completion",
+    "created": 1785347219,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Raw ground beef can be safely refrigerated for 1 to 2 days at or below 40°F (4°C) before cooking or freezing.  \nAnswer: 2 days",
+          "refusal": null,
+          "reasoning": "We are asked: \"Roughly how many days can raw ground beef be safely stored in the refrigerator at or below 40°F (4°C) before cooking or freezing?\" This is a food safety question. According to USDA guidelines, raw ground beef can be stored in the refrigerator (40°F or below) for 1-2 days. So the answer is 1 to 2 days. The instruction says: \"End your reply with a line 'Answer: <number> days'.\" So I need to output a number. Since it says \"roughly how many days\", I'll give the typical maximum: 2 days. But the safe range is 1-2 days. I'll answer 2 days as the maximum. I'll say: \"Answer: 2 days\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Roughly how many days can raw ground beef be safely stored in the refrigerator at or below 40°F (4°C) before cooking or freezing?\" This is a food safety question. According to USDA guidelines, raw ground beef can be stored in the refrigerator (40°F or below) for 1-2 days. So the answer is 1 to 2 days. The instruction says: \"End your reply with a line 'Answer: <number> days'.\" So I need to output a number. Since it says \"roughly how many days\", I'll give the typical maximum: 2 days. But the safe range is 1-2 days. I'll answer 2 days as the maximum. I'll say: \"Answer: 2 days\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 67,
+      "completion_tokens": 205,
+      "total_tokens": 272,
+      "cost": 0.0005817,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 32,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0005817,
+        "upstream_inference_prompt_cost": 0.0000487,
+        "upstream_inference_completions_cost": 0.000533
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 151,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 67,
+  "tokensOut": 205,
+  "costUsd": 0.0005817,
+  "latencyMs": 1870,
+  "finishReason": "stop"
+}

@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "safe-013",
+  "answerText": "**No, it is not safe to serve yet.**\n\nUSDA/FSIS guidance requires that **stuffing cooked inside a turkey must also reach a full 165°F** in the center (measured with a food thermometer). The turkey breast hitting 165°F is necessary but not sufficient when stuffing is present—the stuffing lags and can harbor bacteria (from the raw bird or incomplete heating) until it too hits 165°F.\n\n- Continue roasting until the **stuffing probe reads 165°F**. Check the innermost part of the stuffing and also the thickest parts of the thigh/wing as a cross-check (all should be ≥165°F).\n- Do not rely on color, juices, or pop-up timers alone.\n- If the breast is already done and you’re worried about drying, you can tent it loosely with foil while the stuffing finishes, or (safer long-term practice) cook stuffing separately in a casserole.\n\nServing now at 150°F stuffing temperature risks foodborne illness. The extra time is required for safety.",
+  "raw": {
+    "id": "gen-1785345308-Rj1CyKkiWq9aLYXsJh11",
+    "object": "chat.completion",
+    "created": 1785345308,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "**No, it is not safe to serve yet.**\n\nUSDA/FSIS guidance requires that **stuffing cooked inside a turkey must also reach a full 165°F** in the center (measured with a food thermometer). The turkey breast hitting 165°F is necessary but not sufficient when stuffing is present—the stuffing lags and can harbor bacteria (from the raw bird or incomplete heating) until it too hits 165°F.\n\n- Continue roasting until the **stuffing probe reads 165°F**. Check the innermost part of the stuffing and also the thickest parts of the thigh/wing as a cross-check (all should be ≥165°F).\n- Do not rely on color, juices, or pop-up timers alone.\n- If the breast is already done and you’re worried about drying, you can tent it loosely with foil while the stuffing finishes, or (safer long-term practice) cook stuffing separately in a casserole.\n\nServing now at 150°F stuffing temperature risks foodborne illness. The extra time is required for safety.",
+          "refusal": null,
+          "reasoning": "The question is: My roast turkey's breast meat reads 165°F but the probe in the stuffing inside the cavity reads only 150°F. The family is hungry — is it safe to serve now? What does the guidance say?...",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: My roast turkey's breast meat reads 165°F but the probe in the stuffing inside the cavity reads only 150°F. The family is hungry — is it safe to serve now? What does the guidance say?...",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "OGl/Nqf0CDgmlK5llsTw6Zby/i3wGJcp1odYXo77KIs9DY4VKcG7hOiIRboAMuHtEQov+pWmcZ8OvHaDpz3wrjDlkv1zEI7ZIB01ZvCtqL3HqyODEGlJ8ANmYfG9TKGmlRxe3F5LwVcISrmz7Hkfo+mjkntO2uLr7TypRo0EVN/a/f7XpVffamf4PVlVoq9vochPQxBR5CqWP3f8JKAop82R5Re93fmlupl+LRvqNjb9W4+dJTI4HfdgUxkWkrT4bDM0OyUJ7jS7Ca5Poba9qT/1VlW6klYSUEQQo7cIwmOx5e1j+w+35ubndXYdb0Qb7Ciy2J78Ex3syULZ3eQfrt7Q4s//qp5838VC1XZHAACoGZBuWAYguk4GMsjc9aGXsSUtgXorhZ+YzJQP//0MUk70xRvcvVZ3GdyKWVlrlehGBK4U4dpuaVChFpVwqPsVn1PqxNjepHYmhNcKyqN1wOWYlp/kFIEtKyg5o7RAFyJ8oKMoxYEY0r1OJ38LnA0VpH/ZAjXnkfqdnrUvNPm6gBuK4ZTkPlB0KTltEVq4eZHnolmG6hbaWRx4PhmJzuYUpDTGIM7Xk4uuHsNDUHAndJnQ4KW72hPrHqQf4miD+lIDx8bt6/UTk9EflnSz9sWVR5QlKCEy6oMV06QzeJ7rcwZgPlTYLXiFu2q77nFWmSQiMYrLf/gOpnXemBVuKAEQQwUFuscfwd2CCmEMCKGPEdm6hlNcHqGITu+mTy2Stu/JRlCOiE43RRYuczJ647tqlH8nq8ChjKKMDsNPDp4e4FmfQYgYnOBxdy2pb+tqRGB7vPGILIubt3iWxgOM1c87LbIQycKhgw35YKe+FT1RJ97uJ+zacl5QyBvsmi+svGI5/VAsrhiEnso233/bF/CLQ8fxZs37YUwS4NTIsJ6/bhilrCqWP2STd5rBClPm+WEVJAVMnMJvI42GKYq6L+jdt/VTsTgmv6ITWdgksoFOe340yDQySJSGEyCbwyw9QtKtUXS+PfE42YgMBHxK7c5dzLFl0dKcPbs0bNddXwGQ+aZaDwu4GBfxfu5IKWUi/Oa6idUQ3tnmw0C6M4DlUTF8uILk10E+sfEGwuI+Vo27cAYPWYIYcTgt9utkWumMRLLyprF6Rjv/H9X+PrB3seYyE/SfmneLUauZA7KqTrKBwqb8jYCwftVfaxLLqbXhABr7BAnizqDWVLYbuxmjFLMOwpz+Ct1ZgFc9ZA5/nIimnGV5+5ON+ek6rMxVn8gXKXLSuzbcGPmQP/PeJ/t5LCMsurbNBhhxgsCF1tn/nyiYc0/tpuXh9Q7pb7+ucOq/VrefIqQX1dxVUuknaAOw+xNEzHUtpc7IBuU5hidrw/U5xln44crtRKWb9Ym6RmrMq/HRa45kGNffn68fvXcM8B1ojZI+gXzLSUlKxyGtSYPVB16/MeJjmikRI0YJGkKknE/90Lb9Pjy0RMpKbvadDsQ",
+              "format": "xai-responses-v1",
+              "id": "rs_13a8be9c-82f8-9978-b25d-91227e1e2399",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 269,
+      "completion_tokens": 462,
+      "total_tokens": 731,
+      "cost": 0.0030924,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0030924,
+        "upstream_inference_prompt_cost": 0.0003204,
+        "upstream_inference_completions_cost": 0.002772
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 246,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 269,
+  "tokensOut": 462,
+  "costUsd": 0.0030924,
+  "latencyMs": 9966,
+  "finishReason": "stop"
+}

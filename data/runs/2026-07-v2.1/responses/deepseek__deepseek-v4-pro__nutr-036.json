@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-036",
+  "answerText": "A typical 12-inch takeaway margherita pizza with standard crust usually contains around 2000–2200 kilocalories for the whole pizza, based on common pizzeria portions (8 slices, ~250–275 kcal per slice). This accounts for the dough, mozzarella, tomato sauce, and a drizzle of olive oil.\n\nAnswer: 2100 kcal",
+  "raw": {
+    "id": "gen-1785347360-BeXWsMusI4ANzyMyRZdD",
+    "object": "chat.completion",
+    "created": 1785347360,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "CoreWeave",
+    "system_fingerprint": "vllm-0.21.1.dev0+gad7125a43.d20260527-tp8-ep-01b2bf3e",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "A typical 12-inch takeaway margherita pizza with standard crust usually contains around 2000–2200 kilocalories for the whole pizza, based on common pizzeria portions (8 slices, ~250–275 kcal per slice). This accounts for the dough, mozzarella, tomato sauce, and a drizzle of olive oil.\n\nAnswer: 2100 kcal",
+          "refusal": null,
+          "reasoning": "We are asked: \"Estimate the total kilocalories in a typical takeaway 12-inch margherita pizza (the whole pizza, standard crust).\"\n\nWe need to provide an estimate. A typical 12-inch margherita pizza from a takeaway might have around 200-300 calories per slice, and usually cut into 8 slices. But let's think: A 12-inch pizza area is about 113 square inches. Margherita pizza has thin crust, tomato sauce, mozzarella, basil. Takeaway might be a bit more calorie-dense. I recall that a typical 12-inch cheese pizza from Domino's is about 200-250 calories per slice (8 slices) so total around 1600-2000 kcal. Margherita might be similar, maybe slightly less because less cheese? But margherita often has fresh mozzarella, which can be similar. I'd estimate around 2000 kcal for the whole pizza. Some sources: A 12-inch margherita pizza from a chain like Pizza Express might be around 1000-1200 kcal? Actually, Pizza Express classic margherita (11-inch) is about 800-900 kcal. But takeaway might be larger and more oily. I'll check my knowledge: A typical 12-inch pizza from a takeaway (like a local pizzeria) often has around 2000-2500 calories. Margherita is simpler, so maybe 1800-2200. I'll go with 2000 kcal as a reasonable estimate. The instruction says: \"End your reply with a line 'Answer: <number> kcal'\". So I'll output something like: \"A typical 12-inch takeaway margherita pizza (standard crust) contains approximately 2000 kilocalories. Answer: 2000 kcal\" But I need to be accurate and concise. I'll provide a brief explanation then the answer line.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Estimate the total kilocalories in a typical takeaway 12-inch margherita pizza (the whole pizza, standard crust).\"\n\nWe need to provide an estimate. A typical 12-inch margherita pizza from a takeaway might have around 200-300 calories per slice, and usually cut into 8 slices. But let's think: A 12-inch pizza area is about 113 square inches. Margherita pizza has thin crust, tomato sauce, mozzarella, basil. Takeaway might be a bit more calorie-dense. I recall that a typical 12-inch cheese pizza from Domino's is about 200-250 calories per slice (8 slices) so total around 1600-2000 kcal. Margherita might be similar, maybe slightly less because less cheese? But margherita often has fresh mozzarella, which can be similar. I'd estimate around 2000 kcal for the whole pizza. Some sources: A 12-inch margherita pizza from a chain like Pizza Express might be around 1000-1200 kcal? Actually, Pizza Express classic margherita (11-inch) is about 800-900 kcal. But takeaway might be larger and more oily. I'll check my knowledge: A typical 12-inch pizza from a takeaway (like a local pizzeria) often has around 2000-2500 calories. Margherita is simpler, so maybe 1800-2200. I'll go with 2000 kcal as a reasonable estimate. The instruction says: \"End your reply with a line 'Answer: <number> kcal'\". So I'll output something like: \"A typical 12-inch takeaway margherita pizza (standard crust) contains approximately 2000 kilocalories. Answer: 2000 kcal\" But I need to be accurate and concise. I'll provide a brief explanation then the answer line.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 61,
+      "completion_tokens": 474,
+      "total_tokens": 535,
+      "cost": 0.00175566,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00175566,
+        "upstream_inference_prompt_cost": 0.00010614,
+        "upstream_inference_completions_cost": 0.00164952
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 390,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 61,
+  "tokensOut": 474,
+  "costUsd": 0.00175566,
+  "latencyMs": 47480,
+  "finishReason": "stop"
+}

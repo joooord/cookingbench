@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "nutr-001",
+  "answerText": "The standard Atwater conversion factors are 4 kcal/g for protein, 4 kcal/g for carbohydrates and 9 kcal/g for fat.\n\n- Protein contribution: \\(40\\,\\mathrm{g}\\times 4\\,\\mathrm{kcal/g}=160\\,\\mathrm{kcal}\\)\n- Carbohydrate contribution: \\(30\\,\\mathrm{g}\\times 4\\,\\mathrm{kcal/g}=120\\,\\mathrm{kcal}\\)\n- Fat contribution: \\(20\\,\\mathrm{g}\\times 9\\,\\mathrm{kcal/g}=180\\,\\mathrm{kcal}\\)\n\nSumming these values yields the total energy content:\n\\[\n160+120+180=460\\,\\mathrm{kcal}.\n\\]\n\nAnswer: 460 kcal",
+  "raw": {
+    "id": "gen-1785345330-tQXdBdOOitza1PD3po69",
+    "object": "chat.completion",
+    "created": 1785345330,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The standard Atwater conversion factors are 4 kcal/g for protein, 4 kcal/g for carbohydrates and 9 kcal/g for fat.\n\n- Protein contribution: \\(40\\,\\mathrm{g}\\times 4\\,\\mathrm{kcal/g}=160\\,\\mathrm{kcal}\\)\n- Carbohydrate contribution: \\(30\\,\\mathrm{g}\\times 4\\,\\mathrm{kcal/g}=120\\,\\mathrm{kcal}\\)\n- Fat contribution: \\(20\\,\\mathrm{g}\\times 9\\,\\mathrm{kcal/g}=180\\,\\mathrm{kcal}\\)\n\nSumming these values yields the total energy content:\n\\[\n160+120+180=460\\,\\mathrm{kcal}.\n\\]\n\nAnswer: 460 kcal",
+          "refusal": null,
+          "reasoning": "The problem is: A meal contains 40 g of protein, 30 g of carbohydrates and 20 g of fat. Using the standard Atwater factors, how many kilocalories is that in total?\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem is: A meal contains 40 g of protein, 30 g of carbohydrates and 20 g of fat. Using the standard Atwater factors, how many kilocalories is that in total?\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "PZHTqCjZ/IwReXhbeYgBKmc8BuazCu+qjAmwiBcN/WMS5KrWpMpaV88VT2apUgtNxHU3VzsgSCL8OF/MK74C4ST8V+6xAcrrIAKF2b6IZU/HpbsUlPZpQB5yKJunKep+z4MvFKLT+3eon7aoo13Lhek69qaquv9HBlSFd2tX9dUzLNEzOv7BMrademqLFhpQ0196Zne6pWhpRelTfkEMm+PfkNzOW/HplJQyBYkx3bQctFXJPeBjaqz0aWakO4lMQP78UXbYKXwLWwVC+GKOgYEMx5K6V372qxYuEm1tunpI6T31s22Ov3C6HaY3bkBPo7X28gvHhQUhoj76H5Z6lCnis2FzyZYazC/ZdbPz36CD8sU3eRpqlgWEWJSQEClnS12/1K83AjfRT2HPOmlj647EcWsFhAIRZL0AQYMeqa9ob8mgvbcc8MJHDkTy6JRkGEiSNo8yCe7RBfo/M7sDfE8tbp0+NvlBxJswWc1p4qBTnyZExM2M7K/FX0cAyZgJTPkeDM28RYKpRvzeJZWipznyg29dj+cT9QBT1bfAvn5KGwmYlihs5Qmx01yIcc717SN7UcYZonuZBMc/ttIOLz8sXkJF5ifwTn/QFwcyZTWkWUC93PUyK4pRI+aMGd2pO1lHeHB47VwSaVKqH8CPNKMNnaE+PEYUcy9Itx5+pAjCtbz8rB5IYnfUzoJhWA",
+              "format": "xai-responses-v1",
+              "id": "rs_9c56b323-40a7-9759-b91f-bf7cfbaf4a67",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 276,
+      "completion_tokens": 313,
+      "total_tokens": 589,
+      "cost": 0.0022124,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0022124,
+        "upstream_inference_prompt_cost": 0.0003344,
+        "upstream_inference_completions_cost": 0.001878
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 166,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 276,
+  "tokensOut": 313,
+  "costUsd": 0.0022124,
+  "latencyMs": 4947,
+  "finishReason": "stop"
+}

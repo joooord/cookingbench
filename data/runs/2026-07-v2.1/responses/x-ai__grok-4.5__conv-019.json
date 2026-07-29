@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "conv-019",
+  "answerText": "Fan ovens circulate hot air, so they cook more efficiently than conventional ovens. The standard adjustment is therefore to raise the temperature by 20 °C when converting a fan recipe to a conventional oven:  \n160 °C (fan) → 180 °C (conventional).  \n\nConvert 180 °C to Fahrenheit:  \n\\[\n180 \\times \\frac{9}{5} + 32 = 356^\\circ\\mathrm{F}\n\\]  \nAmerican ovens are normally marked in 25 °F increments, so this is set to the nearest common temperature of 350 °F.\n\nAnswer: 350 °F",
+  "raw": {
+    "id": "gen-1785345222-9pezwhRG11aw3wPCx0Td",
+    "object": "chat.completion",
+    "created": 1785345222,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Fan ovens circulate hot air, so they cook more efficiently than conventional ovens. The standard adjustment is therefore to raise the temperature by 20 °C when converting a fan recipe to a conventional oven:  \n160 °C (fan) → 180 °C (conventional).  \n\nConvert 180 °C to Fahrenheit:  \n\\[\n180 \\times \\frac{9}{5} + 32 = 356^\\circ\\mathrm{F}\n\\]  \nAmerican ovens are normally marked in 25 °F increments, so this is set to the nearest common temperature of 350 °F.\n\nAnswer: 350 °F",
+          "refusal": null,
+          "reasoning": "The problem is: A UK recipe says to bake at 160°C in a fan oven. My American oven is conventional (no fan) and shows Fahrenheit. What temperature should I set?\nTo convert 160°C in a fan oven to a conventional oven, add 20°C, giving 180°C. Then convert to Fahrenheit using °F = (°C × 9/5) + 32, which yields 356°F.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem is: A UK recipe says to bake at 160°C in a fan oven. My American oven is conventional (no fan) and shows Fahrenheit. What temperature should I set?\nTo convert 160°C in a fan oven to a conventional oven, add 20°C, giving 180°C. Then convert to Fahrenheit using °F = (°C × 9/5) + 32, which yields 356°F.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_7e61ab42-8f0c-9d2e-a163-97b16bab53e8",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 274,
+      "completion_tokens": 629,
+      "total_tokens": 903,
+      "cost": 0.0041044,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0041044,
+        "upstream_inference_prompt_cost": 0.0003304,
+        "upstream_inference_completions_cost": 0.003774
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 502,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 274,
+  "tokensOut": 629,
+  "costUsd": 0.0041044,
+  "latencyMs": 10518,
+  "finishReason": "stop"
+}

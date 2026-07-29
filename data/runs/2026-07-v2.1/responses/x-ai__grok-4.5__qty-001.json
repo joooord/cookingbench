@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "qty-001",
+  "answerText": "flour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g",
+  "raw": {
+    "id": "gen-1785345390-l5XgvHibmbSFhJnjfJza",
+    "object": "chat.completion",
+    "created": 1785345390,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "flour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g",
+          "refusal": null,
+          "reasoning": "The user wants me to scale a bread recipe from 2 loaves to 5 loaves.\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The user wants me to scale a bread recipe from 2 loaves to 5 loaves.\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "hqAvC/mwaKeMGJJ7BBiFupn6yG8UeBHY3VG4+Tr1WbEtDLz5ooevQltYgF/dY8WhdZdCLvU+uOYSBVxVXJSEIZ0mTQews3qqU1u/ylMdRU02OFNNx2JWCU4Ogfs25V8sbRTg0ZglrPgQo/y1VjM0MuRLyCGbBcolo1BPIXSjpkOp0fvgRjo24+RG1xNHPFp6bwxBMoN9Ob5EeAz8koDIo4Zhy1GS51twXVdVgl+gYfLitn1AEfIwXxcBA0BBLL1ud+322Q5xTdaUjSAOleWgm5GtEYPoL1U23Vla9JcaoB/VaIRj7/WqtpVK/0xoUoeVbRZNQ/9vz+reWjtfvhuYxgCX+ToIxZU2p30NlcaXoj8fPcDz0aHD1XY2mH/6anbQj9sJofyyjctZefSB4kuYH0RXf98ss4gMX5rjDkZF9wKfNMMyDkVDBdy21hGuxPKKVx6PTS4dY1hEmBUkEoYqZkDJh70jsCMfmj4ZStHU9oUJw0BzaWPplldOadcKKJZy1TXk3LxWFMzbev4HPxjaboXZMQsHdLHm5nGQyBq7u0mZbai/pLZ2caDJDXRPx4OaEy70ObhkuUZk/Vyr6aQ8hQu68A",
+              "format": "xai-responses-v1",
+              "id": "rs_ba2688c4-b7ae-9fa5-87dd-80782e158c7e",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 288,
+      "completion_tokens": 186,
+      "total_tokens": 474,
+      "cost": 0.0014744,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0014744,
+        "upstream_inference_prompt_cost": 0.0003584,
+        "upstream_inference_completions_cost": 0.001116
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 159,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 288,
+  "tokensOut": 186,
+  "costUsd": 0.0014744,
+  "latencyMs": 3289,
+  "finishReason": "stop"
+}

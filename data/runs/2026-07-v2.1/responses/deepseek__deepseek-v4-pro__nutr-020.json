@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-020",
+  "answerText": "A raw, skinless chicken breast typically contains about 22 grams of protein per 100 grams.\nAnswer: 22 g",
+  "raw": {
+    "id": "gen-1785347312-pX2WFBUkTXLMUYocS68m",
+    "object": "chat.completion",
+    "created": 1785347312,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Cloudflare",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "A raw, skinless chicken breast typically contains about 22 grams of protein per 100 grams.\nAnswer: 22 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"Roughly how many grams of protein are in a 100 g raw, skinless chicken breast? Give your best single estimate.\" We need to provide a single number in grams. Typical nutritional data: raw skinless chicken breast is about 22-23g protein per 100g. Some sources say 31g per 100g cooked, but raw is lower due to water content. USDA says raw chicken breast (boneless, skinless) has about 22.5g protein per 100g. I'll go with 22 grams as a rough estimate. Answer format: \"Answer: <number> g\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Roughly how many grams of protein are in a 100 g raw, skinless chicken breast? Give your best single estimate.\" We need to provide a single number in grams. Typical nutritional data: raw skinless chicken breast is about 22-23g protein per 100g. Some sources say 31g per 100g cooked, but raw is lower due to water content. USDA says raw chicken breast (boneless, skinless) has about 22.5g protein per 100g. I'll go with 22 grams as a rough estimate. Answer format: \"Answer: <number> g\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 61,
+      "completion_tokens": 160,
+      "total_tokens": 221,
+      "cost": 0.00066294,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00066294,
+        "upstream_inference_prompt_cost": 0.00010614,
+        "upstream_inference_completions_cost": 0.0005568
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 125,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 61,
+  "tokensOut": 160,
+  "costUsd": 0.00066294,
+  "latencyMs": 3016,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-007",
+  "answerText": "8 avoirdupois ounces is exactly 28.349523125 grams per ounce, so 8 ounces = 8 × 28.349523125 = 226.796185 grams. Typically rounded to 226.8 g.  \nAnswer: 226.796185 g",
+  "raw": {
+    "id": "gen-1785347093-soPvddX6MqSUWrhG3n2B",
+    "object": "chat.completion",
+    "created": 1785347093,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Novita",
+    "system_fingerprint": "fp_9954b31ca7_prod0820_fp8_kvcache_20260402",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "8 avoirdupois ounces is exactly 28.349523125 grams per ounce, so 8 ounces = 8 × 28.349523125 = 226.796185 grams. Typically rounded to 226.8 g.  \nAnswer: 226.796185 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"How many grams are in 8 ounces (avoirdupois)?\" We need to answer accurately and concisely, ending with \"Answer: <number> g\". The conversion factor: 1 avoirdupois ounce = 28.349523125 grams exactly (since 1 pound av = 453.59237 g, 1 lb = 16 oz, so 1 oz = 453.59237/16 = 28.349523125 g). So 8 oz = 8 * 28.349523125 = 226.796185 g. Typically, it's rounded to 226.8 g. The question says \"how many grams\", no indication of precision. I'll give the exact value and then round to a reasonable number? The instruction says accurately. I'll provide 226.796185 g, but maybe rounding to one decimal is common. I'll state \"226.796185 g\" or \"226.8 g\". Since it says \"Answer: <number> g\", I'll give the precise conversion. I'll output the exact value.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"How many grams are in 8 ounces (avoirdupois)?\" We need to answer accurately and concisely, ending with \"Answer: <number> g\". The conversion factor: 1 avoirdupois ounce = 28.349523125 grams exactly (since 1 pound av = 453.59237 g, 1 lb = 16 oz, so 1 oz = 453.59237/16 = 28.349523125 g). So 8 oz = 8 * 28.349523125 = 226.796185 g. Typically, it's rounded to 226.8 g. The question says \"how many grams\", no indication of precision. I'll give the exact value and then round to a reasonable number? The instruction says accurately. I'll provide 226.796185 g, but maybe rounding to one decimal is common. I'll state \"226.796185 g\" or \"226.8 g\". Since it says \"Answer: <number> g\", I'll give the precise conversion. I'll output the exact value.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 48,
+      "completion_tokens": 289,
+      "total_tokens": 337,
+      "cost": 0.000731168,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000731168,
+        "upstream_inference_prompt_cost": 0.000056064,
+        "upstream_inference_completions_cost": 0.000675104
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 230,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 48,
+  "tokensOut": 289,
+  "costUsd": 0.000731168,
+  "latencyMs": 5160,
+  "finishReason": "stop"
+}

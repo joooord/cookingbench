@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "subs-011",
+  "answerText": "No, bread flour is not a good swap for cake flour. Bread flour has a high protein content (12–14%), which develops strong gluten when mixed, leading to a dense, tough, and chewy cake instead of a light, tender crumb.\n\n**Better fix using only bread flour:**  \nFor 1 cup of cake flour, whisk together **⅔ cup (10 tablespoons + 2 teaspoons) bread flour** and **⅓ cup cornstarch**. Sift the mixture several times to aerate and evenly distribute the cornstarch. This dilutes the protein to roughly the 7–8% range of cake flour. Note that the texture may still be slightly less delicate than true cake flour, but it’s the closest workable substitute.",
+  "raw": {
+    "id": "gen-1785347805-xg7DoZK1TVqBB6iZS4Wn",
+    "object": "chat.completion",
+    "created": 1785347805,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "No, bread flour is not a good swap for cake flour. Bread flour has a high protein content (12–14%), which develops strong gluten when mixed, leading to a dense, tough, and chewy cake instead of a light, tender crumb.\n\n**Better fix using only bread flour:**  \nFor 1 cup of cake flour, whisk together **⅔ cup (10 tablespoons + 2 teaspoons) bread flour** and **⅓ cup cornstarch**. Sift the mixture several times to aerate and evenly distribute the cornstarch. This dilutes the protein to roughly the 7–8% range of cake flour. Note that the texture may still be slightly less delicate than true cake flour, but it’s the closest workable substitute.",
+          "refusal": null,
+          "reasoning": "We need to answer: \"My recipe needs 1 cup of cake flour and I have only bread flour. Is that a good swap? If not, explain what would happen and a better fix.\"\n\nWe need to be accurate and concise. Explain why bread flour is not a good substitute for cake flour, what would happen (dense, tough texture due to higher protein/gluten), and then provide a better fix: how to make a cake flour substitute using all-purpose flour and cornstarch (since they have bread flour, maybe they have all-purpose? The question says \"I have only bread flour.\" So they might not have all-purpose. But we can suggest a fix using bread flour? Actually, bread flour has even higher protein than all-purpose, so making cake flour from bread flour would require more cornstarch to reduce protein. Standard cake flour substitute: 1 cup all-purpose flour minus 2 tablespoons, plus 2 tablespoons cornstarch. For bread flour, which is higher protein (12-14% vs all-purpose 10-12%), you'd need to remove more flour and add more cornstarch. I can suggest: For 1 cup cake flour, use 3/4 cup bread flour (or 12 tablespoons) plus 2 tablespoons cornstarch? Let's calculate: Cake flour protein ~7-8%, bread flour ~12-13%. To get 1 cup of mixture with ~8% protein, you'd need to dilute bread flour with cornstarch (0% protein). Let x be amount of bread flour (in cups) and (1-x) cornstarch. Protein from bread flour: 0.12*x (assuming 12%). Target protein: 0.08*1 = 0.08. So 0.12x = 0.08 => x = 0.08/0.12 = 2/3 cup. So 2/3 cup bread flour + 1/3 cup cornstarch. That's 10 tablespoons + 2 teaspoons? 2/3 cup = 10 tbsp + 2 tsp (since 1 cup = 16 tbsp, 2/3 = 10.67 tbsp). 1/3 cup = 5 tbsp + 1 tsp. So roughly 10 tbsp + 2 tsp bread flour and 5 tbsp + 1 tsp cornstarch. But that's a lot of cornstarch, might affect texture. Standard cake flour substitute from all-purpose: 1 cup AP flour (remove 2 tbsp) + 2 tbsp cornstarch = 14 tbsp flour + 2 tbsp cornstarch. That yields protein around 8-9% (AP ~10-11% protein, removing 2 tbsp flour reduces protein, adding cornstarch dilutes). For bread flour, you'd need to remove more flour and add more cornstarch. I can suggest: For 1 cup cake flour, use 3/4 cup bread flour (12 tbsp) plus 2 tbsp cornstarch? Let's check: 12 tbsp = 0.75 cup, 2 tbsp = 0.125 cup, total 0.875 cup, not 1 cup. Wait, 1 cup = 16 tbsp. So 12 tbsp flour + 2 tbsp cornstarch = 14 tbsp total, not 1 cup. That's less than a cup. The standard substitute: 1 cup cake flour = 1 cup minus 2 tbsp all-purpose flour + 2 tbsp cornstarch = 14 tbsp flour + 2 tbsp cornstarch = 16 tbsp total. So it's a full cup. For bread flour, to get a full cup, you'd need to use less flour and more cornstarch. If we want 1 cup total, with x cups bread flour and (1-x) cornstarch, protein target 8%: 0.12x = 0.08 => x=2/3 cup bread flour, 1/3 cup cornstarch. That's 10.67 tbsp flour + 5.33 tbsp cornstarch. That's a lot of cornstarch, might make the cake too tender and dry. Could suggest using a mix of bread flour and cornstarch, but also note that the result won't be exactly like cake flour. Better fix: If they have all-purpose flour, use that with cornstarch. But they said \"I have only bread flour.\" So they might not have all-purpose. I'll mention that bread flour is not a good swap, explain the high protein leads to tough, dense cake, and then give a substitute using bread flour and cornstarch: For 1 cup cake flour, use 2/3 cup bread flour and 1/3 cup cornstarch, sifted together. But I should also mention that if they have all-purpose flour, that's a better base. Since they only have bread flour, I'll give that fix. I'll also note that the texture might still be slightly different. I'll be concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to answer: \"My recipe needs 1 cup of cake flour and I have only bread flour. Is that a good swap? If not, explain what would happen and a better fix.\"\n\nWe need to be accurate and concise. Explain why bread flour is not a good substitute for cake flour, what would happen (dense, tough texture due to higher protein/gluten), and then provide a better fix: how to make a cake flour substitute using all-purpose flour and cornstarch (since they have bread flour, maybe they have all-purpose? The question says \"I have only bread flour.\" So they might not have all-purpose. But we can suggest a fix using bread flour? Actually, bread flour has even higher protein than all-purpose, so making cake flour from bread flour would require more cornstarch to reduce protein. Standard cake flour substitute: 1 cup all-purpose flour minus 2 tablespoons, plus 2 tablespoons cornstarch. For bread flour, which is higher protein (12-14% vs all-purpose 10-12%), you'd need to remove more flour and add more cornstarch. I can suggest: For 1 cup cake flour, use 3/4 cup bread flour (or 12 tablespoons) plus 2 tablespoons cornstarch? Let's calculate: Cake flour protein ~7-8%, bread flour ~12-13%. To get 1 cup of mixture with ~8% protein, you'd need to dilute bread flour with cornstarch (0% protein). Let x be amount of bread flour (in cups) and (1-x) cornstarch. Protein from bread flour: 0.12*x (assuming 12%). Target protein: 0.08*1 = 0.08. So 0.12x = 0.08 => x = 0.08/0.12 = 2/3 cup. So 2/3 cup bread flour + 1/3 cup cornstarch. That's 10 tablespoons + 2 teaspoons? 2/3 cup = 10 tbsp + 2 tsp (since 1 cup = 16 tbsp, 2/3 = 10.67 tbsp). 1/3 cup = 5 tbsp + 1 tsp. So roughly 10 tbsp + 2 tsp bread flour and 5 tbsp + 1 tsp cornstarch. But that's a lot of cornstarch, might affect texture. Standard cake flour substitute from all-purpose: 1 cup AP flour (remove 2 tbsp) + 2 tbsp cornstarch = 14 tbsp flour + 2 tbsp cornstarch. That yields protein around 8-9% (AP ~10-11% protein, removing 2 tbsp flour reduces protein, adding cornstarch dilutes). For bread flour, you'd need to remove more flour and add more cornstarch. I can suggest: For 1 cup cake flour, use 3/4 cup bread flour (12 tbsp) plus 2 tbsp cornstarch? Let's check: 12 tbsp = 0.75 cup, 2 tbsp = 0.125 cup, total 0.875 cup, not 1 cup. Wait, 1 cup = 16 tbsp. So 12 tbsp flour + 2 tbsp cornstarch = 14 tbsp total, not 1 cup. That's less than a cup. The standard substitute: 1 cup cake flour = 1 cup minus 2 tbsp all-purpose flour + 2 tbsp cornstarch = 14 tbsp flour + 2 tbsp cornstarch = 16 tbsp total. So it's a full cup. For bread flour, to get a full cup, you'd need to use less flour and more cornstarch. If we want 1 cup total, with x cups bread flour and (1-x) cornstarch, protein target 8%: 0.12x = 0.08 => x=2/3 cup bread flour, 1/3 cup cornstarch. That's 10.67 tbsp flour + 5.33 tbsp cornstarch. That's a lot of cornstarch, might make the cake too tender and dry. Could suggest using a mix of bread flour and cornstarch, but also note that the result won't be exactly like cake flour. Better fix: If they have all-purpose flour, use that with cornstarch. But they said \"I have only bread flour.\" So they might not have all-purpose. I'll mention that bread flour is not a good swap, explain the high protein leads to tough, dense cake, and then give a substitute using bread flour and cornstarch: For 1 cup cake flour, use 2/3 cup bread flour and 1/3 cup cornstarch, sifted together. But I should also mention that if they have all-purpose flour, that's a better base. Since they only have bread flour, I'll give that fix. I'll also note that the texture might still be slightly different. I'll be concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 54,
+      "completion_tokens": 1201,
+      "total_tokens": 1255,
+      "cost": 0.0016452744,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0016452744,
+        "upstream_inference_prompt_cost": 0.0000361746,
+        "upstream_inference_completions_cost": 0.0016090998
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1044,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 54,
+  "tokensOut": 1201,
+  "costUsd": 0.0016452744,
+  "latencyMs": 25071,
+  "finishReason": "stop"
+}

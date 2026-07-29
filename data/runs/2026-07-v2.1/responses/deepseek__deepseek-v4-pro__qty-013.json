@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-013",
+  "answerText": "When roasting two chickens of the same size side by side with space between them, the cooking time remains roughly the same as for a single chicken, as long as the oven temperature is maintained and air can circulate. Each 1.5 kg chicken still needs about 75 minutes at 200°C.\n\nAnswer: 75 minutes",
+  "raw": {
+    "id": "gen-1785347414-Z5bdmepb5k8F9zphcEZ5",
+    "object": "chat.completion",
+    "created": 1785347414,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "When roasting two chickens of the same size side by side with space between them, the cooking time remains roughly the same as for a single chicken, as long as the oven temperature is maintained and air can circulate. Each 1.5 kg chicken still needs about 75 minutes at 200°C.\n\nAnswer: 75 minutes",
+          "refusal": null,
+          "reasoning": "We are asked: \"A 1.5 kg chicken roasts in about 75 minutes at 200°C. I'm roasting two 1.5 kg chickens side by side on the same shelf with space between them. Roughly how many minutes should they take?\"\n\nThis is a cooking question about roasting two chickens of the same size simultaneously. The key point: when roasting two chickens, the cooking time does not double. The oven temperature remains the same, and each chicken is still 1.5 kg. The cooking time is roughly the same as for one chicken, perhaps slightly longer because the oven might lose some heat when loaded with more mass, but with space between them, the hot air circulates. Typically, roasting two chickens of the same size takes about the same time as roasting one, maybe an extra 5-10 minutes to ensure they are cooked through. But the question says \"roughly how many minutes\", so the answer is likely around 75 minutes, maybe a bit more. Many sources say that roasting two chickens at the same time doesn't significantly increase cooking time; you just need to ensure they are not touching and there's air circulation. So the answer is approximately 75 minutes. But let's think: The total mass is 3 kg, but they are separate. The cooking time for a larger single chicken would be longer, but for two separate chickens, it's not the same as a 3 kg chicken. The rule of thumb: cook by the weight of the individual bird, not total weight. So each 1.5 kg chicken still needs about 75 minutes. So the answer should be 75 minutes. However, some might say add 10-15 minutes because the oven has more to heat, but with preheated oven and space, it's negligible. The question says \"roughly\", so 75 minutes is a reasonable estimate. I'll answer 75 minutes.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A 1.5 kg chicken roasts in about 75 minutes at 200°C. I'm roasting two 1.5 kg chickens side by side on the same shelf with space between them. Roughly how many minutes should they take?\"\n\nThis is a cooking question about roasting two chickens of the same size simultaneously. The key point: when roasting two chickens, the cooking time does not double. The oven temperature remains the same, and each chicken is still 1.5 kg. The cooking time is roughly the same as for one chicken, perhaps slightly longer because the oven might lose some heat when loaded with more mass, but with space between them, the hot air circulates. Typically, roasting two chickens of the same size takes about the same time as roasting one, maybe an extra 5-10 minutes to ensure they are cooked through. But the question says \"roughly how many minutes\", so the answer is likely around 75 minutes, maybe a bit more. Many sources say that roasting two chickens at the same time doesn't significantly increase cooking time; you just need to ensure they are not touching and there's air circulation. So the answer is approximately 75 minutes. But let's think: The total mass is 3 kg, but they are separate. The cooking time for a larger single chicken would be longer, but for two separate chickens, it's not the same as a 3 kg chicken. The rule of thumb: cook by the weight of the individual bird, not total weight. So each 1.5 kg chicken still needs about 75 minutes. So the answer should be 75 minutes. However, some might say add 10-15 minutes because the oven has more to heat, but with preheated oven and space, it's negligible. The question says \"roughly\", so 75 minutes is a reasonable estimate. I'll answer 75 minutes.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 85,
+      "completion_tokens": 458,
+      "total_tokens": 543,
+      "cost": 0.0012629,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 32,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0012629,
+        "upstream_inference_prompt_cost": 0.0000721,
+        "upstream_inference_completions_cost": 0.0011908
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 431,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 85,
+  "tokensOut": 458,
+  "costUsd": 0.0012629,
+  "latencyMs": 6252,
+  "finishReason": "stop"
+}

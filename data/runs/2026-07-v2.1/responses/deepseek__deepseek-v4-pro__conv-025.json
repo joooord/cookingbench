@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-025",
+  "answerText": "375°F is equivalent to Gas Mark 5.  \nAnswer: 5",
+  "raw": {
+    "id": "gen-1785347125-LGg6URJsd8AXYyAFICFC",
+    "object": "chat.completion",
+    "created": 1785347125,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "375°F is equivalent to Gas Mark 5.  \nAnswer: 5",
+          "refusal": null,
+          "reasoning": "We are asked: \"A US recipe bakes at 375°F. My old British oven only has gas marks. Which gas mark should I use?\" We need to provide the gas mark equivalent to 375°F. The typical conversion: Gas Mark 5 is 375°F (190°C). So answer is 5. We'll reply with the answer and end with \"Answer: 5\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A US recipe bakes at 375°F. My old British oven only has gas marks. Which gas mark should I use?\" We need to provide the gas mark equivalent to 375°F. The typical conversion: Gas Mark 5 is 375°F (190°C). So answer is 5. We'll reply with the answer and end with \"Answer: 5\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 60,
+      "completion_tokens": 103,
+      "total_tokens": 163,
+      "cost": 0.0001781934,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0001781934,
+        "upstream_inference_prompt_cost": 0.000040194,
+        "upstream_inference_completions_cost": 0.0001379994
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 85,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 60,
+  "tokensOut": 103,
+  "costUsd": 0.0001781934,
+  "latencyMs": 3406,
+  "finishReason": "stop"
+}

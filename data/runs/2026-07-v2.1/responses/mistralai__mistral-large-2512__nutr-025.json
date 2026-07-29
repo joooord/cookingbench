@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "nutr-025",
+  "answerText": "First, calculate the total raw weight after trimming:\n- Original weight: 2 steaks × 300 g = 600 g\n- Fat trimmed: 15% of 600 g = 90 g\n- Trimmed weight: 600 g - 90 g = **510 g raw**\n\nGrilling causes moisture loss (about 25% of raw weight):\n- Cooked weight: 510 g × 0.75 = **382.5 g cooked**\n\nUsing USDA data for cooked, trimmed sirloin (lean only):\n- Protein: 31 g per 100 g → 382.5 g × 0.31 = **118.6 g**\n- Fat: 8 g per 100 g → 382.5 g × 0.08 = **30.6 g**\n- Calories: 206 kcal per 100 g → 382.5 g × 2.06 = **788 kcal**\n\nProtein: 119 g\nFat: 31 g\nCalories: 788 kcal",
+  "raw": {
+    "id": "gen-1785348035-uqwD1iYpRBF1y0ruJmZ3",
+    "object": "chat.completion",
+    "created": 1785348035,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "First, calculate the total raw weight after trimming:\n- Original weight: 2 steaks × 300 g = 600 g\n- Fat trimmed: 15% of 600 g = 90 g\n- Trimmed weight: 600 g - 90 g = **510 g raw**\n\nGrilling causes moisture loss (about 25% of raw weight):\n- Cooked weight: 510 g × 0.75 = **382.5 g cooked**\n\nUsing USDA data for cooked, trimmed sirloin (lean only):\n- Protein: 31 g per 100 g → 382.5 g × 0.31 = **118.6 g**\n- Fat: 8 g per 100 g → 382.5 g × 0.08 = **30.6 g**\n- Calories: 206 kcal per 100 g → 382.5 g × 2.06 = **788 kcal**\n\nProtein: 119 g\nFat: 31 g\nCalories: 788 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 123,
+      "completion_tokens": 262,
+      "total_tokens": 385,
+      "cost": 0.0004545,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0004545,
+        "upstream_inference_prompt_cost": 0.0000615,
+        "upstream_inference_completions_cost": 0.000393
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 123,
+  "tokensOut": 262,
+  "costUsd": 0.0004545,
+  "latencyMs": 4197,
+  "finishReason": "stop"
+}

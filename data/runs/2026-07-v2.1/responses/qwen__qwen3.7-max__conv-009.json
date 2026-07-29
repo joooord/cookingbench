@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "conv-009",
+  "answerText": "There are 3 teaspoons in 1 US tablespoon.\n\nAnswer: 3 tsp",
+  "raw": {
+    "id": "gen-1785345741-xPhD1CI3admQCA32CLQo",
+    "object": "chat.completion",
+    "created": 1785345741,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "There are 3 teaspoons in 1 US tablespoon.\n\nAnswer: 3 tsp",
+          "refusal": null,
+          "reasoning": "Thinking Process:\n\n1.  **Identify the core question:** The user is asking for the conversion factor between US tablespoons and teaspoons.\n2.  **Retrieve knowledge:**\n    *   1 US tablespoon (tbsp) = 3 US teaspoons (tsp).\n3.  **Formulate the response:**\n    *   State the conversion clearly and concisely.\n    *   Ensure the response ends with the exact required string: \"Answer: <number> tsp\".\n4.  **Draft the response:**\n    There are 3 teaspoons in 1 US tablespoon.\n    Answer: 3 tsp\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number> tsp\"? Yes. (Answer: 3 tsp)\n6.  **Final Output Generation:**\n    There are 3 teaspoons in 1 US tablespoon.\n    Answer: 3 tsp\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking Process:\n\n1.  **Identify the core question:** The user is asking for the conversion factor between US tablespoons and teaspoons.\n2.  **Retrieve knowledge:**\n    *   1 US tablespoon (tbsp) = 3 US teaspoons (tsp).\n3.  **Formulate the response:**\n    *   State the conversion clearly and concisely.\n    *   Ensure the response ends with the exact required string: \"Answer: <number> tsp\".\n4.  **Draft the response:**\n    There are 3 teaspoons in 1 US tablespoon.\n    Answer: 3 tsp\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number> tsp\"? Yes. (Answer: 3 tsp)\n6.  **Final Output Generation:**\n    There are 3 teaspoons in 1 US tablespoon.\n    Answer: 3 tsp\n",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 56,
+      "completion_tokens": 236,
+      "total_tokens": 292,
+      "cost": 0.0011269,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0011269,
+        "upstream_inference_prompt_cost": 0.0000826,
+        "upstream_inference_completions_cost": 0.0010443
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 214,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 56,
+  "tokensOut": 236,
+  "costUsd": 0.0011269,
+  "latencyMs": 5336,
+  "finishReason": "stop"
+}

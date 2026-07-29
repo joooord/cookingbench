@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "safe-002",
+  "answerText": "The USDA recommends cooking ground beef (including burgers) to a safe minimum internal temperature of 160 °F to destroy harmful bacteria such as E. coli.\n\nAnswer: 160 °F",
+  "raw": {
+    "id": "gen-1785345293-XDL1dITN9HuuNPqW48yE",
+    "object": "chat.completion",
+    "created": 1785345293,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA recommends cooking ground beef (including burgers) to a safe minimum internal temperature of 160 °F to destroy harmful bacteria such as E. coli.\n\nAnswer: 160 °F",
+          "refusal": null,
+          "reasoning": "The question is: \"What is the USDA-recommended safe minimum internal temperature for a burger made from ground beef, in Fahrenheit?\"\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"What is the USDA-recommended safe minimum internal temperature for a burger made from ground beef, in Fahrenheit?\"\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "QclsrW6OzpXjOtGtQXcPdkLRkR2xQ9vOG6xB9LCrhWBLIu7NBEiBuP+pzmUZigbJhC5N7sRGMX2kJ68l4ON/R+/b7LIqTk9tyo6vf0MhXuJzjvSJazXTLvyJEZYmyjo/eKMFkgi17WHctq6HYtpe+qVa/xba8ffywONoVHFtkmzlG3K5ocIkXIXG38/l96X4a1rNJUaS9A5t1voNUjStD6pkMy8eChij91i5oh4XdbgtJCOgwqYQZCqiBMZxG5fSZyQhfQmuweolsf3cpxoqmFyY3buCQcC2r/LWcktTu2HbWpCSKdVEllioO4M9vgPw6Gcc9hY0eBIfX3hN7QbKn8B3X2oyu1kdWk756/7yUleW/xl6KhcAi+EwNm3Xyr6Ks6gl7IAP3hkxZNR4roPmQgvAvo61f9CRmKnzoV6T1X02T4M20zo3yjrNEM/sE1xtMmRwgUwzCjGRI7vFvYBM+vFojzVWEMpYesYwDT9UmDBCAda4Ca8WAQslEbyPAGFQvGcrAX1v4THI+1lYzz7PqWlDY0dmYokdn7q4Bx2JNPXKqEzd/vua8HP2GWM3/D1xily1U5tYlnf9a3PLHrIZtaAtwY2sdQcqjDS9sLjK1kE5QzP2hmSFbwvC75MlVW69HdZxBCcc4OptAbeHJqbuSHhTqrJwO6A+bHfUAL58itO3pe9nqyBhaMXyVFKHHkmNVX2Hiw6YdQEsvNBBHuPavQ7tt1ogPsLbH52ZfAnFNoxaPxQL729KheOy8jY5EwvY1LiGEEY6GOw7skGZEI4xKxcZYNhO5SfH/WDCxcultxRr/dzZEtmvVRHPoiKvevjuHugfppQelpvQfu7xD5Vrh8BtZc1KpjiennNlQg4",
+              "format": "xai-responses-v1",
+              "id": "rs_0d584187-6a65-986b-8e7e-3aaa02fd3fec",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 260,
+      "completion_tokens": 206,
+      "total_tokens": 466,
+      "cost": 0.0015384,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0015384,
+        "upstream_inference_prompt_cost": 0.0003024,
+        "upstream_inference_completions_cost": 0.001236
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 169,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 260,
+  "tokensOut": 206,
+  "costUsd": 0.0015384,
+  "latencyMs": 3989,
+  "finishReason": "stop"
+}

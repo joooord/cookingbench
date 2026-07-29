@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "conv-019",
+  "answerText": "To convert from a fan oven (convection) temperature to a conventional oven temperature, add 20°C to the fan oven temperature. Then convert Celsius to Fahrenheit.\n\n160°C (fan) + 20°C = 180°C (conventional)\n180°C × 9/5 + 32 = 356°F\n\nAnswer: 356 °F",
+  "raw": {
+    "id": "gen-1785347975-LuOvdEqKkXnfNXuXOyIG",
+    "object": "chat.completion",
+    "created": 1785347975,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To convert from a fan oven (convection) temperature to a conventional oven temperature, add 20°C to the fan oven temperature. Then convert Celsius to Fahrenheit.\n\n160°C (fan) + 20°C = 180°C (conventional)\n180°C × 9/5 + 32 = 356°F\n\nAnswer: 356 °F",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 74,
+      "completion_tokens": 89,
+      "total_tokens": 163,
+      "cost": 0.0001633,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 16,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0001633,
+        "upstream_inference_prompt_cost": 0.0000298,
+        "upstream_inference_completions_cost": 0.0001335
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 74,
+  "tokensOut": 89,
+  "costUsd": 0.0001633,
+  "latencyMs": 1926,
+  "finishReason": "stop"
+}

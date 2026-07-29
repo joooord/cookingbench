@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-010",
+  "answerText": "You need to scale the recipe. Since 3 eggs make 12 muffins, that’s 1 egg per 4 muffins. For 36 muffins, divide 36 by 4 to get 9 eggs.  \nAnswer: 9 eggs",
+  "raw": {
+    "id": "gen-1785347398-nimuSjqlBbbfgM8BcJmn",
+    "object": "chat.completion",
+    "created": 1785347398,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "DigitalOcean",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "You need to scale the recipe. Since 3 eggs make 12 muffins, that’s 1 egg per 4 muffins. For 36 muffins, divide 36 by 4 to get 9 eggs.  \nAnswer: 9 eggs",
+          "refusal": null,
+          "reasoning": "We are asked: \"A muffin recipe uses 3 eggs for 12 muffins. How many eggs do I need for 36 muffins?\" This is a simple proportion. 3 eggs for 12 muffins means 1 egg for 4 muffins. 36 muffins / 4 = 9 eggs. So answer is 9.\n\nEnd with \"Answer: 9 eggs\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A muffin recipe uses 3 eggs for 12 muffins. How many eggs do I need for 36 muffins?\" This is a simple proportion. 3 eggs for 12 muffins means 1 egg for 4 muffins. 36 muffins / 4 = 9 eggs. So answer is 9.\n\nEnd with \"Answer: 9 eggs\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 57,
+      "completion_tokens": 128,
+      "total_tokens": 185,
+      "cost": 0.000435696,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000435696,
+        "upstream_inference_prompt_cost": 0.000079344,
+        "upstream_inference_completions_cost": 0.000356352
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 82,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 57,
+  "tokensOut": 128,
+  "costUsd": 0.000435696,
+  "latencyMs": 16276,
+  "finishReason": "stop"
+}

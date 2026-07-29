@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "nutr-010",
+  "answerText": "20 g/bar × 6 bars = 120 g\n\nAnswer: 120 g",
+  "raw": {
+    "id": "gen-1785345341-oJSLmF5mRpT8OzSGrRtd",
+    "object": "chat.completion",
+    "created": 1785345341,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "20 g/bar × 6 bars = 120 g\n\nAnswer: 120 g",
+          "refusal": null,
+          "reasoning": "The problem asks: \"A protein bar provides 20 g of protein. How many grams of protein are in a box of 6 bars?\"\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem asks: \"A protein bar provides 20 g of protein. How many grams of protein are in a box of 6 bars?\"\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "Ct3/fVWihQCat7zvHbduYrQBF0XVWQxUh5mZ2F7W0GWV8aKlJ0gtttLGC5tH/Nr7RtAg07DWoyiMd/HMzKFhDLl+VR7+PQ2GFA3P4dCQxs7dbtwvNfMPKVPtwBx4d3kLiSVvQT3JQwoZE2zfOK8ragrxyLQaUFF2qobxV9zr2SLeQrVa2Q6XjVCNI16wcbPagVFHiR8HE4GVj5Gzpx/e1GviZjPiEF8JAG70ApW2oxH6nZf1lzIqgXlnfqLsUjz4KJILMy/L4yV8+88dj5Zhb9SVheyuIRuhHI25PHZEJkKuemD2HOwFveMJSo5gvw",
+              "format": "xai-responses-v1",
+              "id": "rs_81304ab2-0ca2-911d-a7a7-1eee0b7b3225",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 262,
+      "completion_tokens": 84,
+      "total_tokens": 346,
+      "cost": 0.0008104,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0008104,
+        "upstream_inference_prompt_cost": 0.0003064,
+        "upstream_inference_completions_cost": 0.000504
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 66,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 262,
+  "tokensOut": 84,
+  "costUsd": 0.0008104,
+  "latencyMs": 1613,
+  "finishReason": "stop"
+}

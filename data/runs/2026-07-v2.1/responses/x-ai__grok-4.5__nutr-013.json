@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "nutr-013",
+  "answerText": "The protein content is calculated from the raw weight, since the absolute amount of protein is unchanged by cooking.  \nRaw protein = \\(23.5\\,\\mathrm{g}/100\\,\\mathrm{g} \\times 400\\,\\mathrm{g} = 94\\,\\mathrm{g}\\).  \n(The 25 % weight loss affects only water and therefore does not alter the 94 g figure.)\n\nAnswer: 94 g",
+  "raw": {
+    "id": "gen-1785345344-OoxnVFwk5rNp3LBRUp5k",
+    "object": "chat.completion",
+    "created": 1785345344,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The protein content is calculated from the raw weight, since the absolute amount of protein is unchanged by cooking.  \nRaw protein = \\(23.5\\,\\mathrm{g}/100\\,\\mathrm{g} \\times 400\\,\\mathrm{g} = 94\\,\\mathrm{g}\\).  \n(The 25 % weight loss affects only water and therefore does not alter the 94 g figure.)\n\nAnswer: 94 g",
+          "refusal": null,
+          "reasoning": "The problem states: Raw chicken breast has about 23.5 g of protein per 100 g, and chicken loses roughly 25% of its weight during cooking (the protein stays). I cook 400 g of raw chicken breast. About ...",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem states: Raw chicken breast has about 23.5 g of protein per 100 g, and chicken loses roughly 25% of its weight during cooking (the protein stays). I cook 400 g of raw chicken breast. About ...",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "+UBUy3NcOCmGeH9ilDikbk9n5kxPF6wLJNqTa4IW3kzJa5cz4pFTMMc0RYW3isQmwFeLOr+HjqRYmS+fdofKXhEL/JyX92/nOJF4cHneiePb7/yMjoWUOLzzmAb4rR28iDXcUjsOYc07wFeJ9wWciqTnBDAH/W0v2BaEnuOd/sTqtMOIGzOO9eOx7Hv33BgPcyOpyBZjK+sLS4tAi9+4UIi5gk1+OVIhENJ4jze9wVACXmg0yRIwP/kfty2YOPGRng4qREouiQeU/6srTxlyiRKu26AQ5nYacT3zstN4DBG1UhmYlPl3z+NMhjj3st5QWi7vPHIBylQMvugGbyg4vBHCQ2m3Z6x/E2cN9VkvbvjGjXqgRBEk5wvCi64qxjp63/ibm5XUfx0vfvUbETix4bxx35FBtSJV79ckB8X2Sh0UwZKVHaJnKahyPn6cPBIuXnwmP20N5aGUpPR8LILSoGMKkHpBtRvFfgeOkbDmx55Nr3U5Ut6D+KeuMwiWn+gWaMxvqrKYh0vlWe5/5MhkT+XGd7s031XxQDu1a1IsSE2L6g1Ur3vyRm+EBSdZr4wU7w3dI97uIY0WcnBSexsJIuasqwiaOQS69HKUCB83AH4t3OZT2I1/WIUaqDv6+kBBbZpR7nvCw996S9X1YJMOMWXtYPVkRzGum3syIco91khRIhuAGCizF+Uyc5zdpFdih1anZY00Yn+cPAoXsfsD9HBr3+0SGzWowQU9lJZalZtIzyDU8wT+dWghDyIAKMYOEeErZz/7i+Z53B5PaglTa5bqnnOdZ+oelGgh4e+LJGAB4nM0PdnvK9cSF8OB5+Pdrvr6l9IYh754pxv++pPdObnfG8Fet82HzXR9Fi3gaz/JZrIC1d12IkBUYO7BwjKo7kuoBld6KUe8xhjVp26D1icTnbLW+JHiLwNl6YbB23+Qb6aoufZLW+4A03feM7EI/mkSh6AVS7POwLpbMA9GeHPBYiBIyf781D9TamyiAB8ixKpDhTC3hpXyi6UbQPkY1fGJGRnnrHzvZQEefsTL6KDoXI1PT6tHqJOJCdn8hVty4V5mqtL0Ew34u9IywA33s7kvMsYNYUhp2ORautjuwA",
+              "format": "xai-responses-v1",
+              "id": "rs_cdf56c1a-41ea-97ec-8b87-fd589cad3616",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 294,
+      "completion_tokens": 304,
+      "total_tokens": 598,
+      "cost": 0.0021944,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0021944,
+        "upstream_inference_prompt_cost": 0.0003704,
+        "upstream_inference_completions_cost": 0.001824
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 218,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 294,
+  "tokensOut": 304,
+  "costUsd": 0.0021944,
+  "latencyMs": 5049,
+  "finishReason": "stop"
+}

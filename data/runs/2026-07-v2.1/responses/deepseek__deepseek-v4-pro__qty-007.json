@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-007",
+  "answerText": "You need 100 g of rice per person for 11 people, so total rice = 11 × 100 g = 1100 g. With a broth-to-rice ratio of 3:1 by weight, the broth required is 3 × 1100 g = 3300 g.\n\nAnswer: 3300 g",
+  "raw": {
+    "id": "gen-1785347396-i4DG1yvfUNPJKTrsoxsa",
+    "object": "chat.completion",
+    "created": 1785347396,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "You need 100 g of rice per person for 11 people, so total rice = 11 × 100 g = 1100 g. With a broth-to-rice ratio of 3:1 by weight, the broth required is 3 × 1100 g = 3300 g.\n\nAnswer: 3300 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"I'm making paella for 11 people with bomba rice. Allow 100 g of rice per person and use a broth-to-rice ratio of 3:1 by weight. How many grams of broth do I need?\"\n\nSo, rice per person: 100 g. For 11 people: 11 * 100 = 1100 g of rice.\nBroth-to-rice ratio: 3:1 by weight. So broth = 3 * rice = 3 * 1100 = 3300 g.\nAnswer: 3300 g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"I'm making paella for 11 people with bomba rice. Allow 100 g of rice per person and use a broth-to-rice ratio of 3:1 by weight. How many grams of broth do I need?\"\n\nSo, rice per person: 100 g. For 11 people: 11 * 100 = 1100 g of rice.\nBroth-to-rice ratio: 3:1 by weight. So broth = 3 * rice = 3 * 1100 = 3300 g.\nAnswer: 3300 g.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 81,
+      "completion_tokens": 191,
+      "total_tokens": 272,
+      "cost": 0.0005635,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 32,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0005635,
+        "upstream_inference_prompt_cost": 0.0000669,
+        "upstream_inference_completions_cost": 0.0004966
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 87,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 81,
+  "tokensOut": 191,
+  "costUsd": 0.0005635,
+  "latencyMs": 1479,
+  "finishReason": "stop"
+}

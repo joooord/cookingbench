@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-013",
+  "answerText": "To convert 425°F to Celsius, subtract 32 and multiply by 5/9:  \n(425 - 32) × 5/9 = 393 × 5/9 = 1965/9 ≈ 218.33°C.\n\nAnswer: 218.3 °C",
+  "raw": {
+    "id": "gen-1785347101-9zXFBog17GoiQDFU5Rqa",
+    "object": "chat.completion",
+    "created": 1785347101,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To convert 425°F to Celsius, subtract 32 and multiply by 5/9:  \n(425 - 32) × 5/9 = 393 × 5/9 = 1965/9 ≈ 218.33°C.\n\nAnswer: 218.3 °C",
+          "refusal": null,
+          "reasoning": "We are asked: \"Convert 425°F to Celsius for an oven.\" Need to provide answer with line \"Answer: <number> °C\". Conversion: (°F - 32) × 5/9 = °C. So (425 - 32) × 5/9 = 393 × 5/9 = 1965/9 ≈ 218.333... °C. Typically rounded to 220°C for oven settings? But the question says accurately and concisely. It might expect the exact conversion. I'll provide the exact value and then the rounded one? The instruction: \"Answer the question accurately and concisely. End your reply with a line 'Answer: <number> °C'.\" So I should give the precise conversion. 1965/9 = 218.333... I can say 218.3°C. Ovens are often set in increments of 5 or 10, but the question doesn't ask for a typical setting, just conversion. So I'll provide 218.33 or simply 218.3. I'll round to one decimal? It says \"<number>\" so I can give a decimal. I'll use 218.3. Let's compute: 425-32=393, 393*5=1965, 1965/9=218.333... So 218.3°C. I'll output \"Answer: 218.3 °C\". But to be safe, maybe they want integer? In baking, often 220°C is used. But the question says \"Convert 425°F to Celsius\". So I'll give the exact value. I'll put 218.33? I'll just give 218.3. The line should be exactly \"Answer: 218.3 °C\". No extra text after. I'll include the explanation before.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Convert 425°F to Celsius for an oven.\" Need to provide answer with line \"Answer: <number> °C\". Conversion: (°F - 32) × 5/9 = °C. So (425 - 32) × 5/9 = 393 × 5/9 = 1965/9 ≈ 218.333... °C. Typically rounded to 220°C for oven settings? But the question says accurately and concisely. It might expect the exact conversion. I'll provide the exact value and then the rounded one? The instruction: \"Answer the question accurately and concisely. End your reply with a line 'Answer: <number> °C'.\" So I should give the precise conversion. 1965/9 = 218.333... I can say 218.3°C. Ovens are often set in increments of 5 or 10, but the question doesn't ask for a typical setting, just conversion. So I'll provide 218.33 or simply 218.3. I'll round to one decimal? It says \"<number>\" so I can give a decimal. I'll use 218.3. Let's compute: 425-32=393, 393*5=1965, 1965/9=218.333... So 218.3°C. I'll output \"Answer: 218.3 °C\". But to be safe, maybe they want integer? In baking, often 220°C is used. But the question says \"Convert 425°F to Celsius\". So I'll give the exact value. I'll put 218.33? I'll just give 218.3. The line should be exactly \"Answer: 218.3 °C\". No extra text after. I'll include the explanation before.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 46,
+      "completion_tokens": 451,
+      "total_tokens": 497,
+      "cost": 0.0005927844,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0005927844,
+        "upstream_inference_prompt_cost": 0.0000287638,
+        "upstream_inference_completions_cost": 0.0005640206
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 387,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 46,
+  "tokensOut": 451,
+  "costUsd": 0.0005927844,
+  "latencyMs": 9149,
+  "finishReason": "stop"
+}

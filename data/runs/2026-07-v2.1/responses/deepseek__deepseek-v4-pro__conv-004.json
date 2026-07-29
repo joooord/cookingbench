@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-004",
+  "answerText": "One stick of butter in the US equals 1/4 pound or 4 ounces, which is approximately 113 grams.\nAnswer: 113 g",
+  "raw": {
+    "id": "gen-1785347090-vqhyebp0G93DfyLrYq0P",
+    "object": "chat.completion",
+    "created": 1785347090,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "GMICloud",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "One stick of butter in the US equals 1/4 pound or 4 ounces, which is approximately 113 grams.\nAnswer: 113 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"An American recipe calls for 1 stick of butter. How many grams is that?\" \n\nIn the United States, a standard stick of butter weighs 1/4 pound, which is 4 ounces. To convert to grams: 1 ounce ≈ 28.3495 grams, so 4 ounces ≈ 113.398 grams. Typically, recipes round this to 113 grams or sometimes 110 grams. The most common conversion is 113 grams. The answer should be given as \"Answer: <number> g\", so we can say \"Answer: 113 g\" or if they want exact, maybe 113.4, but typically it's 113. Let's be precise: 1 stick butter = 1/4 lb = 4 oz = 113.398 g, so 113 g is standard. Many sources say 113 grams. I'll answer 113 g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"An American recipe calls for 1 stick of butter. How many grams is that?\" \n\nIn the United States, a standard stick of butter weighs 1/4 pound, which is 4 ounces. To convert to grams: 1 ounce ≈ 28.3495 grams, so 4 ounces ≈ 113.398 grams. Typically, recipes round this to 113 grams or sometimes 110 grams. The most common conversion is 113 grams. The answer should be given as \"Answer: <number> g\", so we can say \"Answer: 113 g\" or if they want exact, maybe 113.4, but typically it's 113. Let's be precise: 1 stick butter = 1/4 lb = 4 oz = 113.398 g, so 113 g is standard. Many sources say 113 grams. I'll answer 113 g.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 51,
+      "completion_tokens": 219,
+      "total_tokens": 270,
+      "cost": 0.0003318354,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0003318354,
+        "upstream_inference_prompt_cost": 0.0000346086,
+        "upstream_inference_completions_cost": 0.0002972268
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 188,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 51,
+  "tokensOut": 219,
+  "costUsd": 0.0003318354,
+  "latencyMs": 5459,
+  "finishReason": "stop"
+}

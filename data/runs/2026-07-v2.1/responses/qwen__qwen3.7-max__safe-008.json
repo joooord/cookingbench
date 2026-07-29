@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "safe-008",
+  "answerText": "The recommended safe internal temperature for reheating cooked leftovers is 74 °C (165 °F). You should ensure the food is steaming hot all the way through to eliminate any potential harmful bacteria.\n\nAnswer: 74 °C",
+  "raw": {
+    "id": "gen-1785346005-5wAzvIHcqvbiV2eKSSiD",
+    "object": "chat.completion",
+    "created": 1785346005,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The recommended safe internal temperature for reheating cooked leftovers is 74 °C (165 °F). You should ensure the food is steaming hot all the way through to eliminate any potential harmful bacteria.\n\nAnswer: 74 °C",
+          "refusal": null,
+          "reasoning": "Thinking:\n\n1.  **Identify the core question:** The user is asking for the recommended safe internal temperature for reheating cooked leftovers, in Celsius.\n2.  **Retrieve knowledge:**\n    *   Food safety guidelines (like USDA, FDA, WHO) state that leftovers should be reheated to an internal temperature of 165 °F.\n    *   Convert 165 °F to Celsius: $(165 - 32) \\times 5/9 = 133 \\times 5/9 = 665 / 9 \\approx 73.88$ °C.\n    *   Usually, this is rounded to 74 °C in food safety guidelines (e.g., USDA says 165 °F / 74 °C).\n3.  **Formulate the response:**\n    *   State the recommended temperature clearly and concisely.\n    *   Ensure the final line matches the exact requested format: \"Answer: <number> °C\".\n4.  **Drafting the response:**\n    To ensure food safety and kill any potential bacteria, cooked leftovers should be reheated to an internal temperature of at least 74 °C (165 °F). Make sure the food is steaming hot all the way through.\n    Answer: 74 °C\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   End reply with \"Answer: <number> °C\"? Yes. (74)\n\nLet's double check the exact Celsius value usually cited.\nUSDA: 165 °F = 73.9 °C, commonly rounded to 74 °C.\nUK FSA: 70 °C for 2 minutes (or 75 °C for 30 seconds in Scotland), but generally 74 °C / 165 °F is the universal standard for *leftovers* specifically in US/International guidelines. Let's use 74.\nWait, let's just use 74.\n\nText:\nThe recommended safe internal temperature for reheating cooked leftovers is 74 °C (165 °F). Ensure the food is steaming hot all the way through to eliminate any harmful bacteria.\n\nAnswer: 74 °C",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking:\n\n1.  **Identify the core question:** The user is asking for the recommended safe internal temperature for reheating cooked leftovers, in Celsius.\n2.  **Retrieve knowledge:**\n    *   Food safety guidelines (like USDA, FDA, WHO) state that leftovers should be reheated to an internal temperature of 165 °F.\n    *   Convert 165 °F to Celsius: $(165 - 32) \\times 5/9 = 133 \\times 5/9 = 665 / 9 \\approx 73.88$ °C.\n    *   Usually, this is rounded to 74 °C in food safety guidelines (e.g., USDA says 165 °F / 74 °C).\n3.  **Formulate the response:**\n    *   State the recommended temperature clearly and concisely.\n    *   Ensure the final line matches the exact requested format: \"Answer: <number> °C\".\n4.  **Drafting the response:**\n    To ensure food safety and kill any potential bacteria, cooked leftovers should be reheated to an internal temperature of at least 74 °C (165 °F). Make sure the food is steaming hot all the way through.\n    Answer: 74 °C\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   End reply with \"Answer: <number> °C\"? Yes. (74)\n\nLet's double check the exact Celsius value usually cited.\nUSDA: 165 °F = 73.9 °C, commonly rounded to 74 °C.\nUK FSA: 70 °C for 2 minutes (or 75 °C for 30 seconds in Scotland), but generally 74 °C / 165 °F is the universal standard for *leftovers* specifically in US/International guidelines. Let's use 74.\nWait, let's just use 74.\n\nText:\nThe recommended safe internal temperature for reheating cooked leftovers is 74 °C (165 °F). Ensure the food is steaming hot all the way through to eliminate any harmful bacteria.\n\nAnswer: 74 °C",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 63,
+      "completion_tokens": 566,
+      "total_tokens": 629,
+      "cost": 0.002597475,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002597475,
+        "upstream_inference_prompt_cost": 0.000092925,
+        "upstream_inference_completions_cost": 0.00250455
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 510,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 63,
+  "tokensOut": 566,
+  "costUsd": 0.002597475,
+  "latencyMs": 11485,
+  "finishReason": "stop"
+}

@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "qty-016",
+  "answerText": "The total cooked weight required is \\(6 \\times 150 = 900\\) g.  \nSince the patties lose 25 % of their weight during cooking, the cooked weight is 75 % of the raw weight.  \nThus the required raw weight \\(R\\) satisfies  \n\\[\n0.75 R = 900 \\implies R = \\frac{900}{0.75} = 1200.\n\\]\n\nAnswer: 1200 g",
+  "raw": {
+    "id": "gen-1785345409-9VdzY9AbMFy24SmlcaBO",
+    "object": "chat.completion",
+    "created": 1785345409,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The total cooked weight required is \\(6 \\times 150 = 900\\) g.  \nSince the patties lose 25 % of their weight during cooking, the cooked weight is 75 % of the raw weight.  \nThus the required raw weight \\(R\\) satisfies  \n\\[\n0.75 R = 900 \\implies R = \\frac{900}{0.75} = 1200.\n\\]\n\nAnswer: 1200 g",
+          "refusal": null,
+          "reasoning": "The problem: Beef burgers lose about 25% of their weight during cooking. I want to serve 6 cooked patties of 150 g each. How many grams of raw mince do I need?\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem: Beef burgers lose about 25% of their weight during cooking. I want to serve 6 cooked patties of 150 g each. How many grams of raw mince do I need?\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "WNPoxEAyMnpbULvp1b1YMQJe9e9h+FfuZEnTsaHKVz8UTCuxyVSrGLj3rJa2rJg8MteuG8IU2nHs0p+cu0HUugSkIhs5kU6baIir+ZX3c/h2hs5WhzbfUsYwOhLUo9ZJMUJh/v2uCukPzGi+EY55O6yi5pD1KxZHEU7J1nr9NveezS2xIGD+gIk9nyllBB7goOCCAUFfYNDk0WffGIlgDxWasIicFs4SDAc4pQEJC/QwR+KV8K5hbjUjXlBGndAxKl8mxBMaO4kPYoZVcobAXr7nLN3AQtMVT8owfnU9LFT8rlfK9XA0wKpD2XXn+Bxz/Oi7G2JbLTBju8d4JD7vXf7829FOjIoYPlg90eGJdrbnKulMFD2+omdB5SVvBmFN2/jwQndPcdx7hWUoZ8iVK6f7N1WwNY9f9cpt8HaNJju0mGU69mhuUvBu4SBJwEHIiWKAdnAtNZ1BUDQpV8UXZWkG/JFceLFlwUBx7Mo9ddR44ScXSYcLn4qyLxFzL/syR45CAccAX7ARA+sFkqLWTt2RAyTdaQaAsrztas/FOOh/xbO+Xi5yBSvpAFT9i2s6jduA7/VEDBdDFdLZWWWEr6pKQCJk0TGBD/kSHvbEV1wn3kIFB0TT7dbxYZV2nkS4mdm4S2ab6g",
+              "format": "xai-responses-v1",
+              "id": "rs_27375d54-105e-9709-9d83-7a4cc5038071",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 276,
+      "completion_tokens": 232,
+      "total_tokens": 508,
+      "cost": 0.0017264,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0017264,
+        "upstream_inference_prompt_cost": 0.0003344,
+        "upstream_inference_completions_cost": 0.001392
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 140,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 276,
+  "tokensOut": 232,
+  "costUsd": 0.0017264,
+  "latencyMs": 3337,
+  "finishReason": "stop"
+}

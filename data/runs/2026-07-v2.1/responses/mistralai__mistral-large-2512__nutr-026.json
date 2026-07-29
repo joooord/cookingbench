@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "nutr-026",
+  "answerText": "For a 200 g raw salmon fillet:\n- Cooked weight: 200 g × 0.8 = **160 g**\n- Protein: (20 g/100 g × 200 g) = **40 g** (retained)\n- Fat: (13 g/100 g × 200 g) = **26 g** (retained)\n- Calories: (40 g protein × 4 kcal/g) + (26 g fat × 9 kcal/g) = **384 kcal**\n\nProtein: 40 g\nFat: 26 g\nCalories: 384 kcal",
+  "raw": {
+    "id": "gen-1785348036-GFd0sZ7i4CoxK0miWXip",
+    "object": "chat.completion",
+    "created": 1785348036,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "For a 200 g raw salmon fillet:\n- Cooked weight: 200 g × 0.8 = **160 g**\n- Protein: (20 g/100 g × 200 g) = **40 g** (retained)\n- Fat: (13 g/100 g × 200 g) = **26 g** (retained)\n- Calories: (40 g protein × 4 kcal/g) + (26 g fat × 9 kcal/g) = **384 kcal**\n\nProtein: 40 g\nFat: 26 g\nCalories: 384 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 129,
+      "completion_tokens": 150,
+      "total_tokens": 279,
+      "cost": 0.0002751,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 32,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002751,
+        "upstream_inference_prompt_cost": 0.0000501,
+        "upstream_inference_completions_cost": 0.000225
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 129,
+  "tokensOut": 150,
+  "costUsd": 0.0002751,
+  "latencyMs": 2335,
+  "finishReason": "stop"
+}

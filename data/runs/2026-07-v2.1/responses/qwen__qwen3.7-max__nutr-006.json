@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "nutr-006",
+  "answerText": "To find the amount of protein in 150 g of the powder, you can set up a proportion based on the information provided on the label:\n\n12 g of protein / 40 g of powder = x g of protein / 150 g of powder\n\nx = (12 / 40) * 150\nx = 0.3 * 150\nx = 45\n\nAnswer: 45 g",
+  "raw": {
+    "id": "gen-1785346120-deWpvIHra8gnhxbbilwh",
+    "object": "chat.completion",
+    "created": 1785346120,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To find the amount of protein in 150 g of the powder, you can set up a proportion based on the information provided on the label:\n\n12 g of protein / 40 g of powder = x g of protein / 150 g of powder\n\nx = (12 / 40) * 150\nx = 0.3 * 150\nx = 45\n\nAnswer: 45 g",
+          "refusal": null,
+          "reasoning": "The user wants to find out how much protein is in 150 g of protein powder.\nGiven:\n- 40 g of powder provides 12 g of protein.\n- We need to find the amount of protein in 150 g of powder.\n\nLet $P$ be the amount of protein in 150 g of powder.\nWe can set up a proportion:\n$12 \\text{ g protein} / 40 \\text{ g powder} = P \\text{ g protein} / 150 \\text{ g powder}$\n\n$P = (12 / 40) \\times 150$\n$P = 0.3 \\times 150$\n$P = 45$\n\nSo, there are 45 g of protein in 150 g of the powder.\n\nCheck the math:\n12 / 40 = 3 / 10\n3/10 * 150 = 3 * 15 = 45.\nCorrect.\n\nFormat requirement:\nEnd the reply with a line \"Answer: <number> g\".\nAccurate and concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants to find out how much protein is in 150 g of protein powder.\nGiven:\n- 40 g of powder provides 12 g of protein.\n- We need to find the amount of protein in 150 g of powder.\n\nLet $P$ be the amount of protein in 150 g of powder.\nWe can set up a proportion:\n$12 \\text{ g protein} / 40 \\text{ g powder} = P \\text{ g protein} / 150 \\text{ g powder}$\n\n$P = (12 / 40) \\times 150$\n$P = 0.3 \\times 150$\n$P = 45$\n\nSo, there are 45 g of protein in 150 g of the powder.\n\nCheck the math:\n12 / 40 = 3 / 10\n3/10 * 150 = 3 * 15 = 45.\nCorrect.\n\nFormat requirement:\nEnd the reply with a line \"Answer: <number> g\".\nAccurate and concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 79,
+      "completion_tokens": 359,
+      "total_tokens": 438,
+      "cost": 0.0017051,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0017051,
+        "upstream_inference_prompt_cost": 0.000116525,
+        "upstream_inference_completions_cost": 0.001588575
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 256,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 79,
+  "tokensOut": 359,
+  "costUsd": 0.0017051,
+  "latencyMs": 7295,
+  "finishReason": "stop"
+}

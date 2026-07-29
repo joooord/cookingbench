@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "nutr-013",
+  "answerText": "To determine the protein content in the cooked chicken breast:\n\n1. Calculate the weight after cooking:\n   400 g raw × (1 - 0.25) = 300 g cooked.\n\n2. Calculate the protein content:\n   23.5 g protein per 100 g raw × 400 g raw = 94 g protein (retained after cooking).\n\nAnswer: 94 g",
+  "raw": {
+    "id": "gen-1785348031-TOJZVUdm28pshk0U3ggF",
+    "object": "chat.completion",
+    "created": 1785348031,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To determine the protein content in the cooked chicken breast:\n\n1. Calculate the weight after cooking:\n   400 g raw × (1 - 0.25) = 300 g cooked.\n\n2. Calculate the protein content:\n   23.5 g protein per 100 g raw × 400 g raw = 94 g protein (retained after cooking).\n\nAnswer: 94 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 97,
+      "completion_tokens": 92,
+      "total_tokens": 189,
+      "cost": 0.0001793,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 16,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0001793,
+        "upstream_inference_prompt_cost": 0.0000413,
+        "upstream_inference_completions_cost": 0.000138
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 97,
+  "tokensOut": 92,
+  "costUsd": 0.0001793,
+  "latencyMs": 1694,
+  "finishReason": "stop"
+}

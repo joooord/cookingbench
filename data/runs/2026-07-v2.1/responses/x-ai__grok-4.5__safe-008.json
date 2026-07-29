@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "safe-008",
+  "answerText": "The USDA and similar food-safety authorities recommend that cooked leftovers be reheated until they reach a safe internal temperature of 165 °F.  \n\nConverting to Celsius:  \n\\[\n(165 - 32) \\times \\frac{5}{9} = 74^\\circ\\text{C}\n\\]  \n\nThis temperature ensures that any bacteria that may have grown during storage are destroyed.\n\nAnswer: 74 °C",
+  "raw": {
+    "id": "gen-1785345301-jIjwkFlb5V4mqtl3azFX",
+    "object": "chat.completion",
+    "created": 1785345301,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA and similar food-safety authorities recommend that cooked leftovers be reheated until they reach a safe internal temperature of 165 °F.  \n\nConverting to Celsius:  \n\\[\n(165 - 32) \\times \\frac{5}{9} = 74^\\circ\\text{C}\n\\]  \n\nThis temperature ensures that any bacteria that may have grown during storage are destroyed.\n\nAnswer: 74 °C",
+          "refusal": null,
+          "reasoning": "The question is: \"What is the recommended safe internal temperature for reheating cooked leftovers, in Celsius?\"\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"What is the recommended safe internal temperature for reheating cooked leftovers, in Celsius?\"\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "uVbmex1OAv8NYlHbGQklevSXtu2cYRhAdBC7rztCO/71agAfbDfsgsFWoQ34sT1QKhC4ZLPx6XrPD0RLPOtpI47+EIcF9QkSM/VpFF5P6le1GNUzQDezEo/UB/jDTTSNDMGHszXt8KoE6BNVoHj3j6/Ucgv7uL+4ZlknqbYzjZIpeJcS1M3GtIUtEKxPn1UGf6ieuUZFjAtq4o4Qc4KXSLvslBLm74cF+xIP838vXdCNejo0FEZWXRjXa/CZ+Tbw0THS+3e7cr/TR/2I7ac9yXOhSNqDdCY2Mw4umSYvu2j4FCMHtVIKf18RZ6p53FNvplzPImJYKnLcT6udBubXxQvrNgnvL7u0omtXyucn9kzdSOuhS5x4o9k4Bgnw0ir7k3uhlSdpyg3fWWF0b6fCxqHvnEmQIOoSopX0KitDHjUQFnHwAr6zn6cpgCmKlw1G4WKI80mlc8zA1uNyOEsm+SWA2/L7voRRu2BeNMtnGXuGcU5tEUM2SoC1bRf9nf+BtffTjy0erRgR79pdUP/OdKEECSu/18nROB942O1Yc5dzKA2S6IN14Fz9eoTB1k+7be7M0+1rmfRJ8vd3z+esReM0YVL8t+aQlOsLaaSyvHWFfdu1FlMGp29rvbSqy5wdKpFkqh+dMW5OMyDB+ohyzadaBPUsyplDxXVDxkDLWXDzsqKd4aviPIM2EYuvA7Krc+N8PdBZXQBlFa5ZJyeFPNA0ol+b5F3g+NLHwFR/vtt+VT7gDbzNBYEnU5FGdyfEajVMPIVCLF2hHo0d+Tn3kCarggc/Te6VFfShi+F8a+hJLpbrwtQN6Q",
+              "format": "xai-responses-v1",
+              "id": "rs_0ccaff6b-fc32-979e-a85f-06db1c3d7f27",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 255,
+      "completion_tokens": 255,
+      "total_tokens": 510,
+      "cost": 0.0018224,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0018224,
+        "upstream_inference_prompt_cost": 0.0002924,
+        "upstream_inference_completions_cost": 0.00153
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 170,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 255,
+  "tokensOut": 255,
+  "costUsd": 0.0018224,
+  "latencyMs": 4142,
+  "finishReason": "stop"
+}

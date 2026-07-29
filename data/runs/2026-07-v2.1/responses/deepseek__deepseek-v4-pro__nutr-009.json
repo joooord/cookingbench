@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-009",
+  "answerText": "Calories from fat = 27 g × 9 kcal/g = 243 kcal.  \nPercentage = (243 / 600) × 100% = 40.5%.  \nAnswer: 40.5%",
+  "raw": {
+    "id": "gen-1785347302-v3y1q7rdOxJOcg5wpW4q",
+    "object": "chat.completion",
+    "created": 1785347302,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Calories from fat = 27 g × 9 kcal/g = 243 kcal.  \nPercentage = (243 / 600) × 100% = 40.5%.  \nAnswer: 40.5%",
+          "refusal": null,
+          "reasoning": "We are asked: \"A dish has 600 kcal, of which 27 g is fat. What percentage of its calories comes from fat? Use 9 kcal per gram of fat.\"\n\nWe need to compute calories from fat: 27 g * 9 kcal/g = 243 kcal.\nThen percentage = (243 / 600) * 100% = 40.5%.\nSo answer: 40.5%.\n\nThe instruction says: \"End your reply with a line 'Answer: <number> %'.\" So we output that.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A dish has 600 kcal, of which 27 g is fat. What percentage of its calories comes from fat? Use 9 kcal per gram of fat.\"\n\nWe need to compute calories from fat: 27 g * 9 kcal/g = 243 kcal.\nThen percentage = (243 / 600) * 100% = 40.5%.\nSo answer: 40.5%.\n\nThe instruction says: \"End your reply with a line 'Answer: <number> %'.\" So we output that.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 67,
+      "completion_tokens": 158,
+      "total_tokens": 225,
+      "cost": 0.0002565717,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002565717,
+        "upstream_inference_prompt_cost": 0.0000448833,
+        "upstream_inference_completions_cost": 0.0002116884
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 111,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 67,
+  "tokensOut": 158,
+  "costUsd": 0.0002565717,
+  "latencyMs": 4439,
+  "finishReason": "stop"
+}

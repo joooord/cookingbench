@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "conv-011",
+  "answerText": "The conversion formula from Celsius to Kelvin is:\n\\[\nK = °C + 273.15\n\\]\n\nSubstitute the given boiling point:\n\\[\nK = 100 + 273.15 = 373.15\n\\]\n\nAnswer: 373.15 K",
+  "raw": {
+    "id": "gen-1785345213-tjX0NgxwPAWbEJRbIbq9",
+    "object": "chat.completion",
+    "created": 1785345213,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The conversion formula from Celsius to Kelvin is:\n\\[\nK = °C + 273.15\n\\]\n\nSubstitute the given boiling point:\n\\[\nK = 100 + 273.15 = 373.15\n\\]\n\nAnswer: 373.15 K",
+          "refusal": null,
+          "reasoning": "The problem asks: \"Water boils at 100°C at sea level. Express that temperature in Kelvin.\"\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem asks: \"Water boils at 100°C at sea level. Express that temperature in Kelvin.\"\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "xU2t0uva4hLuqHYSBjYko9Bp/iRLqVXZbJdD2BehookbxUV4O7QqV9FMETm3iBf50Pq5tQx4nr4hfUV1HpqwCifcXCWsAsBJi7GICQx8pTQX+BtFEpxGwJ570093rR5xCGVFCxWCOA1eH8tvoPPJpZjOJq7T+GrxfLYwBlYnKpa3JvfyIRiA+CuQ290KB8HV+EJ18R2jeK/MfUGHfXnUePXBY+zYVaS0Rx8N3850F0gLZIfmtWt1Sgfig7/uhBqtZ/1g7QXfgoXjWydEh5asG7R4fA3duJQRo6YP+mSn1S6o2U4EBNOmHx+bI6BUaXdu+0JVECq/sX05mToCg6lAoDb3QvSlhgEaYVLDsTCMFW7rtJdsNxtW5venYE79n2Fz4iCrbGzPTelYkQuckkzjVkGWnXkgOp1YhGZ7D9b9YhlZxF6uki0jZ6vezaTaeRuwIe9k33Wnwm+s9bWkhQce3vW91dZbA9J6lTBN2ZLJS+bIErZdZoTGw5JmNbae/vlomJo9Pth2q7CpyMveW1pkZ5NDNiyNBzID3DqPVfR1HeU+yeCj7SewtZectjABZC47AirjDraDTVVwY6/s/J6pxOsVyDyBaKGzLuUeWC7vJX/cMBBlAbFPIEpclLMAW9AKYdHEeuXa9QybxXV2tMv5yUeze6//0Eg53qkLsKi2xLdcOCmwJcPFBVL+Yaxe2dbcSc+vCKjDHGhE3RNIidAxOk+I6P93S6dffc3R/8Z+jDuAuQECSAt0MNMNLsMBF7Z5SuXXQnw7YK21zTGLyH/XwavYeq1ISpsKuNJOSZtkOCb5S1qr6Y/GhaoXG/3uvlcBhhoLWhVcrJgGsASW8yTQhFOyHELctnLlCJW2nJ0Jd3LLslgdhgDeuf+7oLlhDCgBOVZsOSwCG9EEdoChup5+MEUy52mtcuakDmzhW5JniKyucE1v+L4NP+HkDF5sQiosTwOiI/MYTh7ejji+OOCT+9GqZ/T3YP+u3zqwrI1QZmzYS2ufycB8oCY",
+              "format": "xai-responses-v1",
+              "id": "rs_e587b761-d043-9eb5-8d31-ff02a605dcb6",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 255,
+      "completion_tokens": 270,
+      "total_tokens": 525,
+      "cost": 0.0019124,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0019124,
+        "upstream_inference_prompt_cost": 0.0002924,
+        "upstream_inference_completions_cost": 0.00162
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 215,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 255,
+  "tokensOut": 270,
+  "costUsd": 0.0019124,
+  "latencyMs": 4272,
+  "finishReason": "stop"
+}

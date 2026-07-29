@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "subs-007",
+  "answerText": "To make 200g of self-raising flour substitute, combine:\n\n- **200g plain (all-purpose) flour**\n- **2½ teaspoons baking powder**\n\nSift them together thoroughly to distribute the baking powder evenly. Use immediately in your recipe. (If your recipe already includes salt, no need to add extra; otherwise, you can add a pinch of salt if desired, but it’s not essential.)",
+  "raw": {
+    "id": "gen-1785347779-O3sueDAP9benieH2lR9Z",
+    "object": "chat.completion",
+    "created": 1785347779,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To make 200g of self-raising flour substitute, combine:\n\n- **200g plain (all-purpose) flour**\n- **2½ teaspoons baking powder**\n\nSift them together thoroughly to distribute the baking powder evenly. Use immediately in your recipe. (If your recipe already includes salt, no need to add extra; otherwise, you can add a pinch of salt if desired, but it’s not essential.)",
+          "refusal": null,
+          "reasoning": "We need to provide a substitution for 200g self-raising flour using plain flour and baking powder. Standard conversion: 1 cup self-raising flour = 1 cup plain flour + 1 1/2 teaspoons baking powder + 1/4 teaspoon salt (optional). But we need weight-based quantities. Typically, for every 150g plain flour, add 2 teaspoons baking powder. Or more precisely: 1 cup (125g) plain flour + 1 1/2 tsp baking powder. Let's calculate for 200g.\n\nCommon ratio: 1 teaspoon baking powder per 100g plain flour? Actually, many sources say: for each 150g plain flour, add 2 level teaspoons baking powder. So for 200g, that's (200/150)*2 = 2.67 teaspoons, about 2 2/3 teaspoons. Alternatively, 1 cup (125g) flour + 1.5 tsp baking powder, so per gram: 1.5/125 = 0.012 tsp per gram. For 200g: 200*0.012 = 2.4 tsp. So around 2.5 teaspoons. I'll give a precise answer: 200g plain flour + 2 1/2 teaspoons baking powder. Also mention sifting together. No salt needed unless recipe calls for it. I'll answer concisely.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to provide a substitution for 200g self-raising flour using plain flour and baking powder. Standard conversion: 1 cup self-raising flour = 1 cup plain flour + 1 1/2 teaspoons baking powder + 1/4 teaspoon salt (optional). But we need weight-based quantities. Typically, for every 150g plain flour, add 2 teaspoons baking powder. Or more precisely: 1 cup (125g) plain flour + 1 1/2 tsp baking powder. Let's calculate for 200g.\n\nCommon ratio: 1 teaspoon baking powder per 100g plain flour? Actually, many sources say: for each 150g plain flour, add 2 level teaspoons baking powder. So for 200g, that's (200/150)*2 = 2.67 teaspoons, about 2 2/3 teaspoons. Alternatively, 1 cup (125g) flour + 1.5 tsp baking powder, so per gram: 1.5/125 = 0.012 tsp per gram. For 200g: 200*0.012 = 2.4 tsp. So around 2.5 teaspoons. I'll give a precise answer: 200g plain flour + 2 1/2 teaspoons baking powder. Also mention sifting together. No salt needed unless recipe calls for it. I'll answer concisely.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 51,
+      "completion_tokens": 372,
+      "total_tokens": 423,
+      "cost": 0.0005325705,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0005325705,
+        "upstream_inference_prompt_cost": 0.0000341649,
+        "upstream_inference_completions_cost": 0.0004984056
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 287,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 51,
+  "tokensOut": 372,
+  "costUsd": 0.0005325705,
+  "latencyMs": 9294,
+  "finishReason": "stop"
+}

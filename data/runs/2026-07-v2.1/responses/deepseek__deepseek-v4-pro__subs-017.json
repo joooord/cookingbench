@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "subs-017",
+  "answerText": "Butter has about 80% fat, so 150 g of butter contains 150 × 0.8 = 120 g of fat. Since coconut oil is 100% fat, you need 120 g to match the fat content.\n\nAnswer: 120 g",
+  "raw": {
+    "id": "gen-1785347835-01NJi3R6uL5SDb416esZ",
+    "object": "chat.completion",
+    "created": 1785347835,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Novita",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Butter has about 80% fat, so 150 g of butter contains 150 × 0.8 = 120 g of fat. Since coconut oil is 100% fat, you need 120 g to match the fat content.\n\nAnswer: 120 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"A shortbread recipe uses 150 g of butter. I'm substituting refined coconut oil, matching the FAT content rather than total weight — butter is only about 80% fat (the rest is mostly water), while coconut oil is 100% fat. How many grams of coconut oil should I use?\"\n\nButter is ~80% fat, so 150 g butter contains 150 * 0.8 = 120 g fat. Coconut oil is 100% fat, so to get 120 g fat, we need 120 g coconut oil. So answer: 120 g.\n\nEnd with \"Answer: <number> g\" -> \"Answer: 120 g\"",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A shortbread recipe uses 150 g of butter. I'm substituting refined coconut oil, matching the FAT content rather than total weight — butter is only about 80% fat (the rest is mostly water), while coconut oil is 100% fat. How many grams of coconut oil should I use?\"\n\nButter is ~80% fat, so 150 g butter contains 150 * 0.8 = 120 g fat. Coconut oil is 100% fat, so to get 120 g fat, we need 120 g coconut oil. So answer: 120 g.\n\nEnd with \"Answer: <number> g\" -> \"Answer: 120 g\"",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 95,
+      "completion_tokens": 199,
+      "total_tokens": 294,
+      "cost": 0.000575824,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000575824,
+        "upstream_inference_prompt_cost": 0.00011096,
+        "upstream_inference_completions_cost": 0.000464864
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 142,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 95,
+  "tokensOut": 199,
+  "costUsd": 0.000575824,
+  "latencyMs": 4450,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-019",
+  "answerText": "Total flour = 450 g (bread) + 90 g (whole-wheat) + 50 g (from levain) = 590 g.  \nTotal water = 350 g (added) + 50 g (from levain) = 400 g.  \nHydration = (400 / 590) × 100 ≈ 67.8%.\n\nAnswer: 67.8 %",
+  "raw": {
+    "id": "gen-1785347432-myLa2m1CBp2r6uC57SFO",
+    "object": "chat.completion",
+    "created": 1785347432,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Total flour = 450 g (bread) + 90 g (whole-wheat) + 50 g (from levain) = 590 g.  \nTotal water = 350 g (added) + 50 g (from levain) = 400 g.  \nHydration = (400 / 590) × 100 ≈ 67.8%.\n\nAnswer: 67.8 %",
+          "refusal": null,
+          "reasoning": "We are asked: \"My sourdough formula: 450 g bread flour and 90 g whole-wheat flour, plus 100 g of ripe levain at 100% hydration (i.e. 50 g flour, 50 g water). Total added water besides the levain is 350 g. What is the overall hydration percentage, counting the levain's flour and water?\"\n\nWe need to compute overall hydration percentage. Hydration percentage is defined as (total water / total flour) * 100%. Total flour includes flour from levain. Total water includes water from levain and added water.\n\nGiven:\n- Bread flour: 450 g\n- Whole-wheat flour: 90 g\n- Levain: 100 g at 100% hydration, so it contains 50 g flour and 50 g water.\n- Added water (besides levain): 350 g.\n\nTotal flour = 450 + 90 + 50 = 590 g.\nTotal water = 350 + 50 = 400 g.\n\nHydration percentage = (400 / 590) * 100% = (400/590)*100 = (40/59)*100 ≈ 67.7966...% ≈ 67.8% if rounding to one decimal. But the question likely expects an exact percentage or maybe rounded. Since it's a typical baking calculation, we can give it as a percentage. The instruction says: \"End your reply with a line 'Answer: <number> %'\". So we need to output the number, possibly rounded appropriately. Let's compute exactly: 400/590 = 40/59 ≈ 0.677966. So 67.8% if rounding to one decimal. But maybe they want the exact fraction? Usually hydration is given as a whole number or one decimal. I'll provide 67.8% (or maybe 68% if rounding). Let's see: 400/590 simplifies to 40/59, which is about 67.8%. I'll answer with 67.8%. But to be safe, I'll compute precisely: 400/590 * 100 = 40000/590 = 4000/59 = 67.7966... So 67.8% if rounding to one decimal. I'll answer: 67.8%.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"My sourdough formula: 450 g bread flour and 90 g whole-wheat flour, plus 100 g of ripe levain at 100% hydration (i.e. 50 g flour, 50 g water). Total added water besides the levain is 350 g. What is the overall hydration percentage, counting the levain's flour and water?\"\n\nWe need to compute overall hydration percentage. Hydration percentage is defined as (total water / total flour) * 100%. Total flour includes flour from levain. Total water includes water from levain and added water.\n\nGiven:\n- Bread flour: 450 g\n- Whole-wheat flour: 90 g\n- Levain: 100 g at 100% hydration, so it contains 50 g flour and 50 g water.\n- Added water (besides levain): 350 g.\n\nTotal flour = 450 + 90 + 50 = 590 g.\nTotal water = 350 + 50 = 400 g.\n\nHydration percentage = (400 / 590) * 100% = (400/590)*100 = (40/59)*100 ≈ 67.7966...% ≈ 67.8% if rounding to one decimal. But the question likely expects an exact percentage or maybe rounded. Since it's a typical baking calculation, we can give it as a percentage. The instruction says: \"End your reply with a line 'Answer: <number> %'\". So we need to output the number, possibly rounded appropriately. Let's compute exactly: 400/590 = 40/59 ≈ 0.677966. So 67.8% if rounding to one decimal. But maybe they want the exact fraction? Usually hydration is given as a whole number or one decimal. I'll provide 67.8% (or maybe 68% if rounding). Let's see: 400/590 simplifies to 40/59, which is about 67.8%. I'll answer with 67.8%. But to be safe, I'll compute precisely: 400/590 * 100 = 40000/590 = 4000/59 = 67.7966... So 67.8% if rounding to one decimal. I'll answer: 67.8%.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 109,
+      "completion_tokens": 562,
+      "total_tokens": 671,
+      "cost": 0.0008259867,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0008259867,
+        "upstream_inference_prompt_cost": 0.0000730191,
+        "upstream_inference_completions_cost": 0.0007529676
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 478,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 109,
+  "tokensOut": 562,
+  "costUsd": 0.0008259867,
+  "latencyMs": 12664,
+  "finishReason": "stop"
+}

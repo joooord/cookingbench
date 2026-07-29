@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "qty-016",
+  "answerText": "To determine the amount of raw mince needed, follow these steps:\n\n1. Calculate the total desired cooked weight:\n   6 patties × 150 g each = 900 g\n\n2. Account for the 25% weight loss during cooking (meaning the cooked weight is 75% of the raw weight):\n   Raw weight × 0.75 = Cooked weight\n   Raw weight = Cooked weight / 0.75\n   Raw weight = 900 g / 0.75 = 1200 g\n\nAnswer: 1200 g",
+  "raw": {
+    "id": "gen-1785348056-HTm3aHRnd458yrVsIcpw",
+    "object": "chat.completion",
+    "created": 1785348057,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To determine the amount of raw mince needed, follow these steps:\n\n1. Calculate the total desired cooked weight:\n   6 patties × 150 g each = 900 g\n\n2. Account for the 25% weight loss during cooking (meaning the cooked weight is 75% of the raw weight):\n   Raw weight × 0.75 = Cooked weight\n   Raw weight = Cooked weight / 0.75\n   Raw weight = 900 g / 0.75 = 1200 g\n\nAnswer: 1200 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 78,
+      "completion_tokens": 129,
+      "total_tokens": 207,
+      "cost": 0.0002325,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002325,
+        "upstream_inference_prompt_cost": 0.000039,
+        "upstream_inference_completions_cost": 0.0001935
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 78,
+  "tokensOut": 129,
+  "costUsd": 0.0002325,
+  "latencyMs": 2146,
+  "finishReason": "stop"
+}

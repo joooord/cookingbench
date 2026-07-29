@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "qty-015",
+  "answerText": "To find the amount of raw rice needed, divide your desired cooked weight by 3, since the rice triples in weight during cooking. \n\n600 g / 3 = 200 g\n\nAnswer: 200 g",
+  "raw": {
+    "id": "gen-1785346330-8ozo3PtyOT50uvYuh5ha",
+    "object": "chat.completion",
+    "created": 1785346330,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To find the amount of raw rice needed, divide your desired cooked weight by 3, since the rice triples in weight during cooking. \n\n600 g / 3 = 200 g\n\nAnswer: 200 g",
+          "refusal": null,
+          "reasoning": "Thinking:\n\n1.  **Analyze the Request:**\n    *   Target: 600 g of cooked rice.\n    *   Conversion factor: White rice roughly triples in weight when cooked (Cooked Weight = 3 * Raw Weight).\n    *   Question: How many grams of raw rice should I cook?\n    *   Constraint: Answer accurately and concisely. End with \"Answer: <number> g\".\n\n2.  **Calculate:**\n    *   Cooked Weight = 600 g\n    *   Raw Weight = Cooked Weight / 3\n    *   Raw Weight = 600 / 3 = 200 g\n\n3.  **Format the Output:**\n    *   Concise explanation.\n    *   Ending line: \"Answer: 200 g\"\n\n4.  **Draft the response:**\n    Since white rice triples in weight when cooked, you need to divide the desired cooked weight by 3.\n    600 g / 3 = 200 g.\n    Answer: 200 g.\n\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number> g\"? Yes. (Answer: 200 g) exactly.\n\nLet's refine the text to be very concise.\n\"To find the amount of raw rice needed, divide the desired cooked weight by 3, since the rice triples in weight.\n600 g / 3 = 200 g.\n\nAnswer: 200 g\"\nPerfect.\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking:\n\n1.  **Analyze the Request:**\n    *   Target: 600 g of cooked rice.\n    *   Conversion factor: White rice roughly triples in weight when cooked (Cooked Weight = 3 * Raw Weight).\n    *   Question: How many grams of raw rice should I cook?\n    *   Constraint: Answer accurately and concisely. End with \"Answer: <number> g\".\n\n2.  **Calculate:**\n    *   Cooked Weight = 600 g\n    *   Raw Weight = Cooked Weight / 3\n    *   Raw Weight = 600 / 3 = 200 g\n\n3.  **Format the Output:**\n    *   Concise explanation.\n    *   Ending line: \"Answer: 200 g\"\n\n4.  **Draft the response:**\n    Since white rice triples in weight when cooked, you need to divide the desired cooked weight by 3.\n    600 g / 3 = 200 g.\n    Answer: 200 g.\n\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number> g\"? Yes. (Answer: 200 g) exactly.\n\nLet's refine the text to be very concise.\n\"To find the amount of raw rice needed, divide the desired cooked weight by 3, since the rice triples in weight.\n600 g / 3 = 200 g.\n\nAnswer: 200 g\"\nPerfect.\n",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 79,
+      "completion_tokens": 413,
+      "total_tokens": 492,
+      "cost": 0.00194405,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00194405,
+        "upstream_inference_prompt_cost": 0.000116525,
+        "upstream_inference_completions_cost": 0.001827525
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 359,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 79,
+  "tokensOut": 413,
+  "costUsd": 0.00194405,
+  "latencyMs": 8559,
+  "finishReason": "stop"
+}

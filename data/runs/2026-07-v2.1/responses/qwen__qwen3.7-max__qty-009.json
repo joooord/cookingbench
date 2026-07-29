@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "qty-009",
+  "answerText": "To find the weight of each ingredient, first add up all the baker's percentages:\n\n**100% + 68% + 2% + 1.2% = 171.2%**\n\nThen divide the desired total dough weight by the total percentage to find the flour weight:\n\n**1712 g ÷ 1.712 = 1000 g of flour**\n\nNow multiply the flour weight by each percentage:\n\n- **Flour:** 1000 × 100% = 1000 g\n- **Water:** 1000 × 68% = 680 g\n- **Salt:** 1000 × 2% = 20 g\n- **Yeast:** 1000 × 1.2% = 12 g\n\n*(Check: 1000 + 680 + 20 + 12 = 1712 g ✓)*\n\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g",
+  "raw": {
+    "id": "gen-1785346309-dlWqIUKJuaCDQOSUy6L9",
+    "object": "chat.completion",
+    "created": 1785346309,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To find the weight of each ingredient, first add up all the baker's percentages:\n\n**100% + 68% + 2% + 1.2% = 171.2%**\n\nThen divide the desired total dough weight by the total percentage to find the flour weight:\n\n**1712 g ÷ 1.712 = 1000 g of flour**\n\nNow multiply the flour weight by each percentage:\n\n- **Flour:** 1000 × 100% = 1000 g\n- **Water:** 1000 × 68% = 680 g\n- **Salt:** 1000 × 2% = 20 g\n- **Yeast:** 1000 × 1.2% = 12 g\n\n*(Check: 1000 + 680 + 20 + 12 = 1712 g ✓)*\n\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g",
+          "refusal": null,
+          "reasoning": "Let me work through this step by step.\n\nBaker's percentages are based on the weight of flour (which is always 100%).\n\nThe total percentage is:\n- Flour: 100%\n- Water: 68%\n- Salt: 2%\n- Yeast: 1.2%\n\nTotal percentage = 100 + 68 + 2 + 1.2 = 171.2%\n\nI want exactly 1712 g of total dough.\n\nSo, flour weight = (1712 / 171.2) × 100 = 10 × 100 = 1000 g\n\nNow calculate each ingredient:\n- Flour: 1000 × 100% = 1000 g\n- Water: 1000 × 68% = 680 g\n- Salt: 1000 × 2% = 20 g\n- Yeast: 1000 × 1.2% = 12 g\n\nLet me verify: 1000 + 680 + 20 + 12 = 1712 g. Perfect.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Let me work through this step by step.\n\nBaker's percentages are based on the weight of flour (which is always 100%).\n\nThe total percentage is:\n- Flour: 100%\n- Water: 68%\n- Salt: 2%\n- Yeast: 1.2%\n\nTotal percentage = 100 + 68 + 2 + 1.2 = 171.2%\n\nI want exactly 1712 g of total dough.\n\nSo, flour weight = (1712 / 171.2) × 100 = 10 × 100 = 1000 g\n\nNow calculate each ingredient:\n- Flour: 1000 × 100% = 1000 g\n- Water: 1000 × 68% = 680 g\n- Salt: 1000 × 2% = 20 g\n- Yeast: 1000 × 1.2% = 12 g\n\nLet me verify: 1000 + 680 + 20 + 12 = 1712 g. Perfect.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 100,
+      "completion_tokens": 526,
+      "total_tokens": 626,
+      "cost": 0.00247505,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00247505,
+        "upstream_inference_prompt_cost": 0.0001475,
+        "upstream_inference_completions_cost": 0.00232755
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 272,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 100,
+  "tokensOut": 526,
+  "costUsd": 0.00247505,
+  "latencyMs": 10200,
+  "finishReason": "stop"
+}

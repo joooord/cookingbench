@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-010",
+  "answerText": "1 pound is equal to approximately 453.6 grams. For most cooking purposes, you can round to 454 grams.\n\nAnswer: 454 g",
+  "raw": {
+    "id": "gen-1785347096-z82kWOw6Qqtjxcvvq8C0",
+    "object": "chat.completion",
+    "created": 1785347096,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "GMICloud",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "1 pound is equal to approximately 453.6 grams. For most cooking purposes, you can round to 454 grams.\n\nAnswer: 454 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"A recipe needs 1 pound of strawberries but my scale only reads in grams. How many grams should I weigh out?\" Need to convert 1 pound to grams. 1 pound = 453.59237 grams. Typically for cooking, it's rounded to 454 grams. So answer: 454 g. But the instruction says \"End your reply with a line \"Answer: <number> g\"\". So provide answer and then the line. I'll give a brief explanation then the answer line.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A recipe needs 1 pound of strawberries but my scale only reads in grams. How many grams should I weigh out?\" Need to convert 1 pound to grams. 1 pound = 453.59237 grams. Typically for cooking, it's rounded to 454 grams. So answer: 454 g. But the instruction says \"End your reply with a line \"Answer: <number> g\"\". So provide answer and then the line. I'll give a brief explanation then the answer line.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 58,
+      "completion_tokens": 138,
+      "total_tokens": 196,
+      "cost": 0.0002266524,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002266524,
+        "upstream_inference_prompt_cost": 0.0000393588,
+        "upstream_inference_completions_cost": 0.0001872936
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 107,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 58,
+  "tokensOut": 138,
+  "costUsd": 0.0002266524,
+  "latencyMs": 4319,
+  "finishReason": "stop"
+}

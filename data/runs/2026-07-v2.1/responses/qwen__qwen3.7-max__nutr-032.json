@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "nutr-032",
+  "answerText": "To find the amount of raw chicken breast needed, follow these steps:\n\n1. **Calculate the cooked chicken needed:**\n   You need 45 g of protein, and cooked chicken has 31 g of protein per 100 g.\n   45 ÷ 31 × 100 = **145.16 g of cooked chicken**\n\n2. **Convert to raw weight:**\n   Since chicken loses 25% of its weight when cooked, the cooked weight is 75% of the raw weight.\n   145.16 ÷ 0.75 = **193.55 g of raw chicken**\n\nAnswer: 194 g",
+  "raw": {
+    "id": "gen-1785346228-W9EzMA0OVhZ0Mt2jfKyH",
+    "object": "chat.completion",
+    "created": 1785346228,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To find the amount of raw chicken breast needed, follow these steps:\n\n1. **Calculate the cooked chicken needed:**\n   You need 45 g of protein, and cooked chicken has 31 g of protein per 100 g.\n   45 ÷ 31 × 100 = **145.16 g of cooked chicken**\n\n2. **Convert to raw weight:**\n   Since chicken loses 25% of its weight when cooked, the cooked weight is 75% of the raw weight.\n   145.16 ÷ 0.75 = **193.55 g of raw chicken**\n\nAnswer: 194 g",
+          "refusal": null,
+          "reasoning": "Let's work through this step-by-step.\n\n1. I need 45 g of protein from cooked chicken breast.\n2. Cooked chicken breast has 31 g of protein per 100 g.\n3. So I need: 45 / 31 * 100 = 145.16 g of cooked chicken breast.\n4. Breast meat loses about 25% of its weight from raw to cooked.\n5. This means cooked weight = raw weight * (1 - 0.25) = raw weight * 0.75.\n6. So raw weight = cooked weight / 0.75 = 145.16 / 0.75 = 193.55 g.\n\nLet me double-check:\n- 193.55 g raw chicken breast\n- Loses 25% weight when cooked: 193.55 * 0.75 = 145.16 g cooked\n- Protein in 145.16 g cooked: 145.16 * 31 / 100 = 45 g protein ✓\n\nRounding to a reasonable number: roughly 194 g. Let me think about what rounding makes sense. The question says \"roughly,\" so I'll round to a clean number. 193.55 rounds to about 194 g.\n\nWait, let me reconsider. The question asks for a number. Let me provide 194 as the answer.\n\nActually, let me re-read: \"Roughly how many grams of RAW breast should I put in the pan?\"\n\n193.55 g ≈ 194 g.\n\nLet me just confirm the math once more:\n- Need 45g protein\n- Cooked chicken: 31g protein per 100g\n- Cooked chicken needed: 45/31 × 100 = 145.16g\n- Raw to cooked: loses 25%, so cooked = 0.75 × raw\n- Raw needed: 145.16 / 0.75 = 193.55g\n\nSo roughly 194 g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Let's work through this step-by-step.\n\n1. I need 45 g of protein from cooked chicken breast.\n2. Cooked chicken breast has 31 g of protein per 100 g.\n3. So I need: 45 / 31 * 100 = 145.16 g of cooked chicken breast.\n4. Breast meat loses about 25% of its weight from raw to cooked.\n5. This means cooked weight = raw weight * (1 - 0.25) = raw weight * 0.75.\n6. So raw weight = cooked weight / 0.75 = 145.16 / 0.75 = 193.55 g.\n\nLet me double-check:\n- 193.55 g raw chicken breast\n- Loses 25% weight when cooked: 193.55 * 0.75 = 145.16 g cooked\n- Protein in 145.16 g cooked: 145.16 * 31 / 100 = 45 g protein ✓\n\nRounding to a reasonable number: roughly 194 g. Let me think about what rounding makes sense. The question says \"roughly,\" so I'll round to a clean number. 193.55 rounds to about 194 g.\n\nWait, let me reconsider. The question asks for a number. Let me provide 194 as the answer.\n\nActually, let me re-read: \"Roughly how many grams of RAW breast should I put in the pan?\"\n\n193.55 g ≈ 194 g.\n\nLet me just confirm the math once more:\n- Need 45g protein\n- Cooked chicken: 31g protein per 100g\n- Cooked chicken needed: 45/31 × 100 = 145.16g\n- Raw to cooked: loses 25%, so cooked = 0.75 × raw\n- Raw needed: 145.16 / 0.75 = 193.55g\n\nSo roughly 194 g.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 110,
+      "completion_tokens": 657,
+      "total_tokens": 767,
+      "cost": 0.003069475,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003069475,
+        "upstream_inference_prompt_cost": 0.00016225,
+        "upstream_inference_completions_cost": 0.002907225
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 498,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 110,
+  "tokensOut": 657,
+  "costUsd": 0.003069475,
+  "latencyMs": 13413,
+  "finishReason": "stop"
+}

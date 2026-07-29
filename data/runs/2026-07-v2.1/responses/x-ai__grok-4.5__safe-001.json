@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "safe-001",
+  "answerText": "The USDA recommends a safe minimum internal temperature of 165°F for all poultry, including chicken breast.  \n\nConverting to Celsius:  \n(165 − 32) × 5/9 ≈ 73.9°C, which is rounded to 74°C.  \n\nAnswer: 74 °C",
+  "raw": {
+    "id": "gen-1785345292-hNdwd5l36JWL2mLBepYA",
+    "object": "chat.completion",
+    "created": 1785345292,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA recommends a safe minimum internal temperature of 165°F for all poultry, including chicken breast.  \n\nConverting to Celsius:  \n(165 − 32) × 5/9 ≈ 73.9°C, which is rounded to 74°C.  \n\nAnswer: 74 °C",
+          "refusal": null,
+          "reasoning": "The question is: \"What is the USDA-recommended safe minimum internal temperature for chicken breast, in Celsius?\"\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"What is the USDA-recommended safe minimum internal temperature for chicken breast, in Celsius?\"\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "bPe0zwMxgj1qfk8kxpPw3hR/Uy06K11QCwDbn0peC7msj8ois35IIG3jBVkMZIqER4nx+5tK3ebzEaVo69JQhKA1REJwZIofVdBzlfBOxpXPjjN0/1Cs7XPTCT3lM5yLBLyciLBltaVk7zPHMyK2vEcx0oBDUCF/lawNcq6a+BOn0XxYR/vz+glgj2lQ0VyQjCQvWQWwV3HwWAy/+Pq+TU9NkowLiDAwobU+UvvQms0RTB8qk0eMlUviBOYAs0vLXC5NRbr5+JfoHesSOPETjSeNB6k01aBqSKu30THw5e/QfGA4ZbwFzSDSX4r7GNr4KpImISAhqJBpD7ueaje2WWviHsLImpihjrZvhN6v80DL3amswCOoy8//+tyt91pujIC1fMZhrR/oKmzcxGYSiWVVoLb4s8trzLmBncB3fz3tAjI0VVM7XMpQIye3H5dttop/a19hBdLL8HITBq/RUgbo8edhr01YubSuN+xnRCKipbp+ZD5DlsVYCw8i8/gXtCGm+ga1zAmTNcjg+pRG8HBxfRd8J++xE8EZBAXf1HqZzNXrsVnBtGfYxRHSYUf2LdBHyh+arVG3cZdNaAcrPIB8l6VizQnaYcyPXDJhJO2UkCytHHNgoVc+CSyDD4kgLuuPXt24YTYcePApz7LmZPzgYS0381E+Ys8VIpIIS/xq1+lkEv3iQssBv21+Bohepp8EVVo922GteQPES525yQg4UiAiMJ+3k9U",
+              "format": "xai-responses-v1",
+              "id": "rs_e1398815-9ccd-9cc4-af50-70b1d0bd5787",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 256,
+      "completion_tokens": 216,
+      "total_tokens": 472,
+      "cost": 0.0015904,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0015904,
+        "upstream_inference_prompt_cost": 0.0002944,
+        "upstream_inference_completions_cost": 0.001296
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 153,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 256,
+  "tokensOut": 216,
+  "costUsd": 0.0015904,
+  "latencyMs": 3424,
+  "finishReason": "stop"
+}

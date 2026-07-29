@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "qty-019",
+  "answerText": "To calculate the overall hydration, we need to sum all flour and all water (including what's in the levain).\n\n**Total Flour:**\n- Bread flour: 450 g\n- Whole-wheat flour: 90 g\n- Flour in levain: 50 g\n- **Total = 590 g**\n\n**Total Water:**\n- Added water: 350 g\n- Water in levain: 50 g\n- **Total = 400 g**\n\n**Hydration:**\n(400 ÷ 590) × 100 = 67.796…%\n\nAnswer: 67.8 %",
+  "raw": {
+    "id": "gen-1785346346-WtITHSP1vLklHnleQ2Tb",
+    "object": "chat.completion",
+    "created": 1785346346,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To calculate the overall hydration, we need to sum all flour and all water (including what's in the levain).\n\n**Total Flour:**\n- Bread flour: 450 g\n- Whole-wheat flour: 90 g\n- Flour in levain: 50 g\n- **Total = 590 g**\n\n**Total Water:**\n- Added water: 350 g\n- Water in levain: 50 g\n- **Total = 400 g**\n\n**Hydration:**\n(400 ÷ 590) × 100 = 67.796…%\n\nAnswer: 67.8 %",
+          "refusal": null,
+          "reasoning": "Let me calculate the overall hydration percentage of this sourdough formula.\n\nFirst, let me identify all the flour and water components:\n\n**Flour:**\n- Bread flour: 450 g\n- Whole-wheat flour: 90 g\n- Flour from levain (100% hydration, 100 g total): 50 g\n- Total flour = 450 + 90 + 50 = 590 g\n\n**Water:**\n- Added water: 350 g\n- Water from levain (100% hydration, 100 g total): 50 g\n- Total water = 350 + 50 = 400 g\n\n**Hydration percentage:**\nHydration = (Total water / Total flour) × 100\nHydration = (400 / 590) × 100\nHydration = 67.7966...%\n\nLet me round this. 400/590 = 40/59 = 0.67796610...\n\nSo approximately 67.8%.\n\nLet me double-check:\n- 400 ÷ 590 = 0.677966...\n- 0.677966 × 100 = 67.7966...\n\nRounding to one decimal place: 67.8%\n\nThe question asks for the answer as a number with %. Let me provide 67.8.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Let me calculate the overall hydration percentage of this sourdough formula.\n\nFirst, let me identify all the flour and water components:\n\n**Flour:**\n- Bread flour: 450 g\n- Whole-wheat flour: 90 g\n- Flour from levain (100% hydration, 100 g total): 50 g\n- Total flour = 450 + 90 + 50 = 590 g\n\n**Water:**\n- Added water: 350 g\n- Water from levain (100% hydration, 100 g total): 50 g\n- Total water = 350 + 50 = 400 g\n\n**Hydration percentage:**\nHydration = (Total water / Total flour) × 100\nHydration = (400 / 590) × 100\nHydration = 67.7966...%\n\nLet me round this. 400/590 = 40/59 = 0.67796610...\n\nSo approximately 67.8%.\n\nLet me double-check:\n- 400 ÷ 590 = 0.677966...\n- 0.677966 × 100 = 67.7966...\n\nRounding to one decimal place: 67.8%\n\nThe question asks for the answer as a number with %. Let me provide 67.8.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 132,
+      "completion_tokens": 500,
+      "total_tokens": 632,
+      "cost": 0.0024072,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0024072,
+        "upstream_inference_prompt_cost": 0.0001947,
+        "upstream_inference_completions_cost": 0.0022125
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 345,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 132,
+  "tokensOut": 500,
+  "costUsd": 0.0024072,
+  "latencyMs": 10745,
+  "finishReason": "stop"
+}

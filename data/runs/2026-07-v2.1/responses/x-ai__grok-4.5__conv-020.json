@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "conv-020",
+  "answerText": "Gas mark 7 corresponds to 220 °C in a conventional oven.  \nFor a fan oven, reduce the temperature by about 20 °C, giving 200 °C.\n\nAnswer: 200 °C",
+  "raw": {
+    "id": "gen-1785345225-0cPZSCRXjRUiFgjigDND",
+    "object": "chat.completion",
+    "created": 1785345225,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Gas mark 7 corresponds to 220 °C in a conventional oven.  \nFor a fan oven, reduce the temperature by about 20 °C, giving 200 °C.\n\nAnswer: 200 °C",
+          "refusal": null,
+          "reasoning": "The question is: \"A British recipe says gas mark 7, but my oven is fan-only. What temperature in Celsius should I set the fan oven to?\"\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"A British recipe says gas mark 7, but my oven is fan-only. What temperature in Celsius should I set the fan oven to?\"\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "93jNHxVxGyalfgHU5fKxPaOWtWc2QQBkjCFS3M4/rgxAJO+dTqJwsW+KgZgKDGOvkyjELCr7BJnYrFQBmSRCYxbJQ0MRTFy2N5V2NAKqh2zL2y3jFEcyKPBwxlXuK0GtMun6MPPz8tDLqXn9LQsAQ7CO4vK3u4meoyRbAvAa94/rNJc9IO80JX/FUenCgB979NO8IpAmcfY6kddj6MTtFfbOs9TPu67/+zn6usqNpGy4400BqQ+GsX+KnX3ySzonE113GJyRnbY6atLym4vCbN2goHRu5ceW5ltLYpuQ70YbqWmJqy0LYeVzSDluSbbrreXNcv1IJMm7vbRsh4qOQf2rDr4rPm0KHY557qLy+n4DIpHV/BkNPY+v1c+jYDPjJn6ZTZbtHzoZln5L9HweNLFI9V6XJfuWq3cBWRDmCKjAIvgP/tZB1P27xlJn+P5CGZ144H5DzO42Kh/HijuTIjEA8Kp4UhEISVEArD1eSrn+zR2SlaXS52rfv9pdmd+u4X5iqI11KB4eAx44Rbf3AGhp//Gserc91ocqQn0i9iosgobWz/Py08ijoiW2BgcgiSmydIsZGBUc/nWEfchKAuawpGNGC/0HyA",
+              "format": "xai-responses-v1",
+              "id": "rs_db801273-9e55-92c6-b222-e6d74e7455b9",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 268,
+      "completion_tokens": 165,
+      "total_tokens": 433,
+      "cost": 0.0013084,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0013084,
+        "upstream_inference_prompt_cost": 0.0003184,
+        "upstream_inference_completions_cost": 0.00099
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 122,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 268,
+  "tokensOut": 165,
+  "costUsd": 0.0013084,
+  "latencyMs": 3292,
+  "finishReason": "stop"
+}

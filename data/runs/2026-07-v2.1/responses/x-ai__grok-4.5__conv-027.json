@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "conv-027",
+  "answerText": "1 US cup = 236.588 ml, so 2 US cups = 473.176 ml.  \nAustralian cup = 250 ml, thus \\( 473.176 \\div 250 \\approx 1.89 \\).\n\nAnswer: 1.89 cups",
+  "raw": {
+    "id": "gen-1785345235-XZxZ2997PaDoMu3u2Trj",
+    "object": "chat.completion",
+    "created": 1785345235,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "1 US cup = 236.588 ml, so 2 US cups = 473.176 ml.  \nAustralian cup = 250 ml, thus \\( 473.176 \\div 250 \\approx 1.89 \\).\n\nAnswer: 1.89 cups",
+          "refusal": null,
+          "reasoning": "The problem: A US recipe wants 2 cups (US) of milk. My Australian measuring cup is the metric 250 ml cup. How many Australian cups should I measure?\nTo convert 2 US cups to Australian cups, use the standard value of 1 US cup = 240 ml (common in US nutrition labeling). This gives 2 × 240 = 480 ml total. Since your Australian cup holds 250 ml, divide 480 by 250 to get 1.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem: A US recipe wants 2 cups (US) of milk. My Australian measuring cup is the metric 250 ml cup. How many Australian cups should I measure?\nTo convert 2 US cups to Australian cups, use the standard value of 1 US cup = 240 ml (common in US nutrition labeling). This gives 2 × 240 = 480 ml total. Since your Australian cup holds 250 ml, divide 480 by 250 to get 1.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "vaeBWKsIqRK805g6dhGskJ5TviLUAsCmWxZPySTo+SDeoqb4Y9tUI1E8TX3RPUNT/zU9OZe842AXOoJ1j7eClujFpQSN+6L0RAM46hcHh0qVfP5h48FuyjGo/vqHJsY+7NL4H+z9yhZD/o66MKEi57SKX9WGySdGX5QQtK77+wy56yBBfwpSXkGHRA+GrwxsRNEoKe22lA9B3r1PTFYKvB2qe7rphNlVSJmQ5fWK+ohlK24E3StaJmcCCoifaMWbD0rJnbqN2kv8QIvZuJ7UrsO1uHz9WI3xiwj19FVwJLnZD9Xl4+LpVixaVzhl9LzGzEFPJnJd3+MmEB/77LPucb7dbutrADqJStgPPFVUGpKnSZ6mzjY0VTcxB/1KzJWuwUfqKr2BKx8dVzeTbw2iMp/w4SVThfZH7PCLfbwCsmXoFUW2OVfDCVy145zgVkcmLbEWM1XZiDY3l4wQOeS4KrM0PJwwya0K5r+2TIZHOrIVCzU+MamaeysEnHVFmDFTLnHRzw1GNlqP8OqmLupIDIp3HBpe8zP1NF4yRI+xQ2IMkTXTOik+IclNP5XnRER0veqGqj0ZlLqJlWEny7fF9Qrr+JQPJCaJ9VF+ISh8BE2lEjllgsh/nwYdGchOU606LTPRu7ZaK7HX6EBg0+30/u/TYUcOOmTyERu2jvCfq5G28nUIBbVtdDn2ht3fl/et5SLW+aMxWqYNPXNugTXc+NNDKm8ExTr2ft0a638LdRaetSPlmLRt09vhEuoMdOXmKcBTKJ2NQmlcAT8JHhuUbuvHJvQW8Zv+ZNSePECNwemf52qErcoVXNICXVXRUzze1Xa7xctGdVFHDKhCtVURG4e9h+JsnWZKWZLo3/RIEWQR1c0Uh5VRDjqio9v0OLxpXbk0uYHdzUz6Za5I+P+HNE/5PKqy+msEDfnccDrk19lurClo776N6RjRjBen0jIC+fz8vGjJKev00POOIfFmZFEoQVOW8TSPxOklNbS00j3zfgGiDHB0Qew01EX9O2N+54qmxoLRzIbipEAyZMpnQAFfhFOvWm3WHtWH5RuEeaxxNDMsi19v4Doz+SWmZTK8fmV2DSgOOqe4XZfuNjSUFkEOz4cSn5IARg6cFj4l+M6P3VoyraHrDo4KXxKefkKcAdwkDHArbN0aEws7RSuRMP/vEfv9ZDj//LCifFv5v/lNVygg2wNxItpXd5g6OAmlJsVZIyFFnLQtXA6Ul9BUx4B9y+xtDbMDlU2q24udXIvGcHRh5wrjb4N3lYTJL4WGembQgwWT3ytW0etz2Fzn/wD0gr4jMaDi5LAXpGFLQKA4l0SNOEM7XroLuVsL42mMFn8DY6gPe71tKnOas8dMs+v6Qf/aIxYiK2zkUaRQt7JDw9Ce+Fcz3LwE6d2zdJ6g8bxhqgfQoaBzxSs9l6idXT4U8UsuaSCD3jUYNVcLFC/Vp3OuZ6WgacmacGj9VebiZmXNj7Tqivm8nS0VbVOakr2icP/Yo74K6T5T0kiG7BJcgJf5vf2YMyFMBzsg3DJ9ovKrUrStLGFg7YYTHitStIMk39Zpgjp8dOAT7ttFfaSZ9XutmcTcBDNY8KegzUk70ThDF3fIP6D4s205dOfpIO0OYV6DZs3oWZz4SoFb7qCtmPPuTyLQvzd/Rrv2ZOs2LDi0/qIIbTD0V9Kt4fSMU23kJ5/+U8t73ho+6oySaXcd2KfTSTT6ZsRmzq+ZHA4QNnZdf1iI/4NRK57TuHRVWhrykL6//0BvRYSPIJHWDgyHYzRS3kBkaEAko4BSkHCDy1eiZZs+E9qKmD//F2e8MthhF18UzEXXbL0DVEF5vGp4hhnYxBBGOkgELIIrDIVLHiXwwc4iNKvwlh0WOxGc3mQBk7HypNW47g8bPgvr5VqUel2pqRfvfcFsO2jP9WKj23vwLw4dLI0cfMs6qWq/Mj7kqGGUz81sQIleK6rOhh/OIClGkuK467d4flPfiW8757xd927pTUaPWSVC2bsZd7MNbIl8BvrPncRON9ctH3ccZWx+NsGoazZbaIIFlqErmPg4vAAyUsf/rhR7L3fUfm37yGr+TZjL1aNAtAUX4dvxeqd01sl2MiLmsIF+oVI34QRdLF0re+V5BYDEEKIk2IuGes2SoQGV/vhEzaU/N8NZQl0vrZqd/nbJxTHJ88hJSwRrFyziEXDEAUWMn/NwHDZYBpQjRuiRgnL2IDsWGfYMD/QnIEYYgnIOCJrzYRrhf7HxC3bgJZW2/m8+y3WZCiEeXtsB6XJgYEaXW7ahGlDsLsiI9OuA2DzmvRki1VRGU0vNFDvEhQuZzY0jdukQAU+DNhKeWfO7F9/P2Xc8z8LUdr/1Wkskb3icrA1rhkivSubtbOk3z21bh2N7w86D9pBk3ZUun+T7LzV+DVMS9EK3F+PEutDe9UqS+H5O7Nj76CtVvoxS7yVeIm/QgVV7rorauBSrDzqq0S2vBt2QNL81BO28trtbdLXtdnVVFKYIyPACd3K+xzjXnPOOO+ka52zKqaP+gJ6ScAwOuUPdMp9WZOaiIIXhEdvgnsPVu0l7zfQK57TfCbzLT1BTY9vUREoKKvTFxwk9MY8XJUG6DVEYbOJbWY8SmuH0iNxuOO+fsNic3l7CCxE+PP82oYxnF2SQHdvqmWhmZkxtyg3Jma8YX9gX3CnpLfMug5RzmUL1rRGFiw81mRXhvsV8wa2hIhju92uouJ7dLo7eR91txIOxUDWeBaxhO/rCQTwoC4f3PZkJZeeZ2BVjLsDKxBbP09kZn5zLa5nv9W40EIzX+W/1J7oTNXL6IgXy6lRI61hBCs/leZ+KfQUmcLXpAHLsj7FIHpp1OM2LZiSijNRQ60HTcVHs2BOgXk8iGWiSSrCfB/MjmwsAsk/YVdmB7qOTpkThIhOWgY8q9iYn+xM/3CC1N13LK6FXFcMjinmtOTBtE/NvbVB49Dr9lKSqiAP7qMH+Muvm",
+              "format": "xai-responses-v1",
+              "id": "rs_ee496fa0-9640-9ff0-80fa-6e674c7e41e3",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 271,
+      "completion_tokens": 713,
+      "total_tokens": 984,
+      "cost": 0.0046024,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0046024,
+        "upstream_inference_prompt_cost": 0.0003244,
+        "upstream_inference_completions_cost": 0.004278
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 657,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 271,
+  "tokensOut": 713,
+  "costUsd": 0.0046024,
+  "latencyMs": 10477,
+  "finishReason": "stop"
+}

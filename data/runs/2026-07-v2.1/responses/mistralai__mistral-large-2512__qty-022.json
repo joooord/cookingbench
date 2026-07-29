@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "qty-022",
+  "answerText": "To determine the amount of dry basmati rice needed, follow these steps:\n\n1. **Understand the weight change**: Basmati rice triples in weight when cooked, meaning 1 g of dry rice becomes 3 g of cooked rice.\n2. **Calculate total cooked rice needed**: 180 g per person × 7 people = **1260 g** of cooked rice.\n3. **Convert cooked rice to dry rice**: Since cooked rice is 3 times the weight of dry rice, divide the total cooked weight by 3.\n   **1260 g ÷ 3 = 420 g** of dry rice.\n\nAnswer: 420 g",
+  "raw": {
+    "id": "gen-1785348060-9JD56iixcc5I10c732G9",
+    "object": "chat.completion",
+    "created": 1785348060,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To determine the amount of dry basmati rice needed, follow these steps:\n\n1. **Understand the weight change**: Basmati rice triples in weight when cooked, meaning 1 g of dry rice becomes 3 g of cooked rice.\n2. **Calculate total cooked rice needed**: 180 g per person × 7 people = **1260 g** of cooked rice.\n3. **Convert cooked rice to dry rice**: Since cooked rice is 3 times the weight of dry rice, divide the total cooked weight by 3.\n   **1260 g ÷ 3 = 420 g** of dry rice.\n\nAnswer: 420 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 81,
+      "completion_tokens": 145,
+      "total_tokens": 226,
+      "cost": 0.000258,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000258,
+        "upstream_inference_prompt_cost": 0.0000405,
+        "upstream_inference_completions_cost": 0.0002175
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 81,
+  "tokensOut": 145,
+  "costUsd": 0.000258,
+  "latencyMs": 2378,
+  "finishReason": "stop"
+}

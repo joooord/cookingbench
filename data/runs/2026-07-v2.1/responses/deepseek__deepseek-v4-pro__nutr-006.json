@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-006",
+  "answerText": "The protein powder has 12 g of protein per 40 g scoop, so the protein content is 12/40 = 0.3 g per gram. For 150 g, multiply: 0.3 × 150 = 45 g.\n\nAnswer: 45 g",
+  "raw": {
+    "id": "gen-1785347300-XaM7MIxlOg5FQU9W58km",
+    "object": "chat.completion",
+    "created": 1785347300,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The protein powder has 12 g of protein per 40 g scoop, so the protein content is 12/40 = 0.3 g per gram. For 150 g, multiply: 0.3 × 150 = 45 g.\n\nAnswer: 45 g",
+          "refusal": null,
+          "reasoning": "We need to find protein in 150g of powder. The scoop is 40g and gives 12g protein. So protein per gram: 12g/40g = 0.3g protein per gram. Multiply by 150g: 0.3 * 150 = 45g. Answer: 45 g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to find protein in 150g of powder. The scoop is 40g and gives 12g protein. So protein per gram: 12g/40g = 0.3g protein per gram. Multiply by 150g: 0.3 * 150 = 45g. Answer: 45 g.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 63,
+      "completion_tokens": 129,
+      "total_tokens": 192,
+      "cost": 0.0002007213,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002007213,
+        "upstream_inference_prompt_cost": 0.0000393939,
+        "upstream_inference_completions_cost": 0.0001613274
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 69,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 63,
+  "tokensOut": 129,
+  "costUsd": 0.0002007213,
+  "latencyMs": 2742,
+  "finishReason": "stop"
+}

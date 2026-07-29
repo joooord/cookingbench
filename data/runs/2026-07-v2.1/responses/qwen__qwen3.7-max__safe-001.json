@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "safe-001",
+  "answerText": "The USDA recommends cooking all poultry, including chicken breast, to a safe minimum internal temperature of 165 °F to ensure harmful bacteria are destroyed. When converted to the metric system, this is approximately 74 °C.\n\nAnswer: 74 °C",
+  "raw": {
+    "id": "gen-1785345972-15jAvcfg0D3k2eIvDns2",
+    "object": "chat.completion",
+    "created": 1785345972,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA recommends cooking all poultry, including chicken breast, to a safe minimum internal temperature of 165 °F to ensure harmful bacteria are destroyed. When converted to the metric system, this is approximately 74 °C.\n\nAnswer: 74 °C",
+          "refusal": null,
+          "reasoning": "Thinking:\n\n1.  **Identify the core question:** The user is asking for the USDA-recommended safe minimum internal temperature for chicken breast, specifically in Celsius.\n2.  **Retrieve knowledge:**\n    *   USDA recommended safe minimum internal temperature for all poultry (including chicken breast) is 165 °F.\n    *   Convert 165 °F to Celsius: $C = (F - 32) \\times 5/9$\n    *   $C = (165 - 32) \\times 5/9 = 133 \\times 5/9 = 665 / 9 \\approx 73.888...$ °C.\n    *   Usually, this is rounded to 74 °C in culinary and food safety contexts. Let's provide 74 (or 73.9). Standard food safety guidelines in Celsius usually state 74 °C.\n3.  **Format the output:**\n    *   Accurate and concise answer.\n    *   Must end with the exact line: \"Answer: <number> °C\".\n4.  **Draft the response:**\n    *   The USDA recommends cooking all poultry, including chicken breast, to a safe minimum internal temperature of 165 °F.\n    *   Converted to Celsius, this is approximately 74 °C.\n    *   End line: Answer: 74 °C\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number> °C\"? Yes. (I will use 74 as the number). Let's double check if 73.9 is better. 74 is the universally accepted standard rounding for 165F in food safety (e.g., UK FSA, Canadian guidelines, and metric conversions of USDA). I'll use 74.\n\nLet's quickly write it out:\nThe USDA recommends a safe minimum internal temperature of 165 °F for all poultry, including chicken breast. When converted to Celsius, this temperature is approximately 74 °C.\n\nAnswer: 74 °C\n(Wait, should I put 73.9? 74 is standard. I'll stick with 74).\nLet's make sure the last line is exactly \"Answer: 74 °C\". No period at the end of the requested format, but usually it's fine. Wait, the prompt says `End your reply with a line \"Answer: <number> °C\".` I will output exactly `Answer: 74 °C`.\n\nWait, let me just confirm the conversion:\n165 - 32 = 133\n133 * 5 = 665\n665 / 9 = 73.888...\nRounding to the nearest whole number gives 74.\n\nText:\nThe USDA recommends cooking all poultry, including chicken breast, to a minimum internal temperature of 165 °F to ensure food safety. Converted to the metric system, this is approximately 74 °C.\n\nAnswer: 74 °C\nPerfect.\nEnd of thought process.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking:\n\n1.  **Identify the core question:** The user is asking for the USDA-recommended safe minimum internal temperature for chicken breast, specifically in Celsius.\n2.  **Retrieve knowledge:**\n    *   USDA recommended safe minimum internal temperature for all poultry (including chicken breast) is 165 °F.\n    *   Convert 165 °F to Celsius: $C = (F - 32) \\times 5/9$\n    *   $C = (165 - 32) \\times 5/9 = 133 \\times 5/9 = 665 / 9 \\approx 73.888...$ °C.\n    *   Usually, this is rounded to 74 °C in culinary and food safety contexts. Let's provide 74 (or 73.9). Standard food safety guidelines in Celsius usually state 74 °C.\n3.  **Format the output:**\n    *   Accurate and concise answer.\n    *   Must end with the exact line: \"Answer: <number> °C\".\n4.  **Draft the response:**\n    *   The USDA recommends cooking all poultry, including chicken breast, to a safe minimum internal temperature of 165 °F.\n    *   Converted to Celsius, this is approximately 74 °C.\n    *   End line: Answer: 74 °C\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number> °C\"? Yes. (I will use 74 as the number). Let's double check if 73.9 is better. 74 is the universally accepted standard rounding for 165F in food safety (e.g., UK FSA, Canadian guidelines, and metric conversions of USDA). I'll use 74.\n\nLet's quickly write it out:\nThe USDA recommends a safe minimum internal temperature of 165 °F for all poultry, including chicken breast. When converted to Celsius, this temperature is approximately 74 °C.\n\nAnswer: 74 °C\n(Wait, should I put 73.9? 74 is standard. I'll stick with 74).\nLet's make sure the last line is exactly \"Answer: 74 °C\". No period at the end of the requested format, but usually it's fine. Wait, the prompt says `End your reply with a line \"Answer: <number> °C\".` I will output exactly `Answer: 74 °C`.\n\nWait, let me just confirm the conversion:\n165 - 32 = 133\n133 * 5 = 665\n665 / 9 = 73.888...\nRounding to the nearest whole number gives 74.\n\nText:\nThe USDA recommends cooking all poultry, including chicken breast, to a minimum internal temperature of 165 °F to ensure food safety. Converted to the metric system, this is approximately 74 °C.\n\nAnswer: 74 °C\nPerfect.\nEnd of thought process.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 64,
+      "completion_tokens": 766,
+      "total_tokens": 830,
+      "cost": 0.00348395,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00348395,
+        "upstream_inference_prompt_cost": 0.0000944,
+        "upstream_inference_completions_cost": 0.00338955
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 706,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 64,
+  "tokensOut": 766,
+  "costUsd": 0.00348395,
+  "latencyMs": 19266,
+  "finishReason": "stop"
+}

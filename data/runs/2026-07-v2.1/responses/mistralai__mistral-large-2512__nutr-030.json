@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "nutr-030",
+  "answerText": "Cooking **does not significantly change the total protein content** of food like chicken breast, but it **alters the protein's structure and digestibility**:\n\n- **What cooking does:**\n  - **Denatures proteins** (unfolds their structure), making them easier to digest.\n  - **Improves bioavailability** (your body can absorb and use the protein more efficiently).\n  - **Kills bacteria/pathogens** (e.g., salmonella in chicken).\n\n- **What cooking does not do:**\n  - **Does not reduce the total amount of protein** (though some may leach into cooking liquid if boiled).\n  - **Does not turn protein into something non-protein** (it remains protein, just in a different form).\n\n**Bottom line:** Cooking makes protein more usable but doesn’t destroy it. A cooked chicken breast has nearly the same protein as raw—just in a safer, more digestible form.",
+  "raw": {
+    "id": "gen-1785348039-7TGo4CEezAJEjoUuHWFH",
+    "object": "chat.completion",
+    "created": 1785348039,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Cooking **does not significantly change the total protein content** of food like chicken breast, but it **alters the protein's structure and digestibility**:\n\n- **What cooking does:**\n  - **Denatures proteins** (unfolds their structure), making them easier to digest.\n  - **Improves bioavailability** (your body can absorb and use the protein more efficiently).\n  - **Kills bacteria/pathogens** (e.g., salmonella in chicken).\n\n- **What cooking does not do:**\n  - **Does not reduce the total amount of protein** (though some may leach into cooking liquid if boiled).\n  - **Does not turn protein into something non-protein** (it remains protein, just in a different form).\n\n**Bottom line:** Cooking makes protein more usable but doesn’t destroy it. A cooked chicken breast has nearly the same protein as raw—just in a safer, more digestible form.",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 50,
+      "completion_tokens": 189,
+      "total_tokens": 239,
+      "cost": 0.0003085,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0003085,
+        "upstream_inference_prompt_cost": 0.000025,
+        "upstream_inference_completions_cost": 0.0002835
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 50,
+  "tokensOut": 189,
+  "costUsd": 0.0003085,
+  "latencyMs": 5221,
+  "finishReason": "stop"
+}

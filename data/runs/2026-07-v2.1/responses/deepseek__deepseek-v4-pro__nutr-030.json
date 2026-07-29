@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-030",
+  "answerText": "No, cooking does not significantly change the total protein content of a chicken breast. The absolute amount of protein remains essentially the same.\n\n**What cooking does:**\n- Denatures proteins (unfolds their structure), making them easier to digest.\n- Causes moisture loss, so the cooked breast weighs less and has a higher protein concentration per 100g.\n- May lead to minor losses of heat-sensitive amino acids or those involved in browning (Maillard reaction), but this is negligible.\n\n**What cooking does not do:**\n- It does not destroy or create protein in a way that meaningfully alters the total quantity.",
+  "raw": {
+    "id": "gen-1785347336-Gpa5K7NcogaI1O12r1Ur",
+    "object": "chat.completion",
+    "created": 1785347336,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "CoreWeave",
+    "system_fingerprint": "vllm-0.21.1.dev0+gad7125a43.d20260527-tp8-ep-01b2bf3e",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "No, cooking does not significantly change the total protein content of a chicken breast. The absolute amount of protein remains essentially the same.\n\n**What cooking does:**\n- Denatures proteins (unfolds their structure), making them easier to digest.\n- Causes moisture loss, so the cooked breast weighs less and has a higher protein concentration per 100g.\n- May lead to minor losses of heat-sensitive amino acids or those involved in browning (Maillard reaction), but this is negligible.\n\n**What cooking does not do:**\n- It does not destroy or create protein in a way that meaningfully alters the total quantity.",
+          "refusal": null,
+          "reasoning": "We are asked: \"Does cooking food change its protein content much? Briefly explain what cooking does and does not do to the protein in, say, a chicken breast.\"\n\nWe need to answer concisely. The key points: Cooking does not significantly change the total protein content (the amount of protein by weight remains roughly the same). However, cooking denatures proteins, which changes their structure (unfolding), making them more digestible. It can also cause some loss of amino acids due to Maillard reactions or other chemical changes, but the overall protein quantity is largely unchanged. For a chicken breast, cooking causes the proteins to coagulate, shrink, and lose moisture, so the protein concentration per gram of cooked meat might be higher because water is lost, but the absolute amount of protein in the piece is similar. So, answer: No, cooking does not change the total protein content much. It denatures proteins, making them easier to digest, and can cause minor losses of certain amino acids, but the overall protein quantity remains essentially the same. The weight loss is mostly water, so protein per 100g increases, but total protein in the breast is unchanged.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Does cooking food change its protein content much? Briefly explain what cooking does and does not do to the protein in, say, a chicken breast.\"\n\nWe need to answer concisely. The key points: Cooking does not significantly change the total protein content (the amount of protein by weight remains roughly the same). However, cooking denatures proteins, which changes their structure (unfolding), making them more digestible. It can also cause some loss of amino acids due to Maillard reactions or other chemical changes, but the overall protein quantity is largely unchanged. For a chicken breast, cooking causes the proteins to coagulate, shrink, and lose moisture, so the protein concentration per gram of cooked meat might be higher because water is lost, but the absolute amount of protein in the piece is similar. So, answer: No, cooking does not change the total protein content much. It denatures proteins, making them easier to digest, and can cause minor losses of certain amino acids, but the overall protein quantity remains essentially the same. The weight loss is mostly water, so protein per 100g increases, but total protein in the breast is unchanged.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 49,
+      "completion_tokens": 363,
+      "total_tokens": 412,
+      "cost": 0.0013485,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0013485,
+        "upstream_inference_prompt_cost": 0.00008526,
+        "upstream_inference_completions_cost": 0.00126324
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 296,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 49,
+  "tokensOut": 363,
+  "costUsd": 0.0013485,
+  "latencyMs": 15037,
+  "finishReason": "stop"
+}

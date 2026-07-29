@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "safe-015",
+  "answerText": "**No, do not eat it. Discard the chicken.**\n\n\"Warm\" on a slow cooker is only for holding already-cooked food at serving temperature (usually ~140°F/60°C). It is **not** a cooking setting and does not reliably bring raw poultry out of the temperature danger zone (40–140°F / 4–60°C) fast enough. \n\nRaw chicken sitting on warm for ~5 hours has almost certainly spent far too long in that zone, allowing bacteria (Salmonella, Campylobacter, etc.) to multiply. Appearance, smell, and a final hour on high cannot make it safe—some bacterial toxins are heat-stable and won’t be destroyed. \n\nUSDA guidance is clear: when in doubt about time/temperature control with poultry, throw it out. Start over with fresh chicken and use Low or High from the beginning.",
+  "raw": {
+    "id": "gen-1785345310-9iP1XRFpeD6yNIx3LO9X",
+    "object": "chat.completion",
+    "created": 1785345310,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "**No, do not eat it. Discard the chicken.**\n\n\"Warm\" on a slow cooker is only for holding already-cooked food at serving temperature (usually ~140°F/60°C). It is **not** a cooking setting and does not reliably bring raw poultry out of the temperature danger zone (40–140°F / 4–60°C) fast enough. \n\nRaw chicken sitting on warm for ~5 hours has almost certainly spent far too long in that zone, allowing bacteria (Salmonella, Campylobacter, etc.) to multiply. Appearance, smell, and a final hour on high cannot make it safe—some bacterial toxins are heat-stable and won’t be destroyed. \n\nUSDA guidance is clear: when in doubt about time/temperature control with poultry, throw it out. Start over with fresh chicken and use Low or High from the beginning.",
+          "refusal": null,
+          "reasoning": "The user is asking about food safety with chicken thighs in a slow cooker. They left it on \"warm\" instead of \"low\" for 5 hours, it smells and looks cooked, and they plan to put it on high for the last...",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The user is asking about food safety with chicken thighs in a slow cooker. They left it on \"warm\" instead of \"low\" for 5 hours, it smells and looks cooked, and they plan to put it on high for the last...",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "eU9b2J5tqF+HtCpeD8S78pNhyiaSiNvpM1VHvd5iOZ3UykWqqC9u2UfdqQXm03ZmJELNCzagKJ58gD6KDOPbWunJk5IUHrS/gFoykSsLeZqdtwqNSCh8DhJoafI5pyBLJnov1vVmPSEOSrWXOi8T2fUDvIkvSYRSvTOk0tZrY0ezP7zlkN8s9gGq7+QBt1trrh7MjNtx2A2c07uaJYVHpOLA+WffY/JPmhfe85F1CwsTmxeSMISb0f7733JXi+ctG3rkGsyMXGOoPRlVyamxWeaMtgw6OFsVwOvRHSAOmP5Bk+WZrR+iNsqaeARYzL6uaQn3kWT7dw4C63tKvce2nhWb/tYiLW/p8KBFo9wrX9d7cbg1NXW/2rtSZUhNeWCRFHduV7pTRVR9uGpi+LYRnVq6S8M0B5veWS+jN+SoX0KOIyiks7A9qTHfYwQVjLAiMlXshIV0sTfc9eeK5FSwQ7DN87Y+xW5PiCZGSAxdklGDm9WqOd3qzvK29bLKMRq1SEm+tPF0U6d0fVKNkHFin9GDOcIFaY+qFbJ+iWcX4pKbPmFLnXowXoa/LRnBPC1xw6JjCfqcePo29OBesX69MvOmQrV17hgSFa5v0XC3fVygHfTk44i9QWny6Xpg+OhaclmVZHaMJ0WTN5CU9PmW60KdfEwZFnlyq6iiVtA6AOtcqcuGeQfPPrhTTLacmkFiu0bhxQJnmKoJMa7l/htY89zIbzIfG1zVlDGP7lF419G9jm0kvVqHeUQh3TYrhbOdb2Q0Bs5VkPgJ+7h/xxR8zhYJNQM1Oj7wEepENm8GNHSmWEy+4ZrMbeLctPr99gzpmEpwr6VjP3MkVXFnG5DQv+k6K2Bijap6Jvm7yoi1fUaoyr6GaRyGS7sldRolKKQExbwXLB1hIMQP8XfXDiAjiw832Mmv/LNPZasCKQpIxDPn30DRf5PUYQCmTUNSKaTYEXDp0SULo2bRBZ6M914nlHz01j4baipsg9OlI6ckSmEeo/pvknb81uSP6fr5g6FAkZauE2KqjsdYDZIqRB1VZlldqJYBAgs+tP6pIctVH7SoD+oXexiCmkkbao3SUI4/XxO9Yc43s5QDwqhNO/zSxcMJb3M4quIyyI0dsNA0NWX2h8iZRqcOejS/P0NuF+GgXS79mUW5MhPmtIq+7gBZJWKAQvx09sPfa/rtUtJWgCty+IjavUAGy0yxxfvtz+KAsAxn6tsGI9V/46F+xNXgqtMdtAp1iH5ALw0T/BBhBCs7rAgVVPj4DUeVHquzxonMav8xl3lbfRmeZSnRUebDY/I+iGFO+Bkd7qA1/usZ8JUZj0GG81UrdsTtidqfIYcwEydCbq8PQm+xiSbeY0to53NC5h1dRomuNi+/oP0yf5/mUN2411vBhxNl4kYr+gSpIoKGYacdluiOw/Z+nVmvIfI+VIAW5Cplnbem6nSShCemy3wqwhN/ltPn7efMw+Q5I5JKUxD63imMjGPnJoZBDG5d46qUuFB2MNzLNVGEBv4PSgWPgbrXSQawJkjODdvE1MmQBWWffT/aD7bRcyamISTrI3ThBRX+EYAY6QT02PMvpJtqZuTXDDv5B8V/ubcTJydp7AC7jIy139zzzIKGTI52RRlZD6eHfJzcwPcZoaWxVS9/V1ugMuH3BD/oRQgxaFgQnFSm9e7bJ6NHJCEdVZ/lcjeyB/GeCbFfOKngOaerghWs9aFOkTR2c28eq2P63dfG9Wk6WFaKnZOck8pDYq6lFvsvToygjPuIt19mN84OAzCfllgyh6rXrKbGXbQuKsZmc6peReC8a/nR+wgofT1lBA2hVuxZAz0KHhF2VxYkHMZNQVTm1ZyjtIHc7QyLEg",
+              "format": "xai-responses-v1",
+              "id": "rs_f53d0e8b-8e81-9bf0-b459-aa24ef1baee9",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 289,
+      "completion_tokens": 502,
+      "total_tokens": 791,
+      "cost": 0.0033724,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0033724,
+        "upstream_inference_prompt_cost": 0.0003604,
+        "upstream_inference_completions_cost": 0.003012
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 325,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 289,
+  "tokensOut": 502,
+  "costUsd": 0.0033724,
+  "latencyMs": 10012,
+  "finishReason": "stop"
+}

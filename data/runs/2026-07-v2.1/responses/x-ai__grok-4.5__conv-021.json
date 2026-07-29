@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "conv-021",
+  "answerText": "25 cl = 250 ml.  \nA US tablespoon is approximately 15 ml, so 250 ÷ 15 ≈ 17.\n\nAnswer: 17 tbsp",
+  "raw": {
+    "id": "gen-1785345225-Ad0d2kqNNYyBnlQFd8OK",
+    "object": "chat.completion",
+    "created": 1785345225,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "25 cl = 250 ml.  \nA US tablespoon is approximately 15 ml, so 250 ÷ 15 ≈ 17.\n\nAnswer: 17 tbsp",
+          "refusal": null,
+          "reasoning": "The question is: A French sauce recipe calls for 25 cl of crème fraîche, but my measuring spoons are US tablespoons. Roughly how many tablespoons is that?\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: A French sauce recipe calls for 25 cl of crème fraîche, but my measuring spoons are US tablespoons. Roughly how many tablespoons is that?\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "4QNTF20K4JPxUD43qADWkmrXeKKAX7Uvd+j7tbMkSLC1DskU3QIoEvSebwxA6a43AXSumSFQPk4s2bR1NVLQtTg4301kUMTez8ShkPl2Cn/gDutTBUeKX1PpZo/TgRIiTbbMnGT+9VSN8tXxPhyg11tSNAwW7khHZhw59PvxJFd8Uq8xCurzuPE/KniM8uBpyW+NeXob4M7zEZykE3Ygw1a0d5dDjas8T4FQEBg39wS6SDloYJoCtPgglvRQ+7sxp7Sr9tDwnUGmYcnPYTxEzvYbhoNeE7zffFHcbOvwwYo36bUVcqoJogSCsUlXDqxdXthtFNm9bq6kqQFQyvkQ1xNXVthZV12bwfnuW/701raHPdYYwrMR5QbJ/vDwWb+EkS+xgYIIzhl2VkHAgWpGis/9tDjbLYPYvAVq8Fq9iaV3PoRPTt7oskOROwS/UU2D6JuoAVTALg3+vUR7Y3T41ykO3YUc+GD1SDWD+lUVnRoOH3pXGyhHIEoXPGpqSXlUNRUaWy0V0Rk4AANcLeg+u/e++9hGtJlp3DR4KVBdDHXzM5DyCRvbO9BZr7ML6xJLB47rtvo8gzVuV5/+leHQS0THU8oHPFBURsbs98HyfNP7TpyVW+WjEu6XWq+xYpy+H/nFwukBNXK1wd7169T2zlqGzxj05GiGMK+wmKWWL838IVfBuMqwgK+xkiVV/0/EHuXig5+AYZnhjg6c97qQtEKiaXMoZe+WeHTGr9JOo92zurybl2Irq7+b9+TSD3569xmB4AEbx3UtJnpMkxXWj2kn56+SqZJnGMAS2xWz4gQ310GCjhiTIUog/cMwMAYG8h1c5IHjRzXLhbVD4Dmz8T+vjxTHcj6PBLhF623Ps2w/9tbby1sLJ2Eq6i9en0wzAYj22IDScjg168cysy+XSLYqJyBoKrw7t/tarruE7h7fYn7KRH4bthEL3coT1/4UbOiaDsJRytnoi3nuzsyl/lKjW02WxpZVpKrkl/yphp5c+cbY1RYwn4fmhvp3dlaWkWPvnHAWnn8",
+              "format": "xai-responses-v1",
+              "id": "rs_38eb1524-edcd-9bad-9fa2-07fe05b7c08d",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 270,
+      "completion_tokens": 270,
+      "total_tokens": 540,
+      "cost": 0.0019424,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0019424,
+        "upstream_inference_prompt_cost": 0.0003224,
+        "upstream_inference_completions_cost": 0.00162
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 238,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 270,
+  "tokensOut": 270,
+  "costUsd": 0.0019424,
+  "latencyMs": 4643,
+  "finishReason": "stop"
+}

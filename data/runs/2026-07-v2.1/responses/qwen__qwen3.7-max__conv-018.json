@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "conv-018",
+  "answerText": "One US cup of unsalted butter is equivalent to 2 standard sticks. Since each stick weighs approximately 113.4 grams, a full cup weighs 226.8 grams, which is universally rounded to 227 grams in culinary measurements.\n\nAnswer: 227 g",
+  "raw": {
+    "id": "gen-1785345781-aEw5XUzkCh6T678JzMs7",
+    "object": "chat.completion",
+    "created": 1785345781,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "One US cup of unsalted butter is equivalent to 2 standard sticks. Since each stick weighs approximately 113.4 grams, a full cup weighs 226.8 grams, which is universally rounded to 227 grams in culinary measurements.\n\nAnswer: 227 g",
+          "refusal": null,
+          "reasoning": "Thinking:\n\n1.  **Identify the core question:** The user wants to convert 1 US cup of unsalted butter to grams.\n2.  **Retrieve knowledge about butter conversion:**\n    *   1 US cup of butter = 2 sticks of butter.\n    *   1 stick of butter = 1/2 cup = 8 tablespoons = 4 ounces = 113.4 grams (often rounded to 113g).\n    *   Therefore, 1 US cup of butter = 2 * 113.4 = 226.8 grams (often rounded to 227g).\n    *   Let's check standard culinary conversions: 1 cup of butter is universally accepted as 227 grams (or 226.8g).\n3.  **Format the output:**\n    *   Accurate and concise explanation.\n    *   Must end with the exact line: \"Answer: <number> g\".\n    *   Number to use: 227 (or 226.8, but 227 is standard for cooking). Let's use 227.\n4.  **Draft the response:**\n    1 US cup of unsalted butter is equal to 2 standard sticks of butter. Each stick weighs approximately 113.4 grams, making a full cup 226.8 grams, which is typically rounded to 227 grams in recipes.\n    Answer: 227 g\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number> g\"? Yes. (Answer: 227 g)\n\nLet's double check if 226.8 is better. Most culinary sources (like King Arthur Baking, America's Test Kitchen) use 227g for 1 cup of butter. I will use 227.\n\nDraft:\nOne US cup of unsalted butter is equivalent to 2 standard sticks. Since each stick weighs about 113.4 grams, a full cup weighs 226.8 grams, which is standardly rounded to 227 grams for cooking and baking.\n\nAnswer: 227 g\nWait, what if the user expects 226.8? \"227\" is safer and more standard. I'll provide 227.\nLet's just use 227.\n\"Answer: 227 g\"\nDone.\n**End of thought process**",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking:\n\n1.  **Identify the core question:** The user wants to convert 1 US cup of unsalted butter to grams.\n2.  **Retrieve knowledge about butter conversion:**\n    *   1 US cup of butter = 2 sticks of butter.\n    *   1 stick of butter = 1/2 cup = 8 tablespoons = 4 ounces = 113.4 grams (often rounded to 113g).\n    *   Therefore, 1 US cup of butter = 2 * 113.4 = 226.8 grams (often rounded to 227g).\n    *   Let's check standard culinary conversions: 1 cup of butter is universally accepted as 227 grams (or 226.8g).\n3.  **Format the output:**\n    *   Accurate and concise explanation.\n    *   Must end with the exact line: \"Answer: <number> g\".\n    *   Number to use: 227 (or 226.8, but 227 is standard for cooking). Let's use 227.\n4.  **Draft the response:**\n    1 US cup of unsalted butter is equal to 2 standard sticks of butter. Each stick weighs approximately 113.4 grams, making a full cup 226.8 grams, which is typically rounded to 227 grams in recipes.\n    Answer: 227 g\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number> g\"? Yes. (Answer: 227 g)\n\nLet's double check if 226.8 is better. Most culinary sources (like King Arthur Baking, America's Test Kitchen) use 227g for 1 cup of butter. I will use 227.\n\nDraft:\nOne US cup of unsalted butter is equivalent to 2 standard sticks. Since each stick weighs about 113.4 grams, a full cup weighs 226.8 grams, which is standardly rounded to 227 grams for cooking and baking.\n\nAnswer: 227 g\nWait, what if the user expects 226.8? \"227\" is safer and more standard. I'll provide 227.\nLet's just use 227.\n\"Answer: 227 g\"\nDone.\n**End of thought process**",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 58,
+      "completion_tokens": 631,
+      "total_tokens": 689,
+      "cost": 0.002877725,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002877725,
+        "upstream_inference_prompt_cost": 0.00008555,
+        "upstream_inference_completions_cost": 0.002792175
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 564,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 58,
+  "tokensOut": 631,
+  "costUsd": 0.002877725,
+  "latencyMs": 13490,
+  "finishReason": "stop"
+}

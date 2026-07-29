@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "nutr-022",
+  "answerText": "100 grams of dry (uncooked) white rice typically contains about 360 to 365 kilocalories, depending on the specific variety (such as short, medium, or long-grain). \n\nAnswer: 365 kcal",
+  "raw": {
+    "id": "gen-1785346170-bkBwXb0ft5F2ND9ZrnYb",
+    "object": "chat.completion",
+    "created": 1785346170,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "100 grams of dry (uncooked) white rice typically contains about 360 to 365 kilocalories, depending on the specific variety (such as short, medium, or long-grain). \n\nAnswer: 365 kcal",
+          "refusal": null,
+          "reasoning": "Thinking:\n\n1.  **Identify the core question:** The user is asking for the approximate number of kilocalories (kcal) in 100 grams of dry (uncooked) white rice.\n2.  **Retrieve nutritional information:**\n    *   Uncooked white rice (long grain, short grain, etc.) generally has around 350 to 370 kcal per 100 grams.\n    *   USDA FoodData Central: Rice, white, long-grain, regular, raw is about 365 kcal per 100g.\n    *   Rice, white, short-grain, raw is about 358 kcal per 100g.\n    *   A widely accepted average/standard value for dry white rice is ~360-365 kcal. Let's use 365 as it's the standard USDA value for long-grain white rice, or state ~360. Let's provide 365.\n3.  **Format the output:**\n    *   Accurate and concise answer.\n    *   Must end with the exact line: \"Answer: <number> kcal\".\n4.  **Draft the response:**\n    *   100 grams of dry (uncooked) white rice typically contains about 360 to 365 kilocalories, depending on the specific variety (such as long-grain or short-grain).\n    *   Answer: 365 kcal. (or 360, let's use 365).\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number> kcal\"? Yes.\n\nLet's refine the number. USDA standard for \"Rice, white, long-grain, regular, raw\" is 365 kcal. \"Rice, white, medium-grain, raw\" is 360 kcal. I will use 365 as the representative number, or 360. Let's just say 365.\n\nText:\n100 grams of dry (uncooked) white rice typically contains about 360 to 365 kilocalories, depending on the specific variety (like short, medium, or long-grain).\n\nAnswer: 365 kcal\n(Wait, format requires exactly \"Answer: <number> kcal\". I will use 365).\nLet's double check. 365 is perfect.\nEnd of thought.\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking:\n\n1.  **Identify the core question:** The user is asking for the approximate number of kilocalories (kcal) in 100 grams of dry (uncooked) white rice.\n2.  **Retrieve nutritional information:**\n    *   Uncooked white rice (long grain, short grain, etc.) generally has around 350 to 370 kcal per 100 grams.\n    *   USDA FoodData Central: Rice, white, long-grain, regular, raw is about 365 kcal per 100g.\n    *   Rice, white, short-grain, raw is about 358 kcal per 100g.\n    *   A widely accepted average/standard value for dry white rice is ~360-365 kcal. Let's use 365 as it's the standard USDA value for long-grain white rice, or state ~360. Let's provide 365.\n3.  **Format the output:**\n    *   Accurate and concise answer.\n    *   Must end with the exact line: \"Answer: <number> kcal\".\n4.  **Draft the response:**\n    *   100 grams of dry (uncooked) white rice typically contains about 360 to 365 kilocalories, depending on the specific variety (such as long-grain or short-grain).\n    *   Answer: 365 kcal. (or 360, let's use 365).\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number> kcal\"? Yes.\n\nLet's refine the number. USDA standard for \"Rice, white, long-grain, regular, raw\" is 365 kcal. \"Rice, white, medium-grain, raw\" is 360 kcal. I will use 365 as the representative number, or 360. Let's just say 365.\n\nText:\n100 grams of dry (uncooked) white rice typically contains about 360 to 365 kilocalories, depending on the specific variety (like short, medium, or long-grain).\n\nAnswer: 365 kcal\n(Wait, format requires exactly \"Answer: <number> kcal\". I will use 365).\nLet's double check. 365 is perfect.\nEnd of thought.\n",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 68,
+      "completion_tokens": 615,
+      "total_tokens": 683,
+      "cost": 0.002821675,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002821675,
+        "upstream_inference_prompt_cost": 0.0001003,
+        "upstream_inference_completions_cost": 0.002721375
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 557,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 68,
+  "tokensOut": 615,
+  "costUsd": 0.002821675,
+  "latencyMs": 11878,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-003",
+  "answerText": "130 kcal per 100g means 1g has 1.3 kcal. For 250g: 250 × 1.3 = 325 kcal.\n\nAnswer: 325 kcal",
+  "raw": {
+    "id": "gen-1785347294-HlTgCJmwR7U2ZSfUi6dq",
+    "object": "chat.completion",
+    "created": 1785347294,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "130 kcal per 100g means 1g has 1.3 kcal. For 250g: 250 × 1.3 = 325 kcal.\n\nAnswer: 325 kcal",
+          "refusal": null,
+          "reasoning": "We are asked: \"Cooked white rice has about 130 kcal per 100 g. How many kilocalories are in a 250 g portion?\" So we need to compute the kcal for 250g given 130 kcal per 100g. That's simply 130 * (250/100) = 130 * 2.5 = 325 kcal. The answer should end with \"Answer: 325 kcal\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Cooked white rice has about 130 kcal per 100 g. How many kilocalories are in a 250 g portion?\" So we need to compute the kcal for 250g given 130 kcal per 100g. That's simply 130 * (250/100) = 130 * 2.5 = 325 kcal. The answer should end with \"Answer: 325 kcal\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 61,
+      "completion_tokens": 129,
+      "total_tokens": 190,
+      "cost": 0.0001994707,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0001994707,
+        "upstream_inference_prompt_cost": 0.0000381433,
+        "upstream_inference_completions_cost": 0.0001613274
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 88,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 61,
+  "tokensOut": 129,
+  "costUsd": 0.0001994707,
+  "latencyMs": 3013,
+  "finishReason": "stop"
+}

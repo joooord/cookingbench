@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "nutr-011",
+  "answerText": "To find the number of calories in one serving, you can use the proportion of the serving size to the 100 g reference amount:\n\n(60 g / 100 g) * 450 kcal = 0.6 * 450 kcal = 270 kcal\n\nAnswer: 270 kcal",
+  "raw": {
+    "id": "gen-1785346141-QZtIy8g3tIZOpwUab5Nw",
+    "object": "chat.completion",
+    "created": 1785346141,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To find the number of calories in one serving, you can use the proportion of the serving size to the 100 g reference amount:\n\n(60 g / 100 g) * 450 kcal = 0.6 * 450 kcal = 270 kcal\n\nAnswer: 270 kcal",
+          "refusal": null,
+          "reasoning": "The user wants to know the number of calories in one serving of granola.\nServing size = 60 g\nCalories per 100 g = 450 kcal\nCalories in 60 g = (60 / 100) * 450 kcal\n= 0.6 * 450\n= 270 kcal\n\nLet's double check.\n450 * 0.6 = 270.\nThe question asks for the number of kcal in one serving.\nThe answer should end with \"Answer: 270 kcal\".\nConcise and accurate.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants to know the number of calories in one serving of granola.\nServing size = 60 g\nCalories per 100 g = 450 kcal\nCalories in 60 g = (60 / 100) * 450 kcal\n= 0.6 * 450\n= 270 kcal\n\nLet's double check.\n450 * 0.6 = 270.\nThe question asks for the number of kcal in one serving.\nThe answer should end with \"Answer: 270 kcal\".\nConcise and accurate.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 98,
+      "completion_tokens": 215,
+      "total_tokens": 313,
+      "cost": 0.001095925,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001095925,
+        "upstream_inference_prompt_cost": 0.00014455,
+        "upstream_inference_completions_cost": 0.000951375
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 138,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 98,
+  "tokensOut": 215,
+  "costUsd": 0.001095925,
+  "latencyMs": 5165,
+  "finishReason": "stop"
+}

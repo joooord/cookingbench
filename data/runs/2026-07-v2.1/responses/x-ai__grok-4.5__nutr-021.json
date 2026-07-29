@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "nutr-021",
+  "answerText": "A large whole egg (≈50 g) provides roughly 72 kilocalories based on standard USDA nutrient data.\n\nAnswer: 72 kcal",
+  "raw": {
+    "id": "gen-1785345349-Jva0sSQdU3UCaHk7zjpQ",
+    "object": "chat.completion",
+    "created": 1785345349,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "A large whole egg (≈50 g) provides roughly 72 kilocalories based on standard USDA nutrient data.\n\nAnswer: 72 kcal",
+          "refusal": null,
+          "reasoning": "The question is: \"Approximately how many kilocalories are in one large whole egg (about 50 g)?\" I need to answer accurately and concisely, ending with \"Answer: <number> kcal\".\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"Approximately how many kilocalories are in one large whole egg (about 50 g)?\" I need to answer accurately and concisely, ending with \"Answer: <number> kcal\".\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "RtAzivz1d3kQ7oyKyYm91Q5vUbl3w1nasoxvR87cjFUe5pVJiFk0A95STEeANEMdDvboYA9/1WRqyTLt8U8dxzW9QCll5WI/OBEYsJSizhgpvtTEm9S+F/sosMitAcKdolr5MldSESuN7DrImy3kHOWGd5/jbeDtQfRBXrjkdMlQqgq3mjA1akVaG0ACjVFtg+uPuDutnw8rSwtSU2vLGL10GB+eAAN9/YXgDoSnGssUKfuMlO6lfhMm3HfIFCWyRFGQ9sHS4IM9ztSaGSVEMOMikdgq1uvXTAl+zs2+Y4kuelqV6dwqEHCvGfn2NnyC4Br6RGdlGcNHGORWP/RkGzOEDFY73pPRU5wewrIpR8imY+EINVxAvndqfbCxPH5BvwoVDCr8J/qAMQFkIhYQH9cHfOY+Ym/JikL4CRL2NWH7vkYdLEwwNiJXQkr0E7Xik2wA0jaXpkL8fN0Dmhj1HAf1Pcvgs9lzhI0Wh8KYXCQbAzVoQpt8XOY56ABw0+wvfK5sslyy8Z0tiJPeLmrhPoKj32xSkKBmJ6LHWkUidbhhwOUDpSnVUk1s0UTSI/dnmN+K5L8VPmMXedgeVh1BS7mLq4onRuCrlFJk1BmkCiS0wBsyUy/ZwtdFwBCN//yAyXDknV9PpzYDfN4vKvCQGoBF7s4fokvS39CmAoUIpS91LoWD933GovGJYONgnD8GGKSi1bfZ9sI7GdadlcnE+LqATBNby0MsKEpW8ASmhQO6CNVx8de7Zp8kfP//QSS8BmMVK1LS0mTCBFGfcrQdIJH31+PMwwZbHU5nJsSDOPAeI1ms9Km9A63KCwaXxv1EaNA3yWhEIn90JGCtCV+N",
+              "format": "xai-responses-v1",
+              "id": "rs_111ed6df-c0ab-94d2-9f72-a5241d4849d2",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 258,
+      "completion_tokens": 186,
+      "total_tokens": 444,
+      "cost": 0.0014144,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0014144,
+        "upstream_inference_prompt_cost": 0.0002984,
+        "upstream_inference_completions_cost": 0.001116
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 158,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 258,
+  "tokensOut": 186,
+  "costUsd": 0.0014144,
+  "latencyMs": 3408,
+  "finishReason": "stop"
+}

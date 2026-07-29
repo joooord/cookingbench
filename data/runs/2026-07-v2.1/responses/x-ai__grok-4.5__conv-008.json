@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "conv-008",
+  "answerText": "Fan ovens circulate hot air, allowing them to cook food more efficiently than conventional ovens. As a result, a fan oven temperature setting is typically equivalent to a conventional oven temperature that is 20°C higher.\n\nFor a fan oven setting of 180°C:  \n180°C + 20°C = 200°C (conventional).\n\nAnswer: 200 °C",
+  "raw": {
+    "id": "gen-1785345209-D2CxlLxZgGkWBPX3mfCJ",
+    "object": "chat.completion",
+    "created": 1785345209,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Fan ovens circulate hot air, allowing them to cook food more efficiently than conventional ovens. As a result, a fan oven temperature setting is typically equivalent to a conventional oven temperature that is 20°C higher.\n\nFor a fan oven setting of 180°C:  \n180°C + 20°C = 200°C (conventional).\n\nAnswer: 200 °C",
+          "refusal": null,
+          "reasoning": "The question is: Convert a fan (convection) oven setting of 180°C to the equivalent conventional oven temperature in Celsius. Fan ovens typically run about 20°C lower than conventional.\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: Convert a fan (convection) oven setting of 180°C to the equivalent conventional oven temperature in Celsius. Fan ovens typically run about 20°C lower than conventional.\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "26oLoZYxFgm0pppYVYsB2rGglC2qaZ2NkXLh+9N3MQkzAwcseoQWostq1ByV3OqcIbVD+Jp74SP/1s+n2sXB4VWoGF2Ib2HOdWYSvecAQs15hjNULruZk680w6MsROqB/8QCdChXLdgP6+tWtHmnvC/5DSuHoOK7sTR6SENRgtYPNcLukVvIAFLpIDz8txvcSIyd/5SRQOjqluFCgZOMkDPuZPsAM4hl8nx4NBMKbwhR2sBipkvXes7x9C1nqoTlYv7tlyjCX4i51AnmDkpEbBaGQ5OHEBQn5IfN+CzQQBB50J+txpj3uqCNtaeZCmH7A7pG04ZFan3KYsNIllI+jKr0HYX45ha3gXcFIvooXXlajgLpvquMsrip8iAaF6Hd3wDjBdjJMLfINevrcot/qhhEpW7+niOLcFHHu4wJN+MZZO3GpJOU93EJwcNu2BmIx5lzRhF8IWdKQ8pzVmOZrgvKF5Fk+eBQi4MT5+hGuOICF7ODaPXSFYPZ6ZM6wpwNQ3cy4sjNgovz91/tpdU0kLy35tdfx607MrcYTzXmNGbkHV/pT1qmWGE2QSSjyqhrry1jP2bcrPk2pDxzTaWozheOzSRz7TZzEMGRv2sw3IhpxOoqFkdRt1+U9douk1gBZ8/BEVPGlT6AJ6MJZwA5kO0Yh8FE5Nlhs6RRpk1dhtZBUG88kyu0YWzvIV3+1d1FHaVKba96bcbKO424F+Cq6Q5t5laGA7fJ0uN5kpLrk52oZSW38YH3qNP3stBCIj4KaNxaeQQsY66zjxu6LUPVDtKlvy7JuE8oTM1T4hVrASWYsbyJXgV1UfbwsPzsR1V6aNK5/4awpruBSA3NEtSxcO0",
+              "format": "xai-responses-v1",
+              "id": "rs_aeb3215a-e27a-9652-be7b-a290d7bb63f4",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 276,
+      "completion_tokens": 232,
+      "total_tokens": 508,
+      "cost": 0.0017264,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0017264,
+        "upstream_inference_prompt_cost": 0.0003344,
+        "upstream_inference_completions_cost": 0.001392
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 153,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 276,
+  "tokensOut": 232,
+  "costUsd": 0.0017264,
+  "latencyMs": 4168,
+  "finishReason": "stop"
+}

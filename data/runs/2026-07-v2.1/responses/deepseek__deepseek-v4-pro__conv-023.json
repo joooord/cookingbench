@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-023",
+  "answerText": "In Australia, a tablespoon is 20 ml, while a US tablespoon is 15 ml. So 3 Australian tablespoons equal 60 ml, which is 4 US tablespoons.\n\nAnswer: 4 tbsp",
+  "raw": {
+    "id": "gen-1785347122-gAYOsDhfRbwjVue64RRH",
+    "object": "chat.completion",
+    "created": 1785347122,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Cloudflare",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "In Australia, a tablespoon is 20 ml, while a US tablespoon is 15 ml. So 3 Australian tablespoons equal 60 ml, which is 4 US tablespoons.\n\nAnswer: 4 tbsp",
+          "refusal": null,
+          "reasoning": "We need to answer: Australian recipe calls for 3 tablespoons of golden syrup, but user has US measuring spoons. How many US tablespoons should they measure? The key is the difference between Australian tablespoon and US tablespoon. In Australia, a tablespoon is 20 ml (4 teaspoons). In the US, a tablespoon is 15 ml (3 teaspoons). So 3 Australian tablespoons = 3 * 20 ml = 60 ml. In US tablespoons, 60 ml / 15 ml per tbsp = 4 US tablespoons. So answer: 4 US tablespoons. End with \"Answer: 4 tbsp\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to answer: Australian recipe calls for 3 tablespoons of golden syrup, but user has US measuring spoons. How many US tablespoons should they measure? The key is the difference between Australian tablespoon and US tablespoon. In Australia, a tablespoon is 20 ml (4 teaspoons). In the US, a tablespoon is 15 ml (3 teaspoons). So 3 Australian tablespoons = 3 * 20 ml = 60 ml. In US tablespoons, 60 ml / 15 ml per tbsp = 4 US tablespoons. So answer: 4 US tablespoons. End with \"Answer: 4 tbsp\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 72,
+      "completion_tokens": 167,
+      "total_tokens": 239,
+      "cost": 0.00070644,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00070644,
+        "upstream_inference_prompt_cost": 0.00012528,
+        "upstream_inference_completions_cost": 0.00058116
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 125,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 72,
+  "tokensOut": 167,
+  "costUsd": 0.00070644,
+  "latencyMs": 2799,
+  "finishReason": "stop"
+}

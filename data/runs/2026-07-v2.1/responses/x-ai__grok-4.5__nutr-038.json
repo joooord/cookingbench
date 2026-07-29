@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "nutr-038",
+  "answerText": "A large egg provides ~72 kcal, so two eggs total 144 kcal.  \nA knob of butter for scrambling is ~10 g (~72 kcal).  \nA splash of whole milk is ~25 ml (~15 kcal).  \nTwo slices of white bread contribute ~150 kcal.  \nButter for the toast is another ~10 g (~72 kcal).  \n\nSumming these components: 144 + 72 + 15 + 150 + 72 ≈ 500 kcal.\n\nAnswer: 500 kcal",
+  "raw": {
+    "id": "gen-1785345387-JEsozntHk4MfnClFyjHQ",
+    "object": "chat.completion",
+    "created": 1785345387,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "A large egg provides ~72 kcal, so two eggs total 144 kcal.  \nA knob of butter for scrambling is ~10 g (~72 kcal).  \nA splash of whole milk is ~25 ml (~15 kcal).  \nTwo slices of white bread contribute ~150 kcal.  \nButter for the toast is another ~10 g (~72 kcal).  \n\nSumming these components: 144 + 72 + 15 + 150 + 72 ≈ 500 kcal.\n\nAnswer: 500 kcal",
+          "refusal": null,
+          "reasoning": "The problem is: Estimate the total kilocalories of this breakfast: two large eggs scrambled with a knob of butter and a splash of whole milk, plus two slices of buttered white toast.\nI estimate this breakfast at about 480 kilocalories. Two large eggs come in around 140 kcal, the scrambled butter knob adds roughly 100 kcal, the splash of milk contributes about 20 kcal, and the two slices of buttered white toast total around 220 kcal.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem is: Estimate the total kilocalories of this breakfast: two large eggs scrambled with a knob of butter and a splash of whole milk, plus two slices of buttered white toast.\nI estimate this breakfast at about 480 kilocalories. Two large eggs come in around 140 kcal, the scrambled butter knob adds roughly 100 kcal, the splash of milk contributes about 20 kcal, and the two slices of buttered white toast total around 220 kcal.",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "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",
+              "format": "xai-responses-v1",
+              "id": "rs_0c95f297-73dc-966c-9bd7-f063311f9379",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 273,
+      "completion_tokens": 859,
+      "total_tokens": 1132,
+      "cost": 0.0054824,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0054824,
+        "upstream_inference_prompt_cost": 0.0003284,
+        "upstream_inference_completions_cost": 0.005154
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 759,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 273,
+  "tokensOut": 859,
+  "costUsd": 0.0054824,
+  "latencyMs": 14280,
+  "finishReason": "stop"
+}

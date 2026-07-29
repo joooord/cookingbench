@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-016",
+  "answerText": "To end up with 6 cooked patties of 150 g each, you need a total cooked weight of 900 g. Since the burgers lose 25% of their raw weight during cooking, the cooked weight is 75% of the raw weight. Thus, raw weight = 900 g / 0.75 = 1200 g.\n\nAnswer: 1200 g",
+  "raw": {
+    "id": "gen-1785347424-hInskUEXqm7RqbUSfOM0",
+    "object": "chat.completion",
+    "created": 1785347424,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To end up with 6 cooked patties of 150 g each, you need a total cooked weight of 900 g. Since the burgers lose 25% of their raw weight during cooking, the cooked weight is 75% of the raw weight. Thus, raw weight = 900 g / 0.75 = 1200 g.\n\nAnswer: 1200 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"Beef burgers lose about 25% of their weight during cooking. I want to serve 6 cooked patties of 150 g each. How many grams of raw mince do I need?\"\n\nWe need to calculate the raw mince required. If they lose 25% of their weight during cooking, that means the cooked weight is 75% of the raw weight. So, cooked weight = 0.75 * raw weight.\n\nWe want 6 patties of 150 g each cooked, so total cooked weight = 6 * 150 = 900 g.\n\nLet raw weight = R. Then 0.75 * R = 900 => R = 900 / 0.75 = 1200 g.\n\nSo answer is 1200 g.\n\nWe'll end with \"Answer: 1200 g\"",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Beef burgers lose about 25% of their weight during cooking. I want to serve 6 cooked patties of 150 g each. How many grams of raw mince do I need?\"\n\nWe need to calculate the raw mince required. If they lose 25% of their weight during cooking, that means the cooked weight is 75% of the raw weight. So, cooked weight = 0.75 * raw weight.\n\nWe want 6 patties of 150 g each cooked, so total cooked weight = 6 * 150 = 900 g.\n\nLet raw weight = R. Then 0.75 * R = 900 => R = 900 / 0.75 = 1200 g.\n\nSo answer is 1200 g.\n\nWe'll end with \"Answer: 1200 g\"",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 74,
+      "completion_tokens": 253,
+      "total_tokens": 327,
+      "cost": 0.000362674,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000362674,
+        "upstream_inference_prompt_cost": 0.0000462722,
+        "upstream_inference_completions_cost": 0.0003164018
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 174,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 74,
+  "tokensOut": 253,
+  "costUsd": 0.000362674,
+  "latencyMs": 14327,
+  "finishReason": "stop"
+}

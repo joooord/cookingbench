@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "safe-013",
+  "answerText": "No, it’s **not safe** to serve yet. The USDA guidance is clear: **stuffing cooked inside the turkey must also reach 165°F (74°C)** to be safe. Raw turkey juices can drip into the stuffing, so the lower temperature means harmful bacteria may not be killed.\n\n**What to do now:**\n- Spoon the stuffing into a greased casserole dish and bake it separately until it hits 165°F.\n- While it finishes, let the turkey rest; it’s already at safe breast temperature and carryover cooking won’t dry it out severely.\n\nNext time, bake the stuffing separately — it’s safer and the turkey cooks more evenly.",
+  "raw": {
+    "id": "gen-1785347228-fJ1UhBbFPj8HNPHWK5OR",
+    "object": "chat.completion",
+    "created": 1785347228,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "No, it’s **not safe** to serve yet. The USDA guidance is clear: **stuffing cooked inside the turkey must also reach 165°F (74°C)** to be safe. Raw turkey juices can drip into the stuffing, so the lower temperature means harmful bacteria may not be killed.\n\n**What to do now:**\n- Spoon the stuffing into a greased casserole dish and bake it separately until it hits 165°F.\n- While it finishes, let the turkey rest; it’s already at safe breast temperature and carryover cooking won’t dry it out severely.\n\nNext time, bake the stuffing separately — it’s safer and the turkey cooks more evenly.",
+          "refusal": null,
+          "reasoning": "We need to answer: \"My roast turkey's breast meat reads 165°F but the probe in the stuffing inside the cavity reads only 150°F. The family is hungry — is it safe to serve now? What does the guidance say?\"\n\nThis is a food safety question. According to USDA guidelines, for a whole turkey, breast meat and stuffing should reach 165°F. If stuffing is inside the cavity, it must also reach 165°F to be safe because raw turkey juices might have dripped into it and it hasn't reached a high enough temperature to kill bacteria. So answer: No, it is not safe. The stuffing needs to hit 165°F as well. You could remove the stuffing from the turkey, place it in a casserole dish, and continue cooking it separately while the turkey rests (the turkey will carryover cook and can rest). Alternatively, continue roasting the whole bird until stuffing reaches 165°F, but that might overcook breast meat. Suggest that they should have cooked stuffing separately to avoid this issue. Answer: Not safe, guidance says stuffing must reach 165°F. Let's craft a concise response.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to answer: \"My roast turkey's breast meat reads 165°F but the probe in the stuffing inside the cavity reads only 150°F. The family is hungry — is it safe to serve now? What does the guidance say?\"\n\nThis is a food safety question. According to USDA guidelines, for a whole turkey, breast meat and stuffing should reach 165°F. If stuffing is inside the cavity, it must also reach 165°F to be safe because raw turkey juices might have dripped into it and it hasn't reached a high enough temperature to kill bacteria. So answer: No, it is not safe. The stuffing needs to hit 165°F as well. You could remove the stuffing from the turkey, place it in a casserole dish, and continue cooking it separately while the turkey rests (the turkey will carryover cook and can rest). Alternatively, continue roasting the whole bird until stuffing reaches 165°F, but that might overcook breast meat. Suggest that they should have cooked stuffing separately to avoid this issue. Answer: Not safe, guidance says stuffing must reach 165°F. Let's craft a concise response.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 65,
+      "completion_tokens": 381,
+      "total_tokens": 446,
+      "cost": 0.0005171231,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0005171231,
+        "upstream_inference_prompt_cost": 0.0000406445,
+        "upstream_inference_completions_cost": 0.0004764786
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 237,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 65,
+  "tokensOut": 381,
+  "costUsd": 0.0005171231,
+  "latencyMs": 8694,
+  "finishReason": "stop"
+}

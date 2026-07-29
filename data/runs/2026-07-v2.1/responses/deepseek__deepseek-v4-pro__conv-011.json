@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-011",
+  "answerText": "Water boils at 100°C, which converts to Kelvin by adding 273.15. So, 100°C = 373.15 K.  \nAnswer: 373.15 K",
+  "raw": {
+    "id": "gen-1785347098-ARVjjj9daJggYv1fKdAb",
+    "object": "chat.completion",
+    "created": 1785347098,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Water boils at 100°C, which converts to Kelvin by adding 273.15. So, 100°C = 373.15 K.  \nAnswer: 373.15 K",
+          "refusal": null,
+          "reasoning": "We are asked: \"Water boils at 100°C at sea level. Express that temperature in Kelvin.\" So we need to convert 100°C to Kelvin. The formula is K = °C + 273.15, but often it's approximated as 273. So I'll use the exact conversion: 100 + 273.15 = 373.15 K. Since the question says \"Express that temperature in Kelvin\", I'll give 373.15 K. I'll end with \"Answer: 373.15 K\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Water boils at 100°C at sea level. Express that temperature in Kelvin.\" So we need to convert 100°C to Kelvin. The formula is K = °C + 273.15, but often it's approximated as 273. So I'll use the exact conversion: 100 + 273.15 = 373.15 K. Since the question says \"Express that temperature in Kelvin\", I'll give 373.15 K. I'll end with \"Answer: 373.15 K\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 51,
+      "completion_tokens": 153,
+      "total_tokens": 204,
+      "cost": 0.0002232321,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002232321,
+        "upstream_inference_prompt_cost": 0.0000318903,
+        "upstream_inference_completions_cost": 0.0001913418
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 110,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 51,
+  "tokensOut": 153,
+  "costUsd": 0.0002232321,
+  "latencyMs": 3368,
+  "finishReason": "stop"
+}

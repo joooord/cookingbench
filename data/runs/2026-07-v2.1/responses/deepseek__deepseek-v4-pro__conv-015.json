@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-015",
+  "answerText": "An imperial (UK) pint is exactly 568.26125 millilitres.  \nAnswer: 568.26125 ml",
+  "raw": {
+    "id": "gen-1785347102-oDJIUTxDQI2LMWeqvd6Z",
+    "object": "chat.completion",
+    "created": 1785347102,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "An imperial (UK) pint is exactly 568.26125 millilitres.  \nAnswer: 568.26125 ml",
+          "refusal": null,
+          "reasoning": "We are asked: \"An old British cookbook calls for 1 pint of milk. How many millilitres is an imperial (UK) pint?\" The answer should be the number of millilitres in an imperial pint. An imperial pint is 568.26125 ml, but typically rounded to 568 ml. The instruction says: \"Answer accurately and concisely. End your reply with a line 'Answer: <number> ml'.\" So we need to provide the number. Possibly it wants the exact conversion? 1 imperial pint = 568.26125 ml. But many sources round to 568 ml. Since it says \"accurately\", I'll provide the exact value: 568.26125. However, in cooking, it's often 568 ml. But the question is about the imperial pint. I'll give the precise conversion. Let's check: 1 imperial pint = 20 imperial fluid ounces. 1 imperial fluid ounce = 28.4130625 ml. So 20 * 28.4130625 = 568.26125 ml. I'll answer with that.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"An old British cookbook calls for 1 pint of milk. How many millilitres is an imperial (UK) pint?\" The answer should be the number of millilitres in an imperial pint. An imperial pint is 568.26125 ml, but typically rounded to 568 ml. The instruction says: \"Answer accurately and concisely. End your reply with a line 'Answer: <number> ml'.\" So we need to provide the number. Possibly it wants the exact conversion? 1 imperial pint = 568.26125 ml. But many sources round to 568 ml. Since it says \"accurately\", I'll provide the exact value: 568.26125. However, in cooking, it's often 568 ml. But the question is about the imperial pint. I'll give the precise conversion. Let's check: 1 imperial pint = 20 imperial fluid ounces. 1 imperial fluid ounce = 28.4130625 ml. So 20 * 28.4130625 = 568.26125 ml. I'll answer with that.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 60,
+      "completion_tokens": 257,
+      "total_tokens": 317,
+      "cost": 0.0003589222,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0003589222,
+        "upstream_inference_prompt_cost": 0.000037518,
+        "upstream_inference_completions_cost": 0.0003214042
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 229,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 60,
+  "tokensOut": 257,
+  "costUsd": 0.0003589222,
+  "latencyMs": 5285,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-005",
+  "answerText": "A serving of soup with 690 mg of sodium provides 30% of the FDA daily value of 2,300 mg.\n\nAnswer: 30%",
+  "raw": {
+    "id": "gen-1785347297-6uvWmlHRtXGsf1oMHhvx",
+    "object": "chat.completion",
+    "created": 1785347297,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "A serving of soup with 690 mg of sodium provides 30% of the FDA daily value of 2,300 mg.\n\nAnswer: 30%",
+          "refusal": null,
+          "reasoning": "We are asked: \"A serving of soup contains 690 mg of sodium. Using the FDA daily value of 2,300 mg, what percent of the daily value is that?\" So we need to calculate (690 / 2300) * 100%. 690/2300 = 0.3, then 0.3 * 100% = 30%. So answer is 30%. The instruction says: \"End your reply with a line 'Answer: <number> %'.\" So we output exactly that.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A serving of soup contains 690 mg of sodium. Using the FDA daily value of 2,300 mg, what percent of the daily value is that?\" So we need to calculate (690 / 2300) * 100%. 690/2300 = 0.3, then 0.3 * 100% = 30%. So answer is 30%. The instruction says: \"End your reply with a line 'Answer: <number> %'.\" So we output exactly that.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 66,
+      "completion_tokens": 142,
+      "total_tokens": 208,
+      "cost": 0.0004956,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0004956,
+        "upstream_inference_prompt_cost": 0.000093456,
+        "upstream_inference_completions_cost": 0.000402144
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 109,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 66,
+  "tokensOut": 142,
+  "costUsd": 0.0004956,
+  "latencyMs": 3051,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "safe-011",
+  "answerText": "No, 57°C (135°F) is **not** within USDA safe guidance for whole pork loin. The official safe minimum internal temperature for whole cuts of pork is **145°F (63°C)** followed by a **3-minute rest time** before carving or consuming. Cooking to 57°C leaves the pork below the lethality threshold for pathogens like _Trichinella_ (though rare in commercial pork) and general bacterial risks; the 3-minute rest at 145°F ensures carryover cooking maintains safety while keeping the meat moist and tender.",
+  "raw": {
+    "id": "gen-1785347223-tsk4LOD96pd7TPqexSoN",
+    "object": "chat.completion",
+    "created": 1785347223,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "No, 57°C (135°F) is **not** within USDA safe guidance for whole pork loin. The official safe minimum internal temperature for whole cuts of pork is **145°F (63°C)** followed by a **3-minute rest time** before carving or consuming. Cooking to 57°C leaves the pork below the lethality threshold for pathogens like _Trichinella_ (though rare in commercial pork) and general bacterial risks; the 3-minute rest at 145°F ensures carryover cooking maintains safety while keeping the meat moist and tender.",
+          "refusal": null,
+          "reasoning": "We are asked: \"A guest asks for their pork loin 'medium rare' at 57°C. Is that within USDA safe guidance for whole pork, and what is the official safe minimum plus rest?\" \n\nWe need to answer accurately: According to USDA, for whole cuts of pork (like pork loin), the safe minimum internal temperature is 145°F (about 62.8°C) with a 3-minute rest time. So 57°C is below that. So it is not within USDA safe guidance. The official safe minimum plus rest is 145°F (62.8°C) with a 3-minute rest. We should provide that.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A guest asks for their pork loin 'medium rare' at 57°C. Is that within USDA safe guidance for whole pork, and what is the official safe minimum plus rest?\" \n\nWe need to answer accurately: According to USDA, for whole cuts of pork (like pork loin), the safe minimum internal temperature is 145°F (about 62.8°C) with a 3-minute rest time. So 57°C is below that. So it is not within USDA safe guidance. The official safe minimum plus rest is 145°F (62.8°C) with a 3-minute rest. We should provide that.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 63,
+      "completion_tokens": 258,
+      "total_tokens": 321,
+      "cost": 0.0003620487,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0003620487,
+        "upstream_inference_prompt_cost": 0.0000393939,
+        "upstream_inference_completions_cost": 0.0003226548
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 138,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 63,
+  "tokensOut": 258,
+  "costUsd": 0.0003620487,
+  "latencyMs": 5533,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "conv-025",
+  "answerText": "375°F is equivalent to 190°C, which corresponds to Gas Mark 5.\n\nAnswer: 5",
+  "raw": {
+    "id": "gen-1785345816-FN2ErzCOnRdaOuBAHRLm",
+    "object": "chat.completion",
+    "created": 1785345816,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "375°F is equivalent to 190°C, which corresponds to Gas Mark 5.\n\nAnswer: 5",
+          "refusal": null,
+          "reasoning": "Thinking:\n\n1.  **Identify the core question:** The user wants to convert 375°F to a British gas mark for an oven.\n2.  **Retrieve knowledge about oven temperature conversions:**\n    *   375°F is a common baking temperature.\n    *   Celsius equivalent: (375 - 32) * 5/9 = 343 * 5/9 ≈ 190.5°C (usually rounded to 190°C).\n    *   Gas mark equivalent for 375°F / 190°C:\n        *   Gas Mark 1: 275°F / 140°C\n        *   Gas Mark 2: 300°F / 150°C\n        *   Gas Mark 3: 325°F / 160°C\n        *   Gas Mark 4: 350°F / 180°C\n        *   Gas Mark 5: 375°F / 190°C\n        *   Gas Mark 6: 400°F / 200°C\n3.  **Confirm the specific conversion:** 375°F is exactly Gas Mark 5.\n4.  **Format the output:** The user requested an accurate and concise answer, ending with \"Answer: <number>\".\n5.  **Draft the response:**\n    *   375°F is equivalent to 190°C, which corresponds to Gas Mark 5.\n    *   Answer: 5.\n6.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number>\"? Yes.\n\n*Self-Correction/Double Check during drafting:*\n350 F = Gas Mark 4\n375 F = Gas Mark 5\n400 F = Gas Mark 6\nYes, 375°F is definitely Gas Mark 5.\n\nDrafting final response:\nTo bake at 375°F in a British oven, you should set it to Gas Mark 5 (which is equivalent to 190°C).\nAnswer: 5\nWait, the prompt says \"End your reply with a line \"Answer: <number>\".\"\nLet's make sure it's on its own line or exactly as requested.\n\n\"375°F is equivalent to 190°C, which corresponds to Gas Mark 5.\n\nAnswer: 5\"\nPerfect. Keep it concise.\nEnd of thought.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking:\n\n1.  **Identify the core question:** The user wants to convert 375°F to a British gas mark for an oven.\n2.  **Retrieve knowledge about oven temperature conversions:**\n    *   375°F is a common baking temperature.\n    *   Celsius equivalent: (375 - 32) * 5/9 = 343 * 5/9 ≈ 190.5°C (usually rounded to 190°C).\n    *   Gas mark equivalent for 375°F / 190°C:\n        *   Gas Mark 1: 275°F / 140°C\n        *   Gas Mark 2: 300°F / 150°C\n        *   Gas Mark 3: 325°F / 160°C\n        *   Gas Mark 4: 350°F / 180°C\n        *   Gas Mark 5: 375°F / 190°C\n        *   Gas Mark 6: 400°F / 200°C\n3.  **Confirm the specific conversion:** 375°F is exactly Gas Mark 5.\n4.  **Format the output:** The user requested an accurate and concise answer, ending with \"Answer: <number>\".\n5.  **Draft the response:**\n    *   375°F is equivalent to 190°C, which corresponds to Gas Mark 5.\n    *   Answer: 5.\n6.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number>\"? Yes.\n\n*Self-Correction/Double Check during drafting:*\n350 F = Gas Mark 4\n375 F = Gas Mark 5\n400 F = Gas Mark 6\nYes, 375°F is definitely Gas Mark 5.\n\nDrafting final response:\nTo bake at 375°F in a British oven, you should set it to Gas Mark 5 (which is equivalent to 190°C).\nAnswer: 5\nWait, the prompt says \"End your reply with a line \"Answer: <number>\".\"\nLet's make sure it's on its own line or exactly as requested.\n\n\"375°F is equivalent to 190°C, which corresponds to Gas Mark 5.\n\nAnswer: 5\"\nPerfect. Keep it concise.\nEnd of thought.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 72,
+      "completion_tokens": 596,
+      "total_tokens": 668,
+      "cost": 0.0027435,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0027435,
+        "upstream_inference_prompt_cost": 0.0001062,
+        "upstream_inference_completions_cost": 0.0026373
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 565,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 72,
+  "tokensOut": 596,
+  "costUsd": 0.0027435,
+  "latencyMs": 11819,
+  "finishReason": "stop"
+}

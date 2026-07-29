@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "conv-009",
+  "answerText": "Answer: 3 tsp",
+  "raw": {
+    "id": "gen-1785345210-ZgvVf1pyyydJ5e1CiXpX",
+    "object": "chat.completion",
+    "created": 1785345210,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Answer: 3 tsp",
+          "refusal": null,
+          "reasoning": "The question is: \"How many teaspoons are in 1 US tablespoon?\" I need to answer accurately and concisely, ending with \"Answer: <number> tsp\".\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"How many teaspoons are in 1 US tablespoon?\" I need to answer accurately and concisely, ending with \"Answer: <number> tsp\".\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "+FqqEjgO72MzAVGK2+mCBwNciRl8nJGh6B7EoiEM/wYCWjvu01a6EhfRaGUbo6QLjiWV+lmphnQDfNWbupLnKFYAHl6sbfn35ioPW3nA34oSiePK/tDPUT8ggtN3fIlBjpPvgDkC7NCgS7C5i3clL/0pIeyOJmTLNYwNMEgouEPbAjbN8jtjQEjvd0d7zRWIBQ8xRupItLuSc+3p1cZtcenvWLXrzhiewFZsS1zPKfUfbAYhEqQ39a5+HV9hxcyvbOfwKGOderdQRWLmMH5OQDFcdeC78GOTGZ3U9yYnq12Fv4WuGuHKOSvXnCZ3AT/NbR5AcpsrEZbTlGnOM0aFfKbQOafgIOdrtQVUEdXkviq+",
+              "format": "xai-responses-v1",
+              "id": "rs_eb7a5b82-3c59-9707-857b-f78dd298f8c8",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 248,
+      "completion_tokens": 65,
+      "total_tokens": 313,
+      "cost": 0.0006684,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0006684,
+        "upstream_inference_prompt_cost": 0.0002784,
+        "upstream_inference_completions_cost": 0.00039
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 60,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 248,
+  "tokensOut": 65,
+  "costUsd": 0.0006684,
+  "latencyMs": 1401,
+  "finishReason": "stop"
+}

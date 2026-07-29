@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "safe-007",
+  "answerText": "According to the USDA, the safe minimum internal temperature for cooked fin fish is 145 °F. At this temperature, the flesh should be opaque and separate easily with a fork.\n\nAnswer: 145 °F",
+  "raw": {
+    "id": "gen-1785346001-MXVzWC6WikMlOQSLjIWk",
+    "object": "chat.completion",
+    "created": 1785346001,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "According to the USDA, the safe minimum internal temperature for cooked fin fish is 145 °F. At this temperature, the flesh should be opaque and separate easily with a fork.\n\nAnswer: 145 °F",
+          "refusal": null,
+          "reasoning": "Thinking:\n\n1.  **Identify the core question:** The user is asking for the USDA safe minimum internal temperature for cooked fish in Fahrenheit.\n2.  **Retrieve knowledge:**\n    *   Query: USDA safe minimum internal temperature for fish.\n    *   Fact-check: According to the USDA (and FDA), the safe minimum internal temperature for fin fish is 145 °F. (It should be cooked until the flesh is opaque and separates easily with a fork).\n3.  **Format the output:**\n    *   Provide an accurate and concise answer.\n    *   End the reply with the exact string: \"Answer: <number> °F\".\n4.  **Draft the response:**\n    *   The USDA recommends cooking fin fish to a safe minimum internal temperature of 145 °F. At this temperature, the flesh should be opaque and separate easily with a fork.\n    *   Answer: 145 °F\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number> °F\"? Yes. (Answer: 145 °F). Note: Ensure no extra punctuation after the required string if possible, or just make it the very last line. \"Answer: 145 °F\" is exactly what is requested. Let's make sure the number is just the number. \"145\".\n\nDraft:\nAccording to the USDA, the safe minimum internal temperature for cooked fin fish is 145 °F. The flesh should be opaque and separate easily with a fork.\n\nAnswer: 145 °F",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking:\n\n1.  **Identify the core question:** The user is asking for the USDA safe minimum internal temperature for cooked fish in Fahrenheit.\n2.  **Retrieve knowledge:**\n    *   Query: USDA safe minimum internal temperature for fish.\n    *   Fact-check: According to the USDA (and FDA), the safe minimum internal temperature for fin fish is 145 °F. (It should be cooked until the flesh is opaque and separates easily with a fork).\n3.  **Format the output:**\n    *   Provide an accurate and concise answer.\n    *   End the reply with the exact string: \"Answer: <number> °F\".\n4.  **Draft the response:**\n    *   The USDA recommends cooking fin fish to a safe minimum internal temperature of 145 °F. At this temperature, the flesh should be opaque and separate easily with a fork.\n    *   Answer: 145 °F\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number> °F\"? Yes. (Answer: 145 °F). Note: Ensure no extra punctuation after the required string if possible, or just make it the very last line. \"Answer: 145 °F\" is exactly what is requested. Let's make sure the number is just the number. \"145\".\n\nDraft:\nAccording to the USDA, the safe minimum internal temperature for cooked fin fish is 145 °F. The flesh should be opaque and separate easily with a fork.\n\nAnswer: 145 °F",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 62,
+      "completion_tokens": 413,
+      "total_tokens": 475,
+      "cost": 0.001918975,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001918975,
+        "upstream_inference_prompt_cost": 0.00009145,
+        "upstream_inference_completions_cost": 0.001827525
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 361,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 62,
+  "tokensOut": 413,
+  "costUsd": 0.001918975,
+  "latencyMs": 8120,
+  "finishReason": "stop"
+}

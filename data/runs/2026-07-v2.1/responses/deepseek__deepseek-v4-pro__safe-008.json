@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "safe-008",
+  "answerText": "The recommended safe internal temperature for reheating cooked leftovers is 74°C (165°F).  \nAnswer: 74 °C",
+  "raw": {
+    "id": "gen-1785347217-PZiqcuHs7YAzxf14QuCH",
+    "object": "chat.completion",
+    "created": 1785347217,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Ionstream",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The recommended safe internal temperature for reheating cooked leftovers is 74°C (165°F).  \nAnswer: 74 °C",
+          "refusal": null,
+          "reasoning": "We are asked: \"What is the recommended safe internal temperature for reheating cooked leftovers, in Celsius?\" The answer should be in Celsius. According to food safety guidelines (like USDA), leftovers should be reheated to an internal temperature of 165°F (74°C). So the answer is 74°C.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"What is the recommended safe internal temperature for reheating cooked leftovers, in Celsius?\" The answer should be in Celsius. According to food safety guidelines (like USDA), leftovers should be reheated to an internal temperature of 165°F (74°C). So the answer is 74°C.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 51,
+      "completion_tokens": 94,
+      "total_tokens": 145,
+      "cost": 0.000270309,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000270309,
+        "upstream_inference_prompt_cost": 0.000057681,
+        "upstream_inference_completions_cost": 0.000212628
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 66,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 51,
+  "tokensOut": 94,
+  "costUsd": 0.000270309,
+  "latencyMs": 14919,
+  "finishReason": "stop"
+}

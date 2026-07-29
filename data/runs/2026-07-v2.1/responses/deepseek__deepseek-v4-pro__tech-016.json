@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "tech-016",
+  "answerText": "Sucrose begins to caramelize at around 160°C (320°F) in a dry pan, though the exact temperature can vary slightly depending on conditions.  \nAnswer: 160 °C",
+  "raw": {
+    "id": "gen-1785347965-feFexMCy9fQ38nN7JkGE",
+    "object": "chat.completion",
+    "created": 1785347965,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Sucrose begins to caramelize at around 160°C (320°F) in a dry pan, though the exact temperature can vary slightly depending on conditions.  \nAnswer: 160 °C",
+          "refusal": null,
+          "reasoning": "We are asked: \"At roughly what temperature in Celsius does plain sucrose (white sugar) begin to caramelise in a dry pan?\"\n\nCaramelization of sucrose typically begins around 160-170°C (320-340°F). The exact temperature can vary, but a common figure is 160°C (320°F) for the start of caramelization. Some sources say 170°C. I'll go with 160°C as a rough estimate. The instruction says to end with \"Answer: <number> °C\". So I'll provide the number.\n\nI'll answer: 160 °C.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"At roughly what temperature in Celsius does plain sucrose (white sugar) begin to caramelise in a dry pan?\"\n\nCaramelization of sucrose typically begins around 160-170°C (320-340°F). The exact temperature can vary, but a common figure is 160°C (320°F) for the start of caramelization. Some sources say 170°C. I'll go with 160°C as a rough estimate. The instruction says to end with \"Answer: <number> °C\". So I'll provide the number.\n\nI'll answer: 160 °C.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 57,
+      "completion_tokens": 170,
+      "total_tokens": 227,
+      "cost": 0.0002659503,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002659503,
+        "upstream_inference_prompt_cost": 0.0000381843,
+        "upstream_inference_completions_cost": 0.000227766
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 127,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 57,
+  "tokensOut": 170,
+  "costUsd": 0.0002659503,
+  "latencyMs": 4953,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "safe-006",
+  "answerText": "No, you should not rinse raw chicken. Washing can spread harmful bacteria like *Salmonella* and *Campylobacter* through splashing water droplets, contaminating your sink and nearby surfaces. Cooking the chicken to a safe internal temperature (165°F/74°C) kills any bacteria present, making rinsing unnecessary and risky.",
+  "raw": {
+    "id": "gen-1785347209-yEiidTgbb60y5ppKFEx6",
+    "object": "chat.completion",
+    "created": 1785347209,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "No, you should not rinse raw chicken. Washing can spread harmful bacteria like *Salmonella* and *Campylobacter* through splashing water droplets, contaminating your sink and nearby surfaces. Cooking the chicken to a safe internal temperature (165°F/74°C) kills any bacteria present, making rinsing unnecessary and risky.",
+          "refusal": null,
+          "reasoning": "We are asked: \"Should I rinse raw chicken under the tap before cooking it? Explain briefly.\"\n\nThis is a common food safety question. The answer is no, you should not rinse raw chicken. Rinsing can spread bacteria like Campylobacter and Salmonella through splashing water droplets, contaminating surfaces and other foods. Cooking to the proper internal temperature (165°F/74°C) kills any bacteria present. So, the recommendation is to not wash raw chicken.\n\nI'll explain briefly as requested.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Should I rinse raw chicken under the tap before cooking it? Explain briefly.\"\n\nThis is a common food safety question. The answer is no, you should not rinse raw chicken. Rinsing can spread bacteria like Campylobacter and Salmonella through splashing water droplets, contaminating surfaces and other foods. Cooking to the proper internal temperature (165°F/74°C) kills any bacteria present. So, the recommendation is to not wash raw chicken.\n\nI'll explain briefly as requested.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 35,
+      "completion_tokens": 175,
+      "total_tokens": 210,
+      "cost": 0.0002407405,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002407405,
+        "upstream_inference_prompt_cost": 0.0000218855,
+        "upstream_inference_completions_cost": 0.000218855
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 102,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 35,
+  "tokensOut": 175,
+  "costUsd": 0.0002407405,
+  "latencyMs": 3973,
+  "finishReason": "stop"
+}

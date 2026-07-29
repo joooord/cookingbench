@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-006",
+  "answerText": "Gas mark 6 corresponds to 400°F.\nAnswer: 400 °F",
+  "raw": {
+    "id": "gen-1785347092-tps9mWhEwr1l3qeNMmjC",
+    "object": "chat.completion",
+    "created": 1785347092,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Gas mark 6 corresponds to 400°F.\nAnswer: 400 °F",
+          "refusal": null,
+          "reasoning": "We are asked: \"A British recipe says to bake at gas mark 6. What is that in Fahrenheit?\" We need to answer accurately and end with \"Answer: <number> °F\".\n\nWe need to know the conversion: Gas mark 6 is equivalent to 400 °F (or 200 °C). Standard conversion: Gas mark 6 = 400 °F. Some sources might say 400 °F or 204 °C, but generally 400 °F. I'll confirm: Gas mark 6 is 400 °F (200 °C). So answer: 400.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A British recipe says to bake at gas mark 6. What is that in Fahrenheit?\" We need to answer accurately and end with \"Answer: <number> °F\".\n\nWe need to know the conversion: Gas mark 6 is equivalent to 400 °F (or 200 °C). Standard conversion: Gas mark 6 = 400 °F. Some sources might say 400 °F or 204 °C, but generally 400 °F. I'll confirm: Gas mark 6 is 400 °F (200 °C). So answer: 400.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 53,
+      "completion_tokens": 142,
+      "total_tokens": 195,
+      "cost": 0.0002107261,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002107261,
+        "upstream_inference_prompt_cost": 0.0000331409,
+        "upstream_inference_completions_cost": 0.0001775852
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 123,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 53,
+  "tokensOut": 142,
+  "costUsd": 0.0002107261,
+  "latencyMs": 3590,
+  "finishReason": "stop"
+}

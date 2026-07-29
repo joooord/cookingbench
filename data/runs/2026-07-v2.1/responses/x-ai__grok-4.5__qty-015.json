@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "qty-015",
+  "answerText": "The cooked weight of white rice is approximately 3 times its raw weight.  \nTo obtain 600 g of cooked rice, divide by this factor:  \n600 g ÷ 3 = 200 g of raw rice.\n\nAnswer: 200 g",
+  "raw": {
+    "id": "gen-1785345408-rqhWBiExTB236R5ZYJmh",
+    "object": "chat.completion",
+    "created": 1785345408,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The cooked weight of white rice is approximately 3 times its raw weight.  \nTo obtain 600 g of cooked rice, divide by this factor:  \n600 g ÷ 3 = 200 g of raw rice.\n\nAnswer: 200 g",
+          "refusal": null,
+          "reasoning": "The problem asks: \"I need 600 g of cooked rice for a salad. White rice roughly triples in weight when cooked. How many grams of raw rice should I cook?\"\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem asks: \"I need 600 g of cooked rice for a salad. White rice roughly triples in weight when cooked. How many grams of raw rice should I cook?\"\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "zBCvOd9RijKLZbHHP9gnRqJwNFa3qDGwy3/Fsa1ByKdG7xWdVcyTGoRIKnNs3BUJgLKeRqYQhOxgFRTROk8QuXRHq7Y73zpv6J/70CMZUVud2eLboEzv+hx+7wOCUNcx/GCtCuHX+QiROfcPdUz86lQq2cIWuEaXZ4p231/fiSE78p17RkW5kgsqRq6kyRxpc1tr4ovs8VY8NXa6gQ6LMVbtplCuZycH7QweV3PQ1YiatpVZGc22XHhvUMQN5WuvbtKhrb6fVE2rwzpUmvwl86oL69jGWfUkpDPjr3yzOwjDeGeVKeLKknf2T8KJSL/BaRqA4h7TXlOl71qL35GP9qANzkQhe3xYOx6UEsacBMbpYTXjbEuE1Sbhc60X4J30AXi9rZh/ABZgGRWVCba7KcZTrQ/hd85/6Y6/VdpfH2FRUj6si6fS+FDR67ifjAWYG5xy/I1ytDpz42kmgr5hOIfg4jLBqBhozQl6Td1759LY+6Gis8yb3VZO48lPuCTik/bX/V33cfY+lKUAbC8",
+              "format": "xai-responses-v1",
+              "id": "rs_2e8c4447-a98d-954b-b13f-2c327ec06d73",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 269,
+      "completion_tokens": 149,
+      "total_tokens": 418,
+      "cost": 0.0012144,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0012144,
+        "upstream_inference_prompt_cost": 0.0003204,
+        "upstream_inference_completions_cost": 0.000894
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 100,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 269,
+  "tokensOut": 149,
+  "costUsd": 0.0012144,
+  "latencyMs": 2522,
+  "finishReason": "stop"
+}

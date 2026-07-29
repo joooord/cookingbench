@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-003",
+  "answerText": "To calculate the amount of water needed at 75% hydration (baker's percentage), multiply the flour weight by the hydration percentage:  \n800 g × 0.75 = 600 g.\n\nAnswer: 600 g",
+  "raw": {
+    "id": "gen-1785347381-3Y88bKPsGfrvjVl17Hv9",
+    "object": "chat.completion",
+    "created": 1785347381,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "DigitalOcean",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To calculate the amount of water needed at 75% hydration (baker's percentage), multiply the flour weight by the hydration percentage:  \n800 g × 0.75 = 600 g.\n\nAnswer: 600 g",
+          "refusal": null,
+          "reasoning": "We are asked: \"I'm making a dough with 800 g of flour at 75% hydration (baker's percentage). How much water should I add, in grams?\"\n\nBaker's percentage: hydration is water weight divided by flour weight, expressed as a percentage. So water = hydration% * flour weight.\n\n75% hydration means water = 0.75 * 800 = 600 g.\n\nSo answer: 600 g.\n\nThe instruction: \"End your reply with a line 'Answer: <number> g'\" So I'll provide a brief explanation then the answer line.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"I'm making a dough with 800 g of flour at 75% hydration (baker's percentage). How much water should I add, in grams?\"\n\nBaker's percentage: hydration is water weight divided by flour weight, expressed as a percentage. So water = hydration% * flour weight.\n\n75% hydration means water = 0.75 * 800 = 600 g.\n\nSo answer: 600 g.\n\nThe instruction: \"End your reply with a line 'Answer: <number> g'\" So I'll provide a brief explanation then the answer line.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 66,
+      "completion_tokens": 166,
+      "total_tokens": 232,
+      "cost": 0.000554016,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000554016,
+        "upstream_inference_prompt_cost": 0.000091872,
+        "upstream_inference_completions_cost": 0.000462144
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 120,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 66,
+  "tokensOut": 166,
+  "costUsd": 0.000554016,
+  "latencyMs": 11339,
+  "finishReason": "stop"
+}

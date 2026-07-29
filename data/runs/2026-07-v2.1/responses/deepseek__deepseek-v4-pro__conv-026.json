@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-026",
+  "answerText": "In Japanese cooking, 1 gō (合) is standardized as 180 millilitres. Therefore, 2 gō equals 360 millilitres.\n\nAnswer: 360 ml",
+  "raw": {
+    "id": "gen-1785347127-i792N9D8olRECs55gumY",
+    "object": "chat.completion",
+    "created": 1785347127,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "In Japanese cooking, 1 gō (合) is standardized as 180 millilitres. Therefore, 2 gō equals 360 millilitres.\n\nAnswer: 360 ml",
+          "refusal": null,
+          "reasoning": "We are asked: \"A Japanese rice recipe calls for 2 gō of rice (the traditional rice-cooker cup measure). How many millilitres is that?\"\n\nWe need to know the conversion: 1 gō (合) is a traditional Japanese unit of volume. It is exactly 180.39 mL (or sometimes approximated as 180 mL). In modern Japanese cooking, 1 gō is standardized as 180 mL. So 2 gō = 2 * 180 mL = 360 mL.\n\nI'll answer: 360 ml.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A Japanese rice recipe calls for 2 gō of rice (the traditional rice-cooker cup measure). How many millilitres is that?\"\n\nWe need to know the conversion: 1 gō (合) is a traditional Japanese unit of volume. It is exactly 180.39 mL (or sometimes approximated as 180 mL). In modern Japanese cooking, 1 gō is standardized as 180 mL. So 2 gō = 2 * 180 mL = 360 mL.\n\nI'll answer: 360 ml.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 64,
+      "completion_tokens": 155,
+      "total_tokens": 219,
+      "cost": 0.0004478,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 32,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0004478,
+        "upstream_inference_prompt_cost": 0.0000448,
+        "upstream_inference_completions_cost": 0.000403
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 102,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 64,
+  "tokensOut": 155,
+  "costUsd": 0.0004478,
+  "latencyMs": 2100,
+  "finishReason": "stop"
+}

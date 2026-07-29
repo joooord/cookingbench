@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "nutr-021",
+  "answerText": "A standard large whole egg weighing about 50 grams contains approximately 72 kilocalories. The yolk accounts for the majority of the calories and fat, while the egg white is primarily composed of protein.\n\nAnswer: 72 kcal",
+  "raw": {
+    "id": "gen-1785346162-9exu28dt3fr31HvA41Ni",
+    "object": "chat.completion",
+    "created": 1785346162,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "A standard large whole egg weighing about 50 grams contains approximately 72 kilocalories. The yolk accounts for the majority of the calories and fat, while the egg white is primarily composed of protein.\n\nAnswer: 72 kcal",
+          "refusal": null,
+          "reasoning": "Thinking:\n\n1.  **Identify the core question:** The user is asking for the approximate number of kilocalories (kcal) in one large whole egg (about 50 g).\n2.  **Retrieve nutritional knowledge:**\n    *   A standard large egg (approx. 50 grams) contains about 70-78 kilocalories.\n    *   USDA data typically lists a large egg (50g) as having 72 kcal (or 71.5 kcal).\n    *   Let's use 72 as the standard, widely accepted value, or state \"about 72\".\n    *   Wait, the prompt says \"End your reply with a line 'Answer: <number> kcal'.\" So I need to pick a specific number. 72 is the most accurate standard number for a 50g large egg.\n3.  **Formulate the response:**\n    *   Briefly state the calorie content of a large whole egg.\n    *   Ensure the final line matches the exact format: \"Answer: 72 kcal\".\n4.  **Drafting the response:**\n    A large whole egg (approximately 50 grams) typically contains about 72 kilocalories. The majority of these calories come from the yolk, which contains the fat, while the white provides mostly protein.\n    Answer: 72 kcal\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   End reply with \"Answer: <number> kcal\"? Yes.\n    *   Number only in the placeholder? Yes, \"72\".\n\nLet's double check USDA FoodData Central:\nEgg, whole, raw, fresh. 1 large (50g) = 71.5 kcal. Rounding to 72 is standard. I'll use 72.\nCould also be 70, 75, but 72 is the most precise standard integer. Let's use 72.\nWait, some sources say 70, some 78 (for extra large). 50g is exactly 71.5 kcal. I will use 72.\n\nDraft:\nA standard large whole egg weighing about 50 grams contains approximately 72 kilocalories. The yolk accounts for most of the calories and fat, while the egg white is primarily protein.\n\nAnswer: 72 kcal\nEnd of thought.\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking:\n\n1.  **Identify the core question:** The user is asking for the approximate number of kilocalories (kcal) in one large whole egg (about 50 g).\n2.  **Retrieve nutritional knowledge:**\n    *   A standard large egg (approx. 50 grams) contains about 70-78 kilocalories.\n    *   USDA data typically lists a large egg (50g) as having 72 kcal (or 71.5 kcal).\n    *   Let's use 72 as the standard, widely accepted value, or state \"about 72\".\n    *   Wait, the prompt says \"End your reply with a line 'Answer: <number> kcal'.\" So I need to pick a specific number. 72 is the most accurate standard number for a 50g large egg.\n3.  **Formulate the response:**\n    *   Briefly state the calorie content of a large whole egg.\n    *   Ensure the final line matches the exact format: \"Answer: 72 kcal\".\n4.  **Drafting the response:**\n    A large whole egg (approximately 50 grams) typically contains about 72 kilocalories. The majority of these calories come from the yolk, which contains the fat, while the white provides mostly protein.\n    Answer: 72 kcal\n5.  **Review against constraints:**\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   End reply with \"Answer: <number> kcal\"? Yes.\n    *   Number only in the placeholder? Yes, \"72\".\n\nLet's double check USDA FoodData Central:\nEgg, whole, raw, fresh. 1 large (50g) = 71.5 kcal. Rounding to 72 is standard. I'll use 72.\nCould also be 70, 75, but 72 is the most precise standard integer. Let's use 72.\nWait, some sources say 70, some 78 (for extra large). 50g is exactly 71.5 kcal. I will use 72.\n\nDraft:\nA standard large whole egg weighing about 50 grams contains approximately 72 kilocalories. The yolk accounts for most of the calories and fat, while the egg white is primarily protein.\n\nAnswer: 72 kcal\nEnd of thought.\n",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 66,
+      "completion_tokens": 594,
+      "total_tokens": 660,
+      "cost": 0.0027258,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0027258,
+        "upstream_inference_prompt_cost": 0.00009735,
+        "upstream_inference_completions_cost": 0.00262845
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 539,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 66,
+  "tokensOut": 594,
+  "costUsd": 0.0027258,
+  "latencyMs": 11973,
+  "finishReason": "stop"
+}

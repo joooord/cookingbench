@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "subs-006",
+  "answerText": "You should use **1 teaspoon** of dried thyme. \n\nThe general rule for converting fresh herbs to dried is a 3:1 ratio (1 tablespoon = 3 teaspoons, so you use 1 teaspoon of the dried version).",
+  "raw": {
+    "id": "gen-1785346779-rwRUilzTRFjgEdWkPjKL",
+    "object": "chat.completion",
+    "created": 1785346779,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "You should use **1 teaspoon** of dried thyme. \n\nThe general rule for converting fresh herbs to dried is a 3:1 ratio (1 tablespoon = 3 teaspoons, so you use 1 teaspoon of the dried version).",
+          "refusal": null,
+          "reasoning": "Thinking:\n\n1.  **Identify the core question:** The user wants to know the conversion from fresh thyme to dried thyme for a recipe calling for 1 tablespoon of fresh thyme.\n2.  **Recall/Search culinary conversion rules:** The general rule of thumb for converting fresh herbs to dried herbs is a 3:1 ratio. (1 part dried = 3 parts fresh).\n3.  **Apply the rule to the specific measurement:**\n    *   Fresh thyme needed: 1 tablespoon (tbsp).\n    *   1 tablespoon = 3 teaspoons (tsp).\n    *   Using the 3:1 ratio: 1 tbsp fresh = 1 tsp dried.\n4.  **Formulate the answer:** State the exact amount clearly and concisely, mentioning the general rule briefly if helpful, but keeping it direct as requested (\"accurately and concisely\").\n    *   *Draft:* You should use 1 teaspoon of dried thyme. The general rule is to use one-third the amount of dried herbs compared to fresh.\n5.  **Refine for conciseness:** \"Use **1 teaspoon** of dried thyme. (The general rule is 1 part dried herbs to 3 parts fresh).\" -> \"You should use **1 teaspoon** of dried thyme.\" (Keep it as concise as possible while remaining accurate). Let's provide the exact measurement and a brief explanation.\n\n*Self-Correction during thought process:* 1 tablespoon = 3 teaspoons. 3 teaspoons / 3 = 1 teaspoon. Perfect.\n\n*Final Answer Formulation:*\nUse **1 teaspoon** of dried thyme. (The standard conversion ratio is 1 part dried herbs to 3 parts fresh). Keep it simple. Just \"1 teaspoon\". Let's give a slightly full but very concise sentence. \"You should use **1 teaspoon** of dried thyme.\" Add the ratio for context. \"The general rule is to use one-third the amount of dried herbs as fresh.\" -> \"Use **1 teaspoon** of dried thyme. The general conversion ratio is 1 part dried herbs to 3 parts fresh.\" This is accurate and concise. 1 tbsp = 3 tsp, so 1 tsp dried. Done.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking:\n\n1.  **Identify the core question:** The user wants to know the conversion from fresh thyme to dried thyme for a recipe calling for 1 tablespoon of fresh thyme.\n2.  **Recall/Search culinary conversion rules:** The general rule of thumb for converting fresh herbs to dried herbs is a 3:1 ratio. (1 part dried = 3 parts fresh).\n3.  **Apply the rule to the specific measurement:**\n    *   Fresh thyme needed: 1 tablespoon (tbsp).\n    *   1 tablespoon = 3 teaspoons (tsp).\n    *   Using the 3:1 ratio: 1 tbsp fresh = 1 tsp dried.\n4.  **Formulate the answer:** State the exact amount clearly and concisely, mentioning the general rule briefly if helpful, but keeping it direct as requested (\"accurately and concisely\").\n    *   *Draft:* You should use 1 teaspoon of dried thyme. The general rule is to use one-third the amount of dried herbs compared to fresh.\n5.  **Refine for conciseness:** \"Use **1 teaspoon** of dried thyme. (The general rule is 1 part dried herbs to 3 parts fresh).\" -> \"You should use **1 teaspoon** of dried thyme.\" (Keep it as concise as possible while remaining accurate). Let's provide the exact measurement and a brief explanation.\n\n*Self-Correction during thought process:* 1 tablespoon = 3 teaspoons. 3 teaspoons / 3 = 1 teaspoon. Perfect.\n\n*Final Answer Formulation:*\nUse **1 teaspoon** of dried thyme. (The standard conversion ratio is 1 part dried herbs to 3 parts fresh). Keep it simple. Just \"1 teaspoon\". Let's give a slightly full but very concise sentence. \"You should use **1 teaspoon** of dried thyme.\" Add the ratio for context. \"The general rule is to use one-third the amount of dried herbs as fresh.\" -> \"Use **1 teaspoon** of dried thyme. The general conversion ratio is 1 part dried herbs to 3 parts fresh.\" This is accurate and concise. 1 tbsp = 3 tsp, so 1 tsp dried. Done.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 59,
+      "completion_tokens": 526,
+      "total_tokens": 585,
+      "cost": 0.002414575,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002414575,
+        "upstream_inference_prompt_cost": 0.000087025,
+        "upstream_inference_completions_cost": 0.00232755
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 473,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 59,
+  "tokensOut": 526,
+  "costUsd": 0.002414575,
+  "latencyMs": 14840,
+  "finishReason": "stop"
+}

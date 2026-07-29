@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "safe-004",
+  "answerText": "Cooked food should not be left out at room temperature (below 90°F / 32°C) for more than 2 hours. After that, bacteria can multiply rapidly, increasing the risk of foodborne illness.  \nAnswer: 2 hours",
+  "raw": {
+    "id": "gen-1785347205-6oLAfOeo1WqlW3nhD1Pp",
+    "object": "chat.completion",
+    "created": 1785347205,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Parasail",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Cooked food should not be left out at room temperature (below 90°F / 32°C) for more than 2 hours. After that, bacteria can multiply rapidly, increasing the risk of foodborne illness.  \nAnswer: 2 hours",
+          "refusal": null,
+          "reasoning": "We are asked: \"How many hours can cooked food safely sit out at normal room temperature (below 90°F / 32°C) before it should be refrigerated or discarded?\" This is a food safety question. The standard guideline from the USDA and FDA is the \"2-hour rule\": perishable foods should not be left out at room temperature for more than 2 hours. If the temperature is above 90°F (32°C), the limit is 1 hour. The question specifies \"below 90°F / 32°C\", so it's normal room temperature, so the answer is 2 hours. I'll answer concisely and end with \"Answer: 2 hours\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"How many hours can cooked food safely sit out at normal room temperature (below 90°F / 32°C) before it should be refrigerated or discarded?\" This is a food safety question. The standard guideline from the USDA and FDA is the \"2-hour rule\": perishable foods should not be left out at room temperature for more than 2 hours. If the temperature is above 90°F (32°C), the limit is 1 hour. The question specifies \"below 90°F / 32°C\", so it's normal room temperature, so the answer is 2 hours. I'll answer concisely and end with \"Answer: 2 hours\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 68,
+      "completion_tokens": 200,
+      "total_tokens": 268,
+      "cost": 0.00081432,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00081432,
+        "upstream_inference_prompt_cost": 0.00011832,
+        "upstream_inference_completions_cost": 0.000696
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 141,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 68,
+  "tokensOut": 200,
+  "costUsd": 0.00081432,
+  "latencyMs": 3635,
+  "finishReason": "stop"
+}

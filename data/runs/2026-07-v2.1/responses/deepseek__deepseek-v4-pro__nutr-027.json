@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-027",
+  "answerText": "Boiled broccoli loses significantly more vitamin C than steamed broccoli.\n\n**Mechanism**: Vitamin C (ascorbic acid) is water‑soluble and heat‑labile. When broccoli is boiled in plenty of water, two processes cause losses:\n1. **Leaching** – vitamin C dissolves from the vegetable tissue into the surrounding cooking water (a concentration‑driven diffusion).\n2. **Thermal degradation** – heat accelerates the oxidation and breakdown of vitamin C.\n\nBecause boiling uses a large volume of water and direct immersion, leaching is the dominant factor, often accounting for more loss than heat alone. In steaming, the broccoli is not in contact with bulk water, so vitamin C cannot dissolve away; only the unavoidable thermal degradation (which is comparable to boiling) takes place. Thus, steaming preserves far more vitamin C.",
+  "raw": {
+    "id": "gen-1785347327-T4P2HfNAVOcFRBUnE4uJ",
+    "object": "chat.completion",
+    "created": 1785347327,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Boiled broccoli loses significantly more vitamin C than steamed broccoli.\n\n**Mechanism**: Vitamin C (ascorbic acid) is water‑soluble and heat‑labile. When broccoli is boiled in plenty of water, two processes cause losses:\n1. **Leaching** – vitamin C dissolves from the vegetable tissue into the surrounding cooking water (a concentration‑driven diffusion).\n2. **Thermal degradation** – heat accelerates the oxidation and breakdown of vitamin C.\n\nBecause boiling uses a large volume of water and direct immersion, leaching is the dominant factor, often accounting for more loss than heat alone. In steaming, the broccoli is not in contact with bulk water, so vitamin C cannot dissolve away; only the unavoidable thermal degradation (which is comparable to boiling) takes place. Thus, steaming preserves far more vitamin C.",
+          "refusal": null,
+          "reasoning": "We need to answer: Which loses more vitamin C: boiled broccoli in plenty of water vs steamed broccoli? Explain mechanism.\n\nVitamin C (ascorbic acid) is water-soluble and heat-sensitive. Boiling in plenty of water leads to greater loss due to leaching into water and heat degradation. Steaming uses less water contact, so more vitamin C is retained. Mechanism: boiling -> direct contact with large volume of hot water, causing diffusion of vitamin from broccoli tissue into water; also heat degrades it, but leaching is main. Steaming -> minimal contact with water, mainly heat degradation; less leaching. So boiled loses more. Answer: boiled broccoli loses more vitamin C, because vitamin C dissolves in the cooking water and is also degraded by heat. Steaming minimizes water contact, retaining more. Give concise explanation.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to answer: Which loses more vitamin C: boiled broccoli in plenty of water vs steamed broccoli? Explain mechanism.\n\nVitamin C (ascorbic acid) is water-soluble and heat-sensitive. Boiling in plenty of water leads to greater loss due to leaching into water and heat degradation. Steaming uses less water contact, so more vitamin C is retained. Mechanism: boiling -> direct contact with large volume of hot water, causing diffusion of vitamin from broccoli tissue into water; also heat degrades it, but leaching is main. Steaming -> minimal contact with water, mainly heat degradation; less leaching. So boiled loses more. Answer: boiled broccoli loses more vitamin C, because vitamin C dissolves in the cooking water and is also degraded by heat. Steaming minimizes water contact, retaining more. Give concise explanation.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 45,
+      "completion_tokens": 329,
+      "total_tokens": 374,
+      "cost": 0.0004395859,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0004395859,
+        "upstream_inference_prompt_cost": 0.0000281385,
+        "upstream_inference_completions_cost": 0.0004114474
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 162,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 45,
+  "tokensOut": 329,
+  "costUsd": 0.0004395859,
+  "latencyMs": 8110,
+  "finishReason": "stop"
+}

@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "qty-022",
+  "answerText": "The total amount of cooked rice needed is \\(180 \\, \\text{g/person} \\times 7 \\, \\text{people} = 1260 \\, \\text{g}\\).\n\nSince basmati rice triples in weight when cooked, the required dry weight is \\(1260 \\, \\text{g} / 3 = 420 \\, \\text{g}\\).\n\nAnswer: 420 g",
+  "raw": {
+    "id": "gen-1785345421-I90b7PJXkHIjLBxewtFk",
+    "object": "chat.completion",
+    "created": 1785345421,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The total amount of cooked rice needed is \\(180 \\, \\text{g/person} \\times 7 \\, \\text{people} = 1260 \\, \\text{g}\\).\n\nSince basmati rice triples in weight when cooked, the required dry weight is \\(1260 \\, \\text{g} / 3 = 420 \\, \\text{g}\\).\n\nAnswer: 420 g",
+          "refusal": null,
+          "reasoning": "The problem: \"I'm meal-prepping and want 180 g of cooked basmati rice per person for 7 people. Basmati roughly triples in weight when cooked. How many grams of dry rice should I cook?\"\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem: \"I'm meal-prepping and want 180 g of cooked basmati rice per person for 7 people. Basmati roughly triples in weight when cooked. How many grams of dry rice should I cook?\"\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "vvgt0EHdo/0+S3D59d42wHaXiDCXdgGITXh4kIDVgv5Cj5szbrxR89WWXKCg3BdxO/FY/u76+2z0hGD2L6Py7MFUk/Yi6j9P0QnSIJJyFqqTZHr8gFOKUc2zyuyMWpzN6QMXvzgMvj/pEpkzK1Ci6xllizlUMpexnrGamqQ0+HrajzmChMTn6g2xaug0HxgZrQQu5hyzksmn9b9yu7SI5U3IAKlc4D/jqbjWTFnX5ubamdO1m7w1c9dJ8kg8w0YaOaQBn3+P1fpC2TgxmENrXO/NBnI1igXmpobzQ5cY8Lngbthv7sAq+PkMX4ehnf+QKbp7AaHM9lXZO0Rl/DpNKhLRnK7odEz5Qz6DNxzgVNEFJ482bRbwm+ORCAhxzjFRmr2XiEKNKkIkgOymSkKMRQv+5NyzKO/abrIVV12C0ksSkQtsWQcAlMnpqI/BxB4EwECnWl3q0SjnG+M7O6EyNjh+7WuditoiNtP+nka4/bkpsNfTKgHq2QLcak+NyO9hy5vcLVuCfwpqPipdn2YqMAr4qdAn7z/Ya9Cy3eNOKe1jDJrdbrc6hg6yiM7VOlTotvsL1nR+NsMKz8bYnxFUV8Ki2VBBGhRAOIYyHpXtqgZY",
+              "format": "xai-responses-v1",
+              "id": "rs_0b163ca3-0781-97b8-a176-cd8ccaa8e043",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 279,
+      "completion_tokens": 207,
+      "total_tokens": 486,
+      "cost": 0.0015824,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0015824,
+        "upstream_inference_prompt_cost": 0.0003404,
+        "upstream_inference_completions_cost": 0.001242
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 124,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 279,
+  "tokensOut": 207,
+  "costUsd": 0.0015824,
+  "latencyMs": 2796,
+  "finishReason": "stop"
+}

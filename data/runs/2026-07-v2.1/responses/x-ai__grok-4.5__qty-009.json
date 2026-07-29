@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "qty-009",
+  "answerText": "flour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g",
+  "raw": {
+    "id": "gen-1785345403-u1Qzij7oWSAPXAuszIh1",
+    "object": "chat.completion",
+    "created": 1785345403,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "flour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g",
+          "refusal": null,
+          "reasoning": "The problem is: A dough formula in baker's percentages: flour 100%, water 68%, salt 2%, yeast 1.2%. I want exactly 1712 g of total dough. How many grams of each ingredient?\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem is: A dough formula in baker's percentages: flour 100%, water 68%, salt 2%, yeast 1.2%. I want exactly 1712 g of total dough. How many grams of each ingredient?\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "yf4TN4/Lj153wazOqvdhcJ707aod/uTzA2GqeYJ9ZrcfxwzJ1PI1YJPjsAg1u3Tbb69p5w0ftB+P4hG2QotgUbHxW/IWx9TNnNsB2g/6f5fZ7os9edR5UcMXn+RUhLzOQ0I1KPIzWWGDoCmL2yFYP4xZGTvA/dTnkPwLUOQlSqEpIYysmpUCVLmVWfZ2ll+jqmmiFbYEUdv64tYbYU+1AOKlQTUWvnSN77DoAZgC2+BsKo61nveX3JU+13yf5Q04ADt1lNYTtrZLZ44YSVpRlwuUCcJZmeKS6+24ZoLR6N+whqBoV8XDQ2OxZ/pA5GqITAkRfbYTdvZkgJUtZMfVLlhDCpmz88eoxWYHrNvabu6ynsuFtmjuMda8oMYoJdDIkQZxMJQT+24o6mkQqqqZNdljAzot4VA5kEw8Ig8453nw6HrhHiegTZEDZqYe7HJKGYFAAYFrAlDwyyWKD7TgG8HLhlA+t/+FyrZSd9FMm6gI2v1ZAQH3kvMcU5/dztS6+fse8aHwQ+fWGtq2kNN2SsTslOaUjce1LnMTdjrtYYIHbnRVrnGEJ6PN+mKgRnTLxYa3CbOZa5D6b91798Ngtggs1a8M+braRizYD0AyqhEL6z+7+Xl/ZAkU1DMY5YgDKbYEUo32VTUxGThaAZTtsw5uqf2biOhNmBzODiBogHpu96pdXe6rRm2OStBWKbBbNIeKTtbCf0e2G6euaZx/cBK5DVmfILIRNjAdV9sPtPu3FY2oVke9WY3mSxSHFXWH1TiC6G8PlkxNl7B2aETzGDvKmhU2Xj26eL1u0p/SPRs4aWLhJkruaq5GTyInv64Oh5fPwto7CWqKG9XFVo0h9fRl57nV",
+              "format": "xai-responses-v1",
+              "id": "rs_1742131e-c1c4-9ea5-b48e-1b0eb2ddc6a9",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 288,
+      "completion_tokens": 247,
+      "total_tokens": 535,
+      "cost": 0.0018404,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0018404,
+        "upstream_inference_prompt_cost": 0.0003584,
+        "upstream_inference_completions_cost": 0.001482
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 223,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 288,
+  "tokensOut": 247,
+  "costUsd": 0.0018404,
+  "latencyMs": 3451,
+  "finishReason": "stop"
+}

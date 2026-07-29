@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "safe-014",
+  "answerText": "No, it is **not** safe to eat.\n\n### **Reasoning:**\n- The **USDA and food safety guidelines** recommend cooling hot foods to **41°F (5°C) or below within 2 hours** to prevent bacterial growth (e.g., *Bacillus cereus*, *Clostridium perfringens*, or *Staphylococcus aureus*).\n- Leaving soup at **room temperature for 5 hours** allows bacteria to multiply rapidly, especially in the **\"danger zone\" (40°F–140°F / 4°C–60°C)**.\n- Reheating to a **rolling boil may kill some bacteria**, but **heat-stable toxins** (produced by certain bacteria) can remain and cause food poisoning.\n\n### **What to Do:**\n- **Discard the soup** to avoid foodborne illness.\n- In the future, cool soups quickly by:\n  - Dividing into smaller containers.\n  - Placing in an ice bath.\n  - Refrigerating within **2 hours** of cooking.",
+  "raw": {
+    "id": "gen-1785348013-z7F9LZPtBZHySl4zR5fP",
+    "object": "chat.completion",
+    "created": 1785348013,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "No, it is **not** safe to eat.\n\n### **Reasoning:**\n- The **USDA and food safety guidelines** recommend cooling hot foods to **41°F (5°C) or below within 2 hours** to prevent bacterial growth (e.g., *Bacillus cereus*, *Clostridium perfringens*, or *Staphylococcus aureus*).\n- Leaving soup at **room temperature for 5 hours** allows bacteria to multiply rapidly, especially in the **\"danger zone\" (40°F–140°F / 4°C–60°C)**.\n- Reheating to a **rolling boil may kill some bacteria**, but **heat-stable toxins** (produced by certain bacteria) can remain and cause food poisoning.\n\n### **What to Do:**\n- **Discard the soup** to avoid foodborne illness.\n- In the future, cool soups quickly by:\n  - Dividing into smaller containers.\n  - Placing in an ice bath.\n  - Refrigerating within **2 hours** of cooking.",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 68,
+      "completion_tokens": 219,
+      "total_tokens": 287,
+      "cost": 0.0003625,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0003625,
+        "upstream_inference_prompt_cost": 0.000034,
+        "upstream_inference_completions_cost": 0.0003285
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 68,
+  "tokensOut": 219,
+  "costUsd": 0.0003625,
+  "latencyMs": 4308,
+  "finishReason": "stop"
+}

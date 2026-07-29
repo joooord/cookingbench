@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "nutr-023",
+  "answerText": "Protein: 22 g\nFat: 5 g",
+  "raw": {
+    "id": "gen-1785345351-YCgH8MnCdmzAP3cMhSqK",
+    "object": "chat.completion",
+    "created": 1785345351,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Protein: 22 g\nFat: 5 g",
+          "refusal": null,
+          "reasoning": "The question is: \"Per 100 g, roughly how much protein and how much fat does raw beef sirloin steak (lean, fat trimmed) contain? Give both.\"\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"Per 100 g, roughly how much protein and how much fat does raw beef sirloin steak (lean, fat trimmed) contain? Give both.\"\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "rCWxlrZlxVVOr6FionkEvqcqOpfQZRvbZ4JrrXmy4jp2ntciXHLyWhYwqJD5k/81AufEj0iOZ3Le9vDamVYAbijUjyZ4Pu8SaJjI8a1xtND/lkX/rDSZPUddhdu7tD5y68RPNseH8cwroG/9sYuzwMds6WBw0ffmROIVX+EmLMAibJPXBzeGAVFAXg60PX5LCROC3o0cM3SKMdb1c8jVPgv5hZPga600+KLhsXIC8WE14vJZoNtTjfqo/W9Q2yixSgu/hNF8AG3577J9Prb6OjGFIAgzaBKAz9WaCtOuBeUnG/GkyJsSUMzqzkGI9Zv/aIDQIEwNq4EKKyGW88GobDPlysKM8MbW6bq6qtTenQt/UpThGB1Ihj8A96N6kgxKBvXKuA5dL1CqsmmBoTDjquoSJEADxpUI7HgK1nheBUNDJ1Um4Bxvv2G6xJKWQuDQwc63i/CfIx+PiErSjpBOr6ihfc2Wirv0dIoZBKuDgbjviemD9ngpvOqPgkmeRiRa04uPdqBXKOiCzzZTTLLj/rJZgoC/N52508AyJHwokm1lcrYgHSq43sbHtWwTP0ibVdkmoOMaukbNhUBWDTcx5l4F5NqRUkNFJoz7ZFOjuDEk+xzdT8lS1yLlJsYV291tL+eUXDU002dwsjZ6CCjPamSWiGVdUbT4ua6HfwbkYP+TBIkgvKYC72NE+uXLoNy/ZIhZ5H8+pJwehqjXgSnKRG/o8yaQAPPyvodCQYkRBmCyry3aCuvOJq9U3Z7OnCCD/oD6X/WyTqvd1h1O+/FGBlmogVabrKggMwSoXednPBOU/TaljlbtYLPg+LkGXB2ry8rAe623uSRpD3068wSb2r5kQcKyAlLVEwrAi3szOAf5qZ/rDKaRqSfwbJNJRAZMZTQI0ppBWbYeDkV3fR+CYsrXb7Mv7XclmThOaVeXrOXOt/ayUB67V7Y",
+              "format": "xai-responses-v1",
+              "id": "rs_c8051458-7433-9963-ac48-b7d35c14e4b9",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 277,
+      "completion_tokens": 219,
+      "total_tokens": 496,
+      "cost": 0.0016504,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0016504,
+        "upstream_inference_prompt_cost": 0.0003364,
+        "upstream_inference_completions_cost": 0.001314
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 208,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 277,
+  "tokensOut": 219,
+  "costUsd": 0.0016504,
+  "latencyMs": 4207,
+  "finishReason": "stop"
+}

@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "nutr-014",
+  "answerText": "The calorie content of the spaghetti comes only from the dry pasta itself. Boiling adds water, which has zero calories and does not alter the energy provided by the original 75 g of dry spaghetti. Therefore the cooked 190 g portion still contains exactly the same 270 kcal.\n\nAnswer: 270 kcal",
+  "raw": {
+    "id": "gen-1785345345-ctzfgIgr3O4bfYYhANGJ",
+    "object": "chat.completion",
+    "created": 1785345345,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The calorie content of the spaghetti comes only from the dry pasta itself. Boiling adds water, which has zero calories and does not alter the energy provided by the original 75 g of dry spaghetti. Therefore the cooked 190 g portion still contains exactly the same 270 kcal.\n\nAnswer: 270 kcal",
+          "refusal": null,
+          "reasoning": "The problem: A 75 g portion of dry spaghetti contains 270 kcal. After boiling, that portion weighs about 190 g on the plate. How many kilocalories are in the cooked portion?\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem: A 75 g portion of dry spaghetti contains 270 kcal. After boiling, that portion weighs about 190 g on the plate. How many kilocalories are in the cooked portion?\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "NgrkfyZVjiapNww+c0qQXOpsk2nph57Kc/zjmMwE6NUGq1BZBIn/HCAu/GnIQr6PXWMXqyZcjKVYW58JUEHn9mz9ntu6mabjPsURyh3Fm0YeUlTnprset0vqVLOdHHX2W+PY/iHvITWF2YYdJvEIf+1ytmaKZwX17T6e9J59c8xDVvsskR9RbECeLBPGjhhduOvie5E4ryjDYJVn4Dx5Tn+j3MuCSQHPjzPc3O+zYxvI2oGaxj2jk8u2j2vWHqtixBh9wO3lJKGVo0OaTgQwyYiImYJTp/RqwecqSU8G5UWTTsu6+geB6hku5FW13BWlGbxELxqvSlEW8yhPlo5YGHgN8gaN3vvlCUssocrvTSk+PnsWvupPLE66LK/7FhlMNZLWMbSfxx2wK/jIkrglbYGD0iVFPSLsZPOXLEkPscbrP3DfMkntAUYPDPpeieIUw7nb4dBKGzvMzUa/6g1ZaEod1AN1+ZmYdoP84QnYRdh/R9VLBvrIQg1hM1ap6rl648HcjrOXG3R5MqiWB+LlZq8476TUd8BpxOWumU68oaV2PzL+aZJS6ZGsnXCAeN6g3/gvdYP6urSFi1Mdxngg/1pgP3M/VnEHs+zGlwRwOzISjWhKZ0orMHq3vki74LygcnYHdmDSQOMOVgruGd3hMCIwH/5vOv7TxEYDFirG+svdKxltcuINOxa7zhyOWD9Zkez79JNsEHUVfta++06Kw1+BoQZnw87tox7oJKyLSYcEaPeP3LnhDktva/20B/UdRApdEayR1db5EUIHATqgmgyEkTtBiRSeap1z1VKLDWlWj1epfje8HFANEoTWsISkv/px/iZQ5Aat/cCtH8qIkOIDZAGfRV1stHcbi/VP1bDBYbec26eNao5ih7Ar8SnJW/Qt8qRTit/FiRd4+Rd5sWSR/hfKetm0fb9otdC7X1HukTnaZA0zBujy5UTgZ/znxX6fdjZowUyYNHEuXVr6Ng+RrbHg+LtbyDM8E8FKIKM",
+              "format": "xai-responses-v1",
+              "id": "rs_0565c370-774f-9fa6-a3e0-00574978360f",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 276,
+      "completion_tokens": 233,
+      "total_tokens": 509,
+      "cost": 0.0017324,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0017324,
+        "upstream_inference_prompt_cost": 0.0003344,
+        "upstream_inference_completions_cost": 0.001398
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 172,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 276,
+  "tokensOut": 233,
+  "costUsd": 0.0017324,
+  "latencyMs": 4482,
+  "finishReason": "stop"
+}

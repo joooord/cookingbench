@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "nutr-031",
+  "answerText": "First, calculate the total calories for each ingredient:\n\n- Spaghetti: 500 g × (360 kcal / 100 g) = 1800 kcal\n- Butter: 60 g × (717 kcal / 100 g) = 430.2 kcal\n- Parmesan: 80 g × (420 kcal / 100 g) = 336 kcal\n\nTotal calories = 1800 + 430.2 + 336 = 2566.2 kcal\n\nSplit into 5 portions: 2566.2 kcal / 5 = 513.24 kcal per portion\n\nAnswer: 513 kcal",
+  "raw": {
+    "id": "gen-1785348040-zYaPO33IFaXGj9GLVW0q",
+    "object": "chat.completion",
+    "created": 1785348040,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "First, calculate the total calories for each ingredient:\n\n- Spaghetti: 500 g × (360 kcal / 100 g) = 1800 kcal\n- Butter: 60 g × (717 kcal / 100 g) = 430.2 kcal\n- Parmesan: 80 g × (420 kcal / 100 g) = 336 kcal\n\nTotal calories = 1800 + 430.2 + 336 = 2566.2 kcal\n\nSplit into 5 portions: 2566.2 kcal / 5 = 513.24 kcal per portion\n\nAnswer: 513 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 128,
+      "completion_tokens": 166,
+      "total_tokens": 294,
+      "cost": 0.0003058,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 16,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0003058,
+        "upstream_inference_prompt_cost": 0.0000568,
+        "upstream_inference_completions_cost": 0.000249
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 128,
+  "tokensOut": 166,
+  "costUsd": 0.0003058,
+  "latencyMs": 4886,
+  "finishReason": "stop"
+}

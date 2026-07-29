@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "nutr-037",
+  "answerText": "Bananas provide approximately 89 kcal per 100 g (raw, peeled).  \nFor a 120 g banana:  \n\\[ 120 \\times 0.89 = 106.8 \\]  \nwhich rounds to 107 kcal.\n\nAnswer: 107 kcal",
+  "raw": {
+    "id": "gen-1785345384-eJudNqhI8KuLgLZCkLxV",
+    "object": "chat.completion",
+    "created": 1785345384,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Bananas provide approximately 89 kcal per 100 g (raw, peeled).  \nFor a 120 g banana:  \n\\[ 120 \\times 0.89 = 106.8 \\]  \nwhich rounds to 107 kcal.\n\nAnswer: 107 kcal",
+          "refusal": null,
+          "reasoning": "The question is: \"Estimate the kilocalories in a large banana weighing 120 g peeled.\" I need to end with \"Answer: <number> kcal\".\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The question is: \"Estimate the kilocalories in a large banana weighing 120 g peeled.\" I need to end with \"Answer: <number> kcal\".\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "eHzCaHPftXKhauGzk+Q6nyMuaDJrTSS69lMuCSlJlicY/mdi2MW5/t1yzyORbfFc9VUWNz1HZ464MnpCwAkSu3pDkC/+zpPu1Bx3ySchctpMPk9WMWUYR7rUJ2UcwlIv1Q1xA65gceDN9yiizk6agCp+6omNFIn9ktXa4psYLvQUShi3jxV10kFTjgg5jBef/bB+2aPwhUzmUQRQUIOvh3/yvmJtSSnqzL+zn4D60MeC20F5B8+PNHUt2sKnG+lJR69ZquUa5UEiY4fktrm1KwZDO/sgvyrJKjjJJgEhivi5o0usRLjzHziFq2REKTUWfJwZADFkY0h9JcDHlC5y2zReXByTyHR5bNQrGfTZ76+ocqGmjDnzzZvrrhbpprIY2PxDqYOWzQrDNg/G84qAMw1O8n4sYTMzsQiH+um3DOMxeZyL6rxA31msDen2ZxkyxHafB561R0M+sT+DmY9z5twPLH+ygGW+wykD/qz1KjfKP6QGRo5dh4OKO2ZpLmV0B4KCraD9Ck2PHJ8XGOuoXwwfgkC54KtPbIjkMXUbFueDErbpOJVqUGjNiI4R1qy7ST95NiReNw8M+AELRS0HGwKovOFjm690ONhQ4Tmrrp2QWx5EqJddeFCI0LSet+PA1cP4gmEqLumRCRxK4jtbQ0420bYOtyt6RFwd9tVnBsTsV0HwL0BMyzydB/RkY3/cu0XTHQnjZJLS+Ad/TG6sTj+4V7T86uoQp8pFu0rhsFBnaVkIpqAA8pl0U0Wnlr0tN10grOWVYkckFXemjNFFNGkoBaMBUy1RpIfWY9ZpquCEpH868qN7uFIto82nwmfId0Pig/IFxB+9Cd0L6P11bRcx7Jg4LYglGmAjJ9K9j/Cj99vqWL2sWp6IkTTo86tmof6eRGDQX5egKS6Z7n0WULGo0MhqEf7Nq5pB3mohowkBojis+AGfYUuaLIcdyPaWANfV1ErwfWfwP7l4CRQfKr+1zhmFXORt/TtyvCENv+bmupD6tYzfv/U2zoyr3CMqXV7obnqyvHF86sKEnsKKktkpidkzTsmL04UFO8NqQ/QJgKRFj7RuBqnW7gLAvt8lRg9AcCBFAoLGjN99CPWfdH/YD3wzxmC2NCBPPpOPIdMEhChs9GNfGT5vYHZUh1cXXHNmLwCLMVKCrrKXsb5nw8b5vJDIHg2VVW5nDHDD29zm/ApoUeoRqqp7phYPdn/YgbcKB87AKEcXjkp/Z2Ai5ZO0Hk5L2CtjqhqULrIAE5I7HdGhkZtxm1nS91P1H07ES/yL2LW829aS59kaj98Tr95g",
+              "format": "xai-responses-v1",
+              "id": "rs_d25c7128-21ee-9aff-b7dd-7d1c3db1f000",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 253,
+      "completion_tokens": 340,
+      "total_tokens": 593,
+      "cost": 0.0023284,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0023284,
+        "upstream_inference_prompt_cost": 0.0002884,
+        "upstream_inference_completions_cost": 0.00204
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 287,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 253,
+  "tokensOut": 340,
+  "costUsd": 0.0023284,
+  "latencyMs": 7975,
+  "finishReason": "stop"
+}

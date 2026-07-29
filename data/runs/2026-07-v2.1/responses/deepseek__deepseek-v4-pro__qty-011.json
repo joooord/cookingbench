@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-011",
+  "answerText": "To scale the recipe from 8 servings to 3, first convert 2.5 litres to millilitres: 2.5 L = 2500 ml. Then divide by 8 to get the amount per person: 2500 ÷ 8 = 312.5 ml. Multiply by 3 for 3 people: 312.5 × 3 = 937.5 ml.\n\nAnswer: 937.5 ml",
+  "raw": {
+    "id": "gen-1785347407-MFoJuYK9h2Oa6e78JIRn",
+    "object": "chat.completion",
+    "created": 1785347407,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To scale the recipe from 8 servings to 3, first convert 2.5 litres to millilitres: 2.5 L = 2500 ml. Then divide by 8 to get the amount per person: 2500 ÷ 8 = 312.5 ml. Multiply by 3 for 3 people: 312.5 × 3 = 937.5 ml.\n\nAnswer: 937.5 ml",
+          "refusal": null,
+          "reasoning": "We are asked: \"A soup recipe serves 8 and calls for 2.5 litres of stock. How much stock do I need to make it for 3 people, in millilitres?\"\n\nWe need to scale down from 8 servings to 3 servings. The original stock is 2.5 litres. Convert to millilitres: 2.5 litres = 2500 ml. For 8 people, 2500 ml. So per person: 2500 / 8 = 312.5 ml. For 3 people: 312.5 * 3 = 937.5 ml. So answer: 937.5 ml.\n\nWe need to end with \"Answer: <number> ml\". So \"Answer: 937.5 ml\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"A soup recipe serves 8 and calls for 2.5 litres of stock. How much stock do I need to make it for 3 people, in millilitres?\"\n\nWe need to scale down from 8 servings to 3 servings. The original stock is 2.5 litres. Convert to millilitres: 2.5 litres = 2500 ml. For 8 people, 2500 ml. So per person: 2500 / 8 = 312.5 ml. For 3 people: 312.5 * 3 = 937.5 ml. So answer: 937.5 ml.\n\nWe need to end with \"Answer: <number> ml\". So \"Answer: 937.5 ml\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 70,
+      "completion_tokens": 252,
+      "total_tokens": 322,
+      "cost": 0.0003845226,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0003845226,
+        "upstream_inference_prompt_cost": 0.000046893,
+        "upstream_inference_completions_cost": 0.0003376296
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 160,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 70,
+  "tokensOut": 252,
+  "costUsd": 0.0003845226,
+  "latencyMs": 5790,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "nutr-021",
+  "answerText": "A large whole egg (about 50 g) contains approximately 70 kilocalories.  \nAnswer: 70 kcal",
+  "raw": {
+    "id": "gen-1785347315-JcoDLdLdPaXB07gLQPId",
+    "object": "chat.completion",
+    "created": 1785347315,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "GMICloud",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "A large whole egg (about 50 g) contains approximately 70 kilocalories.  \nAnswer: 70 kcal",
+          "refusal": null,
+          "reasoning": "We are asked: \"Approximately how many kilocalories are in one large whole egg (about 50 g)?\"\n\nWe need to provide the answer accurately and concisely, ending with \"Answer: <number> kcal\".\n\nStandard nutritional information: A large whole egg (50g) contains about 70-80 kilocalories. More precisely, USDA data for a large raw whole egg (50g) is roughly 72 kcal. Commonly, it's said to be around 70-80 kcal. I'll use 70 kcal as a typical approximation.\n\nSo answer: 70 kcal.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Approximately how many kilocalories are in one large whole egg (about 50 g)?\"\n\nWe need to provide the answer accurately and concisely, ending with \"Answer: <number> kcal\".\n\nStandard nutritional information: A large whole egg (50g) contains about 70-80 kilocalories. More precisely, USDA data for a large raw whole egg (50g) is roughly 72 kcal. Commonly, it's said to be around 70-80 kcal. I'll use 70 kcal as a typical approximation.\n\nSo answer: 70 kcal.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 53,
+      "completion_tokens": 147,
+      "total_tokens": 200,
+      "cost": 0.0002354742,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002354742,
+        "upstream_inference_prompt_cost": 0.0000359658,
+        "upstream_inference_completions_cost": 0.0001995084
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 122,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 53,
+  "tokensOut": 147,
+  "costUsd": 0.0002354742,
+  "latencyMs": 4714,
+  "finishReason": "stop"
+}

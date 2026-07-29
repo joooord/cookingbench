@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-008",
+  "answerText": "When using a fan oven set to 180°C, the equivalent conventional oven temperature is typically 20°C higher, as fan ovens circulate hot air more efficiently. Therefore, 180°C fan corresponds to 200°C conventional.\n\nAnswer: 200 °C",
+  "raw": {
+    "id": "gen-1785347096-Gnn4W6MEDT4kgOmlN3KY",
+    "object": "chat.completion",
+    "created": 1785347096,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "StreamLake",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "When using a fan oven set to 180°C, the equivalent conventional oven temperature is typically 20°C higher, as fan ovens circulate hot air more efficiently. Therefore, 180°C fan corresponds to 200°C conventional.\n\nAnswer: 200 °C",
+          "refusal": null,
+          "reasoning": "We are asked: \"Convert a fan (convection) oven setting of 180°C to the equivalent conventional oven temperature in Celsius. Fan ovens typically run about 20°C lower than conventional.\"\n\nInterpretation: A fan oven setting of 180°C means the oven is set to 180°C with the fan on. Typically, fan ovens cook more efficiently, so a lower temperature is used compared to a conventional oven. The rule of thumb is that fan ovens run about 20°C lower. So if a recipe calls for a conventional oven temperature, you'd set the fan oven 20°C lower. Conversely, if you have a fan oven setting and want to know the equivalent conventional temperature, you add 20°C. So 180°C fan = 200°C conventional.\n\nThus answer: 200°C.\n\nEnd with \"Answer: <number> °C\". So \"Answer: 200 °C\".",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Convert a fan (convection) oven setting of 180°C to the equivalent conventional oven temperature in Celsius. Fan ovens typically run about 20°C lower than conventional.\"\n\nInterpretation: A fan oven setting of 180°C means the oven is set to 180°C with the fan on. Typically, fan ovens cook more efficiently, so a lower temperature is used compared to a conventional oven. The rule of thumb is that fan ovens run about 20°C lower. So if a recipe calls for a conventional oven temperature, you'd set the fan oven 20°C lower. Conversely, if you have a fan oven setting and want to know the equivalent conventional temperature, you add 20°C. So 180°C fan = 200°C conventional.\n\nThus answer: 200°C.\n\nEnd with \"Answer: <number> °C\". So \"Answer: 200 °C\".",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 72,
+      "completion_tokens": 254,
+      "total_tokens": 326,
+      "cost": 0.000388542,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000388542,
+        "upstream_inference_prompt_cost": 0.0000482328,
+        "upstream_inference_completions_cost": 0.0003403092
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 196,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 72,
+  "tokensOut": 254,
+  "costUsd": 0.000388542,
+  "latencyMs": 6254,
+  "finishReason": "stop"
+}

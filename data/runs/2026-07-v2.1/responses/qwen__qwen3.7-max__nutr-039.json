@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "nutr-039",
+  "answerText": "Plain, full-fat (whole milk) strained Greek yogurt typically contains about 8.5 to 9 grams of protein per 100 grams. While non-fat Greek yogurt can have up to 18 grams of protein per 170 g serving, the higher fat content in full-fat versions slightly reduces the overall protein density by weight. \n\nBecause of this, a standard 170 g (6 oz) single-serve pot of full-fat Greek yogurt (such as Fage Total 5%) generally provides approximately 15 grams of protein.\n\nAnswer: 15 g",
+  "raw": {
+    "id": "gen-1785346267-rlzpi8504YOpPxKc96Le",
+    "object": "chat.completion",
+    "created": 1785346267,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Plain, full-fat (whole milk) strained Greek yogurt typically contains about 8.5 to 9 grams of protein per 100 grams. While non-fat Greek yogurt can have up to 18 grams of protein per 170 g serving, the higher fat content in full-fat versions slightly reduces the overall protein density by weight. \n\nBecause of this, a standard 170 g (6 oz) single-serve pot of full-fat Greek yogurt (such as Fage Total 5%) generally provides approximately 15 grams of protein.\n\nAnswer: 15 g",
+          "refusal": null,
+          "reasoning": "Thinking:\n\n1.  **Identify the core question:** The user wants to know the estimated grams of protein in a 170 g single-serve pot of plain, full-fat strained Greek yogurt.\n2.  **Retrieve nutritional knowledge:**\n    *   Greek yogurt (strained) is known for being high in protein.\n    *   Standard plain Greek yogurt (non-fat or full-fat) typically has about 9-10 grams of protein per 100 grams.\n    *   Let's check specific brands for a 170g (6 oz) serving:\n        *   Fage Total 5% (full fat): 170g serving has 15g or 16g of protein. Wait, Fage 5% is 15g protein per 150g? Let me double-check. Actually, Fage Total 5% is 9g protein per 100g. So 170g * 0.09 = 15.3g. Wait, some sources say Fage 5% has 15g per 170g (6oz) container. Let's calculate: 15 / 170 = 8.8%.\n        *   Chobani Whole Milk Plain: 15g protein per 150g (5.3 oz)? No, Chobani is usually 12-14g per 5.3 oz (150g). For 170g (6 oz), it's about 15-17g.\n        *   Let's use a standard average: Greek yogurt generally contains about 9-10g of protein per 100g.\n        *   170g * 9g/100g = 15.3g.\n        *   170g * 10g/100g = 17g.\n        *   Let's check USDA data for \"Yogurt, Greek, plain, whole milk\":\n            *   Protein per 100g is approximately 9.0g to 9.7g.\n            *   Let's use 9.5g per 100g -> 170 * 0.095 = 16.15g.\n            *   Often, a 6 oz (170g) cup of whole milk Greek yogurt is cited as having 15g to 17g of protein. Let's provide an estimate of 15 to 17, but the prompt asks for a specific number to end with \"Answer: <number> g\".\n            *   Let's pick 15, 16, or 17. Fage Total 5% (170g) has exactly 15g of protein. Wait, Fage Total 5% nutrition label: Serving size 3/4 cup (170g), Protein 15g.\n            *   Let's check another brand: Stonyfield Organic Greek Whole Milk: 170g has 15g protein.\n            *   Siggi's whole milk (though technically skyr, similar): 150g has 15g.\n            *   So 15g is a very safe and accurate estimate for a 170g pot of full-fat Greek yogurt. Wait, non-fat Greek yogurt often has *more* protein by weight (e.g., Fage 0% has 18g per 170g). Full-fat has slightly less protein because the fat takes up some of the mass.\n            *   Fage 0% (170g): 18g protein.\n            *   Fage 2% (170g): 17g protein.\n            *   Fage 5% (170g): 15g protein.\n            *   Therefore, 15 is the most accurate number for *full-fat* (5%) strained Greek yogurt in a 170g pot.\n3.  **Formulate the response:**\n    *   State the general protein content per 100g for full-fat Greek yogurt (around 8.5 - 9g).\n    *   Calculate for 170g (approx 15g).\n    *   Contrast briefly with non-fat (which is higher, ~18g) to show expertise.\n    *   End with the exact requested format: \"Answer: 15 g\".\n4.  **Refine the numbers:**\n    *   Fage Total 5% (Whole Milk): 170g = 15g protein.\n    *   Chobani Whole Milk Plain: 150g = 12g protein (which scales to ~13.6g for 170g, but Chobani is sometimes less strained or has different milk ratios).\n    *   Average whole milk Greek yogurt is widely accepted to have about 15g of protein per 6 oz (170g) serving.\n    *   I will use 15 as the target number.\n5.  **Draft response:**\n    Plain, full-fat (whole milk) strained Greek yogurt typically contains about 8.5 to 9 grams of protein per 100 grams. Because the higher fat content displaces some of the protein compared to non-fat versions (which can have up to 18g per 170g), a standard 170 g (6 oz) single-serve pot of full-fat Greek yogurt generally provides about 15 grams of protein.\n    Answer: 15 g. (Wait, let me just ensure 15 is the best integer. Yes, 15 is standard for Fage 5% and similar full-fat brands).\n    Let me double check Chobani Whole milk: 5.3 oz (150g) has 12g protein. 170g would be 13.6g.\n    Let me double check Fage 5%: 6 oz (170g) has 15g protein.\n    Let me double check Wallaby Organic Whole Milk Greek: 170g has 14g protein.\n    An estimate of 15 is highly representative and accurate for traditional strained full-fat Greek yogurt like Fage. I'll state ~15.\n    I will write a concise explanation and end with \"Answer: 15 g\".\n    Wait, could it be 16? 170 * 0.09 = 15.3. 15 is the safest integer.\n    Let me review the prompt: \"Estimate the grams of protein... End your reply with a line \"Answer: <number> g\".\"\n    I will use 15.\n    Text: Plain, full-fat strained Greek yogurt typically contains about 8.5 to 9 grams of protein per 100 grams. While non-fat Greek yogurt can have up to 18 grams of protein per 170 g serving, the higher fat content in whole-milk (full-fat) versions slightly reduces the protein density. Therefore, a standard 170 g (6 oz) pot of full-fat Greek yogurt (such as Fage Total 5%) contains approximately 15 grams of protein.\n    Answer: 15 g\n    Perfect.\n    Wait, what about 14? 15 is more common for the \"gold standard\" strained yogurts. I'll stick with 15.\n    Check format: \"Answer: <number> g\".\n    \"Answer: 15 g\"\n    Done.\n    No extra fluff needed.\n    (Self-correction: Ensure the word \"Answer:\" is exactly as requested, followed by the number and \"g\".)\n    \"Answer: 15 g\"\n    Ready.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking:\n\n1.  **Identify the core question:** The user wants to know the estimated grams of protein in a 170 g single-serve pot of plain, full-fat strained Greek yogurt.\n2.  **Retrieve nutritional knowledge:**\n    *   Greek yogurt (strained) is known for being high in protein.\n    *   Standard plain Greek yogurt (non-fat or full-fat) typically has about 9-10 grams of protein per 100 grams.\n    *   Let's check specific brands for a 170g (6 oz) serving:\n        *   Fage Total 5% (full fat): 170g serving has 15g or 16g of protein. Wait, Fage 5% is 15g protein per 150g? Let me double-check. Actually, Fage Total 5% is 9g protein per 100g. So 170g * 0.09 = 15.3g. Wait, some sources say Fage 5% has 15g per 170g (6oz) container. Let's calculate: 15 / 170 = 8.8%.\n        *   Chobani Whole Milk Plain: 15g protein per 150g (5.3 oz)? No, Chobani is usually 12-14g per 5.3 oz (150g). For 170g (6 oz), it's about 15-17g.\n        *   Let's use a standard average: Greek yogurt generally contains about 9-10g of protein per 100g.\n        *   170g * 9g/100g = 15.3g.\n        *   170g * 10g/100g = 17g.\n        *   Let's check USDA data for \"Yogurt, Greek, plain, whole milk\":\n            *   Protein per 100g is approximately 9.0g to 9.7g.\n            *   Let's use 9.5g per 100g -> 170 * 0.095 = 16.15g.\n            *   Often, a 6 oz (170g) cup of whole milk Greek yogurt is cited as having 15g to 17g of protein. Let's provide an estimate of 15 to 17, but the prompt asks for a specific number to end with \"Answer: <number> g\".\n            *   Let's pick 15, 16, or 17. Fage Total 5% (170g) has exactly 15g of protein. Wait, Fage Total 5% nutrition label: Serving size 3/4 cup (170g), Protein 15g.\n            *   Let's check another brand: Stonyfield Organic Greek Whole Milk: 170g has 15g protein.\n            *   Siggi's whole milk (though technically skyr, similar): 150g has 15g.\n            *   So 15g is a very safe and accurate estimate for a 170g pot of full-fat Greek yogurt. Wait, non-fat Greek yogurt often has *more* protein by weight (e.g., Fage 0% has 18g per 170g). Full-fat has slightly less protein because the fat takes up some of the mass.\n            *   Fage 0% (170g): 18g protein.\n            *   Fage 2% (170g): 17g protein.\n            *   Fage 5% (170g): 15g protein.\n            *   Therefore, 15 is the most accurate number for *full-fat* (5%) strained Greek yogurt in a 170g pot.\n3.  **Formulate the response:**\n    *   State the general protein content per 100g for full-fat Greek yogurt (around 8.5 - 9g).\n    *   Calculate for 170g (approx 15g).\n    *   Contrast briefly with non-fat (which is higher, ~18g) to show expertise.\n    *   End with the exact requested format: \"Answer: 15 g\".\n4.  **Refine the numbers:**\n    *   Fage Total 5% (Whole Milk): 170g = 15g protein.\n    *   Chobani Whole Milk Plain: 150g = 12g protein (which scales to ~13.6g for 170g, but Chobani is sometimes less strained or has different milk ratios).\n    *   Average whole milk Greek yogurt is widely accepted to have about 15g of protein per 6 oz (170g) serving.\n    *   I will use 15 as the target number.\n5.  **Draft response:**\n    Plain, full-fat (whole milk) strained Greek yogurt typically contains about 8.5 to 9 grams of protein per 100 grams. Because the higher fat content displaces some of the protein compared to non-fat versions (which can have up to 18g per 170g), a standard 170 g (6 oz) single-serve pot of full-fat Greek yogurt generally provides about 15 grams of protein.\n    Answer: 15 g. (Wait, let me just ensure 15 is the best integer. Yes, 15 is standard for Fage 5% and similar full-fat brands).\n    Let me double check Chobani Whole milk: 5.3 oz (150g) has 12g protein. 170g would be 13.6g.\n    Let me double check Fage 5%: 6 oz (170g) has 15g protein.\n    Let me double check Wallaby Organic Whole Milk Greek: 170g has 14g protein.\n    An estimate of 15 is highly representative and accurate for traditional strained full-fat Greek yogurt like Fage. I'll state ~15.\n    I will write a concise explanation and end with \"Answer: 15 g\".\n    Wait, could it be 16? 170 * 0.09 = 15.3. 15 is the safest integer.\n    Let me review the prompt: \"Estimate the grams of protein... End your reply with a line \"Answer: <number> g\".\"\n    I will use 15.\n    Text: Plain, full-fat strained Greek yogurt typically contains about 8.5 to 9 grams of protein per 100 grams. While non-fat Greek yogurt can have up to 18 grams of protein per 170 g serving, the higher fat content in whole-milk (full-fat) versions slightly reduces the protein density. Therefore, a standard 170 g (6 oz) pot of full-fat Greek yogurt (such as Fage Total 5%) contains approximately 15 grams of protein.\n    Answer: 15 g\n    Perfect.\n    Wait, what about 14? 15 is more common for the \"gold standard\" strained yogurts. I'll stick with 15.\n    Check format: \"Answer: <number> g\".\n    \"Answer: 15 g\"\n    Done.\n    No extra fluff needed.\n    (Self-correction: Ensure the word \"Answer:\" is exactly as requested, followed by the number and \"g\".)\n    \"Answer: 15 g\"\n    Ready.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 72,
+      "completion_tokens": 1854,
+      "total_tokens": 1926,
+      "cost": 0.00831015,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00831015,
+        "upstream_inference_prompt_cost": 0.0001062,
+        "upstream_inference_completions_cost": 0.00820395
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1727,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 72,
+  "tokensOut": 1854,
+  "costUsd": 0.00831015,
+  "latencyMs": 35803,
+  "finishReason": "stop"
+}

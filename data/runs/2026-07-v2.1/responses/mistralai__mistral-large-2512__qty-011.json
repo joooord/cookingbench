@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "qty-011",
+  "answerText": "To adjust the recipe for 3 people, first find the amount of stock per serving:\n\n2.5 litres = 2500 ml\n2500 ml ÷ 8 servings = 312.5 ml per serving\n\nNow multiply by 3 servings:\n312.5 ml × 3 = 937.5 ml\n\nAnswer: 937.5 ml",
+  "raw": {
+    "id": "gen-1785348055-dBi5cOKfYsRtSSdt1UGO",
+    "object": "chat.completion",
+    "created": 1785348055,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To adjust the recipe for 3 people, first find the amount of stock per serving:\n\n2.5 litres = 2500 ml\n2500 ml ÷ 8 servings = 312.5 ml per serving\n\nNow multiply by 3 servings:\n312.5 ml × 3 = 937.5 ml\n\nAnswer: 937.5 ml",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 71,
+      "completion_tokens": 88,
+      "total_tokens": 159,
+      "cost": 0.0001675,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0001675,
+        "upstream_inference_prompt_cost": 0.0000355,
+        "upstream_inference_completions_cost": 0.000132
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 71,
+  "tokensOut": 88,
+  "costUsd": 0.0001675,
+  "latencyMs": 1608,
+  "finishReason": "stop"
+}

@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "qty-008",
+  "answerText": "The coffee-to-water ratio of 1:16 means that the mass of coffee should be \\( \\frac{1}{16} \\) the mass of water.\n\n\\[\n\\frac{750}{16} = 46.875\n\\]\n\nAnswer: 46.875 g",
+  "raw": {
+    "id": "gen-1785345402-Apk408AKFusA9bzy4ZIA",
+    "object": "chat.completion",
+    "created": 1785345402,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "The coffee-to-water ratio of 1:16 means that the mass of coffee should be \\( \\frac{1}{16} \\) the mass of water.\n\n\\[\n\\frac{750}{16} = 46.875\n\\]\n\nAnswer: 46.875 g",
+          "refusal": null,
+          "reasoning": "The problem is: I brew pour-over coffee at a 1:16 coffee-to-water ratio by weight. For 750 g of water, how many grams of ground coffee should I use?\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem is: I brew pour-over coffee at a 1:16 coffee-to-water ratio by weight. For 750 g of water, how many grams of ground coffee should I use?\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "TBWZ2cN9+Gkt6oIqG6gxCfAT9UE/K5EFkv9aFWTg2T5M5GdzRsnyEGV9OOv5H0gFQ/99qrFhtbqLPN+cozcGLQAw507FVOfoUaO/fikFMuBRCw1Byl/1VSLTZxA2GnHnIh3m9fBCgGTvYIxqAZzDwJPrHJPTTE/lcTJDjRYywp2Ymm4CwbgUHfc0S1I3eV9cQcX0NKtwanTb/WO56PIzO9QWV4Zo/l38TnIGTtpPe6yhWpmUEGK9WTjKRpQAU+yM5/6+cBofZCHObvNnbmS7Isj7eJrFfY+1aBNGz/ZARxRbFcc1tex9xRhXPHCbjTz+Fv4JElrnQRnhTrk0G+od8TU5bsJgnvxW4Jt0650DwsU15kcGbqfhlpgUsnUNVKiD1xoeK+C34n1LZajA5RDcnBePRtU6OTFj1cF86bSxflNeEd9j8eOI0rtkAzRzhLf2/2rPwY20PFG/NLGYhoen7usblVCU736Zdk0ugKZV8vyKsIvumq3lJUaM+H8mOw7SV3+qwMs4Lc43MK346C4ZMgOT0p2/t37nEiIufZ6KTM3ixt9NzaH95GmjsQ6J3nIT7wT6ZZZyxvv3NlJOBus5LOQktbQG1jfutha6Q+tDuzXD611BcxwbHNew8nykQqULai3ZjUOAJAjBcEQh7Le/0K5sriz/0IfT8k5otHVkvroWbSjioIrchBFgqGpGzqlFIaq/g0bOMroPQMliMhl5UCXRKDqln6ERjbyRIpdTPD7SAEdRvGjfcXiR16hwezJALslGveTYeB6fyjliD+T/3ZOF684L520xzNzWw95/zh7YIp5S68bd0BupVYweJ14QYi7gmBwsEvQOKOXid6WULIt05/q0foHhnSANxy/jIe0wTWsm2Ij/zOGsJVyEliYEpqiL+Go1tteaTFsKKn+CoND5xeRNqVdXHuO6MSM8pjQa4yNaPCIskHnbd4vCfjJbDT+dQ/ZlKgFBPrycrhPs/azLf4ODHXiC0B+Jqlt+kdTHIo/ATDw9xsKoq2MxrxcCK9cpA4FlTDqLwlW4iop5B7wHptV0NsaXKrYwIO/Zo6rL",
+              "format": "xai-responses-v1",
+              "id": "rs_095cd742-776b-957a-a226-6047bbb389ab",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 276,
+      "completion_tokens": 282,
+      "total_tokens": 558,
+      "cost": 0.0020264,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0020264,
+        "upstream_inference_prompt_cost": 0.0003344,
+        "upstream_inference_completions_cost": 0.001692
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 223,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 276,
+  "tokensOut": 282,
+  "costUsd": 0.0020264,
+  "latencyMs": 4794,
+  "finishReason": "stop"
+}

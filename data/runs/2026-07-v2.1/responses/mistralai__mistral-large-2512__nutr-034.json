@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "mistralai/mistral-large-2512",
+  "questionId": "nutr-034",
+  "answerText": "To determine the kilocalories consumed:\n\n1. Calculate the number of servings in the entire package:\n   396 g (total weight) ÷ 55 g (serving size) = 7.2 servings.\n\n2. Calculate the number of servings eaten:\n   Half of 7.2 servings = 3.6 servings.\n\n3. Calculate the kilocalories consumed:\n   3.6 servings × 230 kcal/serving = 828 kcal.\n\nAnswer: 828 kcal.",
+  "raw": {
+    "id": "gen-1785348044-SzXmFOb6w2pW1LFMV2Oi",
+    "object": "chat.completion",
+    "created": 1785348044,
+    "model": "mistralai/mistral-large-2512",
+    "provider": "Mistral",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To determine the kilocalories consumed:\n\n1. Calculate the number of servings in the entire package:\n   396 g (total weight) ÷ 55 g (serving size) = 7.2 servings.\n\n2. Calculate the number of servings eaten:\n   Half of 7.2 servings = 3.6 servings.\n\n3. Calculate the kilocalories consumed:\n   3.6 servings × 230 kcal/serving = 828 kcal.\n\nAnswer: 828 kcal.",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 82,
+      "completion_tokens": 118,
+      "total_tokens": 200,
+      "cost": 0.0002108,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 16,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002108,
+        "upstream_inference_prompt_cost": 0.0000338,
+        "upstream_inference_completions_cost": 0.000177
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 82,
+  "tokensOut": 118,
+  "costUsd": 0.0002108,
+  "latencyMs": 2150,
+  "finishReason": "stop"
+}

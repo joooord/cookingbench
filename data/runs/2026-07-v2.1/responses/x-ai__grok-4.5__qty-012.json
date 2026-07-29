@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "qty-012",
+  "answerText": "Total drinks = 25 guests × 2 = 50  \nTotal gin = 50 × 60 ml = 3000 ml = 3 litres  \n\nAnswer: 3 litres",
+  "raw": {
+    "id": "gen-1785345406-AvUJ8InKMGzfRoxo31Pc",
+    "object": "chat.completion",
+    "created": 1785345406,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Total drinks = 25 guests × 2 = 50  \nTotal gin = 50 × 60 ml = 3000 ml = 3 litres  \n\nAnswer: 3 litres",
+          "refusal": null,
+          "reasoning": "The problem is: A cocktail uses 60 ml gin, 22.5 ml lemon juice and 15 ml syrup per drink. I'm batching for 25 guests at 2 drinks each. How many litres of gin?\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem is: A cocktail uses 60 ml gin, 22.5 ml lemon juice and 15 ml syrup per drink. I'm batching for 25 guests at 2 drinks each. How many litres of gin?\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "GRFVgkrzXOTxO5HLFipxS0lSTwQIfln9H0RjcLSfttNNQMhPXojs6LKazYO4hh/tIs8I/k9AnIBE/Vand+KW0ARwd4zKhNKJ39k+9MWlOVDOdR/wyCJjjYl18O8tTUeIoTOQDOXrV1D8k83ojv9B/TTnJ9qK1++2iMygxiVnet3w0B3sQ1XGR4SgfypJIwWNijN2UnPGijimCfzFPH973tcptCOH/i88aI2NJm6kaNDUjuKueus6na9rBHo9530tgPDqs8WiunD0JPBaNzN28E+sMsu7fMfh6xlFcvXKiEh+gAaykjFg/k7zfgp40gKwhicPc2L6nXgywika8grI/p1Ky/Nak+oL4i4vB1WSRY1ybB59EleJW2q7//HDKhKRodHpF5y6uFI7iE4dk6lHtrPxJ8KgiiZwdtBjM0et3bvngsyMjBFbtd542aTSe6LcvKVacDttqIUTE6wqbzoZOGFqWZYr1yNdYjhGwHf9lNEI",
+              "format": "xai-responses-v1",
+              "id": "rs_e82e543e-57a9-9486-929a-10f7c140eb7c",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 280,
+      "completion_tokens": 145,
+      "total_tokens": 425,
+      "cost": 0.0012124,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0012124,
+        "upstream_inference_prompt_cost": 0.0003424,
+        "upstream_inference_completions_cost": 0.00087
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 108,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 280,
+  "tokensOut": 145,
+  "costUsd": 0.0012124,
+  "latencyMs": 2068,
+  "finishReason": "stop"
+}

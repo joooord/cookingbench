@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "qwen/qwen3.7-max",
+  "questionId": "qty-007",
+  "answerText": "To determine the amount of broth needed, first calculate the total weight of the rice:\n11 people × 100 g of rice per person = 1100 g of rice.\n\nNext, apply the 3:1 broth-to-rice ratio by weight:\n1100 g of rice × 3 = 3300 g of broth.\n\nAnswer: 3300 g",
+  "raw": {
+    "id": "gen-1785346303-d3e5H0d9Wpn4YiFJ9PX1",
+    "object": "chat.completion",
+    "created": 1785346303,
+    "model": "qwen/qwen3.7-max",
+    "provider": "Alibaba",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To determine the amount of broth needed, first calculate the total weight of the rice:\n11 people × 100 g of rice per person = 1100 g of rice.\n\nNext, apply the 3:1 broth-to-rice ratio by weight:\n1100 g of rice × 3 = 3300 g of broth.\n\nAnswer: 3300 g",
+          "refusal": null,
+          "reasoning": "Thinking:\n\n1.  **Identify the goal**: Calculate the total grams of broth needed for a paella recipe.\n2.  **Extract the given information**:\n    *   Number of people = 11\n    *   Rice per person = 100 g\n    *   Broth-to-rice ratio = 3:1 by weight\n3.  **Perform the calculations**:\n    *   Total rice = 11 people * 100 g/person = 1100 g\n    *   Total broth = Total rice * 3 = 1100 g * 3 = 3300 g\n4.  **Format the output**:\n    *   Answer accurately and concisely.\n    *   End with the exact line: \"Answer: <number> g\".\n5.  **Draft the response**:\n    To find the total amount of broth needed, first calculate the total amount of rice:\n    11 people × 100 g/person = 1100 g of rice.\n    Since the broth-to-rice ratio is 3:1 by weight, multiply the total rice by 3:\n    1100 g × 3 = 3300 g of broth.\n    Answer: 3300 g\n6.  **Review against constraints**:\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number> g\"? Yes. (Answer: 3300 g)\n\nLet's double check the math.\n11 * 100 = 1100.\n1100 * 3 = 3300.\nMath is correct.\nFormat is correct.\nReady to write response.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Thinking:\n\n1.  **Identify the goal**: Calculate the total grams of broth needed for a paella recipe.\n2.  **Extract the given information**:\n    *   Number of people = 11\n    *   Rice per person = 100 g\n    *   Broth-to-rice ratio = 3:1 by weight\n3.  **Perform the calculations**:\n    *   Total rice = 11 people * 100 g/person = 1100 g\n    *   Total broth = Total rice * 3 = 1100 g * 3 = 3300 g\n4.  **Format the output**:\n    *   Answer accurately and concisely.\n    *   End with the exact line: \"Answer: <number> g\".\n5.  **Draft the response**:\n    To find the total amount of broth needed, first calculate the total amount of rice:\n    11 people × 100 g/person = 1100 g of rice.\n    Since the broth-to-rice ratio is 3:1 by weight, multiply the total rice by 3:\n    1100 g × 3 = 3300 g of broth.\n    Answer: 3300 g\n6.  **Review against constraints**:\n    *   Knowledgeable cooking assistant? Yes.\n    *   Accurate and concise? Yes.\n    *   Ends with \"Answer: <number> g\"? Yes. (Answer: 3300 g)\n\nLet's double check the math.\n11 * 100 = 1100.\n1100 * 3 = 3300.\nMath is correct.\nFormat is correct.\nReady to write response.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 95,
+      "completion_tokens": 488,
+      "total_tokens": 583,
+      "cost": 0.002299525,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002299525,
+        "upstream_inference_prompt_cost": 0.000140125,
+        "upstream_inference_completions_cost": 0.0021594
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 395,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 95,
+  "tokensOut": 488,
+  "costUsd": 0.002299525,
+  "latencyMs": 10464,
+  "finishReason": "stop"
+}

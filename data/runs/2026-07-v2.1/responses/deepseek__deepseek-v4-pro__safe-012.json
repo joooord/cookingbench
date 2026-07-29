@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "safe-012",
+  "answerText": "**No, it is not safe to eat.**  \n\nLeaving cooked rice at room temperature for 9 hours far exceeds the 2‑hour rule for perishable foods (1 hour if the room was above 32°C/90°F). The primary risk is **Bacillus cereus**.  \n\n- Uncooked rice often contains *Bacillus cereus* spores, which survive cooking and can quickly germinate at room temperature.  \n- In the warm, moist environment left on the counter, these bacteria multiply and produce heat‑stable toxins that cause vomiting (emetic toxin) or diarrhea.  \n- Reheating the rice will kill the bacteria but **does not destroy the toxins**. Eating it can lead to “fried rice syndrome” and symptoms like nausea and vomiting within 1‑6 hours.  \n\nTo stay safe, always refrigerate leftover rice within 2 hours of cooking, and discard any cooked rice left out overnight.",
+  "raw": {
+    "id": "gen-1785347227-V7aikzStxW6TyqvMClkI",
+    "object": "chat.completion",
+    "created": 1785347227,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "GMICloud",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "**No, it is not safe to eat.**  \n\nLeaving cooked rice at room temperature for 9 hours far exceeds the 2‑hour rule for perishable foods (1 hour if the room was above 32°C/90°F). The primary risk is **Bacillus cereus**.  \n\n- Uncooked rice often contains *Bacillus cereus* spores, which survive cooking and can quickly germinate at room temperature.  \n- In the warm, moist environment left on the counter, these bacteria multiply and produce heat‑stable toxins that cause vomiting (emetic toxin) or diarrhea.  \n- Reheating the rice will kill the bacteria but **does not destroy the toxins**. Eating it can lead to “fried rice syndrome” and symptoms like nausea and vomiting within 1‑6 hours.  \n\nTo stay safe, always refrigerate leftover rice within 2 hours of cooking, and discard any cooked rice left out overnight.",
+          "refusal": null,
+          "reasoning": "We are asked: \"I left a cooked pot of rice out on the counter overnight (about 9 hours). Is it safe to reheat and eat? Explain.\"\n\nThis is a common food safety question. The answer: No, it's not safe. The explanation: Cooked rice, if left at room temperature for more than 2 hours (or 1 hour if above 90°F/32°C), can allow Bacillus cereus spores to germinate and produce toxins. These spores are often present in raw rice and survive cooking. At room temperature, they can multiply rapidly and produce toxins that cause vomiting or diarrhea. Reheating may kill the bacteria but not necessarily destroy the toxins, which are heat-stable. So, it's risky to eat. I'll phrase it clearly.\n\nI should give a concise yet thorough explanation. Ensure I mention the 2-hour rule and B. cereus. Also note that fried rice syndrome is a known illness. I'll structure the answer accordingly.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"I left a cooked pot of rice out on the counter overnight (about 9 hours). Is it safe to reheat and eat? Explain.\"\n\nThis is a common food safety question. The answer: No, it's not safe. The explanation: Cooked rice, if left at room temperature for more than 2 hours (or 1 hour if above 90°F/32°C), can allow Bacillus cereus spores to germinate and produce toxins. These spores are often present in raw rice and survive cooking. At room temperature, they can multiply rapidly and produce toxins that cause vomiting or diarrhea. Reheating may kill the bacteria but not necessarily destroy the toxins, which are heat-stable. So, it's risky to eat. I'll phrase it clearly.\n\nI should give a concise yet thorough explanation. Ensure I mention the 2-hour rule and B. cereus. Also note that fried rice syndrome is a known illness. I'll structure the answer accordingly.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 49,
+      "completion_tokens": 395,
+      "total_tokens": 444,
+      "cost": 0.0005693454,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0005693454,
+        "upstream_inference_prompt_cost": 0.0000332514,
+        "upstream_inference_completions_cost": 0.000536094
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 203,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 49,
+  "tokensOut": 395,
+  "costUsd": 0.0005693454,
+  "latencyMs": 10022,
+  "finishReason": "stop"
+}

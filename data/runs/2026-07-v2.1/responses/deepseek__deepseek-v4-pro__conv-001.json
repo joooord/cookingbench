@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "conv-001",
+  "answerText": "To convert 350°F to Celsius for a conventional oven, use the formula:  \n°C = (°F - 32) × 5/9  \n= (350 - 32) × 5/9  \n= 318 × 5/9  \n≈ 176.67°C  \n\nIn cooking, this is typically rounded to 180°C for conventional ovens.\n\nAnswer: 180 °C",
+  "raw": {
+    "id": "gen-1785347086-hqF4ITX1TpoiD3pI8y1y",
+    "object": "chat.completion",
+    "created": 1785347086,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "DeepInfra",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To convert 350°F to Celsius for a conventional oven, use the formula:  \n°C = (°F - 32) × 5/9  \n= (350 - 32) × 5/9  \n= 318 × 5/9  \n≈ 176.67°C  \n\nIn cooking, this is typically rounded to 180°C for conventional ovens.\n\nAnswer: 180 °C",
+          "refusal": null,
+          "reasoning": "We are asked: \"Convert an oven temperature of 350°F to Celsius. Give the conventional (non-fan) oven temperature.\"\n\nWe need to convert 350°F to Celsius. The formula is: C = (F - 32) * 5/9.\n\nSo C = (350 - 32) * 5/9 = 318 * 5/9 = 1590 / 9 = 176.666... ≈ 176.67°C. Typically, oven temperatures are rounded to the nearest 10°C or given as 180°C? But the instruction says \"Give the conventional (non-fan) oven temperature.\" In many recipes, 350°F is equivalent to 180°C for conventional ovens. However, the exact conversion is about 177°C. But oven temperature conversions often use rounded numbers: 350°F is commonly 180°C (conventional). For fan ovens, it's often 160°C. The question specifically says \"conventional (non-fan) oven temperature.\" So we should provide the conventional equivalent. I'll check: In standard conversion charts, 350°F = 180°C (conventional), 160°C (fan). So the answer is likely 180°C. But the instruction says \"Answer: <number> °C\". So I'll output \"Answer: 180 °C\". However, to be precise, the exact conversion is 176.67°C, but in cooking, it's rounded. The problem says \"Give the conventional (non-fan) oven temperature.\" That implies the typical rounded value used in recipes. So I'll go with 180°C.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"Convert an oven temperature of 350°F to Celsius. Give the conventional (non-fan) oven temperature.\"\n\nWe need to convert 350°F to Celsius. The formula is: C = (F - 32) * 5/9.\n\nSo C = (350 - 32) * 5/9 = 318 * 5/9 = 1590 / 9 = 176.666... ≈ 176.67°C. Typically, oven temperatures are rounded to the nearest 10°C or given as 180°C? But the instruction says \"Give the conventional (non-fan) oven temperature.\" In many recipes, 350°F is equivalent to 180°C for conventional ovens. However, the exact conversion is about 177°C. But oven temperature conversions often use rounded numbers: 350°F is commonly 180°C (conventional). For fan ovens, it's often 160°C. The question specifically says \"conventional (non-fan) oven temperature.\" So we should provide the conventional equivalent. I'll check: In standard conversion charts, 350°F = 180°C (conventional), 160°C (fan). So the answer is likely 180°C. But the instruction says \"Answer: <number> °C\". So I'll output \"Answer: 180 °C\". However, to be precise, the exact conversion is 176.67°C, but in cooking, it's rounded. The problem says \"Give the conventional (non-fan) oven temperature.\" That implies the typical rounded value used in recipes. So I'll go with 180°C.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 58,
+      "completion_tokens": 440,
+      "total_tokens": 498,
+      "cost": 0.0012002,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 16,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0012002,
+        "upstream_inference_prompt_cost": 0.0000562,
+        "upstream_inference_completions_cost": 0.001144
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 314,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 58,
+  "tokensOut": 440,
+  "costUsd": 0.0012002,
+  "latencyMs": 6116,
+  "finishReason": "stop"
+}

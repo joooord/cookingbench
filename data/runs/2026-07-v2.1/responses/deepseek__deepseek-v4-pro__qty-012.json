@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "qty-012",
+  "answerText": "Total drinks: 25 guests × 2 drinks each = 50 drinks.\nGin per drink: 60 ml.\nTotal gin: 50 × 60 ml = 3000 ml = 3 litres.\n\nAnswer: 3 litres",
+  "raw": {
+    "id": "gen-1785347413-wxXZRjIgQcUADIt2sjVX",
+    "object": "chat.completion",
+    "created": 1785347413,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "Baidu",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Total drinks: 25 guests × 2 drinks each = 50 drinks.\nGin per drink: 60 ml.\nTotal gin: 50 × 60 ml = 3000 ml = 3 litres.\n\nAnswer: 3 litres",
+          "refusal": null,
+          "reasoning": "We need to calculate total gin for 25 guests at 2 drinks each. So total drinks = 25 * 2 = 50 drinks. Each drink uses 60 ml gin. Total gin = 50 * 60 ml = 3000 ml. Convert to litres: 3000 ml / 1000 = 3 litres. Answer: 3 litres.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need to calculate total gin for 25 guests at 2 drinks each. So total drinks = 25 * 2 = 50 drinks. Each drink uses 60 ml gin. Total gin = 50 * 60 ml = 3000 ml. Convert to litres: 3000 ml / 1000 = 3 litres. Answer: 3 litres.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 77,
+      "completion_tokens": 127,
+      "total_tokens": 204,
+      "cost": 0.0002069743,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002069743,
+        "upstream_inference_prompt_cost": 0.0000481481,
+        "upstream_inference_completions_cost": 0.0001588262
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 75,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 77,
+  "tokensOut": 127,
+  "costUsd": 0.0002069743,
+  "latencyMs": 2695,
+  "finishReason": "stop"
+}

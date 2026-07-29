@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "deepseek/deepseek-v4-pro",
+  "questionId": "safe-003",
+  "answerText": "The food-safety \"danger zone\" is **40°F to 140°F (4°C to 60°C)**. Bacteria multiply fastest within this range, especially between 70°F and 125°F (21°C and 52°C).",
+  "raw": {
+    "id": "gen-1785347203-WaDqymoYXxAiSwydNOS7",
+    "object": "chat.completion",
+    "created": 1785347203,
+    "model": "deepseek/deepseek-v4-pro",
+    "provider": "GMICloud",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The food-safety \"danger zone\" is **40°F to 140°F (4°C to 60°C)**. Bacteria multiply fastest within this range, especially between 70°F and 125°F (21°C and 52°C).",
+          "refusal": null,
+          "reasoning": "We are asked: \"What temperature range is the food-safety 'danger zone', where bacteria multiply fastest? Give both ends of the range.\"\n\nI need to provide the temperature range in both Fahrenheit and Celsius typically. The standard food safety danger zone is 40°F to 140°F (4°C to 60°C). Bacteria grow most rapidly in this range. I'll answer with both units.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We are asked: \"What temperature range is the food-safety 'danger zone', where bacteria multiply fastest? Give both ends of the range.\"\n\nI need to provide the temperature range in both Fahrenheit and Celsius typically. The standard food safety danger zone is 40°F to 140°F (4°C to 60°C). Bacteria grow most rapidly in this range. I'll answer with both units.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 44,
+      "completion_tokens": 142,
+      "total_tokens": 186,
+      "cost": 0.0002225808,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0002225808,
+        "upstream_inference_prompt_cost": 0.0000298584,
+        "upstream_inference_completions_cost": 0.0001927224
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 84,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 44,
+  "tokensOut": 142,
+  "costUsd": 0.0002225808,
+  "latencyMs": 4767,
+  "finishReason": "stop"
+}

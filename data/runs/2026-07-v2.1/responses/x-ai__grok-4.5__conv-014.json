@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "x-ai/grok-4.5",
+  "questionId": "conv-014",
+  "answerText": "250 g ÷ 200 g/cup = 1.25 cups.\n\nAnswer: 1.25 cups",
+  "raw": {
+    "id": "gen-1785345218-rb4RmdEmtEOfAsghiQKF",
+    "object": "chat.completion",
+    "created": 1785345218,
+    "model": "x-ai/grok-4.5",
+    "provider": "xAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "250 g ÷ 200 g/cup = 1.25 cups.\n\nAnswer: 1.25 cups",
+          "refusal": null,
+          "reasoning": "The problem asks: \"A European recipe lists 250 g of caster sugar. Roughly how many US cups is that, given granulated sugar is about 200 g per cup?\"\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "The problem asks: \"A European recipe lists 250 g of caster sugar. Roughly how many US cups is that, given granulated sugar is about 200 g per cup?\"\n",
+              "format": "xai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "Pyz0GvdpVtczaO4nHUuuNN+3xsoaZ5MELyT0X36BoE62X8Ev9/esRsNPbf+BMKo6OLAE5i9dI6dnG3Gtz3TejkVGppj+cmkar0lIOkgVblpv6Acoybe5qfw7Ap2IATelAUZEewC+TIvqJMlRxg1HWKLbhIV9zYDr3wAGW6pvPJyiglPQcZlj0ktVQ1wAcFJK3R3G7PMujDIxUaJcXaEQdwJ5dT+64kDSTb9W8KHLjUa7DrzFfn+FIW9yCZwc7msQ/p+qEKy2rr2aH3NOzRUvFC9OpISHC1YijxicX33t9w2KRCWq0h1rKLiU/UAIwu6Bm7nIpBLRd0gNzVtUdmirX5b3WidCGe2Ll5LJiakoGY7lSGO1Sku1LoFRN+Q90wTxCWqYr/vuDDdNRJa9ilwW6yqh7dIqGsT7ZFxo3mS21BlEKH5Dxzg9Q6mZteZqEojwVlU0Fkgt0cI9WdlZfZxbQS5ynadtISokCjfXnM8emQ8kp16um9U5h1aLhhxukmMfiYiRxfXPQkKUrkl55KcgbpyTWgZIABI2Q/34WuyQ4GLGGRsNfAqHbPQ7z01yxy8Zg52XfcePHyN/m3fCXCnZzdtlydnkFbHqRILmenW7SEkjTx3FP+TyuE76Ye1KOZNiGFVFtvuJZ6xctEJR67u6+8HPVyD/NGP3M0XfMKI7cVu7cMEnraPudJVK5lZDrKq3iXM8q16zziMiCL4h/GZvnJFcqb6PBM4/11hnb7wh0WDc4cHU1gFyfpfwdbZGEfpaTcypiVTtwHUsfqpVmeb3OUKkF6A45S9fHj2rjEx+2gjsfch/uSvgtix9S2Kl3WBcoFNTngsjVmjUxAStJiW7cxwJ1TMqmhP4U72lospNVOVKE5j4jRs",
+              "format": "xai-responses-v1",
+              "id": "rs_f8b27764-4b32-965d-9148-d5859047be17",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 269,
+      "completion_tokens": 186,
+      "total_tokens": 455,
+      "cost": 0.0014364,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 128,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0014364,
+        "upstream_inference_prompt_cost": 0.0003204,
+        "upstream_inference_completions_cost": 0.001116
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 164,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 269,
+  "tokensOut": 186,
+  "costUsd": 0.0014364,
+  "latencyMs": 3350,
+  "finishReason": "stop"
+}
