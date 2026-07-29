@@ -21,6 +21,21 @@ export interface QuestionAnalysis {
   discrimination: number;
   /** Responses with empty text or a non-stop finish reason (transport noise). */
   anomalies: number;
+  /**
+   * This item's share of the total between-model variance across active items.
+   * A handful of items carrying most of the ranking is fragile: in 2026-06-v2
+   * the top ten held 54% of it, so ten authoring mistakes could have moved the
+   * board more than the other ninety-two items combined.
+   */
+  varianceShare?: number;
+  /**
+   * Set when most of the roster lands outside the expected answer on a numeric
+   * item. When two-thirds of frontier models agree with each other and disagree
+   * with the reference, the reference is the more likely error — nutr-036 marks
+   * 10 of 13 wrong on a calorie estimate they all cluster around. Review the
+   * reference before marking the models wrong.
+   */
+  referenceSuspect?: boolean;
   verdict: 'retire-candidate' | 'basics-candidate' | 'keep';
 }
 
@@ -36,6 +51,21 @@ export interface RunAnalysis {
   activeQuestions: number;
   activeAllPerfect: number;
   activeSaturated: number;
+  /**
+   * Active items carrying any between-model signal at all (sd > 1). The gap
+   * between this and activeQuestions is what the benchmark is paying for and
+   * not using: 102 items behaving like about 57.
+   */
+  activeWithSignal: number;
+  /**
+   * How many equally-informative items the active set is worth, by the inverse
+   * Herfindahl of variance shares. Robust to a long tail of near-dead items in
+   * a way that a simple count is not — if one item carried everything this
+   * would be 1, however many items were nominally active.
+   */
+  effectiveItems: number;
+  /** Items whose reference answer most of the roster contradicts. */
+  referenceSuspects: string[];
   questionsAnalyzed: QuestionAnalysis[];
 }
 
@@ -111,6 +141,15 @@ export function analyzeRun(
       q.status === 'active' && q.grader.type !== 'llm-judge' && cleanPerfect
         ? 'basics-candidate'
         : 'keep';
+    // Numeric items are pass/fail per model, so a near-unanimous zero means
+    // either every model is wrong or the expected value is. With frontier
+    // models clustering, the second is the better bet — flag it for review
+    // rather than silently marking the roster wrong.
+    const numericFamily = ['numeric', 'range', 'numeric-multi'].includes(q.grader.type);
+    const zeroes = values.filter((v) => v === 0).length;
+    const referenceSuspect =
+      numericFamily && values.length >= 3 && zeroes / values.length >= 2 / 3;
+
     items.push({
       questionId,
       category: q.category,
@@ -125,9 +164,23 @@ export function analyzeRun(
       allPerfect,
       discrimination: Math.round((avg(top) - avg(bottom)) * 10) / 10,
       anomalies,
+      ...(referenceSuspect ? { referenceSuspect: true } : {}),
       verdict,
     });
   }
+  // Variance shares over active items only — basics are excluded from the
+  // ranking by design, so their saturation is not a defect.
+  const activeItems = items.filter((i) => i.status === 'active');
+  const totalVariance = activeItems.reduce((sum, i) => sum + i.sd * i.sd, 0);
+  for (const item of activeItems) {
+    item.varianceShare =
+      totalVariance > 0 ? Math.round(((item.sd * item.sd) / totalVariance) * 1000) / 1000 : 0;
+  }
+  // Inverse Herfindahl: 1 / sum(share^2). Equal shares over n items gives n;
+  // one item holding everything gives 1.
+  const herfindahl = activeItems.reduce((sum, i) => sum + (i.varianceShare ?? 0) ** 2, 0);
+  const effectiveItems = herfindahl > 0 ? Math.round(10 / herfindahl) / 10 : 0;
+
   items.sort((a, b) => a.sd - b.sd || a.questionId.localeCompare(b.questionId));
 
   return {
@@ -140,6 +193,9 @@ export function analyzeRun(
     activeQuestions: items.filter((i) => i.status === 'active').length,
     activeAllPerfect: items.filter((i) => i.status === 'active' && i.allPerfect).length,
     activeSaturated: items.filter((i) => i.status === 'active' && i.mean >= 95 && i.sd <= 5).length,
+    activeWithSignal: activeItems.filter((i) => i.sd > 1).length,
+    effectiveItems,
+    referenceSuspects: items.filter((i) => i.referenceSuspect).map((i) => i.questionId),
     questionsAnalyzed: items,
   };
 }

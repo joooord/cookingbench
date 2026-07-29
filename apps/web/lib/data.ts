@@ -1,6 +1,7 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { parse } from 'yaml';
+import { questionFileSchema } from '@cookingbench/core';
 import type { CategoryId, Question, Score, StoredResponse } from '@cookingbench/core';
 
 // Data source v1: committed run artifacts in the repo (fully reproducible from
@@ -80,7 +81,15 @@ export function getQuestions(): Question[] {
   const dir = join(DATA_DIR, 'questions');
   const questions: Question[] = [];
   for (const file of readdirSync(dir).filter((f) => f.endsWith('.yaml')).sort()) {
-    questions.push(...(parse(readFileSync(join(dir, file), 'utf8')) as Question[]));
+    // Parse through the schema rather than casting. `status`, `trap` and
+    // `addedIn` are zod defaults, so a bare cast leaves them undefined on every
+    // item that relies on the default — the site only reads `status` to test
+    // for 'basics', which is always written explicitly, so it happens to work.
+    // That is luck, not design, and the next field with a default would break
+    // silently. The runner already loads questions this way.
+    const parsed = questionFileSchema.safeParse(parse(readFileSync(join(dir, file), 'utf8')));
+    if (!parsed.success) throw new Error(`Invalid questions in ${file}: ${parsed.error.message}`);
+    questions.push(...(parsed.data as Question[]));
   }
   return questions;
 }
