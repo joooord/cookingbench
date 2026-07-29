@@ -4,43 +4,36 @@
   "questionId": "qty-009",
   "answerText": "Total baker’s percentage = 171.2%, so flour is 1000 g.\n\nflour: 1000 g  \nwater: 680 g  \nsalt: 20 g  \nyeast: 12 g",
   "raw": {
-    "id": "gen-1785344191-zsxezgBWN3ey5lZAuk8G",
+    "id": "gen-1785348796-y1j2CGFxg4iSjG6Nka9Y",
     "object": "chat.completion",
-    "created": 1785344191,
+    "created": 1785348796,
     "model": "openai/gpt-5.6-terra-pro",
     "provider": "OpenAI",
     "system_fingerprint": null,
-    "service_tier": null,
+    "service_tier": "default",
     "choices": [
       {
         "index": 0,
         "logprobs": null,
-        "finish_reason": "error",
-        "native_finish_reason": null,
-        "error": {
-          "code": 429,
-          "message": "openai/gpt-5.6-terra-pro is temporarily rate-limited upstream. Please retry shortly, or add your own key to accumulate your rate limits: https://openrouter.ai/settings/integrations",
-          "metadata": {
-            "error_type": "rate_limit_exceeded"
-          }
-        },
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
         "message": {
           "role": "assistant",
           "content": "Total baker’s percentage = 171.2%, so flour is 1000 g.\n\nflour: 1000 g  \nwater: 680 g  \nsalt: 20 g  \nyeast: 12 g",
           "refusal": null,
-          "reasoning": "**Calculating ingredient proportions**\n\nI need to find the total percentage, which I have as 171.2. So, I'm dividing flour, 1712 by 1.712, which gives me 1000. When I multiply 1.712 by 1000, I get back to 1712. \n\nNow I have other ingredients: water should be 680, salt is 20, and yeast is 12. I should line them up, clearly indicating how much of each ingredient is needed, and make sure to mention the total at the end while keeping everything precise.",
+          "reasoning": "**Calculating ingredient percentages**\n\nI need the total percentage to be 171.2%. For flour, I’ll compute it by dividing the total by 1.712. So, if I take 1712 divided by 1.712, I get exactly 1000 for the flour measurement. Then, I have water as 680, salt at 20, and yeast at 12. I'll ensure each ingredient line is clear and follows the exact prescribed amounts. I might also provide a brief explanation for clarity.",
           "reasoning_details": [
             {
               "type": "reasoning.summary",
-              "summary": "**Calculating ingredient proportions**\n\nI need to find the total percentage, which I have as 171.2. So, I'm dividing flour, 1712 by 1.712, which gives me 1000. When I multiply 1.712 by 1000, I get back to 1712. \n\nNow I have other ingredients: water should be 680, salt is 20, and yeast is 12. I should line them up, clearly indicating how much of each ingredient is needed, and make sure to mention the total at the end while keeping everything precise.",
+              "summary": "**Calculating ingredient percentages**\n\nI need the total percentage to be 171.2%. For flour, I’ll compute it by dividing the total by 1.712. So, if I take 1712 divided by 1.712, I get exactly 1000 for the flour measurement. Then, I have water as 680, salt at 20, and yeast at 12. I'll ensure each ingredient line is clear and follows the exact prescribed amounts. I might also provide a brief explanation for clarity.",
               "format": "openai-responses-v1",
               "index": 0
             },
             {
               "type": "reasoning.encrypted",
-              "data": "gAAAAABqajDFvLfgUznzbRUtlTUi5yhGuGNlqAECDnyhlGVYkXdEvKidznaJDNPGV1uPu9BahzN6BFWoa_oTW2nihk_n5tIfqpML6P1xPde37NsVa-ar4Lb62Fqn_6r_CHLx6rZ1GTvh-ljkaioFrQXB44_j0tQpyT0-9f1xh8Ot6Y1VR6IWRNBcKmCwQ7HuuwGz95eyA-Zbw29YU4g7OdE9b_ElssM_N2YeIJXhR7m9w3I1NrobWOXVg8iLyZJsVTyHWD5Mwc0z6KOTpSlXiVNd70FG9pb8OXDxzQQ9t0QoMFkFb5m40CYAlYtF5Q92Wcr9tUtnmykGWq52XIgqCVdMXS70TcYBgFgxmcFeUUCVTphP7j-AHKy7ORYn7GU78mhyZIcKX0teOPDD5iCGuGt2I5azuACQx23NxJ9Nhgm47potqpMhYnCQVlqxWaq8sKzxGyiSNgfYykvBhr9CWMmrhRs1CpasZLCBLtJjB0gpaujMze2ZXGT8Dyz8RrpMZ8F1ooyrnsri3U5wg3eCoxl1uUV-UzFZM0DcTLX4yc28KSd7ZwSI3k9LgBsfAw_sxd4Ib5iObu_MAMrDr_tSHrs9ly480qBMqoqtGEFt_JziY0sj28bjbqaVmuFAaES3ECATMAUlqAuZ6PFIexsCWwg5BBNrn__44QYo8c3qCffokvQg3jN5MRRZkqcKtTaQN_Cv_g5yvVYHmy_vcIOSon4sJbvzTHFUCzXyhVmW5t3ZvZb_rSk_wSKrug0Lb_x4n2hznkaTX5LZT7J335kEzmk-1AtuxVE5MrcMTOXmpATyw0GQW8hGXDL4rq3jqTFgv0rHDcDSccBmg74usJ5i2OCeCR1nfCgixEZnaaXJkdbeqPD-MnYeKoPGcSF-ZCD3S8nuVtQtLWxehbn06n6Sa6I-Xz-IDmKc3Bmy_wRG9h6gBkhCP0QTzDLriWITvB-9pLGLvoyXU8mkjnWKbrFr3nWDPtsuTBKH9ztV3L6cRpFrYVkfNCThWn-Cyx7hLIAGoNNOYJkpTQmfAwSCak-VKTKL-BONDeToaRyz5ABS1FjVAceNwWwj2uBt8TD53L21zTes-IAv2zGwh5SPmYjYbToS7lUcU6AzHJV_W3dvLVU3wfSzEsuIER6nbPXFPNmZsfXv0_hTHIkbDD01NUNecazdS6wycvXq3oX9wJ4HlJ2qgZmIF6aP-9U=",
+              "data": "gAAAAABqakLHW_yrUZWyUuU4a-0Uv_L8dJB681ayvcX2tkyYv65tUYVNXStt5d36R81gRDQDW0dgCf-6GyPJtkh0HTPvr6oagIC6zmow6Z9YevuLkdmZpcncET8uOCEtNZDZZpFbo-CaIDYRI9rasDFBBvBWJTYmq36RNlP90ra_YqbDJ19Z1uOq1FhZx6LAvsFkVzV72nQ2hCFUm2Oa9INhYIyeOduel_4FIaIcOySBVmYfSBkNf21BtZFbialWnbyQBk--6b02ehrtqH3bX6pys_od1us8PJS92WgNF5WJ8BeKPz4_D3_Y8a9pC6xld2-cX-PAukPHyJlc5ab2bGrTQJEJdJe7vK4itggbACFHikn53uHBMQy20Mch6guLDAUl76WmENDAD-1_h1ZGx5sQaIihSCJbW4RL0S63MQXSBQjGxtRjMCvneZYc1-RX2xQcJMxmT1A7WQyDdtmaoaucMF1Z9npa-wMvWK71thQtBXlXvpnGwYC0hAlLfEMKJnNVIQVySkHHAaNmzFodlGhgxRPiP6-utyD9sjmk0exgWr6_zI81Ar43eJGwhpf5UasCnYL5IFQZa0yUUjNvZNlEa6c_YMxKbMeqp5m9qGuFNz_tkPPzNeP95YpHYZXajWjk9ryZPbp9yypZ9p74BCrrC_ZC1bu3Q6gt6i228MKD_Tj27mt0V153T6NqNR4HCf03vaIQ1BqCQWFAjko53-M1z5qrx3ssop450rlPPTiMh4sUjyjmqvOqq2YMfQJjRkcEuyQ_ZkzKJEX93rSNnmlNH4lI9npqZMitEnEisd4XQcWE-BYtjEvQPCxcS589IEGjwowF19x_8JKsimr-xHyq37xu7f7tzP3P_zNJD94i6apDFXAxrpLncHv5WTFbceMPTJ7kJYIYQPohuobLGPnix_x-SfMFzLd-GwWxi-XPmAY9mkx6Qy4r7nJYzsYmp4DH4epp3hM1uAuM1ITMSgvQJthcBNZVYlHFe2fZ8rAXJFM2LHU4SXq-7nEfeTIac4NbIyeTgzspXJmOLLsttCTL686SfeicUkWEOpk7lWgNLGyGfwT_VVC_2Y7ySwTWpLGk7wMhT9tzaa_R_AYRfxOuMmM_hmtumYfXvAuuW0HK66cCwVn1jXDPTpsf7ztMH9yFJE_PIDdQg2H_6aQdkDKj-FlEOiTJgoPZfwifAzYWjYCAgh6mCcEsSb7RbiRwEipaXuNYg3MD",
               "format": "openai-responses-v1",
-              "id": "rs_0486258efcf981fb016a6a30c3bc90819fabcd01ab70a8e0e6",
+              "id": "rs_08df8fa5e3984719016a6a42c5750881a2a5509adb8af2a8af",
               "index": 1
             }
           ]
@@ -48,10 +41,10 @@
       }
     ],
     "usage": {
-      "prompt_tokens": 85,
-      "completion_tokens": 146,
-      "total_tokens": 231,
-      "cost": 0,
+      "prompt_tokens": 1894,
+      "completion_tokens": 268,
+      "total_tokens": 2162,
+      "cost": 0.0043775,
       "is_byok": false,
       "prompt_tokens_details": {
         "cached_tokens": 0,
@@ -60,21 +53,20 @@
         "video_tokens": 0
       },
       "cost_details": {
-        "upstream_inference_cost": 0.00120125,
-        "upstream_inference_prompt_cost": 0.00010625,
-        "upstream_inference_completions_cost": 0.001095
+        "upstream_inference_cost": 0.0043775,
+        "upstream_inference_prompt_cost": 0.0023675,
+        "upstream_inference_completions_cost": 0.00201
       },
       "completion_tokens_details": {
-        "reasoning_tokens": 115,
+        "reasoning_tokens": 140,
         "image_tokens": 0,
         "audio_tokens": 0
       }
     }
   },
-  "tokensIn": 85,
-  "tokensOut": 146,
-  "costUsd": 0,
-  "latencyMs": 6536,
-  "finishReason": "error",
-  "transportFailure": true
+  "tokensIn": 1894,
+  "tokensOut": 268,
+  "costUsd": 0.0043775,
+  "latencyMs": 10646,
+  "finishReason": "stop"
 }

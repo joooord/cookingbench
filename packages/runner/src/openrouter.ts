@@ -93,10 +93,29 @@ export class OpenRouterClient implements CompletionClient {
         await new Promise((r) => setTimeout(r, backoff));
         continue;
       }
-      const json = (await res.json()) as {
+      // A 200 whose body dies mid-transfer used to escape this loop entirely:
+      // `res.json()` threw "Unexpected end of JSON input" from outside the try
+      // above, so it propagated past every remaining attempt and out of
+      // complete(). cmdRun caught it, stored no artifact, and the model was
+      // quietly averaged over fewer questions than its peers. It cost four
+      // responses in run 2026-07-v2.1 alone. A truncated body is a dropped
+      // socket that happened to send headers first — retry it like one.
+      let json: {
         choices?: Array<{ message?: { content?: string }; finish_reason?: string }>;
         usage?: { prompt_tokens?: number; completion_tokens?: number; cost?: number };
       };
+      try {
+        const body = await res.text();
+        json = JSON.parse(body);
+      } catch (error) {
+        lastError = new Error(
+          `OpenRouter returned an unreadable body for ${modelId}: ${(error as Error).message}`,
+        );
+        if (attempt === MAX_ATTEMPTS) break;
+        const backoff = 2000 * 2 ** (attempt - 1) * (0.8 + Math.random() * 0.4);
+        await new Promise((r) => setTimeout(r, backoff));
+        continue;
+      }
       const choice = json.choices?.[0];
       return {
         text: choice?.message?.content ?? '',

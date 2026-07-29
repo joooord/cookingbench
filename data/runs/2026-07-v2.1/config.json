@@ -19,7 +19,7 @@
   "temperature": 0,
   "maxTokens": 16000,
   "maxTokensRecipe": 32000,
-  "budgetUsdTotal": 40,
+  "budgetUsdTotal": 46,
   "budgetUsdPerModel": 0,
   "concurrency": 4,
   "judgeModel": "panel-v1",
@@ -54,6 +54,17 @@
       "maxTokensRecipe": 32000,
       "budgetUsdTotal": 40,
       "note": "Reconstructed from the stored responses, which are ground truth for who ran. This run executed as several per-model batches before config merging existed, so batch boundaries and their individual --budget caps are not recoverable; the model list is exact. Responses carry no capture timestamp, so the window 2026-07-29T15:54:04Z to 2026-07-29T18:09:20Z comes from file mtimes and is indicative only. Actual spend is the sum of costUsd across responses, not this cap."
+    },
+    {
+      "startedAt": "2026-07-29T18:13:16.639Z",
+      "models": [
+        "qwen/qwen3.7-max",
+        "meta-llama/llama-4-maverick",
+        "openai/gpt-5.6-terra-pro"
+      ],
+      "maxTokens": 16000,
+      "maxTokensRecipe": 32000,
+      "budgetUsdTotal": 6
     }
   ]
 }
