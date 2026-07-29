@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { estimateModelCost, type Question } from '@cookingbench/core';
+import { EXPECTED_OUTPUT_TOKENS, estimateModelCost, type Question } from '@cookingbench/core';
 import { DATA_DIR, buildMessages, maxTokensFor } from './dataset.js';
 import { fetchCatalog } from './openrouter.js';
 
@@ -12,7 +12,8 @@ export interface EstimateRecord {
   hash: string;
   atIso: string;
   totalWorstCaseUsd: number;
-  perModel: Array<{ modelId: string; calls: number; worstCaseUsd: number }>;
+  totalExpectedUsd: number;
+  perModel: Array<{ modelId: string; calls: number; worstCaseUsd: number; expectedUsd: number }>;
 }
 
 export function estimateHash(
@@ -39,10 +40,15 @@ export async function runEstimate(
       .map((m) => m.content)
       .join('\n'),
     maxTokens: maxTokensFor(q, config),
+    expectedTokens:
+      q.category === 'recipe-generation'
+        ? EXPECTED_OUTPUT_TOKENS.recipe
+        : EXPECTED_OUTPUT_TOKENS.normal,
   }));
 
   const perModel: EstimateRecord['perModel'] = [];
   let total = 0;
+  let expected = 0;
   const missing: string[] = [];
   for (const modelId of modelIds) {
     const entry = catalog.get(modelId);
@@ -51,8 +57,9 @@ export async function runEstimate(
       continue;
     }
     const cost = estimateModelCost(prompts, entry.pricing);
-    perModel.push({ modelId, calls: cost.calls, worstCaseUsd: cost.worstCaseUsd });
+    perModel.push({ modelId, calls: cost.calls, worstCaseUsd: cost.worstCaseUsd, expectedUsd: cost.expectedUsd });
     total += cost.worstCaseUsd;
+    expected += cost.expectedUsd;
   }
   if (missing.length > 0) {
     throw new Error(
@@ -63,6 +70,7 @@ export async function runEstimate(
     hash: estimateHash(modelIds, questions, config.maxTokens, config.maxTokensRecipe),
     atIso: new Date().toISOString(),
     totalWorstCaseUsd: total,
+    totalExpectedUsd: expected,
     perModel,
   };
   writeFileSync(ESTIMATE_PATH, JSON.stringify(record, null, 2));

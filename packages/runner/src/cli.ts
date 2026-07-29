@@ -385,7 +385,8 @@ async function cmdEstimate() {
   for (const m of record.perModel) {
     console.log(`    ${m.modelId.padEnd(40)} ${m.calls} calls   $${m.worstCaseUsd.toFixed(2)}`);
   }
-  console.log(`\n  TOTAL worst case: $${record.totalWorstCaseUsd.toFixed(2)}`);
+  console.log(`\n  TOTAL expected:   $${record.totalExpectedUsd.toFixed(2)}   <- budget against this`);
+  console.log(`  TOTAL worst case: $${record.totalWorstCaseUsd.toFixed(2)}   (every call filling its cap; ~8x reality)`);
   console.log('  (Worst case assumes every response uses its full max_tokens — actuals run lower.)');
   console.log(`\n✓ Estimate saved. Valid for 24h. Now run: pnpm bench run --budget <usd>`);
 }
@@ -463,11 +464,23 @@ async function cmdRun() {
     }
     const estimate = assertFreshEstimate(modelIds, questions, DEFAULTS);
     console.log(
-      `Estimate on file: worst case $${estimate.totalWorstCaseUsd.toFixed(2)} | hard cap $${totalBudget.toFixed(2)}`,
+      `Estimate on file: expected $${estimate.totalExpectedUsd.toFixed(2)} | worst case $${estimate.totalWorstCaseUsd.toFixed(2)} | hard cap $${totalBudget.toFixed(2)}`,
     );
-    if (estimate.totalWorstCaseUsd > totalBudget) {
+    // Gate on the EXPECTED cost, not the worst case. Worst case assumes every
+    // call fills its max_tokens; with the recipe cap at 32k that is roughly 8x
+    // what models actually emit, and gating on it would demand --budget 343 for
+    // a batch that really costs about $8 — which makes the cap meaningless.
+    // BudgetGuard still enforces the hard ceiling against ACTUAL spend at
+    // runtime, so an underestimate costs an early abort, not an overspend.
+    if (estimate.totalExpectedUsd > totalBudget) {
       fail(
-        `Worst-case estimate ($${estimate.totalWorstCaseUsd.toFixed(2)}) exceeds the budget cap ($${totalBudget.toFixed(2)}). Raise --budget or trim models/questions.`,
+        `Expected cost ($${estimate.totalExpectedUsd.toFixed(2)}) exceeds the budget cap ($${totalBudget.toFixed(2)}). Raise --budget or trim models/questions.`,
+      );
+    }
+    if (estimate.totalWorstCaseUsd > totalBudget) {
+      console.warn(
+        `⚠ Worst case ($${estimate.totalWorstCaseUsd.toFixed(2)}) exceeds the cap ($${totalBudget.toFixed(2)}). ` +
+          `Expected is $${estimate.totalExpectedUsd.toFixed(2)}; the run will abort gracefully if actual spend reaches the cap.`,
       );
     }
     client = new OpenRouterClient();
