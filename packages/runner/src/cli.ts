@@ -21,6 +21,7 @@ import { buildLeaderboard } from './report.js';
 import {
   hasResponse,
   listRuns,
+  mergeRunConfig,
   readResponses,
   readRunConfig,
   readScores,
@@ -487,13 +488,14 @@ async function cmdRun() {
     budget = new BudgetGuard(totalBudget, perModelBudget);
   }
 
+  const batchBudget = mock ? 0 : Number(arg('budget'));
   const config: RunConfig = {
     runId,
     models: modelIds,
     temperature: DEFAULTS.temperature,
     maxTokens: DEFAULTS.maxTokens,
     maxTokensRecipe: DEFAULTS.maxTokensRecipe,
-    budgetUsdTotal: mock ? 0 : Number(arg('budget')),
+    budgetUsdTotal: batchBudget,
     budgetUsdPerModel: mock ? 0 : Number(arg('per-model-budget') ?? 0),
     concurrency: DEFAULTS.concurrency,
     judgeModel: DEFAULTS.judgeModel,
@@ -501,8 +503,19 @@ async function cmdRun() {
     judgePromptVersion: JUDGE_PROMPT_VERSION,
     methodologyVersion: DEFAULTS.methodologyVersion,
     mock,
+    batches: [
+      {
+        startedAt: new Date().toISOString(),
+        models: modelIds,
+        maxTokens: DEFAULTS.maxTokens,
+        maxTokensRecipe: DEFAULTS.maxTokensRecipe,
+        budgetUsdTotal: batchBudget,
+      },
+    ],
   };
-  writeRunConfig(config);
+  // Merge, don't replace: a run is assembled from per-model batches, and the
+  // published config has to describe all of them.
+  mergeRunConfig(config);
 
   const tasks: Array<{ modelId: string; question: Question }> = [];
   for (const modelId of modelIds) {

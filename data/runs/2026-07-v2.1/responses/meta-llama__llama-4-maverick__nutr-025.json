@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "nutr-025",
+  "answerText": "To estimate the nutritional content of the cooked steaks, we first need to determine their weight after trimming. \n\n1. Initial total weight = 2 steaks * 300 g/steak = 600 g\n2. Weight removed due to trimming = 15% of 600 g = 0.15 * 600 g = 90 g\n3. Total weight after trimming = 600 g - 90 g = 510 g\n\nThe raw weight after trimming is 510 g. When cooked, sirloin steaks typically lose about 25-30% of their weight due to moisture loss. Let's assume an average loss of 27.5%.\n\n1. Weight loss during cooking = 27.5% of 510 g = 0.275 * 510 g = 140.25 g\n2. Total cooked weight = 510 g - 140.25 g = 369.75 g\n\nNow, let's estimate the nutritional content. The raw sirloin steak (before trimming) is approximately 6-7% fat and 20-22% protein by weight. After removing the fat cap, the fat percentage decreases. Let's assume the trimmed raw sirloin is about 4-5% fat. We'll use 4.5% for our calculation. For protein, let's assume it remains around 21% after trimming because the fat cap removal doesn't significantly affect the protein content.\n\n1. Raw protein content = 21% of 510 g = 0.21 * 510 g = 107.1 g\n2. Raw fat content = 4.5% of 510 g = 0.045 * 510 g = 22.95 g\n\nCooking doesn't significantly change the protein and fat content in terms of percentage of the cooked weight, but since the weight decreases, the absolute amount remains roughly the same.\n\n1. Cooked protein content ≈ raw protein content = 107.1 g\n2. Cooked fat content ≈ raw fat content = 22.95 g\n\nTo estimate calories, we use the fact that protein and fat provide approximately 4 kcal/g and 9 kcal/g, respectively.\n\n1. Calories from protein = 107.1 g * 4 kcal/g = 428.4 kcal\n2. Calories from fat = 22.95 g * 9 kcal/g = 206.55 kcal\n3. Total calories = 428.4 kcal + 206.55 kcal = 634.95 kcal\n\nProtein: 107 g, \nFat: 23 g, \nCalories: 635 kcal",
+  "raw": {
+    "id": "gen-1785348375-BE5v66XI5BDVJy0p6FW5",
+    "object": "chat.completion",
+    "created": 1785348375,
+    "model": "meta-llama/llama-4-maverick",
+    "provider": "Parasail",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To estimate the nutritional content of the cooked steaks, we first need to determine their weight after trimming. \n\n1. Initial total weight = 2 steaks * 300 g/steak = 600 g\n2. Weight removed due to trimming = 15% of 600 g = 0.15 * 600 g = 90 g\n3. Total weight after trimming = 600 g - 90 g = 510 g\n\nThe raw weight after trimming is 510 g. When cooked, sirloin steaks typically lose about 25-30% of their weight due to moisture loss. Let's assume an average loss of 27.5%.\n\n1. Weight loss during cooking = 27.5% of 510 g = 0.275 * 510 g = 140.25 g\n2. Total cooked weight = 510 g - 140.25 g = 369.75 g\n\nNow, let's estimate the nutritional content. The raw sirloin steak (before trimming) is approximately 6-7% fat and 20-22% protein by weight. After removing the fat cap, the fat percentage decreases. Let's assume the trimmed raw sirloin is about 4-5% fat. We'll use 4.5% for our calculation. For protein, let's assume it remains around 21% after trimming because the fat cap removal doesn't significantly affect the protein content.\n\n1. Raw protein content = 21% of 510 g = 0.21 * 510 g = 107.1 g\n2. Raw fat content = 4.5% of 510 g = 0.045 * 510 g = 22.95 g\n\nCooking doesn't significantly change the protein and fat content in terms of percentage of the cooked weight, but since the weight decreases, the absolute amount remains roughly the same.\n\n1. Cooked protein content ≈ raw protein content = 107.1 g\n2. Cooked fat content ≈ raw fat content = 22.95 g\n\nTo estimate calories, we use the fact that protein and fat provide approximately 4 kcal/g and 9 kcal/g, respectively.\n\n1. Calories from protein = 107.1 g * 4 kcal/g = 428.4 kcal\n2. Calories from fat = 22.95 g * 9 kcal/g = 206.55 kcal\n3. Total calories = 428.4 kcal + 206.55 kcal = 634.95 kcal\n\nProtein: 107 g, \nFat: 23 g, \nCalories: 635 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 123,
+      "completion_tokens": 534,
+      "total_tokens": 657,
+      "cost": 0.00057417,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 16,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00057417,
+        "upstream_inference_prompt_cost": 0.00004017,
+        "upstream_inference_completions_cost": 0.000534
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 123,
+  "tokensOut": 534,
+  "costUsd": 0.00057417,
+  "latencyMs": 4847,
+  "finishReason": "stop"
+}

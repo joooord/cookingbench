@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "qty-018",
+  "answerText": "To determine the amount of olive oil needed, first, we need to find out how much butter is required for 10 people. The original recipe serves 6 and requires 1.5 sticks of butter. \n\n1.5 sticks of butter for 6 people means (1.5 / 6) * 10 = 2.5 sticks of butter for 10 people.\n\nSince 1 stick of butter is equal to 113 grams or 113 ml (as the density of butter is approximately 0.91 g/ml, but for simplicity, we often use 1:1 ratio for butter), 2.5 sticks of butter is 2.5 * 113 ml = 282.5 ml.\n\nNow, we'll use the standard swap ratio of ¾ the volume of butter to find the olive oil needed. \n¾ * 282.5 ml = 0.75 * 282.5 = 211.875 ml.\n\nRounding to a practical measurement, we need approximately 212 ml of olive oil.\n\nAnswer: 212 ml.",
+  "raw": {
+    "id": "gen-1785348462-WJop2V6LtnUz58UASMNt",
+    "object": "chat.completion",
+    "created": 1785348462,
+    "model": "meta-llama/llama-4-maverick",
+    "provider": "Parasail",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To determine the amount of olive oil needed, first, we need to find out how much butter is required for 10 people. The original recipe serves 6 and requires 1.5 sticks of butter. \n\n1.5 sticks of butter for 6 people means (1.5 / 6) * 10 = 2.5 sticks of butter for 10 people.\n\nSince 1 stick of butter is equal to 113 grams or 113 ml (as the density of butter is approximately 0.91 g/ml, but for simplicity, we often use 1:1 ratio for butter), 2.5 sticks of butter is 2.5 * 113 ml = 282.5 ml.\n\nNow, we'll use the standard swap ratio of ¾ the volume of butter to find the olive oil needed. \n¾ * 282.5 ml = 0.75 * 282.5 = 211.875 ml.\n\nRounding to a practical measurement, we need approximately 212 ml of olive oil.\n\nAnswer: 212 ml.",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 103,
+      "completion_tokens": 217,
+      "total_tokens": 320,
+      "cost": 0.00024729,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 32,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00024729,
+        "upstream_inference_prompt_cost": 0.00003029,
+        "upstream_inference_completions_cost": 0.000217
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 103,
+  "tokensOut": 217,
+  "costUsd": 0.00024729,
+  "latencyMs": 2311,
+  "finishReason": "stop"
+}

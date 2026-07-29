@@ -204,6 +204,27 @@ export interface RunConfig {
   judgeCostUsd?: number;
   methodologyVersion: string;
   mock?: boolean;
+  /**
+   * One entry per `bench run` invocation against this run id.
+   *
+   * Batching per model is the documented way to run this benchmark (RUNBOOK,
+   * CLAUDE.md: "batch per model with a budget just above that batch's worst
+   * case"), but `writeRunConfig` overwrote the whole file each time, so the
+   * published config described only the final batch. `2026-06-v2` records one
+   * model and a leaderboard of thirteen; `2026-07-v2.1` recorded seven of
+   * fourteen. `models` is now the union across batches and this is the audit
+   * trail behind it — including any batch that ran at different token caps,
+   * which would otherwise be invisible.
+   */
+  batches?: RunBatch[];
+}
+
+export interface RunBatch {
+  startedAt: string;
+  models: string[];
+  maxTokens: number;
+  maxTokensRecipe: number;
+  budgetUsdTotal: number;
 }
 
 export interface StoredResponse {

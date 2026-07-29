@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "meta-llama/llama-4-maverick",
+  "questionId": "qty-009",
+  "answerText": "To find the weight of each ingredient, first, we need to calculate the total percentage, which is 100 + 68 + 2 + 1.2 = 171.2%. \n\nThe weight of flour is considered as the base (100%). To find the total dough weight based on the percentages given, we use the formula: Total dough weight = (weight of flour) * (total percentage / 100).\n\nLet's denote the weight of flour as F. So, F * (171.2 / 100) = 1712 g.\n\nF = 1712 / 1.712 = 1000 g.\n\nNow, we can calculate the weight of each ingredient:\n- Flour = 100% of F = 1000 g\n- Water = 68% of F = 0.68 * 1000 = 680 g\n- Salt = 2% of F = 0.02 * 1000 = 20 g\n- Yeast = 1.2% of F = 0.012 * 1000 = 12 g\n\nFlour: 1000 g\nWater: 680 g\nSalt: 20 g\nYeast: 12 g",
+  "raw": {
+    "id": "gen-1785348433-pWL9mN4rUd1ykftpSW54",
+    "object": "chat.completion",
+    "created": 1785348433,
+    "model": "meta-llama/llama-4-maverick",
+    "provider": "DigitalOcean",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To find the weight of each ingredient, first, we need to calculate the total percentage, which is 100 + 68 + 2 + 1.2 = 171.2%. \n\nThe weight of flour is considered as the base (100%). To find the total dough weight based on the percentages given, we use the formula: Total dough weight = (weight of flour) * (total percentage / 100).\n\nLet's denote the weight of flour as F. So, F * (171.2 / 100) = 1712 g.\n\nF = 1712 / 1.712 = 1000 g.\n\nNow, we can calculate the weight of each ingredient:\n- Flour = 100% of F = 1000 g\n- Water = 68% of F = 0.68 * 1000 = 680 g\n- Salt = 2% of F = 0.02 * 1000 = 20 g\n- Yeast = 1.2% of F = 0.012 * 1000 = 12 g\n\nFlour: 1000 g\nWater: 680 g\nSalt: 20 g\nYeast: 12 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 93,
+      "completion_tokens": 250,
+      "total_tokens": 343,
+      "cost": 0.00024075,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00024075,
+        "upstream_inference_prompt_cost": 0.00002325,
+        "upstream_inference_completions_cost": 0.0002175
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 93,
+  "tokensOut": 250,
+  "costUsd": 0.00024075,
+  "latencyMs": 19092,
+  "finishReason": "stop"
+}
