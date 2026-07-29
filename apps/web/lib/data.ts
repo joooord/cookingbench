@@ -52,11 +52,32 @@ function readJson<T>(path: string): T {
  *
  * The discriminator is already in the artifact: config.json carries mock:true.
  */
+/**
+ * Smallest share of the current question set a run must cover before its
+ * leaderboard is allowed to be the published one.
+ *
+ * A canary is a real (non-mock) run over `--limit 10`, so the mock flag does
+ * not catch it, and its `generatedAt` is by definition newer than anything
+ * already published. A board built from ten questions is not comparable to one
+ * built from all of them and must never outrank it.
+ *
+ * Deliberately a share rather than an exact match: the dataset grows, and a
+ * genuine past run measured over slightly fewer questions than exist today is
+ * still a real board. Only a fraction of the set is disqualifying.
+ */
+const MIN_COVERAGE = 0.5;
+
 function isPublishable(dir: string): boolean {
   const configPath = join(RUNS_DIR, dir, 'config.json');
   if (!existsSync(configPath)) return false;
   try {
-    return readJson<{ mock?: boolean }>(configPath).mock !== true;
+    if (readJson<{ mock?: boolean }>(configPath).mock === true) return false;
+    const boardPath = join(RUNS_DIR, dir, 'leaderboard.json');
+    if (!existsSync(boardPath)) return false;
+    const rows = readJson<LeaderboardReport>(boardPath).rows;
+    if (rows.length === 0) return false;
+    const covered = Math.max(...rows.map((r) => r.questionsGraded));
+    return covered >= getQuestions().length * MIN_COVERAGE;
   } catch {
     return false;
   }
