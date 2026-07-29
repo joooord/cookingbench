@@ -242,26 +242,54 @@ turnover rather than becoming a small-model detector. Costs **~$0.30/candidate**
 for judged items (a two-seat panel per model), not the $0.004 first estimated.
 Stage 2 (is the low scorer actually wrong, or is the grader?) is **not built**.
 
+### Run 2026-07-v2.1 — complete, and mostly a tie
+
+14 models × 184 questions, methodology **v2** (corrected graders, refreshed
+roster — the v3 gate/craft split in `docs/V3-PLAN.md` is not built, hence the
+id). All 14 at 184/184, zero empty answers, 3 incidents (Fable 5
+`content_filter` on nutrition items — reproducible model behaviour, not
+transport). 630 answers judged, **0 unjudged**, 73 flagged (11.6%).
+Candidates $26.93 + judging $14.19.
+
+**The board says the top three are 96.0, 96.0, 96.0. They are tied, and
+`analyze` now proves it.** Per-model CIs on the board are *marginal*, so they
+neither confirm nor refute an ordering. Every model answers the same items, so
+the comparison must be **paired** — resample the per-item score *differences*.
+Of 13 adjacent pairs, exactly **one** is genuinely ordered (qwen3.7-max >
+mistral-large, P=0.951). The top three sit within 0.05 points at P≈0.52.
+
+The one defensible "best" claim: on the **35 frontier items** (difficulty ≥ 4 —
+a pre-declared column, not a post-hoc slice) **Grok 4.5 leads at 98.6 and
+separates from GPT-5.4 Mini at P=0.975**, and from Gemini 3.1 Pro, Terra Pro
+and Gemini 3.6 Flash. It does *not* separate from GPT-5.6 Sol Pro (P=0.924).
+
+Never quote an ordering off the overall column without checking
+`analysis.separation`. A 0.01-point lead is not a result.
+
 ### Where the dataset actually stands
 
-- 102 active items, but only **65 carry any signal** and `effectiveItems` (inverse
-  Herfindahl of variance share) is **26.3**. You are paying for 102 and running
-  about 26.
-- 36 active items are scored 100 by every model.
-- `analyze` now emits `activeWithSignal`, `effectiveItems`, per-item
-  `varianceShare`, and `referenceSuspect` — the last flags numeric items where
-  two-thirds of the roster *and* the top half disagree with the expected value.
-  It catches exactly one: `nutr-036`, where 10 of 13 models say 1200–1600 kcal
-  against a 700–1050 reference. Suspect the reference, not the models.
+- 102 active items, **64 carry any signal**, `effectiveItems` (inverse Herfindahl
+  of variance share) is **24.2**. You are paying for 102 and running about 24.
+- **33 active items are scored 100 by every one of 14 models.**
+- Judged answers scoring exactly 100: **50%**, against a target of <35%. Active
+  all-perfect 32% against a target of ≤15%. Both barely moved from v2 (35%/52%)
+  — because the *content* did not change. Scoring mechanics are no longer the
+  lever; authoring harder items is.
+- `analyze` emits `activeWithSignal`, `effectiveItems`, per-item `varianceShare`,
+  `separation`, and `referenceSuspect`. On this run `referenceSuspects` is
+  **empty** — `nutr-036`, the one v2 suspect, is no longer flagged by the newer
+  roster. Re-read it before assuming it is fixed.
 
 ### Open items
 
-- Run `2026-07-v2.1` in flight: 14 models × 184 questions, methodology **v2**
-  (corrected graders, refreshed roster — the v3 gate/craft tier split in
-  `docs/V3-PLAN.md` is not built, hence the id).
+- **Author the v3 content.** The admission gate is built and the ratchet is
+  measured; 33 all-perfect actives are waiting to be demoted and replaced.
+- 159 of 184 items have no `failingAnswer`, so their graders are untested
+  against a wrong answer. 50 still score 100 on bare keyword stuffing.
 - `bench sync` is unblocked but never yet run successfully end to end.
-- `data/taste/votes.ndjson` holds 6 ballots against 25 live — `bench
-  taste-archive` needs `SUPABASE_SERVICE_ROLE_KEY`.
-- 81 flagged judge disagreements from v2 still await human review.
-- Branch `claude/cookingbench-code-review-70c3hx` is ~20 commits ahead of the
+- 73 flagged judge disagreements in this run (81 in v2) await human review.
+- `data/taste/votes.ndjson` now holds all **26** ballots, pulled from the live
+  table — `bench taste-archive` itself still needs `SUPABASE_SERVICE_ROLE_KEY`,
+  which is not in `.env`. 26 ballots across 3 sessions is not a ranking.
+- Branch `claude/cookingbench-code-review-70c3hx` is ~25 commits ahead of the
   deploy branch. **Database changes are live; code changes are not.**
