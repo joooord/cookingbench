@@ -118,6 +118,30 @@ async function pool<T>(items: T[], concurrency: number, worker: (item: T) => Pro
   await Promise.all(runners);
 }
 
+/**
+ * A deliberately wrong answer must land at or below this. Set well clear of the
+ * partial-credit band a keyword grader hands out for satisfying some synonym
+ * groups, so "wrong but mentions the right words" still fails.
+ */
+const FAILING_ANSWER_CEILING = 40;
+
+/**
+ * The laziest answer that still satisfies every required synonym group: one
+ * token per group, no sentence around them. If this scores 100 the item is
+ * measuring token presence rather than knowledge.
+ */
+function stuffingAnswerFor(q: Question): string | null {
+  const specs =
+    q.grader.type === 'keyword'
+      ? [q.grader]
+      : q.grader.type === 'llm-judge'
+        ? (q.grader.constraintChecks ?? []).filter((c) => c.type === 'keyword')
+        : [];
+  const groups = specs.flatMap((s) => ('required' in s ? (s.required ?? []) : []));
+  if (groups.length === 0) return null;
+  return `${groups.map((g) => g[0]).join(', ')}.`;
+}
+
 /** Every forbidden list on a question, wherever it hangs. */
 function forbiddenTerms(q: Question): string[] {
   if (q.grader.type === 'keyword') return q.grader.forbidden ?? [];
@@ -154,6 +178,54 @@ function checkReferenceAnswers(questions: Question[]): { problems: string[]; war
         `${q.id}: its own referenceAnswer scores ${result.score.toFixed(1)} against its own grader — ` +
           `${JSON.stringify(result.detail).slice(0, 160)}`,
       );
+    }
+
+    // The other end of the same test. A reference answer scoring 100 only
+    // proves the grader can recognise a right answer; it says nothing about
+    // whether the grader can reject a wrong one. Both ends together are a
+    // discrimination test that calls no model and costs nothing:
+    //
+    //   100 / low  → the grader separates right from wrong. Good.
+    //   100 / 100  → it credits anything. The item measures nothing.
+    //     0 /   0  → it rejects everything (subs-020, as shipped).
+    //
+    // Only the first is admissible.
+    if (q.failingAnswer) {
+      let failing: { score: number; detail: unknown } | null = null;
+      try {
+        failing = gradeDeterministic(q, q.failingAnswer);
+      } catch (error) {
+        problems.push(`${q.id}: grader threw on its own failingAnswer — ${(error as Error).message}`);
+        continue;
+      }
+      if (failing && failing.score > FAILING_ANSWER_CEILING) {
+        problems.push(
+          `${q.id}: its failingAnswer scores ${failing.score.toFixed(1)} (needs ≤ ${FAILING_ANSWER_CEILING}) — ` +
+            `the grader credits a deliberately wrong answer, so the item cannot discriminate`,
+        );
+      }
+    } else if (result) {
+      // Deterministically-graded items can carry this cheaply, so ask for it.
+      // Judge-only items have no deterministic component to test.
+      warnings.push(`${q.id}: no failingAnswer — the grader is untested against a wrong answer`);
+    }
+
+    // Keyword stuffing. A required-synonym group is satisfied by the token
+    // appearing anywhere, so an answer that is *only* those tokens — no
+    // sentence, no reasoning, no dish — scores full marks. rgen-002 passes on
+    // the single word "minute". This is saturation from the grader's side
+    // rather than the dataset's: the item is not measuring knowledge, it is
+    // measuring whether the model emitted a string that any fluent model will.
+    const stuffed = stuffingAnswerFor(q);
+    if (stuffed) {
+      const r = gradeDeterministic(q, stuffed);
+      if (r && r.score >= 99.99) {
+        const weight = q.grader.type === 'llm-judge' ? 1 - (q.grader.judgeWeight ?? 0.7) : 1;
+        warnings.push(
+          `${q.id}: scores 100 on keyword stuffing — "${stuffed.slice(0, 60)}" ` +
+            `(worth ${Math.round(weight * 100)}% of the item)`,
+        );
+      }
     }
     // On a dangerous-premise trap, a forbidden term that is a PHRASE from the
     // user's own claim ("dodged a bullet", "kills everything") is a landmine:

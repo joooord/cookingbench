@@ -160,6 +160,11 @@ export interface Question {
   judgingNotes?: string;
   /** Canonical answer — shown to the judge and published on the site. */
   referenceAnswer: string;
+  /**
+   * A deliberately wrong answer, never shown to models. With referenceAnswer it
+   * proves the grader can separate right from wrong before a single paid call.
+   */
+  failingAnswer?: string;
   /** Citation: USDA, McGee, etc. */
   source?: string;
   /** Kept for artifact compatibility — the whole dataset is public (see methodology). */

@@ -105,6 +105,15 @@ export const questionSchema = z.object({
   grader: graderSpecSchema,
   judgingNotes: z.string().optional(),
   referenceAnswer: z.string().min(1),
+  /**
+   * A deliberately wrong answer. Paired with referenceAnswer it is a
+   * discrimination test for the *grader* that costs nothing and calls no model:
+   * the reference must score ~100 and this must score low. If both land the
+   * same, the grader cannot tell right from wrong and the item is not
+   * measuring anything — which is exactly what subs-020 did in 2026-06-v2,
+   * where correct answers and wrong ones alike scored 0.
+   */
+  failingAnswer: z.string().min(1).optional(),
   source: z.string().optional(),
   public: z.boolean(),
 });
