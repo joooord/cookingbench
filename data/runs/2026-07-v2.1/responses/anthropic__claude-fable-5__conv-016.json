@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "conv-016",
+  "answerText": "8 oz by weight = 8 × 28.35 g = 226.8 g of honey.\n\nSince honey is denser than water, we divide the weight by the density:\n\n226.8 g ÷ 1.42 g/ml ≈ 159.7 ml\n\nSo you'd need roughly 160 ml — noticeably less than the 237 ml a \"cup measure\" of 8 fluid ounces would give, which is why weighing honey matters!\n\nAnswer: 160 ml",
+  "raw": {
+    "id": "gen-1785340454-4CpBCNkVJLuWbk8v7N1d",
+    "object": "chat.completion",
+    "created": 1785340454,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "8 oz by weight = 8 × 28.35 g = 226.8 g of honey.\n\nSince honey is denser than water, we divide the weight by the density:\n\n226.8 g ÷ 1.42 g/ml ≈ 159.7 ml\n\nSo you'd need roughly 160 ml — noticeably less than the 237 ml a \"cup measure\" of 8 fluid ounces would give, which is why weighing honey matters!\n\nAnswer: 160 ml",
+          "refusal": null,
+          "reasoning": "I'm converting 8 ounces to grams, then dividing by 1.42 to get approximately 159.7 milliliters.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm converting 8 ounces to grams, then dividing by 1.42 to get approximately 159.7 milliliters.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISjgIKiAEIEBgCKkA7FBDRk04/cslVGLjCbe69Nxg79ltB3UQdKl3QVw6R6ysBOU/FkFxUXEHk4UpUu0PzDfkbKJNOnloPG+7utPMCMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgyAoxBACUBWw7fXbqUaDAgHrZrBGZuxxxqllSIwN1Ac+WoJOxd7LRZKPxf2JV1Iqpfllm5lr6YFxfZlfsCx5wSzFHTdXPdEz4m4m47QKjPpaiG6KsuHq08Yw7Wmc4+8FVlj6IqvtzEcwQyq+gL0VmM5p6eKa5tstAv8t3Mn2zkdBd4YAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 111,
+      "completion_tokens": 181,
+      "total_tokens": 292,
+      "cost": 0.01016,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01016,
+        "upstream_inference_prompt_cost": 0.00111,
+        "upstream_inference_completions_cost": 0.00905
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 24,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 111,
+  "tokensOut": 181,
+  "costUsd": 0.01016,
+  "latencyMs": 6921,
+  "finishReason": "stop"
+}

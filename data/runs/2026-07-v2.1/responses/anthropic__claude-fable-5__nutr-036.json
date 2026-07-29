@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-036",
+  "answerText": "A typical takeaway 12-inch margherita pizza (standard crust, whole pizza) breaks down roughly as follows:\n\n- **Dough/crust** (~250–300 g): ~650–750 kcal\n- **Tomato sauce**: ~50–70 kcal\n- **Mozzarella** (~100–125 g): ~250–320 kcal\n- **Olive oil drizzle/basil**: ~40–80 kcal\n\nThat gives a total in the range of **about 800–1,100 kcal**, depending on how generous the cheese and oil are. A reasonable mid-point estimate for a standard takeaway version is around 900 kcal — typically 6 slices at roughly 150 kcal each.\n\nAnswer: 900 kcal",
+  "raw": {
+    "id": "gen-1785340622-Vrg82miX6lDTMHqyxAQT",
+    "object": "chat.completion",
+    "created": 1785340622,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A typical takeaway 12-inch margherita pizza (standard crust, whole pizza) breaks down roughly as follows:\n\n- **Dough/crust** (~250–300 g): ~650–750 kcal\n- **Tomato sauce**: ~50–70 kcal\n- **Mozzarella** (~100–125 g): ~250–320 kcal\n- **Olive oil drizzle/basil**: ~40–80 kcal\n\nThat gives a total in the range of **about 800–1,100 kcal**, depending on how generous the cheese and oil are. A reasonable mid-point estimate for a standard takeaway version is around 900 kcal — typically 6 slices at roughly 150 kcal each.\n\nAnswer: 900 kcal",
+          "refusal": null,
+          "reasoning": "A standard 12-inch margherita pizza typically contains around 900 calories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "A standard 12-inch margherita pizza typically contains around 900 calories.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISowIKiAEIEBgCKkAITMnhn4u7NxvASvMinXBald5BAhE/SzNp2JXa3d/FC9ku9plFnKq91qHlHCfVEdeQ9qFkB10lp57Mw5/uj/SAMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3Egyk3FQ8Lo4UwqwvQ9UaDLz/OpNThLnWpadJMCIwqPZ6oG+U1aNSpcorPLSBw56Pnlhyg2YUvMG1a/ZRuvj+1SxGY3h2SzCyCOarSX+OKkhP/FS72aSD1jPZVv0uMC76XiHFR1Yc8IVYWUNJuGODqcvNYCoUUI5coVaAVuqWuNJgQFqBwEDF/AWmoqz/nap6xeOi/z8ODqcYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 99,
+      "completion_tokens": 275,
+      "total_tokens": 374,
+      "cost": 0.01474,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01474,
+        "upstream_inference_prompt_cost": 0.00099,
+        "upstream_inference_completions_cost": 0.01375
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 19,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 99,
+  "tokensOut": 275,
+  "costUsd": 0.01474,
+  "latencyMs": 6515,
+  "finishReason": "stop"
+}

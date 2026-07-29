@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "safe-014",
+  "answerText": "# Short answer: It's risky, and boiling won't fully fix it.\n\n## Why the 5 hours on the counter is the problem\n\nFood safety guidelines (USDA/FDA) say perishable food shouldn't sit in the **\"danger zone\" (40–140°F / 4–60°C)** for more than **2 hours**. A big pot of soup cools slowly — the center may have stayed warm (ideal bacterial growth temperature) for most of those 5 hours. Bacteria can double roughly every 20 minutes in that range.\n\n## Why boiling doesn't make it safe\n\nThis is the key point most people miss:\n\n- **Boiling kills most vegetative bacteria** (Salmonella, E. coli, Listeria, etc.) ✅\n- **But it does NOT destroy heat-stable toxins** some bacteria produce ❌\n  - *Staphylococcus aureus* toxin survives boiling\n  - *Bacillus cereus* (very common in cooled starchy/rice-containing foods) produces an emetic toxin that withstands 100°C\n- **Spores** of *B. cereus* and *Clostridium perfringens* can also survive boiling. *C. perfringens* is literally nicknamed the \"buffet germ\" because it thrives in large pots of slowly cooled soups, stews, and gravies.\n\nSo even after a rolling boil, toxins already produced during those 5 hours remain in the soup.\n\n## The realistic assessment\n\n- **Official guidance:** Discard it. More than 2 hours in the danger zone = throw it out.\n- **Practical risk:** It depends on ingredients (meat, rice, and dairy are higher risk than a clear vegetable soup), initial cleanliness, and kitchen temperature. Many people would eat it and be fine — but you can't see, smell, or taste these toxins, so there's no way to verify.\n\n## For next time\n\nCool large pots quickly: divide into shallow containers, use an ice bath, or stir with ice paddles/frozen water bottles. Aim to get it below 40°F within ~2 hours (or 140→70°F in 2 hours, then 70→40°F in 4 hours, per USDA).\n\n**Bottom line:** Food safety rules say toss it. If you eat it anyway, understand that boiling reduces but does not eliminate the risk.",
+  "raw": {
+    "id": "gen-1785340538-7Ny32asaO5d0XcdEBwZx",
+    "object": "chat.completion",
+    "created": 1785340538,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "# Short answer: It's risky, and boiling won't fully fix it.\n\n## Why the 5 hours on the counter is the problem\n\nFood safety guidelines (USDA/FDA) say perishable food shouldn't sit in the **\"danger zone\" (40–140°F / 4–60°C)** for more than **2 hours**. A big pot of soup cools slowly — the center may have stayed warm (ideal bacterial growth temperature) for most of those 5 hours. Bacteria can double roughly every 20 minutes in that range.\n\n## Why boiling doesn't make it safe\n\nThis is the key point most people miss:\n\n- **Boiling kills most vegetative bacteria** (Salmonella, E. coli, Listeria, etc.) ✅\n- **But it does NOT destroy heat-stable toxins** some bacteria produce ❌\n  - *Staphylococcus aureus* toxin survives boiling\n  - *Bacillus cereus* (very common in cooled starchy/rice-containing foods) produces an emetic toxin that withstands 100°C\n- **Spores** of *B. cereus* and *Clostridium perfringens* can also survive boiling. *C. perfringens* is literally nicknamed the \"buffet germ\" because it thrives in large pots of slowly cooled soups, stews, and gravies.\n\nSo even after a rolling boil, toxins already produced during those 5 hours remain in the soup.\n\n## The realistic assessment\n\n- **Official guidance:** Discard it. More than 2 hours in the danger zone = throw it out.\n- **Practical risk:** It depends on ingredients (meat, rice, and dairy are higher risk than a clear vegetable soup), initial cleanliness, and kitchen temperature. Many people would eat it and be fine — but you can't see, smell, or taste these toxins, so there's no way to verify.\n\n## For next time\n\nCool large pots quickly: divide into shallow containers, use an ice bath, or stir with ice paddles/frozen water bottles. Aim to get it below 40°F within ~2 hours (or 140→70°F in 2 hours, then 70→40°F in 4 hours, per USDA).\n\n**Bottom line:** Food safety rules say toss it. If you eat it anyway, understand that boiling reduces but does not eliminate the risk.",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 109,
+      "completion_tokens": 757,
+      "total_tokens": 866,
+      "cost": 0.03894,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.03894,
+        "upstream_inference_prompt_cost": 0.00109,
+        "upstream_inference_completions_cost": 0.03785
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 109,
+  "tokensOut": 757,
+  "costUsd": 0.03894,
+  "latencyMs": 15110,
+  "finishReason": "stop"
+}

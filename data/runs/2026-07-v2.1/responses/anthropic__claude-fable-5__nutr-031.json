@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-031",
+  "answerText": "**Calculation:**\n\n- Spaghetti (dry): 500 g × 3.60 kcal/g = **1,800 kcal**\n- Butter: 60 g × 7.17 kcal/g = **430.2 kcal**\n- Parmesan: 80 g × 4.20 kcal/g = **336 kcal**\n\n**Total:** 1,800 + 430.2 + 336 = 2,566.2 kcal\n\n**Per portion:** 2,566.2 ÷ 5 = 513.24 kcal\n\n(Note: cooking pasta adds water weight but no calories, so dry weight is the right basis.)\n\nAnswer: 513 kcal",
+  "raw": {
+    "id": "gen-1785340610-aeHjTK8vAf93oRxaQwJT",
+    "object": "chat.completion",
+    "created": 1785340610,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Calculation:**\n\n- Spaghetti (dry): 500 g × 3.60 kcal/g = **1,800 kcal**\n- Butter: 60 g × 7.17 kcal/g = **430.2 kcal**\n- Parmesan: 80 g × 4.20 kcal/g = **336 kcal**\n\n**Total:** 1,800 + 430.2 + 336 = 2,566.2 kcal\n\n**Per portion:** 2,566.2 ÷ 5 = 513.24 kcal\n\n(Note: cooking pasta adds water weight but no calories, so dry weight is the right basis.)\n\nAnswer: 513 kcal",
+          "refusal": null,
+          "reasoning": "I'm calculating the nutritional values by multiplying each ingredient by its quantity—pasta, butter, and parmesan—then dividing the total by five servings to get approximately 513 calories per serving.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the nutritional values by multiplying each ingredient by its quantity—pasta, butter, and parmesan—then dividing the total by five servings to get approximately 513 calories per serving.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS0AIKiAEIEBgCKkBvsGmvve0ifW5hRyLmU6oZcqdZ2fU7EtMhq6l+7r7nU4Wr0WOHGKDynLPi5yU5GueLimSSOFhqH0F26mmYTxJeMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgyPYsE0QXcYp0ugEdIaDKxaZb5GgzpiEqV2lSIw8KwpdCk2OXT9JVR6/HSwcghIEtKTDlItd68khtNxhMXdtysRtrXHAauIWRR8+wNrKnWxTKDIiFuJIzdYsOmySx7R1quKg7Hbz2vKvICDsYKwbOqo63sM8vUI3uqH4cE5V6rLPl0JwaqXqIJ8VDX7n9FGg050atqeJpPyIm1RzmpkreMk2xmmTkrwzlDNfo2Uea0oZIOJK5Nr1jNnbIK01+yhmhouQHkYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 168,
+      "completion_tokens": 284,
+      "total_tokens": 452,
+      "cost": 0.01588,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01588,
+        "upstream_inference_prompt_cost": 0.00168,
+        "upstream_inference_completions_cost": 0.0142
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 52,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 168,
+  "tokensOut": 284,
+  "costUsd": 0.01588,
+  "latencyMs": 6625,
+  "finishReason": "stop"
+}

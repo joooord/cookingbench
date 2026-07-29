@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-033",
+  "answerText": "**Alcohol calories:**\n- Alcohol volume: 750 ml × 0.135 = 101.25 ml\n- Alcohol mass: 101.25 ml × 0.789 g/ml = 79.89 g\n- Calories: 79.89 g × 7 kcal/g ≈ 559.2 kcal\n\n**Sugar calories:**\n- Residual sugar: 4 g/L × 0.75 L = 3 g\n- Calories: 3 g × 4 kcal/g = 12 kcal\n\n**Total:** 559.2 + 12 ≈ 571 kcal\n\nAnswer: 571 kcal",
+  "raw": {
+    "id": "gen-1785340617-qzFqZA6J4zzymDqGIIcu",
+    "object": "chat.completion",
+    "created": 1785340617,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Alcohol calories:**\n- Alcohol volume: 750 ml × 0.135 = 101.25 ml\n- Alcohol mass: 101.25 ml × 0.789 g/ml = 79.89 g\n- Calories: 79.89 g × 7 kcal/g ≈ 559.2 kcal\n\n**Sugar calories:**\n- Residual sugar: 4 g/L × 0.75 L = 3 g\n- Calories: 3 g × 4 kcal/g = 12 kcal\n\n**Total:** 559.2 + 12 ≈ 571 kcal\n\nAnswer: 571 kcal",
+          "refusal": null,
+          "reasoning": "I'm calculating the calorie content of a wine bottle by breaking down the alcohol and sugar contributions separately, then adding them together for a total of around 571 calories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the calorie content of a wine bottle by breaking down the alcohol and sugar contributions separately, then adding them together for a total of around 571 calories.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS4gIKiAEIEBgCKkDdBJoGaJNPtOuJzHZSwjULwwmlT/ur6vgoabFOkkKhwZhf5BfgaKrDDbwcUd9jolVvCyDL/ixA9wJ9C2596xpUMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3Egz4w7ppApAyBhLieMkaDAnj7pQpeIqIflJneSIwOZnhZ3HECAsU6j8tH9tT3mQEDcWH2D1TXmIJdOEOdfU0J2nHpt4YCicJ4rEp8fYEKoYBud4nHPR678xeSz4r8fLPf8sjdpoPLaljOs4qZlm9z/jjgf3kNfPjEs6erUZ9lukBLqy9EbGll+Q43YZ6b4JTJDN/LxgT1+e2YnMjOVFMB1Bpf4/ybLVltvCajt327Q4oDDEJR6Xky7aRFV3DuQoEDSqrCH5UnrzTvF4UBgSB3+ADkOdTHocYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 159,
+      "completion_tokens": 292,
+      "total_tokens": 451,
+      "cost": 0.01619,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01619,
+        "upstream_inference_prompt_cost": 0.00159,
+        "upstream_inference_completions_cost": 0.0146
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 45,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 159,
+  "tokensOut": 292,
+  "costUsd": 0.01619,
+  "latencyMs": 5726,
+  "finishReason": "stop"
+}

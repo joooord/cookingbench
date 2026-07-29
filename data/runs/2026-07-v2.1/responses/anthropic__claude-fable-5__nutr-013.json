@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-013",
+  "answerText": "When chicken cooks, it loses water weight, but the protein stays put. So you can calculate protein from the raw weight:\n\n- 400 g raw × 23.5 g protein / 100 g = **94 g of protein**\n\nThe cooked chicken will weigh only about 300 g (after 25% weight loss), but it still contains all 94 g of protein — which is why cooked chicken has a *higher* protein density per 100 g (~31 g/100 g) than raw.\n\nAnswer: 94 g",
+  "raw": {
+    "id": "gen-1785340579-mNTyLwsas1WO0iNm4QoG",
+    "object": "chat.completion",
+    "created": 1785340579,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "When chicken cooks, it loses water weight, but the protein stays put. So you can calculate protein from the raw weight:\n\n- 400 g raw × 23.5 g protein / 100 g = **94 g of protein**\n\nThe cooked chicken will weigh only about 300 g (after 25% weight loss), but it still contains all 94 g of protein — which is why cooked chicken has a *higher* protein density per 100 g (~31 g/100 g) than raw.\n\nAnswer: 94 g",
+          "refusal": null,
+          "reasoning": "Raw chicken at 400g contains about 94g of protein, and since cooking only removes water, that protein content remains unchanged.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Raw chicken at 400g contains about 94g of protein, and since cooking only removes water, that protein content remains unchanged.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISvgIKiAEIEBgCKkBYxj+DTB6Kbtk0axJdi197IYtLuVd/qGithcyTEkhtUInDwLTg/5RlcVSgEg+ae6fog46EO9uIjoSoWWEbzbU0Mg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgxGN1g3tvjo+TAAOzsaDEWC4EMitvOuPjQAOiIwAbuChhzZfLkHfhVhWNrwVijlkSlZJjKSnxGi0R5PvT/LrAh3ebS7wM66Iff4oaYqKmOM9Ecabhg0oMg2qYo5pdU4ucKrTDxZFIzN5UuXdepcj3JkpQG6vcgxFDTdOI3ow6CvMcvt4qoyW1cxjHENLLiwCqFu+9TN/Qw/sEFte1sSxponbPI9SGD/Hp13CuWBtjUAf84YAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 138,
+      "completion_tokens": 196,
+      "total_tokens": 334,
+      "cost": 0.01118,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01118,
+        "upstream_inference_prompt_cost": 0.00138,
+        "upstream_inference_completions_cost": 0.0098
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 32,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 138,
+  "tokensOut": 196,
+  "costUsd": 0.01118,
+  "latencyMs": 6096,
+  "finishReason": "stop"
+}

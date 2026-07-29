@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-039",
+  "answerText": "Full-fat strained Greek yogurt typically contains about 8–9 g of protein per 100 g. For a 170 g pot:\n\n170 g × ~9 g/100 g ≈ 15–16 g of protein.\n\nThis aligns with typical nutrition labels (e.g., Fage Total 5% lists 15–16 g per 170 g serving).\n\nAnswer: 15 g",
+  "raw": {
+    "id": "gen-1785340625-KrHbPh5UBj8M6Ug3PUpq",
+    "object": "chat.completion",
+    "created": 1785340625,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Full-fat strained Greek yogurt typically contains about 8–9 g of protein per 100 g. For a 170 g pot:\n\n170 g × ~9 g/100 g ≈ 15–16 g of protein.\n\nThis aligns with typical nutrition labels (e.g., Fage Total 5% lists 15–16 g per 170 g serving).\n\nAnswer: 15 g",
+          "refusal": null,
+          "reasoning": "Full-fat Greek yogurt typically contains around 9g of protein per 100g, which works out to roughly 15-17g in a standard 170g pot.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Full-fat Greek yogurt typically contains around 9g of protein per 100g, which works out to roughly 15-17g in a standard 170g pot.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISxQIKiAEIEBgCKkDftQfQx53+D/bLSLPlEBSchCySU12PhRdYcxGJfVzQdxEqgMP+jDgKu6Tha/tXultLqki25PxDXeoM6rMHQROaMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3Egzp3Vy19tAm0OsT7G0aDOnCepdpx2IMCmIkjiIwNuIC3dOwunwYpmRoulzyUBHQAPCPdk/dYYUXwytjzrwxTL60HSP88W4A5PETUH37Kmr7Pw1M42PTbncjAxGk7YKDucTxOaCs0j+t/OshI5n81mRatZxTWeitBlw79PASjNsmQHpJFi+pmMiht9+OWz3uImHAA3ulqkaQVzvjY8Lj+Vb8nijROfujqqzOvW7raQxr54dyoFpcO4PkGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 94,
+      "completion_tokens": 175,
+      "total_tokens": 269,
+      "cost": 0.00969,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00969,
+        "upstream_inference_prompt_cost": 0.00094,
+        "upstream_inference_completions_cost": 0.00875
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 33,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 94,
+  "tokensOut": 175,
+  "costUsd": 0.00969,
+  "latencyMs": 5467,
+  "finishReason": "stop"
+}

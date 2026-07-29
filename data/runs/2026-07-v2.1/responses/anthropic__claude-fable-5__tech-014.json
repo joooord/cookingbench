@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "tech-014",
+  "answerText": "Collagen begins to denature slowly starting around 60°C, but for braising purposes the conversion to gelatin only happens at a *meaningful, practical rate* once the meat's internal temperature reaches roughly **70°C (about 160°F)** and above. That's why braised short ribs are typically held at 80–90°C internal for several hours — the higher the temperature (up to a point), the faster collagen hydrolyzes into gelatin, giving that fork-tender, unctuous texture.\n\nKey points:\n- Below ~60°C: very little conversion, connective tissue stays tough\n- ~70°C: conversion begins at a useful pace, though it still takes hours\n- 80–90°C: sweet spot for braising — rapid gelatin conversion while moisture from the braising liquid keeps the meat from drying out\n\nAnswer: 70 °C",
+  "raw": {
+    "id": "gen-1785340835-r1E9l3cTO56gTkySTFBN",
+    "object": "chat.completion",
+    "created": 1785340835,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Collagen begins to denature slowly starting around 60°C, but for braising purposes the conversion to gelatin only happens at a *meaningful, practical rate* once the meat's internal temperature reaches roughly **70°C (about 160°F)** and above. That's why braised short ribs are typically held at 80–90°C internal for several hours — the higher the temperature (up to a point), the faster collagen hydrolyzes into gelatin, giving that fork-tender, unctuous texture.\n\nKey points:\n- Below ~60°C: very little conversion, connective tissue stays tough\n- ~70°C: conversion begins at a useful pace, though it still takes hours\n- 80–90°C: sweet spot for braising — rapid gelatin conversion while moisture from the braising liquid keeps the meat from drying out\n\nAnswer: 70 °C",
+          "refusal": null,
+          "reasoning": "Collagen starts denaturing at around 70°C, though some sources cite the range as 68–70°C.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Collagen starts denaturing at around 70°C, though some sources cite the range as 68–70°C.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISrwIKiAEIEBgCKkBJtGs+gNMiLyDcOJCeiVC3gXtqe8kmxndeDfRAYMBHBj2UA9swR+uTKa5s2j1+QPyIimdnh5IGjckRDiz5xCHgMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3Egznek9ateSM/lYKOJ4aDB3IxWE3q/8SDn18ziIwZtNurX+zbBq4nIcx6w0Y9bGsidS0kRfanGXeBZojqEnYF34QFCsnRIjYcUH2pcivKlRBj2zrjk9TYeymrSAlHaO7W5uJDxOp1EXtDjsLIZ+T3h7cx+yGKMMuPiHzfAnNdnfgFGOswpIgO+MdzFFlnNVfkr7jiK9pu8E6Cwv7NRwCf2PZfxEYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 101,
+      "completion_tokens": 304,
+      "total_tokens": 405,
+      "cost": 0.01621,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01621,
+        "upstream_inference_prompt_cost": 0.00101,
+        "upstream_inference_completions_cost": 0.0152
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 24,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 101,
+  "tokensOut": 304,
+  "costUsd": 0.01621,
+  "latencyMs": 7532,
+  "finishReason": "stop"
+}

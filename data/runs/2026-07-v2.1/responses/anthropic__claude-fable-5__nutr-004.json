@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-004",
+  "answerText": "Fat provides about 9 kcal per gram, so:\n\n13.5 g × 9 kcal/g ≈ 119–120 kcal\n\nThis is why olive oil (and all pure oils) are so calorie-dense — a single tablespoon contains roughly 120 kcal.\n\nAnswer: 120 kcal",
+  "raw": {
+    "id": "gen-1785340570-rWZMLZtDevCYOK1vTzxu",
+    "object": "chat.completion",
+    "created": 1785340570,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Fat provides about 9 kcal per gram, so:\n\n13.5 g × 9 kcal/g ≈ 119–120 kcal\n\nThis is why olive oil (and all pure oils) are so calorie-dense — a single tablespoon contains roughly 120 kcal.\n\nAnswer: 120 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 104,
+      "completion_tokens": 102,
+      "total_tokens": 206,
+      "cost": 0.00614,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00614,
+        "upstream_inference_prompt_cost": 0.00104,
+        "upstream_inference_completions_cost": 0.0051
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 104,
+  "tokensOut": 102,
+  "costUsd": 0.00614,
+  "latencyMs": 4893,
+  "finishReason": "stop"
+}

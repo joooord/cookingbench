@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-011",
+  "answerText": "To scale the recipe from 8 servings down to 3, multiply the stock by 3/8:\n\n- 2.5 litres = 2500 ml\n- 2500 ml × 3/8 = 937.5 ml\n\nSo you'll need about 937.5 ml of stock (roughly 940 ml in practice).\n\nAnswer: 937.5 ml",
+  "raw": {
+    "id": "gen-1785340640-By8uVwyfpFt0gmg1L7MX",
+    "object": "chat.completion",
+    "created": 1785340640,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To scale the recipe from 8 servings down to 3, multiply the stock by 3/8:\n\n- 2.5 litres = 2500 ml\n- 2500 ml × 3/8 = 937.5 ml\n\nSo you'll need about 937.5 ml of stock (roughly 940 ml in practice).\n\nAnswer: 937.5 ml",
+          "refusal": null,
+          "reasoning": "So 2500 milliliters multiplied by three-eighths gives me 937.5 milliliters.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "So 2500 milliliters multiplied by three-eighths gives me 937.5 milliliters.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISggIKiAEIEBgCKkCw8HD3WLKckRQ+IlaGnTSzYu6LVaQBz/UXH5a2udqYp4U8A9sYgcSW42cEDnwGMCcau1ymN3Cpp0eITPbMIvAdMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgzJe7BPYiyxn2jfBMYaDAclKfQXfPns5wtaEyIwGk1uXTXATPRggSRJbUT+UB3MrVE5Td3kMnnFqk2tXHD/7sZh7Rh4xBH4Ai6mNAz9KidBvdppljPwQpVuRES+6Gk4hvfpwl2T7sdBjL74OVU1shvkhGc8xH4YAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 103,
+      "completion_tokens": 132,
+      "total_tokens": 235,
+      "cost": 0.00763,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00763,
+        "upstream_inference_prompt_cost": 0.00103,
+        "upstream_inference_completions_cost": 0.0066
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 19,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 103,
+  "tokensOut": 132,
+  "costUsd": 0.00763,
+  "latencyMs": 5144,
+  "finishReason": "stop"
+}

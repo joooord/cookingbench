@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "safe-007",
+  "answerText": "The USDA recommends cooking fish to a minimum internal temperature of 145°F (63°C). At this temperature, the flesh should be opaque and separate easily with a fork.\n\nAnswer: 145 °F",
+  "raw": {
+    "id": "gen-1785340525-WeLf46gQh2vpqKhhji0T",
+    "object": "chat.completion",
+    "created": 1785340525,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA recommends cooking fish to a minimum internal temperature of 145°F (63°C). At this temperature, the flesh should be opaque and separate easily with a fork.\n\nAnswer: 145 °F",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 87,
+      "completion_tokens": 69,
+      "total_tokens": 156,
+      "cost": 0.00432,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00432,
+        "upstream_inference_prompt_cost": 0.00087,
+        "upstream_inference_completions_cost": 0.00345
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 87,
+  "tokensOut": 69,
+  "costUsd": 0.00432,
+  "latencyMs": 3933,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "subs-017",
+  "answerText": "Butter is ~80% fat, so 150 g of butter contains 150 × 0.80 = 120 g of fat.\n\nSince coconut oil is 100% fat, you only need 120 g of coconut oil to match the fat content.\n\nTip: since you're losing the ~30 g of water butter would have contributed, you may want to add a splash (about 1–2 tablespoons) of water or milk if the dough seems too crumbly.\n\nAnswer: 120 g",
+  "raw": {
+    "id": "gen-1785340781-M2HRkZHorpnFqIqessea",
+    "object": "chat.completion",
+    "created": 1785340781,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Butter is ~80% fat, so 150 g of butter contains 150 × 0.80 = 120 g of fat.\n\nSince coconut oil is 100% fat, you only need 120 g of coconut oil to match the fat content.\n\nTip: since you're losing the ~30 g of water butter would have contributed, you may want to add a splash (about 1–2 tablespoons) of water or milk if the dough seems too crumbly.\n\nAnswer: 120 g",
+          "refusal": null,
+          "reasoning": "I'm calculating that 150 grams multiplied by 0.8 gives 120 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating that 150 grams multiplied by 0.8 gives 120 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS/gEKiAEIEBgCKkDVXlHlF2Q4BKxk6pDNUPcVM6WHK4zPJUrb7ZOrHEd7E07eMojZwilM/Q4sgkIHDKv0R+7eI2+iSushtfaQ5tfiMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgxJpBgGEUXXwd4N83kaDJOxGODUCRew2wVsQyIwEpntSeoKc4nd3MZdpyETR/ub8LH72KJUASNubhs911UFTUb20GL3O1rxCn1jAysDKiNZMlk34zxVsKKQBq0sqJkjtuX+2ZzFuAgNyESWeOyMM14wARgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 147,
+      "completion_tokens": 165,
+      "total_tokens": 312,
+      "cost": 0.00972,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00972,
+        "upstream_inference_prompt_cost": 0.00147,
+        "upstream_inference_completions_cost": 0.00825
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 17,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 147,
+  "tokensOut": 165,
+  "costUsd": 0.00972,
+  "latencyMs": 5037,
+  "finishReason": "stop"
+}

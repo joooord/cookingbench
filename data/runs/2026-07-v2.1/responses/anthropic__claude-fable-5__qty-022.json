@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-022",
+  "answerText": "For 7 people at 180 g cooked rice each, you need 1260 g of cooked rice total (180 × 7).\n\nSince basmati roughly triples in weight when cooked, divide by 3: 1260 ÷ 3 = 420 g of dry rice.\n\nTip: it's wise to add a small buffer (say 20–30 g extra) since actual yield varies with rice brand and cooking method.\n\nAnswer: 420 g",
+  "raw": {
+    "id": "gen-1785340655-hs6kB6k7SaXAA6Mv2Itf",
+    "object": "chat.completion",
+    "created": 1785340655,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "For 7 people at 180 g cooked rice each, you need 1260 g of cooked rice total (180 × 7).\n\nSince basmati roughly triples in weight when cooked, divide by 3: 1260 ÷ 3 = 420 g of dry rice.\n\nTip: it's wise to add a small buffer (say 20–30 g extra) since actual yield varies with rice brand and cooking method.\n\nAnswer: 420 g",
+          "refusal": null,
+          "reasoning": "I'm calculating the dry weight by multiplying 180 by 7 to get 1260, then dividing by 3 to arrive at 420 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the dry weight by multiplying 180 by 7 to get 1260, then dividing by 3 to arrive at 420 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIShwIKiAEIEBgCKkCi/Db5sUHVZbxfq0dXLdJZuB3tyVfQYBktnnn3FhJqbmlgOktdshZD1WUMDhtPZYEUyMwjHUgAPwCXcCLhpEUmMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgwTkCcBHIlvPw7/Q20aDO5pG2F8WBk3ZD0aHSIwX6ai5wjympmbZyChCpJpA94DRXKl91lUEkGu3Uji6lQu1+cW6aiYGVFYZ2P55N39KizObgZs3eNX9kg8Fah1JnWI8lMJFSUHIOd5g6kJWoHrMImFHj59hZm0w4XEwxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 117,
+      "completion_tokens": 161,
+      "total_tokens": 278,
+      "cost": 0.00922,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00922,
+        "upstream_inference_prompt_cost": 0.00117,
+        "upstream_inference_completions_cost": 0.00805
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 28,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 117,
+  "tokensOut": 161,
+  "costUsd": 0.00922,
+  "latencyMs": 5274,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-009",
+  "answerText": "Baker's percentages are all relative to the flour weight. The total is 100 + 68 + 2 + 1.2 = 171.2%.\n\nFlour = 1712 g ÷ 1.712 = 1000 g. Then scale each ingredient from that:\n\n- Water: 1000 × 0.68 = 680 g\n- Salt: 1000 × 0.02 = 20 g\n- Yeast: 1000 × 0.012 = 12 g\n\nCheck: 1000 + 680 + 20 + 12 = 1712 g ✓\n\nAt 68% hydration, this is a moderately wet dough — great for rustic loaves or baguettes.\n\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g",
+  "raw": {
+    "id": "gen-1785340636-5WXzPSuhHhUkCoCJwOhg",
+    "object": "chat.completion",
+    "created": 1785340636,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Baker's percentages are all relative to the flour weight. The total is 100 + 68 + 2 + 1.2 = 171.2%.\n\nFlour = 1712 g ÷ 1.712 = 1000 g. Then scale each ingredient from that:\n\n- Water: 1000 × 0.68 = 680 g\n- Salt: 1000 × 0.02 = 20 g\n- Yeast: 1000 × 0.012 = 12 g\n\nCheck: 1000 + 680 + 20 + 12 = 1712 g ✓\n\nAt 68% hydration, this is a moderately wet dough — great for rustic loaves or baguettes.\n\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g",
+          "refusal": null,
+          "reasoning": "I'm working through a baker's percentage calculation—the total is 171.2%, so I'm scaling the flour weight to 1000g as the base, which gives me water at 680g, salt at 20g, and yeast at 12g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm working through a baker's percentage calculation—the total is 171.2%, so I'm scaling the flour weight to 1000g as the base, which gives me water at 680g, salt at 20g, and yeast at 12g.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIStwIKiAEIEBgCKkDp6DQlO4cU9Yv3Ad+H9XgKd6Pet/y5825n9jHIVe1XnHUQIdFGSQpDWKYACiDUb4rh61O0mLcaNvd1VD9Hy1psMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgwQIM/Lj0fWWPYR7NYaDFYZdAMs13Lp+VXh/SIwrYwue4LpADUKj9m5JzI1/NjJIdoZeWVuirrnPkfX4UvR11+WHApojNYOXKMPWGyYKlzkDPiiyJRUeHq/frpdudqvhLThiwoXWQDhudp2ot+KfsH3W/wlKnB4dQfVgucqi3K55o6dwCMOWUK+vjqoMVFay9vJCTNwBn3r8pCdrzy/VKtdRjJBy6DwNGSx4hgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 130,
+      "completion_tokens": 291,
+      "total_tokens": 421,
+      "cost": 0.01585,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01585,
+        "upstream_inference_prompt_cost": 0.0013,
+        "upstream_inference_completions_cost": 0.01455
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 48,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 130,
+  "tokensOut": 291,
+  "costUsd": 0.01585,
+  "latencyMs": 6158,
+  "finishReason": "stop"
+}

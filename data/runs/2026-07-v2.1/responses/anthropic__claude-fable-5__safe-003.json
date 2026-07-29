@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "safe-003",
+  "answerText": "The food-safety \"danger zone\" is **40°F to 140°F (4°C to 60°C)**.\n\nWithin this range, bacteria can multiply rapidly—potentially doubling in as little as 20 minutes. That's why the standard guidance is to:\n\n- Keep cold foods at or below 40°F (4°C)\n- Keep hot foods at or above 140°F (60°C)\n- Avoid leaving perishable food in the danger zone for more than **2 hours** (or **1 hour** if the ambient temperature is above 90°F / 32°C)",
+  "raw": {
+    "id": "gen-1785340519-k20cy6i37LERR8gAr48O",
+    "object": "chat.completion",
+    "created": 1785340519,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "The food-safety \"danger zone\" is **40°F to 140°F (4°C to 60°C)**.\n\nWithin this range, bacteria can multiply rapidly—potentially doubling in as little as 20 minutes. That's why the standard guidance is to:\n\n- Keep cold foods at or below 40°F (4°C)\n- Keep hot foods at or above 140°F (60°C)\n- Avoid leaving perishable food in the danger zone for more than **2 hours** (or **1 hour** if the ambient temperature is above 90°F / 32°C)",
+          "refusal": null,
+          "reasoning": "The USDA safe temperature range for food storage is between 40°F and 140°F.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The USDA safe temperature range for food storage is between 40°F and 140°F.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISkQIKiAEIEBgCKkD9tQLbfr15UWJvMYTGS8d5vY46Z5ut9919HFyvjSfsTzUSHoMesUnM9g9jokDw9jnhkTOjCMKpru7p0iBRsE2LMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgzBXJq1f/JM5gmOloYaDK9rSxv3APxBAocyPCIwRJbdm4GdoHfVTBM9WmwwChUW+WEOZKLpqmPlxWBgjzPD3y63ts8tTGIIsV5d3hD7KjYPaxSglGVry+5QCs1FC9LeJYQhRzp0aB+IDYgJcGlVT7Avxjg2boNQKWHtP3AOywJt/A/b9LYYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 74,
+      "completion_tokens": 206,
+      "total_tokens": 280,
+      "cost": 0.01104,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01104,
+        "upstream_inference_prompt_cost": 0.00074,
+        "upstream_inference_completions_cost": 0.0103
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 20,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 74,
+  "tokensOut": 206,
+  "costUsd": 0.01104,
+  "latencyMs": 5902,
+  "finishReason": "stop"
+}

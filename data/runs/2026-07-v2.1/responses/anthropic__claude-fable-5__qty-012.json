@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-012",
+  "answerText": "For 25 guests at 2 drinks each, you need 50 drinks.\n\nGin: 60 ml × 50 = 3,000 ml = 3 litres\n\n(For reference, you'd also need 1.125 L lemon juice and 0.75 L syrup.)\n\nAnswer: 3 litres",
+  "raw": {
+    "id": "gen-1785340640-tpQYKAHA3za3Pky2vfhc",
+    "object": "chat.completion",
+    "created": 1785340640,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "For 25 guests at 2 drinks each, you need 50 drinks.\n\nGin: 60 ml × 50 = 3,000 ml = 3 litres\n\n(For reference, you'd also need 1.125 L lemon juice and 0.75 L syrup.)\n\nAnswer: 3 litres",
+          "refusal": null,
+          "reasoning": "So multiplying 60 ml by 50 gives me 3000 ml, which converts to 3 liters.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "So multiplying 60 ml by 50 gives me 3000 ml, which converts to 3 liters.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIShwIKiAEIEBgCKkCg3E/S0UaMlGOvycPN7LiqwcMgAXQfnESdfX5McF+zKhLOCh66ihG8/rHufixUnknEVAmItOP3ReMYoATzZeh6Mg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgypGl/ZDcUXN5TUODQaDAsVVASDCVqp4BD7CSIw7FjbmkCyIGDx4gCvjzp6/M27zpyuyBvHF0rZs2gAM1RWv74uL2Ig4Bzw7oIGG0W0KizPfndvrdMNGGHC+itbHAYweQLg9Kt+mAYu4Sk3eQ2EWPCzQE09o/553HOVzhgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 123,
+      "completion_tokens": 121,
+      "total_tokens": 244,
+      "cost": 0.00728,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00728,
+        "upstream_inference_prompt_cost": 0.00123,
+        "upstream_inference_completions_cost": 0.00605
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 18,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 123,
+  "tokensOut": 121,
+  "costUsd": 0.00728,
+  "latencyMs": 4241,
+  "finishReason": "stop"
+}

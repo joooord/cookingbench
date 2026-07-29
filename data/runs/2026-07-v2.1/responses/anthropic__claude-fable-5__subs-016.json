@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "subs-016",
+  "answerText": "For the buttermilk substitute, the lemon juice counts toward the total volume, so you pour slightly less milk:\n\n- 2 US cups = 473.2 ml total\n- 2 tablespoons lemon juice (1 per cup) = 2 × 14.8 ml = 29.6 ml\n- Milk needed: 473.2 − 29.6 = 443.6 ml\n\nSo pour about 444 ml of milk, add the 2 tablespoons of lemon juice, stir, and let it sit 5–10 minutes to curdle before using.\n\nAnswer: 444 ml",
+  "raw": {
+    "id": "gen-1785340778-XbGBbSlnB2VdmkI7k4kW",
+    "object": "chat.completion",
+    "created": 1785340778,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "For the buttermilk substitute, the lemon juice counts toward the total volume, so you pour slightly less milk:\n\n- 2 US cups = 473.2 ml total\n- 2 tablespoons lemon juice (1 per cup) = 2 × 14.8 ml = 29.6 ml\n- Milk needed: 473.2 − 29.6 = 443.6 ml\n\nSo pour about 444 ml of milk, add the 2 tablespoons of lemon juice, stir, and let it sit 5–10 minutes to curdle before using.\n\nAnswer: 444 ml",
+          "refusal": null,
+          "reasoning": "I'm converting the measurements to milliliters: 2 cups equals about 473 ml, and subtracting 2 tablespoons (roughly 30 ml) gives me approximately 444 ml of milk.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm converting the measurements to milliliters: 2 cups equals about 473 ml, and subtracting 2 tablespoons (roughly 30 ml) gives me approximately 444 ml of milk.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIStwIKiAEIEBgCKkBz1sHPSwD6AoTaNj9j13TAeSD8fP1Z+5bucYdpq6Aqw4x4ObR85Ymhb0muf8DHa33lTGbe8EERRgEzSzlbTQ8uMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3Egw9bn5RE49hwiibdh0aDJPyFdhbO/CcKS1bGiIwmDgqKwNjuJ4pITDUoDGa67Ma61Z7x08rs3Gv/O6v5hopytP/SBmAWSJr+l77pLNQKlzG9AnWAgCaDxQxOyk3tKf8MgRRmXoAa3Blh75KnTGT+8tEVXqWcZn0+IjTRdwS6oKuk2+E/35Jk08uo/KRIj4v3cGtj+V5f3mIHwTQ2QQYyZ2+d7sL/KkLf4MfDRgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 148,
+      "completion_tokens": 247,
+      "total_tokens": 395,
+      "cost": 0.01383,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01383,
+        "upstream_inference_prompt_cost": 0.00148,
+        "upstream_inference_completions_cost": 0.01235
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 40,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 148,
+  "tokensOut": 247,
+  "costUsd": 0.01383,
+  "latencyMs": 5971,
+  "finishReason": "stop"
+}

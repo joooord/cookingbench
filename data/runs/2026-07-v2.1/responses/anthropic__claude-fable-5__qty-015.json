@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-015",
+  "answerText": "White rice roughly triples in weight when cooked because it absorbs water. To end up with 600 g of cooked rice, divide by 3:\n\n600 g ÷ 3 = 200 g of raw rice\n\nAnswer: 200 g",
+  "raw": {
+    "id": "gen-1785340645-BkKZBJpYuCJaf250jJrm",
+    "object": "chat.completion",
+    "created": 1785340645,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "White rice roughly triples in weight when cooked because it absorbs water. To end up with 600 g of cooked rice, divide by 3:\n\n600 g ÷ 3 = 200 g of raw rice\n\nAnswer: 200 g",
+          "refusal": null,
+          "reasoning": "So that's 200 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "So that's 200 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS+QEKiAEIEBgCKkDl6GsXHrgms5SVexymwISTTOS+TzOlX2CNoPPyM4onPcTXb6eMO8rjehFXwymjocOE4uc1cz0kUVYmN1t7JDNOMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3Egz3mpx5h/6IzJj/yN8aDA23weSp1tcSy3K05iIwUOfKOeUGC5IANs+Zfealvk+kwOon9ZR24qR/1XF0CpPgDmKTZJBdAOAw2D9zvvLuKh4UgJLxt/ouPoQhZ4nGt7jsPq8yzOAVuCFFclWp3scYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 101,
+      "completion_tokens": 88,
+      "total_tokens": 189,
+      "cost": 0.00541,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00541,
+        "upstream_inference_prompt_cost": 0.00101,
+        "upstream_inference_completions_cost": 0.0044
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 5,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 101,
+  "tokensOut": 88,
+  "costUsd": 0.00541,
+  "latencyMs": 4621,
+  "finishReason": "stop"
+}

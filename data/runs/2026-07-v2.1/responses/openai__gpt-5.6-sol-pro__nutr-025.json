@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "openai/gpt-5.6-sol-pro",
+  "questionId": "nutr-025",
+  "answerText": "Assumptions:\n\n- Starting weight: 2 × 300 g = **600 g raw**\n- Fat-cap trimming removes 15%: 600 × 0.85 = **510 g trimmed raw beef**\n- Grilling yield is about 75% due mostly to water loss: 510 × 0.75 ≈ **383 g cooked**\n- Typical grilled, trimmed sirloin per 100 g cooked: about **30.5 g protein, 5.8 g fat, and 183 kcal**\n\nFor 383 g cooked:\n\n- Protein: 30.5 × 3.83 ≈ **117 g**\n- Fat: 5.8 × 3.83 ≈ **22 g**\n- Calories: 183 × 3.83 ≈ **700 kcal**\n\nActual values will vary with the steak’s marbling and how much fat renders during grilling.\n\nProtein: 117 g  \nFat: 22 g  \nCalories: 700 kcal",
+  "raw": {
+    "id": "gen-1785341093-e9Z6LUxqp3LKycRJXC4L",
+    "object": "chat.completion",
+    "created": 1785341093,
+    "model": "openai/gpt-5.6-sol-pro",
+    "provider": "OpenAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Assumptions:\n\n- Starting weight: 2 × 300 g = **600 g raw**\n- Fat-cap trimming removes 15%: 600 × 0.85 = **510 g trimmed raw beef**\n- Grilling yield is about 75% due mostly to water loss: 510 × 0.75 ≈ **383 g cooked**\n- Typical grilled, trimmed sirloin per 100 g cooked: about **30.5 g protein, 5.8 g fat, and 183 kcal**\n\nFor 383 g cooked:\n\n- Protein: 30.5 × 3.83 ≈ **117 g**\n- Fat: 5.8 × 3.83 ≈ **22 g**\n- Calories: 183 × 3.83 ≈ **700 kcal**\n\nActual values will vary with the steak’s marbling and how much fat renders during grilling.\n\nProtein: 117 g  \nFat: 22 g  \nCalories: 700 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating nutritional values**\n\nI'm working through the nutritional calculations for sirloin steak. Starting with 600g raw, after trimming, I have 510g of edible raw steak. For raw sirloin, there are around 21g of protein, 6g of fat, and 140 kcal per 100g. Cooking it results in some water loss, and I believe the yield would be approximately 75%, which means 510g raw turns into about 383g cooked. The resulting totals would be about 111g protein, 23g fat, and around 678 kcal. But there seems to be some inconsistency in the energy calculations, so I'll need to clarify the cooking yields and the values for cooked steak.**Finalizing nutritional calculations**\n\nI need to clearly present the final values: for 383g of cooked sirloin, the nutritional values are approximately 30.5g of protein, 5.8g of fat, and 183 calories per 100g. Multiplying these figures, I end up with about 116.7g of protein, 22.2g of fat, and 700 calories total. It's essential to note variability in these figures as well. And also, don't forget that the trim removal accounts for about 15%, leaving me with 255g of raw trimmed steak for the total.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "**Calculating nutritional values**\n\nI'm working through the nutritional calculations for sirloin steak. Starting with 600g raw, after trimming, I have 510g of edible raw steak. For raw sirloin, there are around 21g of protein, 6g of fat, and 140 kcal per 100g. Cooking it results in some water loss, and I believe the yield would be approximately 75%, which means 510g raw turns into about 383g cooked. The resulting totals would be about 111g protein, 23g fat, and around 678 kcal. But there seems to be some inconsistency in the energy calculations, so I'll need to clarify the cooking yields and the values for cooked steak.**Finalizing nutritional calculations**\n\nI need to clearly present the final values: for 383g of cooked sirloin, the nutritional values are approximately 30.5g of protein, 5.8g of fat, and 183 calories per 100g. Multiplying these figures, I end up with about 116.7g of protein, 22.2g of fat, and 700 calories total. It's essential to note variability in these figures as well. And also, don't forget that the trim removal accounts for about 15%, leaving me with 255g of raw trimmed steak for the total.",
+              "format": "openai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "gAAAAABqaiTPwFBQ4Y31J3iSvlCAtXQlVKt0cBJ1fUp_rDdRTeVNMhsVFMCHAreYRATQe1em07zcpSrFZ9W6RBnTfHvvSlk9JM57NooozYMbOug9fWv_M9Ku_eD85Cgd6hFOeYhesOlU9AeglQ2xDUi4OT7jw8K6ckkngjodD5Tqs2efEB3B0QZi9W6OoMLssMDouZ8fsdgQ3M5gUV-HuY37dGGn_J9J9Yy5tnCElKKfV1D9pxLl9tj5t5lLmkDPSRZPI1d-r_5TnaqmRDNXdqJnxKkU83YVpDFq7rLnqVCeWBkSsPRGtI-xW9USASkg5I45LmHvEjStoWYGBdzuCabBgIhpsfB1XLYI4MAU3VvhDxfYoDB5aYnQNlWHkECLAxF_PrpcoYFgbwe5sCSlm4PNHylH_BZRf_5e1vZUouGL-FHdJciHhIzP_-oC37prdDO3vfCXvyQfgrAgGgTvCFkh76vf7LkuEJZOoSBWIhtjXeb7lowd3ZavHeo88oZ6Fn1SNduRqVF5oc_xMorPh7BPyzrWMa33039nykU1sE3G5cStEJj8nR04t1YB8kJ60v6ChF9Tg9vxkh2vEWYw6cq86D40RcplFWFuu9LdovooUOx-ITmqfemtFv51XwjgaghyiJDnoCScQIp5_eQXL4BRIuO-bAfJ9DE5DVAnjgbbzW8jdIxrMopOCDtTZzC6Uuw1U2ycwiibQJ7pxsMn8Vg8ilUKwZIKegScSFKjPs8xh8kXvu_gMRY_4GMN_VoUAz_nf9UehaRjoE9wy_ucn3D_1JiosxWg6hk-gSqcaI2jNLlKFDZOmdmRO0FxxHtwjzDamGLqya5JbluOvHiYthRiIWBM3_1HnuVC7I6uDSm4DQqSjO-1r9V6Yk6mrUh7u8g2xgroxYncucJzeKqbWLipDxPF7zwTgjHpIEi0BlFvIlFTwrCP14G8rsu-M_OuTeVNwoYnDFW--gj-ntW-BOM4aeRmTceMXGvwqu2xLWUpwLjpuUCjEkL2UPG1wEfjuRjlDErVcLd38J_4CVJXR3RX5FJNKSh1GYP16UoxN6C3pO5HaMJR-IHaZDCFLcjYEJQgUONM-wLhL9sQXn8QlNnskjfxWu5V3ABYPHowOjfxbYinyegkfPlo9nwUPZonOGLReDJVpHG4cywDIsVa4xWqlD6HSwpIQXHU3fjVySAz8mai8ytNm9KgyfI0tX_LzB3QUDSDTM3wtrZ7GfOTrGGua0MHFlHbARAnLGyVFYgN4Bam4mJZvZsjoXyYFL6Bdrn_7fq5hitWID1InBhG8S2mcfBhqpr-uZRkCo759yhhlRNUFiurcZDl1xmqxv92M9_lKwfMZt7GMxSmbqIicvtmIsNz9Gr3rtIlbnmVKFktyjgkKFNilAhdjxUBFhZmuG5edaePNN6AjRn2BzNm-JUx-bF4R-ksVvCEVv1WMyM649SuvrTL2-cc8mznwri4nShcmzikTEi24bGiCXc23fC4ns_nj7SMW_Bk59mKWUzckuwB-FaLuUJXOhj1m0GOIeLUSlDLDv53YGq7akXwl_q3tt6q_QzjGnsdKRqJdv_UT1_JEt_wzU_-JzdFLn30ZpZCkEl92AyAlUFr8P5fmJ9s10wjMP00mnxZL_VoQznDQsXS5GqxZedyTYCY2UVDrduu9TYHs2eumBgTZICktYF7reTGOfz3XXdXK_NdP2X2hGePOXwhssgDla_WGaYbvvyxKyL7wD0K5GHNzG7XfdycPidMCrNwfJ65cSx1zYc1nhEHpSGgiYqLBUmuzbZhtK_Roa_7jDCY2bo4zvbfQZCCrsYiZw7BWNL2cXLeN5XPKkQHLbHx_unpY3L5ojPh0cUbSKvt9zETodPaoTkT3mJTZ8PU8dWOjXE1RRiDp-e9BpR2plH6nBtpCPG5KHAGVzLNfUjiegsGiuzhAyYOJJqeIFUsPVRPAclHKTpEW2GeYSXbljjLLrGNy5-TnemH7CI_G67e2ZUeCTKJLAflqwzQGS7P2u2PVMofxwNsU9E5kRf9-bwzc_QsOO_OJujYDae0nDLF42OClMz6G-0lKWDFifff_4lO95VlxVCG1OyHgM2knmvVts4csG1m8nX7uFqGGrnBvzneib_h9i74jRJdUZ1mPbsx4fQCKlqgRbGKifYZhd4w1J4WMM7yDfpX3Jmhqp5X3DqZ7osUf-Uj4uZZafrTEWkWn2nEcXRvUuYwkfZln4LeAC2XCpqniPjj-20AZv2C2sasURLOFh9k9KfKF9HjMtaNh5qkvQ-3l5zJJDDIFe6IWqpAGX-IUjuVKngdAJMxmINVfp5K452vkomeaEqk1JC8dSC7cMusEOM4g_vavMcAtJjEU03d25BxZyttIMVb7epfdG_dsgnC5n1t597cNqwOFbGgtwcUnXTqquDUoBhHrvvFmfasxENukjc-Mv_pgtrZlLo-GII9gEMYAXBLEHLDBocBVJmbobHmWLj9bY0StSogUhV3qfN93040rFCfNXmlTEC3BFRaTdoZlbH0ee-loM9Clff65DaKdvEEvf3Mircu4R4_jxr1BgkIFWRopQyyzuLm1C2i2UMdZhJswmyukpWy3JWvJgt97hejhv_fpS9uCDF9Gr4p0RwB6QgOnE1PsNZYGeyEqfRp-Ug-dJjIVsNlwV3Im9hsUYi3f9CjFTNRKSwkqa9rKLmV_5obzNWgrALOoOTCzZg7jPkzQQu0i60Vyib0QJ3a0uaS3A73ktdBRq5Qxbf_cINu_wBUbDjd4a_fe9uZUyfvvMlhbqUhzjlA24205tV1mvQMwDDcQcpa1QRD-O3z6iNexIc6X6iDoXxr_vphHpQqzjEgmL26hhFId2xsry2QbfIPq8EiEvFtbCn_GEx8T1k-EwvBj7VCeAyHWxWTrCJ2oqzn2c4q9IqyAZH7CjLBeDuyDkjCocOag7qHLTncuZeb_IEhykKhrk6kjagxWHqGp7IQnhxF_yrSA-EhVZgFyqnfTuv2vTI=",
+              "format": "openai-responses-v1",
+              "id": "rs_00d5a86868247637016a6a24ca2c2481a0b93f0a6dc617eab3",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 4023,
+      "completion_tokens": 2830,
+      "total_tokens": 6853,
+      "cost": 0.105015,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.105015,
+        "upstream_inference_prompt_cost": 0.020115,
+        "upstream_inference_completions_cost": 0.0849
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 2222,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 4023,
+  "tokensOut": 2830,
+  "costUsd": 0.105015,
+  "latencyMs": 42010,
+  "finishReason": "stop"
+}

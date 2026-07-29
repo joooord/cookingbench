@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-021",
+  "answerText": "One large whole egg (about 50 g) contains roughly **70–72 kilocalories**. Most of the calories come from fat (~5 g, mostly in the yolk) and protein (~6 g), with less than 1 g of carbohydrates.\n\nAnswer: 72 kcal",
+  "raw": {
+    "id": "gen-1785340586-MCE23CGN9Z94lyiN3lJk",
+    "object": "chat.completion",
+    "created": 1785340586,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "One large whole egg (about 50 g) contains roughly **70–72 kilocalories**. Most of the calories come from fat (~5 g, mostly in the yolk) and protein (~6 g), with less than 1 g of carbohydrates.\n\nAnswer: 72 kcal",
+          "refusal": null,
+          "reasoning": "Looking at a calorie estimate of around 70-72 kcal for something.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Looking at a calorie estimate of around 70-72 kcal for something.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS/wEKiAEIEBgCKkB9ymKH+FIeV76T3CqIODqWoPwZVyCJdQKpvnCj0g9imoNPcWQYWQ1x3VMRLb2i3uNinzKCDsdxPGl4Jk00i/NxMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgxYXw+xN2FizoRUtPQaDKpzUAWOLDk91pEMRCIwZtgq2A6EJ5nwSxgntU9zMzVAJKOFyvbinWP3pFGVIpli4Bnw+Ku7GZa3lRpBcykQKiRiUSEcFu/TPufbWufsZj4sY+dqLgU5BZFRxVRWGTSHSdeuO2UYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 83,
+      "completion_tokens": 108,
+      "total_tokens": 191,
+      "cost": 0.00623,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00623,
+        "upstream_inference_prompt_cost": 0.00083,
+        "upstream_inference_completions_cost": 0.0054
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 17,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 83,
+  "tokensOut": 108,
+  "costUsd": 0.00623,
+  "latencyMs": 5459,
+  "finishReason": "stop"
+}

@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-022",
+  "answerText": "About 100 g of dry, uncooked white rice contains roughly **360–365 kcal**. Most of that energy comes from carbohydrates (~80 g), with small amounts of protein (~7 g) and very little fat (<1 g).\n\nNote that cooked rice has far fewer calories per 100 g (about 130 kcal) because it absorbs water during cooking.\n\nAnswer: 365 kcal",
+  "raw": {
+    "id": "gen-1785340587-2xcXwESg1aMCui3ak5jq",
+    "object": "chat.completion",
+    "created": 1785340587,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "About 100 g of dry, uncooked white rice contains roughly **360–365 kcal**. Most of that energy comes from carbohydrates (~80 g), with small amounts of protein (~7 g) and very little fat (<1 g).\n\nNote that cooked rice has far fewer calories per 100 g (about 130 kcal) because it absorbs water during cooking.\n\nAnswer: 365 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 83,
+      "completion_tokens": 132,
+      "total_tokens": 215,
+      "cost": 0.00743,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00743,
+        "upstream_inference_prompt_cost": 0.00083,
+        "upstream_inference_completions_cost": 0.0066
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 83,
+  "tokensOut": 132,
+  "costUsd": 0.00743,
+  "latencyMs": 5423,
+  "finishReason": "stop"
+}

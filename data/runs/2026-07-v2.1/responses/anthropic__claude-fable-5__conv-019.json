@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "conv-019",
+  "answerText": "A fan (convection) oven runs hotter than a conventional oven at the same setting, so you need to compensate when converting.\n\n**Step 1: Adjust for the fan.** The standard rule is to add about 20°C when going from fan to conventional:\n160°C fan ≈ 180°C conventional\n\n**Step 2: Convert to Fahrenheit.**\n180°C × 9/5 + 32 = 356°F, which rounds to the standard American baking temperature of **350°F**.\n\nBake for the same time the recipe states, but check a few minutes early the first time, since ovens vary.\n\nAnswer: 350 °F",
+  "raw": {
+    "id": "gen-1785340458-5FPeLGwZSJ2X83WqW95z",
+    "object": "chat.completion",
+    "created": 1785340458,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A fan (convection) oven runs hotter than a conventional oven at the same setting, so you need to compensate when converting.\n\n**Step 1: Adjust for the fan.** The standard rule is to add about 20°C when going from fan to conventional:\n160°C fan ≈ 180°C conventional\n\n**Step 2: Convert to Fahrenheit.**\n180°C × 9/5 + 32 = 356°F, which rounds to the standard American baking temperature of **350°F**.\n\nBake for the same time the recipe states, but check a few minutes early the first time, since ovens vary.\n\nAnswer: 350 °F",
+          "refusal": null,
+          "reasoning": "I'm noting the oven temperature conversion: a fan setting of 160°C is roughly equivalent to 180°C in a conventional oven, or about 350°F.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm noting the oven temperature conversion: a fan setting of 160°C is roughly equivalent to 180°C in a conventional oven, or about 350°F.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISlwIKiAEIEBgCKkCndS7H/XWsKZb2k70CNr4UGiWw01ohDZnOMbtvXdp7e+CyyLeUqEYSXf0U8lepU/7OzkCDV7Ha+78XSUsDp4ZiMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgyXCnMRUfa/5sXVRpIaDETXrBlGzLxtwf5kHiIwABmtxnCiQuaVNnSwZM4zp35QIztswjhJj6AmyRjGVIBMyFYow/wU1za5wu8LlujoKjzqZUOGCWOFFdxCTFtYZWm6qfUd4ZZcV79noO7Pjk12S5IqJd11I7gygypNNzJm7fnkn+P86TCfjjqHUN4YAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 109,
+      "completion_tokens": 227,
+      "total_tokens": 336,
+      "cost": 0.01244,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01244,
+        "upstream_inference_prompt_cost": 0.00109,
+        "upstream_inference_completions_cost": 0.01135
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 36,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 109,
+  "tokensOut": 227,
+  "costUsd": 0.01244,
+  "latencyMs": 5853,
+  "finishReason": "stop"
+}

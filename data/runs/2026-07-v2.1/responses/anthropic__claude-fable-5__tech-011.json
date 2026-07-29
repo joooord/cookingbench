@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "tech-011",
+  "answerText": "You've got two separate issues going on:\n\n## Problem 1: Weeping/Beading (liquid droplets)\n\n**Cause:** This is usually a temperature/cooking issue.\n- **Beads on top** typically come from *overbaking* — the egg proteins over-coagulate and squeeze out moisture (like an overcooked custard).\n- **Weeping underneath** (liquid pooling between meringue and pie filling) comes from *underbaking* — the egg whites at the base never fully set.\n\n**Fixes:**\n- Spread meringue on a **hot filling** so the bottom layer cooks through, and seal it to the crust edges.\n- Bake at a moderate temperature (around 325–350°F / 160–175°C) rather than a quick blast under high heat.\n- Avoid making meringue on very humid days — sugar attracts moisture from the air.\n- A small amount of cornstarch (or a cooked cornstarch slurry beaten in) stabilizes the whites and helps prevent weeping.\n\n## Problem 2: Gritty Sugar\n\n**Cause:** The sugar never fully dissolved into the egg whites.\n\n**Fixes:**\n- Add sugar **gradually** (about a tablespoon at a time) only *after* the whites reach soft peaks — dumping it in too early or too fast prevents dissolving.\n- Use **superfine (caster) sugar**, which dissolves much faster than granulated. You can pulse regular sugar in a food processor.\n- Keep beating until you can rub a bit of meringue between your fingers and feel **no grit** — that's the standard doneness test.\n- Alternatively, make a **Swiss meringue**: gently heat the whites and sugar together over a water bath (to about 160°F / 71°C) until the sugar dissolves completely, then whip.\n\nNote: undissolved sugar can actually contribute to weeping too, since it draws out moisture — so fixing the grittiness often helps both problems.",
+  "raw": {
+    "id": "gen-1785340823-5W3w3BfKa2ldIdkRgx71",
+    "object": "chat.completion",
+    "created": 1785340823,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "You've got two separate issues going on:\n\n## Problem 1: Weeping/Beading (liquid droplets)\n\n**Cause:** This is usually a temperature/cooking issue.\n- **Beads on top** typically come from *overbaking* — the egg proteins over-coagulate and squeeze out moisture (like an overcooked custard).\n- **Weeping underneath** (liquid pooling between meringue and pie filling) comes from *underbaking* — the egg whites at the base never fully set.\n\n**Fixes:**\n- Spread meringue on a **hot filling** so the bottom layer cooks through, and seal it to the crust edges.\n- Bake at a moderate temperature (around 325–350°F / 160–175°C) rather than a quick blast under high heat.\n- Avoid making meringue on very humid days — sugar attracts moisture from the air.\n- A small amount of cornstarch (or a cooked cornstarch slurry beaten in) stabilizes the whites and helps prevent weeping.\n\n## Problem 2: Gritty Sugar\n\n**Cause:** The sugar never fully dissolved into the egg whites.\n\n**Fixes:**\n- Add sugar **gradually** (about a tablespoon at a time) only *after* the whites reach soft peaks — dumping it in too early or too fast prevents dissolving.\n- Use **superfine (caster) sugar**, which dissolves much faster than granulated. You can pulse regular sugar in a food processor.\n- Keep beating until you can rub a bit of meringue between your fingers and feel **no grit** — that's the standard doneness test.\n- Alternatively, make a **Swiss meringue**: gently heat the whites and sugar together over a water bath (to about 160°F / 71°C) until the sugar dissolves completely, then whip.\n\nNote: undissolved sugar can actually contribute to weeping too, since it draws out moisture — so fixing the grittiness often helps both problems.",
+          "refusal": null,
+          "reasoning": "I'm distinguishing between two main meringue problems: weeping, which shows up as syrup beads or liquid pooling on the surface from either undercooking or overbaking, and grittiness from sugar that never fully dissolved. The key is that beading indicates overcooking while weeping underneath suggests undercooking, whereas grittiness is purely about sugar dissolution.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm distinguishing between two main meringue problems: weeping, which shows up as syrup beads or liquid pooling on the surface from either undercooking or overbaking, and grittiness from sugar that never fully dissolved. The key is that beading indicates overcooking while weeping underneath suggests undercooking, whereas grittiness is purely about sugar dissolution.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISoAQKiAEIEBgCKkBnK6TEbZM3DHKiiZXaMJ/jzC0L2+Seqfqh+EzahsUGsymuQeyCfkngVx3r4mU/FUWneQD6247BsxcZZy3KsjkhMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgxjsyAHS1daQo6rgEwaDOtLJ/Wx80ju1AvNLyIwCXCAuCBQKiK9K60uoKHzC/qxjTQaz9oOq5zQ361caeb20PhZQOdyXGsUnnSimY9kKsQCcY2lCYZpDHcSKEXyPiG03OUqNWkLFDY0TBcwj43lTCU++gMcI5gyGe7GzmZMLriWNvhvxaUAZC3xbzT2ipE6xsNzT8wcFvCVHTi8AhYFfYVE581uzvpPQSTki67nJ0vSk8/JPz8LgzouN2qoFJ6j9dAfsgZbxAGDCEAzw/soKYu6zqIko0zcHSSy235C//F/obP9VtVKWP1ey6YPWMnudi7LIB9sS+j3Kw6ag1pecLlSDhuxd3GHO1t24rTzzZ1WGEYIQ67ESaOZds+KDHGFcU3HVXWKDVPAmFssTEPmxy3awp3tvSecXx7BmhosXw4Sg/uG0tQWzabteKVhSfyOtVT/gB1PUXgEWJYPDUYdI7LecEYMGxGI2RaYphdGSMsa0L2G8LrQLBIRw23rHT6I4lLzS6QtmWu1fYMxlXnYQjA2UgxzGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 86,
+      "completion_tokens": 756,
+      "total_tokens": 842,
+      "cost": 0.03866,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.03866,
+        "upstream_inference_prompt_cost": 0.00086,
+        "upstream_inference_completions_cost": 0.0378
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 92,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 86,
+  "tokensOut": 756,
+  "costUsd": 0.03866,
+  "latencyMs": 13469,
+  "finishReason": "stop"
+}

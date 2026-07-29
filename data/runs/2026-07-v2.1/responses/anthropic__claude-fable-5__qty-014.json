@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-014",
+  "answerText": "To keep the batter depth the same, scale by the ratio of the tin areas.\n\n- Round tin area: π × (10 cm)² ≈ 314.16 cm²\n- Square tin area: 20 × 20 = 400 cm²\n\nScaling factor: 400 ÷ 314.16 ≈ 1.27\n\nSo increase all ingredients by about 27% (a factor of roughly 1.27). In practice, scaling by 1.25 (e.g., using 5 eggs instead of 4) is close enough.\n\nAnswer: 1.27",
+  "raw": {
+    "id": "gen-1785340643-cblBjVRGyHhfDA1VYFIq",
+    "object": "chat.completion",
+    "created": 1785340643,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To keep the batter depth the same, scale by the ratio of the tin areas.\n\n- Round tin area: π × (10 cm)² ≈ 314.16 cm²\n- Square tin area: 20 × 20 = 400 cm²\n\nScaling factor: 400 ÷ 314.16 ≈ 1.27\n\nSo increase all ingredients by about 27% (a factor of roughly 1.27). In practice, scaling by 1.25 (e.g., using 5 eggs instead of 4) is close enough.\n\nAnswer: 1.27",
+          "refusal": null,
+          "reasoning": "The square has about 1.27 times the area of the circle when comparing a 400-unit square to a circle with radius 100.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The square has about 1.27 times the area of the circle when comparing a 400-unit square to a circle with radius 100.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISqgIKiAEIEBgCKkD2RI3EDlEEfowifLv50y9k/DcOvqyKObcwr5APsNDjFsRbU2jXrLJ4CdTkwoh70YxlaM7nMdjSJ88Sk8Wn8qayMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgwLsU8STa142oaMRH8aDKiFsAwUZffJ7umjkCIweQV1MxDRFI2MGB3iB+1mkPpx2NifDi505LeAbs+Z0C8xbTfHfQJWCpavYf+C1gXwKk/fDDtRyX+jNR0HT5TnaO6FuoMkYE00ya8ikLfLt/xaxQKrVcS0NuwbP9m8IRCmgEkTVietfgQfToIGM+vfxIxQXZE9g0H/g7kAVpCAtb7oGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 123,
+      "completion_tokens": 214,
+      "total_tokens": 337,
+      "cost": 0.01193,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01193,
+        "upstream_inference_prompt_cost": 0.00123,
+        "upstream_inference_completions_cost": 0.0107
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 29,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 123,
+  "tokensOut": 214,
+  "costUsd": 0.01193,
+  "latencyMs": 5682,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "conv-003",
+  "answerText": "A US tablespoon is defined as 14.7868 ml (about 14.79 ml). So 2 US tablespoons = 2 × 14.7868 ≈ 29.57 ml — often rounded to 30 ml in recipes.\n\nAnswer: 29.57 ml",
+  "raw": {
+    "id": "gen-1785340440-mmlkX2KhQn4ZmnrQ7pUC",
+    "object": "chat.completion",
+    "created": 1785340440,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A US tablespoon is defined as 14.7868 ml (about 14.79 ml). So 2 US tablespoons = 2 × 14.7868 ≈ 29.57 ml — often rounded to 30 ml in recipes.\n\nAnswer: 29.57 ml",
+          "refusal": null,
+          "reasoning": "Two tablespoons converts to about 29.6 milliliters.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Two tablespoons converts to about 29.6 milliliters.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISkwIKiAEIEBgCKkC8k3btODDb7eUmQvAhEuQGyrILeVDaVV8orXhA9HbwpwexHUEytIXVgPaB2N7zFbJWdLWUTLmmO8okP56cOa51Mg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgzZ8I/oV4SjoxDjf+IaDEd9AjsSg4L0akZSwCIwPeAbBGjq4i32arLb2JGQMbW+0U204wK6q/tr/pwbITlAGKbn9OHmeRcky5HVKkJUKjiM/00TCvdyKzz6kQ0j2ls9F4Qj6RNh+FR2WxkJ8zTho7orAP62hyky2KzkAXxJ0a7KSiMSLEGzERgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 73,
+      "completion_tokens": 123,
+      "total_tokens": 196,
+      "cost": 0.00688,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00688,
+        "upstream_inference_prompt_cost": 0.00073,
+        "upstream_inference_completions_cost": 0.00615
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 13,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 73,
+  "tokensOut": 123,
+  "costUsd": 0.00688,
+  "latencyMs": 4704,
+  "finishReason": "stop"
+}

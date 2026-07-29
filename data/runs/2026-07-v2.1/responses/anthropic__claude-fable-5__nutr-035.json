@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-035",
+  "answerText": "Breaking it down with Atwater factors:\n\n- **Available carbohydrate:** 62 g − 9 g fibre = 53 g × 4 kcal/g = 212 kcal\n- **Fibre:** 9 g × 2 kcal/g = 18 kcal\n- **Protein:** 11 g × 4 kcal/g = 44 kcal\n- **Fat:** 8 g × 9 kcal/g = 72 kcal\n\nTotal: 212 + 18 + 44 + 72 = 346 kcal\n\nAnswer: 346 kcal",
+  "raw": {
+    "id": "gen-1785340620-zexDUI0EjsPoBNKolCe0",
+    "object": "chat.completion",
+    "created": 1785340620,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Breaking it down with Atwater factors:\n\n- **Available carbohydrate:** 62 g − 9 g fibre = 53 g × 4 kcal/g = 212 kcal\n- **Fibre:** 9 g × 2 kcal/g = 18 kcal\n- **Protein:** 11 g × 4 kcal/g = 44 kcal\n- **Fat:** 8 g × 9 kcal/g = 72 kcal\n\nTotal: 212 + 18 + 44 + 72 = 346 kcal\n\nAnswer: 346 kcal",
+          "refusal": null,
+          "reasoning": "I'm calculating the macronutrient totals: after subtracting 9 grams of carbs from 62, I have 53 grams remaining, which converts to 212 calories. Adding in 18 calories from fiber, 44 from protein, and 72 from fat gives me a total of 346 calories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the macronutrient totals: after subtracting 9 grams of carbs from 62, I have 53 grams remaining, which converts to 212 calories. Adding in 18 calories from fiber, 44 from protein, and 72 from fat gives me a total of 346 calories.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISugIKiAEIEBgCKkBjttej4rn8CXpCR1QhkKXq69A8I2Inif5hNGmTJMEbOU56zSUj4jLUQtKN8t+FovGLKv9YApjUOPOQ8L5Gwkv+Mg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3Egw5WMdgI+V314MZZ54aDK9WiJjIgcETcYdV8iIwxhZtyFfMt++BfMuVT6oLEzIAOAgVDDI8HOFz3/uPXW0LfD8flVkSwNnw8165o6pxKl91KW6Vc5OWrN29H+I10rsLDKsp5uisrUkqUmA3P6pFXl05wW7vpe8Y+GvhUo0bOqFPChF/fZmU9ssRr5Bbf3hhCEPphNZySU8uad7Va8Bw0beR/0FdgjUGlKazt076gxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 162,
+      "completion_tokens": 228,
+      "total_tokens": 390,
+      "cost": 0.01302,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01302,
+        "upstream_inference_prompt_cost": 0.00162,
+        "upstream_inference_completions_cost": 0.0114
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 62,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 162,
+  "tokensOut": 228,
+  "costUsd": 0.01302,
+  "latencyMs": 5560,
+  "finishReason": "stop"
+}

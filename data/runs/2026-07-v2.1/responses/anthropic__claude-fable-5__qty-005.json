@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-005",
+  "answerText": "To scale the recipe:\n\n- Butter per cookie: 250 g ÷ 24 = 10.4167 g\n- For 90 cookies: 10.4167 × 90 = 937.5 g\n\nYou'll need 937.5 g of butter (about 940 g in practice — roughly 3¾ standard 250 g blocks).\n\nAnswer: 937.5 g",
+  "raw": {
+    "id": "gen-1785340632-6nfUy3H8XKOsWcDtiOvf",
+    "object": "chat.completion",
+    "created": 1785340632,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To scale the recipe:\n\n- Butter per cookie: 250 g ÷ 24 = 10.4167 g\n- For 90 cookies: 10.4167 × 90 = 937.5 g\n\nYou'll need 937.5 g of butter (about 940 g in practice — roughly 3¾ standard 250 g blocks).\n\nAnswer: 937.5 g",
+          "refusal": null,
+          "reasoning": "I'm calculating a ratio: 250 divided by 24, then multiplying the result by 90 to get 937.5.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating a ratio: 250 divided by 24, then multiplying the result by 90 to get 937.5.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS/gEKiAEIEBgCKkAVbQYwA9Q4wULGXAw9FHJiO3BS/lMEofGcZqsnwD19rrYaxBdIKjVPbznwzMfXbgoNJsuHZpKeArlfIQjiMCi+Mg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgzLkWIJbjDzl2BJ75MaDGeqfqqD92HcMI20GyIwMoQQSTFv5Wa6GwL9Hef5+xbZi6zURmI9pGtGxoO62NQblOQAvFFY2BBBciiLt1AxKiOxDKJ+GVq5Rd947EjIMibQRGdkEgnuCBtFuG1C4iafkGrm2BgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 107,
+      "completion_tokens": 134,
+      "total_tokens": 241,
+      "cost": 0.00777,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00777,
+        "upstream_inference_prompt_cost": 0.00107,
+        "upstream_inference_completions_cost": 0.0067
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 23,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 107,
+  "tokensOut": 134,
+  "costUsd": 0.00777,
+  "latencyMs": 4588,
+  "finishReason": "stop"
+}

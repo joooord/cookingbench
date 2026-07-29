@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "safe-005",
+  "answerText": "The USDA safe minimum internal temperature for a pork chop is **145°F (63°C)**, measured with a food thermometer at the thickest part of the chop.\n\nImmediately after removing it from the heat, you should let it **rest for at least 3 minutes** before cutting or eating. This rest time allows the temperature to remain steady or continue rising slightly, which helps destroy any remaining harmful bacteria — and as a bonus, it lets the juices redistribute for a juicier chop.\n\n(Note: ground pork is different — it must reach 160°F with no rest time required.)",
+  "raw": {
+    "id": "gen-1785340521-HI3F5beSlj5aH5JRFYr8",
+    "object": "chat.completion",
+    "created": 1785340521,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA safe minimum internal temperature for a pork chop is **145°F (63°C)**, measured with a food thermometer at the thickest part of the chop.\n\nImmediately after removing it from the heat, you should let it **rest for at least 3 minutes** before cutting or eating. This rest time allows the temperature to remain steady or continue rising slightly, which helps destroy any remaining harmful bacteria — and as a bonus, it lets the juices redistribute for a juicier chop.\n\n(Note: ground pork is different — it must reach 160°F with no rest time required.)",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 85,
+      "completion_tokens": 188,
+      "total_tokens": 273,
+      "cost": 0.01025,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01025,
+        "upstream_inference_prompt_cost": 0.00085,
+        "upstream_inference_completions_cost": 0.0094
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 85,
+  "tokensOut": 188,
+  "costUsd": 0.01025,
+  "latencyMs": 6252,
+  "finishReason": "stop"
+}

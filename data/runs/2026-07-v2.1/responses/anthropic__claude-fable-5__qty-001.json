@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-001",
+  "answerText": "Scaling factor: 5 ÷ 2 = 2.5, so multiply each ingredient by 2.5.\n\n- Flour: 500 × 2.5 = 1250 g\n- Water: 350 × 2.5 = 875 g\n- Salt: 10 × 2.5 = 25 g\n- Instant yeast: 7 × 2.5 = 17.5 g\n\nThis keeps the hydration at 70% and salt at 2% of flour weight, so the dough will behave the same — just divide into 5 equal loaves after bulk fermentation.\n\nFlour: 1250 g\nWater: 875 g\nSalt: 25 g\nInstant yeast: 17.5 g",
+  "raw": {
+    "id": "gen-1785340627-490rEfrzkYL5fCYCDevT",
+    "object": "chat.completion",
+    "created": 1785340627,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Scaling factor: 5 ÷ 2 = 2.5, so multiply each ingredient by 2.5.\n\n- Flour: 500 × 2.5 = 1250 g\n- Water: 350 × 2.5 = 875 g\n- Salt: 10 × 2.5 = 25 g\n- Instant yeast: 7 × 2.5 = 17.5 g\n\nThis keeps the hydration at 70% and salt at 2% of flour weight, so the dough will behave the same — just divide into 5 equal loaves after bulk fermentation.\n\nFlour: 1250 g\nWater: 875 g\nSalt: 25 g\nInstant yeast: 17.5 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 133,
+      "completion_tokens": 223,
+      "total_tokens": 356,
+      "cost": 0.01248,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01248,
+        "upstream_inference_prompt_cost": 0.00133,
+        "upstream_inference_completions_cost": 0.01115
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 133,
+  "tokensOut": 223,
+  "costUsd": 0.01248,
+  "latencyMs": 5231,
+  "finishReason": "stop"
+}

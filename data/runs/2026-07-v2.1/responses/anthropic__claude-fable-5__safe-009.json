@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "safe-009",
+  "answerText": "Raw ground beef should be stored in the refrigerator at or below 40°F (4°C) for only 1 to 2 days before cooking or freezing. Ground meat is more perishable than whole cuts because grinding exposes more surface area to bacteria. If you can't use it within that time, freeze it — it will keep safely for 3–4 months in the freezer.\n\nAnswer: 2 days",
+  "raw": {
+    "id": "gen-1785340527-8yMvstd0ngINP1muDyY2",
+    "object": "chat.completion",
+    "created": 1785340527,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Raw ground beef should be stored in the refrigerator at or below 40°F (4°C) for only 1 to 2 days before cooking or freezing. Ground meat is more perishable than whole cuts because grinding exposes more surface area to bacteria. If you can't use it within that time, freeze it — it will keep safely for 3–4 months in the freezer.\n\nAnswer: 2 days",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 101,
+      "completion_tokens": 127,
+      "total_tokens": 228,
+      "cost": 0.00736,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00736,
+        "upstream_inference_prompt_cost": 0.00101,
+        "upstream_inference_completions_cost": 0.00635
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 101,
+  "tokensOut": 127,
+  "costUsd": 0.00736,
+  "latencyMs": 5240,
+  "finishReason": "stop"
+}

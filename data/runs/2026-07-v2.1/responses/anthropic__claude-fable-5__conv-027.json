@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "conv-027",
+  "answerText": "A US cup is 236.6 ml, so 2 US cups = about 473 ml of milk.\n\nUsing your 250 ml Australian metric cup: 473 ÷ 250 ≈ 1.89 cups.\n\nIn practice, measure just a little less than 2 Australian cups (about 2 cups minus 2 tablespoons), or roughly 1.9 cups.\n\nAnswer: 1.9 cups",
+  "raw": {
+    "id": "gen-1785340470-6BzzuEqdKsc6GtWSgxCo",
+    "object": "chat.completion",
+    "created": 1785340470,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A US cup is 236.6 ml, so 2 US cups = about 473 ml of milk.\n\nUsing your 250 ml Australian metric cup: 473 ÷ 250 ≈ 1.89 cups.\n\nIn practice, measure just a little less than 2 Australian cups (about 2 cups minus 2 tablespoons), or roughly 1.9 cups.\n\nAnswer: 1.9 cups",
+          "refusal": null,
+          "reasoning": "Two US cups converts to about 473 milliliters, which works out to roughly 1.9 cups when divided by 250 milliliters—so just under 2 cups.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Two US cups converts to about 473 milliliters, which works out to roughly 1.9 cups when divided by 250 milliliters—so just under 2 cups.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISugIKiAEIEBgCKkBxdzayfG40cRw1nlEf5oZ8b5Kqy58J07EBTIfhtBohmDtViU0dQofocx0UwCYbl9H5xB0gPRmyi2zJRw72lzS6Mg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgxvIsr64wwmnR9n0CIaDI+BQ51mv8qV/n9QDCIw/XqexXaKiedHe45osuhcB0w+WeQv7JywRceOhOjJGw1xbcMZjXLlMFG74OfNvPjcKl9FxDOkqYe4DF+R8D7VVhXAm8LGS4gmmct2vBs3dBQ6DV591/4RmHfBYJ77TkoGuv/td56VGMYWg7pOgmqweQa1FK3j2GWHvU26UeA1JgQdO61xEfT2hao1cEfgV77fzxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 107,
+      "completion_tokens": 185,
+      "total_tokens": 292,
+      "cost": 0.01032,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01032,
+        "upstream_inference_prompt_cost": 0.00107,
+        "upstream_inference_completions_cost": 0.00925
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 35,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 107,
+  "tokensOut": 185,
+  "costUsd": 0.01032,
+  "latencyMs": 5989,
+  "finishReason": "stop"
+}

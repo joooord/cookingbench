@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "conv-028",
+  "answerText": "A Polish szklanka is 250 ml, so doubling the recipe means you need 500 ml of sour cream.\n\nOne US cup is about 236.6 ml, so:\n\n500 ÷ 236.6 ≈ 2.11 cups\n\nIn practice, use 2 cups plus about 2 tablespoons — or just a scant 2¼ cups. For sour cream in most recipes (like pierogi dough, cakes, or sauces), rounding to a generous 2 cups will work fine.\n\nAnswer: 2.1 cups",
+  "raw": {
+    "id": "gen-1785340472-QVnD6VEli48L15yxKgb7",
+    "object": "chat.completion",
+    "created": 1785340472,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A Polish szklanka is 250 ml, so doubling the recipe means you need 500 ml of sour cream.\n\nOne US cup is about 236.6 ml, so:\n\n500 ÷ 236.6 ≈ 2.11 cups\n\nIn practice, use 2 cups plus about 2 tablespoons — or just a scant 2¼ cups. For sour cream in most recipes (like pierogi dough, cakes, or sauces), rounding to a generous 2 cups will work fine.\n\nAnswer: 2.1 cups",
+          "refusal": null,
+          "reasoning": "A standard Polish glass is 250 ml, so doubling it gives 500 ml. Converting to US cups by dividing by 236.6 ml per cup gives approximately 2.1 cups.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "A standard Polish glass is 250 ml, so doubling it gives 500 ml. Converting to US cups by dividing by 236.6 ml per cup gives approximately 2.1 cups.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS1QIKiAEIEBgCKkAsVjiZRvaG1v9qbq3MeOMGUFuFMC8DH0WN5H9SBNb4yKeqYDuHgp6m/SsYkvWXVrADeYnFMU7Ctg6aP1o5f52wMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgwV3oJ0BHplUvdlzHgaDDoZdW6iAPXSBD0ssCIwN2CothoIT1xw8aLVYgR1rK2bl8eym1rmQsYbFkdww0+IKFNQxh/sMchu50NqLnlXKnpH/uZEs1iN+++x+87k2HvhYvulbud2/7FdLtSjVDhgNUjtc/7UJgEyuOi4i6I5YhyHLyX7763g7UHTE0l8Q4DwnNweXHztihfLcv5dpJv4GZxBqDm8wQZPd9WHrtGTTHXTBgPv0EVy08+Qn7iWFyWpyq28yt5m8+oJ3hgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 134,
+      "completion_tokens": 244,
+      "total_tokens": 378,
+      "cost": 0.01354,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01354,
+        "upstream_inference_prompt_cost": 0.00134,
+        "upstream_inference_completions_cost": 0.0122
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 37,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 134,
+  "tokensOut": 244,
+  "costUsd": 0.01354,
+  "latencyMs": 6111,
+  "finishReason": "stop"
+}

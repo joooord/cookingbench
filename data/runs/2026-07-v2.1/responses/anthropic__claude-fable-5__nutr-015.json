@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-015",
+  "answerText": "**Alcohol calories:**\n- Alcohol volume: 150 ml × 0.12 = 18 ml\n- Alcohol mass: 18 ml × 0.789 g/ml = 14.2 g\n- Calories: 14.2 g × 7 kcal/g ≈ 99.4 kcal\n\n**Sugar calories:**\n- 3 g × 4 kcal/g = 12 kcal\n\n**Total:** 99.4 + 12 ≈ 111 kcal\n\nAnswer: 111 kcal",
+  "raw": {
+    "id": "gen-1785340582-u5mj9GDgDE9A3Bvb6MpH",
+    "object": "chat.completion",
+    "created": 1785340582,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Alcohol calories:**\n- Alcohol volume: 150 ml × 0.12 = 18 ml\n- Alcohol mass: 18 ml × 0.789 g/ml = 14.2 g\n- Calories: 14.2 g × 7 kcal/g ≈ 99.4 kcal\n\n**Sugar calories:**\n- 3 g × 4 kcal/g = 12 kcal\n\n**Total:** 99.4 + 12 ≈ 111 kcal\n\nAnswer: 111 kcal",
+          "refusal": null,
+          "reasoning": "I'm calculating the caloric content of a drink by working through the alcohol content first—150 ml at 12% ABV converts to about 14 grams of pure alcohol, which contributes roughly 99 calories—then adding the 12 calories from sugar for a total of around 111 calories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the caloric content of a drink by working through the alcohol content first—150 ml at 12% ABV converts to about 14 grams of pure alcohol, which contributes roughly 99 calories—then adding the 12 calories from sugar for a total of around 111 calories.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISxAIKiAEIEBgCKkCvxlzZ7fmRXEIBiETW0XlhTLx/wt4YP+0amTsKGJyMARlfYRBwSp3XkwSoAmd9tmeEF/09KQEHTbbIgeppiFzCMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgwYkWtQIVZcctWzAj4aDNX9ccpAn/BS0ZJ48SIwSps1fYCL2CIiyL6b/yteb58eEw160kH8jji9afeZzhtrtI/4RyHrgEXMZIeSpcuUKmlBwbQS3+npGlP8cXjxWUuDm17QzzFImCZVVSdeItdJM4gubYEOnbzGpz6XuA0e7qHqLdVal9BeP7AGVus64bT6zgIp1FWBDuFBssrvoJjs8702oHPSX2wLkydWxyfaADDbliN0ikz8lXcYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 146,
+      "completion_tokens": 234,
+      "total_tokens": 380,
+      "cost": 0.01316,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01316,
+        "upstream_inference_prompt_cost": 0.00146,
+        "upstream_inference_completions_cost": 0.0117
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 68,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 146,
+  "tokensOut": 234,
+  "costUsd": 0.01316,
+  "latencyMs": 5736,
+  "finishReason": "stop"
+}

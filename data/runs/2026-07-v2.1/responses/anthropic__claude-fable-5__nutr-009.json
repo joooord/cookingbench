@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-009",
+  "answerText": "Fat calories: 27 g × 9 kcal/g = 243 kcal\n\nPercentage: 243 ÷ 600 × 100 = 40.5%\n\nAnswer: 40.5 %",
+  "raw": {
+    "id": "gen-1785340575-8rcETHqYx8wxxSlKLK7A",
+    "object": "chat.completion",
+    "created": 1785340575,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Fat calories: 27 g × 9 kcal/g = 243 kcal\n\nPercentage: 243 ÷ 600 × 100 = 40.5%\n\nAnswer: 40.5 %",
+          "refusal": null,
+          "reasoning": "I'm calculating that 27 times 9 equals 243, which represents about 40.5% when divided by 600.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating that 27 times 9 equals 243, which represents about 40.5% when divided by 600.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISggIKiAEIEBgCKkBA4ltYRh+4qKpj4JWtdDiNUupGxAaC4tvNs23JtFTGjazV2r8E1Uo40ycmPTTiktG8F8jtBa6i3F/6GrrlqDIyMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3Egz7fsDBEqsJe81isIIaDPSultArCyr8LIukQSIwKdpnL/M4dqhhiRjWn7dT94/3EqWN194RZ4rxfEOATda2rnwE7/6JEKrp6jcA/e44KieT73ht1qFJql9DBrRTaaGgJIfBOEV56hmuymNeVO211oZjiBaXOD4YAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 104,
+      "completion_tokens": 82,
+      "total_tokens": 186,
+      "cost": 0.00514,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00514,
+        "upstream_inference_prompt_cost": 0.00104,
+        "upstream_inference_completions_cost": 0.0041
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 24,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 104,
+  "tokensOut": 82,
+  "costUsd": 0.00514,
+  "latencyMs": 4062,
+  "finishReason": "stop"
+}

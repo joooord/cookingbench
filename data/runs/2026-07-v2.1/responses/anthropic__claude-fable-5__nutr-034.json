@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-034",
+  "answerText": "Half the package = 396 ÷ 2 = 198 g.\n\nServings eaten = 198 ÷ 55 = 3.6 servings.\n\nCalories = 3.6 × 230 = 828 kcal (note: \"calories\" on US labels are actually kilocalories).\n\nAnswer: 828 kcal",
+  "raw": {
+    "id": "gen-1785340617-qkLcz3qzyEaNQRotO5Vb",
+    "object": "chat.completion",
+    "created": 1785340617,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Half the package = 396 ÷ 2 = 198 g.\n\nServings eaten = 198 ÷ 55 = 3.6 servings.\n\nCalories = 3.6 × 230 = 828 kcal (note: \"calories\" on US labels are actually kilocalories).\n\nAnswer: 828 kcal",
+          "refusal": null,
+          "reasoning": "I'm calculating the nutritional breakdown: dividing the total grams by the serving size to get the number of servings, then multiplying by the calories per serving to find the total caloric content.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the nutritional breakdown: dividing the total grams by the serving size to get the number of servings, then multiplying by the calories per serving to find the total caloric content.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISnwIKiAEIEBgCKkCkvQ1pvt7g9TpzNEZpjiYOQMLOE5r4GSyXPpSOEKJr2mxSCUiG2mkTmbBqM6/nta31OH8cFA6MKzDc6fCRTY/UMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3Egy2EKeVzUZp1f7QmN0aDPPErTijEVFn8sh+GCIwO53ugJkB8i3dwUPCeIBIEyX52LbWzSGieoSQk2KGR/LzNIIekh+L2cJELsvQJlH9KkSdzTg15/U/Ji8KGTgTbAL0UkcLaB7D4RnPeGD/BnNAKQcDdvHkI8LWJv1x4JBFvQB80ATDhy6tmtXe5LvIw9ShGvZeyxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 112,
+      "completion_tokens": 137,
+      "total_tokens": 249,
+      "cost": 0.00797,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00797,
+        "upstream_inference_prompt_cost": 0.00112,
+        "upstream_inference_completions_cost": 0.00685
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 50,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 112,
+  "tokensOut": 137,
+  "costUsd": 0.00797,
+  "latencyMs": 4601,
+  "finishReason": "stop"
+}

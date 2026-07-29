@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "conv-023",
+  "answerText": "Australian tablespoons are larger than US ones — an Australian tablespoon is 20 ml (4 teaspoons), while a US tablespoon is about 14.8 ml (3 teaspoons).\n\nSo 3 Australian tablespoons = 3 × 20 ml = 60 ml.\nDivide by 14.8 ml: 60 ÷ 14.8 ≈ 4.05 US tablespoons.\n\nMeasure a slightly heaped 4 US tablespoons (or exactly 4 tablespoons — the small difference won't affect your Anzac biscuits noticeably).\n\nAnswer: 4 tbsp",
+  "raw": {
+    "id": "gen-1785340464-nBzEehVymNXjuBlWYAFU",
+    "object": "chat.completion",
+    "created": 1785340464,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Australian tablespoons are larger than US ones — an Australian tablespoon is 20 ml (4 teaspoons), while a US tablespoon is about 14.8 ml (3 teaspoons).\n\nSo 3 Australian tablespoons = 3 × 20 ml = 60 ml.\nDivide by 14.8 ml: 60 ÷ 14.8 ≈ 4.05 US tablespoons.\n\nMeasure a slightly heaped 4 US tablespoons (or exactly 4 tablespoons — the small difference won't affect your Anzac biscuits noticeably).\n\nAnswer: 4 tbsp",
+          "refusal": null,
+          "reasoning": "I'm converting 3 Australian tablespoons to US tablespoons by multiplying 3 by 20 ml to get 60 ml, then dividing by the US tablespoon equivalent of about 14.79 ml, which gives me roughly 4 US tablespoons.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm converting 3 Australian tablespoons to US tablespoons by multiplying 3 by 20 ml to get 60 ml, then dividing by the US tablespoon equivalent of about 14.79 ml, which gives me roughly 4 US tablespoons.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS5AIKiAEIEBgCKkDr+AHC1UKRAjQqkw3FeIbF3ZI3WzYgyX8I8c8mpyJQn6Lg/96XolJO/SQ7Zt4eQ6xWYGcx6t84r9MRVWRzfiqDMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgyX4FFj0ZxJN7e+aHkaDHiQ3x74YT3uUjTCCiIwYj6dceyaV7pwl5L4/9KoolbLgvqedtgbTqQ7Tt9NSsy3RcRnfyPF+K2bN4V1//MOKogBsD1m0yAZOnSxCRZnCV+m3cPrzvdsvsiuDXYdxgbzS6jcoix2UhMrh06YStLfnRFoEwO+Yp9WotFPfKy4GgksHXnRRrwz49NFRicayoZbJerVT+9dmsF+dJkr3SGRh1K/SBem61MGTaALQt8H3oylx3sksY7o91Zid9DkY53wvpyKiZUVyTNCxhgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 121,
+      "completion_tokens": 285,
+      "total_tokens": 406,
+      "cost": 0.01546,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01546,
+        "upstream_inference_prompt_cost": 0.00121,
+        "upstream_inference_completions_cost": 0.01425
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 51,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 121,
+  "tokensOut": 285,
+  "costUsd": 0.01546,
+  "latencyMs": 6489,
+  "finishReason": "stop"
+}

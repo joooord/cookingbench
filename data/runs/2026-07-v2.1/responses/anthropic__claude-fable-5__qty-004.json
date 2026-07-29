@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "qty-004",
+  "answerText": "To keep the batter depth the same, scale ingredients by the ratio of the tins' base areas.\n\n- Area scales with the square of the diameter: (25/20)² = 1.25² = 1.5625\n\nSo multiply every ingredient by about 1.56 (roughly 1.5×, or \"1½ times the recipe\" in practice).\n\nAnswer: 1.5625",
+  "raw": {
+    "id": "gen-1785340631-CSnNwdUDoQGSkLbBzDDN",
+    "object": "chat.completion",
+    "created": 1785340631,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To keep the batter depth the same, scale ingredients by the ratio of the tins' base areas.\n\n- Area scales with the square of the diameter: (25/20)² = 1.25² = 1.5625\n\nSo multiply every ingredient by about 1.56 (roughly 1.5×, or \"1½ times the recipe\" in practice).\n\nAnswer: 1.5625",
+          "refusal": null,
+          "reasoning": "I'm calculating the area ratio by squaring the linear scale factor of 25/20, which gives me 1.5625.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the area ratio by squaring the linear scale factor of 25/20, which gives me 1.5625.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISigIKiAEIEBgCKkC7M0QGYLY8tDmjWNuvf0RarnMspbc9ioAPZMA/LD68awdu2kbZyicwS+CX2/NP4hKCiqEMyqXpg5WI+l67dKQYMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgzDjnXnk+QoWvWfkzMaDOupE3EwjQVyMRGBjyIw1Xqp2yPCcF/5VhOE4I99OOoF0oL/dGL+HkTl4ffiqvJdchfu5J6Z/51G+IfYWVnrKi+Dgo/hhZ8Zyld+zkXQkyL5vTUtxUEnXvr68QL+F5Tmo8Z6suI1+Z7l6Vq8BBgghRgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 126,
+      "completion_tokens": 139,
+      "total_tokens": 265,
+      "cost": 0.00821,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00821,
+        "upstream_inference_prompt_cost": 0.00126,
+        "upstream_inference_completions_cost": 0.00695
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 25,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 126,
+  "tokensOut": 139,
+  "costUsd": 0.00821,
+  "latencyMs": 4703,
+  "finishReason": "stop"
+}

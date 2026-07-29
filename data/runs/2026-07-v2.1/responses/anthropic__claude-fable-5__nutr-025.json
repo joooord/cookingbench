@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-025",
+  "answerText": "## Reasoning\n\n**Step 1: Starting weight**\n- 2 × 300 g = 600 g raw steak\n\n**Step 2: Trimming the fat cap**\n- Removing ~15% leaves: 600 g × 0.85 = **510 g raw, trimmed lean sirloin**\n\n**Step 3: Nutrition of raw lean sirloin (per 100 g)**\nTrimmed sirloin (lean only) is roughly:\n- Protein: ~21.5 g\n- Fat: ~5 g\n- Calories: ~130–135 kcal\n\n**Step 4: Scale to 510 g**\n- Protein: 21.5 × 5.1 ≈ **110 g**\n- Fat: 5 × 5.1 ≈ 25.5 g\n- Calories: ~135 × 5.1 ≈ 690 kcal\n\n**Step 5: Effect of grilling**\nGrilling reduces the *weight* (water loss ~25%, giving ~380 g cooked meat), but protein is retained. A small amount of fat drips off onto the coals — assume ~1–2 g lost. Adjusted totals:\n- Protein: ~110 g\n- Fat: ~24 g\n- Calories: (110 × 4) + (24 × 9) ≈ 440 + 216 ≈ **655 kcal**\n\nThat's roughly 55 g protein, 12 g fat, and ~330 kcal per steak — a lean, protein-dense meal.\n\nProtein: 110 g\nFat: 24 g\nCalories: 655 kcal",
+  "raw": {
+    "id": "gen-1785340591-0bjWRLgBr9sNkDaY9SP6",
+    "object": "chat.completion",
+    "created": 1785340592,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Reasoning\n\n**Step 1: Starting weight**\n- 2 × 300 g = 600 g raw steak\n\n**Step 2: Trimming the fat cap**\n- Removing ~15% leaves: 600 g × 0.85 = **510 g raw, trimmed lean sirloin**\n\n**Step 3: Nutrition of raw lean sirloin (per 100 g)**\nTrimmed sirloin (lean only) is roughly:\n- Protein: ~21.5 g\n- Fat: ~5 g\n- Calories: ~130–135 kcal\n\n**Step 4: Scale to 510 g**\n- Protein: 21.5 × 5.1 ≈ **110 g**\n- Fat: 5 × 5.1 ≈ 25.5 g\n- Calories: ~135 × 5.1 ≈ 690 kcal\n\n**Step 5: Effect of grilling**\nGrilling reduces the *weight* (water loss ~25%, giving ~380 g cooked meat), but protein is retained. A small amount of fat drips off onto the coals — assume ~1–2 g lost. Adjusted totals:\n- Protein: ~110 g\n- Fat: ~24 g\n- Calories: (110 × 4) + (24 × 9) ≈ 440 + 216 ≈ **655 kcal**\n\nThat's roughly 55 g protein, 12 g fat, and ~330 kcal per steak — a lean, protein-dense meal.\n\nProtein: 110 g\nFat: 24 g\nCalories: 655 kcal",
+          "refusal": null,
+          "reasoning": "I'm calculating the nutritional breakdown for the trimmed sirloin. After accounting for the 15% trim loss, I have 510 grams of raw lean meat, which gives me roughly 110 grams of protein, 26 grams of fat, and about 675 calories based on the standard macronutrient composition of lean sirloin.\n\nWhen grilling, some fat will render off, so I'm adjusting the fat content down slightly to around 24 grams and the total calories to approximately 660 kcal for the final cooked portion.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the nutritional breakdown for the trimmed sirloin. After accounting for the 15% trim loss, I have 510 grams of raw lean meat, which gives me roughly 110 grams of protein, 26 grams of fat, and about 675 calories based on the standard macronutrient composition of lean sirloin.\n\nWhen grilling, some fat will render off, so I'm adjusting the fat content down slightly to around 24 grams and the total calories to approximately 660 kcal for the final cooked portion.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISrwUKiAEIEBgCKkDPw7J3jcNazVNE/4HOZbm9K4B/vAaD3H+/HA9tdNez1592REuoY8myTh0gSFp4Ee2dC30gfztaFUNQOcqDl1o2Mg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgxfUoPPczL5LPZqFa8aDGGrdTFC8N3kdTpBgyIwD5EsEsYx6/EMTsXN7cEnBrNVFeRegPYmWwE4iQDTH6Dg4FWg4kB8UgOzLexAvYqmKtMD0XO2ToMLSUvX9/aYF0Pag1oEJ1/vtrLQ6tdyeoUcXlSeE64zcMQiX4j87rgdCr63US87MoCUwKyqee/gIwQZwOeUC+r5Xt+4DknE7xY/7cNhrIfkn3POGa2dB/yABLrU9h6D0GkeY1lD/MthDP1KdxqTl3LmV0CjWifcxWbSYxtYX/cDtKT+V2BOMOa6GPEC9tubO/NLfQEJNUYyNjF+MQyZ7SevN4G239HzGPyvhqQxNpbN85bYfwRO+bk8u48llFkhEHNrIlab8rrqMWAX+fEoNMHYElgd3nn3DpQ9hdZgYjWnIfsQrgZIElys5Qa5/zNAWI6j3tshO2lVP2FhyaabjxMzuZcEXDjuVsDDSvGG2oZcIsxSeiV7HO+7ta9GBJYfFK1PoXkXVwdckCf2y9VC/yBarr5ocns5fD3kzoRF7hu2SRmL/ttkbcUlksIEDG3me9g9Rt0khHo8Z2vtme3SmOhFFHxmX3Ghxg2O4+FiGTATPRhPVlapVplb6PVG8M1RQiLAMn1J7pn7fK1AGbwnErzsPqJXsBkv6auzs3LoibB1eQYnvVdTMcPr6lPE3+sDqe/dTCKl3FdUgDtag+OTwhLcJ3nlrUw5Jg7lPD3O0C8YAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 171,
+      "completion_tokens": 745,
+      "total_tokens": 916,
+      "cost": 0.03896,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.03896,
+        "upstream_inference_prompt_cost": 0.00171,
+        "upstream_inference_completions_cost": 0.03725
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 120,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 171,
+  "tokensOut": 745,
+  "costUsd": 0.03896,
+  "latencyMs": 12480,
+  "finishReason": "stop"
+}

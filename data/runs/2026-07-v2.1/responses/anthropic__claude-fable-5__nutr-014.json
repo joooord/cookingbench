@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "nutr-014",
+  "answerText": "Boiling pasta only adds water — water contributes no calories. The starch and protein (where the energy comes from) stay in the pasta, so the calorie content of the portion doesn't change, even though its weight goes up from 75 g to 190 g.\n\nWhat changes is the **calorie density**:\n- Dry: 270 kcal ÷ 75 g = 3.6 kcal/g\n- Cooked: 270 kcal ÷ 190 g ≈ 1.4 kcal/g\n\nThis is why it's important to know whether a nutrition label or recipe refers to dry or cooked weight — the same 100 g means very different calories.\n\nAnswer: 270 kcal",
+  "raw": {
+    "id": "gen-1785340580-0IfWNdZ8ZDQcEUcLFpLB",
+    "object": "chat.completion",
+    "created": 1785340580,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Boiling pasta only adds water — water contributes no calories. The starch and protein (where the energy comes from) stay in the pasta, so the calorie content of the portion doesn't change, even though its weight goes up from 75 g to 190 g.\n\nWhat changes is the **calorie density**:\n- Dry: 270 kcal ÷ 75 g = 3.6 kcal/g\n- Cooked: 270 kcal ÷ 190 g ≈ 1.4 kcal/g\n\nThis is why it's important to know whether a nutrition label or recipe refers to dry or cooked weight — the same 100 g means very different calories.\n\nAnswer: 270 kcal",
+          "refusal": null,
+          "reasoning": "The calorie content stays the same whether the food is cooked or raw—it's still 270 kcal.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The calorie content stays the same whether the food is cooked or raw—it's still 270 kcal.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISngIKiAEIEBgCKkDmOuojLX3PYZqQ60z6fLOj6BBElpRN1zZy7atZmr61IsDxEUAXzSP/mOJkjhf/94riqd9S3dsYoAZfGTAnN5vvMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3Egw7XfO+VWIdis7kGw0aDF8VBkG8drjm+gobeSIwxJDPaqLvPbge8W1rzFBLka5AYfxQ2ktUmWjHDEGlKFQZKtcI52DO7KdnHXc0kOAlKkNNss6HiykA58YVnKJG4/hSF7AvZUMkToj9TP5roNWXMFVLnA3XeDM15YM5is+GpgNmJcvI2fQ4Apnfhg+NSSDS9EoiGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 117,
+      "completion_tokens": 236,
+      "total_tokens": 353,
+      "cost": 0.01297,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.01297,
+        "upstream_inference_prompt_cost": 0.00117,
+        "upstream_inference_completions_cost": 0.0118
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 23,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 117,
+  "tokensOut": 236,
+  "costUsd": 0.01297,
+  "latencyMs": 5872,
+  "finishReason": "stop"
+}
