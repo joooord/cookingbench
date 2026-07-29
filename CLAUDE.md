@@ -146,23 +146,122 @@ v1 saturated catastrophically: 84/129 questions perfect-for-everyone, judge gave
   never committed. The web app reads zero env vars. Supabase anon/publishable
   keys are public by design (RLS-protected).
 
-## State as of 2026-06-12
+## State as of 2026-07-29
 
-- Published runs: `2026-06-v1` (10 models, methodology v1, saturated — kept as
-  an immutable artifact) and `2026-06-v2` (13 models × 184 questions, panel-
-  judged, spread 96.4–82.0). v1-era canary runs (`canary`, `canary2`) are also
-  committed; their timestamps are older so they never surface on the site.
-- Open items for a future session:
-  - `bench analyze --run 2026-06-v2` flags 36 still-all-perfect active items —
-    demote to basics and author harder replacements (v3 ratchet turn).
-  - 81 flagged judge disagreements await human review (scores.json,
-    `flagged: true`); the methodology page promises an expert layer.
-  - One answer unjudged after repeated prose-not-JSON from a judge seat
-    (kimi-k2.6 × flav-005) — excluded from means; `bench judge --run
-    2026-06-v2` retries it.
-  - Targets not yet met: active all-perfect 35% (goal ≤15%), judged-100s 52%
-    (goal <35%). Direction is right (was 65%/74%); content difficulty is the
-    remaining lever, not scoring mechanics.
-- Spend so far: ~$55.6 of the user's OpenRouter credits across both runs,
-  judging and calibration. The user tops up willingly when asked, in ~£10
-  increments, and cares that models get a *fair* shot (see Kimi, above).
+### The grader audit — read this before touching the graders
+
+A full review found the keyword grader was punishing correct answers. Its
+negation detection covered three contractions and looked backwards only, so a
+refutation using a contracted auxiliary ("you *haven't* dodged a bullet") or a
+warning that names the banned thing ("many vegan butters *use coconut oil* —
+look for soy-based") read as a violation. **Eighteen answers in `2026-06-v2`
+were marked wrong when they were right**, and three questions' own hand-written
+`referenceAnswer` scored 0 against their own grader. On `subs-020` that zeroed
+12 of 13 models, three of them while the judge panel scored them 100.
+
+Fixed forward — `2026-06-v2` stands as published, with an erratum on
+`/methodology`. Re-grading it moves six of thirteen positions.
+
+Three guards now make the class un-committable, all in `bench validate`:
+1. Every `referenceAnswer` must score 100 against its own grader. **Blocking.**
+2. Optional `failingAnswer` (deliberately wrong) must score ≤ 40. The pair is a
+   free discrimination test on the *grader*: 100/100 means it credits anything,
+   0/0 means it rejects everything.
+3. Warnings for keyword-stuffing, forbidden terms the reference itself uses,
+   short prefix-colliding synonyms, near-duplicate prompts, missing canaries.
+
+**50 items score 100 on keyword stuffing** — a bare list of their own required
+synonyms, no sentence. `rgen-002` passes on the word "minute". 39 have no judge
+component to dilute it. That is saturation from the grader's side, and it is
+the strongest argument for the judge-first direction in `docs/V3-PLAN.md`.
+
+### Token caps are not provider-neutral
+
+`maxTokensFor` splits by category again: **16k general, 32k recipe-generation.**
+Measured on rgen-013 with the 2026-07 roster:
+
+    gpt-5.6-terra-pro  23,559 out (15,132 reasoning)  finish: stop
+    claude-opus-5       8,000 out ( 2,362 reasoning)  finish: LENGTH
+
+OpenAI does not count reasoning against `max_tokens`; Anthropic does. The old
+flat 8k truncated Opus 5 at 1,323 characters where Fable 5 wrote 8,409. After
+the fix Opus 5 writes 15,611, finish `stop`. Never set a flat cap again without
+checking both providers.
+
+### Estimates: budget against *expected*, not worst case
+
+Worst case assumes every call fills its cap, which with a 32k recipe cap is
+~8x reality and demanded `--budget 343` for three models. `estimate` now reports
+both; the gate uses expected (2,000 tokens normal / 9,000 recipe, from measured
+p90s). **Measured ratio: Fable 5 came in at $4.01 actual against $25.68
+expected — the estimator is ~6x conservative.** BudgetGuard still enforces the
+hard ceiling on actual spend.
+
+### Roster and panel, refreshed 2026-07-29
+
+14 active models across 9 labs. `claude-opus-5` is newer *and* half the price of
+`claude-fable-5` ($5/$25 vs $10/$50); Fable stays for version-regression.
+
+Judge panel is **opus-4.8 / gpt-5.5 / grok-4.5**. The obvious full upgrade was
+tried and *the calibration gate rejected it*: `gpt-5.6-sol-pro` posted MAE 12.9,
+scoring a deliberately-wrong anchor 70 where the hand-score is 30 (too soft on
+confidently bad advice) while zeroing another where it is 50. `claude-opus-5`
+came in at MAE 6.5 but missed a band. `grok-4.5` passed cleanest at 5.6, so it
+replaces the qwen seat that marginalised at 96.20 against gpt-5.5's 88.16 on the
+same answers. **Newer is not automatically better calibrated.** Before
+concluding a model judges badly, re-read the anchor — CLAUDE.md's own earlier
+lesson, still the right instinct.
+
+Costs are not proportional to per-token price: **GPT-5.6 Sol Pro cost $9.78 on
+184 questions against Fable 5's $4.01**, despite being cheaper per token. It
+reasons far more.
+
+### Supabase — migrations 0004–0007 applied to nvdkhatenkjmbyudwbgm
+
+- `0004` relaxed `difficulty` to 1–5 and added `status`. `bench sync` had **never
+  worked** — the check capped at 3 while the dataset has 35 items above it, so
+  every benchmark table was empty.
+- `0005` narrowed anon reads to `taste_ballots`/`taste_winrates`.
+- **`0006` fixed a hole `0005` opened.** `taste_ballots` is a plain SELECT over
+  one table, so Postgres made it auto-updatable; it was `security_invoker =
+  false`, so DML ran as owner and bypassed RLS; and Supabase grants anon
+  INSERT/UPDATE/DELETE by default. Anyone with the publishable key could have
+  deleted the entire ballot record. Revoked to SELECT plus DO INSTEAD NOTHING
+  rules. **Check `information_schema.views.is_updatable` on any new view.**
+- `0007` constrains anon inserts to roster models. Note: the obvious
+  `exists (select 1 from models m where m.id = taste_votes.model_a)` form
+  silently rejects everything — the correlated outer reference does not bind.
+  Use `IN (subquery)`.
+
+### The admission gate — `bench pilot`
+
+`pnpm bench pilot --file <candidates.yaml> --budget <usd> [--mock]`. Stage 0 is
+free (the validate checks above); Stage 1 runs a **ceiling** model and a mid
+model and rejects if both score ≥ 90 — ceiling-first, so items survive roster
+turnover rather than becoming a small-model detector. Costs **~$0.30/candidate**
+for judged items (a two-seat panel per model), not the $0.004 first estimated.
+Stage 2 (is the low scorer actually wrong, or is the grader?) is **not built**.
+
+### Where the dataset actually stands
+
+- 102 active items, but only **65 carry any signal** and `effectiveItems` (inverse
+  Herfindahl of variance share) is **26.3**. You are paying for 102 and running
+  about 26.
+- 36 active items are scored 100 by every model.
+- `analyze` now emits `activeWithSignal`, `effectiveItems`, per-item
+  `varianceShare`, and `referenceSuspect` — the last flags numeric items where
+  two-thirds of the roster *and* the top half disagree with the expected value.
+  It catches exactly one: `nutr-036`, where 10 of 13 models say 1200–1600 kcal
+  against a 700–1050 reference. Suspect the reference, not the models.
+
+### Open items
+
+- Run `2026-07-v2.1` in flight: 14 models × 184 questions, methodology **v2**
+  (corrected graders, refreshed roster — the v3 gate/craft tier split in
+  `docs/V3-PLAN.md` is not built, hence the id).
+- `bench sync` is unblocked but never yet run successfully end to end.
+- `data/taste/votes.ndjson` holds 6 ballots against 25 live — `bench
+  taste-archive` needs `SUPABASE_SERVICE_ROLE_KEY`.
+- 81 flagged judge disagreements from v2 still await human review.
+- Branch `claude/cookingbench-code-review-70c3hx` is ~20 commits ahead of the
+  deploy branch. **Database changes are live; code changes are not.**

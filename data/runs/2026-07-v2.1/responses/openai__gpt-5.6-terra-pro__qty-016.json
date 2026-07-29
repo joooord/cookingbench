@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "openai/gpt-5.6-terra-pro",
+  "questionId": "qty-016",
+  "answerText": "You need 900 g cooked total (6 × 150 g). Since cooking leaves 75% of the raw weight:\n\n900 ÷ 0.75 = 1,200 g raw mince\n\nAnswer: 1200 g",
+  "raw": {
+    "id": "gen-1785344200-3a3WS4kjqcZjd4FnAIkA",
+    "object": "chat.completion",
+    "created": 1785344200,
+    "model": "openai/gpt-5.6-terra-pro",
+    "provider": "OpenAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "You need 900 g cooked total (6 × 150 g). Since cooking leaves 75% of the raw weight:\n\n900 ÷ 0.75 = 1,200 g raw mince\n\nAnswer: 1200 g",
+          "refusal": null,
+          "reasoning": "**Calculating raw weight**\n\nI’m thinking about how to figure out the raw weight needed if 900 g is 75% of it. To find this, I can set up the equation where cooked weight equals 75% of raw weight. If I take 900 g and divide it by 0.75, I should arrive at 1200 g for the raw weight. So, in conclusion, the raw weight should be 1200 g. This ensures accuracy in the calculations!",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "**Calculating raw weight**\n\nI’m thinking about how to figure out the raw weight needed if 900 g is 75% of it. To find this, I can set up the equation where cooked weight equals 75% of raw weight. If I take 900 g and divide it by 0.75, I should arrive at 1200 g for the raw weight. So, in conclusion, the raw weight should be 1200 g. This ensures accuracy in the calculations!",
+              "format": "openai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "gAAAAABqajDO88YJ9dHIzTntFqbjjaDfIPnrR4Spb0vMtVLANovyDWoXhg7iRAlqejLFn0jPXB3KvppX4GqKFf7kNn4qk2jUVwid8qN8NCpdap4qb-LcTv8baA3ttrbZEvimDJO6TQ90myb25UJrtvnrEyl5nnlVZ0ejRNOfOjqCM4w-5p0oBKqLc24QVjz0lFKYZL3DZ4umQbjBOI3jnwUmwlCabPeO-Dkd2cex4voVvIL2UolhFunR1iu4qFGjkHS0aHndEHP-7VSV5pglOpM2Xu9nDJYc9T2irVaGyWF5bHxxtx_1qLgvMPolJjAhf9JJBhovS1nRYT0nATiJRSQelVrV7LZNTVzBvqUCmw-KsjSVW6s1k2u5OVK8XVvjGpn4AbEpF0lwlOm20wJQAGdoa-qACdvw5_nbNrB7JUa8SaP_u4d3DdhXltFw1_MExg9F1P4cJ2FHhGmco59YSxyNJ8-_RvTOTP4httm_F-0JzE_jKXxLQiAxd2fH33a_O0WxNfKcnOTGT51rrdvEPMdMdvuiuqlhrEPz2p-GvN7qAgol3efiXaPLwWgvSXCLNad2R6t_phBlQg36_ySA4IsxBHMQZZWMfaDzQ8vEfqzZE7iLrcbmm6ugY--XTxYb270Z4aSM-weq6lItIVclUEQoVHOVsIV-HsfhMNt6e7a5De-svhTgjx3tkW3i2bKPO2_UV9he0NkUz2QC0wKwkmxzO1DJspXJGKpNOX9sr8q63ek7ND1UEu7CWNXQ-JzOqJw7WvqzQeI8vqBDJckhXDWaM_9xiA-7B-fhUW3LsDs5nu6XG_YT_XPcashSsLgNt20J1Z8CMBtt6x4o_r4Kjf29aumevnQ8rZJFd7MM7JtwCdMq35Te_4lUC0ymYA9yeH9j6QsfQFMWgTZddNHIRUgXnk-leCFysT5XwQZCMEe5CF-Z3PmQRop5V03dG2lZMlTb3SaqkZI0IeGVzjYtLA4rE0yaBgV59qd9LKDtt5U_Waw3q2Ir0ypAqbb5wxvAm4T4c8F0QyrmZ4vWumie2Oe6xxZeTXKNvg==",
+              "format": "openai-responses-v1",
+              "id": "rs_0807b2e21a648fed016a6a30cd96b8819e9183c1b4fee0b1b8",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 1946,
+      "completion_tokens": 244,
+      "total_tokens": 2190,
+      "cost": 0.0042625,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0042625,
+        "upstream_inference_prompt_cost": 0.0024325,
+        "upstream_inference_completions_cost": 0.00183
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 128,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 1946,
+  "tokensOut": 244,
+  "costUsd": 0.0042625,
+  "latencyMs": 6048,
+  "finishReason": "stop"
+}

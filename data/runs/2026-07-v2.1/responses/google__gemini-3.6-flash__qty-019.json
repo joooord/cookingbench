@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "qty-019",
+  "answerText": "To calculate the overall hydration percentage of your sourdough recipe, you need to find the total amount of water and total amount of flour in the entire dough (including the levain).\n\n**1. Total Flour:**\n* Bread flour: $450\\text{ g}$\n* Whole-wheat flour: $90\\text{ g}$\n* Flour from levain: $50\\text{ g}$\n* **Total Flour:** $450 + 90 + 50 = 590\\text{ g}$\n\n**2. Total Water:**\n* Added water: $350\\text{ g}$\n* Water from levain: $50\\text{ g}$\n* **Total Water:** $350 + 50 = 400\\text{ g}$\n\n**3. Hydration Percentage:**\n$$\\text{Hydration} = \\left(\\frac{\\text{Total Water}}{\\text{Total Flour}}\\right) \\times 100$$\n$$\\text{Hydration} = \\left(\\frac{400}{590}\\right) \\times 100 \\approx 67.8\\%$$\n\nAnswer: 67.8 %",
+  "raw": {
+    "id": "gen-1785343698-M0DlEEMpcQlThsiiQwWg",
+    "object": "chat.completion",
+    "created": 1785343698,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To calculate the overall hydration percentage of your sourdough recipe, you need to find the total amount of water and total amount of flour in the entire dough (including the levain).\n\n**1. Total Flour:**\n* Bread flour: $450\\text{ g}$\n* Whole-wheat flour: $90\\text{ g}$\n* Flour from levain: $50\\text{ g}$\n* **Total Flour:** $450 + 90 + 50 = 590\\text{ g}$\n\n**2. Total Water:**\n* Added water: $350\\text{ g}$\n* Water from levain: $50\\text{ g}$\n* **Total Water:** $350 + 50 = 400\\text{ g}$\n\n**3. Hydration Percentage:**\n$$\\text{Hydration} = \\left(\\frac{\\text{Total Water}}{\\text{Total Flour}}\\right) \\times 100$$\n$$\\text{Hydration} = \\left(\\frac{400}{590}\\right) \\times 100 \\approx 67.8\\%$$\n\nAnswer: 67.8 %",
+          "refusal": null,
+          "reasoning": "**Calculating Hydration Percentages**\n\nI'm currently focused on determining the total hydration of the sourdough recipe. I've identified the specific amounts of bread flour, whole-wheat flour, and ripe levain, and I'm now working to quantify the water content from each ingredient to arrive at the overall percentage.\n\n**Refining Hydration Calculation**\n\nI've confirmed the total flour weight at 590g and total water at 400g. The hydration percentage now stands at approximately 67.8%. I'm considering the appropriate level of precision for the final figure.\n\nAnswer: 67.8 %\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Hydration Percentages**\n\nI'm currently focused on determining the total hydration of the sourdough recipe. I've identified the specific amounts of bread flour, whole-wheat flour, and ripe levain, and I'm now working to quantify the water content from each ingredient to arrive at the overall percentage.\n\n**Refining Hydration Calculation**\n\nI've confirmed the total flour weight at 590g and total water at 400g. The hydration percentage now stands at approximately 67.8%. I'm considering the appropriate level of precision for the final figure.\n\nAnswer: 67.8 %\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 115,
+      "completion_tokens": 1045,
+      "total_tokens": 1160,
+      "cost": 0.00801,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00801,
+        "upstream_inference_prompt_cost": 0.0001725,
+        "upstream_inference_completions_cost": 0.0078375
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 784,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 115,
+  "tokensOut": 1045,
+  "costUsd": 0.00801,
+  "latencyMs": 5767,
+  "finishReason": "stop"
+}

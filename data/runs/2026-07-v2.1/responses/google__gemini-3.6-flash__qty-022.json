@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "qty-022",
+  "answerText": "To find the total amount of dry rice needed:\n\n1. **Calculate total cooked rice required:** \n   180 g × 7 people = 1,260 g of cooked rice\n\n2. **Calculate dry rice required:** \n   1,260 g ÷ 3 = 420 g of dry rice\n\nAnswer: 420 g",
+  "raw": {
+    "id": "gen-1785343703-MEInUH3SolggBmCWEmOH",
+    "object": "chat.completion",
+    "created": 1785343703,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google AI Studio",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find the total amount of dry rice needed:\n\n1. **Calculate total cooked rice required:** \n   180 g × 7 people = 1,260 g of cooked rice\n\n2. **Calculate dry rice required:** \n   1,260 g ÷ 3 = 420 g of dry rice\n\nAnswer: 420 g",
+          "refusal": null,
+          "reasoning": "**Calculating Rice Portions**\n\nI'm now diving into the specifics: I'm focusing on calculating the precise dry rice amount required. I need to figure out the exact variable relationships. Specifically, I need to account for the cooking yield, aiming for a final cooked weight per person, while accounting for the number of people.\n\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Rice Portions**\n\nI'm now diving into the specifics: I'm focusing on calculating the precise dry rice amount required. I need to figure out the exact variable relationships. Specifically, I need to account for the cooking yield, aiming for a final cooked weight per person, while accounting for the number of people.\n\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 76,
+      "completion_tokens": 402,
+      "total_tokens": 478,
+      "cost": 0.003129,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003129,
+        "upstream_inference_prompt_cost": 0.000114,
+        "upstream_inference_completions_cost": 0.003015
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 323,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 76,
+  "tokensOut": 402,
+  "costUsd": 0.003129,
+  "latencyMs": 2463,
+  "finishReason": "stop"
+}

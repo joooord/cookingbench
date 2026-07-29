@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "openai/gpt-5.6-terra-pro",
+  "questionId": "safe-006",
+  "answerText": "No. Don’t rinse raw chicken under the tap.\n\nRinsing can splash bacteria such as *Salmonella* or *Campylobacter* onto your sink, counters, hands, and nearby foods. Cooking the chicken thoroughly to an internal temperature of 165°F / 74°C kills the bacteria safely.\n\nIf needed, pat it dry with paper towels and discard them immediately, then wash your hands and clean any surfaces it touched.",
+  "raw": {
+    "id": "gen-1785344037-sdC9Bc28Q6xDgg1g32zM",
+    "object": "chat.completion",
+    "created": 1785344037,
+    "model": "openai/gpt-5.6-terra-pro",
+    "provider": "OpenAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "No. Don’t rinse raw chicken under the tap.\n\nRinsing can splash bacteria such as *Salmonella* or *Campylobacter* onto your sink, counters, hands, and nearby foods. Cooking the chicken thoroughly to an internal temperature of 165°F / 74°C kills the bacteria safely.\n\nIf needed, pat it dry with paper towels and discard them immediately, then wash your hands and clean any surfaces it touched.",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 1912,
+      "completion_tokens": 384,
+      "total_tokens": 2296,
+      "cost": 0.00527,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00527,
+        "upstream_inference_prompt_cost": 0.00239,
+        "upstream_inference_completions_cost": 0.00288
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 85,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 1912,
+  "tokensOut": 384,
+  "costUsd": 0.00527,
+  "latencyMs": 5650,
+  "finishReason": "stop"
+}

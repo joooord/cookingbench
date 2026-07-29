@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "qty-017",
+  "answerText": "To scale the recipe from 6 to 10 servings, calculate the flour per serving first: 720 g ÷ 6 servings = 120 g per serving. \n\nFor 10 servings, you need 120 g × 10 = 1200 g of flour total. Converting the per-serving amount to ounces (120 g ÷ 28.35 g/oz) gives approximately 4.23 oz per serving.\n\nTotal: 1200 g\nPer serving: 4.23 oz",
+  "raw": {
+    "id": "gen-1785343696-xnWt3LJITtjQzpOqHiU9",
+    "object": "chat.completion",
+    "created": 1785343696,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To scale the recipe from 6 to 10 servings, calculate the flour per serving first: 720 g ÷ 6 servings = 120 g per serving. \n\nFor 10 servings, you need 120 g × 10 = 1200 g of flour total. Converting the per-serving amount to ounces (120 g ÷ 28.35 g/oz) gives approximately 4.23 oz per serving.\n\nTotal: 1200 g\nPer serving: 4.23 oz",
+          "refusal": null,
+          "reasoning": "**Scaling Recipe Accurately**\n\nI'm currently focused on precisely scaling this bread recipe. My calculations are progressing well to determine the exact flour quantity needed for 10 servings, ensuring the proportions remain perfectly balanced from the original 6-serving batch.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Scaling Recipe Accurately**\n\nI'm currently focused on precisely scaling this bread recipe. My calculations are progressing well to determine the exact flour quantity needed for 10 servings, ensuring the proportions remain perfectly balanced from the original 6-serving batch.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 80,
+      "completion_tokens": 685,
+      "total_tokens": 765,
+      "cost": 0.0052575,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0052575,
+        "upstream_inference_prompt_cost": 0.00012,
+        "upstream_inference_completions_cost": 0.0051375
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 563,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 80,
+  "tokensOut": 685,
+  "costUsd": 0.0052575,
+  "latencyMs": 3684,
+  "finishReason": "stop"
+}

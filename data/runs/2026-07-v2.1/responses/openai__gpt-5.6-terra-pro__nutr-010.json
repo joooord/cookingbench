@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "openai/gpt-5.6-terra-pro",
+  "questionId": "nutr-010",
+  "answerText": "6 × 20 g = 120 g of protein.\n\nAnswer: 120 g",
+  "raw": {
+    "id": "gen-1785344112-IquUwrRQmPax7ygswcKk",
+    "object": "chat.completion",
+    "created": 1785344112,
+    "model": "openai/gpt-5.6-terra-pro",
+    "provider": "OpenAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "6 × 20 g = 120 g of protein.\n\nAnswer: 120 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 1806,
+      "completion_tokens": 137,
+      "total_tokens": 1943,
+      "cost": 0.003285,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003285,
+        "upstream_inference_prompt_cost": 0.0022575,
+        "upstream_inference_completions_cost": 0.0010275
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 57,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 1806,
+  "tokensOut": 137,
+  "costUsd": 0.003285,
+  "latencyMs": 4301,
+  "finishReason": "stop"
+}

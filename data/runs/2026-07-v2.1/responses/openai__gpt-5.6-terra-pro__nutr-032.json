@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "openai/gpt-5.6-terra-pro",
+  "questionId": "nutr-032",
+  "answerText": "You’d need about 145 g cooked chicken to get 45 g protein. Since it loses ~25% weight when cooked:\n\n145 ÷ 0.75 ≈ 194 g raw.\n\nAnswer: 194 g",
+  "raw": {
+    "id": "gen-1785344150-vIskYfPTbEEJqOo5cPl4",
+    "object": "chat.completion",
+    "created": 1785344150,
+    "model": "openai/gpt-5.6-terra-pro",
+    "provider": "Azure",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "You’d need about 145 g cooked chicken to get 45 g protein. Since it loses ~25% weight when cooked:\n\n145 ÷ 0.75 ≈ 194 g raw.\n\nAnswer: 194 g",
+          "refusal": null,
+          "reasoning": "**Calculating cooked weight**\n\nI need to find out how much cooked food is needed. For that, I calculate: 45 divided by 31, then multiplied by 100, which gives me about 145.16 grams of cooked food. Since raw loses 25%, that means cooked is 0.75 of raw, leading to a raw amount of about 193.55 grams. So, the final specific answer I arrive at is 194 grams. I want to ensure my calculations are clear and accurate!",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "**Calculating cooked weight**\n\nI need to find out how much cooked food is needed. For that, I calculate: 45 divided by 31, then multiplied by 100, which gives me about 145.16 grams of cooked food. Since raw loses 25%, that means cooked is 0.75 of raw, leading to a raw amount of about 193.55 grams. So, the final specific answer I arrive at is 194 grams. I want to ensure my calculations are clear and accurate!",
+              "format": "azure-openai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "gAAAAABqajCclvyEJkUBieEFYPO3ZS1Iv8_rw7ooVdtp4FtHpPHjfgPZ_0TGDS0j4fOthAhY4rcqR8EAOlfroGn87wWRVrY8qvK1Q8a9Xa0W0AZXGN3-HPcAYmG3yzZSgh0X0MOrkePSM_X6c1CxkVWIBHkeZGyKXmxa5CoE6WBhMBgkWx5NdaGchb9TJrX7p-ebb755VfrTXiSjChdjUo1YSVb5tjGlbueCr6kS6ClOGx8v0j3ldnHuDBodCsYy4UsU_Nknlf6jU5GZpiW4MSbcXtw7cf21WdDMz4Z53tLctrYFw93v6wIUFuvByNNn3HtMh7PuHxEFWP92h9GP9Ik1V_I9w3lflOZCikMppG3bEj3Z_PC3D4GXE0Y4AGYxyzE58x1PcuX0n-xgdHQWd85qKnX3yFkAy7VZq_pdrzZ-eopADmMu7KsTR0y1bUaVp4CB3x8Hb3PyFU5QINdyx9wYZGcr6NJoSSB0UCCzn9PZni71yGGgPpy90odz0-Lv-g0LsYyJAax5WnENt1Q7QxQFgNwZ9ni7E6kod0mm1eVC0cpu08YgHhWm02Z-Ynqug5LoB447hkgftmaT0GVV5Ieh3UlpBkkNUUnl0lFow_BlCF5xloumoeloFYcW5JvyhQ44-B28XIUBzLkWYw0R8CTp0rXE-zAyGALCjCm_re9fB70bvzMQM3E2JcHJbaS9l53uokpynFLGLOu9MATxQmU-q71xjssj0Lu_jAuuNgHk9nOFQtDODsjAlV4WN5w4TCendkoP0_PLAr61CA-vRXFRd_1ItbrPXd5WHMpQIVmmjIGh6Xn8L16B2gBxWhCWHqMMZHwNjH1vU92YZo-h6MX6H6RTFkrehwVVlAGVapbVftEyKw05mxx8wjOsK2JHNdxQCinLf5ac9OwzfOpNgI5PzS_WSN2B7pXRUUXhacw2VQzLuc1q13PUmT_FCWiXKK_d0EnW0PBYmhlxqgw0jhuof9k4lJkNOqd_OgSHAcS6vtfD7PJp8x5Ga0ihX8poZzSlmv9Vr98h5rIRbJFZD3lcPMO-CXCIb75WWIovpYLbGfBZbqkoAw-azJajG4k8-lcF3ptDXjoyXSq3wcvsCdYIJt6psgdvSg==",
+              "format": "azure-openai-responses-v1",
+              "id": "rs_0824d5269b4be3b8016a6a309bc3508197a20e4793d860a840",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 2144,
+      "completion_tokens": 369,
+      "total_tokens": 2513,
+      "cost": 0.010895,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.010895,
+        "upstream_inference_prompt_cost": 0.00536,
+        "upstream_inference_completions_cost": 0.005535
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 202,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 2144,
+  "tokensOut": 369,
+  "costUsd": 0.010895,
+  "latencyMs": 6607,
+  "finishReason": "stop"
+}

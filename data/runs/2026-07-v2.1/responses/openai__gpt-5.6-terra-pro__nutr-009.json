@@ -1,0 +1,72 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "openai/gpt-5.6-terra-pro",
+  "questionId": "nutr-009",
+  "answerText": "Calories from fat: 27 g × 9 kcal/g = 243 kcal.  \nPercentage from fat: 243 ÷ 600 × 100 = 40.5%.\n\nAnswer: 40.5 %",
+  "raw": {
+    "id": "gen-1785344121-6TTfG0zS6mDU2DvwMk0e",
+    "object": "chat.completion",
+    "created": 1785344121,
+    "model": "openai/gpt-5.6-terra-pro",
+    "provider": "OpenAI",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "completed",
+        "message": {
+          "role": "assistant",
+          "content": "Calories from fat: 27 g × 9 kcal/g = 243 kcal.  \nPercentage from fat: 243 ÷ 600 × 100 = 40.5%.\n\nAnswer: 40.5 %",
+          "refusal": null,
+          "reasoning": "**Calculating a percentage**\n\nI need to calculate the percentage of 243 out of 600, which turns out to be 40.5%. I want to ensure the calculation is exact, so I'll take 243 divided by 600 and then multiply by 100 to get the percentage. It’s important to keep everything accurate to help anyone who might need this information. So, it’s straightforward: 243/600 times 100 equals 40.5%. There we go!",
+          "reasoning_details": [
+            {
+              "type": "reasoning.summary",
+              "summary": "**Calculating a percentage**\n\nI need to calculate the percentage of 243 out of 600, which turns out to be 40.5%. I want to ensure the calculation is exact, so I'll take 243 divided by 600 and then multiply by 100 to get the percentage. It’s important to keep everything accurate to help anyone who might need this information. So, it’s straightforward: 243/600 times 100 equals 40.5%. There we go!",
+              "format": "openai-responses-v1",
+              "index": 0
+            },
+            {
+              "type": "reasoning.encrypted",
+              "data": "gAAAAABqajCChvf7sq1bvAIf0iBhjEFMJ6JH87t4zJ9Em7zExSdx9JK_rWZNDniOyLrfrk5ZWhyr5ZhKyQktpIFB2a6zR2r79SyfgUEbDRzEN8h1ju4qsfIHCulx2fG4rH7MvshFhr0yk_9h5ZAuxGzEJbgK-zi0dt4_hTRpdZkeQ8vFslPft8od5IMv_yqJQJrHSKRJyOW7qZll9cK-He8IFCBAygp76bnlQUc57W_-OP_ew_O36QxGMjPHEAXgKDnUhCITWwPliY-A2yu4aIy00dDrnf7-zqVtu7YWzQCzcGGyEssuT0rZDZM3T--z_w1lcYdn5tAB1i2UDTVnlIrpQKBi0w7xzhOs-Y_R_y-5iZ6VuZ3xJRRYeU0STt86f-VBb2awzI2qOyLNIoi4O4n2DX-IwGrWh6tLkmwevYogLKxLHY89yAXGZOX0L18Motwjl_veHr3blqASoQsMPhxW26O6G5KgNSJSqWr8adr50v4nO-qWv5CRT9HIkwmcJ0JlE2PDN_gXXDDyJAkRIsAoLLmUVR7mwbttuLNDRiIuods6PzUlfSxst7-EtipyDYy5ryJk7UOxGqN5QN5lMrEVmFPnKWzweKr__J5YSaVDXhWSpH_JYxKYWhTNX2TJkrpzjg69MRhv0-kBqd6IPoNHCUqoqyBs-L0gk3b8VOb99hsEfcZpkaS5P_4Aj5suUjLp5mzyczcZSZ5Mcse6f2xQvGO3x4G7V9HrmGOm0jdtl9parMTmaXKqB0679ucUTkKv3rQwslRmemcwK3N_uDDgZzxv79H9Cy2lwkNNkvPEOVt_m5olOGgHUjSH_-Ul8R7YoYC7sYT73iWVcc3EzHdLRmE5wi68F8wOS4YACYxmkXW0yNRu-zEbWH7s9OiNh9hHegwGVCI0yvwsf5Y9CvT_W8AwTDNIb0FeSMkiiy0kan75UXtmcWnD7ISLfRDG-yBHMUYQB3c2XNF5rVkKkVWMFra1Uf1fG3SWsd79dTUswkrWp0C6GUA8lyQvcu9Eqk2UvZOqukaJ",
+              "format": "openai-responses-v1",
+              "id": "rs_0cfe1a998989614d016a6a30805f348191aaf042b0e9a37503",
+              "index": 1
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 1958,
+      "completion_tokens": 273,
+      "total_tokens": 2231,
+      "cost": 0.004495,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004495,
+        "upstream_inference_prompt_cost": 0.0024475,
+        "upstream_inference_completions_cost": 0.0020475
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 116,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 1958,
+  "tokensOut": 273,
+  "costUsd": 0.004495,
+  "latencyMs": 9499,
+  "finishReason": "stop"
+}
