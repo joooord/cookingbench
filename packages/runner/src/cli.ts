@@ -49,10 +49,26 @@ const DEFAULTS = {
   // Panel judging: two non-conflicted seats score each answer (a judge never
   // scores its own provider). Seat rotation is deterministic — see panelSeats.
   judgeModel: 'panel-v1',
+  // Panel refreshed 2026-07-29, and the refresh is deliberately conservative.
+  //
+  // The problem being fixed is real: over the 244 answers scored by both,
+  // qwen3.5-plus marginalised at 96.20 against gpt-5.5's 88.16 on the SAME
+  // answers, and it was much the cheapest seat ($0.30/$1.80). It was the
+  // lenient outlier.
+  //
+  // The obvious fix — jump every seat to the current generation — was tried
+  // and the calibration gate rejected it. gpt-5.6-sol-pro posted MAE 12.9,
+  // scoring a deliberately-wrong anchor 70 where the hand-score is 30 (too
+  // soft on confidently bad advice) while zeroing another where the hand-score
+  // is 50 (too harsh): miscalibrated in both directions. claude-opus-5 came in
+  // at MAE 6.5 but missed a band. Newer is not automatically better calibrated.
+  //
+  // grok-4.5 passed cleanly at MAE 5.6 — the best of the new seats — so it
+  // takes Qwen's place, and the two seats with a passing record stay.
   judgePanel: [
     'anthropic/claude-opus-4.8',
-    'qwen/qwen3.5-plus-20260420',
     'openai/gpt-5.5',
+    'x-ai/grok-4.5',
   ],
   methodologyVersion: 'v2',
 };
@@ -587,15 +603,13 @@ async function cmdJudge() {
   }
   const client = config.mock ? null : new OpenRouterClient();
 
-  // The judging configuration of record: the current panel. (config.json is
-  // refreshed so the artifact reflects what actually judged this run.)
+  // The judging configuration of record. Written AFTER the calibration gate,
+  // and unconditionally, because both details were wrong before: the write was
+  // skipped whenever judgePanel was already set, and it happened before
+  // calibration. A panel that failed the gate therefore stayed recorded as the
+  // panel of record while a different one did the judging — canary3 was
+  // stamped opus-5/gpt-5.6-sol-pro/grok-4.5 after that panel was rejected.
   const judgePanel = DEFAULTS.judgePanel;
-  if (!config.mock && (config.judgeModel !== DEFAULTS.judgeModel || !config.judgePanel)) {
-    config.judgeModel = DEFAULTS.judgeModel;
-    config.judgePanel = judgePanel;
-    config.judgePromptVersion = JUDGE_PROMPT_VERSION;
-    writeRunConfig(config);
-  }
 
   // Judge calibration gate: every panel seat must independently reproduce the
   // hand-scored anchors before any paid judging is accepted for this run.
@@ -629,6 +643,12 @@ async function cmdJudge() {
       }
       console.log('✓ Calibration gate passed for all panel seats.');
     }
+  }
+  if (!config.mock) {
+    config.judgeModel = DEFAULTS.judgeModel;
+    config.judgePanel = judgePanel;
+    config.judgePromptVersion = JUDGE_PROMPT_VERSION;
+    writeRunConfig(config);
   }
 
   // Judging is the expensive half of the pipeline — two flagship seats per
@@ -989,6 +1009,7 @@ async function cmdPilot() {
     : new OpenRouterClient();
 
   const results: PilotResult[] = [];
+  try {
   for (const q of survivors) {
     const scores: Record<string, number> = {};
     for (const modelId of [seats.ceiling, seats.mid]) {
@@ -1030,6 +1051,11 @@ async function cmdPilot() {
       `  ${mark} ${q.id.padEnd(10)} ceiling ${ceiling.toFixed(0).padStart(3)}  mid ${mid.toFixed(0).padStart(3)}  ${verdict}`,
     );
   }
+  } finally {
+    // A budget abort must not discard verdicts already paid for — the guard
+    // says "completed work is saved" and for the pilot that has to be true too.
+    if (results.length > 0) writePilot(file, results);
+  }
 
   const admitted = results.filter((r) => r.verdict === 'admit');
   console.log(
@@ -1038,7 +1064,6 @@ async function cmdPilot() {
   if (admitted.length > 0) {
     console.log('Admitted candidates still need the Stage 2 validity check before going active.');
   }
-  writePilot(file, results);
 }
 
 
