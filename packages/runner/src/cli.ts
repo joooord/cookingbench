@@ -1,8 +1,10 @@
-import { existsSync, readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { basename, isAbsolute, join } from 'node:path';
+import { parse as parseYaml } from 'yaml';
 import {
   blendJudgeScore,
   gradeDeterministic,
+  questionFileSchema,
   type Question,
   type RunConfig,
   type Score,
@@ -10,7 +12,7 @@ import {
 } from '@cookingbench/core';
 import { analyzeRun, writeAnalysis } from './analyze.js';
 import { BudgetExceededError, BudgetGuard } from './budget.js';
-import { REPO_ROOT, buildMessages, loadModels, loadQuestions, maxTokensFor, runnableQuestions } from './dataset.js';
+import { DATA_DIR, REPO_ROOT, RUNS_DIR, buildMessages, loadModels, loadQuestions, maxTokensFor, runnableQuestions } from './dataset.js';
 import { assertFreshEstimate, runEstimate } from './estimate.js';
 import { JUDGE_PROMPT_VERSION, judgeAnswerPanel } from './judge.js';
 import { MOCK_MODELS, MockClient, mockJudgeScore } from './mock.js';
@@ -795,6 +797,178 @@ async function cmdTasteArchive() {
   await archiveTasteVotes();
 }
 
+/** Both models comfortable here and the item separates nobody. */
+const SLACK_THRESHOLD = 90;
+/** Both models on the floor: the item, or its grader, is broken rather than hard. */
+const FLOOR_THRESHOLD = 20;
+
+interface PilotResult {
+  questionId: string;
+  ceiling: number;
+  mid: number;
+  verdict: 'admit' | 'reject-slack' | 'reject-floor';
+}
+
+/**
+ * The pilot seats, taken from the newest published leaderboard rather than a
+ * hardcoded pair, so the gate tracks the roster instead of drifting behind it:
+ * the strongest model sets the ceiling, the middle of the table gives a second
+ * opinion. Falls back to roster order when nothing has been published yet.
+ */
+function pilotSeats(models: ReturnType<typeof loadModels>): { ceiling: string; mid: string } {
+  const active = models.filter((m) => m.active).map((m) => m.id);
+  // Newest published board wins, and a mock run is never a board — the same
+  // selection the site makes, for the same reason.
+  const boards = listRuns()
+    .map((runId) => ({ runId, path: join(RUNS_DIR, runId, 'leaderboard.json') }))
+    .filter(({ path }) => existsSync(path))
+    .map(({ runId, path }) => ({
+      runId,
+      board: JSON.parse(readFileSync(path, 'utf8')) as {
+        generatedAt: string;
+        rows: Array<{ modelId: string }>;
+      },
+    }))
+    .filter(({ runId }) => {
+      const configPath = join(RUNS_DIR, runId, 'config.json');
+      if (!existsSync(configPath)) return true;
+      return !(JSON.parse(readFileSync(configPath, 'utf8')) as { mock?: boolean }).mock;
+    })
+    .sort((a, b) => Date.parse(b.board.generatedAt) - Date.parse(a.board.generatedAt));
+  const ranked =
+    boards[0]?.board.rows.map((r) => r.modelId).filter((id) => active.includes(id)) ?? [];
+  const order = ranked.length > 0 ? ranked : active;
+  const ceiling = arg('ceiling') ?? order[0]!;
+  const mid = arg('mid') ?? order[Math.floor(order.length / 2)]!;
+  if (ceiling === mid) fail('Pilot needs two distinct models — pass --ceiling and --mid.');
+  return { ceiling, mid };
+}
+
+/** Admission records are artifacts too: every decision stays auditable. */
+function writePilot(sourceFile: string, results: PilotResult[]): void {
+  const dir = join(DATA_DIR, 'pilot');
+  mkdirSync(dir, { recursive: true });
+  const name = basename(sourceFile).replace(/\.ya?ml$/, '');
+  const path = join(dir, `${name}.json`);
+  writeFileSync(
+    path,
+    `${JSON.stringify({ source: sourceFile, at: new Date().toISOString(), results }, null, 2)}\n`,
+  );
+  console.log(`✓ Admission record written to data/pilot/${name}.json`);
+}
+
+
+/**
+ * Pilot: prove a candidate question discriminates *before* it costs a full run.
+ *
+ * Two models, not a ladder, and the ceiling rather than the floor. If today's
+ * strongest model aces a question it is slack no matter how badly the weakest
+ * one does — and it will still be slack for whatever replaces them, which is
+ * what stops the dataset decaying as the roster turns over. Selecting items
+ * because the weakest model fails them just builds a small-model detector.
+ *
+ * Stage 0 (free, no calls) runs first: reference answer must score 100, a
+ * failingAnswer must score low, and anything scoring 100 on keyword stuffing is
+ * reported. Only survivors cost money.
+ */
+async function cmdPilot() {
+  const file = arg('file') ?? fail('pilot requires --file <candidates.yaml>');
+  const path = isAbsolute(file) ? file : join(REPO_ROOT, file);
+  if (!existsSync(path)) fail(`No candidate file at ${path}`);
+  const parsed = questionFileSchema.safeParse(parseYaml(readFileSync(path, 'utf8')));
+  if (!parsed.success) fail(`Invalid candidate file:\n${parsed.error.message}`);
+  const candidates = parsed.data as Question[];
+
+  const existing = new Set(loadQuestions().map((q) => q.id));
+  for (const c of candidates) {
+    if (existing.has(c.id)) fail(`Candidate ${c.id} already exists in the dataset — pick a fresh id.`);
+  }
+
+  console.log(`Piloting ${candidates.length} candidates from ${file}\n`);
+
+  // --- Stage 0: free rejection -------------------------------------------
+  const { problems, warnings } = checkReferenceAnswers(candidates);
+  for (const w of warnings) console.log(`  ⚠ ${w}`);
+  const brokenIds = new Set(problems.map((p) => p.split(':')[0]!));
+  for (const p of problems) console.error(`  ✗ ${p}`);
+  const survivors = candidates.filter((c) => !brokenIds.has(c.id));
+  console.log(
+    `\nStage 0 — ${candidates.length - survivors.length} rejected before any model was called, ${survivors.length} continue.`,
+  );
+  if (survivors.length === 0) {
+    writePilot(file, []);
+    return;
+  }
+
+  // --- Stage 1: ceiling + mid --------------------------------------------
+  const models = flag('mock') ? MOCK_MODELS.map((m) => ({ ...m })) : loadModels();
+  const seats = pilotSeats(models);
+  console.log(`Stage 1 — ${seats.ceiling} (ceiling) and ${seats.mid} (mid)\n`);
+
+  const mock = flag('mock');
+  const budgetArg = arg('budget');
+  if (!mock && budgetArg === undefined) fail('pilot requires --budget <usd> (hard cap).');
+  const cap = mock ? Infinity : Number(budgetArg);
+  if (!mock && !Number.isFinite(cap)) fail('--budget must be a number.');
+  const budget = new BudgetGuard(cap, Infinity);
+  const client: CompletionClient = mock
+    ? new MockClient(new Map(survivors.map((q) => [q.id, q])))
+    : new OpenRouterClient();
+
+  const results: PilotResult[] = [];
+  for (const q of survivors) {
+    const scores: Record<string, number> = {};
+    for (const modelId of [seats.ceiling, seats.mid]) {
+      const maxTokens = maxTokensFor(q, DEFAULTS);
+      const promptChars = buildMessages(q).reduce((n, m) => n + m.content.length, 0);
+      budget.assertCanSpend(modelId, (promptChars / 4) * 0.00001 + maxTokens * 0.00005);
+      const result = await client.complete(modelId, buildMessages(q), {
+        temperature: DEFAULTS.temperature,
+        maxTokens,
+        reasoning: { effort: 'medium' },
+      });
+      budget.record(modelId, result.costUsd);
+      const deterministic = gradeDeterministic(q, result.text);
+      if (q.grader.type === 'llm-judge') {
+        const judgeScore = mock
+          ? mockJudgeScore(modelId, q)
+          : await judgeAnswerPanel(client, DEFAULTS.judgePanel, modelId, q, result.text).then((v) => {
+              budget.record(modelId, v.costUsd);
+              return v.score;
+            });
+        scores[modelId] = blendJudgeScore(q, judgeScore, deterministic?.score ?? null);
+      } else {
+        scores[modelId] = deterministic?.score ?? 0;
+      }
+    }
+    const ceiling = scores[seats.ceiling]!;
+    const mid = scores[seats.mid]!;
+    // Both models comfortable → nothing to measure. Both floored → the item or
+    // its grader is broken, not hard; either way it separates nobody.
+    const verdict =
+      ceiling >= SLACK_THRESHOLD && mid >= SLACK_THRESHOLD
+        ? 'reject-slack'
+        : ceiling <= FLOOR_THRESHOLD && mid <= FLOOR_THRESHOLD
+          ? 'reject-floor'
+          : 'admit';
+    results.push({ questionId: q.id, ceiling, mid, verdict });
+    const mark = verdict === 'admit' ? '✓' : '✗';
+    console.log(
+      `  ${mark} ${q.id.padEnd(10)} ceiling ${ceiling.toFixed(0).padStart(3)}  mid ${mid.toFixed(0).padStart(3)}  ${verdict}`,
+    );
+  }
+
+  const admitted = results.filter((r) => r.verdict === 'admit');
+  console.log(
+    `\n${admitted.length}/${candidates.length} admitted. Spend $${budget.spentTotalUsd.toFixed(4)}.`,
+  );
+  if (admitted.length > 0) {
+    console.log('Admitted candidates still need the Stage 2 validity check before going active.');
+  }
+  writePilot(file, results);
+}
+
+
 const COMMANDS: Record<string, () => void | Promise<void>> = {
   validate: cmdValidate,
   estimate: cmdEstimate,
@@ -808,6 +982,7 @@ const COMMANDS: Record<string, () => void | Promise<void>> = {
   sync: cmdSync,
   publish: cmdPublish,
   'taste-archive': cmdTasteArchive,
+  pilot: cmdPilot,
 };
 
 const command = process.argv[2];
@@ -829,6 +1004,8 @@ Commands:
   sync [--run <id>]              Upsert dataset (and optionally a run) to Supabase
   publish --run <id>             Make a synced run publicly readable
   taste-archive                  Snapshot all taste votes into data/taste/ (commit to preserve)
+  pilot --file <yaml> --budget <usd> [--mock] [--ceiling id] [--mid id]
+                                 Admission gate for candidate questions
   runs                           List stored runs`);
   process.exit(command ? 1 : 0);
 }
