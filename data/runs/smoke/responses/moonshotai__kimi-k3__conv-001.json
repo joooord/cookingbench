@@ -1,0 +1,65 @@
+{
+  "runId": "smoke",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "conv-001",
+  "answerText": "To convert Fahrenheit to Celsius: °C = (°F − 32) × 5/9.\n\n(350 − 32) × 5/9 = 176.7°C, which rounds to about 177°C for a conventional oven.\n\nAnswer: 177 °C",
+  "raw": {
+    "id": "gen-1785337796-56i9TyNu0SdzX5y9IRl5",
+    "object": "chat.completion",
+    "created": 1785337796,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_ea28f3ff",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To convert Fahrenheit to Celsius: °C = (°F − 32) × 5/9.\n\n(350 − 32) × 5/9 = 176.7°C, which rounds to about 177°C for a conventional oven.\n\nAnswer: 177 °C",
+          "refusal": null,
+          "reasoning": "The user wants to convert 350°F to Celsius. Formula: C = (F - 32) * 5/9. (350-32)=318. 318*5/9 = 1590/9 = 176.666... ≈ 177°C. Conventional oven temperature often rounded to 180°C in recipes, but exact conversion is 176.7°C. The question says give conventional (non-fan) oven temperature. The exact conversion is ~177°C; commonly conventional oven equivalent stated as 180°C. Need end with Answer: <number> °C. Since asks convert accurately, use 177 (or 180 conventional). Wording: conventional non-fan oven temperature likely means no fan adjustment, just standard conversion. I'll provide exact 177°C and final line Answer: 177 °C.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants to convert 350°F to Celsius. Formula: C = (F - 32) * 5/9. (350-32)=318. 318*5/9 = 1590/9 = 176.666... ≈ 177°C. Conventional oven temperature often rounded to 180°C in recipes, but exact conversion is 176.7°C. The question says give conventional (non-fan) oven temperature. The exact conversion is ~177°C; commonly conventional oven equivalent stated as 180°C. Need end with Answer: <number> °C. Since asks convert accurately, use 177 (or 180 conventional). Wording: conventional non-fan oven temperature likely means no fan adjustment, just standard conversion. I'll provide exact 177°C and final line Answer: 177 °C.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 149,
+      "completion_tokens": 246,
+      "total_tokens": 395,
+      "cost": 0.004137,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004137,
+        "upstream_inference_prompt_cost": 0.000447,
+        "upstream_inference_completions_cost": 0.00369
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 173,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 149,
+  "tokensOut": 246,
+  "costUsd": 0.004137,
+  "latencyMs": 9791,
+  "finishReason": "stop"
+}

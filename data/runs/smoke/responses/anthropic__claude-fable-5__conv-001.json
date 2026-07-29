@@ -1,0 +1,66 @@
+{
+  "runId": "smoke",
+  "modelId": "anthropic/claude-fable-5",
+  "questionId": "conv-001",
+  "answerText": "350°F converts to approximately 176.7°C using the formula (°F − 32) × 5/9. In cooking, this is conventionally rounded to **180°C** for a standard (non-fan) oven — the classic \"moderate oven\" temperature used in most recipes.\n\nAnswer: 180 °C",
+  "raw": {
+    "id": "gen-1785337791-Esf3CxQ5dApdpouhFoOE",
+    "object": "chat.completion",
+    "created": 1785337791,
+    "model": "anthropic/claude-fable-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "350°F converts to approximately 176.7°C using the formula (°F − 32) × 5/9. In cooking, this is conventionally rounded to **180°C** for a standard (non-fan) oven — the classic \"moderate oven\" temperature used in most recipes.\n\nAnswer: 180 °C",
+          "refusal": null,
+          "reasoning": "Converting 350°F to Celsius, which comes out to about 176.7°C, or 180°C when rounding to a conventional temperature.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Converting 350°F to Celsius, which comes out to about 176.7°C, or 180°C when rounding to a conventional temperature.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISlgIKiAEIEBgCKkDEaPbNqo9jP2b6RoebupmIUt4wZu52K/3XUgHLmDNaViY+Q6GpMav58X5b/VaL5APjJoXymghBwTE4oIXpb9yJMg5jbGF1ZGUtZmFibGUtNTgBQgh0aGlua2luZ1okNGMwZjA0NmYtMjVmZC00NWZiLWJmYjMtYTA4YThlMjQ5Y2E3EgwLfXzura0BSNy/d/0aDCNTKEUYTNjK5yUgvSIww16yBJAbLnGOKYAAL0jdFDmOpW96KUMvbGe/cW4MIjiVTfqDnq+ndhoI4CVnuztlKjt/uYkDm/AT8O96deqpepECMAHC7+P7XXqMZsFMFiwHLPPEecx8ylZI+PTzQ7/CrcWtEtVq43VVb5vYfBgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 93,
+      "completion_tokens": 122,
+      "total_tokens": 215,
+      "cost": 0.00703,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00703,
+        "upstream_inference_prompt_cost": 0.00093,
+        "upstream_inference_completions_cost": 0.0061
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 31,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 93,
+  "tokensOut": 122,
+  "costUsd": 0.00703,
+  "latencyMs": 11550,
+  "finishReason": "stop"
+}

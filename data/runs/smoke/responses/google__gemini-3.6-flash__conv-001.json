@@ -1,0 +1,65 @@
+{
+  "runId": "smoke",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "conv-001",
+  "answerText": "To convert 350°F to Celsius, use the formula: \n$$\\text{°C} = (\\text{°F} - 32) \\times \\frac{5}{9}$$\n\n$$(350 - 32) \\times \\frac{5}{9} = 176.67\\text{ °C}$$\n\nIn standard recipe usage, this is typically rounded to 175 °C (or 177 °C for exact rounding).\n\nAnswer: 175 °C",
+  "raw": {
+    "id": "gen-1785337798-0FZC5vY2gbbFdEAS9anz",
+    "object": "chat.completion",
+    "created": 1785337798,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google AI Studio",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To convert 350°F to Celsius, use the formula: \n$$\\text{°C} = (\\text{°F} - 32) \\times \\frac{5}{9}$$\n\n$$(350 - 32) \\times \\frac{5}{9} = 176.67\\text{ °C}$$\n\nIn standard recipe usage, this is typically rounded to 175 °C (or 177 °C for exact rounding).\n\nAnswer: 175 °C",
+          "refusal": null,
+          "reasoning": "**Calculating Temperature Conversions**\n\nI've zeroed in on the temperature conversion: converting 350°F to Celsius for a standard oven. I've got the formula, and I'm on my way to calculating the answer. I'm now subtracting 32 from the Fahrenheit value, getting 318. Next, I'll multiply that by 5/9.\n\n\n**Refining Culinary Standards**\n\nI've calculated the exact conversion: 350°F equals 176.67°C. Now, I'm verifying common rounding conventions for culinary purposes. I'm noting that 175°C and 180°C are frequently used, but the mathematically precise rounded equivalent is either 177°C or 175°C. I'm focusing on whether the task requires mathematical precision or culinary standard. I will double check to see if the rounding to the nearest degree is preferred, or the culinary standard that rounds to the nearest 5 degrees.\n\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Temperature Conversions**\n\nI've zeroed in on the temperature conversion: converting 350°F to Celsius for a standard oven. I've got the formula, and I'm on my way to calculating the answer. I'm now subtracting 32 from the Fahrenheit value, getting 318. Next, I'll multiply that by 5/9.\n\n\n**Refining Culinary Standards**\n\nI've calculated the exact conversion: 350°F equals 176.67°C. Now, I'm verifying common rounding conventions for culinary purposes. I'm noting that 175°C and 180°C are frequently used, but the mathematically precise rounded equivalent is either 177°C or 175°C. I'm focusing on whether the task requires mathematical precision or culinary standard. I will double check to see if the rounding to the nearest degree is preferred, or the culinary standard that rounds to the nearest 5 degrees.\n\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 57,
+      "completion_tokens": 985,
+      "total_tokens": 1042,
+      "cost": 0.007473,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.007473,
+        "upstream_inference_prompt_cost": 0.0000855,
+        "upstream_inference_completions_cost": 0.0073875
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 869,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 57,
+  "tokensOut": 985,
+  "costUsd": 0.007473,
+  "latencyMs": 5150,
+  "finishReason": "stop"
+}

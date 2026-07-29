@@ -353,8 +353,26 @@ function cmdValidate() {
   console.log(`✓ ${questions.length} reference answers score 100 against their own graders`);
 }
 
+/**
+ * The question set for a run or estimate. `--questions id1,id2` targets exact
+ * items, which `--limit N` cannot do — it only ever takes the first N, and the
+ * demanding items (recipe generation) sort last. Needed to test long-answer
+ * headroom on reasoning models without paying for the 130 questions in front.
+ */
+function selectQuestions(): Question[] {
+  const all = runnableQuestions(arg('tier') === 'active' ? 'active' : 'all');
+  const ids = arg('questions');
+  if (!ids) return all;
+  const wanted = ids.split(',').map((i) => i.trim());
+  const byId = new Map(all.map((q) => [q.id, q]));
+  const missing = wanted.filter((i) => !byId.has(i));
+  if (missing.length > 0) fail(`Unknown question id(s): ${missing.join(', ')}`);
+  return wanted.map((i) => byId.get(i)!);
+}
+
+
 async function cmdEstimate() {
-  const questionsAll = runnableQuestions(arg('tier') === 'active' ? 'active' : 'all');
+  const questionsAll = selectQuestions();
   const limit = arg('limit') ? Number(arg('limit')) : undefined;
   const questions = limit ? questionsAll.slice(0, limit) : questionsAll;
   const models = loadModels();
@@ -403,7 +421,7 @@ async function cmdModelsCheck() {
 
 async function cmdRun() {
   const mock = arg('mock') === 'true';
-  const questionsAll = runnableQuestions(arg('tier') === 'active' ? 'active' : 'all');
+  const questionsAll = selectQuestions();
   const limit = arg('limit') ? Number(arg('limit')) : undefined;
   const questions = limit ? questionsAll.slice(0, limit) : questionsAll;
   const questionsById = new Map(questions.map((q) => [q.id, q]));
@@ -422,7 +440,24 @@ async function cmdRun() {
     modelIds = resolveModelIds(models);
     const totalBudget = Number(arg('budget') ?? NaN);
     if (!Number.isFinite(totalBudget)) fail('A paid run requires --budget <usd> (hard cap).');
-    const perModelBudget = Number(arg('per-model-budget') ?? totalBudget / modelIds.length * 2);
+    const perModelBudget = Number(arg('per-model-budget') ?? (totalBudget / modelIds.length) * 2);
+    // The guard checks a per-call worst case before every call, so a per-model
+    // cap below that worst case refuses every call — and the run then reports
+    // "✓ Run complete: 0 responses stored" as though it had succeeded. With a
+    // 14-model roster and --budget 2.00 the default cap lands at $0.29 against
+    // a ~$0.40 per-call ceiling, and the whole run silently does nothing.
+    const perCallCeiling =
+      (Math.max(...questions.map((q) => buildMessages(q).reduce((n, m) => n + m.content.length, 0))) / 4) *
+        0.00001 +
+      Math.max(DEFAULTS.maxTokens, DEFAULTS.maxTokensRecipe) * 0.00005;
+    if (perModelBudget < perCallCeiling) {
+      fail(
+        `Per-model budget $${perModelBudget.toFixed(2)} is below the worst case for a single call ` +
+          `($${perCallCeiling.toFixed(2)}), so every call would be refused before it was made. ` +
+          `Raise --budget to at least $${(perCallCeiling * modelIds.length / 2).toFixed(2)} for ${modelIds.length} models, ` +
+          `or set --per-model-budget explicitly.`,
+      );
+    }
     const estimate = assertFreshEstimate(modelIds, questions, DEFAULTS);
     console.log(
       `Estimate on file: worst case $${estimate.totalWorstCaseUsd.toFixed(2)} | hard cap $${totalBudget.toFixed(2)}`,
@@ -525,6 +560,12 @@ async function cmdRun() {
     }
   });
 
+  if (done === 0 && tasks.length > 0) {
+    fail(
+      `No responses were stored despite ${tasks.length} task(s) queued — the run did nothing. ` +
+        `Check the budget warnings above rather than treating this as a completed run.`,
+    );
+  }
   console.log(`\n✓ Run complete: ${done} responses stored, total spend $${budget.spentTotalUsd.toFixed(4)}`);
   if (failures.length > 0) {
     console.error(`✗ ${failures.length} failures (re-run the same command to retry just these):`);
@@ -1092,9 +1133,9 @@ Usage: pnpm bench <command> [options]
 Commands:
   validate                       Validate the dataset (questions + models)
   models --check                 Check roster slugs against the live OpenRouter catalog
-  estimate [--models all|a,b] [--limit N] [--tier all|active]
+  estimate [--models all|a,b] [--limit N] [--tier all|active] [--questions a,b]
                                  Worst-case cost table; required before any paid run
-  run --budget <usd> [--models all|a,b] [--limit N] [--tier all|active] [--run-id id] [--mock]
+  run --budget <usd> [--models all|a,b] [--limit N] [--tier all|active] [--questions a,b] [--run-id id] [--mock]
                                  --tier active skips the basics regression gate (82 of 184 items)
   grade --run <id>               Deterministic grading
   judge --run <id>               LLM-judge grading for subjective questions

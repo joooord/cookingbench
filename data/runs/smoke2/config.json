@@ -1,0 +1,34 @@
+{
+  "runId": "smoke2",
+  "models": [
+    "anthropic/claude-fable-5",
+    "google/gemini-3.1-pro-preview",
+    "openai/gpt-5.4-mini",
+    "deepseek/deepseek-v4-pro",
+    "meta-llama/llama-4-maverick",
+    "mistralai/mistral-large-2512",
+    "anthropic/claude-opus-5",
+    "anthropic/claude-sonnet-5",
+    "openai/gpt-5.6-sol-pro",
+    "openai/gpt-5.6-terra-pro",
+    "x-ai/grok-4.5",
+    "moonshotai/kimi-k3",
+    "google/gemini-3.6-flash",
+    "qwen/qwen3.7-max"
+  ],
+  "temperature": 0,
+  "maxTokens": 8000,
+  "maxTokensRecipe": 8000,
+  "budgetUsdTotal": 8,
+  "budgetUsdPerModel": 0,
+  "concurrency": 4,
+  "judgeModel": "panel-v1",
+  "judgePanel": [
+    "anthropic/claude-opus-4.8",
+    "openai/gpt-5.5",
+    "x-ai/grok-4.5"
+  ],
+  "judgePromptVersion": "judge-v2",
+  "methodologyVersion": "v2",
+  "mock": false
+}
