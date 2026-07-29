@@ -32,6 +32,12 @@ const numericGrader = z.object({
   tolerancePct: z.number().nonnegative().optional(),
   toleranceAbs: z.number().nonnegative().optional(),
   acceptEquivalentUnits: z.boolean().optional(),
+  /**
+   * Opt out of the prompt-echo filter for the rare item whose correct answer
+   * legitimately IS a value from the prompt ("boiling adds no calories, so it
+   * is still 270 kcal"). Without this the filter deletes the right answer.
+   */
+  expectedInPrompt: z.boolean().optional(),
   bands: z.array(toleranceBandSchema).min(1).optional(),
 });
 

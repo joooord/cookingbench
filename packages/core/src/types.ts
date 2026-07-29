@@ -106,6 +106,8 @@ export type GraderSpec =
       toleranceAbs?: number;
       /** Accept answers given in a convertible unit, e.g. 350°F == 177°C. */
       acceptEquivalentUnits?: boolean;
+      /** The correct answer legitimately restates a prompt value — skip the echo filter. */
+      expectedInPrompt?: boolean;
       /** Graded partial-credit bands (tightest first); falls back to binary tolerance when absent. */
       bands?: ToleranceBand[];
     }

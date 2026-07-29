@@ -94,6 +94,62 @@ async function pool<T>(items: T[], concurrency: number, worker: (item: T) => Pro
   await Promise.all(runners);
 }
 
+/** Every forbidden list on a question, wherever it hangs. */
+function forbiddenTerms(q: Question): string[] {
+  if (q.grader.type === 'keyword') return q.grader.forbidden ?? [];
+  if (q.grader.type === 'llm-judge') {
+    return (q.grader.constraintChecks ?? []).flatMap((check) =>
+      check.type === 'keyword' ? (check.forbidden ?? []) : [],
+    );
+  }
+  return [];
+}
+
+/**
+ * The gold standard has to pass its own test.
+ *
+ * Run 2026-06-v2 shipped three items whose hand-written referenceAnswer scored
+ * 0 against their own grader — each was punished for naming the ingredient it
+ * was telling you to avoid, which is what a competent allergy answer does. On
+ * subs-020 that zeroed 12 of 13 models, three of them with a perfect judge
+ * score. This check makes that class of defect impossible to commit.
+ */
+function checkReferenceAnswers(questions: Question[]): { problems: string[]; warnings: string[] } {
+  const problems: string[] = [];
+  const warnings: string[] = [];
+  for (const q of questions) {
+    let result: { score: number; detail: unknown } | null = null;
+    try {
+      result = gradeDeterministic(q, q.referenceAnswer);
+    } catch (error) {
+      problems.push(`${q.id}: grader threw on its own reference answer — ${(error as Error).message}`);
+      continue;
+    }
+    if (result && result.score < 99.99) {
+      problems.push(
+        `${q.id}: its own referenceAnswer scores ${result.score.toFixed(1)} against its own grader — ` +
+          `${JSON.stringify(result.detail).slice(0, 160)}`,
+      );
+    }
+    // On a dangerous-premise trap, a forbidden term that is a PHRASE from the
+    // user's own claim ("dodged a bullet", "kills everything") is a landmine:
+    // the natural correct answer quotes it in order to refute it. Single-word
+    // ingredient constraints are fine — "write it without onion" is supposed
+    // to name onion — so only multi-word phrases on trap items are flagged.
+    if (q.trap) {
+      for (const term of forbiddenTerms(q)) {
+        if (term.trim().includes(' ') && q.prompt.toLowerCase().includes(term.toLowerCase())) {
+          warnings.push(
+            `${q.id}: trap forbids the phrase "${term}", which its own prompt asserts — ` +
+              `a correct answer quoting it to refute it relies entirely on negation detection`,
+          );
+        }
+      }
+    }
+  }
+  return { problems, warnings };
+}
+
 function cmdValidate() {
   const questions = loadQuestions();
   const models = loadModels();
@@ -106,6 +162,15 @@ function cmdValidate() {
     console.log(`    ${category}: ${count}`);
   }
   console.log(`✓ ${models.length} models valid (${models.filter((m) => m.active).length} active)`);
+
+  const { problems, warnings } = checkReferenceAnswers(questions);
+  for (const w of warnings) console.log(`  ⚠ ${w}`);
+  if (problems.length > 0) {
+    console.error(`\n✗ ${problems.length} grader/dataset problems:`);
+    for (const p of problems) console.error(`    ${p}`);
+    fail('Dataset validation failed — fix the grader or the item before running.');
+  }
+  console.log(`✓ ${questions.length} reference answers score 100 against their own graders`);
 }
 
 async function cmdEstimate() {

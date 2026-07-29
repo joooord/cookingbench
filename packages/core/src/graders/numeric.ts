@@ -57,7 +57,9 @@ export function gradeNumeric(
   const candidates = filterPromptEchoes(
     extractQuantities(scope.text),
     promptText,
-    scope.usedAnswerLine,
+    // On an item whose right answer restates a prompt value, the echo filter
+    // would delete the correct answer — so treat it like an explicit answer line.
+    scope.usedAnswerLine || (spec.expectedInPrompt ?? false),
   );
   const accept = spec.acceptEquivalentUnits ?? true;
   // Partial-credit bands, best (highest-scoring) band first regardless of

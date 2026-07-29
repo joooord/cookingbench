@@ -234,6 +234,9 @@
     expected: 270
     unit: kcal
     toleranceAbs: 10
+    # The whole point of the item is that the answer is unchanged from the
+    # prompt, so the prompt-echo filter must not delete it.
+    expectedInPrompt: true
   referenceAnswer: >
     270 kcal — boiling only adds water, which has no calories. The same pasta
     weighs more but contains exactly the same energy.
