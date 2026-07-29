@@ -137,6 +137,43 @@ export default function MethodologyPage() {
         </section>
 
         <section>
+          <h2 className="border-b-2 border-ink pb-2 font-display text-xl font-medium">
+            Erratum — run 2026-06-v2
+          </h2>
+          <p className="mt-4">
+            The keyword grader used to treat a forbidden term as a violation wherever it
+            appeared, and its negation detection was too narrow to recognise the shapes a
+            correct answer actually takes. Two in particular: a refutation using a contracted
+            auxiliary (<em>&ldquo;you haven&rsquo;t dodged a bullet&rdquo;</em>), and naming a
+            banned ingredient in order to rule it out (<em>&ldquo;many vegan butters use
+            coconut oil &mdash; look for soy-based brands&rdquo;</em>). Separately, an answer
+            that came back empty was handed to the judge panel, which deducted once for
+            producing nothing and floored at 60 &mdash; so silence scored better than a poor
+            answer.
+          </p>
+          <p className="mt-4">
+            The effect was not small. Three questions&rsquo; own hand-written reference
+            answers scored 0 against their own graders, and on one item 12 of 13 models were
+            zeroed on the constraint check &mdash; three of them while the judge panel scored
+            them 100. Eighteen answers in run 2026-06-v2 were marked wrong when they were
+            right.
+          </p>
+          <p className="mt-4">
+            Run artifacts are immutable, so 2026-06-v2 stands as published. Re-grading it with
+            the corrected graders moves six of thirteen positions: DeepSeek V4 Pro rises from
+            11th to 5th, Qwen 3.5 Plus from 9th to 7th, and Kimi K2.6 falls from 8th to 11th
+            once its empty answer scores 0 rather than being excluded from its mean. The top
+            three are unchanged. Those corrections are carried by the next run, not
+            backdated onto this one.
+          </p>
+          <p className="mt-4 text-sm text-ink-soft">
+            <code className="font-mono">bench validate</code> now refuses to run if any
+            question&rsquo;s reference answer scores below 100 against its own grader, so this
+            class of defect cannot be committed again.
+          </p>
+        </section>
+
+        <section>
           <h2 className="border-b-2 border-ink pb-2 font-display text-xl font-medium">Related work</h2>
           <p className="mt-4 text-sm text-ink-soft">
             Existing cooking-adjacent benchmarks measure something different: CookBench
