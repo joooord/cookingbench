@@ -10,7 +10,7 @@ import {
   type Score,
   type StoredResponse,
 } from '@cookingbench/core';
-import { analyzeRun, writeAnalysis } from './analyze.js';
+import { analyzeRun, tiedRanks, writeAnalysis } from './analyze.js';
 import { BudgetExceededError, BudgetGuard } from './budget.js';
 import { DATA_DIR, REPO_ROOT, RUNS_DIR, buildMessages, loadModels, loadQuestions, maxTokensFor, runnableQuestions } from './dataset.js';
 import { assertFreshEstimate, runEstimate } from './estimate.js';
@@ -935,8 +935,9 @@ function cmdAnalyze() {
   // Printed, not just written, because the leaderboard's own ordering is the
   // thing most likely to be quoted, and most of it is not real.
   for (const scope of ['active', 'frontier'] as const) {
-    const pairs = analysis.separation.filter((p) => p.scope === scope);
-    if (pairs.length === 0) continue;
+    const all = analysis.separation.filter((p) => p.scope === scope);
+    if (all.length === 0) continue;
+    const pairs = all.filter((p) => p.adjacent);
     const sep = pairs.filter((p) => p.separated).length;
     console.log(
       `\nAdjacent-pair separation, paired bootstrap over ${pairs[0]!.items} ${scope} items ` +
@@ -947,6 +948,17 @@ function cmdAnalyze() {
         `  ${p.a.padEnd(30)} > ${p.b.padEnd(30)} gap ${p.gap >= 0 ? '+' : ''}${p.gap.toFixed(2).padStart(6)}  ` +
           `P=${p.pAhead.toFixed(3)}  ${p.separated ? 'separated' : 'tied'}`,
       );
+    }
+    // Ranks come from the full pair matrix, because "tied" does not chain:
+    // every adjacent pair above can be tied while the ends are far apart.
+    const ranks = tiedRanks(analysis.separation, scope);
+    const groups = new Map<number, string[]>();
+    for (const [model, rank] of [...ranks].sort((x, y) => x[1] - y[1])) {
+      (groups.get(rank) ?? groups.set(rank, []).get(rank)!).push(model);
+    }
+    console.log(`  places (${all.filter((p) => p.separated).length}/${all.length} of all pairs separated):`);
+    for (const [rank, members] of [...groups].sort((x, y) => x[0] - y[0])) {
+      console.log(`    ${members.length > 1 ? '=' : ' '}${String(rank).padStart(2)}  ${members.join(', ')}`);
     }
   }
 

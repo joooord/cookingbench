@@ -98,6 +98,8 @@ export interface PairSeparation {
   pAhead: number;
   /** pAhead ≥ 0.95 — the pair is ordered, not tied. */
   separated: boolean;
+  /** b sits immediately below a in the ranking. The readable CLI summary. */
+  adjacent: boolean;
   items: number;
 }
 
@@ -240,8 +242,8 @@ export function analyzeRun(
     effectiveItems,
     referenceSuspects: items.filter((i) => i.referenceSuspect).map((i) => i.questionId),
     separation: [
-      ...adjacentSeparation(questions, scores, 'active'),
-      ...adjacentSeparation(questions, scores, 'frontier'),
+      ...pairwiseSeparation(questions, scores, 'active'),
+      ...pairwiseSeparation(questions, scores, 'frontier'),
     ],
     questionsAnalyzed: items,
   };
@@ -253,11 +255,29 @@ function seededRandom(seed: number): () => number {
   return () => ((state = (state * 1664525 + 1013904223) >>> 0) / 2 ** 32);
 }
 
+/** FNV-1a, as used for judge seat rotation. */
+function hashSeed(text: string): number {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < text.length; i++) {
+    h ^= text.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  return h;
+}
+
 const BOOTSTRAP_REPS = 4000;
 const SEPARATION_SEED = 12345;
 
 /**
- * Paired bootstrap over items for each adjacent pair in the ranking.
+ * Paired bootstrap over items for EVERY pair of models, not just adjacent ones.
+ *
+ * All pairs, because statistical non-separation is not transitive and treating
+ * it as if it were produces nonsense. Chaining the adjacent verdicts in
+ * 2026-07-v2.1 — each pair tied with the next — merges twelve of fourteen
+ * models into one blob and awards Qwen 3.7 Max (90.7) a share of first place,
+ * while the direct test has GPT-5.6 Sol Pro beating it at P=1.000. "A ties B"
+ * and "B ties C" says nothing about A vs C. Ranking therefore has to ask about
+ * A vs C directly, which means the full 91-pair matrix for a 14-model roster.
  *
  * `frontier` reruns it over difficulty ≥ 4 active items. That subset is small,
  * so it is not a substitute for the headline column — but it is a pre-declared
@@ -266,7 +286,7 @@ const SEPARATION_SEED = 12345;
  * 2026-07-v2.1 the top three tie on all 102 active items while Grok 4.5
  * separates from three of the four models below it on the harder 35.
  */
-function adjacentSeparation(
+function pairwiseSeparation(
   questions: Question[],
   scores: Score[],
   scope: 'active' | 'frontier',
@@ -290,31 +310,58 @@ function adjacentSeparation(
 
   const mean = (m: string) => items.reduce((a, q) => a + byModel.get(m)!.get(q)!, 0) / items.length;
   const ranked = [...byModel.keys()].sort((a, b) => mean(b) - mean(a) || a.localeCompare(b));
-  const rnd = seededRandom(SEPARATION_SEED);
 
   const out: PairSeparation[] = [];
-  for (let i = 0; i < ranked.length - 1; i++) {
-    const a = ranked[i]!;
-    const b = ranked[i + 1]!;
-    const diffs = items.map((q) => byModel.get(a)!.get(q)! - byModel.get(b)!.get(q)!);
-    let ahead = 0;
-    for (let rep = 0; rep < BOOTSTRAP_REPS; rep++) {
-      let sum = 0;
-      for (let k = 0; k < diffs.length; k++) sum += diffs[(rnd() * diffs.length) | 0]!;
-      if (sum > 0) ahead++;
+  for (let i = 0; i < ranked.length; i++) {
+    for (let j = i + 1; j < ranked.length; j++) {
+      const a = ranked[i]!;
+      const b = ranked[j]!;
+      // Seeded per pair, not from one shared stream. With a shared stream every
+      // pair's p-value depends on how many pairs were drawn before it, so
+      // adding a model to the roster silently moves the verdict on unrelated
+      // pairs — qwen>mistral read 0.951 as an adjacent-only comparison and
+      // 0.937 once the full matrix was drawn ahead of it. Per-pair seeding
+      // makes each verdict reproducible on its own terms.
+      const rnd = seededRandom(hashSeed(`${SEPARATION_SEED}:${scope}:${a}:${b}`));
+      const diffs = items.map((q) => byModel.get(a)!.get(q)! - byModel.get(b)!.get(q)!);
+      let ahead = 0;
+      for (let rep = 0; rep < BOOTSTRAP_REPS; rep++) {
+        let sum = 0;
+        for (let k = 0; k < diffs.length; k++) sum += diffs[(rnd() * diffs.length) | 0]!;
+        if (sum > 0) ahead++;
+      }
+      const pAhead = ahead / BOOTSTRAP_REPS;
+      out.push({
+        a,
+        b,
+        scope,
+        gap: Math.round((diffs.reduce((x, y) => x + y, 0) / diffs.length) * 100) / 100,
+        pAhead: Math.round(pAhead * 1000) / 1000,
+        separated: pAhead >= 0.95,
+        adjacent: j === i + 1,
+        items: items.length,
+      });
     }
-    const pAhead = ahead / BOOTSTRAP_REPS;
-    out.push({
-      a,
-      b,
-      scope,
-      gap: Math.round((diffs.reduce((x, y) => x + y, 0) / diffs.length) * 100) / 100,
-      pAhead: Math.round(pAhead * 1000) / 1000,
-      separated: pAhead >= 0.95,
-      items: items.length,
-    });
   }
   return out;
+}
+
+/**
+ * Competition rank per model: one plus the number of models proven better.
+ *
+ * "Proven" means the paired bootstrap separated them, so models the data cannot
+ * order share a place. Built from the full pair matrix rather than a chain of
+ * adjacent verdicts — see pairwiseSeparation for why chaining is wrong.
+ */
+export function tiedRanks(separation: PairSeparation[], scope: 'active' | 'frontier'): Map<string, number> {
+  const pairs = separation.filter((p) => p.scope === scope);
+  const models = new Set(pairs.flatMap((p) => [p.a, p.b]));
+  const ranks = new Map<string, number>();
+  for (const m of models) {
+    const better = pairs.filter((p) => p.b === m && p.separated).length;
+    ranks.set(m, better + 1);
+  }
+  return ranks;
 }
 
 export function writeAnalysis(runId: string, analysis: RunAnalysis): void {

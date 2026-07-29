@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { CATEGORIES, CATEGORY_IDS } from '@cookingbench/core';
-import { getLatestReport, modelSlug } from '@/lib/data';
+import { getLatestReport, getTiedRanks, modelSlug } from '@/lib/data';
 import { CATEGORY_COLORS, formatScore, scoreColor } from '@/lib/format';
 import { getTasteWinrates } from '@/lib/supabase';
 
@@ -15,6 +15,14 @@ export default async function LeaderboardPage() {
     (winrates ?? []).filter((w) => w.battles >= 5).map((w) => [w.model_id, w]),
   );
   const showTaste = taste.size > 0;
+  // Models nothing on the board is proven to beat. The row order stays as it is
+  // — readers expect a sorted table — but calling the top row "the winner" when
+  // five models share first place is the one claim this page must not make.
+  const ranks = report ? getTiedRanks(report.runId) : null;
+  const tiedFirst = ranks
+    ? (report?.rows ?? []).filter((r) => ranks.get(r.modelId) === 1).map((r) => r.modelId)
+    : [];
+  const sharedFirst = tiedFirst.length > 1;
   return (
     <div>
       <section className="py-16">
@@ -49,7 +57,25 @@ export default async function LeaderboardPage() {
               {new Date(report.generatedAt).toISOString().slice(0, 10)}
             </span>
           </div>
-          <table className="w-full border-collapse text-sm">
+          {sharedFirst && (
+            <p className="mt-3 text-sm text-ink-soft">
+              <span className="font-medium text-ink">
+                {tiedFirst.length} models are tied for first.
+              </span>{' '}
+              Rows are sorted by Overall, but the gaps at the top are smaller than the
+              measurement error: no model on this board is shown to beat any of the top{' '}
+              {tiedFirst.length}. Places come from a paired bootstrap over per-question
+              score differences —{' '}
+              <Link
+                href="/methodology#separation"
+                className="underline decoration-hairline underline-offset-4 hover:text-paprika"
+              >
+                how this is measured
+              </Link>
+              .
+            </p>
+          )}
+          <table className="mt-4 w-full border-collapse text-sm">
             <thead>
               <tr className="border-b border-hairline text-left text-xs uppercase tracking-wider text-ink-soft">
                 <th className="py-3 pr-2 font-normal">#</th>
@@ -86,11 +112,23 @@ export default async function LeaderboardPage() {
                   <td className="tabular py-4 pr-2 text-ink-soft">{i + 1}</td>
                   <td className="py-4 pr-4">
                     <Link href={`/models/${modelSlug(row.modelId)}`} className="hover:text-paprika">
-                      <span className={i === 0 ? 'font-semibold text-paprika' : 'font-medium'}>
+                      <span
+                        className={
+                          ranks?.get(row.modelId) === 1 ? 'font-semibold text-paprika' : 'font-medium'
+                        }
+                      >
                         {row.displayName}
                       </span>
                       <span className="ml-2 text-xs text-ink-soft">{row.provider}</span>
                     </Link>
+                    {sharedFirst && ranks?.get(row.modelId) === 1 && (
+                      <span
+                        className="ml-2 rounded-sm border border-hairline px-1.5 py-0.5 align-middle text-[10px] uppercase tracking-wider text-ink-soft"
+                        title={`Statistically tied for first with ${tiedFirst.length - 1} other model(s) — no model on this board is shown to beat it`}
+                      >
+                        =1st
+                      </span>
+                    )}
                   </td>
                   <td className="py-4 pr-4">
                     <span

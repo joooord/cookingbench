@@ -1,5 +1,5 @@
 import { CATEGORIES, CATEGORY_IDS } from '@cookingbench/core';
-import { getQuestions } from '@/lib/data';
+import { getAnalysis, getLatestReport, getTiedRanks, getQuestions } from '@/lib/data';
 import { CATEGORY_COLORS } from '@/lib/format';
 
 export const revalidate = 3600;
@@ -14,6 +14,32 @@ export default function MethodologyPage() {
   const questions = getQuestions();
   const counts = new Map<string, number>();
   for (const q of questions) counts.set(q.category, (counts.get(q.category) ?? 0) + 1);
+
+  // Read from the published run rather than hardcoded, so these numbers cannot
+  // drift away from the board they describe — that drift is exactly how a
+  // methodology page starts lying.
+  const report = getLatestReport();
+  const analysis = report ? getAnalysis(report.runId) : null;
+  const activePairs = analysis?.separation?.filter((p) => p.scope === 'active') ?? [];
+  const ranks = report ? getTiedRanks(report.runId) : null;
+  const separation =
+    report && activePairs.length > 0
+      ? {
+          runId: report.runId,
+          separated: activePairs.filter((p) => p.separated).length,
+          total: activePairs.length,
+          tiedFirst: report.rows.filter((r) => ranks?.get(r.modelId) === 1).length,
+        }
+      : null;
+  const saturation =
+    analysis && analysis.activeQuestions > 0
+      ? {
+          activeQuestions: analysis.activeQuestions,
+          activeAllPerfect: analysis.activeAllPerfect,
+          activeWithSignal: analysis.activeWithSignal,
+          effectiveItems: analysis.effectiveItems,
+        }
+      : null;
 
   return (
     <div className="py-16">
@@ -108,6 +134,80 @@ export default function MethodologyPage() {
             there is a regression worth investigating, and transport incidents (empty or
             provider-filtered responses, retried then scored 0) are reported separately so
             infrastructure noise is never mistaken for skill.
+          </p>
+        </section>
+
+        <section id="separation" className="scroll-mt-8">
+          <h2 className="border-b-2 border-ink pb-2 font-display text-xl font-medium">
+            What the ranking can and cannot tell you
+          </h2>
+          <p className="mt-4">
+            The ± on the leaderboard is a <em>marginal</em> confidence interval: it describes
+            one model on its own. Two of them overlapping neither proves nor disproves that
+            one model beats the other, so an ordering cannot be read off the Overall column.
+            Because every model answers the same questions, the honest comparison is{' '}
+            <strong>paired</strong> — resample the per-question score <em>differences</em>,
+            which cancels out how hard the questions happen to be. A pair counts as
+            separated when one model still leads in at least 95% of 4,000 resamples.
+          </p>
+          {separation && (
+            <p className="mt-4">
+              On run {separation.runId}, {separation.separated} of {separation.total} model
+              pairs separate. {separation.tiedFirst > 1 ? (
+                <>
+                  {separation.tiedFirst} models share first place: nothing on the board is
+                  shown to beat any of them.
+                </>
+              ) : (
+                <>The top of the board is genuinely ordered.</>
+              )}{' '}
+              This is also why the site never advertises a single winner from a lead of a
+              tenth of a point.
+            </p>
+          )}
+          <p className="mt-4">
+            Ranks are computed as one plus the number of models <em>proven</em> better, over
+            all pairs rather than adjacent ones. Statistical ties do not chain: A tied with B
+            and B tied with C says nothing about A against C, and following such a chain down
+            this board would merge almost the whole roster into a single place.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="border-b-2 border-ink pb-2 font-display text-xl font-medium">
+            How much of the dataset is actually working
+          </h2>
+          <p className="mt-4">
+            A question every model answers perfectly costs money and moves no one, so the
+            active set is audited after every run and the numbers are published whether or
+            not they flatter the benchmark.
+          </p>
+          {saturation && (
+            <ul className="mt-4 space-y-2">
+              <li>
+                <strong>{saturation.activeQuestions} active questions</strong>, of which{' '}
+                {saturation.activeAllPerfect} are answered perfectly by every model on the
+                board.
+              </li>
+              <li>
+                <strong>{saturation.activeWithSignal}</strong> carry any between-model signal
+                at all.
+              </li>
+              <li>
+                <strong>Effective item count: {saturation.effectiveItems}</strong> — weighting
+                each question by its share of the variance, the active set does the work of
+                about that many equally-informative questions. That gap is the honest measure
+                of how much room the benchmark has left, and closing it means writing harder
+                questions, not changing how they are scored.
+              </li>
+            </ul>
+          )}
+          <p className="mt-4">
+            Saturated items are demoted to the Basics tier — kept as a regression gate,
+            excluded from Overall — and replaced. Candidate questions must pass an admission
+            gate before they count: a reference answer that scores full marks against its own
+            grader, a deliberately wrong answer that does not, and a pilot against a
+            frontier model, which rejects the question if the strongest model finds it easy.
           </p>
         </section>
 

@@ -98,6 +98,66 @@ export function getLatestReport(): LeaderboardReport | null {
   return reports[0]!;
 }
 
+/** The slice of analysis.json the site reads. Mirrors RunAnalysis in the runner. */
+interface PairSeparation {
+  a: string;
+  b: string;
+  scope: 'active' | 'frontier';
+  gap: number;
+  pAhead: number;
+  separated: boolean;
+  items: number;
+}
+
+export interface RunAnalysisSummary {
+  activeQuestions: number;
+  activeAllPerfect: number;
+  activeWithSignal: number;
+  effectiveItems: number;
+  separation?: PairSeparation[];
+}
+
+export function getAnalysis(runId: string): RunAnalysisSummary | null {
+  const path = join(RUNS_DIR, runId, 'analysis.json');
+  if (!existsSync(path)) return null;
+  try {
+    return readJson<RunAnalysisSummary>(path);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Competition ranks with statistically tied models sharing a place: a model's
+ * rank is one plus the number of models *proven* better than it.
+ *
+ * The board used to number rows 1..n off the sorted order, which reads as a
+ * strict ordering of fourteen models. In run 2026-07-v2.1 exactly one of
+ * thirteen adjacent pairs is genuinely ordered: three models sit within 0.05
+ * points at P≈0.52. Numbering them 1, 2, 3 states something the data does not
+ * support, and the top row is the one people screenshot.
+ *
+ * Computed from the full pair matrix, never from a chain of adjacent verdicts.
+ * Non-separation does not chain: in this run every adjacent pair from 1st to
+ * 12th is tied, yet the ends are far apart, so following the chain would award
+ * Qwen 3.7 Max a share of first place while the direct test has GPT-5.6 Sol Pro
+ * beating it at P=1.000.
+ *
+ * Returns null when a run has no separation data (every pre-2026-07 artifact),
+ * and callers fall back to positional ranks. Ties are never invented for a run
+ * that was not tested for them.
+ */
+export function getTiedRanks(runId: string): Map<string, number> | null {
+  const pairs = getAnalysis(runId)?.separation?.filter((p) => p.scope === 'active');
+  if (!pairs || pairs.length === 0) return null;
+  const models = new Set(pairs.flatMap((p) => [p.a, p.b]));
+  const ranks = new Map<string, number>();
+  for (const m of models) {
+    ranks.set(m, pairs.filter((p) => p.b === m && p.separated).length + 1);
+  }
+  return ranks;
+}
+
 export function getQuestions(): Question[] {
   const dir = join(DATA_DIR, 'questions');
   const questions: Question[] = [];

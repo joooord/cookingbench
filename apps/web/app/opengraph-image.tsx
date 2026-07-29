@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og';
-import { getLatestReport } from '@/lib/data';
+import { getLatestReport, getTiedRanks } from '@/lib/data';
 import { formatScore } from '@/lib/format';
 
 export const alt = 'CookingBench — which AI model is the best chef?';
@@ -7,13 +7,31 @@ export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 const MEDALS = ['#c8401a', '#d98e2b', '#7a8b3f', '#4a6b8a', '#6b4660'];
+const TIED = '#c8401a';
 
 export default function OpenGraphImage() {
-  let rows: Array<{ name: string; score: string }> = [];
+  let rows: Array<{ name: string; score: string; place: string; color: string }> = [];
+  let caption = 'cookingbench.com — quantities · conversions · food safety · technique · flavour';
   try {
-    rows = (getLatestReport()?.rows ?? [])
-      .slice(0, 5)
-      .map((r) => ({ name: r.displayName, score: formatScore(r.overall) }));
+    const report = getLatestReport();
+    // The card is the most-shared artifact on the site, so it is the worst
+    // place to imply an order the run does not support. Numbered medals down
+    // the top five read as a podium; in 2026-07-v2.1 all five are tied.
+    const ranks = report ? getTiedRanks(report.runId) : null;
+    const all = report?.rows ?? [];
+    const tiedFirst = ranks ? all.filter((r) => ranks.get(r.modelId) === 1) : [];
+    rows = all.slice(0, 5).map((r, i) => {
+      const shared = tiedFirst.length > 1 && ranks?.get(r.modelId) === 1;
+      return {
+        name: r.displayName,
+        score: formatScore(r.overall),
+        place: shared ? '=1' : String(i + 1),
+        color: shared ? TIED : MEDALS[i]!,
+      };
+    });
+    if (tiedFirst.length > 1) {
+      caption = `cookingbench.com — ${tiedFirst.length} models statistically tied for first`;
+    }
   } catch {
     // Fall back to the plain card if run data is unavailable at build time.
   }
@@ -73,9 +91,7 @@ export default function OpenGraphImage() {
               ?
             </span>
           </div>
-          <div style={{ marginTop: 'auto', fontSize: 26, color: '#57534e' }}>
-            cookingbench.com — quantities · conversions · food safety · technique · flavour
-          </div>
+          <div style={{ marginTop: 'auto', fontSize: 26, color: '#57534e' }}>{caption}</div>
         </div>
         {rows.length > 0 && (
           <div
@@ -89,7 +105,7 @@ export default function OpenGraphImage() {
               paddingLeft: 48,
             }}
           >
-            {rows.map((row, i) => (
+            {rows.map((row) => (
               <div
                 key={row.name}
                 style={{ display: 'flex', alignItems: 'center', gap: 16, fontSize: 28 }}
@@ -99,16 +115,16 @@ export default function OpenGraphImage() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    width: 40,
+                    width: 46,
                     height: 40,
                     borderRadius: 20,
-                    background: MEDALS[i],
+                    background: row.color,
                     color: '#faf6ef',
                     fontSize: 22,
                     fontWeight: 700,
                   }}
                 >
-                  {i + 1}
+                  {row.place}
                 </div>
                 <div style={{ display: 'flex', flex: 1 }}>{row.name}</div>
                 <div style={{ display: 'flex', fontWeight: 700 }}>{row.score}</div>

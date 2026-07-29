@@ -266,6 +266,26 @@ and Gemini 3.6 Flash. It does *not* separate from GPT-5.6 Sol Pro (P=0.924).
 Never quote an ordering off the overall column without checking
 `analysis.separation`. A 0.01-point lead is not a result.
 
+**Statistical ties do not chain, and the site now depends on this.**
+`analysis.separation` holds **all** pairs (91 for 14 models), not just adjacent
+ones, because "A ties B" and "B ties C" says nothing about A vs C. The first
+cut of this computed places by walking the adjacent chain and produced a
+**twelve-way tie for first** — Qwen 3.7 Max, 5.3 points off the lead, sharing
+first place with GPT-5.6 Sol Pro, which beats it directly at P=1.000. Rank is
+`1 + count of models proven better`, over the full matrix.
+
+Two consequences worth knowing before touching `analyze.ts`:
+- Places are **not monotonic in score**, and that is correct, not a bug. A model
+  with a wider spread is harder to prove worse, so it can hold a better *place*
+  than a model above it on points. That is why the board's `#` column stays
+  positional and only the tied-for-first group is marked; the full places table
+  belongs on `/methodology`, where it can be explained.
+- Each pair is seeded from `hash(seed:scope:a:b)`, not one shared stream.
+  With a shared stream a pair's p-value depends on how many pairs were drawn
+  before it — `qwen > mistral` read 0.951 adjacent-only and 0.937 inside the
+  full matrix. It is genuinely borderline (0.941 seeded per pair), so **no
+  adjacent pair on this run clears 0.95**, while 48 of 91 pairs overall do.
+
 ### Where the dataset actually stands
 
 - 102 active items, **64 carry any signal**, `effectiveItems` (inverse Herfindahl

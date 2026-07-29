@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Question, Score, StoredResponse } from '@cookingbench/core';
-import { analyzeRun } from '../src/analyze.js';
+import { analyzeRun, tiedRanks } from '../src/analyze.js';
 
 function question(id: string, difficulty: 1 | 2 | 3 | 4 | 5): Question {
   return {
@@ -95,6 +95,51 @@ describe('adjacent-pair separation', () => {
     const analysis = build({ a, b }, difficulties);
     expect(analysis.separation.find((p) => p.scope === 'active')!.items).toBe(20);
     expect(analysis.separation.find((p) => p.scope === 'frontier')!.items).toBe(8);
+  });
+
+  it('compares every pair, not just adjacent ones', () => {
+    // 4 models => 6 pairs, so a rank can be based on a direct A-vs-D test.
+    const perModel = {
+      a: Array.from({ length: 30 }, () => 95),
+      b: Array.from({ length: 30 }, () => 90),
+      c: Array.from({ length: 30 }, () => 85),
+      d: Array.from({ length: 30 }, () => 80),
+    };
+    const pairs = build(perModel).separation.filter((p) => p.scope === 'active');
+    expect(pairs).toHaveLength(6);
+    expect(pairs.filter((p) => p.adjacent)).toHaveLength(3);
+  });
+
+  it('does not let statistical ties chain into a false shared first place', () => {
+    // Each model beats the next by a hair but the ends are far apart — the
+    // shape of run 2026-07-v2.1, where following adjacent verdicts put a model
+    // 5 points off the lead into a twelve-way tie for first.
+    const step = (offset: number) => Array.from({ length: 60 }, (_, i) => 50 + offset + (i % 10));
+    const analysis = build({ a: step(9), b: step(6), c: step(3), d: step(0) });
+    const ranks = tiedRanks(analysis.separation, 'active');
+    const pairAD = analysis.separation.find((p) => p.a === 'a' && p.b === 'd')!;
+    expect(pairAD.separated).toBe(true);
+    // d is proven worse than a, so it cannot share a's place whatever the
+    // adjacent verdicts say.
+    expect(ranks.get('d')).toBeGreaterThan(1);
+    expect(ranks.get('a')).toBe(1);
+  });
+
+  it('gives models nothing is proven to beat a shared first place', () => {
+    const flat = () => Array.from({ length: 40 }, (_, i) => 80 + (i % 5));
+    const ranks = tiedRanks(build({ a: flat(), b: flat(), c: flat() }).separation, 'active');
+    expect([...ranks.values()]).toEqual([1, 1, 1]);
+  });
+
+  it('scores each pair independently of how many other pairs were drawn', () => {
+    // Per-pair seeding: a pair's verdict must not move when the roster grows.
+    const a = Array.from({ length: 50 }, (_, i) => 70 + (i % 11));
+    const b = Array.from({ length: 50 }, (_, i) => 62 + (i % 7));
+    const two = build({ a, b }).separation.find((p) => p.a === 'a' && p.b === 'b')!;
+    const three = build({ a, b, c: Array.from({ length: 50 }, () => 50) }).separation.find(
+      (p) => p.a === 'a' && p.b === 'b',
+    )!;
+    expect(three.pAhead).toBe(two.pAhead);
   });
 
   it('ignores items a model is missing, so a gap is never an artefact of coverage', () => {
