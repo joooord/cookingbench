@@ -927,6 +927,29 @@ function cmdAnalyze() {
       `${item.questionId.padEnd(11)} ${item.graderType.padEnd(13)} ${item.mean.toFixed(1).padStart(6)} ${item.sd.toFixed(1).padStart(6)} ${item.discrimination.toFixed(1).padStart(6)} ${String(item.anomalies).padStart(5)}  ${item.verdict}`,
     );
   }
+  console.log(
+    `\nActive set: ${analysis.activeQuestions} items, ${analysis.activeAllPerfect} all-perfect, ` +
+      `${analysis.activeWithSignal} carrying signal — worth ${analysis.effectiveItems} equally-informative items.`,
+  );
+
+  // Printed, not just written, because the leaderboard's own ordering is the
+  // thing most likely to be quoted, and most of it is not real.
+  for (const scope of ['active', 'frontier'] as const) {
+    const pairs = analysis.separation.filter((p) => p.scope === scope);
+    if (pairs.length === 0) continue;
+    const sep = pairs.filter((p) => p.separated).length;
+    console.log(
+      `\nAdjacent-pair separation, paired bootstrap over ${pairs[0]!.items} ${scope} items ` +
+        `— ${sep}/${pairs.length} pairs genuinely ordered:`,
+    );
+    for (const p of pairs) {
+      console.log(
+        `  ${p.a.padEnd(30)} > ${p.b.padEnd(30)} gap ${p.gap >= 0 ? '+' : ''}${p.gap.toFixed(2).padStart(6)}  ` +
+          `P=${p.pAhead.toFixed(3)}  ${p.separated ? 'separated' : 'tied'}`,
+      );
+    }
+  }
+
   console.log(`\n✓ Analysis written to data/runs/${runId}/analysis.json (use --all true to list kept items too)`);
 }
 

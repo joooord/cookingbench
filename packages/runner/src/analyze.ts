@@ -66,7 +66,39 @@ export interface RunAnalysis {
   effectiveItems: number;
   /** Items whose reference answer most of the roster contradicts. */
   referenceSuspects: string[];
+  /**
+   * Which adjacent pairs on the leaderboard are actually separated, and which
+   * are a coin flip dressed up as a ranking.
+   *
+   * The per-model CI on the board is a *marginal* interval, so two models can
+   * look distinct while their intervals overlap heavily, or look tied while one
+   * beats the other on nearly every item. Both readings are wrong for the same
+   * reason: every model answers the same questions, so item difficulty is
+   * shared and the comparison should be paired. Resampling the per-item score
+   * *differences* removes that shared difficulty and is far more sensitive.
+   *
+   * In 2026-07-v2.1 this is the difference between publishing "GPT-5.6 Sol Pro
+   * is the best cook" off a 0.01-point lead and reporting the truth: the top
+   * three are inseparable (P≈0.52), and exactly one adjacent pair in a
+   * fourteen-model table is genuinely apart.
+   */
+  separation: PairSeparation[];
   questionsAnalyzed: QuestionAnalysis[];
+}
+
+export interface PairSeparation {
+  /** The higher-ranked model of the pair. */
+  a: string;
+  b: string;
+  /** Which item set the comparison was run over. */
+  scope: 'active' | 'frontier';
+  /** Mean per-item score difference, a − b. */
+  gap: number;
+  /** Share of bootstrap resamples in which a still leads b. */
+  pAhead: number;
+  /** pAhead ≥ 0.95 — the pair is ordered, not tied. */
+  separated: boolean;
+  items: number;
 }
 
 function finishReason(r: StoredResponse): string | undefined {
@@ -207,8 +239,82 @@ export function analyzeRun(
     activeWithSignal: activeItems.filter((i) => i.sd > 1).length,
     effectiveItems,
     referenceSuspects: items.filter((i) => i.referenceSuspect).map((i) => i.questionId),
+    separation: [
+      ...adjacentSeparation(questions, scores, 'active'),
+      ...adjacentSeparation(questions, scores, 'frontier'),
+    ],
     questionsAnalyzed: items,
   };
+}
+
+/** Deterministic LCG — the CIs on the board are seeded for the same reason. */
+function seededRandom(seed: number): () => number {
+  let state = seed >>> 0;
+  return () => ((state = (state * 1664525 + 1013904223) >>> 0) / 2 ** 32);
+}
+
+const BOOTSTRAP_REPS = 4000;
+const SEPARATION_SEED = 12345;
+
+/**
+ * Paired bootstrap over items for each adjacent pair in the ranking.
+ *
+ * `frontier` reruns it over difficulty ≥ 4 active items. That subset is small,
+ * so it is not a substitute for the headline column — but it is a pre-declared
+ * column of the methodology rather than a slice chosen after seeing results,
+ * and it is where a saturated set still has room to discriminate: in
+ * 2026-07-v2.1 the top three tie on all 102 active items while Grok 4.5
+ * separates from three of the four models below it on the harder 35.
+ */
+function adjacentSeparation(
+  questions: Question[],
+  scores: Score[],
+  scope: 'active' | 'frontier',
+): PairSeparation[] {
+  const wanted = new Set(
+    questions
+      .filter((q) => q.status === 'active' && (scope === 'active' || q.difficulty >= 4))
+      .map((q) => q.id),
+  );
+  const byModel = new Map<string, Map<string, number>>();
+  for (const s of scores) {
+    if (!wanted.has(s.questionId)) continue;
+    let row = byModel.get(s.modelId);
+    if (!row) byModel.set(s.modelId, (row = new Map()));
+    row.set(s.questionId, s.score);
+  }
+  // Only items every model answered, so a gap can never be an artefact of one
+  // model being averaged over a different set than its opponent.
+  const items = [...wanted].filter((q) => [...byModel.values()].every((m) => m.has(q)));
+  if (items.length === 0 || byModel.size < 2) return [];
+
+  const mean = (m: string) => items.reduce((a, q) => a + byModel.get(m)!.get(q)!, 0) / items.length;
+  const ranked = [...byModel.keys()].sort((a, b) => mean(b) - mean(a) || a.localeCompare(b));
+  const rnd = seededRandom(SEPARATION_SEED);
+
+  const out: PairSeparation[] = [];
+  for (let i = 0; i < ranked.length - 1; i++) {
+    const a = ranked[i]!;
+    const b = ranked[i + 1]!;
+    const diffs = items.map((q) => byModel.get(a)!.get(q)! - byModel.get(b)!.get(q)!);
+    let ahead = 0;
+    for (let rep = 0; rep < BOOTSTRAP_REPS; rep++) {
+      let sum = 0;
+      for (let k = 0; k < diffs.length; k++) sum += diffs[(rnd() * diffs.length) | 0]!;
+      if (sum > 0) ahead++;
+    }
+    const pAhead = ahead / BOOTSTRAP_REPS;
+    out.push({
+      a,
+      b,
+      scope,
+      gap: Math.round((diffs.reduce((x, y) => x + y, 0) / diffs.length) * 100) / 100,
+      pAhead: Math.round(pAhead * 1000) / 1000,
+      separated: pAhead >= 0.95,
+      items: items.length,
+    });
+  }
+  return out;
 }
 
 export function writeAnalysis(runId: string, analysis: RunAnalysis): void {
