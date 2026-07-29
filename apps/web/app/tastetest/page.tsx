@@ -58,11 +58,20 @@ export default async function TasteTestPage() {
     }
     return items[items.length - 1]!;
   };
-  const first = weightedPick(candidates, (r) => 1 / (battlesFor(r.modelId) + 1));
-  const second = weightedPick(
-    candidates.filter((r) => r !== first),
+  const picked = weightedPick(candidates, (r) => 1 / (battlesFor(r.modelId) + 1));
+  const opponent = weightedPick(
+    candidates.filter((r) => r !== picked),
     (r) => 1 / (battlesFor(r.modelId) + 1),
   );
+  // …then flip for position. The catch-up weighting is sequential sampling
+  // without replacement, so whichever model is drawn first is overwhelmingly
+  // the under-battled one — simulated over this exact sampler, 93.9% at 0 vs
+  // 100 battles and still 64.7% at 5 vs 40, the point at which a model first
+  // enters the standings. Without the flip, `first` also became model_a and
+  // the left-hand Dish A card, so any left-side or first-read bias would land
+  // squarely on the newest and least stable ratings and then decay as they
+  // accumulated battles — indistinguishable from honest regression to the mean.
+  const [first, second] = Math.random() < 0.5 ? [picked, opponent] : [opponent, picked];
   const recordFor = (modelId: string) => winrates?.find((w) => w.model_id === modelId);
   const contender = (r: typeof first) => ({
     modelId: r.modelId,

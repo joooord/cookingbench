@@ -49,6 +49,10 @@ export interface TasteWinrate {
 /**
  * Every vote ever cast, oldest first, for the Bradley-Terry taste board.
  * Paginated because PostgREST caps responses at 1000 rows.
+ *
+ * Reads `taste_ballots` (migration 0005), which exposes only the columns the
+ * fit needs — session_id and vote_ms stay server-side rather than being
+ * world-readable through the publishable key.
  */
 export async function getAllTasteVotes(): Promise<TasteVoteRecord[] | null> {
   const pageSize = 1000;
@@ -57,7 +61,7 @@ export async function getAllTasteVotes(): Promise<TasteVoteRecord[] | null> {
     for (let page = 0; ; page++) {
       const from = page * pageSize;
       const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/taste_votes?select=*&order=created_at.asc,id.asc`,
+        `${SUPABASE_URL}/rest/v1/taste_ballots?select=*&order=created_at.asc,id.asc`,
         {
           headers: { ...HEADERS, Range: `${from}-${from + pageSize - 1}` },
           next: { revalidate: 60 },

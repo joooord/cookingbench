@@ -35,6 +35,9 @@ export async function syncDataset(models: ModelEntry[], questions: Question[]): 
       reference_answer: q.referenceAnswer,
       source: q.source ?? null,
       is_public: q.public,
+      // Added in migration 0004 — without it the DB-side leaderboard view
+      // cannot tell active items from basics and can never reproduce Overall.
+      status: q.status,
     })),
   );
   if (questionError) throw new Error(`questions upsert failed: ${questionError.message}`);
@@ -76,12 +79,34 @@ export async function syncRun(
     if (error) throw new Error(`responses upsert failed: ${error.message}`);
   }
 
-  const { data: idRows, error: idError } = await db
-    .from('responses')
-    .select('id, model_id, question_id')
-    .eq('run_id', config.runId);
-  if (idError) throw new Error(`responses id fetch failed: ${idError.message}`);
-  const idByPair = new Map(idRows!.map((r) => [`${r.model_id}::${r.question_id}`, r.id as number]));
+  // Paginated: PostgREST caps a select at 1000 rows, and a full run is ~2400
+  // responses. Unpaginated, every score whose response fell outside the first
+  // page mapped to undefined and was silently dropped by the null-guard below
+  // — about 58% of them — while the success message still printed.
+  const PAGE = 1000;
+  const idByPair = new Map<string, number>();
+  for (let from = 0; ; from += PAGE) {
+    const { data: idRows, error: idError } = await db
+      .from('responses')
+      .select('id, model_id, question_id')
+      .eq('run_id', config.runId)
+      .order('id', { ascending: true })
+      .range(from, from + PAGE - 1);
+    if (idError) throw new Error(`responses id fetch failed: ${idError.message}`);
+    for (const r of idRows ?? []) idByPair.set(`${r.model_id}::${r.question_id}`, r.id as number);
+    if ((idRows?.length ?? 0) < PAGE) break;
+  }
+
+  // A score with no matching response is a real gap, not something to skip
+  // quietly — the null-guard that used to swallow these is what made the
+  // unpaginated fetch above lose 58% of scores without a word.
+  const orphans = scores.filter((s) => !idByPair.has(`${s.modelId}::${s.questionId}`));
+  if (orphans.length > 0) {
+    throw new Error(
+      `${orphans.length} of ${scores.length} scores have no stored response ` +
+        `(e.g. ${orphans[0]!.modelId} × ${orphans[0]!.questionId}) — refusing to sync a partial run`,
+    );
+  }
 
   for (let i = 0; i < scores.length; i += 200) {
     const chunk = scores.slice(i, i + 200);

@@ -37,10 +37,17 @@ export default async function TasteBoardPage() {
     );
   }
 
-  const ratings = computeTasteRatings(votes, { bootstrap: 200 });
-  const ranked = ratings.filter((r) => r.battles >= MIN_BATTLES);
-  const provisional = ratings.filter((r) => r.battles < MIN_BATTLES);
-  const h2h = headToHead(votes);
+  // Only ballots between two models on the current roster count. /tastetest
+  // already intersects its standings with `rows`; this page did not, and
+  // nameFor falls back to the raw id — so a single row naming an arbitrary
+  // string would have put attacker-chosen text on the public board as both a
+  // row and a column of the head-to-head matrix. Filtering here also keeps the
+  // Bradley-Terry fit from being distorted by models that are no longer run.
+  const rosterVotes = votes.filter((v) => rows.has(v.model_a) && rows.has(v.model_b));
+  const ratings = computeTasteRatings(rosterVotes, { bootstrap: 200 });
+  const ranked = ratings.filter((r) => r.battles >= MIN_BATTLES && rows.has(r.modelId));
+  const provisional = ratings.filter((r) => r.battles < MIN_BATTLES && rows.has(r.modelId));
+  const h2h = headToHead(rosterVotes);
 
   const nameFor = (modelId: string) => rows.get(modelId)?.displayName ?? modelId;
   const ModelName = ({ modelId, bold }: { modelId: string; bold?: boolean }) =>
