@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "nutr-006",
+  "answerText": "One scoop (40 g) provides 12 g of protein, meaning the powder is 30% protein by weight (12 ÷ 40 = 0.3).\n\nFor 150 g of powder: 150 × 0.3 = 45 g of protein.\n\nAnswer: 45 g",
+  "raw": {
+    "id": "gen-1785343375-kiuaYgrw0B7FKHoX117Y",
+    "object": "chat.completion",
+    "created": 1785343375,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "One scoop (40 g) provides 12 g of protein, meaning the powder is 30% protein by weight (12 ÷ 40 = 0.3).\n\nFor 150 g of powder: 150 × 0.3 = 45 g of protein.\n\nAnswer: 45 g",
+          "refusal": null,
+          "reasoning": "I'm calculating the concentration ratio and then scaling it up to find how much is needed for 150 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the concentration ratio and then scaling it up to find how much is needed for 150 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EpgCCokBCBAYAipAA+srsj4JXbquheBTn01Bxuyvq8iYjfe8Di+X2o8X9mkY4zZDXOzu/MjLSWME3PdbFBbNBAqlkE+cv4FJd04MiDIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDJs7ahHfhXrs1gM30RoM7ZldT8OIKmcXZJU8IjAA9dq0WhnymI4DScDLEeZTd+ubCn0KdL5HPJVLTEy0Hv8nFYpRLWI/qrR+y1IL+SgqPMcHhVny3hHKf14a2bNXRbfwwxS9IZph8U0L442sJtW9qmBo2f6xPdHE7yL1tpNodeO8vrtXkGaJPZe+txgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 94,
+      "completion_tokens": 123,
+      "total_tokens": 217,
+      "cost": 0.001418,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001418,
+        "upstream_inference_prompt_cost": 0.000188,
+        "upstream_inference_completions_cost": 0.00123
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 26,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 94,
+  "tokensOut": 123,
+  "costUsd": 0.001418,
+  "latencyMs": 3358,
+  "finishReason": "stop"
+}

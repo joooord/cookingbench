@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "qty-017",
+  "answerText": "To scale the recipe from 6 to 10 servings, first find the amount of flour per serving by dividing the original amount by the original servings (720 g ÷ 6 = 120 g per serving). Multiply this by 10 to get the new total. To find the ounces per serving, divide the 120 g by 28.35 (the approximate number of grams in an ounce).\n\nTotal: 1200 g\nPer serving: 4.23 oz",
+  "raw": {
+    "id": "gen-1785343111-DFbn1OPaiRyS2RqKIrpt",
+    "object": "chat.completion",
+    "created": 1785343111,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "provisioned",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To scale the recipe from 6 to 10 servings, first find the amount of flour per serving by dividing the original amount by the original servings (720 g ÷ 6 = 120 g per serving). Multiply this by 10 to get the new total. To find the ounces per serving, divide the 120 g by 28.35 (the approximate number of grams in an ounce).\n\nTotal: 1200 g\nPer serving: 4.23 oz",
+          "refusal": null,
+          "reasoning": "**Calculating Flour Requirements**\n\nI'm refining the flour calculations. My current focus is on determining the total grams needed for ten servings and then converting that to ounces per serving, ensuring precision for an expert audience.\n\nTotal: <number>\nPer serving: <number> oz\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Flour Requirements**\n\nI'm refining the flour calculations. My current focus is on determining the total grams needed for ten servings and then converting that to ounces per serving, ensuring precision for an expert audience.\n\nTotal: <number>\nPer serving: <number> oz\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 80,
+      "completion_tokens": 555,
+      "total_tokens": 635,
+      "cost": 0.00682,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00682,
+        "upstream_inference_prompt_cost": 0.00016,
+        "upstream_inference_completions_cost": 0.00666
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 446,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 80,
+  "tokensOut": 555,
+  "costUsd": 0.00682,
+  "latencyMs": 6625,
+  "finishReason": "stop"
+}

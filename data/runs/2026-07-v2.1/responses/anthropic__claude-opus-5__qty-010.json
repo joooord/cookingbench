@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "qty-010",
+  "answerText": "Scaling up: 36 muffins is 3× the original batch of 12, so multiply the eggs by 3 — 3 × 3 = 9 eggs.\n\n(Tip: with large batches, mix by weight if you can — about 50 g per whole egg without shell, so ~450 g total.)\n\nAnswer: 9 eggs",
+  "raw": {
+    "id": "gen-1785342120-7t5WGvSiagj9nMRaS4xX",
+    "object": "chat.completion",
+    "created": 1785342120,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Scaling up: 36 muffins is 3× the original batch of 12, so multiply the eggs by 3 — 3 × 3 = 9 eggs.\n\n(Tip: with large batches, mix by weight if you can — about 50 g per whole egg without shell, so ~450 g total.)\n\nAnswer: 9 eggs",
+          "refusal": null,
+          "reasoning": "So if there are 12 eggs per dozen, then 36 eggs equals 3 dozen, which means 3 times 3 gives me 9 eggs total.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "So if there are 12 eggs per dozen, then 36 eggs equals 3 dozen, which means 3 times 3 gives me 9 eggs total.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISgwIKhwEIEBgCKkDg5CWtBCz9wruzXLwUaZcq0EzD+gcMlpN5j7a8vQ0aNpHiUxNjBNRABqdFMZj9ED7TpRgkVA245IGGaE9MmR1cMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDIPyz5WKIclIGyaG3RoMVrZ3KW/PlKshAglfIjBSPvaDYPXgXeCVL6kPL+ljGZfPon/OZQ8tjMJkDyAA5NI8crRd1sAp32wmQ64wytQqKQmq6U+veHqKGzjqVJr62oOzaj3htHYDpK1h2tkZdYYZ5EkRPYeHygFFGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 95,
+      "completion_tokens": 131,
+      "total_tokens": 226,
+      "cost": 0.00375,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00375,
+        "upstream_inference_prompt_cost": 0.000475,
+        "upstream_inference_completions_cost": 0.003275
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 27,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 95,
+  "tokensOut": 131,
+  "costUsd": 0.00375,
+  "latencyMs": 4229,
+  "finishReason": "stop"
+}

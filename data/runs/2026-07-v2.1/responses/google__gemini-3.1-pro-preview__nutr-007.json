@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "nutr-007",
+  "answerText": "To find the total calorie count of one finished cookie, first calculate the calories of the dough per cookie, and then add the calories from the icing.\n\n1. Dough calories per cookie: 1,800 kcal / 12 cookies = 150 kcal\n2. Add the icing: 150 kcal + 35 kcal = 185 kcal\n\nAnswer: 185 kcal",
+  "raw": {
+    "id": "gen-1785343047-QqWS5R0GYLY5kWDZhX0I",
+    "object": "chat.completion",
+    "created": 1785343047,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "provisioned",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find the total calorie count of one finished cookie, first calculate the calories of the dough per cookie, and then add the calories from the icing.\n\n1. Dough calories per cookie: 1,800 kcal / 12 cookies = 150 kcal\n2. Add the icing: 150 kcal + 35 kcal = 185 kcal\n\nAnswer: 185 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating Cookie Calories**\n\nI'm working on determining the calorie count for a single, fully prepared cookie. My current focus is on combining the base dough calories with the icing calories for a single serving.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Cookie Calories**\n\nI'm working on determining the calorie count for a single, fully prepared cookie. My current focus is on combining the base dough calories with the icing calories for a single serving.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 73,
+      "completion_tokens": 287,
+      "total_tokens": 360,
+      "cost": 0.00359,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00359,
+        "upstream_inference_prompt_cost": 0.000146,
+        "upstream_inference_completions_cost": 0.003444
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 200,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 73,
+  "tokensOut": 287,
+  "costUsd": 0.00359,
+  "latencyMs": 3913,
+  "finishReason": "stop"
+}

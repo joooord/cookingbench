@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "qty-008",
+  "answerText": "To find the amount of ground coffee needed for a 1:16 coffee-to-water ratio, simply divide the total weight of the water by 16. \n\n750 g ÷ 16 = 46.875 g\n\nAnswer: 46.875 g",
+  "raw": {
+    "id": "gen-1785343100-uvJICMC5fKgraKit15Gj",
+    "object": "chat.completion",
+    "created": 1785343100,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find the amount of ground coffee needed for a 1:16 coffee-to-water ratio, simply divide the total weight of the water by 16. \n\n750 g ÷ 16 = 46.875 g\n\nAnswer: 46.875 g",
+          "refusal": null,
+          "reasoning": "**Calculating Coffee Needs**\n\nMy current focus is on determining the precise amount of ground coffee required. Given the 1:16 ratio and a target water volume of 750g, I'm working through the calculation to arrive at the exact coffee weight.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Coffee Needs**\n\nMy current focus is on determining the precise amount of ground coffee required. Given the 1:16 ratio and a target water volume of 750g, I'm working through the calculation to arrive at the exact coffee weight.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 70,
+      "completion_tokens": 369,
+      "total_tokens": 439,
+      "cost": 0.004568,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004568,
+        "upstream_inference_prompt_cost": 0.00014,
+        "upstream_inference_completions_cost": 0.004428
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 304,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 70,
+  "tokensOut": 369,
+  "costUsd": 0.004568,
+  "latencyMs": 4183,
+  "finishReason": "stop"
+}

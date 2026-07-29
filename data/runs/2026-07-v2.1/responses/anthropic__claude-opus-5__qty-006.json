@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "qty-006",
+  "answerText": "For a brine where the salt is calculated as a percentage of the water's weight, you simply take 5% of 2000 g:\n\n2000 g × 0.05 = 100 g of salt\n\nStir it into the water (warm water dissolves it faster) and let it cool before using. Note: if a recipe instead defines the percentage relative to the *total* brine weight, you'd use about 105 g in 2000 g of water — but as stated, 100 g is correct.\n\nAnswer: 100 g",
+  "raw": {
+    "id": "gen-1785342116-0Iv2kuad7OYXYebeS1Gl",
+    "object": "chat.completion",
+    "created": 1785342116,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "For a brine where the salt is calculated as a percentage of the water's weight, you simply take 5% of 2000 g:\n\n2000 g × 0.05 = 100 g of salt\n\nStir it into the water (warm water dissolves it faster) and let it cool before using. Note: if a recipe instead defines the percentage relative to the *total* brine weight, you'd use about 105 g in 2000 g of water — but as stated, 100 g is correct.\n\nAnswer: 100 g",
+          "refusal": null,
+          "reasoning": "So 5% of 2000 grams comes out to 100 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "So 5% of 2000 grams comes out to 100 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS/wEKhwEIEBgCKkDKGvRe5XY2KH49VeuJJnYJkmzP9OTNbuuSz+Ly/cDRc3UnBrmXSAE+PxePLBRM2c8NkiJMKMsF1KUT7X4E0cmSMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDJ0PYX/3E8ZiK0+dTBoM+PtWyx/8qO3xVdStIjBxqwTSzIKtllxld7q8M0MowmqYuulNd+zsVRsWA3BqzO8nC5X8RaNMU7Qfi0kybJcqJV9N/fxae9uP/pOdct0pCVI3/pR6+warmuj/iFN9Q2hbFa/qyZoYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 111,
+      "completion_tokens": 171,
+      "total_tokens": 282,
+      "cost": 0.00483,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00483,
+        "upstream_inference_prompt_cost": 0.000555,
+        "upstream_inference_completions_cost": 0.004275
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 11,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 111,
+  "tokensOut": 171,
+  "costUsd": 0.00483,
+  "latencyMs": 4500,
+  "finishReason": "stop"
+}

@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "nutr-030",
+  "answerText": "Cooking doesn't meaningfully change the *amount* of protein in food—the total protein content (grams) stays essentially the same before and after cooking. A raw chicken breast and a cooked one contain roughly the same protein, though cooked weight is lower due to water loss, which can make protein look more concentrated per 100g.\n\n**What cooking does:**\n- **Denatures proteins** – heat unfolds the protein's 3D structure, breaking hydrogen bonds and other weak interactions. This is why raw egg white is translucent/runny and cooked egg white is opaque/firm.\n- **Causes proteins to aggregate/coagulate** – denatured proteins clump together, which is why meat firms up and changes texture as it cooks.\n- **Can improve digestibility** – denaturation exposes peptide bonds, making some proteins easier for digestive enzymes to break down (this is well-documented for egg whites, for instance).\n- **Drives out moisture** – water evaporates, so cooked chicken weighs less than raw, but the protein itself hasn't left, just the water.\n- **Can degrade some amino acids at very high heat** – prolonged, very high-temperature cooking (charring, deep frying) can destroy a small amount of certain amino acids or create compounds like advanced glycation end-products, but this is a minor effect for typical cooking (baking, grilling, boiling).\n\n**What cooking does NOT do:**\n- It doesn't break proteins down into their constituent amino acids (that requires digestion, not cooking).\n- It doesn't remove protein from the food.\n- It doesn't convert protein into fat, carbs, or other macronutrients.\n\nSo functionally, cooking chicken changes its structure and texture, not its fundamental protein quantity or amino acid composition.",
+  "raw": {
+    "id": "gen-1785343396-xUMMUIsM7AgYJUlHlztM",
+    "object": "chat.completion",
+    "created": 1785343396,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Cooking doesn't meaningfully change the *amount* of protein in food—the total protein content (grams) stays essentially the same before and after cooking. A raw chicken breast and a cooked one contain roughly the same protein, though cooked weight is lower due to water loss, which can make protein look more concentrated per 100g.\n\n**What cooking does:**\n- **Denatures proteins** – heat unfolds the protein's 3D structure, breaking hydrogen bonds and other weak interactions. This is why raw egg white is translucent/runny and cooked egg white is opaque/firm.\n- **Causes proteins to aggregate/coagulate** – denatured proteins clump together, which is why meat firms up and changes texture as it cooks.\n- **Can improve digestibility** – denaturation exposes peptide bonds, making some proteins easier for digestive enzymes to break down (this is well-documented for egg whites, for instance).\n- **Drives out moisture** – water evaporates, so cooked chicken weighs less than raw, but the protein itself hasn't left, just the water.\n- **Can degrade some amino acids at very high heat** – prolonged, very high-temperature cooking (charring, deep frying) can destroy a small amount of certain amino acids or create compounds like advanced glycation end-products, but this is a minor effect for typical cooking (baking, grilling, boiling).\n\n**What cooking does NOT do:**\n- It doesn't break proteins down into their constituent amino acids (that requires digestion, not cooking).\n- It doesn't remove protein from the food.\n- It doesn't convert protein into fat, carbs, or other macronutrients.\n\nSo functionally, cooking chicken changes its structure and texture, not its fundamental protein quantity or amino acid composition.",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 79,
+      "completion_tokens": 581,
+      "total_tokens": 660,
+      "cost": 0.005968,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.005968,
+        "upstream_inference_prompt_cost": 0.000158,
+        "upstream_inference_completions_cost": 0.00581
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 79,
+  "tokensOut": 581,
+  "costUsd": 0.005968,
+  "latencyMs": 7859,
+  "finishReason": "stop"
+}

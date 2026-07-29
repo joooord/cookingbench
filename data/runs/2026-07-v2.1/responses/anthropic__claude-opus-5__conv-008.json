@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "conv-008",
+  "answerText": "A fan-oven setting of 180°C corresponds to roughly 200°C in a conventional (non-fan) oven, since fan ovens circulate hot air and cook about 20°C more efficiently. (In gas terms, that's about gas mark 6.)\n\nAnswer: 200 °C",
+  "raw": {
+    "id": "gen-1785341894-R3dvYO3nPUrldtWXTpHC",
+    "object": "chat.completion",
+    "created": 1785341894,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A fan-oven setting of 180°C corresponds to roughly 200°C in a conventional (non-fan) oven, since fan ovens circulate hot air and cook about 20°C more efficiently. (In gas terms, that's about gas mark 6.)\n\nAnswer: 200 °C",
+          "refusal": null,
+          "reasoning": "So that gives us 200°C as the final temperature.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "So that gives us 200°C as the final temperature.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS/AEKhwEIEBgCKkCW9AyAuVmrqjl+Nd5gDKuuTlZYeuCVBoAJ8WPvOe+e3KvirygaAQfPp+wOk3C1DkuctkeF72gR2IVYE/CUNqRDMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDAFX7GPYQKYCbbQffhoMqBRaGIWA2MbLHvP+IjDmPgH0ALlkwhjyvyMVvovwQeDpzP+hQofRLLLrKsuXgXE0EvPrLRXCNwquBWpekw8qIlmrQKjSvze1HIPycF8QEpP8yP0s8Dxz8/g9wxKGeixVFhoYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 115,
+      "completion_tokens": 109,
+      "total_tokens": 224,
+      "cost": 0.0033,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0033,
+        "upstream_inference_prompt_cost": 0.000575,
+        "upstream_inference_completions_cost": 0.002725
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 13,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 115,
+  "tokensOut": 109,
+  "costUsd": 0.0033,
+  "latencyMs": 3824,
+  "finishReason": "stop"
+}

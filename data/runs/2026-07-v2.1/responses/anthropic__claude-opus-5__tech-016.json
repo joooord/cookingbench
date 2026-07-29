@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "tech-016",
+  "answerText": "Plain sucrose melts at about 186 °C, but the browning reactions of caramelisation start a bit below that — around 160 °C (320 °F). At that point the sugar turns pale golden and begins developing caramel aromas; pushing on to 170–180 °C gives amber to dark caramel, and beyond about 190 °C it scorches and turns bitter. (Adding a little acid, water, or corn syrup, or the presence of proteins, can shift the onset lower.)\n\nAnswer: 160 °C",
+  "raw": {
+    "id": "gen-1785342418-ml1c4N9MVSO6EgCBpHGg",
+    "object": "chat.completion",
+    "created": 1785342418,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Plain sucrose melts at about 186 °C, but the browning reactions of caramelisation start a bit below that — around 160 °C (320 °F). At that point the sugar turns pale golden and begins developing caramel aromas; pushing on to 170–180 °C gives amber to dark caramel, and beyond about 190 °C it scorches and turns bitter. (Adding a little acid, water, or corn syrup, or the presence of proteins, can shift the onset lower.)\n\nAnswer: 160 °C",
+          "refusal": null,
+          "reasoning": "Sucrose has a melting point around 186°C, with caramelization typically starting between 160-170°C, though 160°C is the most commonly referenced temperature.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Sucrose has a melting point around 186°C, with caramelization typically starting between 160-170°C, though 160°C is the most commonly referenced temperature.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISygIKhwEIEBgCKkB5dzuvattJWwGX0H1SSLToWi91RAqMGaRrLWRLn3k9ITr0bt0msCcsA1V6OC0EACwNKqzcju8fEXITFfl1JqK8Mg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDIeCrgAecX+LOwT8exoMfLjJUn1350Hpqz7HIjBJjCSjEBwHsEXSAsMqGyBLgu2TyJBwdZ/CXQhmC+YFCyGDfLP8GXQ0aqM2xZzuMkEqcPXl03MdHOpm2Pd9O6cuKhpw1DkrMy1Ur4Z9hHDrFvDOY1E86InwcgfQK5F6foO0YQS2LCTN43cB+RVVeH7n7vdzHGqGz2sJ2en1YbdtyH9SNIM8ACONuWLI1t1ZKdvKR6c1gwbaLeW6m+Uav1SIrZUYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 95,
+      "completion_tokens": 212,
+      "total_tokens": 307,
+      "cost": 0.005775,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.005775,
+        "upstream_inference_prompt_cost": 0.000475,
+        "upstream_inference_completions_cost": 0.0053
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 41,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 95,
+  "tokensOut": 212,
+  "costUsd": 0.005775,
+  "latencyMs": 5584,
+  "finishReason": "stop"
+}

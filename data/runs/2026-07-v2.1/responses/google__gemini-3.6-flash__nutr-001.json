@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "nutr-001",
+  "answerText": "To calculate the total energy content using the standard Atwater factors:\n\n* **Protein:** 40 g × 4 kcal/g = 160 kcal\n* **Carbohydrates:** 30 g × 4 kcal/g = 120 kcal\n* **Fat:** 20 g × 9 kcal/g = 180 kcal\n\n**Total:** 160 + 120 + 180 = 460 kcal\n\nAnswer: 460 kcal",
+  "raw": {
+    "id": "gen-1785343654-7QU6LWztt0Z1OFIfirPM",
+    "object": "chat.completion",
+    "created": 1785343654,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To calculate the total energy content using the standard Atwater factors:\n\n* **Protein:** 40 g × 4 kcal/g = 160 kcal\n* **Carbohydrates:** 30 g × 4 kcal/g = 120 kcal\n* **Fat:** 20 g × 9 kcal/g = 180 kcal\n\n**Total:** 160 + 120 + 180 = 460 kcal\n\nAnswer: 460 kcal",
+          "refusal": null,
+          "reasoning": null,
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "signature": "AY89a1+87OGCOJZA9C2xoeW95stl4IvK9YnVPg6coJPAXmEitdAxlDPHdouc0m/p2KqFLCt+M/iWPeypgXhWW36QUCT7p4d3HRpku20RpgyHESWIxeX1xfujh3PUMB7F809Qq2ZSzrYTpqOaU1pOlC3j3HrgTQKUiLTjav7JJSXXvBM3ehICcIrrXLIk1az2G5zyGIsq/qgsGcQHUlN9hsPWECE4OAQLm8aP3sjPdFI7T02pafFsKpr+s1iyomlVYZ+J9gMGMNOl4zMxpVuGs/RzNix2Ep/xtiI7HAy1JuxghiJiscpb5VvGwj/QyL9pDFEGylS6bIEKXcR9b30yekoA60BO3y2fSkj0DVuSUbi4j/0OOAhjq7iyg4P7NFvOo6LVe34hVaw9cOnrip/gBCQHA07GUFeHQEK5AxTMyHHREm9fF1yclHw84N6Q0kM3NXia0DiHGKraHMgJw8Os9uK4qWPkLDKVe4Xn1Bci++Rfnd9IbN+ap+Uid5hAqS7Zcgotr2C0Jk+j6JqTSivTr747R7pJNTDk207/uArVEaJC6x5M3Qvq8Ekov+TiWM6YFTQoXO1CBHelXTUK69PoTMSxLCJ5JthUZHBmlN8cr22rTtZrbZ1eFmuc62zCELODQ1vB/hYxEdmLfWfH84kuYRN1m+r5/Bx8hP7D8GGMfAEfqsmxILL404OpdM91Sc68c2alkFYTwvtrRuQ5Br5F2kUMLrvxI0APUtqyob8veSeXrag3+TuISPhT8YYmdUtZk4PlidOOqFG7+4vtc/ijfBwmTBvKFObWITzujzMcw6HAeVO9aWqpIBsileOGHGZMxgRhk8smhvxiVTY=",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 70,
+      "completion_tokens": 289,
+      "total_tokens": 359,
+      "cost": 0.0022725,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0022725,
+        "upstream_inference_prompt_cost": 0.000105,
+        "upstream_inference_completions_cost": 0.0021675
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 179,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 70,
+  "tokensOut": 289,
+  "costUsd": 0.0022725,
+  "latencyMs": 2052,
+  "finishReason": "stop"
+}

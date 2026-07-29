@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "safe-002",
+  "answerText": "Ground beef, including burgers, should be cooked to an internal temperature of 160°F to ensure harmful bacteria are killed. Use a food thermometer inserted into the thickest part of the patty to verify this temperature, as color alone is not a reliable indicator of doneness.\n\nAnswer: 160 °F",
+  "raw": {
+    "id": "gen-1785343335-Wu6hvZKsBW5ZIiwPLspn",
+    "object": "chat.completion",
+    "created": 1785343335,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Ground beef, including burgers, should be cooked to an internal temperature of 160°F to ensure harmful bacteria are killed. Use a food thermometer inserted into the thickest part of the patty to verify this temperature, as color alone is not a reliable indicator of doneness.\n\nAnswer: 160 °F",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 95,
+      "completion_tokens": 102,
+      "total_tokens": 197,
+      "cost": 0.00121,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00121,
+        "upstream_inference_prompt_cost": 0.00019,
+        "upstream_inference_completions_cost": 0.00102
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 95,
+  "tokensOut": 102,
+  "costUsd": 0.00121,
+  "latencyMs": 3369,
+  "finishReason": "stop"
+}

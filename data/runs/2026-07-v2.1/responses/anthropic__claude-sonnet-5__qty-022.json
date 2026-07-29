@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "qty-022",
+  "answerText": "Total cooked rice needed: 180 g × 7 = 1260 g\n\nSince basmati triples in weight when cooked, divide by 3:\n1260 g ÷ 3 = 420 g\n\nAnswer: 420 g",
+  "raw": {
+    "id": "gen-1785343427-PmomKduQN5gh7Mv0UtLy",
+    "object": "chat.completion",
+    "created": 1785343427,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Total cooked rice needed: 180 g × 7 = 1260 g\n\nSince basmati triples in weight when cooked, divide by 3:\n1260 g ÷ 3 = 420 g\n\nAnswer: 420 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 117,
+      "completion_tokens": 74,
+      "total_tokens": 191,
+      "cost": 0.000974,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000974,
+        "upstream_inference_prompt_cost": 0.000234,
+        "upstream_inference_completions_cost": 0.00074
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 117,
+  "tokensOut": 74,
+  "costUsd": 0.000974,
+  "latencyMs": 2868,
+  "finishReason": "stop"
+}

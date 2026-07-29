@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "tech-014",
+  "answerText": "Collagen begins shrinking/denaturing near 60–65 °C, but conversion to gelatin becomes meaningful around about 70 °C and increases with time; braises are often held hotter, roughly 80–95 °C, to finish tenderizing.\n\nAnswer: 70 °C",
+  "raw": {
+    "id": "gen-1785342922-0sKFVTZFkGmyFBpQb2kY",
+    "object": "chat.completion",
+    "created": 1785342922,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Morph",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Collagen begins shrinking/denaturing near 60–65 °C, but conversion to gelatin becomes meaningful around about 70 °C and increases with time; braises are often held hotter, roughly 80–95 °C, to finish tenderizing.\n\nAnswer: 70 °C",
+          "refusal": null,
+          "reasoning": "The user is asking about collagen to gelatin conversion temperature for beef short-rib braise. Need answer concise and end with exact line \"Answer: <number> °C\". Need determine number. Collagen denatures/shrinks around 60-65C, conversion to gelatin meaningful over time around 70-80C? Common culinary: collagen begins to break down into gelatin around 160°F (71°C), meaningful rate above ~70°C, faster 80-90C. For braising short ribs, target internal around 90-96C for tenderness, but question asks around what internal temp does collagen start converting to gelatin at meaningful rate. Need answer maybe 70 °C. Need include nuance: starts slowly near 60-65, meaningful around 70-75, time-dependent. End line must be Answer: 70 °C (or 71?). Need choose. The prompt demands end with line Answer: <number> °C. We can say around 70°C (160°F), with faster conversion 80-90. Final concise. Ensure last line exactly format. Use number maybe 70. Need no extra after answer line.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking about collagen to gelatin conversion temperature for beef short-rib braise. Need answer concise and end with exact line \"Answer: <number> °C\". Need determine number. Collagen denatures/shrinks around 60-65C, conversion to gelatin meaningful over time around 70-80C? Common culinary: collagen begins to break down into gelatin around 160°F (71°C), meaningful rate above ~70°C, faster 80-90C. For braising short ribs, target internal around 90-96C for tenderness, but question asks around what internal temp does collagen start converting to gelatin at meaningful rate. Need answer maybe 70 °C. Need include nuance: starts slowly near 60-65, meaningful around 70-75, time-dependent. End line must be Answer: 70 °C (or 71?). Need choose. The prompt demands end with line Answer: <number> °C. We can say around 70°C (160°F), with faster conversion 80-90. Final concise. Ensure last line exactly format. Use number maybe 70. Need no extra after answer line.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 158,
+      "completion_tokens": 307,
+      "total_tokens": 465,
+      "cost": 0.0049062,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 64,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0049062,
+        "upstream_inference_prompt_cost": 0.0003012,
+        "upstream_inference_completions_cost": 0.004605
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 246,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 158,
+  "tokensOut": 307,
+  "costUsd": 0.0049062,
+  "latencyMs": 5640,
+  "finishReason": "stop"
+}

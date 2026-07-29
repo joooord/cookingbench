@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-028",
+  "answerText": "**The compound: lycopene** — the red carotenoid pigment that gives tomatoes their color and is linked to antioxidant activity and reduced risk of certain cancers and cardiovascular disease.\n\n**Why cooking increases its bioavailability:**\n\n1. **Breaks down cell walls and tissue matrix.** In raw tomatoes, lycopene is bound within the chromoplasts and trapped inside rigid cellulose cell walls, complexed with proteins and fiber. Heat ruptures these structures, releasing lycopene so digestive enzymes and bile can reach it.\n\n2. **Isomerization from *trans* to *cis* forms.** Raw tomato lycopene is mostly all-*trans*, a long, rigid, poorly soluble molecule that crystallizes. Heat converts some of it to bent *cis*-isomers, which are more soluble in lipid micelles, incorporate more readily into chylomicrons, and are absorbed more efficiently in the intestine.\n\n3. **Concentration through water loss.** Reducing a sauce or paste removes water, raising lycopene content per gram (tomato paste is dramatically higher than raw tomato).\n\n4. **Fat as a carrier.** Lycopene is fat-soluble and cooking is typically done with oil, which is required for micelle formation and absorption. Olive oil in a sauce can raise lycopene uptake several-fold versus eating raw tomato alone.\n\n**The tradeoff:** Vitamin C is water-soluble and heat-labile, so it degrades with prolonged cooking and leaches into cooking water. Some folate is also lost. Lycopene itself is quite heat-stable — it survives cooking well, though very prolonged high-heat exposure with oxygen can eventually oxidize it.\n\n**Practical note:** Eat both raw and cooked tomatoes. A gently simmered sauce with olive oil (roughly 15–30 minutes) captures the lycopene benefit; raw slices give you the vitamin C.",
+  "raw": {
+    "id": "gen-1785342085-IBmK5wBP0JqPRWRZ4f5G",
+    "object": "chat.completion",
+    "created": 1785342085,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**The compound: lycopene** — the red carotenoid pigment that gives tomatoes their color and is linked to antioxidant activity and reduced risk of certain cancers and cardiovascular disease.\n\n**Why cooking increases its bioavailability:**\n\n1. **Breaks down cell walls and tissue matrix.** In raw tomatoes, lycopene is bound within the chromoplasts and trapped inside rigid cellulose cell walls, complexed with proteins and fiber. Heat ruptures these structures, releasing lycopene so digestive enzymes and bile can reach it.\n\n2. **Isomerization from *trans* to *cis* forms.** Raw tomato lycopene is mostly all-*trans*, a long, rigid, poorly soluble molecule that crystallizes. Heat converts some of it to bent *cis*-isomers, which are more soluble in lipid micelles, incorporate more readily into chylomicrons, and are absorbed more efficiently in the intestine.\n\n3. **Concentration through water loss.** Reducing a sauce or paste removes water, raising lycopene content per gram (tomato paste is dramatically higher than raw tomato).\n\n4. **Fat as a carrier.** Lycopene is fat-soluble and cooking is typically done with oil, which is required for micelle formation and absorption. Olive oil in a sauce can raise lycopene uptake several-fold versus eating raw tomato alone.\n\n**The tradeoff:** Vitamin C is water-soluble and heat-labile, so it degrades with prolonged cooking and leaches into cooking water. Some folate is also lost. Lycopene itself is quite heat-stable — it survives cooking well, though very prolonged high-heat exposure with oxygen can eventually oxidize it.\n\n**Practical note:** Eat both raw and cooked tomatoes. A gently simmered sauce with olive oil (roughly 15–30 minutes) captures the lycopene benefit; raw slices give you the vitamin C.",
+          "refusal": null,
+          "reasoning": "Lycopene is a carotenoid that undergoes cis-isomerization when cell walls break down, and since it's fat-soluble, it requires dietary fat for proper absorption.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Lycopene is a carotenoid that undergoes cis-isomerization when cell walls break down, and since it's fat-soluble, it requires dietary fat for proper absorption.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISugIKhwEIEBgCKkBJ2JdsZttoTiMN2lzwvKA7Ma3gMfwvo0kImV0DoZOib5+u6lc0Zc5d+Bn6h2IPgLToX+CwfGf4VwqYdIXFuIZkMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDOGq97JLNEPxiqd5XxoMEL14LlDVIx1Ye203IjBMbu3+J3fXAwLzNQuyf2+qlTVFuDNY/IGIKiCdChxUqHnaHs8njXLpYquSx51CR94qYMUprAh3IhwgevwwhwJz2HFfOLG32PNlj+EiE/fwxiI6g34G/lbp2+OSRNFVU4PQPRmoRSjdKDFSEgaUJuJ7UT9xn6ds9K7bqKWiz5Ktvidr5E53+EcAjRx2wEA+vwUB8xgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 92,
+      "completion_tokens": 699,
+      "total_tokens": 791,
+      "cost": 0.017935,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.017935,
+        "upstream_inference_prompt_cost": 0.00046,
+        "upstream_inference_completions_cost": 0.017475
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 40,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 92,
+  "tokensOut": 699,
+  "costUsd": 0.017935,
+  "latencyMs": 11179,
+  "finishReason": "stop"
+}

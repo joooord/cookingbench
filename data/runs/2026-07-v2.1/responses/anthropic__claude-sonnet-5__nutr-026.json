@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "nutr-026",
+  "answerText": "Raw fillet (200 g) contains:\n- Protein: 20 g × 2 = 40 g\n- Fat: 13 g × 2 = 26 g\n\nSince cooking loss is mostly water, the total protein and fat are retained in the cooked portion (just concentrated into less mass, ~160 g cooked weight).\n\nCalories: (40 g protein × 4 kcal/g) + (26 g fat × 9 kcal/g) = 160 + 234 = 394 kcal\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+  "raw": {
+    "id": "gen-1785343389-t5XENLF3uqtZg8pWVIJW",
+    "object": "chat.completion",
+    "created": 1785343389,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Raw fillet (200 g) contains:\n- Protein: 20 g × 2 = 40 g\n- Fat: 13 g × 2 = 26 g\n\nSince cooking loss is mostly water, the total protein and fat are retained in the cooked portion (just concentrated into less mass, ~160 g cooked weight).\n\nCalories: (40 g protein × 4 kcal/g) + (26 g fat × 9 kcal/g) = 160 + 234 = 394 kcal\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 184,
+      "completion_tokens": 189,
+      "total_tokens": 373,
+      "cost": 0.002258,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002258,
+        "upstream_inference_prompt_cost": 0.000368,
+        "upstream_inference_completions_cost": 0.00189
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 184,
+  "tokensOut": 189,
+  "costUsd": 0.002258,
+  "latencyMs": 3521,
+  "finishReason": "stop"
+}

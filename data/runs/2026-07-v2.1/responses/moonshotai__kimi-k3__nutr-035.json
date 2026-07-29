@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "nutr-035",
+  "answerText": "- Available carbohydrate: \\((62 - 9)\\,\\text{g} \\times 4 = 212\\) kcal  \n- Fibre: \\(9\\,\\text{g} \\times 2 = 18\\) kcal  \n- Protein: \\(11\\,\\text{g} \\times 4 = 44\\) kcal  \n- Fat: \\(8\\,\\text{g} \\times 9 = 72\\) kcal  \n\nTotal: \\(212 + 18 + 44 + 72 = 346\\) kcal.\n\nAnswer: 346 kcal",
+  "raw": {
+    "id": "gen-1785342588-jeLHWjFCD16TDEGbfZaR",
+    "object": "chat.completion",
+    "created": 1785342588,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "- Available carbohydrate: \\((62 - 9)\\,\\text{g} \\times 4 = 212\\) kcal  \n- Fibre: \\(9\\,\\text{g} \\times 2 = 18\\) kcal  \n- Protein: \\(11\\,\\text{g} \\times 4 = 44\\) kcal  \n- Fat: \\(8\\,\\text{g} \\times 9 = 72\\) kcal  \n\nTotal: \\(212 + 18 + 44 + 72 = 346\\) kcal.\n\nAnswer: 346 kcal",
+          "refusal": null,
+          "reasoning": "We need calculate: available carbs 62-9=53*4=212, fiber 18, protein44, fat72 total346.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need calculate: available carbs 62-9=53*4=212, fiber 18, protein44, fat72 total346.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 194,
+      "completion_tokens": 164,
+      "total_tokens": 358,
+      "cost": 0.003042,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003042,
+        "upstream_inference_prompt_cost": 0.000582,
+        "upstream_inference_completions_cost": 0.00246
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 30,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 194,
+  "tokensOut": 164,
+  "costUsd": 0.003042,
+  "latencyMs": 6350,
+  "finishReason": "stop"
+}

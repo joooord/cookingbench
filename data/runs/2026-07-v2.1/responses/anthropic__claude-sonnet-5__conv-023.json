@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "conv-023",
+  "answerText": "Australian and US tablespoons differ in volume: an Australian tablespoon is 20 mL, while a US tablespoon is about 14.8 mL. So 3 Australian tablespoons of golden syrup = 60 mL, which converts to approximately 4 US tablespoons (60 ÷ 14.8 ≈ 4.06).\n\nFor practical baking purposes, measuring out 4 US tablespoons will give you a very close approximation to the original recipe's intent.\n\nAnswer: 4 tbsp",
+  "raw": {
+    "id": "gen-1785343297-XAGUTZYf8SMjUn8thenm",
+    "object": "chat.completion",
+    "created": 1785343297,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Australian and US tablespoons differ in volume: an Australian tablespoon is 20 mL, while a US tablespoon is about 14.8 mL. So 3 Australian tablespoons of golden syrup = 60 mL, which converts to approximately 4 US tablespoons (60 ÷ 14.8 ≈ 4.06).\n\nFor practical baking purposes, measuring out 4 US tablespoons will give you a very close approximation to the original recipe's intent.\n\nAnswer: 4 tbsp",
+          "refusal": null,
+          "reasoning": "I'm converting between Australian and US tablespoons to find that 3 Australian tablespoons equals roughly 4 US tablespoons.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm converting between Australian and US tablespoons to find that 3 Australian tablespoons equals roughly 4 US tablespoons.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EvQCCokBCBAYAipA6S8mbVtr4dN1JSalP/37u2t7rFeqptvbzIO9PVTqmDgHDzkEviahVDwWj4jYiRqU/xcWjw1yjsHc4TVeP+4fgTIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDDci1V6w2qFtwpBVqxoMUp63xO7hkVWiaddkIjAX379oV2NSSGO4iqkz9pwFabowNGl0aGXDM20T3bIsCpkBbfEXJ+zzWJVsRCALx+IqlwEhwGStZa1bPQvm48s26whx50U4jIIhAKSRwC+ojQVw5MhhbuYjozEpJH6nglCwh/giDvX/IqeiouK6gBDVwVcOcqymH35xr4hnELkxMG5QnQAcMjI5n5f/+sRkU1fcJNOBJEqWNSg74O+OTDEGQod/iPB+imXZgTe9lJ4wQRynIpS2oU/w7OOWbZZwD3E85XrDSrg3GJL6GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 121,
+      "completion_tokens": 250,
+      "total_tokens": 371,
+      "cost": 0.002742,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002742,
+        "upstream_inference_prompt_cost": 0.000242,
+        "upstream_inference_completions_cost": 0.0025
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 31,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 121,
+  "tokensOut": 250,
+  "costUsd": 0.002742,
+  "latencyMs": 4572,
+  "finishReason": "stop"
+}

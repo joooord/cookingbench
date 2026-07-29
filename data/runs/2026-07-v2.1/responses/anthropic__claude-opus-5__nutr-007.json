@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-007",
+  "answerText": "Each cookie's dough portion: 1,800 ÷ 12 = 150 kcal. Adding the icing: 150 + 35 = 185 kcal per finished cookie.\n\nAnswer: 185 kcal",
+  "raw": {
+    "id": "gen-1785342062-i7FBzIXoQFFhxjgPEIDd",
+    "object": "chat.completion",
+    "created": 1785342062,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Each cookie's dough portion: 1,800 ÷ 12 = 150 kcal. Adding the icing: 150 + 35 = 185 kcal per finished cookie.\n\nAnswer: 185 kcal",
+          "refusal": null,
+          "reasoning": "I'm working through a calculation: dividing 1800 by 12 to get 150, then adding 35 to reach 185.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm working through a calculation: dividing 1800 by 12 to get 150, then adding 35 to reach 185.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISgwIKhwEIEBgCKkD8l9w2C3nbuIpywttiOu7qJ13YOQmpjFUT1sxJmW6CUAM5IFYex5vjyq+5B91yEa+h+fG5VGWYlRITQKz39RAyMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDIs4y0VYsViwgCeaShoMh1OeR7yDh54qpbOsIjBAMzTGVuaktM1BNvRblnAMojyZ7XYcX5RWx5zpwfHXGB2htDqFrZkl1Gukc4BJ52UqKTplw4txH8WUw7ZS2DmXq+ZaWhShl8bAO2Ps+YAN1+CLbYN+ix7D8eKFGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 122,
+      "completion_tokens": 90,
+      "total_tokens": 212,
+      "cost": 0.00286,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00286,
+        "upstream_inference_prompt_cost": 0.00061,
+        "upstream_inference_completions_cost": 0.00225
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 24,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 122,
+  "tokensOut": 90,
+  "costUsd": 0.00286,
+  "latencyMs": 4178,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "nutr-026",
+  "answerText": "**Starting point (200 g raw):**\n- Protein: 20 g × 2 = 40 g\n- Fat: 13 g × 2 = 26 g\n\n**After cooking:**\nPan-searing causes ~20% weight loss, but that's almost entirely water. Protein and fat are essentially retained (ignore the small amount of fat that renders into the pan for this estimate):\n- Cooked weight: ~160 g\n- Protein: still ~40 g\n- Fat: still ~26 g\n\n**Calories:**\n- Protein: 40 g × 4 kcal = 160 kcal\n- Fat: 26 g × 9 kcal = 234 kcal\n- Total ≈ 394 kcal\n\nNote: if you add oil to the pan, that adds extra fat and calories not counted here.\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+  "raw": {
+    "id": "gen-1785342570-WBxkDBrmBn60WW27EDHZ",
+    "object": "chat.completion",
+    "created": 1785342570,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "**Starting point (200 g raw):**\n- Protein: 20 g × 2 = 40 g\n- Fat: 13 g × 2 = 26 g\n\n**After cooking:**\nPan-searing causes ~20% weight loss, but that's almost entirely water. Protein and fat are essentially retained (ignore the small amount of fat that renders into the pan for this estimate):\n- Cooked weight: ~160 g\n- Protein: still ~40 g\n- Fat: still ~26 g\n\n**Calories:**\n- Protein: 40 g × 4 kcal = 160 kcal\n- Fat: 26 g × 9 kcal = 234 kcal\n- Total ≈ 394 kcal\n\nNote: if you add oil to the pan, that adds extra fat and calories not counted here.\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+          "refusal": null,
+          "reasoning": "Protein 40g, fat 26g retained. Calories: 40*4+26*9=160+234=394 kcal.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Protein 40g, fat 26g retained. Calories: 40*4+26*9=160+234=394 kcal.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 211,
+      "completion_tokens": 238,
+      "total_tokens": 449,
+      "cost": 0.004203,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004203,
+        "upstream_inference_prompt_cost": 0.000633,
+        "upstream_inference_completions_cost": 0.00357
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 32,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 211,
+  "tokensOut": 238,
+  "costUsd": 0.004203,
+  "latencyMs": 9038,
+  "finishReason": "stop"
+}

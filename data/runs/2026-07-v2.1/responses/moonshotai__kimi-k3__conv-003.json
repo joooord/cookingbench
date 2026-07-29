@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "conv-003",
+  "answerText": "One US tablespoon is approximately 14.79 ml, so 2 tablespoons equal about 29.57 ml.\n\nAnswer: 29.57 ml",
+  "raw": {
+    "id": "gen-1785342421-C0GBTYWFJ7pTto16OXFD",
+    "object": "chat.completion",
+    "created": 1785342421,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "One US tablespoon is approximately 14.79 ml, so 2 tablespoons equal about 29.57 ml.\n\nAnswer: 29.57 ml",
+          "refusal": null,
+          "reasoning": "US tablespoon = 14.7868 ml, x2 = 29.5735 ml.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "US tablespoon = 14.7868 ml, x2 = 29.5735 ml.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 138,
+      "completion_tokens": 66,
+      "total_tokens": 204,
+      "cost": 0.001404,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001404,
+        "upstream_inference_prompt_cost": 0.000414,
+        "upstream_inference_completions_cost": 0.00099
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 21,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 138,
+  "tokensOut": 66,
+  "costUsd": 0.001404,
+  "latencyMs": 3549,
+  "finishReason": "stop"
+}

@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "safe-004",
+  "answerText": "Cooked food should not sit out at room temperature (below 90°F/32°C) for more than 2 hours. Bacteria multiply rapidly between 40°F and 140°F, a range known as the \"danger zone,\" so refrigerating or discarding perishable food promptly after this window is important for food safety. If the temperature is above 90°F, this window shrinks to just 1 hour.\n\nAnswer: 2 hours",
+  "raw": {
+    "id": "gen-1785343337-vlZGptAL0r34DcWahbPL",
+    "object": "chat.completion",
+    "created": 1785343337,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Cooked food should not sit out at room temperature (below 90°F/32°C) for more than 2 hours. Bacteria multiply rapidly between 40°F and 140°F, a range known as the \"danger zone,\" so refrigerating or discarding perishable food promptly after this window is important for food safety. If the temperature is above 90°F, this window shrinks to just 1 hour.\n\nAnswer: 2 hours",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 102,
+      "completion_tokens": 134,
+      "total_tokens": 236,
+      "cost": 0.001544,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001544,
+        "upstream_inference_prompt_cost": 0.000204,
+        "upstream_inference_completions_cost": 0.00134
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 102,
+  "tokensOut": 134,
+  "costUsd": 0.001544,
+  "latencyMs": 4582,
+  "finishReason": "stop"
+}

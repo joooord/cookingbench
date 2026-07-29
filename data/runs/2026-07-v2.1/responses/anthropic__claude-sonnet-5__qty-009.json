@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "qty-009",
+  "answerText": "With total percentage = 171.2%, and total dough = 1712 g, the factor is 1712/171.2 = 10 g per percentage point.\n\n- Flour: 1000 g\n- Water: 680 g\n- Salt: 20 g\n- Yeast: 12 g",
+  "raw": {
+    "id": "gen-1785343416-yuvedfVWsufO2E8zJ3z8",
+    "object": "chat.completion",
+    "created": 1785343416,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "With total percentage = 171.2%, and total dough = 1712 g, the factor is 1712/171.2 = 10 g per percentage point.\n\n- Flour: 1000 g\n- Water: 680 g\n- Salt: 20 g\n- Yeast: 12 g",
+          "refusal": null,
+          "reasoning": "I'm calculating the baker's percentages for a bread recipe by finding the total percentage, then scaling the flour to 1000g as the base, which gives me the final weights for water, salt, and yeast.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the baker's percentages for a bread recipe by finding the total percentage, then scaling the flour to 1000g as the base, which gives me the final weights for water, salt, and yeast.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EtICCokBCBAYAipAWILvoRAyfS+yuZ/d6+PtzPmL+IorW+sx6TxhcPqvoMwBOexibeojxHsgkwtHL34qjturt8hANgmDSfMSlGLY8TIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDITyddKUVN1pb9f+xxoMgl4w+KJZeA52y6R2IjDUqOv6er3zEHGOOc0i0xItk43zFQ0FelezW2LPVf+8WpG/BTrqwtJLOMZsNABhfTkqdrA+a/Inu4OW+5o3SxDjazVeAU2DTldgngPsv1A6D11aqUwd4aOMsCSk/AHiqBLt24WHKtNpJ+a2P6zWm9WrzERhPos9aj/dRQZ1gNULg7D4FonbcVSA3/Z42XxUPklg+8MidK1jbAM2+nYkbqapROkJIfJdpNsYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 130,
+      "completion_tokens": 161,
+      "total_tokens": 291,
+      "cost": 0.00187,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00187,
+        "upstream_inference_prompt_cost": 0.00026,
+        "upstream_inference_completions_cost": 0.00161
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 50,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 130,
+  "tokensOut": 161,
+  "costUsd": 0.00187,
+  "latencyMs": 3818,
+  "finishReason": "stop"
+}

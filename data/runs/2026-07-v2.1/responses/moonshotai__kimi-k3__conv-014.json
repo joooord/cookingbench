@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "conv-014",
+  "answerText": "250 g ÷ 200 g per cup ≈ 1.25 cups, or about 1¼ US cups.\n\nAnswer: 1.25 cups",
+  "raw": {
+    "id": "gen-1785342434-6pZsjWozYew9wZGsfmj3",
+    "object": "chat.completion",
+    "created": 1785342434,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "250 g ÷ 200 g per cup ≈ 1.25 cups, or about 1¼ US cups.\n\nAnswer: 1.25 cups",
+          "refusal": null,
+          "reasoning": "The user asks: 250 g caster sugar, given granulated sugar ~200 g per cup. 250/200 = 1.25 cups. Need answer concise and end with exact line Answer: <number> cups. We can mention caster sugar similar density, roughly 1 1/4 cups. Ensure final line format.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user asks: 250 g caster sugar, given granulated sugar ~200 g per cup. 250/200 = 1.25 cups. Need answer concise and end with exact line Answer: <number> cups. We can mention caster sugar similar density, roughly 1 1/4 cups. Ensure final line format.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 158,
+      "completion_tokens": 116,
+      "total_tokens": 274,
+      "cost": 0.002214,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002214,
+        "upstream_inference_prompt_cost": 0.000474,
+        "upstream_inference_completions_cost": 0.00174
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 69,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 158,
+  "tokensOut": 116,
+  "costUsd": 0.002214,
+  "latencyMs": 5274,
+  "finishReason": "stop"
+}

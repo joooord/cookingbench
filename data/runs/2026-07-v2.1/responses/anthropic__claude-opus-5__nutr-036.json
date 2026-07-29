@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-036",
+  "answerText": "**Rough breakdown for a 12\" (≈30 cm) margherita, standard crust:**\n\n| Component | Amount | kcal |\n|---|---|---|\n| Pizza dough/base | ~250 g | ~650 |\n| Tomato sauce | ~100 g | ~40 |\n| Mozzarella | ~120 g | ~300 |\n| Olive oil + basil | ~10 g | ~90 |\n| **Total** | ~480 g pizza | **~1,080** |\n\nThat works out to roughly **135–150 kcal per slice** if cut into 8, i.e. about 225 kcal per 100 g — consistent with typical chain/takeaway nutrition data (most 12\" margheritas fall in the 900–1,300 kcal range depending on crust thickness and cheese load).\n\nAnswer: 1100 kcal",
+  "raw": {
+    "id": "gen-1785342105-9BjMIe21JxYzuPlgm1Yk",
+    "object": "chat.completion",
+    "created": 1785342105,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Rough breakdown for a 12\" (≈30 cm) margherita, standard crust:**\n\n| Component | Amount | kcal |\n|---|---|---|\n| Pizza dough/base | ~250 g | ~650 |\n| Tomato sauce | ~100 g | ~40 |\n| Mozzarella | ~120 g | ~300 |\n| Olive oil + basil | ~10 g | ~90 |\n| **Total** | ~480 g pizza | **~1,080** |\n\nThat works out to roughly **135–150 kcal per slice** if cut into 8, i.e. about 225 kcal per 100 g — consistent with typical chain/takeaway nutrition data (most 12\" margheritas fall in the 900–1,300 kcal range depending on crust thickness and cheese load).\n\nAnswer: 1100 kcal",
+          "refusal": null,
+          "reasoning": "A 12-inch margherita pizza comes in around 1100 calories total—the dough accounts for most of that at roughly 650 kcal, with mozzarella adding another 300, plus smaller contributions from sauce and oil. That breaks down to about 150 calories per slice if it's cut into eight pieces.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "A 12-inch margherita pizza comes in around 1100 calories total—the dough accounts for most of that at roughly 650 kcal, with mozzarella adding another 300, plus smaller contributions from sauce and oil. That breaks down to about 150 calories per slice if it's cut into eight pieces.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIStQQKhwEIEBgCKkBjABbdFjcJKIq0V4uNdshPUjOIXwo268jvau/Pb6EFLuAVOGemGviSpYmOYKLVkbR7wAFbnTMD5KZH4q9G29lAMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDKF91sXBZhMCVe/r6BoMASyj14j5X0/ZopbcIjDM5aE8Q6HMAvk/CpqPhX1PtSEFkoSv/yTSxI7BEnRnaO00UwVkiIh7aVTVmsz7EO8q2gIpkHHVeWGF7fZR+LDH9xnSLMBwjADR56g9fF4YzhqJlyejngtTWwA6alKYrHHJIjjxEygaMLW/xQmm24mXAZPL9Wqeg1trGmi+DBBwxRCKDyBptkODvyKWnHTcKfK+M/5ugMSWxo3A5OMsvjb8SPFa+xD0VJVNWwgKzDeBgfufzRbv44Wxai320ft4x1y7Pu0OEkgbPQJ0qG1EowybATfOtoHQ0pf5sp/YvEJnJD1KNuBT7E6NeLPH+L9JEy+kcojdd+LHDXY1SJdW8rctWnJu23R6ejfiB9QOmWqDY4YOzpNqdK1rVqasmaH3fmbmclOMlpjqC3b2jtMp94a+kDeTutRSxHREHPPHFSuDsDftXZZ6hpA/ra1lrFH7f45MuE5700gQgqnYunO41824ev7nJuUKb0nh0S7zv+KJlJn1JYfEtzyNht9Mx/AwwthpQGpo5gUR+s+0rwynGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 99,
+      "completion_tokens": 442,
+      "total_tokens": 541,
+      "cost": 0.011545,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.011545,
+        "upstream_inference_prompt_cost": 0.000495,
+        "upstream_inference_completions_cost": 0.01105
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 72,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 99,
+  "tokensOut": 442,
+  "costUsd": 0.011545,
+  "latencyMs": 7444,
+  "finishReason": "stop"
+}

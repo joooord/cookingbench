@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-033",
+  "answerText": "**Alcohol:** 750 ml × 13.5% = 101.25 ml ethanol\n101.25 ml × 0.789 g/ml = 79.9 g\n79.9 g × 7 kcal/g ≈ 559 kcal\n\n**Residual sugar:** 0.75 L × 4 g/L = 3 g → 3 × 4 = 12 kcal\n\n**Total:** ≈ 571 kcal for the bottle (about 190 kcal per 250 ml glass)\n\nAnswer: 571 kcal",
+  "raw": {
+    "id": "gen-1785342102-56UD3oGTJxi9QIjSCf25",
+    "object": "chat.completion",
+    "created": 1785342102,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Alcohol:** 750 ml × 13.5% = 101.25 ml ethanol\n101.25 ml × 0.789 g/ml = 79.9 g\n79.9 g × 7 kcal/g ≈ 559 kcal\n\n**Residual sugar:** 0.75 L × 4 g/L = 3 g → 3 × 4 = 12 kcal\n\n**Total:** ≈ 571 kcal for the bottle (about 190 kcal per 250 ml glass)\n\nAnswer: 571 kcal",
+          "refusal": null,
+          "reasoning": "I'm calculating the calorie content of a wine glass: the ethanol contributes about 559 kilocalories, the residual sugar adds roughly 12 kilocalories, bringing the total to approximately 571 kilocalories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the calorie content of a wine glass: the ethanol contributes about 559 kilocalories, the residual sugar adds roughly 12 kilocalories, bringing the total to approximately 571 kilocalories.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIShwMKhwEIEBgCKkBzFIsij7Ot8x7TnUeZ3qRw0zAJRY/KmIgBMabksHTnRsgHVkpbAiITZZgOZ0ldNSB/jS+eaTKROVZRgKVNeZKSMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDKTL7L+DUvinxfHwJBoMbMfDaubbutLwrZbDIjDHzxVAgLjWcDX5FVwxSjhn5NsB4POeYmj2DoZ4OD2fKikNikGVNRLdJHGGy2zXKZ0qrAELsCscCmryZ9rPwTZg9bbaUTaswSrHNi3hpR0EzSaZja22iwqIQervmo7mE88Npea6iqXwHo2leS7m/90AWMxCkgn3rt3dCJ5MYP35yxw6T8X7pbFHYu4WvITPUUx8vCFdu7CRwO4fQwVm3ivJc76QZQ4uSeEnpf8YhQ/OcNTTQZ7QmE486AE4xrDd/6QsEzO9THBR5MPnHPlvxUkbkluocohI75KICZl9SjrKGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 159,
+      "completion_tokens": 287,
+      "total_tokens": 446,
+      "cost": 0.00797,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00797,
+        "upstream_inference_prompt_cost": 0.000795,
+        "upstream_inference_completions_cost": 0.007175
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 51,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 159,
+  "tokensOut": 287,
+  "costUsd": 0.00797,
+  "latencyMs": 5318,
+  "finishReason": "stop"
+}

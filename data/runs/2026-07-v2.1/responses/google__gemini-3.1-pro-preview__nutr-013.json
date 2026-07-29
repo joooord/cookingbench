@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "nutr-013",
+  "answerText": "Since the protein is not lost during the cooking process, the total amount of protein in the cooked chicken is exactly the same as it was in the raw chicken. \n\nTo find the total protein, simply multiply the protein content per 100 g by the total raw weight:\n400 g (raw weight) / 100 g = 4\n4 × 23.5 g of protein = 94 g of protein.\n\nAnswer: 94 g",
+  "raw": {
+    "id": "gen-1785343054-gykMZMxHN8ZzUommi1nL",
+    "object": "chat.completion",
+    "created": 1785343054,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "provisioned",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "Since the protein is not lost during the cooking process, the total amount of protein in the cooked chicken is exactly the same as it was in the raw chicken. \n\nTo find the total protein, simply multiply the protein content per 100 g by the total raw weight:\n400 g (raw weight) / 100 g = 4\n4 × 23.5 g of protein = 94 g of protein.\n\nAnswer: 94 g",
+          "refusal": null,
+          "reasoning": "**Calculating Protein Yield**\n\nI'm currently focused on determining the precise protein yield from raw chicken breast after accounting for cooking weight loss. My calculations involve scaling the known protein content per 100g to the initial 400g mass, then adjusting for the estimated 25% moisture loss during cooking.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Protein Yield**\n\nI'm currently focused on determining the precise protein yield from raw chicken breast after accounting for cooking weight loss. My calculations involve scaling the known protein content per 100g to the initial 400g mass, then adjusting for the estimated 25% moisture loss during cooking.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 91,
+      "completion_tokens": 486,
+      "total_tokens": 577,
+      "cost": 0.006014,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.006014,
+        "upstream_inference_prompt_cost": 0.000182,
+        "upstream_inference_completions_cost": 0.005832
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 385,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 91,
+  "tokensOut": 486,
+  "costUsd": 0.006014,
+  "latencyMs": 5072,
+  "finishReason": "stop"
+}

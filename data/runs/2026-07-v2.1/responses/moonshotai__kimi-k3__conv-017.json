@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "conv-017",
+  "answerText": "Australian standard tablespoons are 20 ml each, so 2 tablespoons equal 40 ml.\n\nAnswer: 40 ml",
+  "raw": {
+    "id": "gen-1785342440-pkS9fNtJPtoGrXHXcr2T",
+    "object": "chat.completion",
+    "created": 1785342440,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Australian standard tablespoons are 20 ml each, so 2 tablespoons equal 40 ml.\n\nAnswer: 40 ml",
+          "refusal": null,
+          "reasoning": "The user is asking about Australian standard tablespoon to millilitres. In Australia, 1 tablespoon = 20 ml (unlike US which is ~14.79 ml, or metric 15 ml). So 2 Australian tablespoons = 40 ml. Need answer concise, end with exact line format. Ensure final line exactly Answer: 40 ml. Maybe mention Australian tbsp is 20 ml. No extra after answer line.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking about Australian standard tablespoon to millilitres. In Australia, 1 tablespoon = 20 ml (unlike US which is ~14.79 ml, or metric 15 ml). So 2 Australian tablespoons = 40 ml. Need answer concise, end with exact line format. Ensure final line exactly Answer: 40 ml. Maybe mention Australian tbsp is 20 ml. No extra after answer line.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 151,
+      "completion_tokens": 125,
+      "total_tokens": 276,
+      "cost": 0.002328,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002328,
+        "upstream_inference_prompt_cost": 0.000453,
+        "upstream_inference_completions_cost": 0.001875
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 87,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 151,
+  "tokensOut": 125,
+  "costUsd": 0.002328,
+  "latencyMs": 6076,
+  "finishReason": "stop"
+}

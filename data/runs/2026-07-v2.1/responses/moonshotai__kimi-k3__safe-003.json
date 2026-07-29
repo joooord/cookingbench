@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "safe-003",
+  "answerText": "The food-safety \"danger zone\" is **40°F to 140°F (4°C to 60°C)**.\n\nWithin this range, bacteria multiply most rapidly, so perishable foods shouldn't be left in it for more than 2 hours (or 1 hour if the ambient temperature is above 90°F/32°C). Keep cold foods below 40°F and hot foods above 140°F to stay safe.",
+  "raw": {
+    "id": "gen-1785342500-o6NyWW47V3l4e2hJYHzh",
+    "object": "chat.completion",
+    "created": 1785342500,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The food-safety \"danger zone\" is **40°F to 140°F (4°C to 60°C)**.\n\nWithin this range, bacteria multiply most rapidly, so perishable foods shouldn't be left in it for more than 2 hours (or 1 hour if the ambient temperature is above 90°F/32°C). Keep cold foods below 40°F and hot foods above 140°F to stay safe.",
+          "refusal": null,
+          "reasoning": "40°F to 140°F (4°C to 60°C).",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "40°F to 140°F (4°C to 60°C).",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 139,
+      "completion_tokens": 112,
+      "total_tokens": 251,
+      "cost": 0.0031455,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0031455,
+        "upstream_inference_prompt_cost": 0.0006255,
+        "upstream_inference_completions_cost": 0.00252
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 14,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 139,
+  "tokensOut": 112,
+  "costUsd": 0.0031455,
+  "latencyMs": 2458,
+  "finishReason": "stop"
+}

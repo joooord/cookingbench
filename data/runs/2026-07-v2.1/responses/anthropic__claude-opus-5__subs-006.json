@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "subs-006",
+  "answerText": "Use **1 teaspoon of dried thyme** in place of 1 tablespoon fresh.\n\nThe general rule for herbs is a 3:1 ratio — fresh to dried — because drying concentrates the flavor (and 1 tablespoon = 3 teaspoons).\n\nA couple of tips:\n- **Add it early.** Dried thyme needs time in liquid or heat to rehydrate and release its flavor, so stir it in near the beginning of cooking rather than at the end like you would with fresh.\n- **Crush it** between your fingers as you add it to help wake up the essential oils.\n- If the recipe uses thyme as a raw garnish or in something like a fresh dressing, dried won't work as well — consider a different finishing herb or just skip it.",
+  "raw": {
+    "id": "gen-1785342309-HbFNbAUVVPU6e0sfRO00",
+    "object": "chat.completion",
+    "created": 1785342309,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Use **1 teaspoon of dried thyme** in place of 1 tablespoon fresh.\n\nThe general rule for herbs is a 3:1 ratio — fresh to dried — because drying concentrates the flavor (and 1 tablespoon = 3 teaspoons).\n\nA couple of tips:\n- **Add it early.** Dried thyme needs time in liquid or heat to rehydrate and release its flavor, so stir it in near the beginning of cooking rather than at the end like you would with fresh.\n- **Crush it** between your fingers as you add it to help wake up the essential oils.\n- If the recipe uses thyme as a raw garnish or in something like a fresh dressing, dried won't work as well — consider a different finishing herb or just skip it.",
+          "refusal": null,
+          "reasoning": "The standard ratio for converting fresh herbs to dried is 3:1, so one tablespoon of fresh equals about one teaspoon dried.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The standard ratio for converting fresh herbs to dried is 3:1, so one tablespoon of fresh equals about one teaspoon dried.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISvAIKhwEIEBgCKkDIAJfb95Fuotu+kSPRDU3bJTZv7Q2WtjTZqauD54CGQz+x0DkmqBeUzqbhhqCCXKxRuDJoPY+uPocjVSqORK9jMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDDJlnW6PRdhHWX+2GxoMlF69ikCGcmAl2FEZIjBmsgjxoabrmuuHlPiNYPFCqsnJ3f0y2ZJvb2gik86JmJ38EoSUCb4J0Q/JOlgG6NcqYvU0oav2naoNXy2QCa497EpCAjaUlUMdumpHkPiyxMisLjeYCujmY/WnaHc1YBil+HW0xaf2RlOF8onlE+1hRpiTbK11GSOj5T3DvrMSFIYrS8MRmRIDMM6ylgP138B58O53GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 79,
+      "completion_tokens": 293,
+      "total_tokens": 372,
+      "cost": 0.00772,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00772,
+        "upstream_inference_prompt_cost": 0.000395,
+        "upstream_inference_completions_cost": 0.007325
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 31,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 79,
+  "tokensOut": 293,
+  "costUsd": 0.00772,
+  "latencyMs": 6197,
+  "finishReason": "stop"
+}

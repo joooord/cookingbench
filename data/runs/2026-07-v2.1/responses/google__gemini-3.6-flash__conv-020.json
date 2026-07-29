@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "conv-020",
+  "answerText": "Gas Mark 7 corresponds to 220°C in a standard conventional oven. Since fan ovens cook more efficiently, you should reduce the temperature by 20°C. \n\nAnswer: 200 °C",
+  "raw": {
+    "id": "gen-1785343595-C6gGaNoDfJRi3mf1j0dE",
+    "object": "chat.completion",
+    "created": 1785343595,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "Gas Mark 7 corresponds to 220°C in a standard conventional oven. Since fan ovens cook more efficiently, you should reduce the temperature by 20°C. \n\nAnswer: 200 °C",
+          "refusal": null,
+          "reasoning": "**Calculating Fan Oven Temp**\n\nI'm focusing on converting Gas Mark 7. The standard is 220°C for conventional ovens, and I'm now calculating the necessary adjustment for a fan oven.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Fan Oven Temp**\n\nI'm focusing on converting Gas Mark 7. The standard is 220°C for conventional ovens, and I'm now calculating the necessary adjustment for a fan oven.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 59,
+      "completion_tokens": 521,
+      "total_tokens": 580,
+      "cost": 0.003996,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003996,
+        "upstream_inference_prompt_cost": 0.0000885,
+        "upstream_inference_completions_cost": 0.0039075
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 474,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 59,
+  "tokensOut": 521,
+  "costUsd": 0.003996,
+  "latencyMs": 2718,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "nutr-005",
+  "answerText": "To find the percent of the daily value, divide the amount of sodium in the soup by the daily value and multiply by 100:\n\n(690 mg / 2,300 mg) × 100 = 30%\n\nAnswer: 30 %",
+  "raw": {
+    "id": "gen-1785343045-8ulyDwcSS7MP4YDj2sdC",
+    "object": "chat.completion",
+    "created": 1785343045,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find the percent of the daily value, divide the amount of sodium in the soup by the daily value and multiply by 100:\n\n(690 mg / 2,300 mg) × 100 = 30%\n\nAnswer: 30 %",
+          "refusal": null,
+          "reasoning": "**Calculating Sodium Percentage**\n\nI've focused on determining how much of the FDA's daily sodium recommendation this soup serving consumes. I'm currently working through the arithmetic to quantify that percentage precisely for our analysis.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Sodium Percentage**\n\nI've focused on determining how much of the FDA's daily sodium recommendation this soup serving consumes. I'm currently working through the arithmetic to quantify that percentage precisely for our analysis.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 65,
+      "completion_tokens": 312,
+      "total_tokens": 377,
+      "cost": 0.003874,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003874,
+        "upstream_inference_prompt_cost": 0.00013,
+        "upstream_inference_completions_cost": 0.003744
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 251,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 65,
+  "tokensOut": 312,
+  "costUsd": 0.003874,
+  "latencyMs": 3358,
+  "finishReason": "stop"
+}

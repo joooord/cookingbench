@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "nutr-038",
+  "answerText": "Here is the estimated calorie breakdown for your breakfast:\n\n*   **2 large eggs:** ~140 kcal\n*   **Knob of butter for cooking (approx. 1/2 tbsp):** ~50 kcal\n*   **Splash of whole milk:** ~10 kcal\n*   **2 slices of white bread:** ~150 kcal\n*   **Butter for the toast (approx. 1 tbsp):** ~100 kcal\n\nAnswer: 450 kcal",
+  "raw": {
+    "id": "gen-1785343088-y8pILylEPOstGsLVe81v",
+    "object": "chat.completion",
+    "created": 1785343088,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "Here is the estimated calorie breakdown for your breakfast:\n\n*   **2 large eggs:** ~140 kcal\n*   **Knob of butter for cooking (approx. 1/2 tbsp):** ~50 kcal\n*   **Splash of whole milk:** ~10 kcal\n*   **2 slices of white bread:** ~150 kcal\n*   **Butter for the toast (approx. 1 tbsp):** ~100 kcal\n\nAnswer: 450 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating Meal Calories**\n\nI'm focusing on a precise breakdown of the breakfast components. My current calculations estimate the eggs, butter, milk, and toast contribute a total of approximately 650 kilocalories. Answer: 650 kcal.\n\n**Refining Calorie Estimates**\n\nI've recalibrated my estimates. After a more granular breakdown, I'm now calculating the breakfast, including eggs, butter, milk, and toast, at approximately 450 kilocalories. Answer: 450 kcal.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Meal Calories**\n\nI'm focusing on a precise breakdown of the breakfast components. My current calculations estimate the eggs, butter, milk, and toast contribute a total of approximately 650 kilocalories. Answer: 650 kcal.\n\n**Refining Calorie Estimates**\n\nI've recalibrated my estimates. After a more granular breakdown, I'm now calculating the breakfast, including eggs, butter, milk, and toast, at approximately 450 kilocalories. Answer: 450 kcal.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 64,
+      "completion_tokens": 700,
+      "total_tokens": 764,
+      "cost": 0.008528,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.008528,
+        "upstream_inference_prompt_cost": 0.000128,
+        "upstream_inference_completions_cost": 0.0084
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 596,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 64,
+  "tokensOut": 700,
+  "costUsd": 0.008528,
+  "latencyMs": 6813,
+  "finishReason": "stop"
+}

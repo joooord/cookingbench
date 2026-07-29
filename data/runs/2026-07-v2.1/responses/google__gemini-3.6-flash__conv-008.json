@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "conv-008",
+  "answerText": "To convert a fan oven temperature to a conventional oven setting, you add 20°C to the fan temperature. \n\n180°C + 20°C = 200°C\n\nAnswer: 200 °C",
+  "raw": {
+    "id": "gen-1785343586-OYCVZbsAlJdmCuqeWx71",
+    "object": "chat.completion",
+    "created": 1785343586,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google AI Studio",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To convert a fan oven temperature to a conventional oven setting, you add 20°C to the fan temperature. \n\n180°C + 20°C = 200°C\n\nAnswer: 200 °C",
+          "refusal": null,
+          "reasoning": "**Calculating Temperature Conversion**\n\nOkay, I've got the fan oven temperature, and I now understand the need to convert it to a conventional oven setting. It seems the core of the problem is knowing the difference in temperature settings between the two oven types. My starting point is 180°C.\n\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Temperature Conversion**\n\nOkay, I've got the fan oven temperature, and I now understand the need to convert it to a conventional oven setting. It seems the core of the problem is knowing the difference in temperature settings between the two oven types. My starting point is 180°C.\n\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 71,
+      "completion_tokens": 319,
+      "total_tokens": 390,
+      "cost": 0.002499,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002499,
+        "upstream_inference_prompt_cost": 0.0001065,
+        "upstream_inference_completions_cost": 0.0023925
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 266,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 71,
+  "tokensOut": 319,
+  "costUsd": 0.002499,
+  "latencyMs": 2011,
+  "finishReason": "stop"
+}

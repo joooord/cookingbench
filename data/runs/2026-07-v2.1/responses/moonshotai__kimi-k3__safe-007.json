@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "safe-007",
+  "answerText": "The USDA safe minimum internal temperature for cooked fish is 145 °F, measured with a food thermometer at the thickest part.\n\nAnswer: 145 °F",
+  "raw": {
+    "id": "gen-1785342505-4gKJroat80ewE7AsUcmY",
+    "object": "chat.completion",
+    "created": 1785342505,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA safe minimum internal temperature for cooked fish is 145 °F, measured with a food thermometer at the thickest part.\n\nAnswer: 145 °F",
+          "refusal": null,
+          "reasoning": "USDA safe minimum internal temp for fish is 145°F. Need answer concise and end exact line Answer: 145 °F. Ensure final ends with that line.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "USDA safe minimum internal temp for fish is 145°F. Need answer concise and end exact line Answer: 145 °F. Ensure final ends with that line.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 142,
+      "completion_tokens": 82,
+      "total_tokens": 224,
+      "cost": 0.001656,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001656,
+        "upstream_inference_prompt_cost": 0.000426,
+        "upstream_inference_completions_cost": 0.00123
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 35,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 142,
+  "tokensOut": 82,
+  "costUsd": 0.001656,
+  "latencyMs": 4233,
+  "finishReason": "stop"
+}

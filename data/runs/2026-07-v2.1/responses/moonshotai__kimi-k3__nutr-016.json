@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "nutr-016",
+  "answerText": "100 ml × 0.91 g/ml = 91 g  \n884 kcal/100 g × 91 g ≈ 804 kcal\n\nAnswer: 804 kcal",
+  "raw": {
+    "id": "gen-1785342560-1xHEX2j6x2oGDgtR8jvp",
+    "object": "chat.completion",
+    "created": 1785342560,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "100 ml × 0.91 g/ml = 91 g  \n884 kcal/100 g × 91 g ≈ 804 kcal\n\nAnswer: 804 kcal",
+          "refusal": null,
+          "reasoning": "The user is asking a calculation. Need compute: 100 ml * 0.91 g/ml = 91 g. Calories = 884 kcal/100g * 91 g = 884*0.91 = 804.44 kcal. Need answer concise and end with exact line Answer: <number> kcal. We can include brief calculation. Ensure final line format. Number maybe 804 kcal. Let's craft with calculation and final line. Since user asks how many kilocalories. Use about 804 kcal. Final line exactly Answer: 804 kcal. Need maybe no extra after final line.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking a calculation. Need compute: 100 ml * 0.91 g/ml = 91 g. Calories = 884 kcal/100g * 91 g = 884*0.91 = 804.44 kcal. Need answer concise and end with exact line Answer: <number> kcal. We can include brief calculation. Ensure final line format. Number maybe 804 kcal. Let's craft with calculation and final line. Since user asks how many kilocalories. Use about 804 kcal. Final line exactly Answer: 804 kcal. Need maybe no extra after final line.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 169,
+      "completion_tokens": 179,
+      "total_tokens": 348,
+      "cost": 0.004788,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004788,
+        "upstream_inference_prompt_cost": 0.0007605,
+        "upstream_inference_completions_cost": 0.0040275
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 129,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 169,
+  "tokensOut": 179,
+  "costUsd": 0.004788,
+  "latencyMs": 3344,
+  "finishReason": "stop"
+}

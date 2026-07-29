@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-034",
+  "answerText": "Half the package = 198 g.\n198 g ÷ 55 g per serving = 3.6 servings.\n3.6 × 230 kcal = 828 kcal.\n\nAnswer: 828 kcal",
+  "raw": {
+    "id": "gen-1785342102-yKjYeIPaTIpgc1YaLmfN",
+    "object": "chat.completion",
+    "created": 1785342102,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Half the package = 198 g.\n198 g ÷ 55 g per serving = 3.6 servings.\n3.6 × 230 kcal = 828 kcal.\n\nAnswer: 828 kcal",
+          "refusal": null,
+          "reasoning": "I'm calculating the calorie content for half a serving by dividing the total servings, then multiplying by the calories per serving to get 828 kcal.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the calorie content for half a serving by dividing the total servings, then multiplying by the calories per serving to get 828 kcal.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISpgIKhwEIEBgCKkBbCl6UhIjDSJH2WnvPHju4ZONWXORKIDCQzE4NN74ko/bp0QI4oRquucsZCG7umbfPzN7EeLv0fKiVfcNwxi5NMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDDJ4YINegYMBPL7KEhoM7klibr/b1PWqAzwpIjAk7FE5d53fk0IIk/CpqKaaMhhmsxiJRwAJNKhmMkmL2BM1BRamePxIZH1wZ/s40ogqTGbvwQ2Lot7aCx9jm1vOzHf5w7g0S8HaNnvjU4/2l55I1enFlA2eykG0I5wwYxs0UVu0urM7sWsm2Kq2EgP5emIR06Qmb4eMs5p+J+EYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 112,
+      "completion_tokens": 104,
+      "total_tokens": 216,
+      "cost": 0.00316,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00316,
+        "upstream_inference_prompt_cost": 0.00056,
+        "upstream_inference_completions_cost": 0.0026
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 37,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 112,
+  "tokensOut": 104,
+  "costUsd": 0.00316,
+  "latencyMs": 3574,
+  "finishReason": "stop"
+}

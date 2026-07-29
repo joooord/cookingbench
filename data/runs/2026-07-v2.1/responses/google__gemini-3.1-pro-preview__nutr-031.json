@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "nutr-031",
+  "answerText": "To find the kilocalories per portion, we first calculate the total calories for all the ingredients:\n\n1. **Spaghetti:** 500 g * (360 kcal / 100 g) = 1,800 kcal\n2. **Butter:** 60 g * (717 kcal / 100 g) = 430.2 kcal\n3. **Parmesan:** 80 g * (420 kcal / 100 g) = 336 kcal\n\n**Total calories:** 1,800 + 430.2 + 336 = 2,566.2 kcal\n\nNow, divide the total calories by the 5 equal portions:\n2,566.2 kcal / 5 = 513.24 kcal per portion.\n\nAnswer: 513.24 kcal",
+  "raw": {
+    "id": "gen-1785343075-iK3vaiwjS9682ujUIzeg",
+    "object": "chat.completion",
+    "created": 1785343075,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find the kilocalories per portion, we first calculate the total calories for all the ingredients:\n\n1. **Spaghetti:** 500 g * (360 kcal / 100 g) = 1,800 kcal\n2. **Butter:** 60 g * (717 kcal / 100 g) = 430.2 kcal\n3. **Parmesan:** 80 g * (420 kcal / 100 g) = 336 kcal\n\n**Total calories:** 1,800 + 430.2 + 336 = 2,566.2 kcal\n\nNow, divide the total calories by the 5 equal portions:\n2,566.2 kcal / 5 = 513.24 kcal per portion.\n\nAnswer: 513.24 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating Pasta Calories**\n\nI'm currently working on determining the total caloric content of the pasta dish. My focus is on accurately summing the calories from the spaghetti, butter, and parmesan cheese.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Pasta Calories**\n\nI'm currently working on determining the total caloric content of the pasta dish. My focus is on accurately summing the calories from the spaghetti, butter, and parmesan cheese.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 116,
+      "completion_tokens": 749,
+      "total_tokens": 865,
+      "cost": 0.00922,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00922,
+        "upstream_inference_prompt_cost": 0.000232,
+        "upstream_inference_completions_cost": 0.008988
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 553,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 116,
+  "tokensOut": 749,
+  "costUsd": 0.00922,
+  "latencyMs": 6337,
+  "finishReason": "stop"
+}

@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "conv-008",
+  "answerText": "Fan/convection ovens circulate hot air, cooking faster and more evenly than conventional ovens, so recipes typically set them 20°C lower. Reversing this, a fan oven setting of 180°C corresponds to a conventional oven setting of 200°C.\n\nAnswer: 200 °C",
+  "raw": {
+    "id": "gen-1785343286-tB4mgAGJhUkg7Bgi7wIC",
+    "object": "chat.completion",
+    "created": 1785343286,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Fan/convection ovens circulate hot air, cooking faster and more evenly than conventional ovens, so recipes typically set them 20°C lower. Reversing this, a fan oven setting of 180°C corresponds to a conventional oven setting of 200°C.\n\nAnswer: 200 °C",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 115,
+      "completion_tokens": 98,
+      "total_tokens": 213,
+      "cost": 0.00121,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00121,
+        "upstream_inference_prompt_cost": 0.00023,
+        "upstream_inference_completions_cost": 0.00098
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 115,
+  "tokensOut": 98,
+  "costUsd": 0.00121,
+  "latencyMs": 4504,
+  "finishReason": "stop"
+}

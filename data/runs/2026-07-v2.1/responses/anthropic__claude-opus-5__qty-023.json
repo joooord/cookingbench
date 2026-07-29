@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "qty-023",
+  "answerText": "**Setup:** 2.5 L water ≈ 2500 g (water is ~1 g/mL).\n\n**Salt needed:** 6% × 2500 g = 150 g\n\n**Convert to tablespoons:** 150 g ÷ 18 g/tbsp ≈ 8.33 tbsp\n\nSo use **8⅓ tablespoons** — that's 8 level tablespoons plus 1 teaspoon (since ⅓ tbsp = 1 tsp).\n\nA couple of notes: 6% is a strong brine, so keep the brining time short (roughly 1–2 hours for parts, 2–4 hours for a whole bird) or the meat will turn out too salty. Also, if your \"table salt\" is actually a flaky kosher salt, the grams-per-tablespoon will be much lower than 18 g, so double-check that figure.\n\nAnswer: 8.33 tbsp",
+  "raw": {
+    "id": "gen-1785342136-VU2hi1bQ53z8gHj9nxC0",
+    "object": "chat.completion",
+    "created": 1785342136,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Setup:** 2.5 L water ≈ 2500 g (water is ~1 g/mL).\n\n**Salt needed:** 6% × 2500 g = 150 g\n\n**Convert to tablespoons:** 150 g ÷ 18 g/tbsp ≈ 8.33 tbsp\n\nSo use **8⅓ tablespoons** — that's 8 level tablespoons plus 1 teaspoon (since ⅓ tbsp = 1 tsp).\n\nA couple of notes: 6% is a strong brine, so keep the brining time short (roughly 1–2 hours for parts, 2–4 hours for a whole bird) or the meat will turn out too salty. Also, if your \"table salt\" is actually a flaky kosher salt, the grams-per-tablespoon will be much lower than 18 g, so double-check that figure.\n\nAnswer: 8.33 tbsp",
+          "refusal": null,
+          "reasoning": "I'm converting 2.5 liters of water to grams, then calculating 6% by weight to get the salt amount, which works out to about 8 and a third tablespoons—assuming the percentage is measured against the water weight rather than the total brine.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm converting 2.5 liters of water to grams, then calculating 6% by weight to get the salt amount, which works out to about 8 and a third tablespoons—assuming the percentage is measured against the water weight rather than the total brine.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISlgMKhwEIEBgCKkBkTDkKIAFFAd4TGjpt4uMm0JUD7J5/HbK/Kmr0Dn0FbjkVmkZ33EZU6THDZq6a84AcF+RUuFmo6eDMwQqcbNUEMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDJCSpZmHIFh1QS4mPxoM25u4ZdtimcXxclLEIjBbVzqNMQ0tVsA+F9FtsshPtYEdjUgbwnVntnN6i3NSHGds7RurPI6c9S4+6Ej2zUgquwFLUBBxPp8dBvGSfYA10hUOyZVJowA/IfwRpG/HyyMgJiiy9YWtb0DvJ18QSyBBtHjuiW9cyJRkfmlgyGvtyTtHHENjF0vXiUCUKy9BGOQE45nQDm8sp0mC9fxfeQh1TflkaTTWyRifbiPImMtdkNv9RQX4OxIl4DB+4j4MRzhFNJlEpGf5N77IJ5AKydqC22VM9IqulKc0/SZRL80T4T7LV26rHN/rlpX+YnjwiQ92BmU6X8DNq/DHv0nZGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 134,
+      "completion_tokens": 379,
+      "total_tokens": 513,
+      "cost": 0.010145,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.010145,
+        "upstream_inference_prompt_cost": 0.00067,
+        "upstream_inference_completions_cost": 0.009475
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 61,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 134,
+  "tokensOut": 379,
+  "costUsd": 0.010145,
+  "latencyMs": 6567,
+  "finishReason": "stop"
+}

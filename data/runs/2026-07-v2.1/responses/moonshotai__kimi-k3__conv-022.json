@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "conv-022",
+  "answerText": "2 dl = 200 ml. Since 1 US fl oz ≈ 29.57 ml, 200 ml ≈ 6.76 fl oz — pour just under 7 fl oz.\n\nAnswer: 6.76 fl oz",
+  "raw": {
+    "id": "gen-1785342446-iZUYiZCv0EYaVOb9hymY",
+    "object": "chat.completion",
+    "created": 1785342446,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "2 dl = 200 ml. Since 1 US fl oz ≈ 29.57 ml, 200 ml ≈ 6.76 fl oz — pour just under 7 fl oz.\n\nAnswer: 6.76 fl oz",
+          "refusal": null,
+          "reasoning": "The user is asking to convert 2 deciliters (dl) to US fluid ounces.\n\n1 dl = 100 ml = 0.1 liter\n2 dl = 200 ml\n\nUS fluid ounce: 1 fl oz = 29.5735 ml\n200 ml / 29.5735 = 6.7628 fl oz\n\nSo approximately 6.76 fl oz, or about 6.8 fl oz.\n\nLet me compute precisely: 200 / 29.5735295625 = 6.7628...\n\nSo answer is approximately 6.76 fl oz. The user wants the format \"Answer: <number> fl oz\".\n\nI should be concise. Mention ~6.8 fl oz (just under 7). Final line exactly.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking to convert 2 deciliters (dl) to US fluid ounces.\n\n1 dl = 100 ml = 0.1 liter\n2 dl = 200 ml\n\nUS fluid ounce: 1 fl oz = 29.5735 ml\n200 ml / 29.5735 = 6.7628 fl oz\n\nSo approximately 6.76 fl oz, or about 6.8 fl oz.\n\nLet me compute precisely: 200 / 29.5735295625 = 6.7628...\n\nSo answer is approximately 6.76 fl oz. The user wants the format \"Answer: <number> fl oz\".\n\nI should be concise. Mention ~6.8 fl oz (just under 7). Final line exactly.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 157,
+      "completion_tokens": 221,
+      "total_tokens": 378,
+      "cost": 0.005679,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.005679,
+        "upstream_inference_prompt_cost": 0.0007065,
+        "upstream_inference_completions_cost": 0.0049725
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 149,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 157,
+  "tokensOut": 221,
+  "costUsd": 0.005679,
+  "latencyMs": 6146,
+  "finishReason": "stop"
+}

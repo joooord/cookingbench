@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "conv-005",
+  "answerText": "500 ml of stock is about 2.11 US cups (using 1 US cup = 236.6 ml).  \nAnswer: 2.11 cups",
+  "raw": {
+    "id": "gen-1785342424-qQjqazLR8QdAerhhKuic",
+    "object": "chat.completion",
+    "created": 1785342424,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "500 ml of stock is about 2.11 US cups (using 1 US cup = 236.6 ml).  \nAnswer: 2.11 cups",
+          "refusal": null,
+          "reasoning": "The user is asking conversion: 500 ml to US cups. 1 US cup = 236.588 ml (commonly 240 ml in cooking). 500/236.588 = 2.113 cups. Using common kitchen conversion (1 cup = 240 ml), 500/240 = 2.083. Standard precise answer: approximately 2.11 cups. Need end with exact format \"Answer: <number> cups\". Should concise. Mention approx. Final line exactly Answer: 2.11 cups perhaps. Ensure final ends with that line.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking conversion: 500 ml to US cups. 1 US cup = 236.588 ml (commonly 240 ml in cooking). 500/236.588 = 2.113 cups. Using common kitchen conversion (1 cup = 240 ml), 500/240 = 2.083. Standard precise answer: approximately 2.11 cups. Need end with exact format \"Answer: <number> cups\". Should concise. Mention approx. Final line exactly Answer: 2.11 cups perhaps. Ensure final ends with that line.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 137,
+      "completion_tokens": 165,
+      "total_tokens": 302,
+      "cost": 0.002886,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002886,
+        "upstream_inference_prompt_cost": 0.000411,
+        "upstream_inference_completions_cost": 0.002475
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 117,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 137,
+  "tokensOut": 165,
+  "costUsd": 0.002886,
+  "latencyMs": 7381,
+  "finishReason": "stop"
+}

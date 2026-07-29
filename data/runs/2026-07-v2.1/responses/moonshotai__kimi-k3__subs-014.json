@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "subs-014",
+  "answerText": "Use about one-third the weight of fresh yeast when substituting instant yeast: 21 g ÷ 3 = 7 g.\n\nAnswer: 7 g",
+  "raw": {
+    "id": "gen-1785342834-YcNibEt5wjm0yHvqFDkT",
+    "object": "chat.completion",
+    "created": 1785342834,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Use about one-third the weight of fresh yeast when substituting instant yeast: 21 g ÷ 3 = 7 g.\n\nAnswer: 7 g",
+          "refusal": null,
+          "reasoning": "The user is asking about converting fresh cake yeast to instant yeast. Standard conversion: fresh yeast to instant dry yeast is roughly 3:1 by weight? Let's recall.\n\nCommon conversions:\n- Fresh (cake/compressed) yeast to active dry yeast: use about 40-50% of fresh weight (multiply fresh by 0.4-0.5). Often 1 cake (0.6 oz/17g) fresh = 1 packet active dry (7g). So fresh:active dry ≈ 2.4:1? Actually 17g fresh ≈ 7g active dry ≈ 0.41.\n- Instant yeast is more potent than active dry; use about 25-33% of fresh weight. Common rule: instant yeast = 1/3 of fresh yeast by weight. So 21g fresh / 3 = 7g instant.\n\nMany sources: To substitute instant for fresh: use 1/3 the amount (by weight). 21g fresh -> 7g instant. This aligns with 21g fresh = 7g instant (a standard packet). Need answer concise and end with exact line Answer: <number> g.\n\nNeed ensure final line exactly. Could include brief explanation then final line. The user specifically requests end with line. Do that. No extra after answer line.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking about converting fresh cake yeast to instant yeast. Standard conversion: fresh yeast to instant dry yeast is roughly 3:1 by weight? Let's recall.\n\nCommon conversions:\n- Fresh (cake/compressed) yeast to active dry yeast: use about 40-50% of fresh weight (multiply fresh by 0.4-0.5). Often 1 cake (0.6 oz/17g) fresh = 1 packet active dry (7g). So fresh:active dry ≈ 2.4:1? Actually 17g fresh ≈ 7g active dry ≈ 0.41.\n- Instant yeast is more potent than active dry; use about 25-33% of fresh weight. Common rule: instant yeast = 1/3 of fresh yeast by weight. So 21g fresh / 3 = 7g instant.\n\nMany sources: To substitute instant for fresh: use 1/3 the amount (by weight). 21g fresh -> 7g instant. This aligns with 21g fresh = 7g instant (a standard packet). Need answer concise and end with exact line Answer: <number> g.\n\nNeed ensure final line exactly. Could include brief explanation then final line. The user specifically requests end with line. Do that. No extra after answer line.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 155,
+      "completion_tokens": 318,
+      "total_tokens": 473,
+      "cost": 0.0078525,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0078525,
+        "upstream_inference_prompt_cost": 0.0006975,
+        "upstream_inference_completions_cost": 0.007155
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 270,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 155,
+  "tokensOut": 318,
+  "costUsd": 0.0078525,
+  "latencyMs": 6475,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "nutr-037",
+  "answerText": "A raw banana contains approximately 89 kilocalories per 100 grams. To find the calories for a 120-gram peeled banana, you multiply 1.2 by 89, which equals about 106.8 kilocalories. \n\nAnswer: 107 kcal",
+  "raw": {
+    "id": "gen-1785343086-02eUFaHK5RHcigr1AMer",
+    "object": "chat.completion",
+    "created": 1785343086,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "A raw banana contains approximately 89 kilocalories per 100 grams. To find the calories for a 120-gram peeled banana, you multiply 1.2 by 89, which equals about 106.8 kilocalories. \n\nAnswer: 107 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating Banana Calories**\n\nI'm refining the calorie estimate for a large, 120g peeled banana. Based on standard nutritional data, I've calculated it to be approximately 107 kcal. This is a straightforward nutritional query, and the calculation is complete.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Banana Calories**\n\nI'm refining the calorie estimate for a large, 120g peeled banana. Based on standard nutritional data, I've calculated it to be approximately 107 kcal. This is a straightforward nutritional query, and the calculation is complete.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 46,
+      "completion_tokens": 524,
+      "total_tokens": 570,
+      "cost": 0.00638,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00638,
+        "upstream_inference_prompt_cost": 0.000092,
+        "upstream_inference_completions_cost": 0.006288
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 458,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 46,
+  "tokensOut": 524,
+  "costUsd": 0.00638,
+  "latencyMs": 5381,
+  "finishReason": "stop"
+}

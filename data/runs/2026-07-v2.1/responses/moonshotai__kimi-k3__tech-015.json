@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "tech-015",
+  "answerText": "For the second crisping fry, use hot oil around **180 °C** so the exterior browns and crisps quickly without overcooking the interior.\n\nAnswer: 180 °C",
+  "raw": {
+    "id": "gen-1785342924-4eRSwnsQZ320MN1VO2oS",
+    "object": "chat.completion",
+    "created": 1785342924,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "For the second crisping fry, use hot oil around **180 °C** so the exterior browns and crisps quickly without overcooking the interior.\n\nAnswer: 180 °C",
+          "refusal": null,
+          "reasoning": "The user is asking about double-fried chips (French fries). The first fry blanches at low temp (typically around 130-160°C), and the second crisping fry is at higher temp. Classic Belgian/French method: first fry at 140-160°C, second at 175-190°C. Common answer: 180°C (around 350-375°F). Need concise answer ending with exact line format. Need ensure final line exactly \"Answer: <number> °C\". Provide brief explanation. Choose 180°C as standard. Some recipes use 190°C. The question likely expects 180°C. Final concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking about double-fried chips (French fries). The first fry blanches at low temp (typically around 130-160°C), and the second crisping fry is at higher temp. Classic Belgian/French method: first fry at 140-160°C, second at 175-190°C. Common answer: 180°C (around 350-375°F). Need concise answer ending with exact line format. Need ensure final line exactly \"Answer: <number> °C\". Provide brief explanation. Choose 180°C as standard. Some recipes use 190°C. The question likely expects 180°C. Final concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 159,
+      "completion_tokens": 180,
+      "total_tokens": 339,
+      "cost": 0.0047655,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0047655,
+        "upstream_inference_prompt_cost": 0.0007155,
+        "upstream_inference_completions_cost": 0.00405
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 130,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 159,
+  "tokensOut": 180,
+  "costUsd": 0.0047655,
+  "latencyMs": 4036,
+  "finishReason": "stop"
+}

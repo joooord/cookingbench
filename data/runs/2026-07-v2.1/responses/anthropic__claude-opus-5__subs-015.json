@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "subs-015",
+  "answerText": "## The problem\n\nNatural cocoa is acidic (pH ~5–6); Dutch-processed cocoa has been alkalized (pH ~7–8). In a soda-only recipe, the cocoa's acidity *is* the acid that activates the baking soda. Swap in Dutch cocoa and you have:\n\n- **Little to no lift** — the soda has nothing to react with, so the cake is dense and gummy\n- **Off flavor** — unreacted soda tastes soapy/metallic and bitter\n- **Over-browning and a dull, muddy crumb**, plus a coarse, tunneled texture\n- A slightly weaker, mellower chocolate flavor overall (Dutch is smoother, less fruity)\n\n## The fixes (pick one)\n\n**1. Convert the leavening to baking powder** — simplest and most reliable. Replace each 1 teaspoon of baking soda with about 2 teaspoons of baking powder. Baking powder brings its own acid, so it doesn't care about cocoa pH.\n\n**2. Keep the soda and add an acid.** For each ½ teaspoon of baking soda, add roughly 1 teaspoon lemon juice or white vinegar (subtract that amount from the recipe's liquid), or add ¼ teaspoon cream of tartar to the dry ingredients. Alternatively, swap the milk/water for an equal amount of buttermilk, plain yogurt thinned with milk, or sour cream.\n\n**3. Split the difference** — use half natural, half Dutch cocoa if you have any natural on hand, keeping the soda as written.\n\n## Note\n\nRecipes leavened with **both** soda and baking powder are much more forgiving — you can usually swap cocoas there with only minor differences in color and flavor. It's the soda-only recipes (and soda-only Dutch recipes, in reverse) where the chemistry actually matters.",
+  "raw": {
+    "id": "gen-1785342329-yIWzYVthLvJ075dXz1dr",
+    "object": "chat.completion",
+    "created": 1785342329,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## The problem\n\nNatural cocoa is acidic (pH ~5–6); Dutch-processed cocoa has been alkalized (pH ~7–8). In a soda-only recipe, the cocoa's acidity *is* the acid that activates the baking soda. Swap in Dutch cocoa and you have:\n\n- **Little to no lift** — the soda has nothing to react with, so the cake is dense and gummy\n- **Off flavor** — unreacted soda tastes soapy/metallic and bitter\n- **Over-browning and a dull, muddy crumb**, plus a coarse, tunneled texture\n- A slightly weaker, mellower chocolate flavor overall (Dutch is smoother, less fruity)\n\n## The fixes (pick one)\n\n**1. Convert the leavening to baking powder** — simplest and most reliable. Replace each 1 teaspoon of baking soda with about 2 teaspoons of baking powder. Baking powder brings its own acid, so it doesn't care about cocoa pH.\n\n**2. Keep the soda and add an acid.** For each ½ teaspoon of baking soda, add roughly 1 teaspoon lemon juice or white vinegar (subtract that amount from the recipe's liquid), or add ¼ teaspoon cream of tartar to the dry ingredients. Alternatively, swap the milk/water for an equal amount of buttermilk, plain yogurt thinned with milk, or sour cream.\n\n**3. Split the difference** — use half natural, half Dutch cocoa if you have any natural on hand, keeping the soda as written.\n\n## Note\n\nRecipes leavened with **both** soda and baking powder are much more forgiving — you can usually swap cocoas there with only minor differences in color and flavor. It's the soda-only recipes (and soda-only Dutch recipes, in reverse) where the chemistry actually matters.",
+          "refusal": null,
+          "reasoning": "Baking soda needs acid to work, but swapping it directly for baking powder in a cocoa-based recipe creates problems since natural cocoa is acidic while Dutch-processed is neutral—this mismatch leads to poor rise, dense texture, and off-flavors. The main fix is using about three times the baking soda amount as baking powder instead, though there are other adjustment options depending on the cocoa type. Dutch cocoa without acid will create a dark, potentially soapy or metallic-tasting cake that browns too quickly, whereas natural cocoa produces that classic red devil's food color—so the substitution choice really matters for both flavor and appearance.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Baking soda needs acid to work, but swapping it directly for baking powder in a cocoa-based recipe creates problems since natural cocoa is acidic while Dutch-processed is neutral—this mismatch leads to poor rise, dense texture, and off-flavors. The main fix is using about three times the baking soda amount as baking powder instead, though there are other adjustment options depending on the cocoa type. Dutch cocoa without acid will create a dark, potentially soapy or metallic-tasting cake that browns too quickly, whereas natural cocoa produces that classic red devil's food color—so the substitution choice really matters for both flavor and appearance.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "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"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 103,
+      "completion_tokens": 1256,
+      "total_tokens": 1359,
+      "cost": 0.031915,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.031915,
+        "upstream_inference_prompt_cost": 0.000515,
+        "upstream_inference_completions_cost": 0.0314
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 166,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 103,
+  "tokensOut": 1256,
+  "costUsd": 0.031915,
+  "latencyMs": 17558,
+  "finishReason": "stop"
+}

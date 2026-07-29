@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "nutr-035",
+  "answerText": "To find the total energy content per 100 g using Atwater factors:\n\n1. **Net Carbohydrates:** 62 g total carbohydrate − 9 g fibre = 53 g net carbs\n   * 53 g × 4 kcal/g = 212 kcal\n2. **Fibre:** 9 g × 2 kcal/g = 18 kcal\n3. **Protein:** 11 g × 4 kcal/g = 44 kcal\n4. **Fat:** 8 g × 9 kcal/g = 72 kcal\n\n**Total Calories:** 212 + 18 + 44 + 72 = 346 kcal\n\nAnswer: 346 kcal",
+  "raw": {
+    "id": "gen-1785343680-jHUCOysPWmGsNyjVWfBQ",
+    "object": "chat.completion",
+    "created": 1785343680,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google AI Studio",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find the total energy content per 100 g using Atwater factors:\n\n1. **Net Carbohydrates:** 62 g total carbohydrate − 9 g fibre = 53 g net carbs\n   * 53 g × 4 kcal/g = 212 kcal\n2. **Fibre:** 9 g × 2 kcal/g = 18 kcal\n3. **Protein:** 11 g × 4 kcal/g = 44 kcal\n4. **Fat:** 8 g × 9 kcal/g = 72 kcal\n\n**Total Calories:** 212 + 18 + 44 + 72 = 346 kcal\n\nAnswer: 346 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating Cereal Energy**\n\nOkay, I'm working on calculating the kilocalories for the cereal, focusing on getting it right with the Atwater factors. I've got the carbohydrate data, including the fiber breakdown, so I can account for it correctly. I plan to use the standard Atwater factors, but I want to be very precise.\n\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Cereal Energy**\n\nOkay, I'm working on calculating the kilocalories for the cereal, focusing on getting it right with the Atwater factors. I've got the carbohydrate data, including the fiber breakdown, so I can account for it correctly. I plan to use the standard Atwater factors, but I want to be very precise.\n\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 105,
+      "completion_tokens": 750,
+      "total_tokens": 855,
+      "cost": 0.0057825,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0057825,
+        "upstream_inference_prompt_cost": 0.0001575,
+        "upstream_inference_completions_cost": 0.005625
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 591,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 105,
+  "tokensOut": 750,
+  "costUsd": 0.0057825,
+  "latencyMs": 3765,
+  "finishReason": "stop"
+}

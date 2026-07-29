@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-016",
+  "answerText": "**Step 1 — Convert volume to mass:**\n100 ml × 0.91 g/ml = 91 g\n\n**Step 2 — Apply the energy density:**\n884 kcal / 100 g = 8.84 kcal per gram\n91 g × 8.84 kcal/g ≈ 804 kcal\n\nSo 100 ml of olive oil contains roughly 800 kcal — about 80 kcal per tablespoon (≈13.6 ml... in practice labels list ~120 kcal per 15 ml tablespoon, since a tablespoon is 15 ml → 15 × 8.04 ≈ 121 kcal).\n\nAnswer: 804 kcal",
+  "raw": {
+    "id": "gen-1785342073-encP8DTXxc2hf4lHnBhd",
+    "object": "chat.completion",
+    "created": 1785342073,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Step 1 — Convert volume to mass:**\n100 ml × 0.91 g/ml = 91 g\n\n**Step 2 — Apply the energy density:**\n884 kcal / 100 g = 8.84 kcal per gram\n91 g × 8.84 kcal/g ≈ 804 kcal\n\nSo 100 ml of olive oil contains roughly 800 kcal — about 80 kcal per tablespoon (≈13.6 ml... in practice labels list ~120 kcal per 15 ml tablespoon, since a tablespoon is 15 ml → 15 × 8.04 ≈ 121 kcal).\n\nAnswer: 804 kcal",
+          "refusal": null,
+          "reasoning": "I'm calculating the caloric content by multiplying the volume by density to get the mass, then multiplying that by the energy density to find the total calories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the caloric content by multiplying the volume by density to get the mass, then multiplying that by the energy density to find the total calories.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISngIKhwEIEBgCKkBagKbk7csd/m/RbQJ3rz4iK0TodX+2DVOGEjCTFCSz2O32GmcNXKpixj/+FHOC4K60S3IRWJmbQQ8KWS359zvPMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDDGBFho5I1khRdEfKRoMZKgt1zG1fpvhAXxtIjDce4jH48V1BTVFOQt8pqARo5/FrehI8r/Mmf1WjSBAQe0hy9sq4Ylb1tyGRVpDZXcqRPpv0vQ9hfjQbeDmg2x9+31PTAp8ap/IaMaQcKov3ZGVBzh/zdZ9/STTaVzGxcoQMQCRN2dO2b+RZ0z40otD9ehD0GPoGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 110,
+      "completion_tokens": 262,
+      "total_tokens": 372,
+      "cost": 0.0071,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0071,
+        "upstream_inference_prompt_cost": 0.00055,
+        "upstream_inference_completions_cost": 0.00655
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 41,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 110,
+  "tokensOut": 262,
+  "costUsd": 0.0071,
+  "latencyMs": 5442,
+  "finishReason": "stop"
+}

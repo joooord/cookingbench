@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "nutr-009",
+  "answerText": "To find the percentage of calories that come from fat, calculate the total calories from fat first:\n\n27 g of fat × 9 kcal/g = 243 kcal from fat\n\nNext, divide the calories from fat by the total calories of the dish and multiply by 100:\n\n(243 kcal / 600 kcal) × 100 = 40.5%\n\nAnswer: 40.5 %",
+  "raw": {
+    "id": "gen-1785343659-iLbK9ZuyW9m3eYce4Kjy",
+    "object": "chat.completion",
+    "created": 1785343659,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find the percentage of calories that come from fat, calculate the total calories from fat first:\n\n27 g of fat × 9 kcal/g = 243 kcal from fat\n\nNext, divide the calories from fat by the total calories of the dish and multiply by 100:\n\n(243 kcal / 600 kcal) × 100 = 40.5%\n\nAnswer: 40.5 %",
+          "refusal": null,
+          "reasoning": "**Calculating Fat's Contribution**\n\nI'm currently working through the calculations to determine the proportion of total calories derived from fat. My focus is on accurately computing this percentage based on the provided calorie and fat content.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Fat's Contribution**\n\nI'm currently working through the calculations to determine the proportion of total calories derived from fat. My focus is on accurately computing this percentage based on the provided calorie and fat content.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 65,
+      "completion_tokens": 312,
+      "total_tokens": 377,
+      "cost": 0.0024375,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0024375,
+        "upstream_inference_prompt_cost": 0.0000975,
+        "upstream_inference_completions_cost": 0.00234
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 216,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 65,
+  "tokensOut": 312,
+  "costUsd": 0.0024375,
+  "latencyMs": 2951,
+  "finishReason": "stop"
+}

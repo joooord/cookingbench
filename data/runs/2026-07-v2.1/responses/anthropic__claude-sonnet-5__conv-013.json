@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "conv-013",
+  "answerText": "To convert 425°F to Celsius, use the formula: °C = (°F - 32) × 5/9\n\n(425 - 32) × 5/9 = 393 × 5/9 = 218.3°C\n\nFor a home oven, this rounds to about 220°C (or Gas Mark 7 in UK ovens).\n\nAnswer: 218 °C",
+  "raw": {
+    "id": "gen-1785343289-B2gtpgoLzJQ1hg0ERRd3",
+    "object": "chat.completion",
+    "created": 1785343289,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To convert 425°F to Celsius, use the formula: °C = (°F - 32) × 5/9\n\n(425 - 32) × 5/9 = 393 × 5/9 = 218.3°C\n\nFor a home oven, this rounds to about 220°C (or Gas Mark 7 in UK ovens).\n\nAnswer: 218 °C",
+          "refusal": null,
+          "reasoning": "I'm converting 425°F to Celsius using the standard formula, which gives me about 218.33°C.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm converting 425°F to Celsius using the standard formula, which gives me about 218.33°C.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EpYCCokBCBAYAipAHmLkLsA0BU2rh9+pLLX5UIP+Vn6Ru/HCrQb8fgYw2S8KU7WkW4ZOAKPiiCA5uLs/lh3Ky2uuzgW9Bz+n3SECdzIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDIsDZS2PLm7Obec/tBoMWyCjW2g30SrtElkyIjADhQi6JChN90Z+uHYU77/78RJraEetfE5SFKNEmgTItXl+ODxNRKtIk2dPr73L15MqOoN85rlruuJbWN8/310MWEqSuwp+5zAraef1c3n7VGzWenbTdmSsHUo0pKh+XWF2JZ6Ldx4pUXEHIl0YAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 72,
+      "completion_tokens": 142,
+      "total_tokens": 214,
+      "cost": 0.001564,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001564,
+        "upstream_inference_prompt_cost": 0.000144,
+        "upstream_inference_completions_cost": 0.00142
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 23,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 72,
+  "tokensOut": 142,
+  "costUsd": 0.001564,
+  "latencyMs": 3450,
+  "finishReason": "stop"
+}

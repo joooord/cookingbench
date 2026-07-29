@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "tech-015",
+  "answerText": "**Second (crisping) fry: ~190 °C**\n\n- **First fry (blanching):** about 130–160 °C for 5–10 minutes — cooks the potato through until soft but pale, driving moisture from the outer layer without colouring it. Drain and cool completely (fridge or freezer helps).\n- **Second fry (crisping):** about 190 °C for 2–4 minutes — the hotter oil flashes off surface moisture fast, setting a crisp, golden shell before the inside overcooks. Fry in small batches so the oil temperature doesn't crash, then drain and salt immediately.\n\nGoing much above ~195 °C risks browning and off-flavours (and approaches the smoke point of many frying oils); much below ~180 °C gives greasy, limp chips.\n\nAnswer: 190 °C",
+  "raw": {
+    "id": "gen-1785342415-Jx3DyORZqsfA69dKiHXT",
+    "object": "chat.completion",
+    "created": 1785342415,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Second (crisping) fry: ~190 °C**\n\n- **First fry (blanching):** about 130–160 °C for 5–10 minutes — cooks the potato through until soft but pale, driving moisture from the outer layer without colouring it. Drain and cool completely (fridge or freezer helps).\n- **Second fry (crisping):** about 190 °C for 2–4 minutes — the hotter oil flashes off surface moisture fast, setting a crisp, golden shell before the inside overcooks. Fry in small batches so the oil temperature doesn't crash, then drain and salt immediately.\n\nGoing much above ~195 °C risks browning and off-flavours (and approaches the smoke point of many frying oils); much below ~180 °C gives greasy, limp chips.\n\nAnswer: 190 °C",
+          "refusal": null,
+          "reasoning": "The double-fry technique involves an initial blanch at a lower temperature around 130-160°C to cook the potato through, then a second fry at the higher temperature of 190°C to achieve that crispy exterior.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The double-fry technique involves an initial blanch at a lower temperature around 130-160°C to cook the potato through, then a second fry at the higher temperature of 190°C to achieve that crispy exterior.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISqwIKhwEIEBgCKkAn/Q+XhK7uHwX+c92ayn8Kysazqrl4JeAsF/YmCbEecAkZ2r7VRzip1iNurHaP58Jwz2YaJ8p+lQuoairKXZknMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDOW3TlmUie9L2uFDFBoMMRbC5vo72gULxUmyIjAU89XT8ZJsionYhtMV/HpBwW6xalIj9uvYPwLLX4bn+wDb71IusbEVCZlkA/h1B98qUeZTcAxLgRmHSTZa1gCT6lAqDMSvQ0oTnW50YYJA7ecvpdZdVH1mzJ9EZBpBrlbL6Rgwsd2H8faILIbbO4ztPFLgePNRJ7JLPTdfS7B7qljK2xgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 99,
+      "completion_tokens": 296,
+      "total_tokens": 395,
+      "cost": 0.007895,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.007895,
+        "upstream_inference_prompt_cost": 0.000495,
+        "upstream_inference_completions_cost": 0.0074
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 52,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 99,
+  "tokensOut": 296,
+  "costUsd": 0.007895,
+  "latencyMs": 6133,
+  "finishReason": "stop"
+}

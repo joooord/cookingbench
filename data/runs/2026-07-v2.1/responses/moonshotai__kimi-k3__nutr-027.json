@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "nutr-027",
+  "answerText": "**Boiled broccoli generally loses more vitamin C than steamed broccoli.**\n\nVitamin C is **water-soluble**, so during boiling it leaches out of the broccoli into the cooking water, which is usually discarded. Heat and exposure to oxygen also degrade some vitamin C.\n\nDuring steaming, the broccoli has little direct contact with water, so much less vitamin C is lost by leaching. Losses still occur from heat, but they are typically smaller—especially with brief steaming. Cooking time and temperature strongly affect the final amount.",
+  "raw": {
+    "id": "gen-1785342571-HNRHGybyPnzfbnjrTP3V",
+    "object": "chat.completion",
+    "created": 1785342571,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "**Boiled broccoli generally loses more vitamin C than steamed broccoli.**\n\nVitamin C is **water-soluble**, so during boiling it leaches out of the broccoli into the cooking water, which is usually discarded. Heat and exposure to oxygen also degrade some vitamin C.\n\nDuring steaming, the broccoli has little direct contact with water, so much less vitamin C is lost by leaching. Losses still occur from heat, but they are typically smaller—especially with brief steaming. Cooking time and temperature strongly affect the final amount.",
+          "refusal": null,
+          "reasoning": "We need answer concise. Need explain leaching vs heat, boiling more. Vitamin C water soluble, heat/oxygen sensitive. Steaming less contact, shorter perhaps. Mention amount depends time/temp.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need answer concise. Need explain leaching vs heat, boiling more. Vitamin C water soluble, heat/oxygen sensitive. Steaming less contact, shorter perhaps. Mention amount depends time/temp.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 140,
+      "completion_tokens": 156,
+      "total_tokens": 296,
+      "cost": 0.00414,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00414,
+        "upstream_inference_prompt_cost": 0.00063,
+        "upstream_inference_completions_cost": 0.00351
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 40,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 140,
+  "tokensOut": 156,
+  "costUsd": 0.00414,
+  "latencyMs": 3647,
+  "finishReason": "stop"
+}

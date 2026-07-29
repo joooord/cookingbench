@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "qty-011",
+  "answerText": "**Scaling down:** 2.5 L = 2500 ml for 8 servings → 2500 ÷ 8 = 312.5 ml per serving.\n\n312.5 × 3 = 937.5 ml (about 940 ml, or just under 1 litre).\n\nAnswer: 937.5 ml",
+  "raw": {
+    "id": "gen-1785342121-66q7IYBN5c2yR7hFBSAF",
+    "object": "chat.completion",
+    "created": 1785342121,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Scaling down:** 2.5 L = 2500 ml for 8 servings → 2500 ÷ 8 = 312.5 ml per serving.\n\n312.5 × 3 = 937.5 ml (about 940 ml, or just under 1 litre).\n\nAnswer: 937.5 ml",
+          "refusal": null,
+          "reasoning": "For a recipe serving 8 people that calls for 2500 ml, I'm calculating the per-person amount at about 312.5 ml, then scaling that up by three to get roughly 937.5 ml for the adjusted serving size.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "For a recipe serving 8 people that calls for 2500 ml, I'm calculating the per-person amount at about 312.5 ml, then scaling that up by three to get roughly 937.5 ml for the adjusted serving size.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISoAIKhwEIEBgCKkA6guz6y2KdnC4aJNHWknTMJTTw+PRPq0MC/FXy7v4g2rNQa0pyYwMFp3tknvzLfpWLoX1BUDrjIBdgmmnff8NpMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDB4TBCGS95xld83A1xoM43CCiYdyZnzGyFQ1IjCqqbVIx9G36RZLP8H/gzuE/e0DMTWXBIh4gOeqQ0oXwWfipG0imPXc40mGxgzQHlQqRu7gMDRSzORk08kGVlcfrUZms4c+rVlRfLeif2tqgLNNhGN5WIxze2Ubi5Pr8JpK/jTOzbO1ihtVGgDy/Pw7Zbrb74o50iAYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 103,
+      "completion_tokens": 132,
+      "total_tokens": 235,
+      "cost": 0.003815,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003815,
+        "upstream_inference_prompt_cost": 0.000515,
+        "upstream_inference_completions_cost": 0.0033
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 49,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 103,
+  "tokensOut": 132,
+  "costUsd": 0.003815,
+  "latencyMs": 4170,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "qty-024",
+  "answerText": "600 ml scaled from 4 to 6 servings: 600 × (6/4) = 900 ml of stock needed.\n\nConverting to US cups (1 US cup = 236.588 ml):\n900 ÷ 236.588 ≈ 3.8 cups\n\nSo you'll need approximately 3.8 US cups of chicken stock (about 3¾ cups if eyeballing it).\n\nAnswer: 3.8 cups",
+  "raw": {
+    "id": "gen-1785343430-z8HAX7I8KHcBNXYRvUed",
+    "object": "chat.completion",
+    "created": 1785343430,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "600 ml scaled from 4 to 6 servings: 600 × (6/4) = 900 ml of stock needed.\n\nConverting to US cups (1 US cup = 236.588 ml):\n900 ÷ 236.588 ≈ 3.8 cups\n\nSo you'll need approximately 3.8 US cups of chicken stock (about 3¾ cups if eyeballing it).\n\nAnswer: 3.8 cups",
+          "refusal": null,
+          "reasoning": "I'm scaling up the recipe from 600ml to 900ml, then converting that to US cups, which comes out to about 3.8 cups.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm scaling up the recipe from 600ml to 900ml, then converting that to US cups, which comes out to about 3.8 cups.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "ErACCokBCBAYAipAoNucZ69Otv6qN4TD+UFvoI2UdQH59ip3TV/2YXz5+yU1pG9sTxWdFM5wAUL1l2m7JglxOITB6SMqSVIkoWbadjIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDJ4/GQZzy3SP7ROc0RoMv0RnGjlmhtG0O29tIjDs/p5zpyh9p3/S/sY41Nt3NTI8hy2vTzVN1TlqBahc0RIZ5Qhen1WhHl+yJbVYvPgqVAUvBthKMEdHd6IZCFo9cNTXBpmaUJnItdws3i1IZJvar/kWxmIjFuHfN5NJY/0iqAMnH74c1BBCOx65y0yUh/mM//xO10wJ6fFINHdM2cFDAFyMwRgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 120,
+      "completion_tokens": 182,
+      "total_tokens": 302,
+      "cost": 0.00206,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00206,
+        "upstream_inference_prompt_cost": 0.00024,
+        "upstream_inference_completions_cost": 0.00182
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 29,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 120,
+  "tokensOut": 182,
+  "costUsd": 0.00206,
+  "latencyMs": 4007,
+  "finishReason": "stop"
+}

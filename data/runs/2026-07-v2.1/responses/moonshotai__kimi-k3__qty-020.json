@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "qty-020",
+  "answerText": "To keep the brownies equally thick, scale by pan area:\n\n- Original: \\(8 \\times 8 = 64\\) square inches  \n- New: \\(9 \\times 13 = 117\\) square inches  \n- Chocolate needed: \\(320 \\times \\frac{117}{64} = 585\\) g\n\nAnswer: 585 g",
+  "raw": {
+    "id": "gen-1785342641-5AtBJJUA9EF4jfs0JMAo",
+    "object": "chat.completion",
+    "created": 1785342641,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To keep the brownies equally thick, scale by pan area:\n\n- Original: \\(8 \\times 8 = 64\\) square inches  \n- New: \\(9 \\times 13 = 117\\) square inches  \n- Chocolate needed: \\(320 \\times \\frac{117}{64} = 585\\) g\n\nAnswer: 585 g",
+          "refusal": null,
+          "reasoning": "We need scale area. 8x8=64, 9x13=117 ratio 1.828125*320=585 exactly? 320*117/64=5*117=585. Need end exact line. Explain concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need scale area. 8x8=64, 9x13=117 ratio 1.828125*320=585 exactly? 320*117/64=5*117=585. Need end exact line. Explain concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 177,
+      "completion_tokens": 137,
+      "total_tokens": 314,
+      "cost": 0.002586,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002586,
+        "upstream_inference_prompt_cost": 0.000531,
+        "upstream_inference_completions_cost": 0.002055
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 52,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 177,
+  "tokensOut": 137,
+  "costUsd": 0.002586,
+  "latencyMs": 7382,
+  "finishReason": "stop"
+}

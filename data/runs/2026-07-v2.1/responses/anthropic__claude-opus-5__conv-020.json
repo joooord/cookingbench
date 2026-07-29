@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "conv-020",
+  "answerText": "Gas mark 7 corresponds to about 220 °C in a conventional oven (425 °F). For a fan (convection) oven, reduce by roughly 20 °C, so set it to about 200 °C — and check the food a few minutes early, as fan ovens cook slightly faster and more evenly.\n\nAnswer: 200 °C",
+  "raw": {
+    "id": "gen-1785341905-C9dSCsN4FyFd149wE0g5",
+    "object": "chat.completion",
+    "created": 1785341905,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Gas mark 7 corresponds to about 220 °C in a conventional oven (425 °F). For a fan (convection) oven, reduce by roughly 20 °C, so set it to about 200 °C — and check the food a few minutes early, as fan ovens cook slightly faster and more evenly.\n\nAnswer: 200 °C",
+          "refusal": null,
+          "reasoning": "Gas mark 7 converts to 220°C in a conventional oven or 200°C in a fan oven, which is about 425°F.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Gas mark 7 converts to 220°C in a conventional oven or 200°C in a fan oven, which is about 425°F.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS5wIKhwEIEBgCKkBPdHdVTbddUlkXc9LKWrOgjiOiOP8whXHS0Yupg/vh5G1xImGVMr3BCffEQ6h+qJ5K9F0WA7+Uh7JPlBYj0qX5Mg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDGme1quUX9dEaThlORoMt0DjJDxmOulWRgkfIjAT7L1VjEzsKq1ZtrR3tSQQX0SwjuQPiQ7u9gSEnddlAxCLHZr8E6wj+mDNKV2tTJYqjAGRcsRc2oktzkfH5el+bgmeGUjLCyX8+i9jVqgo9uMoBkCXDsvIPNMx2tdkMVYvqTp8ivhQn226tOiv9ZFnA32vS9xNexVhGZG5OgxM+0DDHmFRgIY0EyN67a6QyjaSg06cgp57LdepFQ+LynAwOBy7G8NPJPBP2TnGcks7/VYN5WGv3wHw5vLvVY328xgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 97,
+      "completion_tokens": 177,
+      "total_tokens": 274,
+      "cost": 0.00491,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00491,
+        "upstream_inference_prompt_cost": 0.000485,
+        "upstream_inference_completions_cost": 0.004425
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 26,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 97,
+  "tokensOut": 177,
+  "costUsd": 0.00491,
+  "latencyMs": 4224,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "conv-023",
+  "answerText": "An Australian tablespoon is larger than a US tablespoon. One Australian tablespoon holds 20 ml (4 teaspoons), while a standard US tablespoon holds 15 ml (3 teaspoons). \n\nTo get the 60 ml total required by the recipe (3 Australian tablespoons x 20 ml), you will need to use 4 US tablespoons (60 ml / 15 ml).\n\nAnswer: 4 tbsp",
+  "raw": {
+    "id": "gen-1785342964-Mz4CsuWHdxA6l68xygHX",
+    "object": "chat.completion",
+    "created": 1785342964,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "An Australian tablespoon is larger than a US tablespoon. One Australian tablespoon holds 20 ml (4 teaspoons), while a standard US tablespoon holds 15 ml (3 teaspoons). \n\nTo get the 60 ml total required by the recipe (3 Australian tablespoons x 20 ml), you will need to use 4 US tablespoons (60 ml / 15 ml).\n\nAnswer: 4 tbsp",
+          "refusal": null,
+          "reasoning": "**Calculating Conversions**\n\nI'm currently focused on precisely converting Australian tablespoon measurements to their US equivalents. My thoughts are deep in the conversion rates, specifically the volumetric difference between the two standards. I'm working through the calculations to ensure accuracy.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Conversions**\n\nI'm currently focused on precisely converting Australian tablespoon measurements to their US equivalents. My thoughts are deep in the conversion rates, specifically the volumetric difference between the two standards. I'm working through the calculations to ensure accuracy.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 66,
+      "completion_tokens": 317,
+      "total_tokens": 383,
+      "cost": 0.003936,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003936,
+        "upstream_inference_prompt_cost": 0.000132,
+        "upstream_inference_completions_cost": 0.003804
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 232,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 66,
+  "tokensOut": 317,
+  "costUsd": 0.003936,
+  "latencyMs": 4073,
+  "finishReason": "stop"
+}

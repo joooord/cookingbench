@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "conv-019",
+  "answerText": "**Set your oven to 350°F.**\n\nHere's the reasoning:\n\n1. **Fan → conventional:** A fan (convection) oven circulates hot air, so it cooks more efficiently. UK recipes convert by adding about 20°C when going from fan to conventional. So 160°C fan ≈ 180°C conventional.\n2. **Celsius → Fahrenheit:** 180°C = 356°F, which corresponds to the standard oven setting of **350°F** (the classic \"gas mark 4\" / moderate oven).\n\nA note on timing: since 350°F is a touch below the exact conversion, check your bake at the recipe's stated time and give it a few extra minutes if needed. If your oven has a convection/fan setting you'd rather use, set it to 320°F instead.\n\nAnswer: 350 °F",
+  "raw": {
+    "id": "gen-1785341904-8kVspTOAxHaREcosgiyU",
+    "object": "chat.completion",
+    "created": 1785341904,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Set your oven to 350°F.**\n\nHere's the reasoning:\n\n1. **Fan → conventional:** A fan (convection) oven circulates hot air, so it cooks more efficiently. UK recipes convert by adding about 20°C when going from fan to conventional. So 160°C fan ≈ 180°C conventional.\n2. **Celsius → Fahrenheit:** 180°C = 356°F, which corresponds to the standard oven setting of **350°F** (the classic \"gas mark 4\" / moderate oven).\n\nA note on timing: since 350°F is a touch below the exact conversion, check your bake at the recipe's stated time and give it a few extra minutes if needed. If your oven has a convection/fan setting you'd rather use, set it to 320°F instead.\n\nAnswer: 350 °F",
+          "refusal": null,
+          "reasoning": "I'm converting between oven temperature scales—fan-forced at 160°C equals conventional at 180°C, which translates to about 350°F.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm converting between oven temperature scales—fan-forced at 160°C equals conventional at 180°C, which translates to about 350°F.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISmAIKhwEIEBgCKkDPGD6OYa2f4/K30ta16OSCSBCFuuzDFxUpJtDl5yrvf6EefRDnCgfjCtLGYVuPepL52qdBsqnQVxSdcXD4Dwc+Mg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDN+TKZmLitZVzbsgshoMLtAjapgEaLp4B4EiIjDQ2qb2EIGl+D4WMDHWXS/AmGAiDz98ysLsUH+AQCBYMAAD1+RKL4j949NoHe8o7SAqPmcgLKMsmivJQcKckWSnRDZf9tDP3D8NGFGTY3/zbFLhjVnYoEZPDnuSPdmrLzmbcay6md0IBDsRFaIW75eaGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 109,
+      "completion_tokens": 289,
+      "total_tokens": 398,
+      "cost": 0.00777,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00777,
+        "upstream_inference_prompt_cost": 0.000545,
+        "upstream_inference_completions_cost": 0.007225
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 35,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 109,
+  "tokensOut": 289,
+  "costUsd": 0.00777,
+  "latencyMs": 5735,
+  "finishReason": "stop"
+}

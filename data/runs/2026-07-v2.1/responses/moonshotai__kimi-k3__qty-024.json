@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "qty-024",
+  "answerText": "Scale first: 600 ml × 6/4 = 900 ml.  \nConvert to US cups: 900 ml ÷ 236.588 ml/cup ≈ 3.8 cups.\n\nAnswer: 3.8 cups",
+  "raw": {
+    "id": "gen-1785342649-J9M2riacCdZhmli2SiTj",
+    "object": "chat.completion",
+    "created": 1785342649,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Scale first: 600 ml × 6/4 = 900 ml.  \nConvert to US cups: 900 ml ÷ 236.588 ml/cup ≈ 3.8 cups.\n\nAnswer: 3.8 cups",
+          "refusal": null,
+          "reasoning": "The user wants to scale 600 ml for 4 servings to 6 servings: 600 * 6/4 = 900 ml. Convert ml to US cups: 1 US cup = 236.588 ml (often 240 ml in cooking). 900 / 236.588 = 3.804 cups. Using 240 ml/cup gives 3.75 cups. Need answer concise and end with exact format \"Answer: <number> cups\". We should choose standard US cup 236.588 ml => about 3.8 cups. Mention if using 240 ml cup then 3.75, but final must be one number. Since question asks US cups, use legal US cup 236.588 ml. Final line Answer: 3.8 cups. Ensure last line exactly. Could include brief calculation. Need be careful final line format. ",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants to scale 600 ml for 4 servings to 6 servings: 600 * 6/4 = 900 ml. Convert ml to US cups: 1 US cup = 236.588 ml (often 240 ml in cooking). 900 / 236.588 = 3.804 cups. Using 240 ml/cup gives 3.75 cups. Need answer concise and end with exact format \"Answer: <number> cups\". We should choose standard US cup 236.588 ml => about 3.8 cups. Mention if using 240 ml cup then 3.75, but final must be one number. Since question asks US cups, use legal US cup 236.588 ml. Final line Answer: 3.8 cups. Ensure last line exactly. Could include brief calculation. Need be careful final line format. ",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 172,
+      "completion_tokens": 241,
+      "total_tokens": 413,
+      "cost": 0.0061965,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0061965,
+        "upstream_inference_prompt_cost": 0.000774,
+        "upstream_inference_completions_cost": 0.0054225
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 179,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 172,
+  "tokensOut": 241,
+  "costUsd": 0.0061965,
+  "latencyMs": 3034,
+  "finishReason": "stop"
+}

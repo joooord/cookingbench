@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "conv-021",
+  "answerText": "25 cl is 250 ml. A US tablespoon is about 14.8 ml, so 250 ml ≈ 16.9 tablespoons—roughly 17 tbsp.\n\nAnswer: 17 tbsp",
+  "raw": {
+    "id": "gen-1785342446-Qa4ToGjzyLRFD4r1W7zv",
+    "object": "chat.completion",
+    "created": 1785342446,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "25 cl is 250 ml. A US tablespoon is about 14.8 ml, so 250 ml ≈ 16.9 tablespoons—roughly 17 tbsp.\n\nAnswer: 17 tbsp",
+          "refusal": null,
+          "reasoning": "The user wants conversion: 25 cl = 250 ml. US tablespoon ≈ 14.7868 ml (often 15 ml). 250/14.7868 ≈ 16.9 tbsp; using 15 ml gives 16.7. Roughly 17 tablespoons. Need final line exactly Answer: <number> tbsp. Keep concise. Ensure final ends with required line. Could mention approx. Final answer should end with Answer: 17 tbsp. Need no extra after that line.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants conversion: 25 cl = 250 ml. US tablespoon ≈ 14.7868 ml (often 15 ml). 250/14.7868 ≈ 16.9 tbsp; using 15 ml gives 16.7. Roughly 17 tablespoons. Need final line exactly Answer: <number> tbsp. Keep concise. Ensure final ends with required line. Could mention approx. Final answer should end with Answer: 17 tbsp. Need no extra after that line.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 161,
+      "completion_tokens": 157,
+      "total_tokens": 318,
+      "cost": 0.004257,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004257,
+        "upstream_inference_prompt_cost": 0.0007245,
+        "upstream_inference_completions_cost": 0.0035325
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 101,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 161,
+  "tokensOut": 157,
+  "costUsd": 0.004257,
+  "latencyMs": 5765,
+  "finishReason": "stop"
+}

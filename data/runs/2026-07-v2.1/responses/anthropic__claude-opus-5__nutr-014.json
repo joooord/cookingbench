@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-014",
+  "answerText": "Boiling only adds water, which contributes no energy — the pasta absorbs water and swells from 75 g to ~190 g, but all the calories still come from the original dry pasta.\n\nSo the cooked portion contains the same 270 kcal (about 142 kcal per 100 g cooked, vs. 360 kcal per 100 g dry).\n\nAnswer: 270 kcal",
+  "raw": {
+    "id": "gen-1785342071-czbt4U0FzLMZEsUVR6NG",
+    "object": "chat.completion",
+    "created": 1785342071,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Boiling only adds water, which contributes no energy — the pasta absorbs water and swells from 75 g to ~190 g, but all the calories still come from the original dry pasta.\n\nSo the cooked portion contains the same 270 kcal (about 142 kcal per 100 g cooked, vs. 360 kcal per 100 g dry).\n\nAnswer: 270 kcal",
+          "refusal": null,
+          "reasoning": "Cooking doesn't change the calorie content since we're only using water, so the total remains 270 kcal.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Cooking doesn't change the calorie content since we're only using water, so the total remains 270 kcal.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISoQIKhwEIEBgCKkCkWTNBQsvGjnt83pWUp960C4Qxrsp+E55DNnsYiaHDLfaK3Sa/QbIxAZfh7lFZSG4TEC+iUxoek22sg8ztR0GAMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDIJcZS8Ro9uciqHKdxoMNBaig4BSmVmLz37CIjATOGz2r1SnmJBHEQey60TfPZ5CIyGUBheOjH13z4AqdNZ9aAZEbpwWdTHWB575vUEqR3a083LgcvFiS5m7fFrSt7o+B76saEHFKBc8WkN/DO89wH/XT+YG2qOQY3Hanqs/+zEUXQokZyvHbVgk3SiDuwBWKmliMn7MGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 117,
+      "completion_tokens": 147,
+      "total_tokens": 264,
+      "cost": 0.00426,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00426,
+        "upstream_inference_prompt_cost": 0.000585,
+        "upstream_inference_completions_cost": 0.003675
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 26,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 117,
+  "tokensOut": 147,
+  "costUsd": 0.00426,
+  "latencyMs": 4324,
+  "finishReason": "stop"
+}

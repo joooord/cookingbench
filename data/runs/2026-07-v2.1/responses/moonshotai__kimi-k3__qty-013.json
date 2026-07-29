@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "qty-013",
+  "answerText": "Roughly the same as one chicken. With space between them and good air circulation, each 1.5 kg bird still cooks according to its own size/thickness, so they should take about 75 minutes, assuming the oven stays at 200°C.\n\nAnswer: 75 minutes",
+  "raw": {
+    "id": "gen-1785342617-9t5cX7t59gyqCRpLVIMH",
+    "object": "chat.completion",
+    "created": 1785342617,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Roughly the same as one chicken. With space between them and good air circulation, each 1.5 kg bird still cooks according to its own size/thickness, so they should take about 75 minutes, assuming the oven stays at 200°C.\n\nAnswer: 75 minutes",
+          "refusal": null,
+          "reasoning": "The user is asking about roasting two chickens side by side. Key principle: roasting time depends primarily on the thickness/mass of each individual bird, not the total number in the oven, provided there's adequate space for air circulation and the oven maintains temperature. Two 1.5 kg chickens side by side with space between them should each roast in roughly the same time as one: about 75 minutes. Maybe a slight increase due to oven load/recovery, but roughly the same. Need concise answer ending exact format Answer: <number> minutes.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking about roasting two chickens side by side. Key principle: roasting time depends primarily on the thickness/mass of each individual bird, not the total number in the oven, provided there's adequate space for air circulation and the oven maintains temperature. Two 1.5 kg chickens side by side with space between them should each roast in roughly the same time as one: about 75 minutes. Maybe a slight increase due to oven load/recovery, but roughly the same. Need concise answer ending exact format Answer: <number> minutes.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 175,
+      "completion_tokens": 182,
+      "total_tokens": 357,
+      "cost": 0.003255,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003255,
+        "upstream_inference_prompt_cost": 0.000525,
+        "upstream_inference_completions_cost": 0.00273
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 110,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 175,
+  "tokensOut": 182,
+  "costUsd": 0.003255,
+  "latencyMs": 8342,
+  "finishReason": "stop"
+}

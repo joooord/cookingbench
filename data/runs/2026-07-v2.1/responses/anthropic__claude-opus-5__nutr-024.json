@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-024",
+  "answerText": "A medium apple (about 120 g, eaten with the skin on) supplies roughly 2.4 g of fibre per 100 g, so it works out to just under 3 grams. Most of that fibre — including the pectin, a soluble fibre — is concentrated in and just beneath the peel, so peeling the apple cuts the fibre content by roughly a third.\n\nAnswer: 3 g",
+  "raw": {
+    "id": "gen-1785342079-XWTdD6fQ4Oo1rU06giyN",
+    "object": "chat.completion",
+    "created": 1785342079,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A medium apple (about 120 g, eaten with the skin on) supplies roughly 2.4 g of fibre per 100 g, so it works out to just under 3 grams. Most of that fibre — including the pectin, a soluble fibre — is concentrated in and just beneath the peel, so peeling the apple cuts the fibre content by roughly a third.\n\nAnswer: 3 g",
+          "refusal": null,
+          "reasoning": "An apple with skin contains about 2.4 grams of fiber per 100 grams, so a 120-gram apple would have roughly 3 grams of fiber.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "An apple with skin contains about 2.4 grams of fiber per 100 grams, so a 120-gram apple would have roughly 3 grams of fiber.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISrwIKhwEIEBgCKkDaMt+wKA3QbzOCo53OAkgQQd6461sI9/p4O/rSpx5tpcdn6w7Y4IjaD4ek610n8DX3VmauKVS9g5LfrA2zHTacMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDH5CeUNHUBDHrlFZxxoMRB0OB9+tcj8RkYoxIjCMUfo+2g+Y9KMyl3TETpxeGcmLIVA/c6FoDYfmPef1Zkg4Gbfbn7XqbaZXkRS6/aIqVfMO/6vcAHYlWI5zclF7r397Pcbz3tmHb8fyrkDemF2FaiMghoQWAr1QgaSUG17uPP7zMQPj7RePRDjSlzZCrpGWfZPELT343kPHdzSpXx6GJ3DuVQEYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 84,
+      "completion_tokens": 170,
+      "total_tokens": 254,
+      "cost": 0.00467,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00467,
+        "upstream_inference_prompt_cost": 0.00042,
+        "upstream_inference_completions_cost": 0.00425
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 31,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 84,
+  "tokensOut": 170,
+  "costUsd": 0.00467,
+  "latencyMs": 4843,
+  "finishReason": "stop"
+}

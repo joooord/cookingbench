@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-008",
+  "answerText": "**Banana:** 300 g × 89 kcal/100 g = 267 kcal\n**Whole milk:** 200 g × 61 kcal/100 g = 122 kcal\n\n**Total:** 267 + 122 = 389 kcal\n\nAnswer: 389 kcal",
+  "raw": {
+    "id": "gen-1785342063-sO0ivptqj8lPQBGDlWQR",
+    "object": "chat.completion",
+    "created": 1785342063,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Banana:** 300 g × 89 kcal/100 g = 267 kcal\n**Whole milk:** 200 g × 61 kcal/100 g = 122 kcal\n\n**Total:** 267 + 122 = 389 kcal\n\nAnswer: 389 kcal",
+          "refusal": null,
+          "reasoning": "I'm calculating the totals: bananas come to 267 and milk to 122, giving me 389 overall.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the totals: bananas come to 267 and milk to 122, giving me 389 overall.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISoAIKhwEIEBgCKkC6LvgQZC453Yq3a5khpQG/FKLJzsplYOLGzdfwMg/flNkYiqKAKOCVwXF1lVwM+FHjhNO/3ITbqlXnTL32qjclMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDKwGacMw1GJjpLQVYhoMHLKRP3BNOBOoCquCIjALmdgYK97eQ96fJSdrBy1FOKHt5+WNBFJuhdPcHmiWCRVM4Vb6t1pfg+Gx3BZVpuYqRhqogSRGGrr9LCX1loOrMuR5VBhPN39igGxNtMgHodCCvmJCREPpn4vCiWlJfsArs03m7iuZgH7t1mgfVtuPxkByBHRE4h0YAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 108,
+      "completion_tokens": 129,
+      "total_tokens": 237,
+      "cost": 0.003765,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003765,
+        "upstream_inference_prompt_cost": 0.00054,
+        "upstream_inference_completions_cost": 0.003225
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 22,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 108,
+  "tokensOut": 129,
+  "costUsd": 0.003765,
+  "latencyMs": 4180,
+  "finishReason": "stop"
+}

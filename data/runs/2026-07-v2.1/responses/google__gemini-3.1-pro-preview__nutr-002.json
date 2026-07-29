@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "nutr-002",
+  "answerText": "To find the kilocalories per serving, divide the total kilocalories by the number of servings:\n\n2,400 kcal / 6 servings = 400 kcal per serving.\n\nAnswer: 400 kcal",
+  "raw": {
+    "id": "gen-1785343042-typ3s5oT61KbfEpfHBEB",
+    "object": "chat.completion",
+    "created": 1785343042,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find the kilocalories per serving, divide the total kilocalories by the number of servings:\n\n2,400 kcal / 6 servings = 400 kcal per serving.\n\nAnswer: 400 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating Serving Size**\n\nI've determined that the lasagna, totaling 2,400 kilocalories, is divided into 6 equal servings. My current focus is on performing the calculation to arrive at the kilocalories per serving.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Serving Size**\n\nI've determined that the lasagna, totaling 2,400 kilocalories, is divided into 6 equal servings. My current focus is on performing the calculation to arrive at the kilocalories per serving.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 57,
+      "completion_tokens": 198,
+      "total_tokens": 255,
+      "cost": 0.00249,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00249,
+        "upstream_inference_prompt_cost": 0.000114,
+        "upstream_inference_completions_cost": 0.002376
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 149,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 57,
+  "tokensOut": 198,
+  "costUsd": 0.00249,
+  "latencyMs": 3010,
+  "finishReason": "stop"
+}

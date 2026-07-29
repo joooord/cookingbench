@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "nutr-037",
+  "answerText": "A large banana weighing 120 g (peeled) contains roughly 105–110 kcal, based on the standard value of about 89 kcal per 100 g of banana flesh.\n\nAnswer: 107 kcal",
+  "raw": {
+    "id": "gen-1785343406-pM8tvNkkCPo9sCqCfad3",
+    "object": "chat.completion",
+    "created": 1785343406,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A large banana weighing 120 g (peeled) contains roughly 105–110 kcal, based on the standard value of about 89 kcal per 100 g of banana flesh.\n\nAnswer: 107 kcal",
+          "refusal": null,
+          "reasoning": "A large peeled banana weighs around 120 grams and contains roughly 107 calories based on the standard density of about 89 kcal per 100 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "A large peeled banana weighs around 120 grams and contains roughly 107 calories based on the standard density of about 89 kcal per 100 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "ErMCCokBCBAYAipAfC4MnhQkyLNGun4DwDw7RA8iE+WBAqBG9i71NI8W9jmTcp+3P/U4V8mUugZWJI4gc9mDxTlLKl7T7tovjmoogDIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDGJvYMdvBtR9K8c2ORoMGSQaQFs3+xJq+ALJIjCTfBWBntYsZbY9spZUyAlz5oKnQmRtz+Mai+ALlAkFsZSUyGfF9LHpJ4cNODv13XYqVwuAaklNM5IICFtPrF3OzvzgG26t0zNp4xIb7Bzm2rmYKS393JiYunxcqRzERWf0g2/ByX8PojWgplMn/3bfiEW/NFtM4dc4tqRrGPjiYFJkxKTfRKQcbxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 82,
+      "completion_tokens": 108,
+      "total_tokens": 190,
+      "cost": 0.001244,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001244,
+        "upstream_inference_prompt_cost": 0.000164,
+        "upstream_inference_completions_cost": 0.00108
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 36,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 82,
+  "tokensOut": 108,
+  "costUsd": 0.001244,
+  "latencyMs": 3062,
+  "finishReason": "stop"
+}

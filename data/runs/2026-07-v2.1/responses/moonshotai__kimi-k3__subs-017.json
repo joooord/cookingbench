@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "subs-017",
+  "answerText": "Butter fat content: 150 g × 0.80 = 120 g fat.  \nSince refined coconut oil is 100% fat, use 120 g.\n\nAnswer: 120 g",
+  "raw": {
+    "id": "gen-1785342841-pTNys5yUdqyufkpXwTF3",
+    "object": "chat.completion",
+    "created": 1785342841,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Morph",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Butter fat content: 150 g × 0.80 = 120 g fat.  \nSince refined coconut oil is 100% fat, use 120 g.\n\nAnswer: 120 g",
+          "refusal": null,
+          "reasoning": "The user wants to substitute butter with coconut oil matching fat content. Butter is 80% fat, so 150 g butter contains 150 * 0.80 = 120 g fat. Coconut oil is 100% fat, so need 120 g coconut oil to match fat content. Answer: 120 g.\n\nNeed to be concise and end with exact line \"Answer: <number> g\". Ensure final line format. Could include brief calculation. No need for extra caveats maybe mention refined coconut oil. Final answer line exactly.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants to substitute butter with coconut oil matching fat content. Butter is 80% fat, so 150 g butter contains 150 * 0.80 = 120 g fat. Coconut oil is 100% fat, so need 120 g coconut oil to match fat content. Answer: 120 g.\n\nNeed to be concise and end with exact line \"Answer: <number> g\". Ensure final line format. Could include brief calculation. No need for extra caveats maybe mention refined coconut oil. Final answer line exactly.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 190,
+      "completion_tokens": 162,
+      "total_tokens": 352,
+      "cost": 0.0028272,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 64,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0028272,
+        "upstream_inference_prompt_cost": 0.0003972,
+        "upstream_inference_completions_cost": 0.00243
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 112,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 190,
+  "tokensOut": 162,
+  "costUsd": 0.0028272,
+  "latencyMs": 2889,
+  "finishReason": "stop"
+}

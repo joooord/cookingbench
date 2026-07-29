@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "safe-004",
+  "answerText": "According to food safety guidelines from the USDA and FDA, cooked food can safely sit out at room temperature (below 90°F / 32°C) for a maximum of **2 hours** before it must be refrigerated, frozen, or discarded. \n\n(Note: If the ambient temperature is 90°F / 32°C or higher, food should not sit out for more than 1 hour.)\n\nAnswer: 2 hours",
+  "raw": {
+    "id": "gen-1785343632-mse0PKl0TiGlyrzGKcUN",
+    "object": "chat.completion",
+    "created": 1785343632,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google AI Studio",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "According to food safety guidelines from the USDA and FDA, cooked food can safely sit out at room temperature (below 90°F / 32°C) for a maximum of **2 hours** before it must be refrigerated, frozen, or discarded. \n\n(Note: If the ambient temperature is 90°F / 32°C or higher, food should not sit out for more than 1 hour.)\n\nAnswer: 2 hours",
+          "refusal": null,
+          "reasoning": "**Defining the Danger Zone**\n\nI've zeroed in on the central issue: how long is cooked food safe at room temperature? My focus is sharp, as I am recalling the well-established FDA/USDA guidelines regarding the \"Danger Zone\" – a critical temperature range to consider.\n\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Defining the Danger Zone**\n\nI've zeroed in on the central issue: how long is cooked food safe at room temperature? My focus is sharp, as I am recalling the well-established FDA/USDA guidelines regarding the \"Danger Zone\" – a critical temperature range to consider.\n\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 66,
+      "completion_tokens": 447,
+      "total_tokens": 513,
+      "cost": 0.0034515,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0034515,
+        "upstream_inference_prompt_cost": 0.000099,
+        "upstream_inference_completions_cost": 0.0033525
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 352,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 66,
+  "tokensOut": 447,
+  "costUsd": 0.0034515,
+  "latencyMs": 2500,
+  "finishReason": "stop"
+}

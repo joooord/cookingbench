@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "safe-012",
+  "answerText": "**No, it is not safe to eat, even if you reheat it thoroughly.** You should throw it away.\n\n**Explanation:**\nUncooked rice often contains spores of a bacterium called ***Bacillus cereus***, which can survive the cooking process. \n\nWhen cooked rice is left at room temperature (in the \"Danger Zone\" between 40°F and 140°F) for more than 2 hours, these spores can germinate into active bacteria, multiply rapidly, and produce harmful toxins. \n\nCrucially, the toxins produced by *Bacillus cereus* are **heat-stable**. Reheating the rice will kill the active bacteria, but it **will not destroy the toxins** that cause severe food poisoning (typically vomiting and diarrhea).",
+  "raw": {
+    "id": "gen-1785343639-v1telj6cEMufG3DI8Kcw",
+    "object": "chat.completion",
+    "created": 1785343639,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "**No, it is not safe to eat, even if you reheat it thoroughly.** You should throw it away.\n\n**Explanation:**\nUncooked rice often contains spores of a bacterium called ***Bacillus cereus***, which can survive the cooking process. \n\nWhen cooked rice is left at room temperature (in the \"Danger Zone\" between 40°F and 140°F) for more than 2 hours, these spores can germinate into active bacteria, multiply rapidly, and produce harmful toxins. \n\nCrucially, the toxins produced by *Bacillus cereus* are **heat-stable**. Reheating the rice will kill the active bacteria, but it **will not destroy the toxins** that cause severe food poisoning (typically vomiting and diarrhea).",
+          "refusal": null,
+          "reasoning": "**Assessing Rice Safety**\n\nI'm considering the implications of leaving cooked rice out overnight. My primary concern revolves around the potential for bacterial growth, specifically Bacillus cereus, which can proliferate at room temperature and produce toxins even after reheating. I'm exploring the scientific consensus on safe handling practices and the risks associated with consuming such food.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Assessing Rice Safety**\n\nI'm considering the implications of leaving cooked rice out overnight. My primary concern revolves around the potential for bacterial growth, specifically Bacillus cereus, which can proliferate at room temperature and produce toxins even after reheating. I'm exploring the scientific consensus on safe handling practices and the risks associated with consuming such food.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 42,
+      "completion_tokens": 597,
+      "total_tokens": 639,
+      "cost": 0.0045405,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0045405,
+        "upstream_inference_prompt_cost": 0.000063,
+        "upstream_inference_completions_cost": 0.0044775
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 440,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 42,
+  "tokensOut": 597,
+  "costUsd": 0.0045405,
+  "latencyMs": 3267,
+  "finishReason": "stop"
+}

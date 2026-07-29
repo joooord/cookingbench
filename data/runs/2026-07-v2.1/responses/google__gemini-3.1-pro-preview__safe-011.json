@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "safe-011",
+  "answerText": "No, 57°C (135°F) is not within USDA safe guidance for whole pork. \n\nThe official USDA safe minimum internal temperature for whole cuts of pork is **145°F (62.8°C)**, followed by a **3-minute rest**.",
+  "raw": {
+    "id": "gen-1785343018-vNk1iC63EAm6hUXpRk7w",
+    "object": "chat.completion",
+    "created": 1785343018,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "No, 57°C (135°F) is not within USDA safe guidance for whole pork. \n\nThe official USDA safe minimum internal temperature for whole cuts of pork is **145°F (62.8°C)**, followed by a **3-minute rest**.",
+          "refusal": null,
+          "reasoning": "**Investigating Pork Temperature**\n\nI'm currently evaluating the safety of serving pork loin at 57°C, comparing it against USDA guidelines and researching the optimal resting period to ensure both doneness and safety for expert audiences.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Investigating Pork Temperature**\n\nI'm currently evaluating the safety of serving pork loin at 57°C, comparing it against USDA guidelines and researching the optimal resting period to ensure both doneness and safety for expert audiences.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 58,
+      "completion_tokens": 506,
+      "total_tokens": 564,
+      "cost": 0.006188,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.006188,
+        "upstream_inference_prompt_cost": 0.000116,
+        "upstream_inference_completions_cost": 0.006072
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 443,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 58,
+  "tokensOut": 506,
+  "costUsd": 0.006188,
+  "latencyMs": 5199,
+  "finishReason": "stop"
+}

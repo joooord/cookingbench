@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "conv-012",
+  "answerText": "One US customary cup is about 236.6 mL, so:\n\n1.5 × 236.588 mL ≈ 354.9 mL (roughly 355 mL)\n\n(If you're using the US \"legal\" cup of 240 mL used on nutrition labels, 1.5 cups = 360 mL.)\n\nAnswer: 355 ml",
+  "raw": {
+    "id": "gen-1785341897-2cTjmrtXzdPuVKLkY6do",
+    "object": "chat.completion",
+    "created": 1785341897,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "One US customary cup is about 236.6 mL, so:\n\n1.5 × 236.588 mL ≈ 354.9 mL (roughly 355 mL)\n\n(If you're using the US \"legal\" cup of 240 mL used on nutrition labels, 1.5 cups = 360 mL.)\n\nAnswer: 355 ml",
+          "refusal": null,
+          "reasoning": "So 1.5 cups converts to about 355 milliliters using the standard US cup measurement, though if we're working with the legal cup definition of 240 ml, that would give us 360 ml instead.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "So 1.5 cups converts to about 355 milliliters using the standard US cup measurement, though if we're working with the legal cup definition of 240 ml, that would give us 360 ml instead.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISzQIKhwEIEBgCKkA8L8rjO54B7xYhUl7cKlb/QVsfROfhQv6WL44523SYDTqBUisEGrXvMVl3kTQOIKhH+uNBaOgIoCTlIRMFC9RfMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDPtNZPIUp+Anhn2uhhoMuuTUUet0VEYnM3WAIjDypVAXy7ioqChG8Vws3gyE1UA/GoYWEoIst2kh/RKGIo3+InCOqcMe93K0UsuEtlMqc/S48NgzDpWfCd7VlWaZonQnM7z8lm/V8ymZL+AgGjUfQa7XOkgkMc+COZklngOyF2ZlMM7zpoQtHRuEgU66L1wxN/Q73N3aaevnYg1hjf0dwKMEO5odrx7b/a+aigy3YYrP6nsNlDPtDvcFEbakrhlaA0EYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 74,
+      "completion_tokens": 171,
+      "total_tokens": 245,
+      "cost": 0.004645,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004645,
+        "upstream_inference_prompt_cost": 0.00037,
+        "upstream_inference_completions_cost": 0.004275
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 46,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 74,
+  "tokensOut": 171,
+  "costUsd": 0.004645,
+  "latencyMs": 4353,
+  "finishReason": "stop"
+}

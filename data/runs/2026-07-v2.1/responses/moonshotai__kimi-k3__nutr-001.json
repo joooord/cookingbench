@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "nutr-001",
+  "answerText": "Using Atwater factors: protein 4 kcal/g, carbohydrates 4 kcal/g, fat 9 kcal/g.\n\n- Protein: 40 × 4 = 160 kcal  \n- Carbohydrates: 30 × 4 = 120 kcal  \n- Fat: 20 × 9 = 180 kcal  \n\nTotal = 160 + 120 + 180 = 460 kcal  \nAnswer: 460 kcal",
+  "raw": {
+    "id": "gen-1785342545-LbMNnLoG29bg4xi2koSG",
+    "object": "chat.completion",
+    "created": 1785342545,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Using Atwater factors: protein 4 kcal/g, carbohydrates 4 kcal/g, fat 9 kcal/g.\n\n- Protein: 40 × 4 = 160 kcal  \n- Carbohydrates: 30 × 4 = 120 kcal  \n- Fat: 20 × 9 = 180 kcal  \n\nTotal = 160 + 120 + 180 = 460 kcal  \nAnswer: 460 kcal",
+          "refusal": null,
+          "reasoning": "The user is asking a straightforward nutrition calculation. Need compute using Atwater factors: protein 4 kcal/g, carbs 4 kcal/g, fat 9 kcal/g. 40*4=160, 30*4=120, 20*9=180. Total 460 kcal. Need final concise and end with exact line \"Answer: 460 kcal\". Ensure no extra after answer line. Could include brief calculation then final line. Need satisfy user. Final should end with that line. Since instruction says end reply with line. Do that.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking a straightforward nutrition calculation. Need compute using Atwater factors: protein 4 kcal/g, carbs 4 kcal/g, fat 9 kcal/g. 40*4=160, 30*4=120, 20*9=180. Total 460 kcal. Need final concise and end with exact line \"Answer: 460 kcal\". Ensure no extra after answer line. Could include brief calculation then final line. Need satisfy user. Final should end with that line. Since instruction says end reply with line. Do that.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 168,
+      "completion_tokens": 222,
+      "total_tokens": 390,
+      "cost": 0.005751,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.005751,
+        "upstream_inference_prompt_cost": 0.000756,
+        "upstream_inference_completions_cost": 0.004995
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 117,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 168,
+  "tokensOut": 222,
+  "costUsd": 0.005751,
+  "latencyMs": 3143,
+  "finishReason": "stop"
+}

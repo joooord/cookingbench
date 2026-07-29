@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "qty-009",
+  "answerText": "To find the weight of each ingredient, first add up the total baker's percentages: 100% + 68% + 2% + 1.2% = 171.2%. \n\nNext, divide the total desired dough weight (1712 g) by the total percentage in decimal form (1.712) to find the weight of the flour. \n1712 g / 1.712 = 1000 g of flour.\n\nThen, multiply the flour weight by the percentage of each remaining ingredient to get their respective weights.\n\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g",
+  "raw": {
+    "id": "gen-1785343100-ZpcZ3dcVtNjTSVzJFlQW",
+    "object": "chat.completion",
+    "created": 1785343100,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find the weight of each ingredient, first add up the total baker's percentages: 100% + 68% + 2% + 1.2% = 171.2%. \n\nNext, divide the total desired dough weight (1712 g) by the total percentage in decimal form (1.712) to find the weight of the flour. \n1712 g / 1.712 = 1000 g of flour.\n\nThen, multiply the flour weight by the percentage of each remaining ingredient to get their respective weights.\n\nflour: 1000 g\nwater: 680 g\nsalt: 20 g\nyeast: 12 g",
+          "refusal": null,
+          "reasoning": "**Calculating Ingredient Weights**\n\nI am currently focusing on translating baker's percentages into precise gram measurements for each dough component. My aim is to accurately determine the exact weight for every ingredient, ensuring the total dough weight reaches the target of 1712 grams.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Ingredient Weights**\n\nI am currently focusing on translating baker's percentages into precise gram measurements for each dough component. My aim is to accurately determine the exact weight for every ingredient, ensuring the total dough weight reaches the target of 1712 grams.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 85,
+      "completion_tokens": 544,
+      "total_tokens": 629,
+      "cost": 0.006698,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.006698,
+        "upstream_inference_prompt_cost": 0.00017,
+        "upstream_inference_completions_cost": 0.006528
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 382,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 85,
+  "tokensOut": 544,
+  "costUsd": 0.006698,
+  "latencyMs": 5158,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "nutr-032",
+  "answerText": "To find out how much raw chicken breast you need, we can work backwards from your protein goal:\n\n1. **Calculate the required cooked weight:** \n   Since cooked chicken has 31 g of protein per 100 g, you divide your target protein by the protein ratio.\n   45 g ÷ 0.31 = 145.16 g of cooked chicken needed.\n\n2. **Calculate the raw weight:** \n   Since the chicken loses 25% of its weight during cooking, the cooked weight is 75% (or 0.75) of the raw weight. \n   145.16 g ÷ 0.75 = 193.55 g of raw chicken.\n\nRounding to the nearest whole number, you will need about 194 grams of raw chicken breast.\n\nAnswer: 194 g",
+  "raw": {
+    "id": "gen-1785343077-VQNudYTKeNnrJaXMRbtn",
+    "object": "chat.completion",
+    "created": 1785343077,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find out how much raw chicken breast you need, we can work backwards from your protein goal:\n\n1. **Calculate the required cooked weight:** \n   Since cooked chicken has 31 g of protein per 100 g, you divide your target protein by the protein ratio.\n   45 g ÷ 0.31 = 145.16 g of cooked chicken needed.\n\n2. **Calculate the raw weight:** \n   Since the chicken loses 25% of its weight during cooking, the cooked weight is 75% (or 0.75) of the raw weight. \n   145.16 g ÷ 0.75 = 193.55 g of raw chicken.\n\nRounding to the nearest whole number, you will need about 194 grams of raw chicken breast.\n\nAnswer: 194 g",
+          "refusal": null,
+          "reasoning": "**Calculating Chicken Portion**\n\nI'm currently working on determining the precise cooked weight of chicken breast required to meet a 45g protein target, factoring in a 25% weight loss during cooking. This involves straightforward proportion calculations.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Chicken Portion**\n\nI'm currently working on determining the precise cooked weight of chicken breast required to meet a 45g protein target, factoring in a 25% weight loss during cooking. This involves straightforward proportion calculations.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 93,
+      "completion_tokens": 613,
+      "total_tokens": 706,
+      "cost": 0.007542,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.007542,
+        "upstream_inference_prompt_cost": 0.000186,
+        "upstream_inference_completions_cost": 0.007356
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 422,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 93,
+  "tokensOut": 613,
+  "costUsd": 0.007542,
+  "latencyMs": 5882,
+  "finishReason": "stop"
+}

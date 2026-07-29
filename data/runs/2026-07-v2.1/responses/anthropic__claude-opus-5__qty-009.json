@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "qty-009",
+  "answerText": "**Total percentage:** 100 + 68 + 2 + 1.2 = 171.2%\n\n**Flour:** 1712 g ÷ 1.712 = 1000 g\n\nThen scale each ingredient off that 1000 g of flour:\n- Water: 68% → 680 g\n- Salt: 2% → 20 g\n- Yeast: 1.2% → 12 g\n\nCheck: 1000 + 680 + 20 + 12 = 1712 g ✓\n\nFlour: 1000 g\nWater: 680 g\nSalt: 20 g\nYeast: 12 g",
+  "raw": {
+    "id": "gen-1785342120-bs2wFiZkXo6fpkw2mIbn",
+    "object": "chat.completion",
+    "created": 1785342120,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Total percentage:** 100 + 68 + 2 + 1.2 = 171.2%\n\n**Flour:** 1712 g ÷ 1.712 = 1000 g\n\nThen scale each ingredient off that 1000 g of flour:\n- Water: 68% → 680 g\n- Salt: 2% → 20 g\n- Yeast: 1.2% → 12 g\n\nCheck: 1000 + 680 + 20 + 12 = 1712 g ✓\n\nFlour: 1000 g\nWater: 680 g\nSalt: 20 g\nYeast: 12 g",
+          "refusal": null,
+          "reasoning": "I'm working through a baker's percentage calculation for a dough recipe—the total comes to 171.2%, so I'm scaling the flour to 1000g as the base, which gives me water at 680g, salt at 20g, and yeast at 12g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm working through a baker's percentage calculation for a dough recipe—the total comes to 171.2%, so I'm scaling the flour to 1000g as the base, which gives me water at 680g, salt at 20g, and yeast at 12g.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIStQIKhwEIEBgCKkBdIMavLn63AkR+N/KZ32JEXd7fC5l153hp7v1P1ALCS7GDqoee4dl6sPPrYXmCAA2ZLP+KYLhPn7QNqit2515SMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDAgjEaPrGd7jrBu46hoMhputNtpLuotWFJFvIjBYTEzVLd/O5gfzGRYONZ+XL1oDzqzYGsjJ4nqegZaUeW6i4+rOB1kYhUUR3ECZB4sqW40Q8mf3Pe1hWN9ozt0H4XaoamstzC/oxFuw0QPyNKb4qw2S1+M0th8IiG+qJ2kRv5AMAKIOieeupd/qW4wsnUlFAUbzqCOUs+gcp4XfIE9vO9YOeD6NRxA57loYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 130,
+      "completion_tokens": 237,
+      "total_tokens": 367,
+      "cost": 0.006575,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.006575,
+        "upstream_inference_prompt_cost": 0.00065,
+        "upstream_inference_completions_cost": 0.005925
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 53,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 130,
+  "tokensOut": 237,
+  "costUsd": 0.006575,
+  "latencyMs": 4639,
+  "finishReason": "stop"
+}

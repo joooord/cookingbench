@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "conv-010",
+  "answerText": "1 pound is about 454 grams, so weigh out 454 g of strawberries.\n\nAnswer: 454 g",
+  "raw": {
+    "id": "gen-1785342430-TfedOWUgH9JS36XHFlPI",
+    "object": "chat.completion",
+    "created": 1785342430,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "1 pound is about 454 grams, so weigh out 454 g of strawberries.\n\nAnswer: 454 g",
+          "refusal": null,
+          "reasoning": "The user is asking a simple unit conversion: 1 pound to grams. 1 pound = 453.59237 grams, commonly rounded to 454 g. Need answer concise and end with exact line \"Answer: <number> g\". We should provide maybe 454 g. Ensure final line format. Since cooking assistant, concise. Need final only. Use 454 g (or 453.6). The required line wants number g. Choose 454 g for practical scale. Final include brief sentence and end line exactly.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking a simple unit conversion: 1 pound to grams. 1 pound = 453.59237 grams, commonly rounded to 454 g. Need answer concise and end with exact line \"Answer: <number> g\". We should provide maybe 454 g. Ensure final line format. Since cooking assistant, concise. Need final only. Use 454 g (or 453.6). The required line wants number g. Choose 454 g for practical scale. Final include brief sentence and end line exactly.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 153,
+      "completion_tokens": 142,
+      "total_tokens": 295,
+      "cost": 0.0038835,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0038835,
+        "upstream_inference_prompt_cost": 0.0006885,
+        "upstream_inference_completions_cost": 0.003195
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 107,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 153,
+  "tokensOut": 142,
+  "costUsd": 0.0038835,
+  "latencyMs": 2671,
+  "finishReason": "stop"
+}

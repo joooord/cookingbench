@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "nutr-012",
+  "answerText": "Each serving contains 117 g ÷ 6 = 19.5 g of protein.\n\nAnswer: 19.5 g",
+  "raw": {
+    "id": "gen-1785343379-bIE0nFAejsFeYZzuNWpD",
+    "object": "chat.completion",
+    "created": 1785343379,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Each serving contains 117 g ÷ 6 = 19.5 g of protein.\n\nAnswer: 19.5 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 99,
+      "completion_tokens": 41,
+      "total_tokens": 140,
+      "cost": 0.000608,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000608,
+        "upstream_inference_prompt_cost": 0.000198,
+        "upstream_inference_completions_cost": 0.00041
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 99,
+  "tokensOut": 41,
+  "costUsd": 0.000608,
+  "latencyMs": 2700,
+  "finishReason": "stop"
+}

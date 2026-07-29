@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "conv-001",
+  "answerText": "To convert Fahrenheit to Celsius:  \n°C = (°F − 32) × 5/9 = (350 − 32) × 5/9 ≈ 176.7°C\n\nFor a conventional (non-fan) oven, this is standardly rounded to **180°C** (a fan oven would typically be 160°C).\n\nAnswer: 180 °C",
+  "raw": {
+    "id": "gen-1785342422-KCoAvtZaCPVOmkw3rrhQ",
+    "object": "chat.completion",
+    "created": 1785342422,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Morph",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "To convert Fahrenheit to Celsius:  \n°C = (°F − 32) × 5/9 = (350 − 32) × 5/9 ≈ 176.7°C\n\nFor a conventional (non-fan) oven, this is standardly rounded to **180°C** (a fan oven would typically be 160°C).\n\nAnswer: 180 °C",
+          "refusal": null,
+          "reasoning": "The user wants to convert 350°F to Celsius for a conventional (non-fan) oven.\n\nThe formula is: °C = (°F - 32) × 5/9\n\n(350 - 32) × 5/9 = 318 × 5/9 = 1590/9 = 176.67°C\n\nFor conventional ovens, 350°F is commonly rounded to 180°C. The exact conversion is 176.67°C, but standard oven temperature conversion charts list 350°F = 180°C (conventional). For fan ovens it would be 160°C.\n\nThe question asks for conventional (non-fan), so the answer is 180°C (the standard rounded value) or 177°C exact. Given cooking context, conventional oven 350°F = 180°C is the standard answer.\n\nNeed to end with \"Answer: <number> °C\". I'll use 180 as the conventional oven temperature.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants to convert 350°F to Celsius for a conventional (non-fan) oven.\n\nThe formula is: °C = (°F - 32) × 5/9\n\n(350 - 32) × 5/9 = 318 × 5/9 = 1590/9 = 176.67°C\n\nFor conventional ovens, 350°F is commonly rounded to 180°C. The exact conversion is 176.67°C, but standard oven temperature conversion charts list 350°F = 180°C (conventional). For fan ovens it would be 160°C.\n\nThe question asks for conventional (non-fan), so the answer is 180°C (the standard rounded value) or 177°C exact. Given cooking context, conventional oven 350°F = 180°C is the standard answer.\n\nNeed to end with \"Answer: <number> °C\". I'll use 180 as the conventional oven temperature.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 152,
+      "completion_tokens": 286,
+      "total_tokens": 438,
+      "cost": 0.0045732,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 64,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0045732,
+        "upstream_inference_prompt_cost": 0.0002832,
+        "upstream_inference_completions_cost": 0.00429
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 173,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 152,
+  "tokensOut": 286,
+  "costUsd": 0.0045732,
+  "latencyMs": 6931,
+  "finishReason": "stop"
+}

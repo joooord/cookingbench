@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "nutr-008",
+  "answerText": "Banana: 300 g × 89/100 = 267 kcal  \nWhole milk: 200 g × 61/100 = 122 kcal  \nTotal: 267 + 122 = 389 kcal\n\nAnswer: 389 kcal",
+  "raw": {
+    "id": "gen-1785342553-MPd1Dp4Pck6cIaM8nptH",
+    "object": "chat.completion",
+    "created": 1785342553,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Banana: 300 g × 89/100 = 267 kcal  \nWhole milk: 200 g × 61/100 = 122 kcal  \nTotal: 267 + 122 = 389 kcal\n\nAnswer: 389 kcal",
+          "refusal": null,
+          "reasoning": "The user wants total calories. Banana: 300g * 89/100 = 267 kcal. Milk: 200g * 61/100 = 122 kcal. Total = 389 kcal. Need concise answer ending with exact line format.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants total calories. Banana: 300g * 89/100 = 267 kcal. Milk: 200g * 61/100 = 122 kcal. Total = 389 kcal. Need concise answer ending with exact line format.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 166,
+      "completion_tokens": 120,
+      "total_tokens": 286,
+      "cost": 0.003447,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003447,
+        "upstream_inference_prompt_cost": 0.000747,
+        "upstream_inference_completions_cost": 0.0027
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 54,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 166,
+  "tokensOut": 120,
+  "costUsd": 0.003447,
+  "latencyMs": 2317,
+  "finishReason": "stop"
+}

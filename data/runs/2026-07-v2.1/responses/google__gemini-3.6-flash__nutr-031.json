@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "nutr-031",
+  "answerText": "To find the total calories in the dish, we calculate the calories for each ingredient:\n\n* **Spaghetti:** $500\\text{ g} \\times 3.60\\text{ kcal/g} = 1,800\\text{ kcal}$\n* **Butter:** $60\\text{ g} \\times 7.17\\text{ kcal/g} = 430.2\\text{ kcal}$\n* **Parmesan:** $80\\text{ g} \\times 4.20\\text{ kcal/g} = 336\\text{ kcal}$\n\n**Total Calories:** $1,800 + 430.2 + 336 = 2,566.2\\text{ kcal}$\n\nDivided into 5 equal portions:\n$2,566.2\\text{ kcal} \\div 5 = 513.24\\text{ kcal per portion}$\n\nAnswer: 513 kcal",
+  "raw": {
+    "id": "gen-1785343676-EsipxbP4UcZ5Z8v9QDCk",
+    "object": "chat.completion",
+    "created": 1785343676,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google AI Studio",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find the total calories in the dish, we calculate the calories for each ingredient:\n\n* **Spaghetti:** $500\\text{ g} \\times 3.60\\text{ kcal/g} = 1,800\\text{ kcal}$\n* **Butter:** $60\\text{ g} \\times 7.17\\text{ kcal/g} = 430.2\\text{ kcal}$\n* **Parmesan:** $80\\text{ g} \\times 4.20\\text{ kcal/g} = 336\\text{ kcal}$\n\n**Total Calories:** $1,800 + 430.2 + 336 = 2,566.2\\text{ kcal}$\n\nDivided into 5 equal portions:\n$2,566.2\\text{ kcal} \\div 5 = 513.24\\text{ kcal per portion}$\n\nAnswer: 513 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating Calorie Content**\n\nI'm now focused on calculating the calorie content of the pasta dish. I've broken down the goal and identified spaghetti as a main ingredient, with its associated calorie content. Next, I need to get the butter figured in!\n\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Calorie Content**\n\nI'm now focused on calculating the calorie content of the pasta dish. I've broken down the goal and identified spaghetti as a main ingredient, with its associated calorie content. Next, I need to get the butter figured in!\n\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 118,
+      "completion_tokens": 756,
+      "total_tokens": 874,
+      "cost": 0.005847,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.005847,
+        "upstream_inference_prompt_cost": 0.000177,
+        "upstream_inference_completions_cost": 0.00567
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 534,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 118,
+  "tokensOut": 756,
+  "costUsd": 0.005847,
+  "latencyMs": 3673,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-006",
+  "answerText": "**Work:** 12 g protein ÷ 40 g powder = 0.3 g protein per gram of powder. Then 150 g × 0.3 = 45 g.\n\nAnswer: 45 g",
+  "raw": {
+    "id": "gen-1785342062-MCfVYNxZo11GftX0ahSL",
+    "object": "chat.completion",
+    "created": 1785342062,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Work:** 12 g protein ÷ 40 g powder = 0.3 g protein per gram of powder. Then 150 g × 0.3 = 45 g.\n\nAnswer: 45 g",
+          "refusal": null,
+          "reasoning": "I'm calculating the ratio of 12 to 40, which gives me 0.3 per gram, then multiplying that by 150 to get 45 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the ratio of 12 to 40, which gives me 0.3 per gram, then multiplying that by 150 to get 45 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISjwIKhwEIEBgCKkDcuhHq/HH/0Vb1KSVrVWJjTpGKKBkq2NvGFgYNqEEwluoW3pqdAzDZIUMwr6rnaHp+JGSdP/FCXTz3qWCABS6tMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDOksC6CMbsOKxwEXeRoMKdl0QtFKhwWPmsDTIjD5SWRzzI3U3gfgrWIlMyqeHvnjqk+3MJFx0XegynL3meEZ937HwK1Bm95cCCYs4sEqNaGRDc9k9NW789czzc2Uc9ANeD6wD5KYktBgnnyDvO11b/aGL5Qmnr/AiiaEHI6R+zwo0KUpGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 94,
+      "completion_tokens": 94,
+      "total_tokens": 188,
+      "cost": 0.00282,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00282,
+        "upstream_inference_prompt_cost": 0.00047,
+        "upstream_inference_completions_cost": 0.00235
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 29,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 94,
+  "tokensOut": 94,
+  "costUsd": 0.00282,
+  "latencyMs": 3354,
+  "finishReason": "stop"
+}

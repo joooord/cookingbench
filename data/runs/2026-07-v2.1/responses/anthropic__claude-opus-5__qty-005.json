@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "qty-005",
+  "answerText": "**Scaling up:** 90 ÷ 24 = 3.75× the original recipe.\n\n250 g × 3.75 = 937.5 g of butter (about 937–938 g, or roughly 4 US sticks × 2 — i.e., just over 2 lb).\n\nA practical approach: make the recipe 3¾ times, or do four batches (1000 g butter, yielding 96 cookies) for a little extra margin.\n\nAnswer: 937.5 g",
+  "raw": {
+    "id": "gen-1785342116-8ENXkbjPNvto5kiokD9N",
+    "object": "chat.completion",
+    "created": 1785342116,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Scaling up:** 90 ÷ 24 = 3.75× the original recipe.\n\n250 g × 3.75 = 937.5 g of butter (about 937–938 g, or roughly 4 US sticks × 2 — i.e., just over 2 lb).\n\nA practical approach: make the recipe 3¾ times, or do four batches (1000 g butter, yielding 96 cookies) for a little extra margin.\n\nAnswer: 937.5 g",
+          "refusal": null,
+          "reasoning": "I'm calculating the total mass by multiplying 250 by 90 and dividing by 24, which gives me 937.5 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the total mass by multiplying 250 by 90 and dividing by 24, which gives me 937.5 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISgQIKhwEIEBgCKkAXGgbckD+lQsuScwDNhs0atB7vupstbUNKFaleJrQcAOfkvPG12nbCToPwLCKiml77xjjBv7Q7FTbrMo5VTrKyMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDOGMjkbDmX7cTvXdEhoMhRr7SNXOIWcwaP4GIjDCA9IM0VK1rW2U7LgspMWcg8yXoS2dl0cSwIdq1kmjiTWZLcD6u3mF1yEG51ArF1IqJ0z/VWKVDIJ1p89EY+08k8scCCcvvhlzW54mTm9MELBH0NLBSxaCGRgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 107,
+      "completion_tokens": 168,
+      "total_tokens": 275,
+      "cost": 0.004735,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004735,
+        "upstream_inference_prompt_cost": 0.000535,
+        "upstream_inference_completions_cost": 0.0042
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 26,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 107,
+  "tokensOut": 168,
+  "costUsd": 0.004735,
+  "latencyMs": 4694,
+  "finishReason": "stop"
+}

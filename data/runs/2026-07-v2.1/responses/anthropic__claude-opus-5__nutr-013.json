@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-013",
+  "answerText": "**Reasoning:**\n\n- Raw chicken: 400 g × 23.5 g/100 g = **94 g protein**\n- Cooking loses only water (25% of 400 g = 100 g), so cooked weight is 300 g.\n- Protein is unchanged: still 94 g, now at ~31.3 g per 100 g cooked.\n\nAnswer: 94 g",
+  "raw": {
+    "id": "gen-1785342069-S6UFZmDFA0Qa0J827COp",
+    "object": "chat.completion",
+    "created": 1785342069,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Reasoning:**\n\n- Raw chicken: 400 g × 23.5 g/100 g = **94 g protein**\n- Cooking loses only water (25% of 400 g = 100 g), so cooked weight is 300 g.\n- Protein is unchanged: still 94 g, now at ~31.3 g per 100 g cooked.\n\nAnswer: 94 g",
+          "refusal": null,
+          "reasoning": "I'm calculating the protein content in the raw ingredient by multiplying the weight by its protein percentage.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the protein content in the raw ingredient by multiplying the weight by its protein percentage.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISlQIKhwEIEBgCKkDEIFFjLePhhNMO1F/yYtX+i+EwGsRloLaByf8f/W7KsxoZ0CazQlp+z4WCLC8PnVi5r0lS8Lg7wMnqhdKz3D5PMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDHk/+6wx+s6uFWf1VBoMY8UuVEK+KaQKi58mIjAdHpTppNtlUXfT2FnxLix5tkRwNy06LerEKrMwTHs3HoP+jlTW7A05tAOxtFSv7kIqO8dloCeNzG+s9UoLlX1nJU4vFGE2+zZqu/TvLkdQ8GrMUUmbM5d+cmyZ5qS9nhwnvYalDpdSRJdpxSVqGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 138,
+      "completion_tokens": 149,
+      "total_tokens": 287,
+      "cost": 0.004415,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004415,
+        "upstream_inference_prompt_cost": 0.00069,
+        "upstream_inference_completions_cost": 0.003725
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 28,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 138,
+  "tokensOut": 149,
+  "costUsd": 0.004415,
+  "latencyMs": 4667,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "safe-001",
+  "answerText": "The USDA recommends a safe minimum internal temperature of 165 °F for all poultry, including chicken breast. Converted to Celsius, this is approximately 74 °C.\n\nAnswer: 74 °C",
+  "raw": {
+    "id": "gen-1785343629-8QV6fdCgS0yczFI73cX0",
+    "object": "chat.completion",
+    "created": 1785343629,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google AI Studio",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA recommends a safe minimum internal temperature of 165 °F for all poultry, including chicken breast. Converted to Celsius, this is approximately 74 °C.\n\nAnswer: 74 °C",
+          "refusal": null,
+          "reasoning": "**Defining Chicken Breast Safety**\n\nI'm currently focused on pinpointing the exact safe minimum internal temperature for chicken breast, as per USDA guidelines, expressed in Celsius. I've initiated research to retrieve the precise USDA recommendations to ensure complete accuracy.\n\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Defining Chicken Breast Safety**\n\nI'm currently focused on pinpointing the exact safe minimum internal temperature for chicken breast, as per USDA guidelines, expressed in Celsius. I've initiated research to retrieve the precise USDA recommendations to ensure complete accuracy.\n\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 49,
+      "completion_tokens": 463,
+      "total_tokens": 512,
+      "cost": 0.003546,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003546,
+        "upstream_inference_prompt_cost": 0.0000735,
+        "upstream_inference_completions_cost": 0.0034725
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 418,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 49,
+  "tokensOut": 463,
+  "costUsd": 0.003546,
+  "latencyMs": 3064,
+  "finishReason": "stop"
+}

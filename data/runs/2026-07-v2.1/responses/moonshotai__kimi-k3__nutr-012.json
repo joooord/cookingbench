@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "nutr-012",
+  "answerText": "117 g ÷ 6 servings = 19.5 g protein per serving.\n\nAnswer: 19.5 g",
+  "raw": {
+    "id": "gen-1785342556-nF2k49oDfaomG2ba6PMj",
+    "object": "chat.completion",
+    "created": 1785342556,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "117 g ÷ 6 servings = 19.5 g protein per serving.\n\nAnswer: 19.5 g",
+          "refusal": null,
+          "reasoning": "The user is asking a simple division: 117 g protein / 6 servings = 19.5 g per serving. Need answer concise and end with exact line \"Answer: <number> g\". Ensure final line format. Could include brief calculation. Final should end with Answer: 19.5 g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking a simple division: 117 g protein / 6 servings = 19.5 g per serving. Need answer concise and end with exact line \"Answer: <number> g\". Ensure final line format. Could include brief calculation. Final should end with Answer: 19.5 g.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 161,
+      "completion_tokens": 100,
+      "total_tokens": 261,
+      "cost": 0.0029745,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0029745,
+        "upstream_inference_prompt_cost": 0.0007245,
+        "upstream_inference_completions_cost": 0.00225
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 63,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 161,
+  "tokensOut": 100,
+  "costUsd": 0.0029745,
+  "latencyMs": 1921,
+  "finishReason": "stop"
+}

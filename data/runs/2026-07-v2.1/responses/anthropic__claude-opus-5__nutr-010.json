@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-010",
+  "answerText": "Each bar has 20 g of protein, so a box of 6 bars contains 20 × 6 = 120 g of protein.\n\nAnswer: 120 g",
+  "raw": {
+    "id": "gen-1785342066-naLcQtsCaKgIjNMUMAmI",
+    "object": "chat.completion",
+    "created": 1785342066,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Each bar has 20 g of protein, so a box of 6 bars contains 20 × 6 = 120 g of protein.\n\nAnswer: 120 g",
+          "refusal": null,
+          "reasoning": "So that's 120 grams total.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "So that's 120 grams total.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS+gEKhwEIEBgCKkClJrrL5FpJ+pWpVIlKkMqW6UNz6Y5JgHYjj3j/+Iylg2p+4zdsAcNeKglX3TmGZufS6utSPUGEbPhiQ58dK+0zMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDBd29zrbwjC3uzQmBRoMoDzUy66yZ2j9dmqSIjCTX71bUZBU5UOjpW5hdbJOJejIw6BrIpmkuoEmMkYOANg3YHPG/6ibOPknv4b4jOEqIDnN60UROa9/hotIwWuN9kvIY7aJCe8g33iDyCOYVOjBGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 87,
+      "completion_tokens": 65,
+      "total_tokens": 152,
+      "cost": 0.00206,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00206,
+        "upstream_inference_prompt_cost": 0.000435,
+        "upstream_inference_completions_cost": 0.001625
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 7,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 87,
+  "tokensOut": 65,
+  "costUsd": 0.00206,
+  "latencyMs": 3358,
+  "finishReason": "stop"
+}

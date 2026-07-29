@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "nutr-037",
+  "answerText": "A peeled banana has about 89 kcal per 100 g, so 120 g provides roughly 107 kcal.\n\nAnswer: 107 kcal",
+  "raw": {
+    "id": "gen-1785342592-j6YuY7aFmAGwjK0Nlpq2",
+    "object": "chat.completion",
+    "created": 1785342592,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "A peeled banana has about 89 kcal per 100 g, so 120 g provides roughly 107 kcal.\n\nAnswer: 107 kcal",
+          "refusal": null,
+          "reasoning": "We need answer concise, estimate kcal for large banana 120 g peeled. Need compute. Banana edible portion ~89 kcal per 100 g (USDA raw bananas ~89 kcal/100g). For 120 g: 106.8 kcal ~107 kcal. Large banana often 121 kcal for 136g, but specified 120g peeled. Need final ends with exact line Answer: <number> kcal. Could say using ~89 kcal/100g. Ensure final line format. No need extra. Need maybe mention estimate. Final only.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need answer concise, estimate kcal for large banana 120 g peeled. Need compute. Banana edible portion ~89 kcal per 100 g (USDA raw bananas ~89 kcal/100g). For 120 g: 106.8 kcal ~107 kcal. Large banana often 121 kcal for 136g, but specified 120g peeled. Need final ends with exact line Answer: <number> kcal. Could say using ~89 kcal/100g. Ensure final line format. No need extra. Need maybe mention estimate. Final only.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 142,
+      "completion_tokens": 167,
+      "total_tokens": 309,
+      "cost": 0.002931,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002931,
+        "upstream_inference_prompt_cost": 0.000426,
+        "upstream_inference_completions_cost": 0.002505
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 121,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 142,
+  "tokensOut": 167,
+  "costUsd": 0.002931,
+  "latencyMs": 7041,
+  "finishReason": "stop"
+}

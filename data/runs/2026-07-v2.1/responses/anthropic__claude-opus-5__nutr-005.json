@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-005",
+  "answerText": "690 ÷ 2,300 = 0.30, so one serving supplies 30% of the FDA Daily Value for sodium (a level that would be labeled \"high in sodium,\" since 20% DV or more per serving is considered high).\n\nAnswer: 30 %",
+  "raw": {
+    "id": "gen-1785342059-fqjbU4CzYzYKH5WP5XaA",
+    "object": "chat.completion",
+    "created": 1785342059,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "690 ÷ 2,300 = 0.30, so one serving supplies 30% of the FDA Daily Value for sodium (a level that would be labeled \"high in sodium,\" since 20% DV or more per serving is considered high).\n\nAnswer: 30 %",
+          "refusal": null,
+          "reasoning": "That's 30 percent.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "That's 30 percent.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS/wEKhwEIEBgCKkDwpVyfwMsfInK3vKipTZEo8zMnc/ijVO0/ngqQsJPoblZXRI0J19FK0arHOF4z2DQnf3uW6e/n2DlU1VFAUguFMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDBmJnYK1aoG40mYjgxoMd1kJhMg62Vc8h7TKIjAbE40GtOkZnfsYMQJFjbdUYl1BXyh8cDsz/lW6vpgCGQlZx5/0Ee3Z5Rau3Ofxv4AqJWmu8fU3WmzYQcnq2+5s7oaCCixGH9s3KoVjM4+zCCKGa6rTsgsYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 101,
+      "completion_tokens": 102,
+      "total_tokens": 203,
+      "cost": 0.003055,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003055,
+        "upstream_inference_prompt_cost": 0.000505,
+        "upstream_inference_completions_cost": 0.00255
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 5,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 101,
+  "tokensOut": 102,
+  "costUsd": 0.003055,
+  "latencyMs": 3709,
+  "finishReason": "stop"
+}

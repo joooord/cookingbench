@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "nutr-039",
+  "answerText": "Plain full-fat strained Greek yogurt is typically about 9 g protein per 100 g, so a 170 g pot provides roughly 15 g protein.\n\nAnswer: 15 g",
+  "raw": {
+    "id": "gen-1785342594-pjagjOc3m1ydtkblfiPr",
+    "object": "chat.completion",
+    "created": 1785342594,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Plain full-fat strained Greek yogurt is typically about 9 g protein per 100 g, so a 170 g pot provides roughly 15 g protein.\n\nAnswer: 15 g",
+          "refusal": null,
+          "reasoning": "The user is asking for an estimate of grams of protein in a 170 g single-serve pot of plain, full-fat strained Greek yogurt.\n\nGreek yogurt (strained) typically has higher protein than regular yogurt. Plain full-fat Greek yogurt generally contains around 9-10 g protein per 100 g. For a 170 g pot, that would be roughly 15-17 g protein.\n\nCommon reference: Fage Total 5% (full fat) plain Greek yogurt: about 9 g protein per 100 g? Actually Fage 5% has around 9g protein per 100g? Let me recall: Fage Total 5%: per 100g: protein 9g, fat 5g. A 170g serving would be ~15.3g. Some labels list 170g serving with 15-16g protein.\n\nUSDA Greek yogurt plain whole milk: protein ~9.0 g per 100 g (some sources 8.7-10). 170 * 0.09 = 15.3 g. Estimate ~15-17 g. Need final line exactly \"Answer: <number> g\". We should give concise explanation and end with that line. Choose 15 g or 16 g. Let's estimate 15 g. Many single-serve 170g full-fat Greek yogurt pots list ~15g protein. Use 15 g.\n\nNeed ensure final line format. Could say: Plain full-fat strained Greek yogurt is typically ~9 g protein per 100 g, so 170 g × 0.09 ≈ 15 g. Answer: 15 g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking for an estimate of grams of protein in a 170 g single-serve pot of plain, full-fat strained Greek yogurt.\n\nGreek yogurt (strained) typically has higher protein than regular yogurt. Plain full-fat Greek yogurt generally contains around 9-10 g protein per 100 g. For a 170 g pot, that would be roughly 15-17 g protein.\n\nCommon reference: Fage Total 5% (full fat) plain Greek yogurt: about 9 g protein per 100 g? Actually Fage 5% has around 9g protein per 100g? Let me recall: Fage Total 5%: per 100g: protein 9g, fat 5g. A 170g serving would be ~15.3g. Some labels list 170g serving with 15-16g protein.\n\nUSDA Greek yogurt plain whole milk: protein ~9.0 g per 100 g (some sources 8.7-10). 170 * 0.09 = 15.3 g. Estimate ~15-17 g. Need final line exactly \"Answer: <number> g\". We should give concise explanation and end with that line. Choose 15 g or 16 g. Let's estimate 15 g. Many single-serve 170g full-fat Greek yogurt pots list ~15g protein. Use 15 g.\n\nNeed ensure final line format. Could say: Plain full-fat strained Greek yogurt is typically ~9 g protein per 100 g, so 170 g × 0.09 ≈ 15 g. Answer: 15 g.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 152,
+      "completion_tokens": 384,
+      "total_tokens": 536,
+      "cost": 0.009324,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.009324,
+        "upstream_inference_prompt_cost": 0.000684,
+        "upstream_inference_completions_cost": 0.00864
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 320,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 152,
+  "tokensOut": 384,
+  "costUsd": 0.009324,
+  "latencyMs": 17608,
+  "finishReason": "stop"
+}

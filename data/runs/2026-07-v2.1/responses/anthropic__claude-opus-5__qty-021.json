@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "qty-021",
+  "answerText": "**Scaling by tin area (same depth):**\n\n- Area ratio = (26 ÷ 20)² = 1.3² = **1.69**\n- Sugar = 180 g × 1.69 = 304.2 g\n\nSo use about 304 g (round to 305 g in practice), and scale every other ingredient by the same factor of 1.69. Note that the batter will be spread wider, so check for doneness a few minutes earlier than the original bake time.\n\nAnswer: 304 g",
+  "raw": {
+    "id": "gen-1785342135-BtFgZk55SRiSX65hcxdw",
+    "object": "chat.completion",
+    "created": 1785342135,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Scaling by tin area (same depth):**\n\n- Area ratio = (26 ÷ 20)² = 1.3² = **1.69**\n- Sugar = 180 g × 1.69 = 304.2 g\n\nSo use about 304 g (round to 305 g in practice), and scale every other ingredient by the same factor of 1.69. Note that the batter will be spread wider, so check for doneness a few minutes earlier than the original bake time.\n\nAnswer: 304 g",
+          "refusal": null,
+          "reasoning": "I'm scaling the mass by the square of the area ratio—since the area increases by a factor of 1.69, the mass scales proportionally to get about 304 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm scaling the mass by the square of the area ratio—since the area increases by a factor of 1.69, the mass scales proportionally to get about 304 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISsQIKhwEIEBgCKkAHB3fH4ob2QT6sb4NQsaWH6eUuShAQeaIlDDv72zQbkm0wuSxMvfW5olZ9K0P6h4/kih/muPGygN7JOEUsAC6uMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDKj+dtyyk4m4mmkThRoM2Gyoyfnb1KEYJmMpIjC3ExnaZ+cEg9WLiYIxZFCdg26b5iGFRvEUTrGrYaiYFTA5M5Z41x6EjjOAJkhy/U8qVwf5j+BPDm6VA6Fm6qAJK3/iBqQZBww4Qycam2GCpoBvpFgif1MkCkgqXK0PIRvpWRusQAVk1OmtCWx4r/B6XOONBP4pJb8Uoey0lZBP9SXd1yIMhcXMKhgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 120,
+      "completion_tokens": 202,
+      "total_tokens": 322,
+      "cost": 0.00565,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00565,
+        "upstream_inference_prompt_cost": 0.0006,
+        "upstream_inference_completions_cost": 0.00505
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 39,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 120,
+  "tokensOut": 202,
+  "costUsd": 0.00565,
+  "latencyMs": 5350,
+  "finishReason": "stop"
+}

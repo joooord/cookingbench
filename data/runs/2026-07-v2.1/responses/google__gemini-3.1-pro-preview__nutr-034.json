@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "nutr-034",
+  "answerText": "To find out how many kilocalories you ate, you first need to determine how many servings are in the amount you consumed. \n\n1. Calculate the amount you ate: \n   396 g (total package) / 2 = 198 g\n\n2. Calculate how many servings that is: \n   198 g / 55 g (per serving) = 3.6 servings\n\n3. Calculate the total calories (kilocalories): \n   3.6 servings * 230 calories = 828 calories\n\nNote: On US nutrition labels, \"calories\" refers to kilocalories (kcal).\n\nAnswer: 828 kcal",
+  "raw": {
+    "id": "gen-1785343082-6so7YfCpHA50zYrYHcAz",
+    "object": "chat.completion",
+    "created": 1785343082,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "provisioned",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find out how many kilocalories you ate, you first need to determine how many servings are in the amount you consumed. \n\n1. Calculate the amount you ate: \n   396 g (total package) / 2 = 198 g\n\n2. Calculate how many servings that is: \n   198 g / 55 g (per serving) = 3.6 servings\n\n3. Calculate the total calories (kilocalories): \n   3.6 servings * 230 calories = 828 calories\n\nNote: On US nutrition labels, \"calories\" refers to kilocalories (kcal).\n\nAnswer: 828 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating Kilocalories**\n\nI'm currently determining the total kilocalories consumed. Based on the serving size and calories per serving, I've calculated the calories per gram and am now applying that to the amount I've eaten, which is half the package.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Kilocalories**\n\nI'm currently determining the total kilocalories consumed. Based on the serving size and calories per serving, I've calculated the calories per gram and am now applying that to the amount I've eaten, which is half the package.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 75,
+      "completion_tokens": 366,
+      "total_tokens": 441,
+      "cost": 0.004542,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004542,
+        "upstream_inference_prompt_cost": 0.00015,
+        "upstream_inference_completions_cost": 0.004392
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 220,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 75,
+  "tokensOut": 366,
+  "costUsd": 0.004542,
+  "latencyMs": 4665,
+  "finishReason": "stop"
+}

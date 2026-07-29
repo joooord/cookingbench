@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "nutr-031",
+  "answerText": "Total calories:\n- Pasta: 500 g × 3.6 kcal/g = 1800 kcal\n- Butter: 60 g × 7.17 kcal/g = 430.2 kcal\n- Parmesan: 80 g × 4.2 kcal/g = 336 kcal\n\nSum = 1800 + 430.2 + 336 = 2566.2 kcal\n\nPer portion (÷5) = 513.24 kcal\n\nAnswer: 513 kcal",
+  "raw": {
+    "id": "gen-1785343397-GYw7mRYpGGjAmfMZvne0",
+    "object": "chat.completion",
+    "created": 1785343397,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Total calories:\n- Pasta: 500 g × 3.6 kcal/g = 1800 kcal\n- Butter: 60 g × 7.17 kcal/g = 430.2 kcal\n- Parmesan: 80 g × 4.2 kcal/g = 336 kcal\n\nSum = 1800 + 430.2 + 336 = 2566.2 kcal\n\nPer portion (÷5) = 513.24 kcal\n\nAnswer: 513 kcal",
+          "refusal": null,
+          "reasoning": "Now I'm calculating the nutritional costs for each ingredient—pasta, butter, and parmesan—then dividing by the number of portions to get the per-portion cost.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Now I'm calculating the nutritional costs for each ingredient—pasta, butter, and parmesan—then dividing by the number of portions to get the per-portion cost.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EsoCCokBCBAYAipAW4v+2AvabZzLNhjbbjsxHEpl5nZhQRA6jtPqDnlLQoTYTOnBYqE0icZtcCmy2CLibRScHsWSk6U7+WxGNtVo5jIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDJZTieE6OP6vV1IK1xoM5JN5OD8QyswquFbaIjBasJ0UDVoWngs3hCtnoMCurqDKFAF8EHYGJ3ImmZ7cIi7uP5vTzmKs3nd6AW5IM9YqbviQlutuM0HowBZGMwlQVIy69OiPJGEbKYqJagCxzffv8jqZjHahhYmkg8jZgyGrYUykPNH7K0Iq5BGkxN5DOigEcwEKGRUSrVAK1/xGgmV73DK6ddMs5/8RJBkRSOQF7J66G9db+A8QeAvA647YGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 168,
+      "completion_tokens": 218,
+      "total_tokens": 386,
+      "cost": 0.002516,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002516,
+        "upstream_inference_prompt_cost": 0.000336,
+        "upstream_inference_completions_cost": 0.00218
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 41,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 168,
+  "tokensOut": 218,
+  "costUsd": 0.002516,
+  "latencyMs": 3449,
+  "finishReason": "stop"
+}

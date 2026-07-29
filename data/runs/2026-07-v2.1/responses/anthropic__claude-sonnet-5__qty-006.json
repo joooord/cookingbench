@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "qty-006",
+  "answerText": "100 g of salt (5% of 2000 g water = 100 g).\n\nAnswer: 100 g",
+  "raw": {
+    "id": "gen-1785343413-fx5X6NTuMB9joM2uxRnZ",
+    "object": "chat.completion",
+    "created": 1785343413,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "100 g of salt (5% of 2000 g water = 100 g).\n\nAnswer: 100 g",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 111,
+      "completion_tokens": 33,
+      "total_tokens": 144,
+      "cost": 0.000552,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000552,
+        "upstream_inference_prompt_cost": 0.000222,
+        "upstream_inference_completions_cost": 0.00033
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 111,
+  "tokensOut": 33,
+  "costUsd": 0.000552,
+  "latencyMs": 2903,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "conv-011",
+  "answerText": "To convert a temperature from Celsius to Kelvin, you add 273.15 to the Celsius value:\n\n$$100^\\circ\\text{C} + 273.15 = 373.15\\text{ K}$$\n\nAnswer: 373.15 K",
+  "raw": {
+    "id": "gen-1785343588-SsOIkWIV2bVIUnYw2XRd",
+    "object": "chat.completion",
+    "created": 1785343588,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google AI Studio",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To convert a temperature from Celsius to Kelvin, you add 273.15 to the Celsius value:\n\n$$100^\\circ\\text{C} + 273.15 = 373.15\\text{ K}$$\n\nAnswer: 373.15 K",
+          "refusal": null,
+          "reasoning": "**Calculating Temperature Conversion**\n\nI've identified the core question: converting Celsius to Kelvin. Now, I recalled the conversion formula and performed the calculation. The answer is 373.15 K, which I would usually round to 373 K.\n\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Temperature Conversion**\n\nI've identified the core question: converting Celsius to Kelvin. Now, I recalled the conversion formula and performed the calculation. The answer is 373.15 K, which I would usually round to 373 K.\n\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 50,
+      "completion_tokens": 464,
+      "total_tokens": 514,
+      "cost": 0.003555,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003555,
+        "upstream_inference_prompt_cost": 0.000075,
+        "upstream_inference_completions_cost": 0.00348
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 397,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 50,
+  "tokensOut": 464,
+  "costUsd": 0.003555,
+  "latencyMs": 2663,
+  "finishReason": "stop"
+}

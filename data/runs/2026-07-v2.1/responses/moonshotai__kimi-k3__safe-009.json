@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "safe-009",
+  "answerText": "Raw ground beef should be kept refrigerated at 40°F (4°C) or below and cooked or frozen within about 1–2 days.\n\nAnswer: 2 days",
+  "raw": {
+    "id": "gen-1785342509-kuCXuqJ2QqwuWPcQFeEU",
+    "object": "chat.completion",
+    "created": 1785342509,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Raw ground beef should be kept refrigerated at 40°F (4°C) or below and cooked or frozen within about 1–2 days.\n\nAnswer: 2 days",
+          "refusal": null,
+          "reasoning": "The user is asking about safe refrigerator storage time for raw ground beef at or below 40°F. According to USDA/FDA guidance, raw ground beef should be refrigerated and used within 1 to 2 days, or frozen. The final answer needs a specific number of days. Since the question says \"roughly how many days\" and wants a number, the common answer is 1–2 days. Need end with exact line format \"Answer: <number> days\". They likely expect a single number; choose 2 as max safe storage, or 1? Wording: \"before cooking or freezing\" roughly how many days can be safely stored. FoodSafety.gov says raw ground meat/poultry 1-2 days. If forced number, say 2 days (use within 1–2). End line must be number only. Could mention 1–2 in body and Answer: 2 days. Ensure final line exactly.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking about safe refrigerator storage time for raw ground beef at or below 40°F. According to USDA/FDA guidance, raw ground beef should be refrigerated and used within 1 to 2 days, or frozen. The final answer needs a specific number of days. Since the question says \"roughly how many days\" and wants a number, the common answer is 1–2 days. Need end with exact line format \"Answer: <number> days\". They likely expect a single number; choose 2 as max safe storage, or 1? Wording: \"before cooking or freezing\" roughly how many days can be safely stored. FoodSafety.gov says raw ground meat/poultry 1-2 days. If forced number, say 2 days (use within 1–2). End line must be number only. Could mention 1–2 in body and Answer: 2 days. Ensure final line exactly.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 156,
+      "completion_tokens": 241,
+      "total_tokens": 397,
+      "cost": 0.004083,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004083,
+        "upstream_inference_prompt_cost": 0.000468,
+        "upstream_inference_completions_cost": 0.003615
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 192,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 156,
+  "tokensOut": 241,
+  "costUsd": 0.004083,
+  "latencyMs": 9838,
+  "finishReason": "stop"
+}

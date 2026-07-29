@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "qty-017",
+  "answerText": "Scale factor: 10/6 = 1.6667  \nFlour needed: 720 g × 1.6667 = 1200 g  \nPer serving: 1200 g ÷ 10 = 120 g ≈ 4.23 oz\n\nTotal: 1200 g  \nPer serving: 4.23 oz",
+  "raw": {
+    "id": "gen-1785342626-VMO8EJIEAZw8N8DU5WBQ",
+    "object": "chat.completion",
+    "created": 1785342626,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Together",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Scale factor: 10/6 = 1.6667  \nFlour needed: 720 g × 1.6667 = 1200 g  \nPer serving: 1200 g ÷ 10 = 120 g ≈ 4.23 oz\n\nTotal: 1200 g  \nPer serving: 4.23 oz",
+          "refusal": null,
+          "reasoning": "The user wants scaling. Need compute accurately. Recipe serving 6 uses 720 g flour. Scale to 10 servings: factor 10/6 = 5/3. Total flour = 720 * 10/6 = 1200 g. Per serving remains 720/6=120 g = for 10 servings 1200/10=120 g. Convert per serving to ounces: 120 g / 28.349523125 = 4.232875... oz ~4.23 oz. Need final concise with required ending two lines exactly: Total: <number> g and Per serving: <number> oz. Could include brief calculation. Ensure end with two lines. Use maybe Total: 1200 g; Per serving: 4.23 oz. Need answer both. No issue. Final only.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants scaling. Need compute accurately. Recipe serving 6 uses 720 g flour. Scale to 10 servings: factor 10/6 = 5/3. Total flour = 720 * 10/6 = 1200 g. Per serving remains 720/6=120 g = for 10 servings 1200/10=120 g. Convert per serving to ounces: 120 g / 28.349523125 = 4.232875... oz ~4.23 oz. Need final concise with required ending two lines exactly: Total: <number> g and Per serving: <number> oz. Could include brief calculation. Ensure end with two lines. Use maybe Total: 1200 g; Per serving: 4.23 oz. Need answer both. No issue. Final only.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 173,
+      "completion_tokens": 253,
+      "total_tokens": 426,
+      "cost": 0.004314,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004314,
+        "upstream_inference_prompt_cost": 0.000519,
+        "upstream_inference_completions_cost": 0.003795
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 170,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 173,
+  "tokensOut": 253,
+  "costUsd": 0.004314,
+  "latencyMs": 15388,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "nutr-029",
+  "answerText": "No. The raw chicken breast starts with the same calories, but the cooking method changes the calories in the portion you eat.\n\n- **Deep-frying:** The chicken absorbs some frying oil. Oil contains about **9 calories per gram**, so even a small amount adds calories quickly. If the breast is floured or breaded—as fried chicken usually is—the coating also adds calories and absorbs additional oil.\n- **Grilling:** Little or no oil is absorbed, and some fat may drip away. Grilled chicken also loses water, which concentrates its calories per cooked ounce, but it generally remains much lower in calories than fried chicken.\n- **Exact numbers vary** with oil temperature, cooking time, coating, and whether the comparison uses equal raw weights or equal cooked portions.\n\nFor example, a plain skinless chicken breast may gain roughly **50–150 extra calories from absorbed oil** when deep-fried, and breading can increase the total much more. So deep-frying and grilling are not calorie-equivalent.",
+  "raw": {
+    "id": "gen-1785342574-11A5IO55AyV3uXga6S6k",
+    "object": "chat.completion",
+    "created": 1785342574,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "No. The raw chicken breast starts with the same calories, but the cooking method changes the calories in the portion you eat.\n\n- **Deep-frying:** The chicken absorbs some frying oil. Oil contains about **9 calories per gram**, so even a small amount adds calories quickly. If the breast is floured or breaded—as fried chicken usually is—the coating also adds calories and absorbs additional oil.\n- **Grilling:** Little or no oil is absorbed, and some fat may drip away. Grilled chicken also loses water, which concentrates its calories per cooked ounce, but it generally remains much lower in calories than fried chicken.\n- **Exact numbers vary** with oil temperature, cooking time, coating, and whether the comparison uses equal raw weights or equal cooked portions.\n\nFor example, a plain skinless chicken breast may gain roughly **50–150 extra calories from absorbed oil** when deep-fried, and breading can increase the total much more. So deep-frying and grilling are not calorie-equivalent.",
+          "refusal": null,
+          "reasoning": "We need need explain oil absorption, cooking losses, baseline chicken same, deep fried calories increase substantially, grilling may decrease moisture/fat. Breading vs plain fry nuance. Deep frying chicken breast usually coated, adds carbs and oil. If submerged but unbreaded, still oil uptake perhaps modest. Calories measure in consumed food. Compare equal raw weights vs cooked portions. Mention water loss can concentrate calories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need need explain oil absorption, cooking losses, baseline chicken same, deep fried calories increase substantially, grilling may decrease moisture/fat. Breading vs plain fry nuance. Deep frying chicken breast usually coated, adds carbs and oil. If submerged but unbreaded, still oil uptake perhaps modest. Calories measure in consumed food. Compare equal raw weights vs cooked portions. Mention water loss can concentrate calories.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 144,
+      "completion_tokens": 300,
+      "total_tokens": 444,
+      "cost": 0.004932,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004932,
+        "upstream_inference_prompt_cost": 0.000432,
+        "upstream_inference_completions_cost": 0.0045
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 82,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 144,
+  "tokensOut": 300,
+  "costUsd": 0.004932,
+  "latencyMs": 12991,
+  "finishReason": "stop"
+}

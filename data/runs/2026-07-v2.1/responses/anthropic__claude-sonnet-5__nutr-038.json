@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "nutr-038",
+  "answerText": "**Breakfast Calorie Estimate:**\n\n- 2 large eggs: ~140 kcal\n- Butter for scrambling (~1 tsp): ~35 kcal\n- Splash of whole milk: ~10 kcal\n- 2 slices white toast: ~140 kcal\n- Butter on toast (~2 tsp): ~70 kcal\n\n**Total: ~395 kcal**\n\nAnswer: 395 kcal",
+  "raw": {
+    "id": "gen-1785343408-pQUfJDamLtD1KsUn9NqA",
+    "object": "chat.completion",
+    "created": 1785343408,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Breakfast Calorie Estimate:**\n\n- 2 large eggs: ~140 kcal\n- Butter for scrambling (~1 tsp): ~35 kcal\n- Splash of whole milk: ~10 kcal\n- 2 slices white toast: ~140 kcal\n- Butter on toast (~2 tsp): ~70 kcal\n\n**Total: ~395 kcal**\n\nAnswer: 395 kcal",
+          "refusal": null,
+          "reasoning": "Now I'm calculating the calorie breakdown for a typical breakfast—two eggs with butter, a splash of milk, two slices of toast with butter on top—which comes to around 400 calories total.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Now I'm calculating the calorie breakdown for a typical breakfast—two eggs with butter, a splash of milk, two slices of toast with butter on top—which comes to around 400 calories total.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EtsDCokBCBAYAipAqjKUSy2pYIsKPCNRdVwjcPrlhTvC1Ncp33qP67frn48Kxc+2phN4n5BxFUiNj7mxg+1/b3M/LW3zfZkhj3qISjIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDM3sPG09ZNHJPuNqJRoMmgVy0UxLqL2eZiOFIjCovI+DIMP+UX8FQ4iekijW0eHc4uPZcdp6cmk1bQcIBRAiWL64bde47DmAf6St84gq/gHahHLdeveA4gtqYwc9OcHESpyUYvKu0BT91ex/O1yb2qrzegOEzfuFMj6akzpmlPjz4hoDU03mTA+xP2Z28FS21FtTCCGr3i5L3eOw7dh1eHlScBHSThj4/WvWJWZPExSuaoPonT7KiEwhRURVlMgDiafK5ap2x8r48xKPb7Mn2AIzaJcvi1fD8qilrp4Qxt3jp4CraOi38LDowu1So6WA/HpmT3BJPbolkKBF/hPG7BLe6zdQCeOoUL+yCs62aMbegP/5yNolDOhuUj+5CZpsqA80QTPlOr7yDT3wBIWxcwU5VQHrbKlfvFCSILtTs92xqWz3u6JJ5hBBa59XQxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 113,
+      "completion_tokens": 286,
+      "total_tokens": 399,
+      "cost": 0.003086,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003086,
+        "upstream_inference_prompt_cost": 0.000226,
+        "upstream_inference_completions_cost": 0.00286
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 48,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 113,
+  "tokensOut": 286,
+  "costUsd": 0.003086,
+  "latencyMs": 4620,
+  "finishReason": "stop"
+}

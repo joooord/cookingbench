@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "subs-002",
+  "answerText": "To make the equivalent of **1 teaspoon of baking powder**, mix:\n\n*   **1/4 teaspoon baking soda**\n*   **1/2 teaspoon cream of tartar**\n\n*Note: This will only physically measure out to 3/4 of a teaspoon, but it provides the exact same leavening power as 1 full teaspoon of commercial baking powder. The missing 1/4 teaspoon is just cornstarch, which commercial brands use as a filler to prevent clumping.*",
+  "raw": {
+    "id": "gen-1785343206-zsG7wHj7IXyeQbJOQulY",
+    "object": "chat.completion",
+    "created": 1785343206,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To make the equivalent of **1 teaspoon of baking powder**, mix:\n\n*   **1/4 teaspoon baking soda**\n*   **1/2 teaspoon cream of tartar**\n\n*Note: This will only physically measure out to 3/4 of a teaspoon, but it provides the exact same leavening power as 1 full teaspoon of commercial baking powder. The missing 1/4 teaspoon is just cornstarch, which commercial brands use as a filler to prevent clumping.*",
+          "refusal": null,
+          "reasoning": "**Calculating Proportions**\n\nI'm focused on determining the precise ratio of baking soda to cream of tartar needed to replicate a teaspoon of baking powder. My current thinking involves establishing the standard leavening agent ratios.\n\n**Refining Calculations**\n\nI'm now re-evaluating the substitution for baking powder. It appears the established culinary practice yields a smaller volume mixture that possesses equivalent leavening power, accounting for the filler in commercial products.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Proportions**\n\nI'm focused on determining the precise ratio of baking soda to cream of tartar needed to replicate a teaspoon of baking powder. My current thinking involves establishing the standard leavening agent ratios.\n\n**Refining Calculations**\n\nI'm now re-evaluating the substitution for baking powder. It appears the established culinary practice yields a smaller volume mixture that possesses equivalent leavening power, accounting for the filler in commercial products.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 45,
+      "completion_tokens": 576,
+      "total_tokens": 621,
+      "cost": 0.007002,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.007002,
+        "upstream_inference_prompt_cost": 0.00009,
+        "upstream_inference_completions_cost": 0.006912
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 476,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 45,
+  "tokensOut": 576,
+  "costUsd": 0.007002,
+  "latencyMs": 6127,
+  "finishReason": "stop"
+}

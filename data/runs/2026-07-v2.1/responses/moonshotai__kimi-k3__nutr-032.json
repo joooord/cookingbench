@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "nutr-032",
+  "answerText": "You’d need about 145 g cooked chicken for 45 g protein. Since cooked weight is about 75% of raw, divide by 0.75: ~194 g raw.\n\nAnswer: 194 g",
+  "raw": {
+    "id": "gen-1785342582-nfFnBQuhlYOacvqJdNbm",
+    "object": "chat.completion",
+    "created": 1785342582,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Together",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "You’d need about 145 g cooked chicken for 45 g protein. Since cooked weight is about 75% of raw, divide by 0.75: ~194 g raw.\n\nAnswer: 194 g",
+          "refusal": null,
+          "reasoning": "The user wants 45 g protein. Cooked chicken has 31 g protein per 100 g cooked. Need cooked amount = 45/31*100 = 145.16 g cooked. Raw loses 25% weight, so cooked = 75% of raw. Raw = 145.16/0.75 = 193.5 g. Roughly 190-195 g. Need final line exactly Answer: <number> g. We can give concise explanation and final line. Ensure number maybe 194 g. Let's compute: 45/0.31=145.161 cooked; /0.75=193.548 raw. Answer 194 g (roughly). Since prompt says roughly, use 195? Better final Answer: 194 g. Need end with line format. No extra after answer.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants 45 g protein. Cooked chicken has 31 g protein per 100 g cooked. Need cooked amount = 45/31*100 = 145.16 g cooked. Raw loses 25% weight, so cooked = 75% of raw. Raw = 145.16/0.75 = 193.5 g. Roughly 190-195 g. Need final line exactly Answer: <number> g. We can give concise explanation and final line. Ensure number maybe 194 g. Let's compute: 45/0.31=145.161 cooked; /0.75=193.548 raw. Answer 194 g (roughly). Since prompt says roughly, use 195? Better final Answer: 194 g. Need end with line format. No extra after answer.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 185,
+      "completion_tokens": 224,
+      "total_tokens": 409,
+      "cost": 0.0038286,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 32,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0038286,
+        "upstream_inference_prompt_cost": 0.0004686,
+        "upstream_inference_completions_cost": 0.00336
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 169,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 185,
+  "tokensOut": 224,
+  "costUsd": 0.0038286,
+  "latencyMs": 5164,
+  "finishReason": "stop"
+}

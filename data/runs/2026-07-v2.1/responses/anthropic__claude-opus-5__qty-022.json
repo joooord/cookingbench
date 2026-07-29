@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "qty-022",
+  "answerText": "**Total cooked rice needed:** 180 g × 7 = 1260 g\n\n**Dry rice:** since basmati roughly triples in weight (absorbing water as it cooks), divide by 3 → 1260 ÷ 3 = 420 g\n\nSo cook about 420 g of dry basmati (roughly 2¼ cups), using about 700–750 ml water for the absorption method. A little extra is wise if you want any margin for sticking to the pot.\n\nAnswer: 420 g",
+  "raw": {
+    "id": "gen-1785342136-nhVSwu5Osrhde4z5UY8j",
+    "object": "chat.completion",
+    "created": 1785342136,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Total cooked rice needed:** 180 g × 7 = 1260 g\n\n**Dry rice:** since basmati roughly triples in weight (absorbing water as it cooks), divide by 3 → 1260 ÷ 3 = 420 g\n\nSo cook about 420 g of dry basmati (roughly 2¼ cups), using about 700–750 ml water for the absorption method. A little extra is wise if you want any margin for sticking to the pot.\n\nAnswer: 420 g",
+          "refusal": null,
+          "reasoning": "I'm calculating that 180 grams multiplied by 7 gives 1260 grams of cooked product, which divides down to 420 grams in its dry form.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating that 180 grams multiplied by 7 gives 1260 grams of cooked product, which divides down to 420 grams in its dry form.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISjgIKhwEIEBgCKkCd173H2+UT36b4Fdln0u1jpxSsWK2xIpBYGjICPA/awDdZ01+KP7Yc8k6w0+a3u3QRdh3LzvM+8NvklViXQMYgMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDDZbNqZzoDddQdWAKxoMFbLRXJtQOw9b9LTkIjAax0g62vQdxz/GRBI/hSqZKKLrS0VUB/t5AM+FQsA11MZRyO8ZWZP5kPLWD9NQCEIqNN6fWFxtiVRl0Po9427ZR5LSxf1sMhraXNiYBtH1QIo1oO6rjqabGpcZEjtJrrGC9Rk3UXYYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 117,
+      "completion_tokens": 185,
+      "total_tokens": 302,
+      "cost": 0.00521,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00521,
+        "upstream_inference_prompt_cost": 0.000585,
+        "upstream_inference_completions_cost": 0.004625
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 33,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 117,
+  "tokensOut": 185,
+  "costUsd": 0.00521,
+  "latencyMs": 5067,
+  "finishReason": "stop"
+}

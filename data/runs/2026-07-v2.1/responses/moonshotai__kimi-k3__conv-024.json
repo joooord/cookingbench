@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "conv-024",
+  "answerText": "1 US quart = 0.946 litres, while 1 UK/imperial pint = 0.568 litres.  \nSo 1 US quart ≈ 0.946 / 0.568 ≈ 1.67 UK pints.\n\nAnswer: 1.67 pints",
+  "raw": {
+    "id": "gen-1785342449-Y0iuiW7KFoILnl2m7NdF",
+    "object": "chat.completion",
+    "created": 1785342449,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "1 US quart = 0.946 litres, while 1 UK/imperial pint = 0.568 litres.  \nSo 1 US quart ≈ 0.946 / 0.568 ≈ 1.67 UK pints.\n\nAnswer: 1.67 pints",
+          "refusal": null,
+          "reasoning": "1 US liquid quart = 2 US pints = 32 US fl oz = 946.353 ml. Imperial pint = 568.261 ml. So 1 US quart in imperial pints = 946.353/568.261 = 1.665... ≈ 1.67 UK pints. Alternatively US quart is slightly smaller than imperial quart; imperial quart=1.136 L, US quart=0.946 L ratio=0.8327 imperial quarts; in pints double =1.665 imperial pints. Need answer concise, end exact format. Mention about 1.67. Ensure final line 'Answer: 1.67 pints'.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "1 US liquid quart = 2 US pints = 32 US fl oz = 946.353 ml. Imperial pint = 568.261 ml. So 1 US quart in imperial pints = 946.353/568.261 = 1.665... ≈ 1.67 UK pints. Alternatively US quart is slightly smaller than imperial quart; imperial quart=1.136 L, US quart=0.946 L ratio=0.8327 imperial quarts; in pints double =1.665 imperial pints. Need answer concise, end exact format. Mention about 1.67. Ensure final line 'Answer: 1.67 pints'.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 163,
+      "completion_tokens": 216,
+      "total_tokens": 379,
+      "cost": 0.003729,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003729,
+        "upstream_inference_prompt_cost": 0.000489,
+        "upstream_inference_completions_cost": 0.00324
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 142,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 163,
+  "tokensOut": 216,
+  "costUsd": 0.003729,
+  "latencyMs": 8791,
+  "finishReason": "stop"
+}

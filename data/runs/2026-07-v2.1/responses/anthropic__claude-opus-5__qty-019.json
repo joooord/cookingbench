@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "qty-019",
+  "answerText": "**Setup**\n\n- Flour: 450 g bread + 90 g whole wheat + 50 g from levain = **590 g**\n- Water: 350 g added + 50 g from levain = **400 g**\n\n**Hydration** = 400 ÷ 590 × 100 ≈ 67.8%\n\nAnswer: 67.8 %",
+  "raw": {
+    "id": "gen-1785342132-IFWk4zI9EoiNKQiT3f2u",
+    "object": "chat.completion",
+    "created": 1785342132,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Setup**\n\n- Flour: 450 g bread + 90 g whole wheat + 50 g from levain = **590 g**\n- Water: 350 g added + 50 g from levain = **400 g**\n\n**Hydration** = 400 ÷ 590 × 100 ≈ 67.8%\n\nAnswer: 67.8 %",
+          "refusal": null,
+          "reasoning": "I'm calculating the hydration percentage by adding up all the flour components to get 590 grams total, then dividing the water amount of 400 grams by that, which gives me about 67.8%.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the hydration percentage by adding up all the flour components to get 590 grams total, then dividing the water amount of 400 grams by that, which gives me about 67.8%.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISrwIKhwEIEBgCKkAOBCOpX2H1wpbaqdTnlkj1n7YD1oxEiqEw68TJJbyKF+67sIFb54fl/V8EIRZVkSdhVcBBVFc/8DGdBAs8osSUMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDKNVPNTEFPrkn1G8DhoMTb64nBGiskXR1Z61IjAja4iXa32tMfU01jPtfXdmbHi1kcnP4Ax3VfliLEYo1gtcP8435CL3DAm+qmn2DfMqVSVNvLMzSJ6mOeEWyRHeOMFFgXYnIskX1nDfxgIKcJVc+qzc5IQ6OXDLvFvURpt5j3RqOb11jAmUe/pSMzHGLke78Z/cRLAG1xFpWq43BQw1A+Rsh/wYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 159,
+      "completion_tokens": 151,
+      "total_tokens": 310,
+      "cost": 0.00457,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00457,
+        "upstream_inference_prompt_cost": 0.000795,
+        "upstream_inference_completions_cost": 0.003775
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 46,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 159,
+  "tokensOut": 151,
+  "costUsd": 0.00457,
+  "latencyMs": 3630,
+  "finishReason": "stop"
+}

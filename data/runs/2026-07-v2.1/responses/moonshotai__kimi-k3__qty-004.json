@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "qty-004",
+  "answerText": "For the same depth, scale by the tin area ratio: \\((25/20)^2 = 1.25^2 = 1.5625\\).\n\nAnswer: 1.5625",
+  "raw": {
+    "id": "gen-1785342604-nwBEM0PSJ7fBrtGMfTmu",
+    "object": "chat.completion",
+    "created": 1785342604,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "For the same depth, scale by the tin area ratio: \\((25/20)^2 = 1.25^2 = 1.5625\\).\n\nAnswer: 1.5625",
+          "refusal": null,
+          "reasoning": "The user is asking about scaling a cake recipe. The batter volume scales with the area of the tin (same depth). Area of round tin is proportional to diameter squared. So factor = (25/20)^2 = (1.25)^2 = 1.5625. Need answer concise, end with Answer: 1.5625. Ensure no extra after answer line. Could include brief explanation. Final line exact format.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking about scaling a cake recipe. The batter volume scales with the area of the tin (same depth). Area of round tin is proportional to diameter squared. So factor = (25/20)^2 = (1.25)^2 = 1.5625. Need answer concise, end with Answer: 1.5625. Ensure no extra after answer line. Could include brief explanation. Final line exact format.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 175,
+      "completion_tokens": 145,
+      "total_tokens": 320,
+      "cost": 0.0027,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0027,
+        "upstream_inference_prompt_cost": 0.000525,
+        "upstream_inference_completions_cost": 0.002175
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 89,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 175,
+  "tokensOut": 145,
+  "costUsd": 0.0027,
+  "latencyMs": 6808,
+  "finishReason": "stop"
+}

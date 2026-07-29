@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "safe-001",
+  "answerText": "The USDA recommends cooking all poultry, including chicken breast, to a safe minimum internal temperature of **165 °F (73.9 °C)**, measured with a food thermometer in the thickest part of the meat (avoiding bone). No rest time is required at this temperature, though letting it rest a few minutes helps retain juices.\n\nAnswer: 74 °C",
+  "raw": {
+    "id": "gen-1785341972-mPlmAP3WRqxgL3jt1ACF",
+    "object": "chat.completion",
+    "created": 1785341972,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA recommends cooking all poultry, including chicken breast, to a safe minimum internal temperature of **165 °F (73.9 °C)**, measured with a food thermometer in the thickest part of the meat (avoiding bone). No rest time is required at this temperature, though letting it rest a few minutes helps retain juices.\n\nAnswer: 74 °C",
+          "refusal": null,
+          "reasoning": "The USDA safety standard for poultry is 165°F, which converts to about 74°C.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The USDA safety standard for poultry is 165°F, which converts to about 74°C.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISogIKhwEIEBgCKkC4QdSaA7XQ5tO0ilmZRaFs3qznY8ZWGKIU+r8/5rMYyweymm0rBP+qo9GrettTz7OOdM9XS1TQsWImPr0Ph5VoMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDLVw4HWHWbx+p2jn0BoMZUCg265bfkhsuMpeIjB+Zm8WC/hiuGb6H27ypPJgIGYTCb4W/RH6D3xPnou4pP1umZ2fqETyUZ6fzVCY/4cqSPeISf+S+tIdxbR5I6niAQxIzcE62rPruy7YJg2pmT/NEKq4+gXydFb+ElMCay1saha6krZJEbrOuJUk5tY/LC2pQ2CcQVlcUhgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 88,
+      "completion_tokens": 149,
+      "total_tokens": 237,
+      "cost": 0.004165,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004165,
+        "upstream_inference_prompt_cost": 0.00044,
+        "upstream_inference_completions_cost": 0.003725
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 20,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 88,
+  "tokensOut": 149,
+  "costUsd": 0.004165,
+  "latencyMs": 3931,
+  "finishReason": "stop"
+}

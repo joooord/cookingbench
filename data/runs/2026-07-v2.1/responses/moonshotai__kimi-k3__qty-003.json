@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "qty-003",
+  "answerText": "At 75% hydration, water is 75% of the flour weight:\n\n800 g × 0.75 = 600 g\n\nAnswer: 600 g",
+  "raw": {
+    "id": "gen-1785342601-7pTzk5Hvnqyt1A041ow1",
+    "object": "chat.completion",
+    "created": 1785342601,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Together",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "At 75% hydration, water is 75% of the flour weight:\n\n800 g × 0.75 = 600 g\n\nAnswer: 600 g",
+          "refusal": null,
+          "reasoning": "The user is asking a straightforward baker's percentage calculation. 75% hydration means water = 75% of flour weight. Flour is 800 g. Water = 0.75 * 800 = 600 g. Need to end with exact line \"Answer: <number> g\". Keep concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking a straightforward baker's percentage calculation. 75% hydration means water = 75% of flour weight. Flour is 800 g. Water = 0.75 * 800 = 600 g. Need to end with exact line \"Answer: <number> g\". Keep concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 157,
+      "completion_tokens": 107,
+      "total_tokens": 264,
+      "cost": 0.0019032,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 64,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0019032,
+        "upstream_inference_prompt_cost": 0.0002982,
+        "upstream_inference_completions_cost": 0.001605
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 62,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 157,
+  "tokensOut": 107,
+  "costUsd": 0.0019032,
+  "latencyMs": 13204,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "conv-028",
+  "answerText": "Doubling gives 2 × 250 ml = 500 ml. Using 1 US cup = 236.588 ml, that’s 500 / 236.588 ≈ 2.11 US cups (about 2⅛ cups).\n\nAnswer: 2.11 cups",
+  "raw": {
+    "id": "gen-1785342455-yuYeW3vjWZ0qNLxMvoBG",
+    "object": "chat.completion",
+    "created": 1785342456,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Doubling gives 2 × 250 ml = 500 ml. Using 1 US cup = 236.588 ml, that’s 500 / 236.588 ≈ 2.11 US cups (about 2⅛ cups).\n\nAnswer: 2.11 cups",
+          "refusal": null,
+          "reasoning": "The user is asking a conversion question. 1 szklanka = 250 ml. Doubling means 500 ml. Convert 500 ml to US cups. 1 US cup = 236.588 ml (legal cup often 240 ml). Using standard US cup 236.588 ml: 500/236.588 = 2.113 cups. Using 240 ml nutrition cup: 500/240 = 2.083. The common cooking conversion: 250 ml ≈ 1.057 US cups (since 1 cup = 236.6 ml, 250/236.6=1.0567). Doubled = 2.113 cups. So answer approximately 2.11 cups, about 2 1/8 cups. Need end with exact line \"Answer: <number> cups\". Need concise. Ensure final line format. Could say 500 ml / 236.588 = 2.11. Final line Answer: 2.11 cups. Need maybe mention if using 240 ml cups it's ~2.08, but standard US cup is 236.588. Keep concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking a conversion question. 1 szklanka = 250 ml. Doubling means 500 ml. Convert 500 ml to US cups. 1 US cup = 236.588 ml (legal cup often 240 ml). Using standard US cup 236.588 ml: 500/236.588 = 2.113 cups. Using 240 ml nutrition cup: 500/240 = 2.083. The common cooking conversion: 250 ml ≈ 1.057 US cups (since 1 cup = 236.6 ml, 250/236.6=1.0567). Doubled = 2.113 cups. So answer approximately 2.11 cups, about 2 1/8 cups. Need end with exact line \"Answer: <number> cups\". Need concise. Ensure final line format. Could say 500 ml / 236.588 = 2.11. Final line Answer: 2.11 cups. Need maybe mention if using 240 ml cups it's ~2.08, but standard US cup is 236.588. Keep concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 177,
+      "completion_tokens": 304,
+      "total_tokens": 481,
+      "cost": 0.0076365,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0076365,
+        "upstream_inference_prompt_cost": 0.0007965,
+        "upstream_inference_completions_cost": 0.00684
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 212,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 177,
+  "tokensOut": 304,
+  "costUsd": 0.0076365,
+  "latencyMs": 5055,
+  "finishReason": "stop"
+}

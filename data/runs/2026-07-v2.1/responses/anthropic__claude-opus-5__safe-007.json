@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "safe-007",
+  "answerText": "The USDA recommends cooking fish and shellfish to a safe minimum internal temperature of 145 °F, measured with a food thermometer at the thickest part. At this point, the flesh should be opaque and flake easily with a fork.\n\nAnswer: 145 °F",
+  "raw": {
+    "id": "gen-1785341989-OY800t7NzNef7opgU7Pd",
+    "object": "chat.completion",
+    "created": 1785341989,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA recommends cooking fish and shellfish to a safe minimum internal temperature of 145 °F, measured with a food thermometer at the thickest part. At this point, the flesh should be opaque and flake easily with a fork.\n\nAnswer: 145 °F",
+          "refusal": null,
+          "reasoning": "The USDA recommends cooking fish to an internal temperature of 145°F.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The USDA recommends cooking fish to an internal temperature of 145°F.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS/AEKhwEIEBgCKkCa8HG+6WOTiVF6LGQWp+rY5B6E0WG0K+XrnN3UD7QJ5sk8S5KUIn77Esmpyipk5lD7IZ1oTG9CxsmkGxlzrJLZMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDJBSL0wiZWkqQWF0xhoMRB1cYzoGOzWapJ6nIjCWS/G1Ly+cWWb0mot3pUsPanTnH5TuF/EFlU2JejBn4I5hoV4OFWr3y77TYf/7nzoqIkQhqe2QhiLljxxipr4UmWpa7P0vvCFcfFeaOELzxmVq6hsYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 87,
+      "completion_tokens": 100,
+      "total_tokens": 187,
+      "cost": 0.002935,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002935,
+        "upstream_inference_prompt_cost": 0.000435,
+        "upstream_inference_completions_cost": 0.0025
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 18,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 87,
+  "tokensOut": 100,
+  "costUsd": 0.002935,
+  "latencyMs": 3419,
+  "finishReason": "stop"
+}

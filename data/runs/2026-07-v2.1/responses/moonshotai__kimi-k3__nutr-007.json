@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "nutr-007",
+  "answerText": "Each cookie has 1,800 ÷ 12 = 150 kcal of dough. Adding 35 kcal of icing gives 150 + 35 = 185 kcal.\n\nAnswer: 185 kcal",
+  "raw": {
+    "id": "gen-1785342552-iPsW2XeW8Rz9a33hHgvC",
+    "object": "chat.completion",
+    "created": 1785342552,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Each cookie has 1,800 ÷ 12 = 150 kcal of dough. Adding 35 kcal of icing gives 150 + 35 = 185 kcal.\n\nAnswer: 185 kcal",
+          "refusal": null,
+          "reasoning": "The user is asking a simple arithmetic question. Dough total 1800 kcal for 12 cookies = 150 kcal per cookie. Add 35 kcal icing = 185 kcal per finished iced cookie. Need end with exact line \"Answer: 185 kcal\". Keep concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking a simple arithmetic question. Dough total 1800 kcal for 12 cookies = 150 kcal per cookie. Add 35 kcal icing = 185 kcal per finished iced cookie. Need end with exact line \"Answer: 185 kcal\". Keep concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 173,
+      "completion_tokens": 118,
+      "total_tokens": 291,
+      "cost": 0.0034335,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0034335,
+        "upstream_inference_prompt_cost": 0.0007785,
+        "upstream_inference_completions_cost": 0.002655
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 61,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 173,
+  "tokensOut": 118,
+  "costUsd": 0.0034335,
+  "latencyMs": 1754,
+  "finishReason": "stop"
+}

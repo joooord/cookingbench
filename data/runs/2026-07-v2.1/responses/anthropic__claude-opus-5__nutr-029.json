@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-029",
+  "answerText": "Your friend is mistaken — but there's a kernel of truth worth untangling.\n\n**The truth in it:** Cooking doesn't change the calories already *in* the meat. The protein and fat in a chicken breast are the same before and after cooking. What changes is water content, so calories per gram go up (raw breast ≈120 kcal/100 g; grilled ≈165 kcal/100 g) simply because water evaporated. That's concentration, not creation.\n\n**Where it falls apart:** Deep-frying adds calories from outside the food.\n\n1. **Oil uptake.** Most oil absorption happens as the food *cools* — steam stops pushing outward and oil gets drawn into the crust's pores. Oil is ~9 kcal/g, so even 10 g absorbed is ~90 extra calories.\n2. **The breading.** Flour, breadcrumbs or batter add their own starch calories *and* act as a sponge, hugely increasing oil pickup. A plain 200 g grilled breast is ~330 kcal; breaded and deep-fried it can easily be 500–600+ kcal.\n3. **Grilling can subtract a little.** Rendered fat drips away. On a lean skinless breast that's trivial; on skin-on thighs it's meaningful.\n\n**Nuance:** An *unbreaded*, naked breast dropped in properly hot oil (175–190 °C) absorbs surprisingly little — the rapid steam escape keeps oil out, and you might only be looking at a modest addition. Fry at too low a temperature and absorption climbs sharply. So \"deep-fried\" spans a wide calorie range depending on coating and oil temperature.\n\n**Practical takeaway:** Grilled and fried chicken are not calorically equivalent, and the gap is driven almost entirely by batter/breading plus absorbed oil — not by any mysterious effect of heat on the meat itself.",
+  "raw": {
+    "id": "gen-1785342086-j25kcKlvRFpU8e5UMtpW",
+    "object": "chat.completion",
+    "created": 1785342086,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Your friend is mistaken — but there's a kernel of truth worth untangling.\n\n**The truth in it:** Cooking doesn't change the calories already *in* the meat. The protein and fat in a chicken breast are the same before and after cooking. What changes is water content, so calories per gram go up (raw breast ≈120 kcal/100 g; grilled ≈165 kcal/100 g) simply because water evaporated. That's concentration, not creation.\n\n**Where it falls apart:** Deep-frying adds calories from outside the food.\n\n1. **Oil uptake.** Most oil absorption happens as the food *cools* — steam stops pushing outward and oil gets drawn into the crust's pores. Oil is ~9 kcal/g, so even 10 g absorbed is ~90 extra calories.\n2. **The breading.** Flour, breadcrumbs or batter add their own starch calories *and* act as a sponge, hugely increasing oil pickup. A plain 200 g grilled breast is ~330 kcal; breaded and deep-fried it can easily be 500–600+ kcal.\n3. **Grilling can subtract a little.** Rendered fat drips away. On a lean skinless breast that's trivial; on skin-on thighs it's meaningful.\n\n**Nuance:** An *unbreaded*, naked breast dropped in properly hot oil (175–190 °C) absorbs surprisingly little — the rapid steam escape keeps oil out, and you might only be looking at a modest addition. Fry at too low a temperature and absorption climbs sharply. So \"deep-fried\" spans a wide calorie range depending on coating and oil temperature.\n\n**Practical takeaway:** Grilled and fried chicken are not calorically equivalent, and the gap is driven almost entirely by batter/breading plus absorbed oil — not by any mysterious effect of heat on the meat itself.",
+          "refusal": null,
+          "reasoning": "I'm thinking through how cooking methods affect chicken breast calories—deep-frying adds significant oil absorption through the breading, while grilling lets some fat drip away. Raw skinless chicken breast has around 120 calories per 100g, but once cooked and breaded then fried, that jumps to 250-300 calories per 100g as the coating soaks up oil.\n\nThe key mechanisms are oil uptake during cooling when steam escapes and the breading acts like a sponge, the starch calories from the breading itself, water loss that concentrates calories per gram, and for grilled chicken, minimal fat loss since lean breast doesn't have much to drip away. Temperature control matters too—oil that's too cool gets absorbed more readily, while proper frying temperature around 175-190°C creates a crisper exterior with less oil penetration. I should clarify the distinction between total calories in the meat versus calories per gram, since people often confuse portion weight with calorie density.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm thinking through how cooking methods affect chicken breast calories—deep-frying adds significant oil absorption through the breading, while grilling lets some fat drip away. Raw skinless chicken breast has around 120 calories per 100g, but once cooked and breaded then fried, that jumps to 250-300 calories per 100g as the coating soaks up oil.\n\nThe key mechanisms are oil uptake during cooling when steam escapes and the breading acts like a sponge, the starch calories from the breading itself, water loss that concentrates calories per gram, and for grilled chicken, minimal fat loss since lean breast doesn't have much to drip away. Temperature control matters too—oil that's too cool gets absorbed more readily, while proper frying temperature around 175-190°C creates a crisper exterior with less oil penetration. I should clarify the distinction between total calories in the meat versus calories per gram, since people often confuse portion weight with calorie density.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "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"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 88,
+      "completion_tokens": 1124,
+      "total_tokens": 1212,
+      "cost": 0.02854,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.02854,
+        "upstream_inference_prompt_cost": 0.00044,
+        "upstream_inference_completions_cost": 0.0281
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 248,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 88,
+  "tokensOut": 1124,
+  "costUsd": 0.02854,
+  "latencyMs": 18049,
+  "finishReason": "stop"
+}

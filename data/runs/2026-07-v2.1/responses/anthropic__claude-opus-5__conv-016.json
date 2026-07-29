@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "conv-016",
+  "answerText": "**Step 1 — Convert weight to grams:**\n8 oz × 28.35 g/oz ≈ 226.8 g\n\n**Step 2 — Convert grams to volume using density:**\n226.8 g ÷ 1.42 g/ml ≈ 159.7 ml\n\nSo about 160 ml — note this is noticeably *less* than the 237 ml you'd get if you mistakenly treated \"8 oz\" as fluid ounces, because honey is much denser than water.\n\nAnswer: 160 ml",
+  "raw": {
+    "id": "gen-1785341902-UChW7am9iPvaB6u6Winl",
+    "object": "chat.completion",
+    "created": 1785341902,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Step 1 — Convert weight to grams:**\n8 oz × 28.35 g/oz ≈ 226.8 g\n\n**Step 2 — Convert grams to volume using density:**\n226.8 g ÷ 1.42 g/ml ≈ 159.7 ml\n\nSo about 160 ml — note this is noticeably *less* than the 237 ml you'd get if you mistakenly treated \"8 oz\" as fluid ounces, because honey is much denser than water.\n\nAnswer: 160 ml",
+          "refusal": null,
+          "reasoning": "I'm converting 8 ounces to grams and then dividing by the density to get the volume in milliliters, which comes out to about 160 ml.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm converting 8 ounces to grams and then dividing by the density to get the volume in milliliters, which comes out to about 160 ml.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISuQIKhwEIEBgCKkCsAu/YXTK7E++jok1si7CGFMeCBNIKJoI0gnfhCh6MtdFVh9EGAcj1D2V8lnEDSPSdTknb9Bb2ibHlN8F6edhKMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDNPrD6+9najwek4eNRoMkTumz2imb57qdHP6IjCOdyKnWQzpgvTAKAwqjXnRUgR4UOaJCuqayC5ouiHmfCmAH/7IaMloxyROFiRJ1rAqXyZCLw0+nLGfLMSuiaNVlINABRAnCW3C5emldYig4biercS4OqbN0KFrLpgcbfmV9+u126TZFZ4Ve6xuSkXIuYi/MBxQ/7RKuGqQZw3gaGOe7y2IwAerYDMQfOpON30LGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 111,
+      "completion_tokens": 222,
+      "total_tokens": 333,
+      "cost": 0.006105,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.006105,
+        "upstream_inference_prompt_cost": 0.000555,
+        "upstream_inference_completions_cost": 0.00555
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 33,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 111,
+  "tokensOut": 222,
+  "costUsd": 0.006105,
+  "latencyMs": 5131,
+  "finishReason": "stop"
+}

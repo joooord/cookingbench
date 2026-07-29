@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "qty-017",
+  "answerText": "**Scaling:** 720 g ÷ 6 servings = 120 g flour per serving. For 10 servings: 120 g × 10 = 1200 g.\n\n**Per serving in ounces:** 120 g ÷ 28.35 ≈ 4.2 oz.\n\nTotal: 1200 g\nPer serving: 4.2 oz",
+  "raw": {
+    "id": "gen-1785342130-rkqQFHdR8qpWkeI12jd6",
+    "object": "chat.completion",
+    "created": 1785342130,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Scaling:** 720 g ÷ 6 servings = 120 g flour per serving. For 10 servings: 120 g × 10 = 1200 g.\n\n**Per serving in ounces:** 120 g ÷ 28.35 ≈ 4.2 oz.\n\nTotal: 1200 g\nPer serving: 4.2 oz",
+          "refusal": null,
+          "reasoning": "I'm calculating the serving size by dividing 720 grams by 6 to get 120 grams per serving, then converting that to ounces, which comes out to about 4.2 ounces per serving.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the serving size by dividing 720 grams by 6 to get 120 grams per serving, then converting that to ounces, which comes out to about 4.2 ounces per serving.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS3QIKhwEIEBgCKkDVl2Ip9zBEyxlBC0NFaWNeAvANBcK4CO7SuRgsEisWg808FOprU1FTs3yJK2xPgrMvJu7jysxu9d5W8Iennw8YMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDJN28OSxKtA3roEpQxoMT1VPz8Ko5pAcMyXBIjCE/d5/fqzQ/IRgCz7tCwQU4DQn1U3tS3EYjm1VGj7bRFO3TxZ1LWL3fgtr6sQHQFYqggE1s5BBvmfp91fUfkxNxxYcJ37Rw8EnzDLqXDV80lG3ipp7dXwYpcAFU8RRlJh5v7RUuECSdG74a2s1R95G7EL5Z8EOiYt755m4cpj73YoWI1HM40t44OaA0Mw7YHZo/EBAx3z1dVJFq1iTWg/HA9Xc9psVqse/LaE6470qZzAxpW9CGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 127,
+      "completion_tokens": 184,
+      "total_tokens": 311,
+      "cost": 0.005235,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.005235,
+        "upstream_inference_prompt_cost": 0.000635,
+        "upstream_inference_completions_cost": 0.0046
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 43,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 127,
+  "tokensOut": 184,
+  "costUsd": 0.005235,
+  "latencyMs": 5808,
+  "finishReason": "stop"
+}

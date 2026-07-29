@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "subs-016",
+  "answerText": "**Working:**\n\n- 2 US cups = 2 × 236.59 ml = **473.2 ml** total liquid needed\n- Lemon juice: 2 US tablespoons = 2 × 14.79 ml = **29.6 ml**\n- Milk: 473.2 − 29.6 = **443.6 ml**\n\nSo pour about 444 ml (roughly 1¾ cups plus 2 tsp) of milk, add the 2 tablespoons of lemon juice, stir, and let it sit 5–10 minutes until curdled.\n\nAnswer: 444 ml",
+  "raw": {
+    "id": "gen-1785342334-P19eCDv7rQo7Rkejygdh",
+    "object": "chat.completion",
+    "created": 1785342334,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Working:**\n\n- 2 US cups = 2 × 236.59 ml = **473.2 ml** total liquid needed\n- Lemon juice: 2 US tablespoons = 2 × 14.79 ml = **29.6 ml**\n- Milk: 473.2 − 29.6 = **443.6 ml**\n\nSo pour about 444 ml (roughly 1¾ cups plus 2 tsp) of milk, add the 2 tablespoons of lemon juice, stir, and let it sit 5–10 minutes until curdled.\n\nAnswer: 444 ml",
+          "refusal": null,
+          "reasoning": "I'm converting the recipe measurements to metric: 2 cups equals about 473 ml, then calculating that 2 tablespoons of lemon juice is roughly 30 ml, which means the milk portion comes to approximately 444 ml.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm converting the recipe measurements to metric: 2 cups equals about 473 ml, then calculating that 2 tablespoons of lemon juice is roughly 30 ml, which means the milk portion comes to approximately 444 ml.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS7wIKhwEIEBgCKkCRKY30wAqriROckIPmNjlAN1oqAiwYpS4ID3u/ViMwjZnHcgSBmEI/UPN0xJumZ9o0Du+FeDCarrZctIds43pvMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDC/lGCFTpWYgSL8LixoMPAvgw+0tdF+A4y/TIjCxrekRcVM7NGKMf5K/3Z9u1xdnbvGj6iJjQOYHA8AaskVLHSRj6CXPbE6ibvT8OrEqlAFGw36pWkoAU15OKjLoqBOT8FrD4xG0nqRMIJZHP5rIp3EX1IrBQtORG7i0ba/VhG6/Y8yrcYt8JNvYGh2zLKxRj8WM+JWz53xwl57H/DDKgxy6TdEHECe7PseZLAWYLqkasziFAgrAkmLqInp3T8fgLXP1BAauhE3WFCziiKHd/KUw7XLkueDVskKGyke7JHhccb4BGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 148,
+      "completion_tokens": 283,
+      "total_tokens": 431,
+      "cost": 0.007815,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.007815,
+        "upstream_inference_prompt_cost": 0.00074,
+        "upstream_inference_completions_cost": 0.007075
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 52,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 148,
+  "tokensOut": 283,
+  "costUsd": 0.007815,
+  "latencyMs": 5183,
+  "finishReason": "stop"
+}

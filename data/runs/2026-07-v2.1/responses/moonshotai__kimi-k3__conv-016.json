@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "conv-016",
+  "answerText": "8 oz by weight = 8 × 28.3495 g = 226.8 g.  \nVolume = mass ÷ density = 226.8 ÷ 1.42 ≈ 159.7 ml.\n\nAnswer: 159.7 ml",
+  "raw": {
+    "id": "gen-1785342440-QcBPrSHjyPXro3zxH2EQ",
+    "object": "chat.completion",
+    "created": 1785342440,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "8 oz by weight = 8 × 28.3495 g = 226.8 g.  \nVolume = mass ÷ density = 226.8 ÷ 1.42 ≈ 159.7 ml.\n\nAnswer: 159.7 ml",
+          "refusal": null,
+          "reasoning": "The user is asking a conversion question. Need compute accurately and concisely, end with exact line Answer: <number> ml.\n\nNeed parse: US recipe calls for 8 oz of honey measured BY WEIGHT. In US, oz by weight = avoirdupois ounce = 28.349523125 g. 8 oz = 226.796185 g. Density honey 1.42 g/ml. Volume = mass/density = 226.796185 / 1.42 = ?\n\nCompute: 1.42*159.7=226.774; so ~159.7156 ml. Let's exact: 226.796185/1.42. Divide by 142 then *100: 22679.6185/142 = 159.715623...? 142*159.7156=22679.6152 (scaled?) yes. So 159.7 ml.\n\nNeed be careful: Some might confuse fluid ounces; but explicitly by weight. Use weight ounces. Provide brief formula. End final line exactly Answer: 160 ml? User asks how many millilitres; likely wants number maybe 159.7. The required ending line \"Answer: <number> ml\". We can include explanation then final line. Need final line with number. Choose 159.7 ml (≈160). Since density approximate, maybe 160 ml. But final should be precise based on given density: 159.7. End line Answer: 159.7 ml.\n\nNeed ensure no extra after answer line. Done.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking a conversion question. Need compute accurately and concisely, end with exact line Answer: <number> ml.\n\nNeed parse: US recipe calls for 8 oz of honey measured BY WEIGHT. In US, oz by weight = avoirdupois ounce = 28.349523125 g. 8 oz = 226.796185 g. Density honey 1.42 g/ml. Volume = mass/density = 226.796185 / 1.42 = ?\n\nCompute: 1.42*159.7=226.774; so ~159.7156 ml. Let's exact: 226.796185/1.42. Divide by 142 then *100: 22679.6185/142 = 159.715623...? 142*159.7156=22679.6152 (scaled?) yes. So 159.7 ml.\n\nNeed be careful: Some might confuse fluid ounces; but explicitly by weight. Use weight ounces. Provide brief formula. End final line exactly Answer: 160 ml? User asks how many millilitres; likely wants number maybe 159.7. The required ending line \"Answer: <number> ml\". We can include explanation then final line. Need final line with number. Choose 159.7 ml (≈160). Since density approximate, maybe 160 ml. But final should be precise based on given density: 159.7. End line Answer: 159.7 ml.\n\nNeed ensure no extra after answer line. Done.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 166,
+      "completion_tokens": 387,
+      "total_tokens": 553,
+      "cost": 0.0094545,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0094545,
+        "upstream_inference_prompt_cost": 0.000747,
+        "upstream_inference_completions_cost": 0.0087075
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 301,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 166,
+  "tokensOut": 387,
+  "costUsd": 0.0094545,
+  "latencyMs": 7437,
+  "finishReason": "stop"
+}

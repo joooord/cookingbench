@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "nutr-006",
+  "answerText": "The powder is 12/40 = 30% protein, so 150 g contains 150 × 0.30 = 45 g protein.\n\nAnswer: 45 g",
+  "raw": {
+    "id": "gen-1785342552-0eIg5vIFRbmkIQClCImo",
+    "object": "chat.completion",
+    "created": 1785342552,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The powder is 12/40 = 30% protein, so 150 g contains 150 × 0.30 = 45 g protein.\n\nAnswer: 45 g",
+          "refusal": null,
+          "reasoning": "The user is asking a simple proportional calculation. 40 g scoop provides 12 g protein. So protein fraction = 12/40 = 0.3 = 30%. For 150 g powder: 150 * 0.3 = 45 g protein.\n\nNeed answer concise and end with \"Answer: <number> g\". Ensure final line exactly. Could include brief calculation. Final: 12/40=0.3; 150*0.3=45. Answer: 45 g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking a simple proportional calculation. 40 g scoop provides 12 g protein. So protein fraction = 12/40 = 0.3 = 30%. For 150 g powder: 150 * 0.3 = 45 g protein.\n\nNeed answer concise and end with \"Answer: <number> g\". Ensure final line exactly. Could include brief calculation. Final: 12/40=0.3; 150*0.3=45. Answer: 45 g.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 155,
+      "completion_tokens": 157,
+      "total_tokens": 312,
+      "cost": 0.00282,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00282,
+        "upstream_inference_prompt_cost": 0.000465,
+        "upstream_inference_completions_cost": 0.002355
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 106,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 155,
+  "tokensOut": 157,
+  "costUsd": 0.00282,
+  "latencyMs": 7305,
+  "finishReason": "stop"
+}

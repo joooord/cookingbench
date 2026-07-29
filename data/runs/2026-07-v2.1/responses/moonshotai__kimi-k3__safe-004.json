@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "safe-004",
+  "answerText": "Cooked food can safely sit out for up to **2 hours** at normal room temperature (below 90°F / 32°C). After that, refrigerate or discard it.\n\nAnswer: 2 hours",
+  "raw": {
+    "id": "gen-1785342501-LRmpHMt028mf7e76uxjY",
+    "object": "chat.completion",
+    "created": 1785342501,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Cooked food can safely sit out for up to **2 hours** at normal room temperature (below 90°F / 32°C). After that, refrigerate or discard it.\n\nAnswer: 2 hours",
+          "refusal": null,
+          "reasoning": "We need need answer with exact ending line. Question food safety. Standard 2 hours below 90, 1 hour above. Need concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need need answer with exact ending line. Question food safety. Standard 2 hours below 90, 1 hour above. Need concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 157,
+      "completion_tokens": 86,
+      "total_tokens": 243,
+      "cost": 0.001761,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001761,
+        "upstream_inference_prompt_cost": 0.000471,
+        "upstream_inference_completions_cost": 0.00129
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 30,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 157,
+  "tokensOut": 86,
+  "costUsd": 0.001761,
+  "latencyMs": 4550,
+  "finishReason": "stop"
+}

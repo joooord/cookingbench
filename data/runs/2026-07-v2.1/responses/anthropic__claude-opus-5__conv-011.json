@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "conv-011",
+  "answerText": "Water's boiling point at sea level (1 atm) is 100 °C. To convert to Kelvin, add 273.15:\n\n100 + 273.15 = 373.15 K (often rounded to 373 K)\n\nAnswer: 373.15 K",
+  "raw": {
+    "id": "gen-1785341897-mW4csJCok6o9p7rxUg5v",
+    "object": "chat.completion",
+    "created": 1785341897,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Water's boiling point at sea level (1 atm) is 100 °C. To convert to Kelvin, add 273.15:\n\n100 + 273.15 = 373.15 K (often rounded to 373 K)\n\nAnswer: 373.15 K",
+          "refusal": null,
+          "reasoning": "I'm converting 100°C to Kelvin, which gives 373.15 K.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm converting 100°C to Kelvin, which gives 373.15 K.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS/AEKhwEIEBgCKkCz6LvKfZapWDU9HGk2rTMI5jrF8n0GpMyII7BiaE5lBmz95xBOQcCfn7i1zAhRliwpUp4npzMTyhhBUUG1hWLAMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDDAHcFn0w1/mbjYd5xoMRc+T30gNiUiZIEXiIjCeAKEYae0zIhu6VDP23qRSPJ7cJUljqhbj4+uiUtmNi9Yl4dRDShgOK6I9lBj8CX8qInjbBsJAYgxUpFqAPAKXeX9km1YTvkKxskSs2VTyM5hPUYcYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 81,
+      "completion_tokens": 93,
+      "total_tokens": 174,
+      "cost": 0.00273,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00273,
+        "upstream_inference_prompt_cost": 0.000405,
+        "upstream_inference_completions_cost": 0.002325
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 14,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 81,
+  "tokensOut": 93,
+  "costUsd": 0.00273,
+  "latencyMs": 3343,
+  "finishReason": "stop"
+}

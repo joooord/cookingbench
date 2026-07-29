@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "safe-002",
+  "answerText": "The USDA recommends cooking ground beef, including hamburgers, to a safe minimum internal temperature of 160 °F to ensure that any harmful bacteria are destroyed. \n\nAnswer: 160 °F",
+  "raw": {
+    "id": "gen-1785343008-JdjXEeXq36aFuKLzphiD",
+    "object": "chat.completion",
+    "created": 1785343008,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA recommends cooking ground beef, including hamburgers, to a safe minimum internal temperature of 160 °F to ensure that any harmful bacteria are destroyed. \n\nAnswer: 160 °F",
+          "refusal": null,
+          "reasoning": "**Researching burger temps**\n\nI'm currently pinpointing the USDA's recommended safe minimum internal temperature for ground beef burgers, specifically in Fahrenheit, to ensure accuracy for this query.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Researching burger temps**\n\nI'm currently pinpointing the USDA's recommended safe minimum internal temperature for ground beef burgers, specifically in Fahrenheit, to ensure accuracy for this query.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 51,
+      "completion_tokens": 211,
+      "total_tokens": 262,
+      "cost": 0.002634,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002634,
+        "upstream_inference_prompt_cost": 0.000102,
+        "upstream_inference_completions_cost": 0.002532
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 169,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 51,
+  "tokensOut": 211,
+  "costUsd": 0.002634,
+  "latencyMs": 3330,
+  "finishReason": "stop"
+}

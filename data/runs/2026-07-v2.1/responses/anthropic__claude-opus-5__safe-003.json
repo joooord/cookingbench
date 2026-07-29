@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "safe-003",
+  "answerText": "The food-safety **danger zone is 40°F to 140°F (about 4°C to 60°C)**.\n\nWithin this range, bacteria multiply rapidly — roughly doubling in as little as 20 minutes at the warmer end. Key guidelines:\n\n- **Keep hot foods above 140°F** and **cold foods below 40°F**.\n- **The 2-hour rule:** perishable food shouldn't sit in the danger zone for more than 2 hours total (or 1 hour if the ambient temperature is above 90°F/32°C).\n- Bacteria grow fastest in the narrower band of roughly **70°F–125°F (21°C–52°C)**, so cool leftovers quickly through that stretch — use shallow containers, ice baths, or divide large batches.",
+  "raw": {
+    "id": "gen-1785341976-MURmRg4qXLDu21uJG2Nt",
+    "object": "chat.completion",
+    "created": 1785341976,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "The food-safety **danger zone is 40°F to 140°F (about 4°C to 60°C)**.\n\nWithin this range, bacteria multiply rapidly — roughly doubling in as little as 20 minutes at the warmer end. Key guidelines:\n\n- **Keep hot foods above 140°F** and **cold foods below 40°F**.\n- **The 2-hour rule:** perishable food shouldn't sit in the danger zone for more than 2 hours total (or 1 hour if the ambient temperature is above 90°F/32°C).\n- Bacteria grow fastest in the narrower band of roughly **70°F–125°F (21°C–52°C)**, so cool leftovers quickly through that stretch — use shallow containers, ice baths, or divide large batches.",
+          "refusal": null,
+          "reasoning": "The danger zone for food safety is between 40°F and 140°F, where bacteria multiply rapidly.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The danger zone for food safety is between 40°F and 140°F, where bacteria multiply rapidly.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISmwIKhwEIEBgCKkCeO7Tvd2bNLhcUryLqe5qyp7kt4QIOxkuKLnNUMRuD9JAgX5UGqC3zu3qJ0a11KWZpXZHDbAERD9iR5fbIl/EVMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDCCNRXfXmGn5ju3KIxoMC2s2sGJCcEKr3skVIjB6sC5zHkCqApcLCCOAlAki3EOa8Y0Fa1VMUt5tjyeMAXfWjloIjkGQHyHgIKnZ/AgqQVqiWZY8qHdcFhf5Wsf4KHt/IXR2EKE+v7RWIJHIUYfukv6vyYRMhvHVtoPHTAC6jbWi9JvZc037U5r8FdmUWioFGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 74,
+      "completion_tokens": 281,
+      "total_tokens": 355,
+      "cost": 0.007395,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.007395,
+        "upstream_inference_prompt_cost": 0.00037,
+        "upstream_inference_completions_cost": 0.007025
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 24,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 74,
+  "tokensOut": 281,
+  "costUsd": 0.007395,
+  "latencyMs": 5591,
+  "finishReason": "stop"
+}

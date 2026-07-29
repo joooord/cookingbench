@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "qty-005",
+  "answerText": "To find out how much butter you need, you can calculate the scaling factor by dividing the number of cookies you want by the number of cookies the recipe makes:\n\n90 cookies ÷ 24 cookies = 3.75\n\nNow, multiply the original amount of butter by this scaling factor:\n\n250 g × 3.75 = 937.5 g\n\nAnswer: 937.5 g",
+  "raw": {
+    "id": "gen-1785343095-Iwlnq7Oii2g9KIIo6lwT",
+    "object": "chat.completion",
+    "created": 1785343095,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find out how much butter you need, you can calculate the scaling factor by dividing the number of cookies you want by the number of cookies the recipe makes:\n\n90 cookies ÷ 24 cookies = 3.75\n\nNow, multiply the original amount of butter by this scaling factor:\n\n250 g × 3.75 = 937.5 g\n\nAnswer: 937.5 g",
+          "refusal": null,
+          "reasoning": "**Calculating Butter Needed**\n\nI'm working on scaling the butter quantity. The original recipe yields 24 cookies with 250g of butter, and I need to determine the equivalent for 90 cookies.\n\nAnswer: 937.5 g\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Butter Needed**\n\nI'm working on scaling the butter quantity. The original recipe yields 24 cookies with 250g of butter, and I need to determine the equivalent for 90 cookies.\n\nAnswer: 937.5 g\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 68,
+      "completion_tokens": 462,
+      "total_tokens": 530,
+      "cost": 0.00568,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00568,
+        "upstream_inference_prompt_cost": 0.000136,
+        "upstream_inference_completions_cost": 0.005544
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 372,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 68,
+  "tokensOut": 462,
+  "costUsd": 0.00568,
+  "latencyMs": 4629,
+  "finishReason": "stop"
+}

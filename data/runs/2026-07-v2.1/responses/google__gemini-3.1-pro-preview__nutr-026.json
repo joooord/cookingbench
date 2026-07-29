@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "nutr-026",
+  "answerText": "Because the weight lost during cooking is mostly water and the macronutrients are largely retained, the cooked fillet will have the same total protein and fat as the 200 g raw fillet. \n\nFor 200 g of raw salmon:\n- Protein: 20 g x 2 = 40 g\n- Fat: 13 g x 2 = 26 g\n- Calories: (40 g protein x 4 kcal/g) + (26 g fat x 9 kcal/g) = 160 + 234 = 394 kcal. *(Note: This assumes no additional calories from cooking oil).*\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+  "raw": {
+    "id": "gen-1785343068-Qr6nezJt6mIA5LNybpie",
+    "object": "chat.completion",
+    "created": 1785343068,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "Because the weight lost during cooking is mostly water and the macronutrients are largely retained, the cooked fillet will have the same total protein and fat as the 200 g raw fillet. \n\nFor 200 g of raw salmon:\n- Protein: 20 g x 2 = 40 g\n- Fat: 13 g x 2 = 26 g\n- Calories: (40 g protein x 4 kcal/g) + (26 g fat x 9 kcal/g) = 160 + 234 = 394 kcal. *(Note: This assumes no additional calories from cooking oil).*\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating Nutritional Yield**\n\nI'm currently refining the calculations for the cooked salmon's nutritional content, factoring in the expected 20% weight loss primarily due to water evaporation. My focus is on accurately determining the final protein and fat yields post-cooking.\n\n**Estimating Final Macros**\n\nI've finalized the estimations for the cooked salmon's protein and fat content. I've determined the total calories based on these macro values, ensuring the calculations reflect the intrinsic nutritional profile without accounting for added cooking fats.\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Nutritional Yield**\n\nI'm currently refining the calculations for the cooked salmon's nutritional content, factoring in the expected 20% weight loss primarily due to water evaporation. My focus is on accurately determining the final protein and fat yields post-cooking.\n\n**Estimating Final Macros**\n\nI've finalized the estimations for the cooked salmon's protein and fat content. I've determined the total calories based on these macro values, ensuring the calculations reflect the intrinsic nutritional profile without accounting for added cooking fats.\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 118,
+      "completion_tokens": 799,
+      "total_tokens": 917,
+      "cost": 0.009824,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.009824,
+        "upstream_inference_prompt_cost": 0.000236,
+        "upstream_inference_completions_cost": 0.009588
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 637,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 118,
+  "tokensOut": 799,
+  "costUsd": 0.009824,
+  "latencyMs": 7430,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "qty-016",
+  "answerText": "**Working:**\n\n- Cooked weight needed: 6 × 150 g = **900 g**\n- Cooking loss of 25% means cooked weight = 75% of raw weight\n- Raw weight = 900 g ÷ 0.75 = **1200 g**\n\nSo each raw patty should be shaped to about 200 g, giving 150 g cooked.\n\nAnswer: 1200 g",
+  "raw": {
+    "id": "gen-1785342128-DRyg0W7z3a5kOyQtKodI",
+    "object": "chat.completion",
+    "created": 1785342128,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Working:**\n\n- Cooked weight needed: 6 × 150 g = **900 g**\n- Cooking loss of 25% means cooked weight = 75% of raw weight\n- Raw weight = 900 g ÷ 0.75 = **1200 g**\n\nSo each raw patty should be shaped to about 200 g, giving 150 g cooked.\n\nAnswer: 1200 g",
+          "refusal": null,
+          "reasoning": "I'm calculating the raw weight of the ingredients. Since 150g each of 6 items yields 900g when cooked, and cooking reduces weight to 75% of the original, I need to divide by 0.75 to get 1200g of raw ingredients.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the raw weight of the ingredients. Since 150g each of 6 items yields 900g when cooked, and cooking reduces weight to 75% of the original, I need to divide by 0.75 to get 1200g of raw ingredients.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISvAIKhwEIEBgCKkDeFGY2GC33jEB/30YlQXlC/rXx2/i20O4Zw2V/Tw9S0Uy5zT2Pzkzxd4yIv1MxURW8YzuC+b9Z6k2Nl4peUNqUMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDE0ZtQAXCvE2CAe36BoMxuXVKgoJ+CZStiTzIjAoCjhV4eK1Fcu8ZIERzrPCLtX32ZZERD+G5S6AfYKFsQQoXLmrBf96m94cO965SlUqYrUjFx2UrdWazu9yeOK8iWb+ViJTOKjcKQ8tvHRECbHUIgEWol07GxtR/lx9qGSD+xFauzFiy/GBG5juoTY56CYCOJs0jsrbpcxmMDm0XoTRhQgAE9csdHD9gh/NAe+TJTveGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 108,
+      "completion_tokens": 179,
+      "total_tokens": 287,
+      "cost": 0.005015,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.005015,
+        "upstream_inference_prompt_cost": 0.00054,
+        "upstream_inference_completions_cost": 0.004475
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 53,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 108,
+  "tokensOut": 179,
+  "costUsd": 0.005015,
+  "latencyMs": 3927,
+  "finishReason": "stop"
+}

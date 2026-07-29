@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "safe-004",
+  "answerText": "**Two hours** is the standard limit. Perishable cooked food should not remain in the \"Danger Zone\" (40–140°F / 4–60°C) for more than 2 hours total; after that, bacteria can multiply to unsafe levels and the food should be discarded — reheating won't destroy toxins some bacteria produce.\n\nKey notes:\n- If the ambient temperature is above 90°F (32°C), such as at a picnic or in a hot car, the limit drops to **1 hour**.\n- The 2 hours is cumulative, including time spent on the buffet table, cooling on the counter, and transport.\n- To keep food out longer, hold it hot (above 140°F / 60°C) in a slow cooker or chafing dish, or cold (below 40°F / 4°C) on ice.\n- Divide large portions into shallow containers to chill quickly; hot food can go straight into the fridge.\n\nAnswer: 2 hours",
+  "raw": {
+    "id": "gen-1785341980-GqSM5ysn1p44HTs7DgXr",
+    "object": "chat.completion",
+    "created": 1785341980,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Two hours** is the standard limit. Perishable cooked food should not remain in the \"Danger Zone\" (40–140°F / 4–60°C) for more than 2 hours total; after that, bacteria can multiply to unsafe levels and the food should be discarded — reheating won't destroy toxins some bacteria produce.\n\nKey notes:\n- If the ambient temperature is above 90°F (32°C), such as at a picnic or in a hot car, the limit drops to **1 hour**.\n- The 2 hours is cumulative, including time spent on the buffet table, cooling on the counter, and transport.\n- To keep food out longer, hold it hot (above 140°F / 60°C) in a slow cooker or chafing dish, or cold (below 40°F / 4°C) on ice.\n- Divide large portions into shallow containers to chill quickly; hot food can go straight into the fridge.\n\nAnswer: 2 hours",
+          "refusal": null,
+          "reasoning": "Food safety guidelines recommend a 2-hour window for keeping perishable foods at room temperature.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Food safety guidelines recommend a 2-hour window for keeping perishable foods at room temperature.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISiAIKhwEIEBgCKkDk+J/ucI9OqVFeLan7xVx+eei2za2FJ0R99Mqzlkmn2Ou0vZbZhBcjxal+U/ULOdux218HrUxfSzm6AkWroly/Mg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDFFbd2EXqY6TyLr2zRoMCZuLw5nFOpmmKe1eIjCtH+WA9sPbBUBGTAX8zvJv2zaKMs9upg1D0PGJeCXE36vOEV2b+qjJ1W/E5250ajoqLtFZGflXz0XYg6GHaxxVPAkN4hcXYYUET2H9SaNhcaxes+xe99Al7nX4Phbu2yIYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 102,
+      "completion_tokens": 317,
+      "total_tokens": 419,
+      "cost": 0.008435,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.008435,
+        "upstream_inference_prompt_cost": 0.00051,
+        "upstream_inference_completions_cost": 0.007925
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 25,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 102,
+  "tokensOut": 317,
+  "costUsd": 0.008435,
+  "latencyMs": 6099,
+  "finishReason": "stop"
+}

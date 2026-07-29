@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "conv-014",
+  "answerText": "250 g ÷ 200 g per cup = 1.25 cups — so about 1¼ US cups of caster/granulated sugar.\n\n(Note: caster sugar is slightly finer, so it can pack a bit denser, but 1¼ cups is the standard working conversion.)\n\nAnswer: 1.25 cups",
+  "raw": {
+    "id": "gen-1785341900-0tMYXkA2kLmvpIlKQj7s",
+    "object": "chat.completion",
+    "created": 1785341900,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "250 g ÷ 200 g per cup = 1.25 cups — so about 1¼ US cups of caster/granulated sugar.\n\n(Note: caster sugar is slightly finer, so it can pack a bit denser, but 1¼ cups is the standard working conversion.)\n\nAnswer: 1.25 cups",
+          "refusal": null,
+          "reasoning": "So that's 1.25 cups as the final measurement.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "So that's 1.25 cups as the final measurement.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS/gEKhwEIEBgCKkCGsyEYiWSjTmpxIWiCgE0jIsKIMwVbQmOfnAoXLaL+2NuLCV1rzL5nnzkbfivOYj8S515QN00dFK6VsfRhkMfdMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDBnk7IWp/zUQQFy7ZhoMpVkqKHt9RrCIGEVWIjDv4OjSdpy58tKB1YC/lNoqnPDjZ/czudFqQSHqnJEzZ3/ZBEAV7R9kbb1FYs1RW5MqJA6Tcr49ZqEb/ZEg9PikqmzQ7pWuqlKdcdB2rrAp2/Jkf0NwpxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 102,
+      "completion_tokens": 119,
+      "total_tokens": 221,
+      "cost": 0.003485,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003485,
+        "upstream_inference_prompt_cost": 0.00051,
+        "upstream_inference_completions_cost": 0.002975
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 12,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 102,
+  "tokensOut": 119,
+  "costUsd": 0.003485,
+  "latencyMs": 3401,
+  "finishReason": "stop"
+}

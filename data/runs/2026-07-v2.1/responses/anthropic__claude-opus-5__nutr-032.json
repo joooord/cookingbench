@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-032",
+  "answerText": "**Step 1 — Cooked weight needed:** 45 g ÷ 31 g protein per 100 g = 45/0.31 ≈ 145 g cooked chicken.\n\n**Step 2 — Convert to raw:** cooking loses 25% of the weight, so cooked = 0.75 × raw → raw = 145 ÷ 0.75 ≈ 194 g.\n\nSo put about 195 g (roughly 200 g) of raw chicken breast in the pan.\n\nAnswer: 195 g",
+  "raw": {
+    "id": "gen-1785342099-gzjvpU3ZJMEId4lS5u5a",
+    "object": "chat.completion",
+    "created": 1785342099,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Step 1 — Cooked weight needed:** 45 g ÷ 31 g protein per 100 g = 45/0.31 ≈ 145 g cooked chicken.\n\n**Step 2 — Convert to raw:** cooking loses 25% of the weight, so cooked = 0.75 × raw → raw = 145 ÷ 0.75 ≈ 194 g.\n\nSo put about 195 g (roughly 200 g) of raw chicken breast in the pan.\n\nAnswer: 195 g",
+          "refusal": null,
+          "reasoning": "I'm calculating the raw weight needed based on a cooked amount of about 145 grams, which works out to roughly 195 grams raw after accounting for the cooking loss factor.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the raw weight needed based on a cooked amount of about 145 grams, which works out to roughly 195 grams raw after accounting for the cooking loss factor.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISuwIKhwEIEBgCKkAWR9Nj5MlTh4JNO5VUYavZ/H30if8WGLVLqf404vFVFpr7bRhySkBQkGhR7SVcD0iSB4tb37CS+K/AbYb3Sw+FMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDNUnqI1eyEudJgXktBoMcB+vbp2EWbDfTaBeIjDVqCFW42a6pzxm64mnO1P8i/+Zzac0fnS0fy0OzMKjhf2nCMqwh9RW/kRuHNnPDjwqYWT15li9nFroCiDGvta/jtLqZybVNKtyLQlRGarZexze8fPS1J3EB0OWuHTCMrm4hkEQLybKeQQiuuiVmoFR6/F7iso8d2Fq8SdxICvtZlaV5+tBdBrQgKm6BB/BgXvQ//wYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 143,
+      "completion_tokens": 222,
+      "total_tokens": 365,
+      "cost": 0.006265,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.006265,
+        "upstream_inference_prompt_cost": 0.000715,
+        "upstream_inference_completions_cost": 0.00555
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 43,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 143,
+  "tokensOut": 222,
+  "costUsd": 0.006265,
+  "latencyMs": 5146,
+  "finishReason": "stop"
+}

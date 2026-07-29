@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-021",
+  "answerText": "A large whole egg (~50 g, raw or hard-boiled without added fat) contains roughly **70–75 kcal** — commonly cited as about 72 kcal. Most of those calories come from the yolk (~55 kcal), with the white contributing about 17 kcal.\n\nAnswer: 72 kcal",
+  "raw": {
+    "id": "gen-1785342075-ZC0xE4B8YBwMQaW5oOjR",
+    "object": "chat.completion",
+    "created": 1785342075,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A large whole egg (~50 g, raw or hard-boiled without added fat) contains roughly **70–75 kcal** — commonly cited as about 72 kcal. Most of those calories come from the yolk (~55 kcal), with the white contributing about 17 kcal.\n\nAnswer: 72 kcal",
+          "refusal": null,
+          "reasoning": "A large egg weighs about 50 grams and contains roughly 72 calories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "A large egg weighs about 50 grams and contains roughly 72 calories.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISiAIKhwEIEBgCKkBzRvgBzc4L3k2/NDU33zbrdO3XzybjWaMbxmyUYE/ftiJCQJ1ygbUAAFen+hiSwEOrq3+oBniAXnLD6QlnGv/aMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDH3f4qwcFztPSYTavxoMBH1olNx/pz4GTRf/IjA4teYWsDGtVWApD6iU8gPPqQUS6bdcWzwJsAW7bRVVzOrQEOKmAmrwxDQsg5EKx58qLqKJLoVzxhqFBSY/e21bm73ZXIcLv4sXTgqIzuavYT6bB4U+Mmdio6JMqX6Z5JQYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 83,
+      "completion_tokens": 121,
+      "total_tokens": 204,
+      "cost": 0.00344,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00344,
+        "upstream_inference_prompt_cost": 0.000415,
+        "upstream_inference_completions_cost": 0.003025
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 17,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 83,
+  "tokensOut": 121,
+  "costUsd": 0.00344,
+  "latencyMs": 3808,
+  "finishReason": "stop"
+}

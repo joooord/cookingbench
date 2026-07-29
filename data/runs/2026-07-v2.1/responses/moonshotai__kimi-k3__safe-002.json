@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "safe-002",
+  "answerText": "The USDA recommends cooking ground beef burgers to a safe minimum internal temperature of 160 °F, measured with a food thermometer.\n\nAnswer: 160 °F",
+  "raw": {
+    "id": "gen-1785342499-NyFn7sZE1O3KCmagHLVf",
+    "object": "chat.completion",
+    "created": 1785342499,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "The USDA recommends cooking ground beef burgers to a safe minimum internal temperature of 160 °F, measured with a food thermometer.\n\nAnswer: 160 °F",
+          "refusal": null,
+          "reasoning": "The user is asking for USDA recommended safe minimum internal temperature for ground beef burger. Known answer: 160 °F. Need answer accurately and concisely, end with line \"Answer: <number> °F\". Provide brief explanation then exact final line. Ensure final line format exactly Answer: 160 °F. Need maybe mention ground beef unlike whole cuts. No extra after final line.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking for USDA recommended safe minimum internal temperature for ground beef burger. Known answer: 160 °F. Need answer accurately and concisely, end with line \"Answer: <number> °F\". Provide brief explanation then exact final line. Ensure final line format exactly Answer: 160 °F. Need maybe mention ground beef unlike whole cuts. No extra after final line.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 148,
+      "completion_tokens": 125,
+      "total_tokens": 273,
+      "cost": 0.002319,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002319,
+        "upstream_inference_prompt_cost": 0.000444,
+        "upstream_inference_completions_cost": 0.001875
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 79,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 148,
+  "tokensOut": 125,
+  "costUsd": 0.002319,
+  "latencyMs": 6304,
+  "finishReason": "stop"
+}

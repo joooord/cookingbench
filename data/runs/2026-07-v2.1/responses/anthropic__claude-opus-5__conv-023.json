@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "conv-023",
+  "answerText": "**Short answer: about 4 US tablespoons (¼ cup).**\n\nWhy: An Australian tablespoon is 20 mL — unusually large, since most countries (including the US) use ~15 mL. So:\n\n- 3 Australian tbsp × 20 mL = 60 mL\n- 60 mL ÷ 14.8 mL (1 US tbsp) = 4.06 US tbsp\n\nSo measure 4 level US tablespoons, which is exactly ¼ US cup — handy for something sticky like golden syrup. Tip: warm the syrup slightly or lightly oil the spoon/cup so it releases cleanly, and level it off rather than heaping, since extra syrup will make the biscuits spread more and turn chewier.\n\nAnswer: 4 tbsp",
+  "raw": {
+    "id": "gen-1785341909-9rnwuZx1XutNkkGB4xMZ",
+    "object": "chat.completion",
+    "created": 1785341909,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Short answer: about 4 US tablespoons (¼ cup).**\n\nWhy: An Australian tablespoon is 20 mL — unusually large, since most countries (including the US) use ~15 mL. So:\n\n- 3 Australian tbsp × 20 mL = 60 mL\n- 60 mL ÷ 14.8 mL (1 US tbsp) = 4.06 US tbsp\n\nSo measure 4 level US tablespoons, which is exactly ¼ US cup — handy for something sticky like golden syrup. Tip: warm the syrup slightly or lightly oil the spoon/cup so it releases cleanly, and level it off rather than heaping, since extra syrup will make the biscuits spread more and turn chewier.\n\nAnswer: 4 tbsp",
+          "refusal": null,
+          "reasoning": "I'm converting between Australian and US tablespoons to find the equivalent. Since an Australian tablespoon is 20 mL and a US tablespoon is about 14.79 mL, three Australian tablespoons equal roughly 4 US tablespoons, which is a quarter cup.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm converting between Australian and US tablespoons to find the equivalent. Since an Australian tablespoon is 20 mL and a US tablespoon is about 14.79 mL, three Australian tablespoons equal roughly 4 US tablespoons, which is a quarter cup.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISlwMKhwEIEBgCKkCytY+y9qi/7fbyA4LzupthJ0Vkg5g80L8PFXgsWJS4OvOjDbUTvlg9Qp+ffz5hbJqueSJtJPYMquN3V275MwoNMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDF4zNRrxv863GTejExoMIK9YLzTRQRkm+Zj4IjBbP9YL+jSAvcsqKlnVB5PSW5TOzmu8sIkbiwxFGtYuWO1+Q+mQwpQSB8aa3n9FxcQqvAGSXkAvaS7u3qZrixYaS2ctdpPd9UqCVEXgDs7nhaTV/X8nJ2qLwp6Tex0caa/2dHZ4aZM94aS85uF06i5CCpMk8fk8yen77QocN1Xq7oa17UAf9jfXq9TQBJJvF249HstXbU+60AZOSOWF0uLnbWzXzmq2mQ69kV3OMnF5LcltX+igaaQ0t0VeqsHT9uayrnyzEdZzSBOAuuqj+5r8L4wgZPdEl7wFmEmnrqXWrs5QlvF/tzY+HJ9GPF7VzhgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 121,
+      "completion_tokens": 366,
+      "total_tokens": 487,
+      "cost": 0.009755,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.009755,
+        "upstream_inference_prompt_cost": 0.000605,
+        "upstream_inference_completions_cost": 0.00915
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 60,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 121,
+  "tokensOut": 366,
+  "costUsd": 0.009755,
+  "latencyMs": 6860,
+  "finishReason": "stop"
+}

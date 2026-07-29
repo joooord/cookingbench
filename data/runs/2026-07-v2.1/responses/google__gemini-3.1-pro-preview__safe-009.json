@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "safe-009",
+  "answerText": "According to the USDA and FDA food safety guidelines, raw ground beef should be cooked or frozen within 1 to 2 days of being stored in the refrigerator. \n\nAnswer: 1 to 2 days",
+  "raw": {
+    "id": "gen-1785343016-0q1URhYvtXjvRnXKcrNj",
+    "object": "chat.completion",
+    "created": 1785343016,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "According to the USDA and FDA food safety guidelines, raw ground beef should be cooked or frozen within 1 to 2 days of being stored in the refrigerator. \n\nAnswer: 1 to 2 days",
+          "refusal": null,
+          "reasoning": "**Recalling Food Safety Guidelines**\n\nI'm focusing on the storage duration for raw ground beef. Based on established food safety standards, including those from the USDA and FDA, it can be refrigerated safely for a specific number of days at or below 40°F (4°C).\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Recalling Food Safety Guidelines**\n\nI'm focusing on the storage duration for raw ground beef. Based on established food safety standards, including those from the USDA and FDA, it can be refrigerated safely for a specific number of days at or below 40°F (4°C).\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 62,
+      "completion_tokens": 372,
+      "total_tokens": 434,
+      "cost": 0.004588,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004588,
+        "upstream_inference_prompt_cost": 0.000124,
+        "upstream_inference_completions_cost": 0.004464
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 330,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 62,
+  "tokensOut": 372,
+  "costUsd": 0.004588,
+  "latencyMs": 5429,
+  "finishReason": "stop"
+}

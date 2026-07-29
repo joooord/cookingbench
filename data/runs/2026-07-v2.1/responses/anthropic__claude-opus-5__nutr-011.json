@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-011",
+  "answerText": "**Calculation:** 450 kcal per 100 g × 0.60 = 270 kcal per 60 g serving.\n\n(Quick check with macros per serving: 4.8 g protein ≈ 19 kcal, 36 g carbs ≈ 144 kcal, 10.8 g fat ≈ 97 kcal → ~260 kcal, consistent with rounding/fiber differences on the label.)\n\nAnswer: 270 kcal",
+  "raw": {
+    "id": "gen-1785342067-NddxWe7p82VTTm0t7GGe",
+    "object": "chat.completion",
+    "created": 1785342067,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Calculation:** 450 kcal per 100 g × 0.60 = 270 kcal per 60 g serving.\n\n(Quick check with macros per serving: 4.8 g protein ≈ 19 kcal, 36 g carbs ≈ 144 kcal, 10.8 g fat ≈ 97 kcal → ~260 kcal, consistent with rounding/fiber differences on the label.)\n\nAnswer: 270 kcal",
+          "refusal": null,
+          "reasoning": "I'm calculating that 60% of 450 calories equals 270 kcal.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating that 60% of 450 calories equals 270 kcal.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS/wEKhwEIEBgCKkB+NDEimQNaK7QPb/3x+tFeV7oWlfpx7xjgFRQyEJon5vlEVzHBLBJ9wrQe2o/2hESaRFGUs210bpirht9gBOJBMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDDPZF4Az9HlQe6ixghoMJiWdO3F+oLfkR8IoIjAJCTbPYwKMfl8rtiBeaqSefXNpF/GWZyB+gcEVxziPNAePiCZ+pKjwZjGZ1ZSHnPMqJdMr6wj1C6oHYfsexMI7AskK7OGuf9HWfGZvTptqNI8siRxHxrwYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 118,
+      "completion_tokens": 165,
+      "total_tokens": 283,
+      "cost": 0.004715,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004715,
+        "upstream_inference_prompt_cost": 0.00059,
+        "upstream_inference_completions_cost": 0.004125
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 15,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 118,
+  "tokensOut": 165,
+  "costUsd": 0.004715,
+  "latencyMs": 3740,
+  "finishReason": "stop"
+}

@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "nutr-027",
+  "answerText": "Boiling broccoli in plenty of water causes significantly more vitamin C loss than steaming.\n\n**Mechanism:**\n\nVitamin C (ascorbic acid) loss occurs through two main pathways:\n\n1. **Leaching into water** – Vitamin C is water-soluble, so when broccoli is submerged in a large volume of boiling water, the vitamin diffuses out of the plant cells into the surrounding water. The greater the volume of water and the longer the cooking time, the more vitamin C is lost this way. Studies show boiling can destroy or leach out 50% or more of the vitamin C content.\n\n2. **Heat-induced degradation** – Vitamin C is also sensitive to heat and oxidation. It degrades via oxidative reactions that are accelerated by heat, and this happens in both boiling and steaming, but the effect is compounded in boiling because of the extended contact with hot water and dissolved oxygen.\n\n**Why steaming preserves more vitamin C:**\n\n- The broccoli doesn't come into direct contact with water, so there's no leaching pathway for the vitamin to escape into a liquid that gets discarded.\n- Steaming also tends to cook food faster at the surface and can reduce overall exposure time to damaging heat compared to prolonged boiling.\n- Less oxygen exposure in the enclosed steaming environment also reduces oxidative degradation.\n\n**Bottom line:** Boiling causes vitamin C loss through both leaching and heat degradation, while steaming only causes loss through heat degradation (with leaching minimized), making steaming the better method for preserving vitamin C content.",
+  "raw": {
+    "id": "gen-1785343389-osmRRzDeX3TsGbErmqVe",
+    "object": "chat.completion",
+    "created": 1785343389,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Boiling broccoli in plenty of water causes significantly more vitamin C loss than steaming.\n\n**Mechanism:**\n\nVitamin C (ascorbic acid) loss occurs through two main pathways:\n\n1. **Leaching into water** – Vitamin C is water-soluble, so when broccoli is submerged in a large volume of boiling water, the vitamin diffuses out of the plant cells into the surrounding water. The greater the volume of water and the longer the cooking time, the more vitamin C is lost this way. Studies show boiling can destroy or leach out 50% or more of the vitamin C content.\n\n2. **Heat-induced degradation** – Vitamin C is also sensitive to heat and oxidation. It degrades via oxidative reactions that are accelerated by heat, and this happens in both boiling and steaming, but the effect is compounded in boiling because of the extended contact with hot water and dissolved oxygen.\n\n**Why steaming preserves more vitamin C:**\n\n- The broccoli doesn't come into direct contact with water, so there's no leaching pathway for the vitamin to escape into a liquid that gets discarded.\n- Steaming also tends to cook food faster at the surface and can reduce overall exposure time to damaging heat compared to prolonged boiling.\n- Less oxygen exposure in the enclosed steaming environment also reduces oxidative degradation.\n\n**Bottom line:** Boiling causes vitamin C loss through both leaching and heat degradation, while steaming only causes loss through heat degradation (with leaching minimized), making steaming the better method for preserving vitamin C content.",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 83,
+      "completion_tokens": 532,
+      "total_tokens": 615,
+      "cost": 0.005486,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.005486,
+        "upstream_inference_prompt_cost": 0.000166,
+        "upstream_inference_completions_cost": 0.00532
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 83,
+  "tokensOut": 532,
+  "costUsd": 0.005486,
+  "latencyMs": 7283,
+  "finishReason": "stop"
+}

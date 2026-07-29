@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "qty-015",
+  "answerText": "White rice triples in weight when cooked, so divide the desired cooked weight by 3:\n\n600 g ÷ 3 = 200 g\n\nAnswer: 200 g",
+  "raw": {
+    "id": "gen-1785342623-PfQNUWJUFi9PvWTnBq4E",
+    "object": "chat.completion",
+    "created": 1785342623,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "White rice triples in weight when cooked, so divide the desired cooked weight by 3:\n\n600 g ÷ 3 = 200 g\n\nAnswer: 200 g",
+          "refusal": null,
+          "reasoning": "600/3 = 200 g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "600/3 = 200 g.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 158,
+      "completion_tokens": 59,
+      "total_tokens": 217,
+      "cost": 0.001359,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001359,
+        "upstream_inference_prompt_cost": 0.000474,
+        "upstream_inference_completions_cost": 0.000885
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 9,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 158,
+  "tokensOut": 59,
+  "costUsd": 0.001359,
+  "latencyMs": 4011,
+  "finishReason": "stop"
+}

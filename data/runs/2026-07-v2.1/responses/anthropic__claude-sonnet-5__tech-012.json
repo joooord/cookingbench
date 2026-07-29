@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "tech-012",
+  "answerText": "That's actually backwards, and it'll cause problems if you cook it that way.\n\n**The issue with garlic first:** Garlic is minced much finer than diced onion/carrot/celery, has less water content, and contains compounds that burn easily. Five minutes alone in a pan over medium-high heat will scorch it, turning it bitter and acrid — that flavor will carry through your whole ragù and won't cook out.\n\n**Density isn't really the deciding factor here** — cell structure, moisture content, and cut size matter more for cooking time. Onions, carrots, and celery (the classic soffritto base) are cut larger and have more water, so they genuinely need several minutes to soften and sweat down. Garlic, being minced fine, cooks in seconds to a couple minutes at most.\n\n**Better approach:**\n1. Start onion, carrot, celery in your fat over medium heat, and let them soften slowly — this can take 8-15 minutes depending on dice size. You want them translucent/softened, not browned aggressively, especially for a ragù base.\n2. Add the garlic near the end — literally the last 1-2 minutes — so it turns fragrant but doesn't burn.\n3. If you're adding tomato paste to the soffritto (common for ragù), that also goes in after the garlic, cooked briefly to deepen the flavor before you add wine/liquid.\n\nAlso worth dropping the heat from medium-high to medium — a slow sweat is what you want for soffritto, not a hard sauté. High heat browns the vegetables' surfaces before their interiors soften, and can push you toward burnt garlic and scorched onion edges rather than the sweet, melted base a good ragù wants.",
+  "raw": {
+    "id": "gen-1785343569-okFXFxyhzvIok5ugMB1w",
+    "object": "chat.completion",
+    "created": 1785343569,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "That's actually backwards, and it'll cause problems if you cook it that way.\n\n**The issue with garlic first:** Garlic is minced much finer than diced onion/carrot/celery, has less water content, and contains compounds that burn easily. Five minutes alone in a pan over medium-high heat will scorch it, turning it bitter and acrid — that flavor will carry through your whole ragù and won't cook out.\n\n**Density isn't really the deciding factor here** — cell structure, moisture content, and cut size matter more for cooking time. Onions, carrots, and celery (the classic soffritto base) are cut larger and have more water, so they genuinely need several minutes to soften and sweat down. Garlic, being minced fine, cooks in seconds to a couple minutes at most.\n\n**Better approach:**\n1. Start onion, carrot, celery in your fat over medium heat, and let them soften slowly — this can take 8-15 minutes depending on dice size. You want them translucent/softened, not browned aggressively, especially for a ragù base.\n2. Add the garlic near the end — literally the last 1-2 minutes — so it turns fragrant but doesn't burn.\n3. If you're adding tomato paste to the soffritto (common for ragù), that also goes in after the garlic, cooked briefly to deepen the flavor before you add wine/liquid.\n\nAlso worth dropping the heat from medium-high to medium — a slow sweat is what you want for soffritto, not a hard sauté. High heat browns the vegetables' surfaces before their interiors soften, and can push you toward burnt garlic and scorched onion edges rather than the sweet, melted base a good ragù wants.",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 116,
+      "completion_tokens": 548,
+      "total_tokens": 664,
+      "cost": 0.005712,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.005712,
+        "upstream_inference_prompt_cost": 0.000232,
+        "upstream_inference_completions_cost": 0.00548
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 116,
+  "tokensOut": 548,
+  "costUsd": 0.005712,
+  "latencyMs": 8707,
+  "finishReason": "stop"
+}

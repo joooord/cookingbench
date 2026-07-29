@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "qty-003",
+  "answerText": "At 75% hydration, water is 75% of the flour weight:\n\n800 g × 0.75 = 600 g water\n\n(Total dough from flour + water = 1400 g, before salt/leaven.)\n\nAnswer: 600 g",
+  "raw": {
+    "id": "gen-1785342114-oSJoqfpSPmMzaD43J36V",
+    "object": "chat.completion",
+    "created": 1785342114,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "At 75% hydration, water is 75% of the flour weight:\n\n800 g × 0.75 = 600 g water\n\n(Total dough from flour + water = 1400 g, before salt/leaven.)\n\nAnswer: 600 g",
+          "refusal": null,
+          "reasoning": "So 75% of 800 equals 600 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "So 75% of 800 equals 600 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS/QEKhwEIEBgCKkB2RLYeoeuQ/0zdUL/YIX9nh3qCzj6cJjjTExMrWuZMB9QD5KGjiukT0ycv4mKkT4UUbvfOQRtmywIlWh2lP7YNMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDEwKzu6XKjJ1nMRfTRoM35lJe4rTAAqPEj5IIjCmv4yUVzcO0eL8A0jcUm8VjZsMHJBG4Kb2YcLJab5zi1JPXl6oPMUYOeN0veB8ebgqI2VVk+n+A28HSvUPhb/O+fyc8Zjsx9lcprz5abdA8jDLYfcoGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 95,
+      "completion_tokens": 88,
+      "total_tokens": 183,
+      "cost": 0.002675,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002675,
+        "upstream_inference_prompt_cost": 0.000475,
+        "upstream_inference_completions_cost": 0.0022
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 8,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 95,
+  "tokensOut": 88,
+  "costUsd": 0.002675,
+  "latencyMs": 3184,
+  "finishReason": "stop"
+}

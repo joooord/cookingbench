@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "qty-024",
+  "answerText": "To find out how much stock you need, you first need to scale the recipe and then convert the measurement.\n\n1. **Scale the recipe:** \n   Divide your target servings (6) by the original servings (4) to get your multiplier: 6 ÷ 4 = 1.5.\n   Multiply the original amount of stock by 1.5: 600 ml × 1.5 = 900 ml.\n\n2. **Convert to US cups:** \n   One standard US customary cup is approximately 236.6 ml. \n   Divide the total milliliters by the amount in one cup: 900 ml ÷ 236.6 ml ≈ 3.8 cups. *(Note: If your measuring jug uses US \"legal\" cups—often used for nutrition labeling where 1 cup = 240 ml—this would be exactly 3.75 or 3 ¾ cups).*\n\nAnswer: 3.8 cups",
+  "raw": {
+    "id": "gen-1785343122-mFeeommW88yog6AeeaYI",
+    "object": "chat.completion",
+    "created": 1785343122,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "provisioned",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find out how much stock you need, you first need to scale the recipe and then convert the measurement.\n\n1. **Scale the recipe:** \n   Divide your target servings (6) by the original servings (4) to get your multiplier: 6 ÷ 4 = 1.5.\n   Multiply the original amount of stock by 1.5: 600 ml × 1.5 = 900 ml.\n\n2. **Convert to US cups:** \n   One standard US customary cup is approximately 236.6 ml. \n   Divide the total milliliters by the amount in one cup: 900 ml ÷ 236.6 ml ≈ 3.8 cups. *(Note: If your measuring jug uses US \"legal\" cups—often used for nutrition labeling where 1 cup = 240 ml—this would be exactly 3.75 or 3 ¾ cups).*\n\nAnswer: 3.8 cups",
+          "refusal": null,
+          "reasoning": "**Calculating New Stock Volume**\n\nI'm currently working on adjusting the chicken stock quantity for the scaled recipe. My focus is on accurately converting the original 600 ml to US cups to serve six people, ensuring precise measurements for the updated yield.\n\nAnswer: 3.17\n\n**Refining Chicken Stock Conversion**\n\nI'm finalizing the conversion of my scaled chicken stock from milliliters to US cups. I've explored both the customary and legal cup measurements, and I'm settling on the more common culinary standard for clarity and practicality, aiming for a precise fractional result.\n\nAnswer: 3.8\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating New Stock Volume**\n\nI'm currently working on adjusting the chicken stock quantity for the scaled recipe. My focus is on accurately converting the original 600 ml to US cups to serve six people, ensuring precise measurements for the updated yield.\n\nAnswer: 3.17\n\n**Refining Chicken Stock Conversion**\n\nI'm finalizing the conversion of my scaled chicken stock from milliliters to US cups. I've explored both the customary and legal cup measurements, and I'm settling on the more common culinary standard for clarity and practicality, aiming for a precise fractional result.\n\nAnswer: 3.8\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 76,
+      "completion_tokens": 1210,
+      "total_tokens": 1286,
+      "cost": 0.014672,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.014672,
+        "upstream_inference_prompt_cost": 0.000152,
+        "upstream_inference_completions_cost": 0.01452
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1002,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 76,
+  "tokensOut": 1210,
+  "costUsd": 0.014672,
+  "latencyMs": 10755,
+  "finishReason": "stop"
+}

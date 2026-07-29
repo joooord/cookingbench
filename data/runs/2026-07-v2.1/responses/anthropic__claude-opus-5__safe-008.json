@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "safe-008",
+  "answerText": "Cooked leftovers should be reheated until steaming hot throughout, reaching an internal temperature of **74 °C (165 °F)**. Use a food thermometer in the thickest part, stir soups/sauces while heating for even temperature, and for microwaves cover the food and rotate/stir partway through, letting it stand briefly so heat distributes evenly. Reheat leftovers only once, and discard anything left out at room temperature for more than 2 hours.\n\nAnswer: 74 °C",
+  "raw": {
+    "id": "gen-1785341992-tdDZlJLEHtuhimBwFhKW",
+    "object": "chat.completion",
+    "created": 1785341992,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Cooked leftovers should be reheated until steaming hot throughout, reaching an internal temperature of **74 °C (165 °F)**. Use a food thermometer in the thickest part, stir soups/sauces while heating for even temperature, and for microwaves cover the food and rotate/stir partway through, letting it stand briefly so heat distributes evenly. Reheat leftovers only once, and discard anything left out at room temperature for more than 2 hours.\n\nAnswer: 74 °C",
+          "refusal": null,
+          "reasoning": "The safe reheating temperature for food is 74°C, which is 165°F.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The safe reheating temperature for food is 74°C, which is 165°F.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISlQIKhwEIEBgCKkArisnECfO5bGUFg0dZaY3d/wuFwI5m2InCpgd4COYmrmfy4gbURszIpGYsuWy8WvPCYTqzLTgwiNHpNmSAeULNMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDGJ49XFb70L75kOGABoM6W+gTGgLhAPi1R/XIjCV9R+Js4UcqsHOuEOSryVD29ylwQ9eJ287FndCnSEDZRhNGjI0oMz58woxMwuHC3gqO1wnnc70IgriV/nNsufQKONhm1Na4bL9pfOeGrfus+gv5mhCU/j/uPTMc/mblBXkhbH/sSCjhZPDKtolGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 86,
+      "completion_tokens": 182,
+      "total_tokens": 268,
+      "cost": 0.00498,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00498,
+        "upstream_inference_prompt_cost": 0.00043,
+        "upstream_inference_completions_cost": 0.00455
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 17,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 86,
+  "tokensOut": 182,
+  "costUsd": 0.00498,
+  "latencyMs": 5066,
+  "finishReason": "stop"
+}

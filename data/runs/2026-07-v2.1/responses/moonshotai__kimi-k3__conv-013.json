@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "conv-013",
+  "answerText": "425°F = (425 − 32) × 5/9 ≈ 218.3°C. For ovens, this is commonly set to 220°C.\n\nAnswer: 218 °C",
+  "raw": {
+    "id": "gen-1785342433-AZL657XqG4twB1DcHjNo",
+    "object": "chat.completion",
+    "created": 1785342433,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "425°F = (425 − 32) × 5/9 ≈ 218.3°C. For ovens, this is commonly set to 220°C.\n\nAnswer: 218 °C",
+          "refusal": null,
+          "reasoning": "The user wants 425°F converted to Celsius. Formula: (425 - 32) * 5/9 = 393 * 5/9 = 218.333... °C. For oven purposes commonly rounded to 220°C (or 218°C exact). Need answer concise and final line exactly \"Answer: <number> °C\". They asked accurately and concisely. Use exact conversion 218.3°C, oven equivalent often 220°C. But final must be number °C. Since convert exact: 218.333. End line with Answer: 218 °C maybe. Need include brief calc. Ensure last line format. Final only.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants 425°F converted to Celsius. Formula: (425 - 32) * 5/9 = 393 * 5/9 = 218.333... °C. For oven purposes commonly rounded to 220°C (or 218°C exact). Need answer concise and final line exactly \"Answer: <number> °C\". They asked accurately and concisely. Use exact conversion 218.3°C, oven equivalent often 220°C. But final must be number °C. Since convert exact: 218.333. End line with Answer: 218 °C maybe. Need include brief calc. Ensure last line format. Final only.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 137,
+      "completion_tokens": 192,
+      "total_tokens": 329,
+      "cost": 0.003291,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003291,
+        "upstream_inference_prompt_cost": 0.000411,
+        "upstream_inference_completions_cost": 0.00288
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 137,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 137,
+  "tokensOut": 192,
+  "costUsd": 0.003291,
+  "latencyMs": 8768,
+  "finishReason": "stop"
+}

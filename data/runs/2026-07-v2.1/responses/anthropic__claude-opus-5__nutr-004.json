@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-004",
+  "answerText": "One tablespoon of olive oil (~13.5 g of pure fat) at about 9 kcal per gram of fat gives roughly 13.5 × 9 ≈ 120 kcal.\n\nAnswer: 120 kcal",
+  "raw": {
+    "id": "gen-1785342058-09IXY0Ua5AHWpVakenY8",
+    "object": "chat.completion",
+    "created": 1785342059,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "One tablespoon of olive oil (~13.5 g of pure fat) at about 9 kcal per gram of fat gives roughly 13.5 × 9 ≈ 120 kcal.\n\nAnswer: 120 kcal",
+          "refusal": null,
+          "reasoning": "I'm calculating the calories from fat by multiplying 13.5 grams by 9 calories per gram, which gives me about 120 calories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the calories from fat by multiplying 13.5 grams by 9 calories per gram, which gives me about 120 calories.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISmgIKhwEIEBgCKkBKAc2nrhrOedCCTuqFeHrRnx1vpIGWBogoIAaA+AlCNxwmSspsNcsWMwR0it82k/t5bHNT4jR87hkehJFiXo1nMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDMHLLBResRhEWXjcOhoM6LSJwUNJdaBLcuuLIjChoLfOksTS5qXajVAvOHXx77bT/vg8bMcBfvig6zLmgnO9l/u5LaHq0Kf24UWqxvkqQF4J+YzB5nCprEJqNJHsl7bUXFfQfbpWProN1DqVmSHvPYHWge4DItiQpgvnEwzVyjuOlWNJ5WMTz1fq8nvU73EYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 104,
+      "completion_tokens": 116,
+      "total_tokens": 220,
+      "cost": 0.00342,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00342,
+        "upstream_inference_prompt_cost": 0.00052,
+        "upstream_inference_completions_cost": 0.0029
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 31,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 104,
+  "tokensOut": 116,
+  "costUsd": 0.00342,
+  "latencyMs": 3380,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "conv-007",
+  "answerText": "8 avoirdupois ounces × 28.3495 g/oz ≈ 226.8 g.\n\nAnswer: 226.8 g",
+  "raw": {
+    "id": "gen-1785342427-jFN0y5D7C71eGp6cmyVz",
+    "object": "chat.completion",
+    "created": 1785342427,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "8 avoirdupois ounces × 28.3495 g/oz ≈ 226.8 g.\n\nAnswer: 226.8 g",
+          "refusal": null,
+          "reasoning": "The user is asking a unit conversion: 8 ounces avoirdupois to grams. 1 oz avoirdupois = 28.349523125 g. 8 oz = 226.796185 g, commonly 226.8 g. Need answer concise and end with exact line format Answer: <number> g. Need decide number. Since cooking assistant, likely 226.8 g. Ensure final line exactly. Could include brief calc. Final must end with Answer: 226.8 g. Need no extra after. ",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking a unit conversion: 8 ounces avoirdupois to grams. 1 oz avoirdupois = 28.349523125 g. 8 oz = 226.796185 g, commonly 226.8 g. Need answer concise and end with exact line format Answer: <number> g. Need decide number. Since cooking assistant, likely 226.8 g. Ensure final line exactly. Could include brief calc. Final must end with Answer: 226.8 g. Need no extra after. ",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 143,
+      "completion_tokens": 157,
+      "total_tokens": 300,
+      "cost": 0.004176,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004176,
+        "upstream_inference_prompt_cost": 0.0006435,
+        "upstream_inference_completions_cost": 0.0035325
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 113,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 143,
+  "tokensOut": 157,
+  "costUsd": 0.004176,
+  "latencyMs": 3139,
+  "finishReason": "stop"
+}

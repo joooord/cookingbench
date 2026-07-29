@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "subs-015",
+  "answerText": "Natural cocoa is acidic and reacts with baking soda to produce carbon dioxide. Dutch-processed cocoa has been alkalized, so it won’t activate the baking soda effectively. A straight swap can produce a dense cake and leave unreacted soda, causing a soapy or bitter flavor.\n\n**Fix:** Replace the baking soda with baking powder, which contains its own acid. A common starting point is:\n\n- **2–3 teaspoons baking powder for every 1 teaspoon baking soda**\n\nUse the lower end if the recipe already contains acidic ingredients such as buttermilk, sour cream, brown sugar, coffee, or vinegar. Too much baking powder can make the cake rise and collapse or taste metallic, so for best results use a recipe formulated for Dutch-processed cocoa.",
+  "raw": {
+    "id": "gen-1785342836-hPxdJwosHnrJYTJK1nIR",
+    "object": "chat.completion",
+    "created": 1785342836,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Together",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Natural cocoa is acidic and reacts with baking soda to produce carbon dioxide. Dutch-processed cocoa has been alkalized, so it won’t activate the baking soda effectively. A straight swap can produce a dense cake and leave unreacted soda, causing a soapy or bitter flavor.\n\n**Fix:** Replace the baking soda with baking powder, which contains its own acid. A common starting point is:\n\n- **2–3 teaspoons baking powder for every 1 teaspoon baking soda**\n\nUse the lower end if the recipe already contains acidic ingredients such as buttermilk, sour cream, brown sugar, coffee, or vinegar. Too much baking powder can make the cake rise and collapse or taste metallic, so for best results use a recipe formulated for Dutch-processed cocoa.",
+          "refusal": null,
+          "reasoning": "We need answer chemistry. Natural acidic reacts soda. Dutch neutralized, insufficient rise, soapy taste maybe. Fix replace soda with baking powder, but exact conversion tricky. Baking powder contains acid and base. General 1 tsp baking powder per cup flour, or replace 1 tsp soda with 2-3 tsp powder, but excess affects taste. If recipe has other acids, nuance. Could add acid to Dutch cocoa? Better use baking powder. Mention don't just add acid unless calculate. Also chocolate cake perhaps recipe designed. Concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need answer chemistry. Natural acidic reacts soda. Dutch neutralized, insufficient rise, soapy taste maybe. Fix replace soda with baking powder, but exact conversion tricky. Baking powder contains acid and base. General 1 tsp baking powder per cup flour, or replace 1 tsp soda with 2-3 tsp powder, but excess affects taste. If recipe has other acids, nuance. Could add acid to Dutch cocoa? Better use baking powder. Mention don't just add acid unless calculate. Also chocolate cake perhaps recipe designed. Concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 154,
+      "completion_tokens": 274,
+      "total_tokens": 428,
+      "cost": 0.0043992,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 64,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0043992,
+        "upstream_inference_prompt_cost": 0.0002892,
+        "upstream_inference_completions_cost": 0.00411
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 109,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 154,
+  "tokensOut": 274,
+  "costUsd": 0.0043992,
+  "latencyMs": 19490,
+  "finishReason": "stop"
+}

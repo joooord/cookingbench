@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-012",
+  "answerText": "Each serving contains 117 g ÷ 6 = 19.5 g of protein (and 260 kcal).\n\nAnswer: 19.5 g",
+  "raw": {
+    "id": "gen-1785342068-FZ16o35qq1301luZdNHv",
+    "object": "chat.completion",
+    "created": 1785342068,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Each serving contains 117 g ÷ 6 = 19.5 g of protein (and 260 kcal).\n\nAnswer: 19.5 g",
+          "refusal": null,
+          "reasoning": "So that gives me 19.5 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "So that gives me 19.5 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS+QEKhwEIEBgCKkBGGm3FQo6FHrwEFxB+G932rHQCfyiNL9wEn2pA8mQT3LxXKpvJg1KNgYAJTWCMUd3W7F53vXfEk81UyfGajUqHMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDNJjzEZIDtWpTLJ2cRoMeCGGOnQ2C/XGqOZkIjBUT54MJJ+YWrkVk6ODY5tPpVQVeGiNeIIfoSi2xE8UFS9To7M6Sk027DkkIoaNceMqH+nzeqhdHgSwh8WsUZSA56UuLVpSwnSkO+NIN9kD1bwYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 99,
+      "completion_tokens": 63,
+      "total_tokens": 162,
+      "cost": 0.00207,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00207,
+        "upstream_inference_prompt_cost": 0.000495,
+        "upstream_inference_completions_cost": 0.001575
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 7,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 99,
+  "tokensOut": 63,
+  "costUsd": 0.00207,
+  "latencyMs": 2814,
+  "finishReason": "stop"
+}

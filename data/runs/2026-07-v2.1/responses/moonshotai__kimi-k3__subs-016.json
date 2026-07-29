@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "subs-016",
+  "answerText": "For the substitute, the lemon juice is part of the total measured volume: for each cup you add 1 tbsp juice, then top up with milk to the 1‑cup line.\n\nFor 2 US cups:\n- Total needed: 2 × 236.588 = 473.18 ml\n- Lemon juice: 2 tbsp × 14.787 = 29.57 ml\n- Milk to pour: 473.18 − 29.57 = 443.6 ml\n\nSo pour about 444 ml of milk, then add the 2 tbsp lemon juice (kitchen rounding often makes this ~450 ml milk + 30 ml juice).\n\nAnswer: 444 ml",
+  "raw": {
+    "id": "gen-1785342836-PypWwPOKtddX6XL7wbG0",
+    "object": "chat.completion",
+    "created": 1785342836,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "For the substitute, the lemon juice is part of the total measured volume: for each cup you add 1 tbsp juice, then top up with milk to the 1‑cup line.\n\nFor 2 US cups:\n- Total needed: 2 × 236.588 = 473.18 ml\n- Lemon juice: 2 tbsp × 14.787 = 29.57 ml\n- Milk to pour: 473.18 − 29.57 = 443.6 ml\n\nSo pour about 444 ml of milk, then add the 2 tbsp lemon juice (kitchen rounding often makes this ~450 ml milk + 30 ml juice).\n\nAnswer: 444 ml",
+          "refusal": null,
+          "reasoning": "The user is asking about a buttermilk substitute. They need 2 US cups of buttermilk. The standard substitute is 1 tablespoon lemon juice per cup of milk, then fill to the cup line with milk (or add milk to make 1 cup total). \n\nThe key insight: For 1 cup of buttermilk substitute, you put 1 tablespoon lemon juice in a measuring cup, then add milk to reach 1 cup total. So milk volume = 1 cup - 1 tablespoon.\n\nFor 2 cups: 2 tablespoons lemon juice total, and milk = 2 cups - 2 tablespoons.\n\nConversions:\n- 1 US cup = 236.588 ml (often 240 ml in cooking, but precise is 236.588)\n- 1 US tablespoon = 14.7868 ml (often 15 ml)\n\nFor 2 cups = 473.176 ml\n2 tablespoons = 29.5735 ml\nMilk = 473.176 - 29.5735 = 443.6 ml\n\nUsing common rounded values: 2 cups = 480 ml, 2 tbsp = 30 ml, milk = 450 ml.\n\nThe question asks \"how many millilitres of milk do I actually pour before adding the juice?\" \n\nThe precise answer: 2 US cups = 473.176 ml. Subtract 2 tbsp (29.57 ml) = 443.6 ml. Approximately 444 ml, or roughly 450 ml if using metric cup conventions.\n\nGiven the phrasing and that they want a number, I should give the accurate conversion. US cup = 236.5882365 ml exactly (defined). 2 cups = 473.176473 ml. US tablespoon = 14.7867648 ml. 2 tbsp = 29.5735296 ml. Difference = 443.602943 ml ≈ 444 ml.\n\nI'll state ~444 ml (about 443.6 ml), noting the common kitchen rounding to 450 ml. The final line must be \"Answer: <number> ml\". I'll use 444 as the precise-ish answer. Actually let me reconsider whether to use 240 ml cup. The user explicitly says \"US cups\" so use 236.588. Answer 444 ml (443.6). I'll put 444.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking about a buttermilk substitute. They need 2 US cups of buttermilk. The standard substitute is 1 tablespoon lemon juice per cup of milk, then fill to the cup line with milk (or add milk to make 1 cup total). \n\nThe key insight: For 1 cup of buttermilk substitute, you put 1 tablespoon lemon juice in a measuring cup, then add milk to reach 1 cup total. So milk volume = 1 cup - 1 tablespoon.\n\nFor 2 cups: 2 tablespoons lemon juice total, and milk = 2 cups - 2 tablespoons.\n\nConversions:\n- 1 US cup = 236.588 ml (often 240 ml in cooking, but precise is 236.588)\n- 1 US tablespoon = 14.7868 ml (often 15 ml)\n\nFor 2 cups = 473.176 ml\n2 tablespoons = 29.5735 ml\nMilk = 473.176 - 29.5735 = 443.6 ml\n\nUsing common rounded values: 2 cups = 480 ml, 2 tbsp = 30 ml, milk = 450 ml.\n\nThe question asks \"how many millilitres of milk do I actually pour before adding the juice?\" \n\nThe precise answer: 2 US cups = 473.176 ml. Subtract 2 tbsp (29.57 ml) = 443.6 ml. Approximately 444 ml, or roughly 450 ml if using metric cup conventions.\n\nGiven the phrasing and that they want a number, I should give the accurate conversion. US cup = 236.5882365 ml exactly (defined). 2 cups = 473.176473 ml. US tablespoon = 14.7867648 ml. 2 tbsp = 29.5735296 ml. Difference = 443.602943 ml ≈ 444 ml.\n\nI'll state ~444 ml (about 443.6 ml), noting the common kitchen rounding to 450 ml. The final line must be \"Answer: <number> ml\". I'll use 444 as the precise-ish answer. Actually let me reconsider whether to use 240 ml cup. The user explicitly says \"US cups\" so use 236.588. Answer 444 ml (443.6). I'll put 444.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 185,
+      "completion_tokens": 629,
+      "total_tokens": 814,
+      "cost": 0.014985,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.014985,
+        "upstream_inference_prompt_cost": 0.0008325,
+        "upstream_inference_completions_cost": 0.0141525
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 475,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 185,
+  "tokensOut": 629,
+  "costUsd": 0.014985,
+  "latencyMs": 19829,
+  "finishReason": "stop"
+}

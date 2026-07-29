@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "safe-009",
+  "answerText": "Raw ground beef is one of the most perishable cuts because grinding exposes more surface area to bacteria. Stored at 40°F (4°C) or below, it should be cooked or frozen within 1 to 2 days of purchase. Keep it in the coldest part of the fridge (usually a bottom shelf) in its original wrapping or a sealed container, and discard it if it develops a sour smell, sliminess, or a distinctly gray-brown, dull appearance throughout. For longer storage, freeze it — quality holds well for about 3–4 months at 0°F.\n\nAnswer: 2 days",
+  "raw": {
+    "id": "gen-1785341994-e4r1j458nlvfrz6dm3a4",
+    "object": "chat.completion",
+    "created": 1785341994,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Raw ground beef is one of the most perishable cuts because grinding exposes more surface area to bacteria. Stored at 40°F (4°C) or below, it should be cooked or frozen within 1 to 2 days of purchase. Keep it in the coldest part of the fridge (usually a bottom shelf) in its original wrapping or a sealed container, and discard it if it develops a sour smell, sliminess, or a distinctly gray-brown, dull appearance throughout. For longer storage, freeze it — quality holds well for about 3–4 months at 0°F.\n\nAnswer: 2 days",
+          "refusal": null,
+          "reasoning": "The USDA recommends keeping ground beef refrigerated for just one to two days before cooking or freezing it.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The USDA recommends keeping ground beef refrigerated for just one to two days before cooking or freezing it.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISkgIKhwEIEBgCKkC8fAqlaJdZFeehCQRkz2cz9uUXfePbxUBCRuz31SFnRYUp3O7jl6OaB0jjoPiyA8ibBAtGsLtLaisv1R+A1GUIMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDIV+y5Ye7cFFDChoYhoMvz8/frhVP69y1vOSIjCWlAEeuHZZNtcMge2+B2wY/9stdvJJpMG1i95v+VXscv5gyXAq1ckv74dEZeE0FPwqOBOcr68tCcK7O8LbKIuS5nMV8e18fxuCt4Yduac0JHIswJdE4N9gDsA04aJ44oWa0ewMBPwz55U9GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 101,
+      "completion_tokens": 217,
+      "total_tokens": 318,
+      "cost": 0.00593,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00593,
+        "upstream_inference_prompt_cost": 0.000505,
+        "upstream_inference_completions_cost": 0.005425
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 27,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 101,
+  "tokensOut": 217,
+  "costUsd": 0.00593,
+  "latencyMs": 5048,
+  "finishReason": "stop"
+}

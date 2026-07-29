@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "qty-002",
+  "answerText": "Scale by 4/6 (i.e., ×2/3): 450 g × 2/3 = 300 g of basmati rice (75 g per serving).\n\nAnswer: 300 g",
+  "raw": {
+    "id": "gen-1785342112-oCrsv7Km9k649tPc93Wg",
+    "object": "chat.completion",
+    "created": 1785342112,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Scale by 4/6 (i.e., ×2/3): 450 g × 2/3 = 300 g of basmati rice (75 g per serving).\n\nAnswer: 300 g",
+          "refusal": null,
+          "reasoning": "So I'm calculating that each serving comes to 75 grams, and multiplying by 4 servings gives me 300 grams total.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "So I'm calculating that each serving comes to 75 grams, and multiplying by 4 servings gives me 300 grams total.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISjgIKhwEIEBgCKkB/VXCUL8MPDlHUUQXVM+5yQa1Y+PobA2YCMHIb0Bh306XI47W2S2KEfFB+8DkplmcqLqh5zIjC572Y4PbL8FMoMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDPkjeVkpzpLUq8D/fBoMQoCuJTWpL+X8UfkOIjAD4FY2G1tzxihkKyldaVuLK2G1gpv7P7YO/QT1O7zpBnjbZ+k+A0DSEz1hanfX9RIqNKq6rexpXMge40qylnW4gl9VxyQQ6uG5MCF198hsz//biPC4xJ7bsNgeJ2X7rwgQOAHyyGwYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 105,
+      "completion_tokens": 84,
+      "total_tokens": 189,
+      "cost": 0.002625,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002625,
+        "upstream_inference_prompt_cost": 0.000525,
+        "upstream_inference_completions_cost": 0.0021
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 28,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 105,
+  "tokensOut": 84,
+  "costUsd": 0.002625,
+  "latencyMs": 3809,
+  "finishReason": "stop"
+}

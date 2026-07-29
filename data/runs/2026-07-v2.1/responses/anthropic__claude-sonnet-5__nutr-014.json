@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "nutr-014",
+  "answerText": "The calories don't change during boiling—water adds weight but no calories, so the cooked spaghetti still contains 270 kcal total (just spread across 190 g due to water absorption, roughly 142 kcal per 100 g instead of 360 kcal per 100 g dry).\n\nAnswer: 270 kcal",
+  "raw": {
+    "id": "gen-1785343381-PUfv63Bn7pvj1KFtl5EI",
+    "object": "chat.completion",
+    "created": 1785343381,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "The calories don't change during boiling—water adds weight but no calories, so the cooked spaghetti still contains 270 kcal total (just spread across 190 g due to water absorption, roughly 142 kcal per 100 g instead of 360 kcal per 100 g dry).\n\nAnswer: 270 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 117,
+      "completion_tokens": 101,
+      "total_tokens": 218,
+      "cost": 0.001244,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001244,
+        "upstream_inference_prompt_cost": 0.000234,
+        "upstream_inference_completions_cost": 0.00101
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 117,
+  "tokensOut": 101,
+  "costUsd": 0.001244,
+  "latencyMs": 3475,
+  "finishReason": "stop"
+}

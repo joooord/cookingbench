@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "nutr-015",
+  "answerText": "**Calculation:**\n\n1. **Ethanol volume:** 150 mL × 12% = 18 mL\n2. **Ethanol mass:** 18 mL × 0.789 g/mL = 14.2 g\n3. **Ethanol calories:** 14.2 g × 7 kcal/g = 99.4 kcal\n4. **Sugar calories:** 3 g × 4 kcal/g = 12 kcal\n5. **Total calories:** 99.4 + 12 = 111.4 kcal\n\nAnswer: 111.4 kcal",
+  "raw": {
+    "id": "gen-1785343382-qRNcESClgRQwNBFIl6pn",
+    "object": "chat.completion",
+    "created": 1785343382,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Calculation:**\n\n1. **Ethanol volume:** 150 mL × 12% = 18 mL\n2. **Ethanol mass:** 18 mL × 0.789 g/mL = 14.2 g\n3. **Ethanol calories:** 14.2 g × 7 kcal/g = 99.4 kcal\n4. **Sugar calories:** 3 g × 4 kcal/g = 12 kcal\n5. **Total calories:** 99.4 + 12 = 111.4 kcal\n\nAnswer: 111.4 kcal",
+          "refusal": null,
+          "reasoning": "I'm calculating the caloric content of an alcoholic beverage by working through the ethanol volume, converting it to mass, then computing calories from both the ethanol and sugar content to get a total of about 111 calories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the caloric content of an alcoholic beverage by working through the ethanol volume, converting it to mass, then computing calories from both the ethanol and sugar content to get a total of about 111 calories.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EoQDCokBCBAYAipAgGvCr//eCdAj6mlCKmc7lSK6SSU9QpbxIwwjsC88mDviHOfcg8Ub8wX7oIAgHmXipunq+8AJP15OQewBehRmbjIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDK5jyFfMFEwnleJSBxoMfAsL9Diu4n6yW+4lIjBBu+WROJouoh9WiIocSIjOtuIAbSUGj9kSSBDAyD11hbIy00OhdVS3YIniniSnkXAqpwFb6QtmPVdqbTs0q01yMlFqyVCSjpbNsmWlZ47OQTnG6q7Z+aIbrjtfDojyFjlPDpf8sjshjWm/jOhKKS0Ij4Fd7x5em63F4uvpFUlTLAHARFZLTxZ5nlanYWisjlmrLwuBBUePwolOWHlJHudbEerzpi4HKPNwXp+K30K2a/PKA3gtv86x+DtrKqV1b+iLlffrAmxUVLIdSWzdmxmeU/nMgcWTPw19+RgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 146,
+      "completion_tokens": 274,
+      "total_tokens": 420,
+      "cost": 0.003032,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003032,
+        "upstream_inference_prompt_cost": 0.000292,
+        "upstream_inference_completions_cost": 0.00274
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 56,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 146,
+  "tokensOut": 274,
+  "costUsd": 0.003032,
+  "latencyMs": 4082,
+  "finishReason": "stop"
+}

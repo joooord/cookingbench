@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "nutr-033",
+  "answerText": "**Calculation:**\n\n**Alcohol:**\n- Volume of ethanol = 750 mL × 0.135 = 101.25 mL\n- Mass of ethanol = 101.25 mL × 0.789 g/mL = 79.89 g\n- Calories from alcohol = 79.89 g × 7 kcal/g = 559.2 kcal\n\n**Residual sugar:**\n- Sugar amount = 4 g/L × 0.75 L = 3 g\n- Calories from sugar = 3 g × 4 kcal/g = 12 kcal\n\n**Total:**\n559.2 + 12 = 571.2 kcal\n\nAnswer: 571.2 kcal",
+  "raw": {
+    "id": "gen-1785343402-voCfC872Wu3dLsunT7UG",
+    "object": "chat.completion",
+    "created": 1785343402,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Calculation:**\n\n**Alcohol:**\n- Volume of ethanol = 750 mL × 0.135 = 101.25 mL\n- Mass of ethanol = 101.25 mL × 0.789 g/mL = 79.89 g\n- Calories from alcohol = 79.89 g × 7 kcal/g = 559.2 kcal\n\n**Residual sugar:**\n- Sugar amount = 4 g/L × 0.75 L = 3 g\n- Calories from sugar = 3 g × 4 kcal/g = 12 kcal\n\n**Total:**\n559.2 + 12 = 571.2 kcal\n\nAnswer: 571.2 kcal",
+          "refusal": null,
+          "reasoning": "I'm calculating the calorie content of a wine bottle by breaking down the alcohol and sugar contributions separately. The alcohol volume works out to about 101 ml, which translates to roughly 80 grams and 559 calories, while the residual sugar adds another 12 calories, bringing the total to around 571 calories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the calorie content of a wine bottle by breaking down the alcohol and sugar contributions separately. The alcohol volume works out to about 101 ml, which translates to roughly 80 grams and 559 calories, while the residual sugar adds another 12 calories, bringing the total to around 571 calories.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Ep8DCokBCBAYAipALm68vnCQFBEBnz6QwtlruToJJYM1A750TagdMIwptcGSdTg7QqzkALVx9yIUahwIuQg6pTxD2lPEcxiLmd4v5zIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDLwrcnB7pPOSDEeLRBoMi/nc61vV08IVyUF+IjDnzURIzf8M/MpCj49HX0Hf9uF6VB5nZPDFAhC1miRKaZP7uF4nktP6XL3jg/5kTTMqwgFUNgsgWdH4n90ePXQ25WwON0leON470JuPj4Z64EB2SU3XGeyYSaBCMbEY3BngedbsR3+Vw5VHk94KkUu2TsAgPtx3GZw0xezdrUb2sWKy/9OuGcytaU8mHyFV9lob0TU0kjEEtCw1xJCgx2fOf4t94ENR+ASZFh7IX6ebb5Cz2N9KbR8ZON1mUpFaask6CLolFbDjF8cjwjTdiCKuV3gQpj1MkvISzlGo6+ctWmhsVqI4mhMagF8+CDvjqqrR9SATKRgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 159,
+      "completion_tokens": 341,
+      "total_tokens": 500,
+      "cost": 0.003728,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003728,
+        "upstream_inference_prompt_cost": 0.000318,
+        "upstream_inference_completions_cost": 0.00341
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 78,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 159,
+  "tokensOut": 341,
+  "costUsd": 0.003728,
+  "latencyMs": 4509,
+  "finishReason": "stop"
+}

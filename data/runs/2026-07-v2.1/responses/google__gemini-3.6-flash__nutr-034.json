@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "nutr-034",
+  "answerText": "To find the total calories you consumed:\n\n1. **Calculate the weight of half the package:** \n   396 g ÷ 2 = 198 g\n\n2. **Calculate the number of servings eaten:** \n   198 g ÷ 55 g per serving = 3.6 servings\n\n3. **Calculate total calories:** \n   3.6 servings × 230 calories per serving = 828 calories\n\nAnswer: 828 kcal",
+  "raw": {
+    "id": "gen-1785343679-gKb91zwjRrRGphCXEVUl",
+    "object": "chat.completion",
+    "created": 1785343679,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find the total calories you consumed:\n\n1. **Calculate the weight of half the package:** \n   396 g ÷ 2 = 198 g\n\n2. **Calculate the number of servings eaten:** \n   198 g ÷ 55 g per serving = 3.6 servings\n\n3. **Calculate total calories:** \n   3.6 servings × 230 calories per serving = 828 calories\n\nAnswer: 828 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating Snack Calories**\n\nI'm working on determining the total kilocalories from half of the snack package. My current focus is on accurately scaling the provided per-serving calorie information to reflect the portion consumed.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Snack Calories**\n\nI'm working on determining the total kilocalories from half of the snack package. My current focus is on accurately scaling the provided per-serving calorie information to reflect the portion consumed.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 75,
+      "completion_tokens": 548,
+      "total_tokens": 623,
+      "cost": 0.0042225,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0042225,
+        "upstream_inference_prompt_cost": 0.0001125,
+        "upstream_inference_completions_cost": 0.00411
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 445,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 75,
+  "tokensOut": 548,
+  "costUsd": 0.0042225,
+  "latencyMs": 3692,
+  "finishReason": "stop"
+}

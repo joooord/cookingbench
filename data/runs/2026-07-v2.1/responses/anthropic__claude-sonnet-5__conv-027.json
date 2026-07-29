@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "conv-027",
+  "answerText": "For 2 US cups of milk (473 mL total), using a 250 mL Australian metric cup, you'd need about 1.9 Australian cups.\n\nAnswer: 1.9 cups",
+  "raw": {
+    "id": "gen-1785343300-XQrPH3cs8nsLmETenPQh",
+    "object": "chat.completion",
+    "created": 1785343300,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "For 2 US cups of milk (473 mL total), using a 250 mL Australian metric cup, you'd need about 1.9 Australian cups.\n\nAnswer: 1.9 cups",
+          "refusal": null,
+          "reasoning": "I'm converting between US and Australian cup measurements—2 US cups equals about 473 milliliters, which translates to roughly 1.9 Australian cups since an Australian cup is 250 milliliters.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm converting between US and Australian cup measurements—2 US cups equals about 473 milliliters, which translates to roughly 1.9 Australian cups since an Australian cup is 250 milliliters.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EtECCokBCBAYAipA3XdX++KqqjYShpkGAhktc3vllXHc+i0snGu4WHT8nYwmo8EYlcNnbajZyOR8y+0+owBMlpEu2H8AMrIYp5o8qzIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDPn+10A8WyJkUFz5NhoMoPd86A9TFCcQ+dJaIjAtyUVxnhSQgs8w6zv+aBlRmozPuvudPFQs2eEPqXdl78fzY4xE+5gS3k4m8IHw3VEqdZG2FtLnw6/8czvGMdjnlsqZbo2yEvfiuhhlCbjtHQTEJmawuNEiSGcx9Vfk6IIK8JBlNCbhn3xLrkXKL4K9dU0UAOtx+dRIr/F7XjqJySWf95zCI74HTU4i/0BzMTq60qf7zSgEpjV8FGMgbma69k8Rbu86LxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 107,
+      "completion_tokens": 129,
+      "total_tokens": 236,
+      "cost": 0.001504,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001504,
+        "upstream_inference_prompt_cost": 0.000214,
+        "upstream_inference_completions_cost": 0.00129
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 48,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 107,
+  "tokensOut": 129,
+  "costUsd": 0.001504,
+  "latencyMs": 3530,
+  "finishReason": "stop"
+}

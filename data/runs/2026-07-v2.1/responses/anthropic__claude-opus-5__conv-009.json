@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "conv-009",
+  "answerText": "In the US customary system, 1 tablespoon equals 3 teaspoons (about 14.8 mL vs. 4.9 mL). Note that this differs elsewhere — an Australian tablespoon, for example, holds 4 teaspoons (20 mL).\n\nAnswer: 3 tsp",
+  "raw": {
+    "id": "gen-1785341894-YbATxBXRwV78gugtE6S0",
+    "object": "chat.completion",
+    "created": 1785341894,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "In the US customary system, 1 tablespoon equals 3 teaspoons (about 14.8 mL vs. 4.9 mL). Note that this differs elsewhere — an Australian tablespoon, for example, holds 4 teaspoons (20 mL).\n\nAnswer: 3 tsp",
+          "refusal": null,
+          "reasoning": "That's 3 teaspoons.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "That's 3 teaspoons.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS9gEKhwEIEBgCKkA8YboYACs0v1f1E5eX74I+iLq6qukl43LsHnRNLvFyWrewmNncodQ+CCN0I5MZIyL1LnNJnMMIg1R1zdv3GbNxMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDIalvhbFeRYPCpQ62RoMjblU9175zUZa9G7DIjBraiiPi9myngMf+6RBOurcnsge7yf0rV/WeJ7TN20kXxy/KXLgQW/FtpmEDgkwmsEqHD9k9M8k7YX+MwmKj5uqsXonQMNTLZQ4vEuWVxoYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 75,
+      "completion_tokens": 109,
+      "total_tokens": 184,
+      "cost": 0.0031,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0031,
+        "upstream_inference_prompt_cost": 0.000375,
+        "upstream_inference_completions_cost": 0.002725
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 5,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 75,
+  "tokensOut": 109,
+  "costUsd": 0.0031,
+  "latencyMs": 3689,
+  "finishReason": "stop"
+}

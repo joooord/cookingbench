@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "nutr-025",
+  "answerText": "## Reasoning\n\n**Step 1 – Raw trimmed weight**\n- 2 steaks × 300 g = 600 g raw total\n- Removing the fat cap (≈15%) removes 90 g → 510 g raw, trimmed lean sirloin remains\n\n**Step 2 – Nutritional profile of raw trimmed sirloin**\nTrimmed sirloin (some intramuscular marbling, fat cap removed) is roughly, per 100 g raw:\n- Protein: ~21 g\n- Fat: ~7 g\n- Calories: ~150 kcal\n\nFor 510 g raw trimmed weight:\n- Protein: 510 × 0.21 ≈ 107 g\n- Fat: 510 × 0.07 ≈ 36 g\n- Calories: 510 × 1.5 ≈ 765 kcal\n\n**Step 3 – Effect of grilling**\nGrilling causes:\n- Moisture loss (concentrates nutrients per gram, but total mass shrinks)\n- Fat rendering: on a BBQ, additional intramuscular fat melts and drips away — typically ~20–25% of remaining fat is lost\n- Protein loss is minimal, maybe ~5% lost to drip/char loss\n\nApplying these adjustments:\n- Protein retained (~95%): 107 × 0.95 ≈ 102 g\n- Fat retained (~75%): 36 × 0.75 ≈ 27 g\n- Calories recalculated from retained macros: (102 g × 4 kcal) + (27 g × 9 kcal) = 408 + 243 ≈ 651 kcal\n\n## Final Estimate (both cooked, trimmed steaks combined)\n\nProtein: 102 g\nFat: 27 g\nCalories: 650 kcal",
+  "raw": {
+    "id": "gen-1785343388-Q9PdK4ZKyp4c1Pbhiul1",
+    "object": "chat.completion",
+    "created": 1785343388,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "## Reasoning\n\n**Step 1 – Raw trimmed weight**\n- 2 steaks × 300 g = 600 g raw total\n- Removing the fat cap (≈15%) removes 90 g → 510 g raw, trimmed lean sirloin remains\n\n**Step 2 – Nutritional profile of raw trimmed sirloin**\nTrimmed sirloin (some intramuscular marbling, fat cap removed) is roughly, per 100 g raw:\n- Protein: ~21 g\n- Fat: ~7 g\n- Calories: ~150 kcal\n\nFor 510 g raw trimmed weight:\n- Protein: 510 × 0.21 ≈ 107 g\n- Fat: 510 × 0.07 ≈ 36 g\n- Calories: 510 × 1.5 ≈ 765 kcal\n\n**Step 3 – Effect of grilling**\nGrilling causes:\n- Moisture loss (concentrates nutrients per gram, but total mass shrinks)\n- Fat rendering: on a BBQ, additional intramuscular fat melts and drips away — typically ~20–25% of remaining fat is lost\n- Protein loss is minimal, maybe ~5% lost to drip/char loss\n\nApplying these adjustments:\n- Protein retained (~95%): 107 × 0.95 ≈ 102 g\n- Fat retained (~75%): 36 × 0.75 ≈ 27 g\n- Calories recalculated from retained macros: (102 g × 4 kcal) + (27 g × 9 kcal) = 408 + 243 ≈ 651 kcal\n\n## Final Estimate (both cooked, trimmed steaks combined)\n\nProtein: 102 g\nFat: 27 g\nCalories: 650 kcal",
+          "refusal": null,
+          "reasoning": "I'm calculating the nutritional breakdown for a trimmed sirloin steak—starting with 600g raw, removing about 90g of the fat cap to get 510g of trimmed meat, then working through the protein, fat, and calorie content using standard USDA values for lean beef sirloin with some marbling. Grilling causes additional fat rendering and moisture loss—I'm estimating about 25% of the fat drips off while protein loss stays minimal around 5%. This gives me cooked totals of roughly 102g protein, 27g fat, and about 651 calories for both steaks combined.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the nutritional breakdown for a trimmed sirloin steak—starting with 600g raw, removing about 90g of the fat cap to get 510g of trimmed meat, then working through the protein, fat, and calorie content using standard USDA values for lean beef sirloin with some marbling. Grilling causes additional fat rendering and moisture loss—I'm estimating about 25% of the fat drips off while protein loss stays minimal around 5%. This gives me cooked totals of roughly 102g protein, 27g fat, and about 651 calories for both steaks combined.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "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"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 171,
+      "completion_tokens": 1602,
+      "total_tokens": 1773,
+      "cost": 0.016362,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.016362,
+        "upstream_inference_prompt_cost": 0.000342,
+        "upstream_inference_completions_cost": 0.01602
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 138,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 171,
+  "tokensOut": 1602,
+  "costUsd": 0.016362,
+  "latencyMs": 16330,
+  "finishReason": "stop"
+}

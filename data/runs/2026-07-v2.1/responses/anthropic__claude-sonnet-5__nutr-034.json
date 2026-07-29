@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "nutr-034",
+  "answerText": "Here's the calculation:\n\n- Calories per gram = 230 kcal ÷ 55 g = 4.1818 kcal/g\n- Half the package = 396 g ÷ 2 = 198 g\n- Total calories = 198 g × 4.1818 kcal/g = 828 kcal\n\nAnswer: 828 kcal",
+  "raw": {
+    "id": "gen-1785343404-hR7quo2A38ypzSSUIbzj",
+    "object": "chat.completion",
+    "created": 1785343404,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Here's the calculation:\n\n- Calories per gram = 230 kcal ÷ 55 g = 4.1818 kcal/g\n- Half the package = 396 g ÷ 2 = 198 g\n- Total calories = 198 g × 4.1818 kcal/g = 828 kcal\n\nAnswer: 828 kcal",
+          "refusal": null,
+          "reasoning": "I'm calculating the calorie content for half the package by first determining the calorie density, then multiplying by the half-package weight to get approximately 828 calories.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the calorie content for half the package by first determining the calorie density, then multiplying by the half-package weight to get approximately 828 calories.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EsgCCokBCBAYAipAKgScrhcVNH3op9q854mZykLVx7Ux91KD5gM1Kn0Yb5uQMXHdEy27+KQHwSJ/SydO8PvYmHLyF9cEiq8IPx6C4DIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDL57YT4+fTyE3Pr/HBoMsiNnCg90jdFi80f0IjAyiYNUM9RQPOqMRvAYPuG4oJ4jfcyDw6/mSf2Ug5YRb+QtOn53qCe8+82PwFpF4pkqbEMNYJZGLgtkgBXYrEiBC9+KUhtUnu3xq8Iqyw1m2uto1a1GYT8HIOw0rKtbjaFRbZZGDFS6l/Jmx63H4ZCvCbt5z3tMxuE16fFw7mJyFMqtJo6tKxQug7+gjgDsvi8+1v8UYrKOiceyRRqeSxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 112,
+      "completion_tokens": 165,
+      "total_tokens": 277,
+      "cost": 0.001874,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001874,
+        "upstream_inference_prompt_cost": 0.000224,
+        "upstream_inference_completions_cost": 0.00165
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 45,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 112,
+  "tokensOut": 165,
+  "costUsd": 0.001874,
+  "latencyMs": 4462,
+  "finishReason": "stop"
+}

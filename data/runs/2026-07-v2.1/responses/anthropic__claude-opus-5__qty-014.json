@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "qty-014",
+  "answerText": "**Scaling factor ≈ 1.27**\n\n- Round 20 cm tin: area = π × 10² ≈ 314.2 cm²\n- Square 20 cm tin: area = 20 × 20 = 400 cm²\n- Ratio = 400 ÷ 314.2 ≈ 1.273\n\nSo multiply all ingredients by about 1.27 (i.e. ~27% more) to keep the same batter depth; baking time will be very similar, though check a couple of minutes early since corners set faster.\n\nAnswer: 1.27",
+  "raw": {
+    "id": "gen-1785342125-N6ldny8JzLdm57JbApsv",
+    "object": "chat.completion",
+    "created": 1785342125,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Scaling factor ≈ 1.27**\n\n- Round 20 cm tin: area = π × 10² ≈ 314.2 cm²\n- Square 20 cm tin: area = 20 × 20 = 400 cm²\n- Ratio = 400 ÷ 314.2 ≈ 1.273\n\nSo multiply all ingredients by about 1.27 (i.e. ~27% more) to keep the same batter depth; baking time will be very similar, though check a couple of minutes early since corners set faster.\n\nAnswer: 1.27",
+          "refusal": null,
+          "reasoning": "I'm calculating the areas of a circle with radius 10 cm and a square with side 20 cm, then finding their ratio—the square is about 1.27 times larger than the circle.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the areas of a circle with radius 10 cm and a square with side 20 cm, then finding their ratio—the square is about 1.27 times larger than the circle.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISywIKhwEIEBgCKkDta8zPOGRJ5HzxE2kGF42coXhvKgiqA1YtYLvrE9qfM5NIEVd/wfcbmcvxRxkWywttzxyaUpcII2GVTeGJI25rMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDGdbd6RqPsrDTt/R7RoMLm+Wg8lqiBvRggBaIjC4cRkwCR6DZVmCcd4wEiXVcO32kQb4b6rkJ76sZ0/MzzfLaLtJb7NWuowcSjg9Tg8qccRUrjSnC0UJ9/eEIOfUsR1R1CYs8RyyZTlmqDBr3eK/wuJK+kd9goaJOxQ2axk5F0dqR8j0rOzcjdAexN/bWK2h1d9dFzP7PjOag1cO1Q+zm8jJ5YAiurcQ4ClgdK2ty7WmFQ0Kx815c3U2Hrg15ga1GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 123,
+      "completion_tokens": 235,
+      "total_tokens": 358,
+      "cost": 0.00649,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00649,
+        "upstream_inference_prompt_cost": 0.000615,
+        "upstream_inference_completions_cost": 0.005875
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 42,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 123,
+  "tokensOut": 235,
+  "costUsd": 0.00649,
+  "latencyMs": 4818,
+  "finishReason": "stop"
+}

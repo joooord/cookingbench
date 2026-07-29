@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "qty-001",
+  "answerText": "To scale the recipe from 2 loaves to 5 loaves, you need to multiply each ingredient by a scaling factor of 2.5 (5 divided by 2). \n\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g",
+  "raw": {
+    "id": "gen-1785343090-qVWBSitqijSZKj2ol75v",
+    "object": "chat.completion",
+    "created": 1785343090,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To scale the recipe from 2 loaves to 5 loaves, you need to multiply each ingredient by a scaling factor of 2.5 (5 divided by 2). \n\nflour: 1250 g\nwater: 875 g\nsalt: 25 g\ninstant yeast: 17.5 g",
+          "refusal": null,
+          "reasoning": "**Scaling the Recipe**\n\nI'm currently recalculating the ingredient quantities to yield five loaves instead of the original two. My focus is on proportionally scaling the flour, water, salt, and yeast, ensuring the ratios remain consistent for optimal dough development.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Scaling the Recipe**\n\nI'm currently recalculating the ingredient quantities to yield five loaves instead of the original two. My focus is on proportionally scaling the flour, water, salt, and yeast, ensuring the ratios remain consistent for optimal dough development.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 82,
+      "completion_tokens": 452,
+      "total_tokens": 534,
+      "cost": 0.005588,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.005588,
+        "upstream_inference_prompt_cost": 0.000164,
+        "upstream_inference_completions_cost": 0.005424
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 381,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 82,
+  "tokensOut": 452,
+  "costUsd": 0.005588,
+  "latencyMs": 4407,
+  "finishReason": "stop"
+}

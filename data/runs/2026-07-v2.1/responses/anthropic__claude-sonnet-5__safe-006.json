@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "safe-006",
+  "answerText": "No, don't rinse raw chicken.\n\n**Why:**\n- Washing it doesn't remove bacteria like Salmonella or Campylobacter—cooking to a safe internal temperature (165°F/74°C) is what kills them.\n- Rinsing actually spreads bacteria via water splashes onto your sink, counters, utensils, and nearby surfaces, increasing risk of cross-contamination.\n\n**What to do instead:**\n- Pat the chicken dry with a paper towel if needed (for better searing/browning).\n- Wash your hands, cutting boards, and any surfaces or utensils that touched raw chicken with hot, soapy water.\n- Use a separate cutting board for raw meat if possible.\n- Cook thoroughly and check temperature with a meat thermometer.",
+  "raw": {
+    "id": "gen-1785343339-Asw7KFQle8LUdFXN4K5n",
+    "object": "chat.completion",
+    "created": 1785343339,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "No, don't rinse raw chicken.\n\n**Why:**\n- Washing it doesn't remove bacteria like Salmonella or Campylobacter—cooking to a safe internal temperature (165°F/74°C) is what kills them.\n- Rinsing actually spreads bacteria via water splashes onto your sink, counters, utensils, and nearby surfaces, increasing risk of cross-contamination.\n\n**What to do instead:**\n- Pat the chicken dry with a paper towel if needed (for better searing/browning).\n- Wash your hands, cutting boards, and any surfaces or utensils that touched raw chicken with hot, soapy water.\n- Use a separate cutting board for raw meat if possible.\n- Cook thoroughly and check temperature with a meat thermometer.",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 64,
+      "completion_tokens": 258,
+      "total_tokens": 322,
+      "cost": 0.002708,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002708,
+        "upstream_inference_prompt_cost": 0.000128,
+        "upstream_inference_completions_cost": 0.00258
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 64,
+  "tokensOut": 258,
+  "costUsd": 0.002708,
+  "latencyMs": 4377,
+  "finishReason": "stop"
+}

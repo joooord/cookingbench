@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "qty-005",
+  "answerText": "Scale the butter by the cookie ratio: 90 ÷ 24 = 3.75.  \n250 g × 3.75 = 937.5 g.\n\nAnswer: 937.5 g",
+  "raw": {
+    "id": "gen-1785342605-s7p3p3Dl33xtxU2ePZJw",
+    "object": "chat.completion",
+    "created": 1785342605,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Scale the butter by the cookie ratio: 90 ÷ 24 = 3.75.  \n250 g × 3.75 = 937.5 g.\n\nAnswer: 937.5 g",
+          "refusal": null,
+          "reasoning": "The user wants proportional scaling. 250 g butter for 24 cookies. For 90 cookies: 250 * 90/24 = 250 * 3.75 = 937.5 g. Need final line exactly Answer: 937.5 g. Provide concise explanation. Ensure no issue with fractional butter; answer in grams can be decimal.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants proportional scaling. 250 g butter for 24 cookies. For 90 cookies: 250 * 90/24 = 250 * 3.75 = 937.5 g. Need final line exactly Answer: 937.5 g. Provide concise explanation. Ensure no issue with fractional butter; answer in grams can be decimal.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 161,
+      "completion_tokens": 130,
+      "total_tokens": 291,
+      "cost": 0.002433,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002433,
+        "upstream_inference_prompt_cost": 0.000483,
+        "upstream_inference_completions_cost": 0.00195
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 73,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 161,
+  "tokensOut": 130,
+  "costUsd": 0.002433,
+  "latencyMs": 5807,
+  "finishReason": "stop"
+}

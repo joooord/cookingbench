@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "qty-021",
+  "answerText": "To keep the same cake depth, you need to scale the sugar by the ratio of tin areas, since volume scales with area when depth stays constant.\n\n**Calculation:**\n- Area scales with the square of the diameter (or radius)\n- Ratio = (26/20)² = (1.3)² = 1.69\n- New sugar amount = 180 g × 1.69 = 304.2 g\n\nSo you should use approximately **304 g** of caster sugar (round to 300 g for practicality).\n\nAnswer: 304 g",
+  "raw": {
+    "id": "gen-1785343427-o518OsLYQYHps6TR8fsS",
+    "object": "chat.completion",
+    "created": 1785343427,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To keep the same cake depth, you need to scale the sugar by the ratio of tin areas, since volume scales with area when depth stays constant.\n\n**Calculation:**\n- Area scales with the square of the diameter (or radius)\n- Ratio = (26/20)² = (1.3)² = 1.69\n- New sugar amount = 180 g × 1.69 = 304.2 g\n\nSo you should use approximately **304 g** of caster sugar (round to 300 g for practicality).\n\nAnswer: 304 g",
+          "refusal": null,
+          "reasoning": "Since the area of a circle scales with the square of the radius, I can calculate the ratio between the 26cm and 20cm tins: that's (26/20)² = 1.69. Multiplying the original 180g by this ratio gives me about 304g for the larger tin.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Since the area of a circle scales with the square of the radius, I can calculate the ratio between the 26cm and 20cm tins: that's (26/20)² = 1.69. Multiplying the original 180g by this ratio gives me about 304g for the larger tin.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Es4CCokBCBAYAipA0nOpiX4+bfbX944oS2zf3Wf79NrGs3hrgJ3ea/0MPhtT8pEegG8PAaJSF0yEsxHApQo43qcD0q89BWJJnVJ5JjIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDLpQVjiE6Q7SORG5IRoMDBHwISCi7nRk4jaUIjBRW2uQZ7GcGrfJgIVa22ha1A+GLjLuSxOINEGM2GjHAjqIEKoWQMWWsQPc6z51rX4qcpRZ53Z8+SJHwYaVOnlJ9909rymD5jbwcgyIe/sm5eHLJcLoLY3C/ploke4gsf4ZoTM5UpBFJYkeSuyIl3puugCw9tqlbyv/lj7ARtMIfX8S4qenK7ZbCIRA6kZJ0xo7UYALYReWK5LXu6zSAYbE3G4HSRgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 120,
+      "completion_tokens": 223,
+      "total_tokens": 343,
+      "cost": 0.00247,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00247,
+        "upstream_inference_prompt_cost": 0.00024,
+        "upstream_inference_completions_cost": 0.00223
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 59,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 120,
+  "tokensOut": 223,
+  "costUsd": 0.00247,
+  "latencyMs": 4799,
+  "finishReason": "stop"
+}

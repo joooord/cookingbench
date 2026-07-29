@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "tech-014",
+  "answerText": "**Short answer:** Collagen shrinks and denatures starting around 52–60 °C, but it only begins hydrolyzing into gelatin at a *useful* rate once the meat pushes past roughly **70 °C** — which is why short ribs are typically braised until they reach about 88–96 °C internal and held there for hours.\n\nKey points:\n- 52–60 °C: collagen fibers denature and contract (meat can feel tough/dry as juices are squeezed out).\n- ~70 °C and up: collagen-to-gelatin conversion becomes meaningful, but still slow.\n- 85–96 °C: conversion is rapid; 2–3 hours here gives that silky, fall-apart texture.\n- Time matters as much as temperature — sous-vide short ribs can get tender at 60–65 °C, but need 24–72 hours.\n\nAnswer: 70 °C",
+  "raw": {
+    "id": "gen-1785342414-Ejm6WR4ZrM9QKBVsZpj1",
+    "object": "chat.completion",
+    "created": 1785342414,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Short answer:** Collagen shrinks and denatures starting around 52–60 °C, but it only begins hydrolyzing into gelatin at a *useful* rate once the meat pushes past roughly **70 °C** — which is why short ribs are typically braised until they reach about 88–96 °C internal and held there for hours.\n\nKey points:\n- 52–60 °C: collagen fibers denature and contract (meat can feel tough/dry as juices are squeezed out).\n- ~70 °C and up: collagen-to-gelatin conversion becomes meaningful, but still slow.\n- 85–96 °C: conversion is rapid; 2–3 hours here gives that silky, fall-apart texture.\n- Time matters as much as temperature — sous-vide short ribs can get tender at 60–65 °C, but need 24–72 hours.\n\nAnswer: 70 °C",
+          "refusal": null,
+          "reasoning": "Collagen starts breaking down around 52-60°C, but it doesn't convert to gelatin at a meaningful rate until around 70°C, with the process accelerating significantly between 71-80°C. The typical answer is around 71°C or 160°F.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Collagen starts breaking down around 52-60°C, but it doesn't convert to gelatin at a meaningful rate until around 70°C, with the process accelerating significantly between 71-80°C. The typical answer is around 71°C or 160°F.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISjwMKhwEIEBgCKkDHLJWHyWsOhv6MqT4kdgknc/Dl7J1iAUAW8TQZA/jsPh+0zBXxCjMWPN7aaqsVpsz9E32jhInxzY+mN9i1HvzLMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDCwYab3ZRhM8bU/4GhoMAKg3IPvJ2FJDLuvQIjCQnUr7/7lEWR0+90aeKzTzEu4yZH6YY8iS2YyZKgqepM2SQN06NHvZboesywPM4PoqtAFIluoglRVj/UWFsi9az3YTbOygS7XFUCfYNc4VMJwtuRvKSET5foCfFp5/amZG3kD8iYDzART9drVN/mOkSLWlbuE3fpaKlpcYUkAyCR9Nihe7bDzhY4KYpEBC1oIXkxIur1Zu8fBleckwtpwgmZ5876nlMi4x4/jhTVNR9yYYpKdLH0Ylc479bdlQT9EhLGXQeqNYs50SYr00lK3E9gpUhNccrnAOyri9hvXvNiojpC9hWLkYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 101,
+      "completion_tokens": 355,
+      "total_tokens": 456,
+      "cost": 0.00938,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00938,
+        "upstream_inference_prompt_cost": 0.000505,
+        "upstream_inference_completions_cost": 0.008875
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 58,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 101,
+  "tokensOut": 355,
+  "costUsd": 0.00938,
+  "latencyMs": 6953,
+  "finishReason": "stop"
+}

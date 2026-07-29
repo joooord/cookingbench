@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-020",
+  "answerText": "A 100 g raw, skinless, boneless chicken breast contains roughly 22–23 g of protein (USDA lists about 22.5 g). Once cooked, the same piece loses water and shrinks to around 70–75 g, so cooked breast tests higher per 100 g (~31 g).\n\nAnswer: 23 g",
+  "raw": {
+    "id": "gen-1785342074-Ln8iqqN2FpYPksYu9qfK",
+    "object": "chat.completion",
+    "created": 1785342074,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A 100 g raw, skinless, boneless chicken breast contains roughly 22–23 g of protein (USDA lists about 22.5 g). Once cooked, the same piece loses water and shrinks to around 70–75 g, so cooked breast tests higher per 100 g (~31 g).\n\nAnswer: 23 g",
+          "refusal": null,
+          "reasoning": "I'm checking the protein content of raw skinless chicken breast, which comes in around 22-23 grams per 100 grams according to USDA data.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm checking the protein content of raw skinless chicken breast, which comes in around 22-23 grams per 100 grams according to USDA data.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIStAIKhwEIEBgCKkCE7L55z4wawcPU0A98ivE4TgqPrJ+fIa5gpL8DKbFUHe062PnMf+tHtw5QlTlfOu3Q3nXGFYWaKkcdHx9xmyETMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDKqUP6StodkOci3zbRoM+Hxqq55wstnCz+T7IjCeh31uO6723z55Z5KaMe+BWOJTDLCMdGys0seZ6EN3fnz3O5SOYA2CKpI9QG4q/J0qWkFrfn9yKX1zpiXZ7BTMTVcxAU5gEv2/obJQZNnxltbxs/wtq5RoXY7u7xM4n0W5H5Tk8qKYRqDOVl+S6GsNO+upDMcgy155Ry66VFq3qz+w9XY7GLRGuEeoeRgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 93,
+      "completion_tokens": 149,
+      "total_tokens": 242,
+      "cost": 0.00419,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00419,
+        "upstream_inference_prompt_cost": 0.000465,
+        "upstream_inference_completions_cost": 0.003725
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 34,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 93,
+  "tokensOut": 149,
+  "costUsd": 0.00419,
+  "latencyMs": 4960,
+  "finishReason": "stop"
+}

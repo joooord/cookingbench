@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "qty-007",
+  "answerText": "To find the total amount of broth needed, first calculate the total amount of rice and then apply the broth-to-rice ratio.\n\n1. **Calculate total rice:** 11 people × 100 g of rice/person = 1,100 g of rice.\n2. **Calculate total broth:** 1,100 g of rice × 3 (ratio of broth to rice) = 3,300 g of broth.\n\nAnswer: 3300 g",
+  "raw": {
+    "id": "gen-1785343099-6ViEd7k9klXmdlRnysgg",
+    "object": "chat.completion",
+    "created": 1785343099,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find the total amount of broth needed, first calculate the total amount of rice and then apply the broth-to-rice ratio.\n\n1. **Calculate total rice:** 11 people × 100 g of rice/person = 1,100 g of rice.\n2. **Calculate total broth:** 1,100 g of rice × 3 (ratio of broth to rice) = 3,300 g of broth.\n\nAnswer: 3300 g",
+          "refusal": null,
+          "reasoning": "**Calculating Broth Requirements**\n\nI'm currently focused on determining the total broth needed for our paella. My current thoughts are centered on scaling the recipe for eleven individuals, considering the standard ratio of rice per person. I'm working through the calculations to arrive at the final gram measurement.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Broth Requirements**\n\nI'm currently focused on determining the total broth needed for our paella. My current thoughts are centered on scaling the recipe for eleven individuals, considering the standard ratio of rice per person. I'm working through the calculations to arrive at the final gram measurement.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 80,
+      "completion_tokens": 318,
+      "total_tokens": 398,
+      "cost": 0.003976,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003976,
+        "upstream_inference_prompt_cost": 0.00016,
+        "upstream_inference_completions_cost": 0.003816
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 211,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 80,
+  "tokensOut": 318,
+  "costUsd": 0.003976,
+  "latencyMs": 4312,
+  "finishReason": "stop"
+}

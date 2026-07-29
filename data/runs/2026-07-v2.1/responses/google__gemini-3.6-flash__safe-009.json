@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "safe-009",
+  "answerText": "According to USDA food safety guidelines, raw ground beef can be safely stored in the refrigerator at or below 40°F (4°C) for 1 to 2 days before it needs to be cooked or frozen. \n\nAnswer: 2 days",
+  "raw": {
+    "id": "gen-1785343636-BRPWJgxHPzVGwvVS3RdO",
+    "object": "chat.completion",
+    "created": 1785343636,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google AI Studio",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "According to USDA food safety guidelines, raw ground beef can be safely stored in the refrigerator at or below 40°F (4°C) for 1 to 2 days before it needs to be cooked or frozen. \n\nAnswer: 2 days",
+          "refusal": null,
+          "reasoning": "**Defining Safe Storage**\n\nI'm currently focused on defining the safe refrigerated storage duration for raw ground beef. I've started by identifying the critical question – how many days is it safe? Next, I'm diving into USDA/FDA guidelines to determine the acceptable parameters for food safety, specifically for ground beef stored at or below 40°F (4°C).\n\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Defining Safe Storage**\n\nI'm currently focused on defining the safe refrigerated storage duration for raw ground beef. I've started by identifying the critical question – how many days is it safe? Next, I'm diving into USDA/FDA guidelines to determine the acceptable parameters for food safety, specifically for ground beef stored at or below 40°F (4°C).\n\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 64,
+      "completion_tokens": 465,
+      "total_tokens": 529,
+      "cost": 0.0035835,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0035835,
+        "upstream_inference_prompt_cost": 0.000096,
+        "upstream_inference_completions_cost": 0.0034875
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 412,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 64,
+  "tokensOut": 465,
+  "costUsd": 0.0035835,
+  "latencyMs": 2992,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "qty-001",
+  "answerText": "To make 5 loaves, scale the recipe by 2.5x (5 loaves ÷ 2 loaves):\n\nFlour: 1250 g\nWater: 875 g\nSalt: 25 g\nInstant yeast: 17.5 g",
+  "raw": {
+    "id": "gen-1785343409-F0TvA7qkrmkBlq3gl7jT",
+    "object": "chat.completion",
+    "created": 1785343409,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To make 5 loaves, scale the recipe by 2.5x (5 loaves ÷ 2 loaves):\n\nFlour: 1250 g\nWater: 875 g\nSalt: 25 g\nInstant yeast: 17.5 g",
+          "refusal": null,
+          "reasoning": "I'm applying a scale factor of 2.5 to the dimensions, multiplying each value to get the scaled results.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm applying a scale factor of 2.5 to the dimensions, multiplying each value to get the scaled results.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "Eq0CCokBCBAYAipAaVKXLVf4pa6suwVzFzW0b/FnPFhYCGcvmG30hwUxeD0oZfCU2tUEOz7t6XfEssGfAnyuUmJ4l+tQ6byNHtZGXjIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDPJEiS4QQz3OYYCtlBoMdkImMyiwOxljE+N7IjDUIwtzy8I1YBhdKrsQItB1JzMHRbQkKFaLFRE5x7CV3+nm+he8nNwbhzUL7T3GTQkqUUz8NKgURoyX/dxGv4T9nOeaEYGp7ID20Cy3vXXa5FglWR7N23UqeGGSnoPL0hmnJeRrosn/74bF8qM8dZUexhA2wTCetDr7Rl0V+O2GVgtI1BgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 133,
+      "completion_tokens": 129,
+      "total_tokens": 262,
+      "cost": 0.001556,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001556,
+        "upstream_inference_prompt_cost": 0.000266,
+        "upstream_inference_completions_cost": 0.00129
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 26,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 133,
+  "tokensOut": 129,
+  "costUsd": 0.001556,
+  "latencyMs": 4412,
+  "finishReason": "stop"
+}

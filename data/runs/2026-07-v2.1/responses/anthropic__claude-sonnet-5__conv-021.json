@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "conv-021",
+  "answerText": "25 cl = 250 ml. A US tablespoon is about 14.8 ml, so 250 ÷ 14.8 ≈ 16.9, roughly 17 tablespoons.\n\nAnswer: 17 tbsp",
+  "raw": {
+    "id": "gen-1785343295-ncspg9JcNLxUurrYO2mT",
+    "object": "chat.completion",
+    "created": 1785343295,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "25 cl = 250 ml. A US tablespoon is about 14.8 ml, so 250 ÷ 14.8 ≈ 16.9, roughly 17 tablespoons.\n\nAnswer: 17 tbsp",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 111,
+      "completion_tokens": 76,
+      "total_tokens": 187,
+      "cost": 0.000982,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.000982,
+        "upstream_inference_prompt_cost": 0.000222,
+        "upstream_inference_completions_cost": 0.00076
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 111,
+  "tokensOut": 76,
+  "costUsd": 0.000982,
+  "latencyMs": 3071,
+  "finishReason": "stop"
+}

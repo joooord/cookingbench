@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "qty-022",
+  "answerText": "Total cooked rice needed: 180 g × 7 = 1260 g.  \nDry rice needed: 1260 g ÷ 3 = 420 g.\n\nAnswer: 420 g",
+  "raw": {
+    "id": "gen-1785342646-NDAIpZk5xcDdZWTA2oU1",
+    "object": "chat.completion",
+    "created": 1785342646,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Total cooked rice needed: 180 g × 7 = 1260 g.  \nDry rice needed: 1260 g ÷ 3 = 420 g.\n\nAnswer: 420 g",
+          "refusal": null,
+          "reasoning": "The user wants 180 g cooked per person for 7 people = 1260 g cooked. Basmati triples in weight, so dry = cooked / 3 = 420 g. Need answer concise and end with exact line Answer: 420 g. Ensure final line format. Could include brief calculation. No need more.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants 180 g cooked per person for 7 people = 1260 g cooked. Basmati triples in weight, so dry = cooked / 3 = 420 g. Need answer concise and end with exact line Answer: 420 g. Ensure final line format. Could include brief calculation. No need more.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 172,
+      "completion_tokens": 121,
+      "total_tokens": 293,
+      "cost": 0.0034965,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0034965,
+        "upstream_inference_prompt_cost": 0.000774,
+        "upstream_inference_completions_cost": 0.0027225
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 68,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 172,
+  "tokensOut": 121,
+  "costUsd": 0.0034965,
+  "latencyMs": 13756,
+  "finishReason": "stop"
+}

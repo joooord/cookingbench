@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "nutr-022",
+  "answerText": "100 grams of dry (uncooked) white rice contains approximately 365 kilocalories.\n\nAnswer: 365 kcal",
+  "raw": {
+    "id": "gen-1785343667-BsrgmC63cr3DY33vsgnc",
+    "object": "chat.completion",
+    "created": 1785343667,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "100 grams of dry (uncooked) white rice contains approximately 365 kilocalories.\n\nAnswer: 365 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating Rice Energy**\n\nI'm focusing on determining the kilocalorie count for 100g of dry, uncooked white rice. Initial data suggests it's around 365 kcal, but I'm double-checking sources for accuracy and consistency.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Rice Energy**\n\nI'm focusing on determining the kilocalorie count for 100g of dry, uncooked white rice. Initial data suggests it's around 365 kcal, but I'm double-checking sources for accuracy and consistency.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 52,
+      "completion_tokens": 285,
+      "total_tokens": 337,
+      "cost": 0.0022155,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0022155,
+        "upstream_inference_prompt_cost": 0.000078,
+        "upstream_inference_completions_cost": 0.0021375
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 254,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 52,
+  "tokensOut": 285,
+  "costUsd": 0.0022155,
+  "latencyMs": 2099,
+  "finishReason": "stop"
+}

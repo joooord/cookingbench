@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "safe-004",
+  "answerText": "According to USDA and FDA food safety guidelines, cooked perishable food can safely sit out at normal room temperature for a maximum of 2 hours. After this time, it enters the \"Danger Zone\" (between 40°F and 140°F) where bacteria can multiply rapidly, and it should be either refrigerated or discarded. \n\nAnswer: 2 hours",
+  "raw": {
+    "id": "gen-1785343011-Ba5IkkBacOcAIxMAyKOf",
+    "object": "chat.completion",
+    "created": 1785343011,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "According to USDA and FDA food safety guidelines, cooked perishable food can safely sit out at normal room temperature for a maximum of 2 hours. After this time, it enters the \"Danger Zone\" (between 40°F and 140°F) where bacteria can multiply rapidly, and it should be either refrigerated or discarded. \n\nAnswer: 2 hours",
+          "refusal": null,
+          "reasoning": "**Determining Food Safety Limits**\n\nI'm currently focused on establishing precise timeframes for how long cooked food can remain at room temperature without compromising safety, referencing established guidelines to solidify these critical boundaries.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Determining Food Safety Limits**\n\nI'm currently focused on establishing precise timeframes for how long cooked food can remain at room temperature without compromising safety, referencing established guidelines to solidify these critical boundaries.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 64,
+      "completion_tokens": 218,
+      "total_tokens": 282,
+      "cost": 0.002744,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002744,
+        "upstream_inference_prompt_cost": 0.000128,
+        "upstream_inference_completions_cost": 0.002616
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 142,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 64,
+  "tokensOut": 218,
+  "costUsd": 0.002744,
+  "latencyMs": 3688,
+  "finishReason": "stop"
+}

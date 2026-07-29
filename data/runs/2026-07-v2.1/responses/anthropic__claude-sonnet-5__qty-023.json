@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "qty-023",
+  "answerText": "For a 6% brine by weight of water:\n\n- Water weight: 2.5 L ≈ 2500 g\n- Salt needed: 6% × 2500 g = 150 g\n- Convert to tablespoons: 150 g ÷ 18 g/tbsp ≈ 8.33 tbsp\n\nSo you'd want about 8⅓ tablespoons of table salt.\n\nAnswer: 8.33 tbsp",
+  "raw": {
+    "id": "gen-1785343429-CFkvR3hFOHDZRwngiTIa",
+    "object": "chat.completion",
+    "created": 1785343429,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "For a 6% brine by weight of water:\n\n- Water weight: 2.5 L ≈ 2500 g\n- Salt needed: 6% × 2500 g = 150 g\n- Convert to tablespoons: 150 g ÷ 18 g/tbsp ≈ 8.33 tbsp\n\nSo you'd want about 8⅓ tablespoons of table salt.\n\nAnswer: 8.33 tbsp",
+          "refusal": null,
+          "reasoning": "I'm calculating the salt content in the water solution—2.5 liters of water contains about 150 grams of salt at 6% concentration, which converts to roughly 8.33 tablespoons.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the salt content in the water solution—2.5 liters of water contains about 150 grams of salt at 6% concentration, which converts to roughly 8.33 tablespoons.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EqYCCokBCBAYAipAgClNB/a/1cjAZO+4G7O82vcGGQTt6MkdhoreKBFxRmm12zciQjex6GnUioly6Xtkdysqch2SrRvQTc7FMI8iHzIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDLZ5p1GG/n5b5oXdaxoMqNkj4U13yieRzKIPIjCO6DcS3Llz7jhUKf3T9tmIca0IxbgVI/rDFvK5BHpXAI94djeUHZqHCTyYPGbPQawqSlv2D4LlC6la9Ezc0H/p17Q9Jg2hyHPvZjwmLpJOPcyH9uoBcF0EyTbeSdcSaOPLCp7L9Ok38Rslz+jwukhH7nwJKt6aA9biSLbfGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 134,
+      "completion_tokens": 182,
+      "total_tokens": 316,
+      "cost": 0.002088,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002088,
+        "upstream_inference_prompt_cost": 0.000268,
+        "upstream_inference_completions_cost": 0.00182
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 44,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 134,
+  "tokensOut": 182,
+  "costUsd": 0.002088,
+  "latencyMs": 3610,
+  "finishReason": "stop"
+}

@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "conv-012",
+  "answerText": "1 US cup ≈ 236.588 ml, so 1.5 cups ≈ 354.882 ml (about 355 ml).\n\nAnswer: 354.882 ml",
+  "raw": {
+    "id": "gen-1785342432-YUnSf2zpcTdjHNc3rxkP",
+    "object": "chat.completion",
+    "created": 1785342432,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "1 US cup ≈ 236.588 ml, so 1.5 cups ≈ 354.882 ml (about 355 ml).\n\nAnswer: 354.882 ml",
+          "refusal": null,
+          "reasoning": "The user asks conversion. Need answer concise and end with exact line Answer: <number> ml. Need compute. 1 US cup = 236.5882365 ml commonly 240 ml in nutrition, but cooking accurate: 1.5 * 236.588 = 354.882 ml. Since question asks millilitres in 1.5 US cups of water, volume conversion independent of water. Use 236.588 ml/cup => 354.882 ml ~355 ml. Need final include maybe brief calculation and final line exactly. Ensure last line format. Low thinking. Final concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user asks conversion. Need answer concise and end with exact line Answer: <number> ml. Need compute. 1 US cup = 236.5882365 ml commonly 240 ml in nutrition, but cooking accurate: 1.5 * 236.588 = 354.882 ml. Since question asks millilitres in 1.5 US cups of water, volume conversion independent of water. Use 236.588 ml/cup => 354.882 ml ~355 ml. Need final include maybe brief calculation and final line exactly. Ensure last line format. Low thinking. Final concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 142,
+      "completion_tokens": 177,
+      "total_tokens": 319,
+      "cost": 0.003081,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003081,
+        "upstream_inference_prompt_cost": 0.000426,
+        "upstream_inference_completions_cost": 0.002655
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 125,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 142,
+  "tokensOut": 177,
+  "costUsd": 0.003081,
+  "latencyMs": 8606,
+  "finishReason": "stop"
+}

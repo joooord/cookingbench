@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "qty-001",
+  "answerText": "Scaling factor: 5 loaves ÷ 2 loaves = 2.5×\n\n- Flour: 500 × 2.5 = 1250 g\n- Water: 350 × 2.5 = 875 g (still 70% hydration)\n- Salt: 10 × 2.5 = 25 g\n- Instant yeast: 7 × 2.5 = 17.5 g (you can round to 17 g; if fermenting long or in warm weather, 14–15 g works fine)\n\nFlour: 1250 g\nWater: 875 g\nSalt: 25 g\nInstant yeast: 17.5 g",
+  "raw": {
+    "id": "gen-1785342111-C3Oh9Hr5l9Bzha83OEbb",
+    "object": "chat.completion",
+    "created": 1785342111,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Scaling factor: 5 loaves ÷ 2 loaves = 2.5×\n\n- Flour: 500 × 2.5 = 1250 g\n- Water: 350 × 2.5 = 875 g (still 70% hydration)\n- Salt: 10 × 2.5 = 25 g\n- Instant yeast: 7 × 2.5 = 17.5 g (you can round to 17 g; if fermenting long or in warm weather, 14–15 g works fine)\n\nFlour: 1250 g\nWater: 875 g\nSalt: 25 g\nInstant yeast: 17.5 g",
+          "refusal": null,
+          "reasoning": "I'm scaling up the recipe by 2.5 times, which gives me 1250g flour, 875ml water, 25g salt, and 17.5g yeast for the larger batch.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm scaling up the recipe by 2.5 times, which gives me 1250g flour, 875ml water, 25g salt, and 17.5g yeast for the larger batch.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISpwIKhwEIEBgCKkAcJsJRYhpgkf+7QmbDMsO2duMtrZeSQii3Tn/k7kAlQ89VT+r4bH3auekOcYVrVsJPFwBc6OW8xBP89sgwKTolMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDKHci7XjkPKxIc1lJxoMxxCPFzi7IV5203iZIjBL862152k2CkU1K1qDUCAmQXht1UvSxSRI5kWrYKl/CZCtNE3/UtntxiWJlHLHiUoqTXpnsD60wJKZL8PcVXJK0/ic5ZuutNH7TnNeR+xyytW2uhaayjOhzPL7wtw/MXMZ7ex9M99ort7s0rCdLPV4xQ1syUXDl4HSpTKMLB+5GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 133,
+      "completion_tokens": 234,
+      "total_tokens": 367,
+      "cost": 0.006515,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.006515,
+        "upstream_inference_prompt_cost": 0.000665,
+        "upstream_inference_completions_cost": 0.00585
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 32,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 133,
+  "tokensOut": 234,
+  "costUsd": 0.006515,
+  "latencyMs": 4972,
+  "finishReason": "stop"
+}

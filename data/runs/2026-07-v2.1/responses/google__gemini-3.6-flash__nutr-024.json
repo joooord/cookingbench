@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "nutr-024",
+  "answerText": "A medium apple weighing approximately 120 grams with its skin contains about 2.9 grams (or roughly 3 grams) of dietary fiber. \n\nAnswer: 3 g",
+  "raw": {
+    "id": "gen-1785343668-QjbVQ9dU8MXIrFaWtzpx",
+    "object": "chat.completion",
+    "created": 1785343668,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google AI Studio",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "A medium apple weighing approximately 120 grams with its skin contains about 2.9 grams (or roughly 3 grams) of dietary fiber. \n\nAnswer: 3 g",
+          "refusal": null,
+          "reasoning": "**Calculating Fiber Content**\n\nI've homed in on the core query: fiber content in a medium apple, specifically with the skin. I am now in the process of pulling the relevant nutritional data from the USDA database to get the accurate answer.\n\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Fiber Content**\n\nI've homed in on the core query: fiber content in a medium apple, specifically with the skin. I am now in the process of pulling the relevant nutritional data from the USDA database to get the accurate answer.\n\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 52,
+      "completion_tokens": 606,
+      "total_tokens": 658,
+      "cost": 0.004623,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004623,
+        "upstream_inference_prompt_cost": 0.000078,
+        "upstream_inference_completions_cost": 0.004545
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 568,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 52,
+  "tokensOut": 606,
+  "costUsd": 0.004623,
+  "latencyMs": 3795,
+  "finishReason": "stop"
+}

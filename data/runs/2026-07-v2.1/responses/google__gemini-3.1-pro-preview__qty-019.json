@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "qty-019",
+  "answerText": "To find the overall hydration percentage, you need to calculate the total amount of water and divide it by the total amount of flour.\n\n**Total Flour:**\n* Bread flour: 450 g\n* Whole-wheat flour: 90 g\n* Flour in levain: 50 g\n* **Total Flour = 590 g**\n\n**Total Water:**\n* Added water: 350 g\n* Water in levain: 50 g\n* **Total Water = 400 g**\n\n**Overall Hydration:**\n(Total Water ÷ Total Flour) × 100\n(400 ÷ 590) × 100 = 67.796%\n\nAnswer: 67.8 %",
+  "raw": {
+    "id": "gen-1785343113-UKJ3Qucxz5IpXTay6Rwr",
+    "object": "chat.completion",
+    "created": 1785343113,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "provisioned",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find the overall hydration percentage, you need to calculate the total amount of water and divide it by the total amount of flour.\n\n**Total Flour:**\n* Bread flour: 450 g\n* Whole-wheat flour: 90 g\n* Flour in levain: 50 g\n* **Total Flour = 590 g**\n\n**Total Water:**\n* Added water: 350 g\n* Water in levain: 50 g\n* **Total Water = 400 g**\n\n**Overall Hydration:**\n(Total Water ÷ Total Flour) × 100\n(400 ÷ 590) × 100 = 67.796%\n\nAnswer: 67.8 %",
+          "refusal": null,
+          "reasoning": "**Calculating Hydration Percentage**\n\nI'm currently focused on accurately calculating the total hydration percentage for the sourdough recipe. This involves not only the main dough ingredients but also ensuring the levain's flour and water contributions are fully incorporated into the final calculation.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Hydration Percentage**\n\nI'm currently focused on accurately calculating the total hydration percentage for the sourdough recipe. This involves not only the main dough ingredients but also ensuring the levain's flour and water contributions are fully incorporated into the final calculation.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 115,
+      "completion_tokens": 532,
+      "total_tokens": 647,
+      "cost": 0.006614,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.006614,
+        "upstream_inference_prompt_cost": 0.00023,
+        "upstream_inference_completions_cost": 0.006384
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 366,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 115,
+  "tokensOut": 532,
+  "costUsd": 0.006614,
+  "latencyMs": 4960,
+  "finishReason": "stop"
+}

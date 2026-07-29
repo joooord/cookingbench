@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "nutr-034",
+  "answerText": "Half the package is 396 g ÷ 2 = 198 g.  \nServings eaten: 198 g ÷ 55 g = 3.6 servings.  \nCalories: 3.6 × 230 = 828 kcal.\n\nAnswer: 828 kcal",
+  "raw": {
+    "id": "gen-1785342587-i6nsdSeapr8S4E1AACfL",
+    "object": "chat.completion",
+    "created": 1785342587,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Half the package is 396 g ÷ 2 = 198 g.  \nServings eaten: 198 g ÷ 55 g = 3.6 servings.  \nCalories: 3.6 × 230 = 828 kcal.\n\nAnswer: 828 kcal",
+          "refusal": null,
+          "reasoning": "The user is asking a calorie calculation. Serving size 55 g = 230 kcal. Package 396 g. Half package = 198 g. Number of servings eaten = 198/55 = 3.6. Calories = 3.6 * 230 = 828 kcal. Need answer concise and end with exact line Answer: 828 kcal. Ensure no extra after final line. Could mention calculation briefly. Need be careful: US label calories are kilocalories. Final line format.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking a calorie calculation. Serving size 55 g = 230 kcal. Package 396 g. Half package = 198 g. Number of servings eaten = 198/55 = 3.6. Calories = 3.6 * 230 = 828 kcal. Need answer concise and end with exact line Answer: 828 kcal. Ensure no extra after final line. Could mention calculation briefly. Need be careful: US label calories are kilocalories. Final line format.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 171,
+      "completion_tokens": 176,
+      "total_tokens": 347,
+      "cost": 0.0047295,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0047295,
+        "upstream_inference_prompt_cost": 0.0007695,
+        "upstream_inference_completions_cost": 0.00396
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 104,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 171,
+  "tokensOut": 176,
+  "costUsd": 0.0047295,
+  "latencyMs": 3324,
+  "finishReason": "stop"
+}

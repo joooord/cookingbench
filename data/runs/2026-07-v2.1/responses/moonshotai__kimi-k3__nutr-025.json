@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "nutr-025",
+  "answerText": "Assumptions: 600 g raw total; trimming removes 15% → ~510 g raw trimmed. Grilling loses ~25% of trimmed weight as water/drippings → ~383 g cooked. Using grilled trimmed sirloin at roughly 30 g protein, 7 g fat, ~183 kcal per 100 g cooked:\n\n- Cooked weight: 510 × 0.75 ≈ 383 g  \n- Protein: 383 × 0.30 ≈ 115 g  \n- Fat: 383 × 0.07 ≈ 27 g  \n- Calories: 383 × 1.83 ≈ 700 kcal  \n\nActual values vary with marbling, trim aggressiveness, and doneness.\n\nProtein: 115 g\nFat: 27 g\nCalories: 700 kcal",
+  "raw": {
+    "id": "gen-1785342567-ojizToXlVLVFbu5Tl65b",
+    "object": "chat.completion",
+    "created": 1785342567,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "Assumptions: 600 g raw total; trimming removes 15% → ~510 g raw trimmed. Grilling loses ~25% of trimmed weight as water/drippings → ~383 g cooked. Using grilled trimmed sirloin at roughly 30 g protein, 7 g fat, ~183 kcal per 100 g cooked:\n\n- Cooked weight: 510 × 0.75 ≈ 383 g  \n- Protein: 383 × 0.30 ≈ 115 g  \n- Fat: 383 × 0.07 ≈ 27 g  \n- Calories: 383 × 1.83 ≈ 700 kcal  \n\nActual values vary with marbling, trim aggressiveness, and doneness.\n\nProtein: 115 g\nFat: 27 g\nCalories: 700 kcal",
+          "refusal": null,
+          "reasoning": "The user wants an estimate for two sirloin steaks, 300 g each raw = 600 g raw total. Trim visible fat cap removes ~15% raw weight, leaving 510 g raw lean-ish trimmed. Grill on BBQ; cooking loss for grilling steak ~25% weight loss (moisture/fat). Cooked yield ~75% of trimmed raw = ~382.5 g cooked total.\n\nNeed estimate macros. Use nutrition for beef sirloin, lean, grilled. Typical cooked grilled sirloin (lean only) per 100 g: protein ~30 g, fat ~8-10 g, calories ~200-220 kcal. But need be careful: raw trimmed sirloin has some intramuscular fat. Let's reason.\n\nRaw top sirloin, trimmed to 0\" fat, separable lean only: per 100 g raw approx protein 21-22 g, fat 5-6 g, calories ~140-150. After grilling, water loss concentrates nutrients; cooked lean sirloin per 100 g: protein ~30 g, fat ~8 g, calories ~207 (USDA beef top sirloin steak grilled lean only maybe 183 kcal, protein 27, fat 8? depends). Let's pick consistent.\n\nApproach: Start 600 g raw. Trim 15% = 90 g removed (mostly fat cap). Edible raw = 510 g. Assume trimmed raw sirloin composition per 100 g: protein 22 g, fat 6 g, carbs 0, calories ~ (22*4 + 6*9)=142 kcal. Raw totals: protein 112.2 g, fat 30.6 g, calories 724 kcal.\n\nGrilling: weight loss ~25%, assume lost mass is water plus some fat drip. Protein mostly retained (say 95-100%), fat reduced by drip (say 15-25% of remaining fat lost). Simpler: cooked weight = 510*0.75=382.5 g. Use cooked composition per 100 g: protein 29 g, fat 7 g, calories 179? That gives protein 111 g, fat 26.8 g, calories 685. But calories from macros =111*4+26.8*9=685 kcal. Nice. This implies fat retention high and calorie retention ~95%, plausible if fat drip modest. But grilled steak loses fat; calories maybe lower.\n\nAlternative common estimate: cooked sirloin lean per 100g: 31g protein, 6g fat, 183 kcal. For 382.5g: protein 118.6, fat 23, calories 700. Macro calories 700. Good.\n\nNeed present reasoning and final exact three lines. Need choose numbers. Let's settle on assumptions clearly:\n- Raw total 600 g; trim 15% -> 510 g raw trimmed.\n- Grilling yield 75% -> ~383 g cooked.\n- Cooked trimmed sirloin estimate per 100 g: protein 30 g, fat 7 g, calories 183 kcal (approx; macro kcal 30*4+7*9=183). \nTotals: protein 383*0.30=114.9 ~115 g; fat 383*0.07=26.8 ~27 g; calories 383*1.83=701 ~700 kcal. Macro calories from P/F =115*4+27*9=703 kcal, consistent.\n\nNeed mention ranges and that actual depends on marbling/doneness. End with exactly three lines as required. Ensure final ends with those three lines. No extra after. Concise but show reasoning.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user wants an estimate for two sirloin steaks, 300 g each raw = 600 g raw total. Trim visible fat cap removes ~15% raw weight, leaving 510 g raw lean-ish trimmed. Grill on BBQ; cooking loss for grilling steak ~25% weight loss (moisture/fat). Cooked yield ~75% of trimmed raw = ~382.5 g cooked total.\n\nNeed estimate macros. Use nutrition for beef sirloin, lean, grilled. Typical cooked grilled sirloin (lean only) per 100 g: protein ~30 g, fat ~8-10 g, calories ~200-220 kcal. But need be careful: raw trimmed sirloin has some intramuscular fat. Let's reason.\n\nRaw top sirloin, trimmed to 0\" fat, separable lean only: per 100 g raw approx protein 21-22 g, fat 5-6 g, calories ~140-150. After grilling, water loss concentrates nutrients; cooked lean sirloin per 100 g: protein ~30 g, fat ~8 g, calories ~207 (USDA beef top sirloin steak grilled lean only maybe 183 kcal, protein 27, fat 8? depends). Let's pick consistent.\n\nApproach: Start 600 g raw. Trim 15% = 90 g removed (mostly fat cap). Edible raw = 510 g. Assume trimmed raw sirloin composition per 100 g: protein 22 g, fat 6 g, carbs 0, calories ~ (22*4 + 6*9)=142 kcal. Raw totals: protein 112.2 g, fat 30.6 g, calories 724 kcal.\n\nGrilling: weight loss ~25%, assume lost mass is water plus some fat drip. Protein mostly retained (say 95-100%), fat reduced by drip (say 15-25% of remaining fat lost). Simpler: cooked weight = 510*0.75=382.5 g. Use cooked composition per 100 g: protein 29 g, fat 7 g, calories 179? That gives protein 111 g, fat 26.8 g, calories 685. But calories from macros =111*4+26.8*9=685 kcal. Nice. This implies fat retention high and calorie retention ~95%, plausible if fat drip modest. But grilled steak loses fat; calories maybe lower.\n\nAlternative common estimate: cooked sirloin lean per 100g: 31g protein, 6g fat, 183 kcal. For 382.5g: protein 118.6, fat 23, calories 700. Macro calories 700. Good.\n\nNeed present reasoning and final exact three lines. Need choose numbers. Let's settle on assumptions clearly:\n- Raw total 600 g; trim 15% -> 510 g raw trimmed.\n- Grilling yield 75% -> ~383 g cooked.\n- Cooked trimmed sirloin estimate per 100 g: protein 30 g, fat 7 g, calories 183 kcal (approx; macro kcal 30*4+7*9=183). \nTotals: protein 383*0.30=114.9 ~115 g; fat 383*0.07=26.8 ~27 g; calories 383*1.83=701 ~700 kcal. Macro calories from P/F =115*4+27*9=703 kcal, consistent.\n\nNeed mention ranges and that actual depends on marbling/doneness. End with exactly three lines as required. Ensure final ends with those three lines. No extra after. Concise but show reasoning.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 208,
+      "completion_tokens": 942,
+      "total_tokens": 1150,
+      "cost": 0.022131,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.022131,
+        "upstream_inference_prompt_cost": 0.000936,
+        "upstream_inference_completions_cost": 0.021195
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 758,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 208,
+  "tokensOut": 942,
+  "costUsd": 0.022131,
+  "latencyMs": 15280,
+  "finishReason": "stop"
+}

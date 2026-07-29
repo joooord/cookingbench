@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "conv-005",
+  "answerText": "500 ml of stock is just over 2 US cups — precisely 2.11 cups (since 1 US cup = 236.6 ml). For most cooking purposes, measuring out 2 cups plus about 2 tablespoons will get you there.\n\nAnswer: 2.11 cups",
+  "raw": {
+    "id": "gen-1785341890-952LA0YM5STJM9KghRNX",
+    "object": "chat.completion",
+    "created": 1785341890,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "500 ml of stock is just over 2 US cups — precisely 2.11 cups (since 1 US cup = 236.6 ml). For most cooking purposes, measuring out 2 cups plus about 2 tablespoons will get you there.\n\nAnswer: 2.11 cups",
+          "refusal": null,
+          "reasoning": "Converting 500 milliliters to cups, which comes out to about 2.11 cups.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Converting 500 milliliters to cups, which comes out to about 2.11 cups.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISiAIKhwEIEBgCKkCVrjSoUHfzA6JIb1fLhVdBKhpFWToVbIBFiBT03mPkvzLMRLFzAlsKGdVJpQU/QSAPlVW2MsQGuVAs2m3AJH3zMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDEL9ZjfpJu3IHbIbdxoMBc5+vsMJ+5/G25EQIjDMHh3QUmRY96Pxymtx3H+zQpi4vCOuIXIy/0IjfhQ7B5VnHubROh4A4JXpJtqJuDkqLqsGHjP6ESTYescjCOCaMoQIL5SPnQJ5n+vmtL40cEjAyRRfqzJMq02GGjelin4YAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 70,
+      "completion_tokens": 116,
+      "total_tokens": 186,
+      "cost": 0.00325,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00325,
+        "upstream_inference_prompt_cost": 0.00035,
+        "upstream_inference_completions_cost": 0.0029
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 18,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 70,
+  "tokensOut": 116,
+  "costUsd": 0.00325,
+  "latencyMs": 4111,
+  "finishReason": "stop"
+}

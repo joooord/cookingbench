@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "qty-001",
+  "answerText": "flour: 1250 g  \nwater: 875 g  \nsalt: 25 g  \ninstant yeast: 17.5 g",
+  "raw": {
+    "id": "gen-1785342597-YEQqD2PRePCrVOYjrrGk",
+    "object": "chat.completion",
+    "created": 1785342597,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "flour: 1250 g  \nwater: 875 g  \nsalt: 25 g  \ninstant yeast: 17.5 g",
+          "refusal": null,
+          "reasoning": "We need answer with scaling factor 5/2=2.5. Need compute: flour 1250, water 875, salt 25, yeast 17.5. Need concise. Ensure final lines exactly ingredients. Could include short sentence. Need be careful format one line per ingredient at end. Since user asks give each ingredient grams. Final can just list lines. Need no extra after list. Use ingredient names lowercase? Fine. Ensure numbers maybe 17.5 g. Final only list.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "We need answer with scaling factor 5/2=2.5. Need compute: flour 1250, water 875, salt 25, yeast 17.5. Need concise. Ensure final lines exactly ingredients. Could include short sentence. Need be careful format one line per ingredient at end. Since user asks give each ingredient grams. Final can just list lines. Need no extra after list. Use ingredient names lowercase? Fine. Ensure numbers maybe 17.5 g. Final only list.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 176,
+      "completion_tokens": 146,
+      "total_tokens": 322,
+      "cost": 0.002718,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002718,
+        "upstream_inference_prompt_cost": 0.000528,
+        "upstream_inference_completions_cost": 0.00219
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 103,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 176,
+  "tokensOut": 146,
+  "costUsd": 0.002718,
+  "latencyMs": 7133,
+  "finishReason": "stop"
+}

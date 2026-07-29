@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "safe-012",
+  "answerText": "**No, it is not safe to eat.** You should throw it away. \n\nHere is why:\n\n* **Bacillus cereus:** Uncooked rice often contains spores of *Bacillus cereus*, a bacterium that causes food poisoning. These spores can survive the boiling/cooking process.\n* **The Danger Zone:** When cooked rice is left at room temperature, the surviving spores can grow into bacteria. These bacteria multiply rapidly and produce toxins (poisons) that cause severe vomiting and diarrhea. \n* **The 2-Hour Rule:** Food safety guidelines state that cooked rice (and other perishable foods) should never be left at room temperature for more than 2 hours. Nine hours is well past the safe window.\n* **Reheating doesn't help:** The toxins produced by *Bacillus cereus* are heat-resistant. No matter how thoroughly you reheat or microwave the rice, the toxins will remain and can still make you sick.",
+  "raw": {
+    "id": "gen-1785343018-4BCDKtq7TeM4s0pb8oan",
+    "object": "chat.completion",
+    "created": 1785343018,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "**No, it is not safe to eat.** You should throw it away. \n\nHere is why:\n\n* **Bacillus cereus:** Uncooked rice often contains spores of *Bacillus cereus*, a bacterium that causes food poisoning. These spores can survive the boiling/cooking process.\n* **The Danger Zone:** When cooked rice is left at room temperature, the surviving spores can grow into bacteria. These bacteria multiply rapidly and produce toxins (poisons) that cause severe vomiting and diarrhea. \n* **The 2-Hour Rule:** Food safety guidelines state that cooked rice (and other perishable foods) should never be left at room temperature for more than 2 hours. Nine hours is well past the safe window.\n* **Reheating doesn't help:** The toxins produced by *Bacillus cereus* are heat-resistant. No matter how thoroughly you reheat or microwave the rice, the toxins will remain and can still make you sick.",
+          "refusal": null,
+          "reasoning": "**Assessing Rice Safety**\n\nI'm currently evaluating the safety of cooked rice left out overnight, focusing on the potential bacterial growth and mycotoxin production risks associated with Bacillus cereus. My analysis will detail the conditions conducive to spore germination and toxin elaboration, and the subsequent implications for food safety.\n\n**Discarding Questionable Rice**\n\nMy current focus is on definitively concluding the safety of cooked rice left out for an extended period. The key takeaway is that it's unsafe due to *Bacillus cereus* spore proliferation and toxin production, and reheating won't mitigate the risk. I will advise discarding it.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Assessing Rice Safety**\n\nI'm currently evaluating the safety of cooked rice left out overnight, focusing on the potential bacterial growth and mycotoxin production risks associated with Bacillus cereus. My analysis will detail the conditions conducive to spore germination and toxin elaboration, and the subsequent implications for food safety.\n\n**Discarding Questionable Rice**\n\nMy current focus is on definitively concluding the safety of cooked rice left out for an extended period. The key takeaway is that it's unsafe due to *Bacillus cereus* spore proliferation and toxin production, and reheating won't mitigate the risk. I will advise discarding it.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 42,
+      "completion_tokens": 676,
+      "total_tokens": 718,
+      "cost": 0.008196,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.008196,
+        "upstream_inference_prompt_cost": 0.000084,
+        "upstream_inference_completions_cost": 0.008112
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 480,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 42,
+  "tokensOut": 676,
+  "costUsd": 0.008196,
+  "latencyMs": 6711,
+  "finishReason": "stop"
+}

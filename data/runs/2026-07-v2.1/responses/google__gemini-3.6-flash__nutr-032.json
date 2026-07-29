@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "nutr-032",
+  "answerText": "To find out how many grams of raw chicken breast you need, we can calculate it in two steps:\n\n1. **Calculate the required cooked weight:**\n   * Cooked chicken contains 31 g of protein per 100 g (31% protein).\n   * $\\text{Cooked weight needed} = \\frac{45\\text{ g protein}}{0.31} \\approx 145.16\\text{ g}$\n\n2. **Calculate the required raw weight:**\n   * Chicken loses 25% of its weight during cooking, meaning cooked chicken weighs 75% (0.75) of its raw weight.\n   * $\\text{Raw weight needed} = \\frac{145.16\\text{ g}}{0.75} \\approx 193.55\\text{ g}$\n\nAnswer: 194 g",
+  "raw": {
+    "id": "gen-1785343677-YObMOtZaPph2cWTHHpzv",
+    "object": "chat.completion",
+    "created": 1785343677,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find out how many grams of raw chicken breast you need, we can calculate it in two steps:\n\n1. **Calculate the required cooked weight:**\n   * Cooked chicken contains 31 g of protein per 100 g (31% protein).\n   * $\\text{Cooked weight needed} = \\frac{45\\text{ g protein}}{0.31} \\approx 145.16\\text{ g}$\n\n2. **Calculate the required raw weight:**\n   * Chicken loses 25% of its weight during cooking, meaning cooked chicken weighs 75% (0.75) of its raw weight.\n   * $\\text{Raw weight needed} = \\frac{145.16\\text{ g}}{0.75} \\approx 193.55\\text{ g}$\n\nAnswer: 194 g",
+          "refusal": null,
+          "reasoning": "**Calculating Raw Chicken Needs**\n\nI'm focusing on determining the exact raw chicken breast weight. My current thought process involves reverse-engineering the protein content from cooked measurements, accounting for moisture loss during cooking.\n\n**Determining Raw Meat Amount**\n\nI've refined my calculations. After accounting for the 25% weight loss during cooking, I've determined that approximately 194 grams of raw chicken breast is needed to achieve the target 45 grams of protein.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Raw Chicken Needs**\n\nI'm focusing on determining the exact raw chicken breast weight. My current thought process involves reverse-engineering the protein content from cooked measurements, accounting for moisture loss during cooking.\n\n**Determining Raw Meat Amount**\n\nI've refined my calculations. After accounting for the 25% weight loss during cooking, I've determined that approximately 194 grams of raw chicken breast is needed to achieve the target 45 grams of protein.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 93,
+      "completion_tokens": 794,
+      "total_tokens": 887,
+      "cost": 0.0060945,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0060945,
+        "upstream_inference_prompt_cost": 0.0001395,
+        "upstream_inference_completions_cost": 0.005955
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 600,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 93,
+  "tokensOut": 794,
+  "costUsd": 0.0060945,
+  "latencyMs": 3899,
+  "finishReason": "stop"
+}

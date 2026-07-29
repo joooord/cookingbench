@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "qty-015",
+  "answerText": "Since white rice roughly triples in weight during cooking (it absorbs about twice its weight in water), you just divide the cooked weight by 3:\n\n600 g ÷ 3 = 200 g raw rice\n\nCook that 200 g with roughly 350–400 ml of water. It's worth weighing a little extra (say 210–220 g) if you want a margin for evaporation or sticking to the pan.\n\nAnswer: 200 g",
+  "raw": {
+    "id": "gen-1785342125-Fx1yL9wP6eJPeTOPnlV1",
+    "object": "chat.completion",
+    "created": 1785342125,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Since white rice roughly triples in weight during cooking (it absorbs about twice its weight in water), you just divide the cooked weight by 3:\n\n600 g ÷ 3 = 200 g raw rice\n\nCook that 200 g with roughly 350–400 ml of water. It's worth weighing a little extra (say 210–220 g) if you want a margin for evaporation or sticking to the pan.\n\nAnswer: 200 g",
+          "refusal": null,
+          "reasoning": "So that's 200 grams.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "So that's 200 grams.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS+AEKhwEIEBgCKkDl6GsXHrgms5SVexymwISTTOS+TzOlX2CNoPPyM4onPcTXb6eMO8rjehFXwymjocOE4uc1cz0kUVYmN1t7JDNOMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDLvOfhicZAsRj7wpxxoMG4VKkNL//x0us6fYIjBUFBG+/EMbJZszZoUsdXkgzaImy7Xx3oE94BZXvydADZgsirPgop9LAPFx1Pj6otUqHh2o3SVPo1omR7CmSsjeWcuC3YQX1WKFY0iymhkDuxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 101,
+      "completion_tokens": 152,
+      "total_tokens": 253,
+      "cost": 0.004305,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004305,
+        "upstream_inference_prompt_cost": 0.000505,
+        "upstream_inference_completions_cost": 0.0038
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 5,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 101,
+  "tokensOut": 152,
+  "costUsd": 0.004305,
+  "latencyMs": 4371,
+  "finishReason": "stop"
+}

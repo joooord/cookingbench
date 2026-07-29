@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "qty-018",
+  "answerText": "For your recipe scaled to 10 people:\n\n- Original: 1½ sticks butter serves 6\n- Scale factor: 10/6 = 1.667\n- Butter needed: 1.5 × 1.667 = 2.5 sticks\n\nConverting to volume:\n- 1 stick of butter = ½ cup = 118.3 ml\n- 2.5 sticks = 2.5 × 118.3 ml ≈ 295.7 ml of butter\n\nApplying the ¾ olive oil substitution:\n- 295.7 ml × 0.75 ≈ 221.8 ml\n\nAnswer: 221.8 ml",
+  "raw": {
+    "id": "gen-1785343423-Q4zvEDIAiqXoSAQGGf9k",
+    "object": "chat.completion",
+    "created": 1785343423,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "For your recipe scaled to 10 people:\n\n- Original: 1½ sticks butter serves 6\n- Scale factor: 10/6 = 1.667\n- Butter needed: 1.5 × 1.667 = 2.5 sticks\n\nConverting to volume:\n- 1 stick of butter = ½ cup = 118.3 ml\n- 2.5 sticks = 2.5 × 118.3 ml ≈ 295.7 ml of butter\n\nApplying the ¾ olive oil substitution:\n- 295.7 ml × 0.75 ≈ 221.8 ml\n\nAnswer: 221.8 ml",
+          "refusal": null,
+          "reasoning": "I'm scaling the butter from 1.5 sticks for 6 people up to 2.5 sticks for 10 people, which converts to about 296 ml. Then I'm calculating the olive oil amount at 75% of that volume, which comes to roughly 222 ml.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm scaling the butter from 1.5 sticks for 6 people up to 2.5 sticks for 10 people, which converts to about 296 ml. Then I'm calculating the olive oil amount at 75% of that volume, which comes to roughly 222 ml.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EoIECokBCBAYAipAJspn4snQQw521Zp00xH/qc3pZoTNGnf47nw+VnNluJ+o3bgSqHr8uFAcPgsBPx3c+OMsH4UofDBsZX8efCVJtzIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDChojwLtMuQgbtBomhoM7mxO9oNyv8rx3NVeIjCij7HWV1rJ3G3YYxMc+8IXaykvESgtdst+xFWsHXtrLb8iestSGMXTycMlKeh2OsQqpQJ5IxiurqFlWY8NR7tqCuzByXlI+DeZHm0cdacrwWJQQKh6k+rVvVFM0DocmpT0hVlbRbJqSUH424qFROb46BnIALIMGH7aSf1gKkr10ywtUKicV034aEendbH1kef6LWIUYA+vfZc8SHepjjcNdy7ir5qNfx3W2q/fOb9AbJ3OAJZFvCM0bX2E8FY/jKziR4F+SdZV4SE+N5VHnJ9hhfq3XOvEDLgSkw0QHu0/VxYvuJ3KNike4JgU3Ni/m0ntuirTVcZy/BSxw9Le26LG0krMFbQLzI2QwSzm83JMy2LfN60zuEr+CNHoJs2ZUM9rLway+fYjLfG3ZOaOsmlsRs8xWdcckws1dU+U8Ir5Z4JDbSkOfChnSKggc6GN03om44M9wGzfbxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 145,
+      "completion_tokens": 382,
+      "total_tokens": 527,
+      "cost": 0.00411,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00411,
+        "upstream_inference_prompt_cost": 0.00029,
+        "upstream_inference_completions_cost": 0.00382
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 53,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 145,
+  "tokensOut": 382,
+  "costUsd": 0.00411,
+  "latencyMs": 5348,
+  "finishReason": "stop"
+}

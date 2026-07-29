@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "conv-020",
+  "answerText": "Gas mark 7 corresponds to 220°C in a conventional oven. Since fan ovens circulate air and cook faster/hotter effectively, you typically reduce the temperature by about 20°C.\n\nSo set your fan oven to 200°C.\n\nAnswer: 200 °C",
+  "raw": {
+    "id": "gen-1785343294-F3R3mMAMS50rfKPHc4q6",
+    "object": "chat.completion",
+    "created": 1785343294,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Gas mark 7 corresponds to 220°C in a conventional oven. Since fan ovens circulate air and cook faster/hotter effectively, you typically reduce the temperature by about 20°C.\n\nSo set your fan oven to 200°C.\n\nAnswer: 200 °C",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 97,
+      "completion_tokens": 92,
+      "total_tokens": 189,
+      "cost": 0.001114,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001114,
+        "upstream_inference_prompt_cost": 0.000194,
+        "upstream_inference_completions_cost": 0.00092
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 97,
+  "tokensOut": 92,
+  "costUsd": 0.001114,
+  "latencyMs": 3301,
+  "finishReason": "stop"
+}

@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "nutr-004",
+  "answerText": "Olive oil is pure fat, and fat provides about 9 kcal per gram. So 13.5 g × 9 kcal/g ≈ 121.5 kcal, typically rounded to about 120 kcal.\n\nAnswer: 120 kcal",
+  "raw": {
+    "id": "gen-1785343373-fOwRQ5a34Devqk7xwipx",
+    "object": "chat.completion",
+    "created": 1785343373,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "Olive oil is pure fat, and fat provides about 9 kcal per gram. So 13.5 g × 9 kcal/g ≈ 121.5 kcal, typically rounded to about 120 kcal.\n\nAnswer: 120 kcal",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 104,
+      "completion_tokens": 83,
+      "total_tokens": 187,
+      "cost": 0.001038,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001038,
+        "upstream_inference_prompt_cost": 0.000208,
+        "upstream_inference_completions_cost": 0.00083
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 104,
+  "tokensOut": 83,
+  "costUsd": 0.001038,
+  "latencyMs": 3582,
+  "finishReason": "stop"
+}

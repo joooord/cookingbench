@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "qty-010",
+  "answerText": "36 muffins is 3 times the original 12-muffin recipe, so you need 3 × 3 = 9 eggs.\n\nAnswer: 9 eggs",
+  "raw": {
+    "id": "gen-1785342614-CUJ1NhOnGyxZx2XST2vf",
+    "object": "chat.completion",
+    "created": 1785342614,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "36 muffins is 3 times the original 12-muffin recipe, so you need 3 × 3 = 9 eggs.\n\nAnswer: 9 eggs",
+          "refusal": null,
+          "reasoning": "The user is asking a simple proportional cooking question. 3 eggs for 12 muffins means 1 egg per 4 muffins. For 36 muffins, 36/12 = 3 times the recipe, so 3*3 = 9 eggs. Need to end with exact line \"Answer: 9 eggs\". Keep concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking a simple proportional cooking question. 3 eggs for 12 muffins means 1 egg per 4 muffins. For 36 muffins, 36/12 = 3 times the recipe, so 3*3 = 9 eggs. Need to end with exact line \"Answer: 9 eggs\". Keep concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 152,
+      "completion_tokens": 114,
+      "total_tokens": 266,
+      "cost": 0.003249,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003249,
+        "upstream_inference_prompt_cost": 0.000684,
+        "upstream_inference_completions_cost": 0.002565
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 68,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 152,
+  "tokensOut": 114,
+  "costUsd": 0.003249,
+  "latencyMs": 2433,
+  "finishReason": "stop"
+}

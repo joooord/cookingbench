@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "subs-016",
+  "answerText": "For each cup, you add 1 tablespoon (≈14.8 mL) of lemon juice, then fill the rest with milk up to the 1-cup (240 mL) line.\n\n- Milk per cup = 240 mL − 14.8 mL ≈ 225.2 mL\n- For 2 cups: 225.2 mL × 2 ≈ 450.4 mL\n\nSo you'd pour about 450 mL of milk, then add 2 tablespoons of lemon juice to top it up to 2 full cups (480 mL) total.\n\nAnswer: 450 ml",
+  "raw": {
+    "id": "gen-1785343530-3HULkpl3Pd6dQ2jbuF8E",
+    "object": "chat.completion",
+    "created": 1785343530,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "For each cup, you add 1 tablespoon (≈14.8 mL) of lemon juice, then fill the rest with milk up to the 1-cup (240 mL) line.\n\n- Milk per cup = 240 mL − 14.8 mL ≈ 225.2 mL\n- For 2 cups: 225.2 mL × 2 ≈ 450.4 mL\n\nSo you'd pour about 450 mL of milk, then add 2 tablespoons of lemon juice to top it up to 2 full cups (480 mL) total.\n\nAnswer: 450 ml",
+          "refusal": null,
+          "reasoning": "I'm calculating the milk volume needed for each cup by subtracting the lemon juice from the total capacity, which gives me about 225 milliliters per cup, or roughly 450 milliliters for two cups.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the milk volume needed for each cup by subtracting the lemon juice from the total capacity, which gives me about 225 milliliters per cup, or roughly 450 milliliters for two cups.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EvYCCokBCBAYAipArjOqAZhZxY5eZya3mvXV/KGmhRo1VBveecVAu4sEtZUyqIgVMUQVnR+bW4L189X2KAU/XD7YWzx0VgCUEd+ZHzIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDP2cFscqAmVRSnAsuhoMdkLgEDmpaofUxgOHIjDvlfstAvhkGJ7AhXDB6T0gCAeCHNCelwLcMxxUqsi8pCH8K3AdvFj36VFWzDBy+bYqmQG3BlH0vtveOTCW8Y6uO7hkenBcXjgq+c8ve/ICVpFso6JL7va3CEG3P1SkNvrarPjWWNu17GfbrwRVziy0VqJnKAQCOPqRoQA9Zvac2g/7m5KEqMXUESEI5pzpiab0UUmuBQo9/b4XwyCE9gdXS0J0tVbSiNjSSMwP9tbZ68iyJPN0k96mEaWnpr6u4V562ZYcQ8R7ULBm4sUYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 148,
+      "completion_tokens": 268,
+      "total_tokens": 416,
+      "cost": 0.002976,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002976,
+        "upstream_inference_prompt_cost": 0.000296,
+        "upstream_inference_completions_cost": 0.00268
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 49,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 148,
+  "tokensOut": 268,
+  "costUsd": 0.002976,
+  "latencyMs": 5762,
+  "finishReason": "stop"
+}

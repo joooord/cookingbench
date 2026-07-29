@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "qty-006",
+  "answerText": "To make a 5% brine where the salt is measured as a percentage of the water's weight, you calculate 5% of the water's total weight:\n\n2000 g × 0.05 = 100 g\n\nAnswer: 100 g",
+  "raw": {
+    "id": "gen-1785343689-B1uxYpbx74JySDE2JUgk",
+    "object": "chat.completion",
+    "created": 1785343689,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To make a 5% brine where the salt is measured as a percentage of the water's weight, you calculate 5% of the water's total weight:\n\n2000 g × 0.05 = 100 g\n\nAnswer: 100 g",
+          "refusal": null,
+          "reasoning": "**Calculating Salt Requirement**\n\nI'm focused on determining the precise amount of salt needed for a 5% brine solution, based on the provided 2000g of water. The key is understanding that the salt percentage is relative to the water's mass, which is guiding my current calculations.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Salt Requirement**\n\nI'm focused on determining the precise amount of salt needed for a 5% brine solution, based on the provided 2000g of water. The key is understanding that the salt percentage is relative to the water's mass, which is guiding my current calculations.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 78,
+      "completion_tokens": 278,
+      "total_tokens": 356,
+      "cost": 0.002202,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002202,
+        "upstream_inference_prompt_cost": 0.000117,
+        "upstream_inference_completions_cost": 0.002085
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 217,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 78,
+  "tokensOut": 278,
+  "costUsd": 0.002202,
+  "latencyMs": 2873,
+  "finishReason": "stop"
+}

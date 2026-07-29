@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "qty-001",
+  "answerText": "To scale the recipe from 2 loaves to 5 loaves, multiply each ingredient quantity by 2.5.\n\nFlour: 1250 g\nWater: 875 g\nSalt: 25 g\nInstant yeast: 17.5 g",
+  "raw": {
+    "id": "gen-1785343685-RPphXKXKL6UgdyEz1c8M",
+    "object": "chat.completion",
+    "created": 1785343685,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google AI Studio",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To scale the recipe from 2 loaves to 5 loaves, multiply each ingredient quantity by 2.5.\n\nFlour: 1250 g\nWater: 875 g\nSalt: 25 g\nInstant yeast: 17.5 g",
+          "refusal": null,
+          "reasoning": "**Assessing the Base Recipe**\n\nI'm now diving into the provided recipe, meticulously breaking down the ingredient ratios. The initial focus is on the original quantities for a two-loaf batch. I'm noting the flour, water, salt, and yeast components, aiming for a firm understanding before moving to any modifications or calculations.\n\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Assessing the Base Recipe**\n\nI'm now diving into the provided recipe, meticulously breaking down the ingredient ratios. The initial focus is on the original quantities for a two-loaf batch. I'm noting the flour, water, salt, and yeast components, aiming for a firm understanding before moving to any modifications or calculations.\n\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 84,
+      "completion_tokens": 522,
+      "total_tokens": 606,
+      "cost": 0.004041,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004041,
+        "upstream_inference_prompt_cost": 0.000126,
+        "upstream_inference_completions_cost": 0.003915
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 464,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 84,
+  "tokensOut": 522,
+  "costUsd": 0.004041,
+  "latencyMs": 2588,
+  "finishReason": "stop"
+}

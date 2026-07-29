@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "conv-003",
+  "answerText": "One US tablespoon equals about 14.79 ml, so 2 tablespoons ≈ 29.57 ml (commonly rounded to 30 ml in recipes, since US nutrition labeling defines a tablespoon as exactly 15 ml).\n\nAnswer: 29.57 ml",
+  "raw": {
+    "id": "gen-1785341889-AT61GiJJMHo2s4tj9a0V",
+    "object": "chat.completion",
+    "created": 1785341889,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "One US tablespoon equals about 14.79 ml, so 2 tablespoons ≈ 29.57 ml (commonly rounded to 30 ml in recipes, since US nutrition labeling defines a tablespoon as exactly 15 ml).\n\nAnswer: 29.57 ml",
+          "refusal": null,
+          "reasoning": "One US tablespoon is approximately 14.79 milliliters, so two tablespoons would be about 29.57 ml, though nutrition labels typically round this to 15 ml per tablespoon, making two tablespoons equal to 30 ml.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "One US tablespoon is approximately 14.79 milliliters, so two tablespoons would be about 29.57 ml, though nutrition labels typically round this to 15 ml per tablespoon, making two tablespoons equal to 30 ml.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS4wIKhwEIEBgCKkDgohb81++ingz0wnCQdmHWI0WfnhSxBc7tQSpCXimfSptLPzg6VHUry84S7l2sSAm2+1PYrmcC2Vo2KfOeh/2RMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDNPh1yulYGzbCgAMUBoMesroon/Gi/lXulTkIjAfEQUuHLaoAKAT6WTtrQ3eJ0O0BOlEuzyfa/L+roNpGHGKPY2mfEaFN1UiU9dkt7YqiAG9oOFO8V9Cql5SvqBPqzFkIzqiq+kuT1CqxdPB9bgGX8VWvuCHS6L8sXLnvpr9FyTPSAd2gzy5O3V6Ab8d/L8tBMr7Tb+ZhRocyEuAf+069gd6sKbWf4KPOqJxjwyjxRcgeFGjOTNSP+8Lr/Q8g6zoE1IN24gyBCVNVVFk/WaePisf6KOGk7HhGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 73,
+      "completion_tokens": 174,
+      "total_tokens": 247,
+      "cost": 0.004715,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004715,
+        "upstream_inference_prompt_cost": 0.000365,
+        "upstream_inference_completions_cost": 0.00435
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 52,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 73,
+  "tokensOut": 174,
+  "costUsd": 0.004715,
+  "latencyMs": 4226,
+  "finishReason": "stop"
+}

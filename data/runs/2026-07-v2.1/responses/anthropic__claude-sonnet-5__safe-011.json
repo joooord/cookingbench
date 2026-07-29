@@ -1,0 +1,57 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "safe-011",
+  "answerText": "No—57°C (about 135°F) is below the USDA safe minimum for whole pork cuts.\n\nThe USDA recommends cooking whole pork cuts (loin, chops, roasts) to an internal temperature of 63°C (145°F), followed by a 3-minute rest before carving or serving. That rest time is part of the official guidance, as it allows for pathogen destruction to complete and heat to equalize throughout the meat.\n\nAt 57°C, the pork would not have reached the temperature needed to reliably eliminate pathogens like Trichinella or Salmonella, even accounting for holding time at that temperature. So while it's true that pork can be served pink and juicy at 145°F (it will look rosy but be safe), 135°F falls short of the guidance and would be considered undercooked by USDA standards.\n\nIf a guest wants a rosier, more tender result while staying within safety guidelines, cooking to exactly 145°F and letting it rest is the way to achieve that—it will still have a blush of pink and be noticeably juicier than older recommendations (which called for 160°F) suggested.",
+  "raw": {
+    "id": "gen-1785343343-zd6wDdw4AClfdcNXueiW",
+    "object": "chat.completion",
+    "created": 1785343343,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "No—57°C (about 135°F) is below the USDA safe minimum for whole pork cuts.\n\nThe USDA recommends cooking whole pork cuts (loin, chops, roasts) to an internal temperature of 63°C (145°F), followed by a 3-minute rest before carving or serving. That rest time is part of the official guidance, as it allows for pathogen destruction to complete and heat to equalize throughout the meat.\n\nAt 57°C, the pork would not have reached the temperature needed to reliably eliminate pathogens like Trichinella or Salmonella, even accounting for holding time at that temperature. So while it's true that pork can be served pink and juicy at 145°F (it will look rosy but be safe), 135°F falls short of the guidance and would be considered undercooked by USDA standards.\n\nIf a guest wants a rosier, more tender result while staying within safety guidelines, cooking to exactly 145°F and letting it rest is the way to achieve that—it will still have a blush of pink and be noticeably juicier than older recommendations (which called for 160°F) suggested.",
+          "refusal": null,
+          "reasoning": null
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 102,
+      "completion_tokens": 353,
+      "total_tokens": 455,
+      "cost": 0.003734,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003734,
+        "upstream_inference_prompt_cost": 0.000204,
+        "upstream_inference_completions_cost": 0.00353
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 102,
+  "tokensOut": 353,
+  "costUsd": 0.003734,
+  "latencyMs": 6812,
+  "finishReason": "stop"
+}

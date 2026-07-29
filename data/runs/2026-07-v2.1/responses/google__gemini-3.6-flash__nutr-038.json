@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "nutr-038",
+  "answerText": "Here is a breakdown of the estimated kilocalories for this breakfast:\n\n* **Two large eggs:** ~144 kcal (72 kcal each)\n* **Splash of whole milk (1 tbsp):** ~9 kcal\n* **Knob of butter for eggs (1 tsp / 5g):** ~36 kcal\n* **Two slices of white toast:** ~160 kcal (80 kcal per slice)\n* **Butter for toast (2 tsp / 10g total):** ~72 kcal\n\n**Total estimate:** ~421 kcal\n\nAnswer: 421 kcal",
+  "raw": {
+    "id": "gen-1785343683-QD3EmOTK6c1410KPPMhw",
+    "object": "chat.completion",
+    "created": 1785343683,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google AI Studio",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "Here is a breakdown of the estimated kilocalories for this breakfast:\n\n* **Two large eggs:** ~144 kcal (72 kcal each)\n* **Splash of whole milk (1 tbsp):** ~9 kcal\n* **Knob of butter for eggs (1 tsp / 5g):** ~36 kcal\n* **Two slices of white toast:** ~160 kcal (80 kcal per slice)\n* **Butter for toast (2 tsp / 10g total):** ~72 kcal\n\n**Total estimate:** ~421 kcal\n\nAnswer: 421 kcal",
+          "refusal": null,
+          "reasoning": "**Defining the Task**\n\nOkay, I've started breaking down the request. I'm focusing on the component parts: eggs with butter and milk, and buttered white toast. I'm identifying the key elements within each item, like the exact quantity of butter. I'm noting the implied focus on precise details of the instructions for execution.\n\n\n**Calculating the Calories**\n\nI've got the calorie breakdown for each component finalized: eggs at ~144 kcal, a splash of milk at ~10 kcal, ~36 kcal for butter in the eggs (1 tsp), and white toast with ~150 kcal, plus 72 kcal for butter on the toast (2 tsp). My current total is 412 kcal. I'm refining my estimates and confirming the total now.\n\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Defining the Task**\n\nOkay, I've started breaking down the request. I'm focusing on the component parts: eggs with butter and milk, and buttered white toast. I'm identifying the key elements within each item, like the exact quantity of butter. I'm noting the implied focus on precise details of the instructions for execution.\n\n\n**Calculating the Calories**\n\nI've got the calorie breakdown for each component finalized: eggs at ~144 kcal, a splash of milk at ~10 kcal, ~36 kcal for butter in the eggs (1 tsp), and white toast with ~150 kcal, plus 72 kcal for butter on the toast (2 tsp). My current total is 412 kcal. I'm refining my estimates and confirming the total now.\n\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 66,
+      "completion_tokens": 969,
+      "total_tokens": 1035,
+      "cost": 0.0073665,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0073665,
+        "upstream_inference_prompt_cost": 0.000099,
+        "upstream_inference_completions_cost": 0.0072675
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 840,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 66,
+  "tokensOut": 969,
+  "costUsd": 0.0073665,
+  "latencyMs": 5337,
+  "finishReason": "stop"
+}

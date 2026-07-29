@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-sonnet-5",
+  "questionId": "nutr-032",
+  "answerText": "To get 45 g of protein:\n\n1. **Cooked weight needed:** 45 g ÷ (31 g protein / 100 g cooked) = 45 / 0.31 ≈ 145 g cooked chicken.\n\n2. **Raw weight needed:** Since cooking causes a 25% weight loss, cooked weight = 75% of raw weight. So:\nRaw weight = 145 g ÷ 0.75 ≈ 193 g\n\nSo you'd want to start with roughly **190–195 g of raw chicken breast**.\n\nAnswer: 193 g",
+  "raw": {
+    "id": "gen-1785343401-DcLaxMt1e7t66EyUz2Pp",
+    "object": "chat.completion",
+    "created": 1785343401,
+    "model": "anthropic/claude-sonnet-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "To get 45 g of protein:\n\n1. **Cooked weight needed:** 45 g ÷ (31 g protein / 100 g cooked) = 45 / 0.31 ≈ 145 g cooked chicken.\n\n2. **Raw weight needed:** Since cooking causes a 25% weight loss, cooked weight = 75% of raw weight. So:\nRaw weight = 145 g ÷ 0.75 ≈ 193 g\n\nSo you'd want to start with roughly **190–195 g of raw chicken breast**.\n\nAnswer: 193 g",
+          "refusal": null,
+          "reasoning": "I need to calculate the raw chicken weight required to get 45g of protein, working backward from the cooked weight using a 25% moisture loss factor.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I need to calculate the raw chicken weight required to get 45g of protein, working backward from the cooked weight using a 25% moisture loss factor.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "EuECCokBCBAYAipA7yQ2i5S0lAnWlUuOX7R5PyTS8TAeTpYe63LDLK844OkyLEXzagHLfazW6dk+n0ddgRIZRUV4p+FOuhM2h14p/TIPY2xhdWRlLXNvbm5ldC01OABCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDDLmku2J9YsY2d89DxoMOQgx7rSR+gpQG+57IjBrzxhEK/CGvOtHjDB+k2vs4mLVXi0oNx0C/z8zvd1HdsxV5ouH7ErdvhdWBvWU56QqhAFe25RnNzoPeLcjxkrMYCBAS6HqimQm1MR4AdQivBQSF7sirvVS/kBMvlAg/BPUwjut5z+vv5j83+qIGeCjQn8pdovVvdf3qRAMYXQMMPxzwzMPa+cK6jmsNzznUiTsKyRMXKozJhKagbyPTKGNHaijApN3O5ja6uW9lSMDoqH4PwDpksgYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 143,
+      "completion_tokens": 253,
+      "total_tokens": 396,
+      "cost": 0.002816,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.002816,
+        "upstream_inference_prompt_cost": 0.000286,
+        "upstream_inference_completions_cost": 0.00253
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 37,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 143,
+  "tokensOut": 253,
+  "costUsd": 0.002816,
+  "latencyMs": 4848,
+  "finishReason": "stop"
+}

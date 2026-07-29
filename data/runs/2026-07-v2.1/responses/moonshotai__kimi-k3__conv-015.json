@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "conv-015",
+  "answerText": "An imperial (UK) pint is 568.26125 ml, usually rounded to 568 ml in recipes.\n\nAnswer: 568.261 ml",
+  "raw": {
+    "id": "gen-1785342436-Eq5kPvSfNrNhUv8z0QpM",
+    "object": "chat.completion",
+    "created": 1785342436,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Morph",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "An imperial (UK) pint is 568.26125 ml, usually rounded to 568 ml in recipes.\n\nAnswer: 568.261 ml",
+          "refusal": null,
+          "reasoning": "The user is asking a factual conversion question. An imperial (UK) pint is 568.26125 ml, commonly rounded to 568 ml. Need answer concise and end with exact line \"Answer: <number> ml\". Need decide number. Since asks how many millilitres is an imperial pint, precise is 568.26125 ml; cooking contexts often use 568 ml. The final line format requires <number> ml. We can say approximately 568 ml (568.261 ml exactly). End with Answer: 568 ml maybe. Need ensure final line exactly. Could include exact in body and final rounded. The instruction says End your reply with a line \"Answer: <number> ml\". Use 568.261? Better to be accurate: 1 imperial pint = 568.26125 ml. For cooking, ~568 ml. Final line maybe Answer: 568.261 ml. But if they expect a single number, exact is best. Need no extra after final line. Keep concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking a factual conversion question. An imperial (UK) pint is 568.26125 ml, commonly rounded to 568 ml. Need answer concise and end with exact line \"Answer: <number> ml\". Need decide number. Since asks how many millilitres is an imperial pint, precise is 568.26125 ml; cooking contexts often use 568 ml. The final line format requires <number> ml. We can say approximately 568 ml (568.261 ml exactly). End with Answer: 568 ml maybe. Need ensure final line exactly. Could include exact in body and final rounded. The instruction says End your reply with a line \"Answer: <number> ml\". Use 568.261? Better to be accurate: 1 imperial pint = 568.26125 ml. For cooking, ~568 ml. Final line maybe Answer: 568.261 ml. But if they expect a single number, exact is best. Need no extra after final line. Keep concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 154,
+      "completion_tokens": 250,
+      "total_tokens": 404,
+      "cost": 0.0040392,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 64,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0040392,
+        "upstream_inference_prompt_cost": 0.0002892,
+        "upstream_inference_completions_cost": 0.00375
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 205,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 154,
+  "tokensOut": 250,
+  "costUsd": 0.0040392,
+  "latencyMs": 3969,
+  "finishReason": "stop"
+}

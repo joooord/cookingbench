@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "nutr-006",
+  "answerText": "To find the amount of protein in 150 g of the powder, you can set up a simple ratio based on the serving size:\n\n1. First, find the amount of protein per gram of powder: \n   12 g protein / 40 g powder = 0.3 g of protein per gram.\n2. Multiply this by the new amount of powder: \n   0.3 g × 150 g = 45 g of protein.\n\nAnswer: 45 g",
+  "raw": {
+    "id": "gen-1785343046-0YOZ0GH61znQqrsAdEMM",
+    "object": "chat.completion",
+    "created": 1785343046,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "provisioned",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find the amount of protein in 150 g of the powder, you can set up a simple ratio based on the serving size:\n\n1. First, find the amount of protein per gram of powder: \n   12 g protein / 40 g powder = 0.3 g of protein per gram.\n2. Multiply this by the new amount of powder: \n   0.3 g × 150 g = 45 g of protein.\n\nAnswer: 45 g",
+          "refusal": null,
+          "reasoning": "**Calculating Protein Content**\n\nI've successfully identified the core problem: determining the protein content in a larger quantity of powder based on a given scoop ratio. My current focus is on executing the necessary mathematical calculation to arrive at the final answer.\n\nAnswer: 45 g\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Protein Content**\n\nI've successfully identified the core problem: determining the protein content in a larger quantity of powder based on a given scoop ratio. My current focus is on executing the necessary mathematical calculation to arrive at the final answer.\n\nAnswer: 45 g\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 62,
+      "completion_tokens": 302,
+      "total_tokens": 364,
+      "cost": 0.003748,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003748,
+        "upstream_inference_prompt_cost": 0.000124,
+        "upstream_inference_completions_cost": 0.003624
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 194,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 62,
+  "tokensOut": 302,
+  "costUsd": 0.003748,
+  "latencyMs": 4378,
+  "finishReason": "stop"
+}

@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "subs-017",
+  "answerText": "**120 g of coconut oil.**\n\nWorking: 150 g butter × 80% fat = 120 g of actual fat. Since coconut oil is essentially 100% fat, you need 120 g to match.\n\nOne baking note: you've also dropped about 30 g of water (and the milk solids) that butter would have contributed. In shortbread that usually means a slightly denser, sandier, more fragile cookie — if the dough won't hold together, add a teaspoon or two of cold water or milk, and expect a little less browning since there are no milk solids to brown.\n\nAnswer: 120 g",
+  "raw": {
+    "id": "gen-1785342335-1SBJ4cHpOBxiH7JMBFyZ",
+    "object": "chat.completion",
+    "created": 1785342336,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**120 g of coconut oil.**\n\nWorking: 150 g butter × 80% fat = 120 g of actual fat. Since coconut oil is essentially 100% fat, you need 120 g to match.\n\nOne baking note: you've also dropped about 30 g of water (and the milk solids) that butter would have contributed. In shortbread that usually means a slightly denser, sandier, more fragile cookie — if the dough won't hold together, add a teaspoon or two of cold water or milk, and expect a little less browning since there are no milk solids to brown.\n\nAnswer: 120 g",
+          "refusal": null,
+          "reasoning": "I'm calculating the fat content from the butter and converting it to coconut oil as a substitute, which means I'll need to add back some liquid since coconut oil has less water content than butter.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the fat content from the butter and converting it to coconut oil as a substitute, which means I'll need to add back some liquid since coconut oil has less water content than butter.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS1gIKhwEIEBgCKkCOP+mSA5UpqLq1h+bmQa+DCIOrTRpksq/jNa/fjOh7YGFBWKDowOgrMq7gYIdoUefR6K+jrTPiAsD5ocP54VFlMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDPQrI2exqxnD6h4tEBoMBIigfDvlIyhbKnvkIjAWiDV71RIrqaRZvGBRJbxm9dsqR0AabN06l/uGYK3tAOKQBabagdYbK+FF5ZqEZjMqfNfxHj2kKdzePU1ufxhYJSotp0fwMSmUXbvey0pOfkz5hwBJiF2ZEdmMlLq2WwMD2zWhLYzw40+glB+9fVPnoZLQX6KlGcraKrdFH6/KlbXvBI18/bTsKcZ5OHpya3mB09C4+M27T9oxqGYNuJqtEtP+nR2fzOESsAzCn7kYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 147,
+      "completion_tokens": 240,
+      "total_tokens": 387,
+      "cost": 0.006735,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.006735,
+        "upstream_inference_prompt_cost": 0.000735,
+        "upstream_inference_completions_cost": 0.006
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 50,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 147,
+  "tokensOut": 240,
+  "costUsd": 0.006735,
+  "latencyMs": 6081,
+  "finishReason": "stop"
+}

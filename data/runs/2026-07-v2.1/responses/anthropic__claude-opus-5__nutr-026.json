@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "nutr-026",
+  "answerText": "**Reasoning**\n\n- Raw 200 g salmon → protein: 2 × 20 = 40 g; fat: 2 × 13 = 26 g\n- Cooking removes ~20% of the weight (200 g → ~160 g cooked), but that loss is essentially water, so the protein and fat carry over nearly unchanged — they're just more concentrated (~25 g protein and ~16 g fat per 100 g cooked).\n- Calories: 40 g × 4 kcal = 160 kcal from protein; 26 g × 9 kcal = 234 kcal from fat → ~394 kcal\n\nNote: any oil or butter used in the pan adds roughly 40 kcal and 4.5 g fat per teaspoon absorbed, which isn't included here.\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+  "raw": {
+    "id": "gen-1785342081-EKFSNpTcaZyXadi2YvDX",
+    "object": "chat.completion",
+    "created": 1785342081,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Reasoning**\n\n- Raw 200 g salmon → protein: 2 × 20 = 40 g; fat: 2 × 13 = 26 g\n- Cooking removes ~20% of the weight (200 g → ~160 g cooked), but that loss is essentially water, so the protein and fat carry over nearly unchanged — they're just more concentrated (~25 g protein and ~16 g fat per 100 g cooked).\n- Calories: 40 g × 4 kcal = 160 kcal from protein; 26 g × 9 kcal = 234 kcal from fat → ~394 kcal\n\nNote: any oil or butter used in the pan adds roughly 40 kcal and 4.5 g fat per teaspoon absorbed, which isn't included here.\n\nProtein: 40 g\nFat: 26 g\nCalories: 394 kcal",
+          "refusal": null,
+          "reasoning": "I'm calculating the nutritional breakdown for a 200g raw portion—40g protein and 26g fat give about 394 calories total—and noting that cooking only removes water so the calorie count stays the same, though the oil used isn't factored in. The cooked weight comes to 160g.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm calculating the nutritional breakdown for a 200g raw portion—40g protein and 26g fat give about 394 calories total—and noting that cooking only removes water so the calorie count stays the same, though the oil used isn't factored in. The cooked weight comes to 160g.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIShwMKhwEIEBgCKkCXEaVa5JpPd7lvzgjTbVtFVcrFB/8YKAvWuCPmRL4boRC3dP8LgAVOeHVYSksmhnEEkmrPa98Wy7VfBNZJUKuzMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDL1hCp7Qd6dAZd7+6xoM8E3J7OLv0RSouecXIjDz2Lbc4LDy/j/0Yjav1CUd8yeFVKsW08n8t9J4uExOWefDoJr9qs5w2+WK5q8Gef4qrAEfJcqjkDM9VLwqqTtMpiCcG4fP/uFTdo0h2iBb+mnbz7x2DmkaSyLFUx/ZQoL3QHRGnVPquUB6QK49NiHb7cQjd1CMtYRjQg5YpR+0oRQrtHplJLT7QYeO/uPseiDOh0OblUhZCwaX3cSqaCKxyHkbgDgwiQDtFE4rsCAFn4ID4tToljAYrLin5KrJkGsZiKJsWAc6uGSMf1tWuKiEzu0aWqek6//f8/8DBxB7GAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 184,
+      "completion_tokens": 365,
+      "total_tokens": 549,
+      "cost": 0.010045,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.010045,
+        "upstream_inference_prompt_cost": 0.00092,
+        "upstream_inference_completions_cost": 0.009125
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 69,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 184,
+  "tokensOut": 365,
+  "costUsd": 0.010045,
+  "latencyMs": 5766,
+  "finishReason": "stop"
+}

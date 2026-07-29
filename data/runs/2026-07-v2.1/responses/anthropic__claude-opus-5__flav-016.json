@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "flav-016",
+  "answerText": "A classic French vinaigrette uses a 3:1 ratio — three parts oil to one part vinegar — typically whisked with Dijon mustard, salt, and pepper (the mustard helps emulsify). Some cooks go to 4:1 with sharper vinegars, but 3:1 is the standard.\n\nAnswer: 3",
+  "raw": {
+    "id": "gen-1785341969-IphLpFivAU1vSEtGW9uf",
+    "object": "chat.completion",
+    "created": 1785341969,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A classic French vinaigrette uses a 3:1 ratio — three parts oil to one part vinegar — typically whisked with Dijon mustard, salt, and pepper (the mustard helps emulsify). Some cooks go to 4:1 with sharper vinegars, but 3:1 is the standard.\n\nAnswer: 3",
+          "refusal": null,
+          "reasoning": "The classic French vinaigrette uses a 3:1 ratio of oil to vinegar.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The classic French vinaigrette uses a 3:1 ratio of oil to vinegar.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISqgIKhwEIEBgCKkBGQ3+ahVaA7SKfCLZyG22uRn9U2WQXD/s8rUi7UXa+NgBVUb8A92TmoMFCAiSjGi4XcaVb1+lfmwUp85S62eWvMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDPY+lcAGzivcdzNNwBoMtK2bz5UxbWFiCMukIjD2BayvQ9/KJ9IIld1RO9TdGtYigtq28K0oIqLkmZIkVJkfFEZrm2n3VNN73SBy0XoqULOs+RuJykgSEFD3o0iz63h10waciUHKc5gUIuJGvO0d53C+6oyZQyIDt0Muj1JEBOI4FfefLmoFcYlEfozl0d9aogkn2P4xVx8wYqZUfk3DGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 81,
+      "completion_tokens": 142,
+      "total_tokens": 223,
+      "cost": 0.003955,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003955,
+        "upstream_inference_prompt_cost": 0.000405,
+        "upstream_inference_completions_cost": 0.00355
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 17,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 81,
+  "tokensOut": 142,
+  "costUsd": 0.003955,
+  "latencyMs": 3719,
+  "finishReason": "stop"
+}

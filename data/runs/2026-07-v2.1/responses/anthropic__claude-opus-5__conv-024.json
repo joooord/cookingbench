@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "conv-024",
+  "answerText": "A US quart is 946 mL (32 US fl oz), while an imperial pint is 568 mL (20 imperial fl oz).\n\n946.35 ÷ 568.26 ≈ 1.67\n\nSo 1 US quart is about 1⅔ imperial pints — i.e. roughly 1 pint plus 13 imperial fl oz. In practice, fill your jug to just past the 1½-pint mark (about 950 mL if it also has metric markings).\n\nAnswer: 1.67 pints",
+  "raw": {
+    "id": "gen-1785341910-mbEvQY61tpYFg08JjX1r",
+    "object": "chat.completion",
+    "created": 1785341910,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "A US quart is 946 mL (32 US fl oz), while an imperial pint is 568 mL (20 imperial fl oz).\n\n946.35 ÷ 568.26 ≈ 1.67\n\nSo 1 US quart is about 1⅔ imperial pints — i.e. roughly 1 pint plus 13 imperial fl oz. In practice, fill your jug to just past the 1½-pint mark (about 950 mL if it also has metric markings).\n\nAnswer: 1.67 pints",
+          "refusal": null,
+          "reasoning": "I'm converting between volume measurements—a US quart equals about 946 milliliters, which translates to roughly 1.67 imperial pints or 1⅔ pints.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm converting between volume measurements—a US quart equals about 946 milliliters, which translates to roughly 1.67 imperial pints or 1⅔ pints.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAIS7wIKhwEIEBgCKkCpFOJ+CwTnTeEJCYHN3njK6AC9Zb0ZZTbadnNMgYYiY4x/bL6YNnBUO3Uh044kZylYisx5Ko0ouAdbXyDZGzM8Mg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDHt3G/eyT69vINvHIRoMORzt5ivw9fnnxcO1IjBTRqju05d8ojkPH+46Q0b8b18O8NDTtEsLKHuhToDpdxuwlsXUGz0Hi6NnC7etQbcqlAHs/WqRxtdJLZLtmDk1QGApFqaPd0+14SKP07u/P7rryu30OS0MNpj4r3qjXflFBLZTkHXqE1P2Mp1fuBQYnk9IQZgA2BtMiVIkC9JhbnQztZTFFw/t5oARVxjYGiotombq1pH+q2w3XY9BQ2MwWfIERQ29NVbfSHRrZGX3Ll6VQcCVaNnsOOj/80ooIdkHvhTdSgoQGAE="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 105,
+      "completion_tokens": 246,
+      "total_tokens": 351,
+      "cost": 0.006675,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.006675,
+        "upstream_inference_prompt_cost": 0.000525,
+        "upstream_inference_completions_cost": 0.00615
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 38,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 105,
+  "tokensOut": 246,
+  "costUsd": 0.006675,
+  "latencyMs": 4980,
+  "finishReason": "stop"
+}

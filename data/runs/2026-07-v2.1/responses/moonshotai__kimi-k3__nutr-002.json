@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "nutr-002",
+  "answerText": "A whole lasagna has 2,400 kcal divided into 6 equal servings:\n\n2,400 ÷ 6 = 400 kcal per serving.\n\nAnswer: 400 kcal",
+  "raw": {
+    "id": "gen-1785342548-dlmLrsZj9zUxfevatD8X",
+    "object": "chat.completion",
+    "created": 1785342548,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "A whole lasagna has 2,400 kcal divided into 6 equal servings:\n\n2,400 ÷ 6 = 400 kcal per serving.\n\nAnswer: 400 kcal",
+          "refusal": null,
+          "reasoning": "2400/6=400 kcal per serving.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "2400/6=400 kcal per serving.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 155,
+      "completion_tokens": 66,
+      "total_tokens": 221,
+      "cost": 0.001455,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.001455,
+        "upstream_inference_prompt_cost": 0.000465,
+        "upstream_inference_completions_cost": 0.00099
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 12,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 155,
+  "tokensOut": 66,
+  "costUsd": 0.001455,
+  "latencyMs": 4030,
+  "finishReason": "stop"
+}

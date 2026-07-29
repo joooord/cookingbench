@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "nutr-004",
+  "answerText": "Since fat provides approximately 9 kilocalories per gram, you can find the total caloric content by multiplying the weight of the oil by 9. \n\n13.5 grams × 9 kcal/gram = 121.5 kilocalories. (Note: This is often rounded to 120 kcal on standard nutrition labels).\n\nAnswer: 121.5 kcal",
+  "raw": {
+    "id": "gen-1785343044-0rYvVlHBoKTYpwrCW381",
+    "object": "chat.completion",
+    "created": 1785343045,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "Since fat provides approximately 9 kilocalories per gram, you can find the total caloric content by multiplying the weight of the oil by 9. \n\n13.5 grams × 9 kcal/gram = 121.5 kilocalories. (Note: This is often rounded to 120 kcal on standard nutrition labels).\n\nAnswer: 121.5 kcal",
+          "refusal": null,
+          "reasoning": "**Calculating Olive Oil Calories**\n\nI'm focused on determining the kilocalorie count for a tablespoon of olive oil. Knowing it's 13.5g and entirely fat, I'm applying the standard 9 kcal/gram for fat. This should yield a precise figure for your expert review.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Olive Oil Calories**\n\nI'm focused on determining the kilocalorie count for a tablespoon of olive oil. Knowing it's 13.5g and entirely fat, I'm applying the standard 9 kcal/gram for fat. This should yield a precise figure for your expert review.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 62,
+      "completion_tokens": 514,
+      "total_tokens": 576,
+      "cost": 0.006292,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.006292,
+        "upstream_inference_prompt_cost": 0.000124,
+        "upstream_inference_completions_cost": 0.006168
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 432,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 62,
+  "tokensOut": 514,
+  "costUsd": 0.006292,
+  "latencyMs": 5647,
+  "finishReason": "stop"
+}

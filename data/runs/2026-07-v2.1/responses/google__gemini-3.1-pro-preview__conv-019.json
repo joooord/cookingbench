@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "conv-019",
+  "answerText": "To convert a fan oven temperature to a conventional oven, you first add 20°C. This makes your target temperature 180°C. \n\nNext, convert 180°C to Fahrenheit. While the exact conversion is 356°F, standard American ovens use 350°F as the direct equivalent for baking.\n\nAnswer: 350 °F",
+  "raw": {
+    "id": "gen-1785342959-P78noFPkV9omYPrcbXwW",
+    "object": "chat.completion",
+    "created": 1785342959,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To convert a fan oven temperature to a conventional oven, you first add 20°C. This makes your target temperature 180°C. \n\nNext, convert 180°C to Fahrenheit. While the exact conversion is 356°F, standard American ovens use 350°F as the direct equivalent for baking.\n\nAnswer: 350 °F",
+          "refusal": null,
+          "reasoning": "**Converting Oven Temperature**\n\nI'm focusing on accurately translating the UK fan oven temperature to its American conventional equivalent. My process involves understanding the difference between fan-assisted and conventional ovens and then applying the correct conversion formula for Celsius to Fahrenheit. Answer: 320°F\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Converting Oven Temperature**\n\nI'm focusing on accurately translating the UK fan oven temperature to its American conventional equivalent. My process involves understanding the difference between fan-assisted and conventional ovens and then applying the correct conversion formula for Celsius to Fahrenheit. Answer: 320°F\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 67,
+      "completion_tokens": 418,
+      "total_tokens": 485,
+      "cost": 0.00515,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00515,
+        "upstream_inference_prompt_cost": 0.000134,
+        "upstream_inference_completions_cost": 0.005016
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 334,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 67,
+  "tokensOut": 418,
+  "costUsd": 0.00515,
+  "latencyMs": 4524,
+  "finishReason": "stop"
+}

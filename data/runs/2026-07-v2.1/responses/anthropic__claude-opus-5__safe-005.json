@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "safe-005",
+  "answerText": "**145°F (63°C)** — measured with an instant-read thermometer inserted into the thickest part of the chop, avoiding bone.\n\nImmediately after removing it from the heat, let it **rest for at least 3 minutes** before cutting or eating. This rest period is part of the USDA recommendation, not just a culinary nicety: the temperature holds or rises slightly (carryover cooking), which continues destroying pathogens, and the juices redistribute so the meat stays moist. Tenting loosely with foil is fine, but don't wrap it tightly if you want to keep a seared crust.\n\nA couple of practical notes:\n- Cooked to 145°F, pork will look faintly pink in the center with clear or slightly pink juices — that's safe and expected. The old 160°F guideline (changed in 2011) is what gave pork its reputation for being dry.\n- Ground pork is different: it needs **160°F** with no rest requirement.",
+  "raw": {
+    "id": "gen-1785341982-JtwPNfoGlNrLgxUgDNr7",
+    "object": "chat.completion",
+    "created": 1785341982,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**145°F (63°C)** — measured with an instant-read thermometer inserted into the thickest part of the chop, avoiding bone.\n\nImmediately after removing it from the heat, let it **rest for at least 3 minutes** before cutting or eating. This rest period is part of the USDA recommendation, not just a culinary nicety: the temperature holds or rises slightly (carryover cooking), which continues destroying pathogens, and the juices redistribute so the meat stays moist. Tenting loosely with foil is fine, but don't wrap it tightly if you want to keep a seared crust.\n\nA couple of practical notes:\n- Cooked to 145°F, pork will look faintly pink in the center with clear or slightly pink juices — that's safe and expected. The old 160°F guideline (changed in 2011) is what gave pork its reputation for being dry.\n- Ground pork is different: it needs **160°F** with no rest requirement.",
+          "refusal": null,
+          "reasoning": "The USDA recommends cooking pork chops to 145°F and letting them rest for 3 minutes before serving.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The USDA recommends cooking pork chops to 145°F and letting them rest for 3 minutes before serving.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISqQIKhwEIEBgCKkB88Q2kPUzCC5LE1g5nDjCZ3+B2Uk0dIHVW7sQSjLR4wJrw6vxeDZQB5GIDqw/+2M2+/CQIkIAn1UKQIgrn3i7VMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDE9LA+iAEYLEFJ+bZxoMl1Linu2839/RKBpHIjCNMD9GC9hcip2OHph8MQq/zsOLTwrsljzcyIPOFxAsYtT3aPpkgQYVK546axAMxqkqT7gUj2w1oGTWyMudphTFYmWJBanMZ/JautPQgF22D9qNr5DKpCRSfTfgN7iPeAPfY6Zzn6w0RZocBijZGM+V6WQAbc3RuU7fCOLkD4NGzW8YAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 85,
+      "completion_tokens": 337,
+      "total_tokens": 422,
+      "cost": 0.00885,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00885,
+        "upstream_inference_prompt_cost": 0.000425,
+        "upstream_inference_completions_cost": 0.008425
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 26,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 85,
+  "tokensOut": 337,
+  "costUsd": 0.00885,
+  "latencyMs": 6807,
+  "finishReason": "stop"
+}

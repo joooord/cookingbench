@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "qty-007",
+  "answerText": "For 11 people: 11 × 100 g = 1,100 g bomba rice.  \nAt a 3:1 broth-to-rice ratio by weight: 1,100 × 3 = 3,300 g broth.\n\nAnswer: 3300 g",
+  "raw": {
+    "id": "gen-1785342611-CbeS49PR2ixHkYNIuGyG",
+    "object": "chat.completion",
+    "created": 1785342611,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Fireworks",
+    "system_fingerprint": null,
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "For 11 people: 11 × 100 g = 1,100 g bomba rice.  \nAt a 3:1 broth-to-rice ratio by weight: 1,100 × 3 = 3,300 g broth.\n\nAnswer: 3300 g",
+          "refusal": null,
+          "reasoning": "The user is asking a straightforward calculation. 11 people * 100 g rice = 1100 g rice. Broth-to-rice ratio 3:1 by weight means broth = 3 * rice = 3300 g. Need final line exactly \"Answer: 3300 g\". Keep concise.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user is asking a straightforward calculation. 11 people * 100 g rice = 1100 g rice. Broth-to-rice ratio 3:1 by weight means broth = 3 * rice = 3300 g. Need final line exactly \"Answer: 3300 g\". Keep concise.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 175,
+      "completion_tokens": 133,
+      "total_tokens": 308,
+      "cost": 0.00378,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.00378,
+        "upstream_inference_prompt_cost": 0.0007875,
+        "upstream_inference_completions_cost": 0.0029925
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 63,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 175,
+  "tokensOut": 133,
+  "costUsd": 0.00378,
+  "latencyMs": 3136,
+  "finishReason": "stop"
+}

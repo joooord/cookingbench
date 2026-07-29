@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "moonshotai/kimi-k3",
+  "questionId": "nutr-020",
+  "answerText": "A 100 g raw, skinless chicken breast contains roughly 22–23 g protein; best single estimate: 23 g.\n\nAnswer: 23 g",
+  "raw": {
+    "id": "gen-1785342563-UsW0JpggKc7kat5SGmVi",
+    "object": "chat.completion",
+    "created": 1785342563,
+    "model": "moonshotai/kimi-k3",
+    "provider": "Moonshot AI",
+    "system_fingerprint": "fpv0_267ed3fc",
+    "service_tier": null,
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "stop",
+        "message": {
+          "role": "assistant",
+          "content": "A 100 g raw, skinless chicken breast contains roughly 22–23 g protein; best single estimate: 23 g.\n\nAnswer: 23 g",
+          "refusal": null,
+          "reasoning": "The user asks: roughly grams of protein in 100 g raw, skinless chicken breast. Standard USDA: raw boneless skinless chicken breast about 22-23 g protein per 100 g (often 22.5). Need final concise with exact required ending line Answer: <number> g. Choose single estimate 23 g. Ensure last line format. Could mention approximate. Need not overexplain. Final should include answer line exactly. Since system says end reply with line Answer: <number> g. Do that. Maybe one sentence then answer line. Need number only in answer line. Use 23.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The user asks: roughly grams of protein in 100 g raw, skinless chicken breast. Standard USDA: raw boneless skinless chicken breast about 22-23 g protein per 100 g (often 22.5). Need final concise with exact required ending line Answer: <number> g. Choose single estimate 23 g. Ensure last line format. Could mention approximate. Need not overexplain. Final should include answer line exactly. Since system says end reply with line Answer: <number> g. Do that. Maybe one sentence then answer line. Need number only in answer line. Use 23.",
+              "format": "unknown",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 152,
+      "completion_tokens": 173,
+      "total_tokens": 325,
+      "cost": 0.003051,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003051,
+        "upstream_inference_prompt_cost": 0.000456,
+        "upstream_inference_completions_cost": 0.002595
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 126,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 152,
+  "tokensOut": 173,
+  "costUsd": 0.003051,
+  "latencyMs": 7594,
+  "finishReason": "stop"
+}

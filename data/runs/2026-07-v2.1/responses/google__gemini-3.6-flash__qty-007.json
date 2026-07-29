@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.6-flash",
+  "questionId": "qty-007",
+  "answerText": "To calculate the total amount of broth needed:\n\n1. **Calculate the total rice weight:** \n   11 people × 100 g/person = 1,100 g of bomba rice\n\n2. **Calculate the total broth weight:** \n   1,100 g of rice × 3 (broth-to-rice ratio) = 3,300 g of broth\n\nAnswer: 3300 g",
+  "raw": {
+    "id": "gen-1785343689-P144p96pF52RiKWA1NcI",
+    "object": "chat.completion",
+    "created": 1785343689,
+    "model": "google/gemini-3.6-flash",
+    "provider": "Google AI Studio",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To calculate the total amount of broth needed:\n\n1. **Calculate the total rice weight:** \n   11 people × 100 g/person = 1,100 g of bomba rice\n\n2. **Calculate the total broth weight:** \n   1,100 g of rice × 3 (broth-to-rice ratio) = 3,300 g of broth\n\nAnswer: 3300 g",
+          "refusal": null,
+          "reasoning": "**Calculating Broth Requirements**\n\nOkay, I've started by identifying the key question and pulling out the provided parameters. I'm focusing on the core problem: figuring out the broth needed for 11 servings of paella. The knowns are: 11 people, and 100g of rice per person. Next, I will look up how much broth is needed per rice amount.\n\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Broth Requirements**\n\nOkay, I've started by identifying the key question and pulling out the provided parameters. I'm focusing on the core problem: figuring out the broth needed for 11 servings of paella. The knowns are: 11 people, and 100g of rice per person. Next, I will look up how much broth is needed per rice amount.\n\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 82,
+      "completion_tokens": 317,
+      "total_tokens": 399,
+      "cost": 0.0025005,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0025005,
+        "upstream_inference_prompt_cost": 0.000123,
+        "upstream_inference_completions_cost": 0.0023775
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 221,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 82,
+  "tokensOut": 317,
+  "costUsd": 0.0025005,
+  "latencyMs": 1996,
+  "finishReason": "stop"
+}

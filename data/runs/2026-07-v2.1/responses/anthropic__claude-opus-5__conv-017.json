@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "conv-017",
+  "answerText": "In Australia, the standard tablespoon is 20 ml (unlike the 15 ml tablespoon used in the US, UK and NZ). So 2 Australian tablespoons of fish sauce = 40 ml.\n\nAnswer: 40 ml",
+  "raw": {
+    "id": "gen-1785341902-HF3mINEEsESBQMrrZr3z",
+    "object": "chat.completion",
+    "created": 1785341902,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "In Australia, the standard tablespoon is 20 ml (unlike the 15 ml tablespoon used in the US, UK and NZ). So 2 Australian tablespoons of fish sauce = 40 ml.\n\nAnswer: 40 ml",
+          "refusal": null,
+          "reasoning": "Two Australian tablespoons equals 40 milliliters.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "Two Australian tablespoons equals 40 milliliters.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISlgIKhwEIEBgCKkAXl8fjP/quSPl9VSv9537lh0hxBUqBKRLqUFI2peFxsrnCBLNeZtI/DM4AiIDn0W3O681e5g8dJPZbrwLICap5Mg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDPRI3hDcOlPtvQ6lEBoMJR9M1fPNCRT/qH+zIjAHZ8LZ51ZYDbaWX5hGXdjocsG5m4OHYkJ0RkSb5zBu3kNNO4Eee+oYcX+6SDo/+qMqPAMSxq35O++DJ0JfcgqjPWjVBCNSyxKkbL6RbDeVdKkd3n6Q7Ml4ajs1m6r2QGNelDpu6PCPHZyTJiqXMRgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 96,
+      "completion_tokens": 111,
+      "total_tokens": 207,
+      "cost": 0.003255,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.003255,
+        "upstream_inference_prompt_cost": 0.00048,
+        "upstream_inference_completions_cost": 0.002775
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 13,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 96,
+  "tokensOut": 111,
+  "costUsd": 0.003255,
+  "latencyMs": 3109,
+  "finishReason": "stop"
+}

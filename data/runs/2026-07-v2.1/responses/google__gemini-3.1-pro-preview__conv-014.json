@@ -1,0 +1,65 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "google/gemini-3.1-pro-preview",
+  "questionId": "conv-014",
+  "answerText": "To find the equivalent in US cups, you divide the required weight in grams by the weight of one cup. \n\n250 g ÷ 200 g/cup = 1.25 cups (or 1 ¼ cups).\n\nAnswer: 1.25 cups",
+  "raw": {
+    "id": "gen-1785342954-nncQfMSj70oPQmhX7Fd2",
+    "object": "chat.completion",
+    "created": 1785342954,
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Google",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "STOP",
+        "message": {
+          "role": "assistant",
+          "content": "To find the equivalent in US cups, you divide the required weight in grams by the weight of one cup. \n\n250 g ÷ 200 g/cup = 1.25 cups (or 1 ¼ cups).\n\nAnswer: 1.25 cups",
+          "refusal": null,
+          "reasoning": "**Calculating Sugar Conversions**\n\nI'm currently working through the conversion of 250g of caster sugar to cups. My initial thought was to use the given granulated sugar conversion of 200g/cup, but I'm refining that by considering caster sugar's finer grain, which might slightly alter the weight per volume.\n\n",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "**Calculating Sugar Conversions**\n\nI'm currently working through the conversion of 250g of caster sugar to cups. My initial thought was to use the given granulated sugar conversion of 200g/cup, but I'm refining that by considering caster sugar's finer grain, which might slightly alter the weight per volume.\n\n",
+              "format": "google-gemini-v1",
+              "index": 0
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 63,
+      "completion_tokens": 401,
+      "total_tokens": 464,
+      "cost": 0.004938,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.004938,
+        "upstream_inference_prompt_cost": 0.000126,
+        "upstream_inference_completions_cost": 0.004812
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 342,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 63,
+  "tokensOut": 401,
+  "costUsd": 0.004938,
+  "latencyMs": 4701,
+  "finishReason": "stop"
+}

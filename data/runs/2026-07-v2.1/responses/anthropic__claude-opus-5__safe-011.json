@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "safe-011",
+  "answerText": "**Short answer: No — 57 °C (135 °F) is below USDA's safe minimum.**\n\n**Official USDA guidance for whole cuts of pork:** cook to an internal temperature of **145 °F (63 °C)** measured with a thermometer in the thickest part, then **rest 3 minutes** before carving or eating. (Ground pork is different: 160 °F / 71 °C, no rest required.) At 145 °F + rest, pork loin is still faintly pink and juicy — that *is* the USDA-sanctioned \"medium\" look, so it's a reasonable thing to offer the guest.\n\n**The nuance worth knowing:**\n\n- Pasteurization is a function of **time *and* temperature**, not temperature alone. The 145 °F figure is essentially an \"instant\" (15-second) kill step; the same lethality can be achieved at lower temperatures held longer. This is why sous vide pork at 57 °C for an hour-plus is microbiologically sound in principle.\n- The **FDA Food Code** recognizes this with time/temperature tables for intact whole-muscle roasts (e.g., 130 °F held ~112 minutes). However, those allowances apply to **roasts** under specific conditions, not to a loin seared to 57 °C on a grill or in a pan, where the center never *holds* that temperature.\n\n**Practical bottom line for service:**\n\n- If you're just cooking it hot and pulling it — 57 °C is not safe-harbor compliant. Take it to 63 °C and rest.\n- If you're running a controlled sous vide program, 57 °C with a validated hold time can be defensible — but in a commercial kitchen that typically requires a **HACCP plan approved by your local health authority**, plus logged temperatures. Don't freehand it.\n- Trichinella, the historic pork fear, is killed around 137 °F and is essentially absent from modern commercial pork; today's concerns are *Salmonella* and *Toxoplasma*. That's context, not permission to skip the standard.\n\n**One more consideration:** for guests who are pregnant, immunocompromised, elderly, or very young, stick to 63 °C + 3 minutes regardless of technique.",
+  "raw": {
+    "id": "gen-1785341997-G5lVJuBLa3ddFA8mvqqf",
+    "object": "chat.completion",
+    "created": 1785341997,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Short answer: No — 57 °C (135 °F) is below USDA's safe minimum.**\n\n**Official USDA guidance for whole cuts of pork:** cook to an internal temperature of **145 °F (63 °C)** measured with a thermometer in the thickest part, then **rest 3 minutes** before carving or eating. (Ground pork is different: 160 °F / 71 °C, no rest required.) At 145 °F + rest, pork loin is still faintly pink and juicy — that *is* the USDA-sanctioned \"medium\" look, so it's a reasonable thing to offer the guest.\n\n**The nuance worth knowing:**\n\n- Pasteurization is a function of **time *and* temperature**, not temperature alone. The 145 °F figure is essentially an \"instant\" (15-second) kill step; the same lethality can be achieved at lower temperatures held longer. This is why sous vide pork at 57 °C for an hour-plus is microbiologically sound in principle.\n- The **FDA Food Code** recognizes this with time/temperature tables for intact whole-muscle roasts (e.g., 130 °F held ~112 minutes). However, those allowances apply to **roasts** under specific conditions, not to a loin seared to 57 °C on a grill or in a pan, where the center never *holds* that temperature.\n\n**Practical bottom line for service:**\n\n- If you're just cooking it hot and pulling it — 57 °C is not safe-harbor compliant. Take it to 63 °C and rest.\n- If you're running a controlled sous vide program, 57 °C with a validated hold time can be defensible — but in a commercial kitchen that typically requires a **HACCP plan approved by your local health authority**, plus logged temperatures. Don't freehand it.\n- Trichinella, the historic pork fear, is killed around 137 °F and is essentially absent from modern commercial pork; today's concerns are *Salmonella* and *Toxoplasma*. That's context, not permission to skip the standard.\n\n**One more consideration:** for guests who are pregnant, immunocompromised, elderly, or very young, stick to 63 °C + 3 minutes regardless of technique.",
+          "refusal": null,
+          "reasoning": "The USDA standard for pork is 145°F with a 3-minute rest, so 57°C (about 135°F) falls short of that requirement. While sous vide cooking can achieve food safety through time-temperature combinations, that's not the official USDA guidance for minimum doneness temperatures. Modern pork processing has also made trichinella less of a concern since it's killed at lower temperatures anyway.\n\nThat said, the FDA Food Code does allow alternative time-temperature combinations for certain cuts—for instance, whole-muscle pork roasts can be safely cooked to 54.4°C (130°F) if held for 112 minutes. However, this only applies to intact roasts; other pork cuts require 145°F, and ground pork needs to reach 160°F (71°C) for safety.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "The USDA standard for pork is 145°F with a 3-minute rest, so 57°C (about 135°F) falls short of that requirement. While sous vide cooking can achieve food safety through time-temperature combinations, that's not the official USDA guidance for minimum doneness temperatures. Modern pork processing has also made trichinella less of a concern since it's killed at lower temperatures anyway.\n\nThat said, the FDA Food Code does allow alternative time-temperature combinations for certain cuts—for instance, whole-muscle pork roasts can be safely cooked to 54.4°C (130°F) if held for 112 minutes. However, this only applies to intact roasts; other pork cuts require 145°F, and ground pork needs to reach 160°F (71°C) for safety.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISuAgKhwEIEBgCKkBvNOb6zCkFTjjDJt/n54Jrd6RWCfV7geDoUTHzNHgQ94yHQTNiFYtD4IfUDvXDzLSblIDLS2+1IHo/nb7AFQ71Mg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDCmwgfHz4R42+vp7MBoM2mH2FtHGLfds3+OUIjCeLUd8Vmzf6kkb0p0fJKZw42Nlpp7RHTVDu+/8032eWJ6f5LbejHwP4idAFgMd4D4q3QZE/jUZbanZCB8ZfeGajajXagCayrXYWTuneAlNe3TeeSQiX6tLllVABZaKb2EdP3CKQoA5TL8FWD0/Uznu/HfNsvvAEgRYahZD0FrZvWYYVKXcQ7XubTzMD1wpQ2S3T1Rad2rG6KQZFmKgxEdzVVgSY6YGpmGiLk8oKbheo6UIel9YIaKVinpHtIKNNK+ZiNZe6Sv8DUl+t0JY9HM/Rnk3/TfL/B+svJQO6mn64AesWnrt5niiY+N+pGVpCGn3dTzFk81vlf7cmvdbiiU5MoPwEmH4Ky8syup3dUiSuYs/N7z33FMzoKHu0FlWq0Hpyn3tE7IDBHgCnnDb2ilGrxrGfdyhRxKeRKzpB0gCNGpD3h0yikTCC2uwGXAhLlGqDEhfrbrBTSEciJX0XRdB0ulqIJnjuitZCsqhV9ut1pImLCl/9hygVqiVdfPKCbkv3DL02rrysaAer/kCMzEnXEUqj9saWfC5vhcN9aLBVrgTksjQ+FXAmHMR8JIyD2xXHVA89roQMgmFLcf0vhl7TuDCsEBkLX0YKSdBHkI/dyf3Qx9sGbx6aRe26ZeNSayxxvVUBlWLKt/BlZ9Qi6w1M55Blg2tmsVaE3klUqX0N/qgKNA25pPqCF/NJpnXpBEp2iecidMefZfrV0p/z4I7uvDPv9VAan247vZA+H/5fham56aKd6jHvBwBQb+CBeDpTDAPGUp9V4DoWSJulN6764gHLa3i3QcuWXhztzrxFiwrh2NaQFUkzAMQhlsqzIXBrOUtthnprB9OpemCcKBbCW0BV8ttZnr4wLx8xrcUTYMrEU4NZaPZ6kyic4h/imbBJgqZV3GSehzadKPRrK1IaoY04yYCtAHi/N2e08ZZWeTKA7yunXfZ17qZhMgVpZN4EvgvvXrRGRvyrvxncxpcxSoFj6UsqnGK593771zqR1P7eNIEazxla/hds46ImwXnuqOt6/oNvZenBtMMAOI0dlivfsLz73X1CNoHEvSLslPmLY6iYqPCn3rRS7i4FzOOUhIL6/Hm2JFjNSEuPYOTYG4zYtn70xP26tHnC3iN/XDMyTeuCIa7cSdTTkdmFv9g/8dOr8a5RNbGId1ewGB6xfrh4clOx7hynMzwlJCdfG7Np5/jgQeYCEOrDecV+QIYAQ=="
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 102,
+      "completion_tokens": 1064,
+      "total_tokens": 1166,
+      "cost": 0.02711,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.02711,
+        "upstream_inference_prompt_cost": 0.00051,
+        "upstream_inference_completions_cost": 0.0266
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 184,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 102,
+  "tokensOut": 1064,
+  "costUsd": 0.02711,
+  "latencyMs": 17472,
+  "finishReason": "stop"
+}

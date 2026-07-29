@@ -1,0 +1,66 @@
+{
+  "runId": "2026-07-v2.1",
+  "modelId": "anthropic/claude-opus-5",
+  "questionId": "qty-024",
+  "answerText": "**Scaling:** 600 ml ÷ 4 × 6 = **900 ml**\n\n**Converting:** 1 US cup = 236.6 ml, so 900 ÷ 236.6 ≈ **3.8 cups**\n\nIn practice, measure out 3¾ cups plus about a tablespoon — or just call it a generous 3¾ cups, which is close enough for stock.\n\nAnswer: 3.8 cups",
+  "raw": {
+    "id": "gen-1785342140-rTLNaJV4aRCfEeJvR7fz",
+    "object": "chat.completion",
+    "created": 1785342140,
+    "model": "anthropic/claude-opus-5",
+    "provider": "Amazon Bedrock",
+    "system_fingerprint": null,
+    "service_tier": "default",
+    "choices": [
+      {
+        "index": 0,
+        "logprobs": null,
+        "finish_reason": "stop",
+        "native_finish_reason": "end_turn",
+        "message": {
+          "role": "assistant",
+          "content": "**Scaling:** 600 ml ÷ 4 × 6 = **900 ml**\n\n**Converting:** 1 US cup = 236.6 ml, so 900 ÷ 236.6 ≈ **3.8 cups**\n\nIn practice, measure out 3¾ cups plus about a tablespoon — or just call it a generous 3¾ cups, which is close enough for stock.\n\nAnswer: 3.8 cups",
+          "refusal": null,
+          "reasoning": "I'm scaling the recipe from 4 to 6 servings, which means 600 ml becomes 900 ml, and converting that to US cups gives me roughly 3.8 cups—about three-quarters of a cup plus a little extra.",
+          "reasoning_details": [
+            {
+              "type": "reasoning.text",
+              "text": "I'm scaling the recipe from 4 to 6 servings, which means 600 ml becomes 900 ml, and converting that to US cups gives me roughly 3.8 cups—about three-quarters of a cup plus a little extra.",
+              "format": "anthropic-claude-v1",
+              "index": 0,
+              "signature": "CAISiwMKhwEIEBgCKkC23JdRaSnpgonhe5IsOyFObmEbzI8PwXqD2lTGMofO5iPGUpY2wyW44xlmEco/1yby8keN95ofZboEquFcxaSiMg1jbGF1ZGUtb3B1cy01OAFCCHRoaW5raW5nWiQ0YzBmMDQ2Zi0yNWZkLTQ1ZmItYmZiMy1hMDhhOGUyNDljYTcSDB83Svd8hVCyiKy6khoMPEsPaPKas+FXnCz1IjCCqLh0WjUAABH+8EpBPx/5En/0Nr4LZPDyx/QV0EN+IT/HQBij27YjVJLb6R+VJSoqsAEdMGbYkH/xj5WTmtXJYGMj5tn+6PxPd5Hg5mFwH1qluFTPpHSeakHqz38Z6x01uaznJ7xu/ZO093D1sFsmTj7oqbEWx9PzEakZvkfS8UuTrCAVdq3madC62TcbEvEl9fWCIQG971PRQzbAEV0e9EAEcWfEvDnqwtxPxoQDnqE6FhS9tGfm//Ucx6eej3pfD4/zv+F6LGJY78AtGls6KcR+iER2Betva6RUcQ/4wvMCSxgB"
+            }
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 120,
+      "completion_tokens": 235,
+      "total_tokens": 355,
+      "cost": 0.006475,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.006475,
+        "upstream_inference_prompt_cost": 0.0006,
+        "upstream_inference_completions_cost": 0.005875
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 48,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    }
+  },
+  "tokensIn": 120,
+  "tokensOut": 235,
+  "costUsd": 0.006475,
+  "latencyMs": 4970,
+  "finishReason": "stop"
+}
