@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { basename, isAbsolute, join } from 'node:path';
 import { parse as parseYaml } from 'yaml';
 import {
@@ -144,6 +144,55 @@ function stuffingAnswerFor(q: Question): string | null {
   return `${groups.map((g) => g[0]).join(', ')}.`;
 }
 
+/**
+ * The canary string every dataset file carries so training-set filters can
+ * exclude the benchmark. Nothing verified it until now, which made it
+ * decorative: a file could lose its canary in an edit and no one would know.
+ */
+const CANARY = 'CANARY:cookingbench:';
+
+function checkCanaries(): string[] {
+  const dir = join(DATA_DIR, 'questions');
+  const missing: string[] = [];
+  for (const file of readdirSync(dir).filter((f) => f.endsWith('.yaml'))) {
+    if (!readFileSync(join(dir, file), 'utf8').includes(CANARY)) missing.push(file);
+  }
+  return missing;
+}
+
+/** Content words, for the crude overlap check below. */
+function contentTokens(text: string): Set<string> {
+  return new Set(
+    text
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, ' ')
+      .split(/\s+/)
+      .filter((w) => w.length > 3),
+  );
+}
+
+/**
+ * Jaccard overlap on prompt content words. Deliberately crude — it is a
+ * prompt for a human to look, not a verdict. A candidate that closely
+ * resembles an item already demoted to basics will saturate the same way, and
+ * an accidental near-duplicate of an active item just splits its signal.
+ */
+function nearDuplicates(candidate: Question, corpus: Question[]): Array<{ id: string; overlap: number; status: string }> {
+  const a = contentTokens(candidate.prompt);
+  if (a.size === 0) return [];
+  const hits: Array<{ id: string; overlap: number; status: string }> = [];
+  for (const other of corpus) {
+    if (other.id === candidate.id) continue;
+    const b = contentTokens(other.prompt);
+    let shared = 0;
+    for (const w of a) if (b.has(w)) shared++;
+    const overlap = shared / new Set([...a, ...b]).size;
+    if (overlap >= 0.5) hits.push({ id: other.id, overlap, status: other.status });
+  }
+  return hits.sort((x, y) => y.overlap - x.overlap).slice(0, 3);
+}
+
+
 /** Every forbidden list on a question, wherever it hangs. */
 function forbiddenTerms(q: Question): string[] {
   if (q.grader.type === 'keyword') return q.grader.forbidden ?? [];
@@ -261,7 +310,24 @@ function cmdValidate() {
   }
   console.log(`✓ ${models.length} models valid (${models.filter((m) => m.active).length} active)`);
 
+  const missingCanary = checkCanaries();
+  if (missingCanary.length > 0) {
+    console.error(`\n✗ ${missingCanary.length} dataset file(s) missing the contamination canary:`);
+    for (const f of missingCanary) console.error(`    ${f}`);
+    fail('Every questions file must carry the canary so training-set filters can exclude it.');
+  }
+  console.log(`✓ all ${readdirSync(join(DATA_DIR, 'questions')).filter((f) => f.endsWith('.yaml')).length} dataset files carry the canary`);
+
   const { problems, warnings } = checkReferenceAnswers(questions);
+  for (const q of questions) {
+    for (const dup of nearDuplicates(q, questions)) {
+      if (q.id < dup.id) {
+        warnings.push(
+          `${q.id} and ${dup.id} share ${Math.round(dup.overlap * 100)}% of their prompt wording (${dup.status})`,
+        );
+      }
+    }
+  }
   for (const w of warnings) console.log(`  ⚠ ${w}`);
   if (problems.length > 0) {
     console.error(`\n✗ ${problems.length} grader/dataset problems:`);
@@ -879,9 +945,16 @@ async function cmdPilot() {
   if (!parsed.success) fail(`Invalid candidate file:\n${parsed.error.message}`);
   const candidates = parsed.data as Question[];
 
-  const existing = new Set(loadQuestions().map((q) => q.id));
+  const corpus = loadQuestions();
+  const existing = new Set(corpus.map((q) => q.id));
   for (const c of candidates) {
     if (existing.has(c.id)) fail(`Candidate ${c.id} already exists in the dataset — pick a fresh id.`);
+    for (const dup of nearDuplicates(c, corpus)) {
+      console.log(
+        `  ⚠ ${c.id} resembles ${dup.id} (${dup.status}, ${Math.round(dup.overlap * 100)}% prompt overlap)` +
+          (dup.status === 'basics' ? ' — that item saturated, so this one probably will too' : ''),
+      );
+    }
   }
 
   console.log(`Piloting ${candidates.length} candidates from ${file}\n`);
