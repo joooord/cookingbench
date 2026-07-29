@@ -147,8 +147,19 @@ export function analyzeRun(
     // rather than silently marking the roster wrong.
     const numericFamily = ['numeric', 'range', 'numeric-multi'].includes(q.grader.type);
     const zeroes = values.filter((v) => v === 0).length;
+    // The signal is specifically that the *strong* models fail too. If only the
+    // weaker half misses, the item is doing its job. Requiring the top half to
+    // fail as well is what separates "hard" from "the expected value is wrong",
+    // and it needs a real roster behind it — on a three-model set where two are
+    // deliberately weak, "two thirds scored 0" means nothing at all.
+    const topZeroes = qScores.filter((s) => topHalf.has(s.modelId) && s.score === 0).length;
+    const topCount = qScores.filter((s) => topHalf.has(s.modelId)).length;
     const referenceSuspect =
-      numericFamily && values.length >= 3 && zeroes / values.length >= 2 / 3;
+      numericFamily &&
+      values.length >= 6 &&
+      zeroes / values.length >= 2 / 3 &&
+      topCount > 0 &&
+      topZeroes / topCount >= 2 / 3;
 
     items.push({
       questionId,
