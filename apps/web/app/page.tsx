@@ -124,7 +124,7 @@ export default async function LeaderboardPage() {
                         </span>
                         {(row.incidents ?? 0) > 0 && (
                           <span
-                            className="ml-1 text-xs text-saffron"
+                            className="ml-1 text-xs text-saffron-ink"
                             title={`${row.incidents} responses stayed empty/filtered after retries (transport noise, scored 0)`}
                           >
                             ⚠{row.incidents}

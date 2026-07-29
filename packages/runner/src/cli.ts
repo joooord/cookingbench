@@ -55,9 +55,29 @@ const DEFAULTS = {
   methodologyVersion: 'v2',
 };
 
-/** Empty or filtered completions are transport noise, not skill — retried, then marked. */
-function isTransportFailure(result: { text: string; finishReason?: string }): boolean {
-  return result.text.trim() === '' || result.finishReason === 'content_filter';
+/**
+ * Empty, filtered or provider-errored completions are transport noise, not
+ * skill — retried, then marked.
+ *
+ * OpenRouter surfaces a mid-stream provider failure as HTTP 200 with
+ * `finish_reason: "error"` and whatever text arrived before the failure, so
+ * `res.ok` is true and the text is non-empty. Run 2026-06-v2 published
+ * claude-opus-4.8 × safe-021 — four tokens, cut off mid-word, provider
+ * "overloaded_error" — as a real 50/100 with incidents: 0.
+ */
+function isTransportFailure(result: {
+  text: string;
+  finishReason?: string;
+  raw?: unknown;
+}): boolean {
+  if (result.text.trim() === '') return true;
+  if (result.finishReason === 'content_filter' || result.finishReason === 'error') return true;
+  const raw = result.raw as
+    | { error?: unknown; choices?: Array<{ error?: unknown; finish_reason?: string }> }
+    | undefined;
+  if (raw?.error) return true;
+  const choice = raw?.choices?.[0];
+  return Boolean(choice?.error) || choice?.finish_reason === 'error';
 }
 
 function arg(name: string): string | undefined {
@@ -65,6 +85,10 @@ function arg(name: string): string | undefined {
   if (idx === -1) return undefined;
   const value = process.argv[idx + 1];
   return value && !value.startsWith('--') ? value : 'true';
+}
+
+function flag(name: string): boolean {
+  return process.argv.includes(`--${name}`);
 }
 
 function fail(message: string): never {
@@ -467,15 +491,57 @@ async function cmdJudge() {
     }
   }
 
+  // Judging is the expensive half of the pipeline — two flagship seats per
+  // answer, up to three calls per seat on a parse failure — and until now it
+  // was the half with no cap and no cost recording at all. Roughly $29 of the
+  // ~$56 spent across both published runs never appeared in any artifact.
+  const judgeBudget = Number(arg('budget') ?? NaN);
+  if (!config.mock && !Number.isFinite(judgeBudget)) {
+    fail(
+      `Judging ${pending.length} answers needs a cap: pass --budget <usd>. ` +
+        `Rough worst case is ${pending.length * 2} seat calls (3× that if seats return unparseable output).`,
+    );
+  }
+  const budget = new BudgetGuard(config.mock ? Infinity : judgeBudget, Infinity);
+  // A flagship seat pair on a long answer; used only for the pre-flight check.
+  const WORST_CASE_PER_ANSWER_USD = 0.25;
+
   console.log(`Judging ${pending.length} answers with panel [${judgePanel.join(', ')}] (${config.judgePromptVersion})…`);
   let flagged = 0;
+  let emptyAnswers = 0;
+  let done = 0;
   const judgeFailures: string[] = [];
+  // Scores were written once, after the whole pool resolved: one Ctrl-C at 90%
+  // discarded every paid verdict in the batch. Checkpoint as we go.
+  const checkpoint = () => writeScores(runId, scores);
+  try {
   await pool(pending, DEFAULTS.concurrency, async (s) => {
     const question = questionsById.get(s.questionId)!;
     const response = responses.find(
       (r) => r.modelId === s.modelId && r.questionId === s.questionId,
     )!;
     const detail = s.detail as { constraintScore: number | null; constraintDetail: unknown };
+    // An empty answer is a non-answer, not a bad answer. Handing '' to the
+    // panel makes deduction grading count "produced nothing" as a single
+    // critical mistake — 100 − 40 = 60, blended to 42 — so a model that
+    // returned zero characters outscored several that genuinely tried. Score
+    // it 0 here and skip the paid call. (Deterministic graders already give 0
+    // for empty text, so only judged items were affected.)
+    if (!response.answerText.trim()) {
+      s.score = 0;
+      s.judgeModel = undefined;
+      s.detail = {
+        judgePending: false,
+        judgeScore: 0,
+        emptyAnswer: true,
+        transportFailure: response.transportFailure ?? false,
+        finishReason: response.finishReason ?? null,
+        constraintScore: detail.constraintScore,
+        constraintDetail: detail.constraintDetail,
+      };
+      emptyAnswers++;
+      return;
+    }
     let judgeScore: number;
     let judgeDetail: Record<string, unknown>;
     if (config.mock) {
@@ -483,14 +549,27 @@ async function cmdJudge() {
       judgeDetail = { mockJudge: true };
     } else {
       let verdict: Awaited<ReturnType<typeof judgeAnswerPanel>>;
+      budget.assertCanSpend('judge-panel', WORST_CASE_PER_ANSWER_USD);
+      // The spend object is shared with the panel so a seat that fails after
+      // two paid retries still reports what it burned.
+      const spend = { costUsd: 0 };
       try {
-        verdict = await judgeAnswerPanel(client!, judgePanel, s.modelId, question, response.answerText);
+        verdict = await judgeAnswerPanel(
+          client!,
+          judgePanel,
+          s.modelId,
+          question,
+          response.answerText,
+          spend,
+        );
       } catch (error) {
         // One unjudgeable answer must not sink the batch — it stays
         // judgePending and the next `bench judge` retries just these.
+        budget.record('judge-panel', spend.costUsd);
         judgeFailures.push(`${s.modelId} × ${s.questionId}: ${(error as Error).message.slice(0, 120)}`);
         return;
       }
+      budget.record('judge-panel', verdict.costUsd);
       judgeScore = verdict.score;
       judgeDetail = {
         judges: verdict.judges,
@@ -499,6 +578,7 @@ async function cmdJudge() {
         verdicts: verdict.verdicts,
         disagreement: verdict.disagreement,
         flagged: verdict.flagged,
+        judgeCostUsd: verdict.costUsd,
       };
       if (verdict.flagged) flagged++;
     }
@@ -513,10 +593,26 @@ async function cmdJudge() {
       constraintDetail: detail.constraintDetail,
       ...judgeDetail,
     };
+    if (++done % 25 === 0) {
+      checkpoint();
+      console.log(`  ${done}/${pending.length} judged — spent $${budget.spentTotalUsd.toFixed(4)}`);
+    }
   });
-  writeScores(runId, scores);
-  const judgedCount = pending.length - judgeFailures.length;
+  } finally {
+    // Whatever happened — budget abort, provider outage, Ctrl-C landing on the
+    // event loop — the verdicts already paid for are on disk.
+    checkpoint();
+  }
+  if (!config.mock) {
+    config.judgeCostUsd = Math.round(budget.spentTotalUsd * 10000) / 10000;
+    writeRunConfig(config);
+    console.log(`  judge spend this pass: $${budget.spentTotalUsd.toFixed(4)}`);
+  }
+  const judgedCount = pending.length - judgeFailures.length - emptyAnswers;
   console.log(`✓ Judged ${judgedCount} answers${flagged > 0 ? ` (${flagged} flagged for manual review)` : ''}`);
+  if (emptyAnswers > 0) {
+    console.log(`  ${emptyAnswers} empty answers scored 0 without a judge call (transport noise, not skill)`);
+  }
   if (judgeFailures.length > 0) {
     console.error(`✗ ${judgeFailures.length} answers could not be judged (re-run \`bench judge\` to retry):`);
     for (const f of judgeFailures.slice(0, 10)) console.error(`    ${f}`);
@@ -545,6 +641,24 @@ function cmdReport() {
     scores,
     config.methodologyVersion ?? 'v2',
   );
+  // A row averaged over fewer active items than its peers is not comparable to
+  // them, and nothing downstream renders questionsGraded — so refuse to write
+  // a board whose denominators disagree unless the operator opts in.
+  const graded = leaderboard.rows.map((r) => r.questionsGraded);
+  const modal = graded.sort((a, b) => b - a)[0] ?? 0;
+  const short = leaderboard.rows.filter((r) => r.questionsGraded < modal);
+  if (short.length > 0 && !flag('allow-incomplete')) {
+    for (const r of short) {
+      console.error(
+        `✗ ${r.displayName}: ${r.questionsGraded}/${modal} items scored ` +
+          `(${r.unjudged ?? 0} unjudged) — its mean is not comparable to the rest of the board`,
+      );
+    }
+    fail(
+      'Refusing to publish a leaderboard with mismatched denominators. ' +
+        'Re-run `bench judge` to fill the gaps, or pass --allow-incomplete to publish anyway.',
+    );
+  }
   writeLeaderboard(runId, leaderboard);
   console.log(`\nCookingBench — run ${runId} (methodology ${leaderboard.methodologyVersion})\n`);
   const header = `${'#'.padEnd(3)} ${'model'.padEnd(28)} ${'overall'.padStart(7)} ${'95% CI'.padStart(13)} ${'frontier'.padStart(8)} ${'basics'.padStart(7)} ${'inc'.padStart(4)} ${'cost'.padStart(9)}`;

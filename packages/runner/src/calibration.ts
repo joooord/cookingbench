@@ -37,6 +37,8 @@ export interface CalibrationResult {
   judgePanel?: string[];
   judgePromptVersion: string;
   atIso: string;
+  /** What this calibration pass cost across every seat and anchor. */
+  costUsd?: number;
   /** Worst per-judge MAE. */
   mae: number;
   passed: boolean;
@@ -62,12 +64,13 @@ async function calibrateOne(
   judgeModel: string,
   anchors: CalibrationAnchor[],
   questionsById: Map<string, Question>,
+  spend: { costUsd: number },
 ): Promise<JudgeCalibration> {
   const results: JudgeCalibration['anchors'] = [];
   for (const anchor of anchors) {
     const question = questionsById.get(anchor.questionId);
     if (!question) throw new Error(`Calibration anchor references unknown question ${anchor.questionId}`);
-    const verdict = await judgeAnswer(client, judgeModel, question, anchor.answerText);
+    const verdict = await judgeAnswer(client, judgeModel, question, anchor.answerText, spend);
     const tolerance = anchor.toleranceAbs ?? DEFAULT_TOLERANCE;
     results.push({
       questionId: anchor.questionId,
@@ -102,9 +105,11 @@ export async function runCalibration(
   questionsById: Map<string, Question>,
 ): Promise<CalibrationResult> {
   const anchors = loadAnchors();
+  // Anchors x seats x two calls each — real money, and previously unrecorded.
+  const spend = { costUsd: 0 };
   const judges: JudgeCalibration[] = [];
   for (const judgeModel of judgePanel) {
-    judges.push(await calibrateOne(client, judgeModel, anchors, questionsById));
+    judges.push(await calibrateOne(client, judgeModel, anchors, questionsById, spend));
   }
   const result: CalibrationResult = {
     judgeModel: judgeLabel,
@@ -113,6 +118,7 @@ export async function runCalibration(
     atIso: new Date().toISOString(),
     mae: Math.max(...judges.map((j) => j.mae)),
     passed: judges.every((j) => j.passed),
+    costUsd: Math.round(spend.costUsd * 10000) / 10000,
     judges,
   };
   writeFileSync(calibrationPath(runId), JSON.stringify(result, null, 2));

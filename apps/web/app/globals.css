@@ -9,10 +9,21 @@
   --color-ink-soft: #57534e;
   --color-hairline: #e4ddd0;
 
+  /* Fills — swatches, score bars, category rules. Graphical objects, 3:1. */
   --color-paprika: #c8401a;
   --color-saffron: #d98e2b;
   --color-olive: #7a8b3f;
   --color-herb: #2f6b4f;
+
+  /* Text-safe counterparts, all >= 4.5:1 on both paper and paper-tint.
+     The vivid saffron reads 2.48:1 and the olive 3.49:1 as small text, and
+     because scoreColor() maps low scores to olive, the worst performers were
+     always the least legible — with the incidents marker, the one element the
+     methodology insists must be visible, worst of all at 12px saffron. */
+  --color-paprika-ink: #b03714;
+  --color-saffron-ink: #96620f;
+  --color-olive-ink: #57642a;
+  --color-herb-ink: #2f6b4f;
   --color-plum: #6b4660;
   --color-saltblue: #4a6b8a;
   --color-caramel: #9c6b2f;

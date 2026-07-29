@@ -1,4 +1,4 @@
-import { scoreColor } from '@/lib/format';
+import { scoreFill } from '@/lib/format';
 
 export function ScoreBar({ score, color }: { score: number; color?: string }) {
   return (
@@ -6,7 +6,7 @@ export function ScoreBar({ score, color }: { score: number; color?: string }) {
       <div className="h-2 w-full max-w-40 bg-paper-tint">
         <div
           className="h-2"
-          style={{ width: `${score}%`, background: color ?? scoreColor(score) }}
+          style={{ width: `${score}%`, background: color ?? scoreFill(score) }}
         />
       </div>
       <span className="tabular w-12 text-right text-sm">{score.toFixed(1)}</span>

@@ -191,6 +191,12 @@ export interface RunConfig {
   /** v2 panel: distinct judge models; two non-conflicted seats score each answer. */
   judgePanel?: string[];
   judgePromptVersion: string;
+  /**
+   * Cumulative judging spend for this run. Candidate calls are recorded per
+   * response; judging used to record nothing at all, which left about half of
+   * the project's real OpenRouter spend invisible to the tooling.
+   */
+  judgeCostUsd?: number;
   methodologyVersion: string;
   mock?: boolean;
 }

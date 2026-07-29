@@ -49,17 +49,28 @@ itself as a second backstop.
 
 ## Grading
 
-- **Deterministic** (~55%): numbers extracted from the answer (fractions,
-  thousands separators, ranges), unit-converted where equivalent
-  (350°F = 177°C), tolerance-checked. Prompt-echoed values get no credit.
-  Unsafe advice zeroes the question.
-- **LLM judge** (~45%): per-question rubrics, judged blind (model identity
-  stripped), twice at temperature 0, averaged; disagreements flagged. Recipe
-  generation blends judge (70%) with deterministic constraint checks (30%).
+- **Deterministic** (~75% of judgements): numbers extracted from the answer
+  (fractions, thousands separators, ranges), unit-converted where equivalent
+  (350°F = 177°C), tolerance-checked, with banded partial credit on compound
+  items. Prompt-echoed values get no credit unless the item sets
+  `expectedInPrompt`. Unsafe advice zeroes the question.
+- **Judge panel** (~25%): three seats — Claude Opus 4.8, GPT-5.5, Qwen 3.5 Plus
+  — two of which score each answer, blind to model identity. A judge never
+  scores its own provider, and the dropped seat rotates by a deterministic
+  hash. Judges list faults only (critical/major/minor); code maps those to
+  −40/−15/−5 from 100, so the panel cannot award points. Cross-judge
+  disagreement over 15 is flagged. Recipe generation blends judge (70%) with
+  deterministic constraint checks (30%). Every seat must pass a calibration
+  gate against hand-scored anchors before a paid run is accepted.
 
-Scores are 0–100 per question; category = mean; overall = unweighted mean of
-categories. Some questions are held out (`public: false`) against benchmark
-contamination.
+Scores are 0–100 per question. **Overall** is the plain mean over `active`
+items, with a seeded 95% bootstrap CI. `basics` items (saturated, kept as a
+regression gate) and `retired` items are excluded from it. **Frontier** is the
+mean over difficulty ≥ 4 active items.
+
+The whole dataset is public — there is no secret hold-out. Each file carries a
+canary GUID so training-data filters can exclude it, and contamination shows up
+as saturation, which `bench analyze` demotes out of the active set.
 
 ## Deploying the site (Vercel)
 

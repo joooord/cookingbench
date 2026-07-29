@@ -42,12 +42,35 @@ function readJson<T>(path: string): T {
   return JSON.parse(readFileSync(path, 'utf8')) as T;
 }
 
+/**
+ * A run built with `--mock` must never reach the site. The site picks the
+ * newest run by generatedAt, `bench report` restamps that on every rebuild,
+ * and the README's own $0 dev loop targets run id `mock-run` — whose files are
+ * tracked, so a rebuild shows up as modified files that `git add -A` sweeps
+ * up. One commit after that and the homepage ranks mock personas.
+ *
+ * The discriminator is already in the artifact: config.json carries mock:true.
+ */
+function isPublishable(dir: string): boolean {
+  const configPath = join(RUNS_DIR, dir, 'config.json');
+  if (!existsSync(configPath)) return false;
+  try {
+    return readJson<{ mock?: boolean }>(configPath).mock !== true;
+  } catch {
+    return false;
+  }
+}
+
 export function getLatestReport(): LeaderboardReport | null {
   if (!existsSync(RUNS_DIR)) return null;
   const reports = readdirSync(RUNS_DIR)
+    .filter(isPublishable)
     .map((dir) => join(RUNS_DIR, dir, 'leaderboard.json'))
     .filter((p) => existsSync(p))
-    .map((p) => readJson<LeaderboardReport>(p));
+    .map((p) => readJson<LeaderboardReport>(p))
+    // A malformed or missing timestamp sorts as NaN and would win or lose at
+    // random, so drop those rather than let one decide the homepage.
+    .filter((r) => Number.isFinite(Date.parse(r.generatedAt)));
   if (reports.length === 0) return null;
   reports.sort((a, b) => Date.parse(b.generatedAt) - Date.parse(a.generatedAt));
   return reports[0]!;

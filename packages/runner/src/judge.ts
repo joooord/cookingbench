@@ -98,12 +98,21 @@ export function parseJudgeResponse(question: Question, text: string): JudgeVerdi
   };
 }
 
+/**
+ * Every judge call costs money, so the caller has to see it even when the
+ * call fails — a parse failure burns three of these.
+ */
+export interface JudgeSpend {
+  costUsd: number;
+}
+
 /** One verdict from one judge, with empty/truncated-output escalation. */
 async function singleVerdict(
   client: CompletionClient,
   judgeModel: string,
   question: Question,
   answerText: string,
+  spend: JudgeSpend,
 ): Promise<JudgeVerdict> {
   const messages = buildJudgeMessages(question, answerText);
   // Reasoning judges can burn the whole token cap on hidden thinking or
@@ -115,6 +124,7 @@ async function singleVerdict(
       maxTokens: 2000 * (attempt + 1),
       reasoning: { effort: 'low' },
     });
+    spend.costUsd += result.costUsd;
     try {
       return parseJudgeResponse(question, result.text);
     } catch (err) {
@@ -157,6 +167,8 @@ export interface PanelVerdict extends JudgeVerdict {
   verdicts: Array<JudgeVerdict & { judgeModel: string }>;
   disagreement: number;
   flagged: boolean;
+  /** What this answer cost to judge, including retries on a failed seat. */
+  costUsd: number;
 }
 
 /**
@@ -169,27 +181,34 @@ export async function judgeAnswerPanel(
   candidateModelId: string,
   question: Question,
   answerText: string,
+  spend: JudgeSpend = { costUsd: 0 },
 ): Promise<PanelVerdict> {
   const seats = panelSeats(panel, candidateModelId, question.id);
   if (seats.length < 2) {
     throw new Error(`Panel too small for ${candidateModelId} on ${question.id} (need 2 non-conflicted judges)`);
   }
+  const before = spend.costUsd;
   const verdicts = await Promise.all(
     seats.map(async (judgeModel) => ({
       judgeModel,
-      ...(await singleVerdict(client, judgeModel, question, answerText)),
+      ...(await singleVerdict(client, judgeModel, question, answerText, spend)),
     })),
   );
   const [a, b] = verdicts as [PanelVerdict['verdicts'][number], PanelVerdict['verdicts'][number]];
   const disagreement = Math.abs(a.score - b.score);
   return {
     score: (a.score + b.score) / 2,
-    findings: a.findings,
-    summary: a.summary,
+    // Both seats' findings, tagged — the headline score is the two-seat mean,
+    // so attributing it to seat A's findings alone (the pre-v3 behaviour) left
+    // 78 rows with a sub-100 score and an empty findings list, which is the
+    // first thing the human-review layer reads.
+    findings: verdicts.flatMap((v) => v.findings.map((f) => ({ ...f, judgeModel: v.judgeModel }))),
+    summary: verdicts.map((v) => `${v.judgeModel}: ${v.summary}`).join('\n'),
     judges: seats,
     verdicts,
     disagreement,
     flagged: disagreement > 15,
+    costUsd: spend.costUsd - before,
   };
 }
 
@@ -202,10 +221,14 @@ export async function judgeAnswer(
   judgeModel: string,
   question: Question,
   answerText: string,
-): Promise<JudgeVerdict & { verdicts: JudgeVerdict[]; disagreement: number; flagged: boolean }> {
+  spend: JudgeSpend = { costUsd: 0 },
+): Promise<
+  JudgeVerdict & { verdicts: JudgeVerdict[]; disagreement: number; flagged: boolean; costUsd: number }
+> {
+  const before = spend.costUsd;
   const verdicts: JudgeVerdict[] = [];
   for (let i = 0; i < 2; i++) {
-    verdicts.push(await singleVerdict(client, judgeModel, question, answerText));
+    verdicts.push(await singleVerdict(client, judgeModel, question, answerText, spend));
   }
   const [a, b] = verdicts as [JudgeVerdict, JudgeVerdict];
   const disagreement = Math.abs(a.score - b.score);
@@ -216,5 +239,6 @@ export async function judgeAnswer(
     verdicts,
     disagreement,
     flagged: disagreement > 15,
+    costUsd: spend.costUsd - before,
   };
 }

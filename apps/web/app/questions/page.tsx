@@ -26,8 +26,9 @@ export default function QuestionsPage() {
         The questions
       </h1>
       <p className="mt-4 max-w-2xl text-lg text-ink-soft">
-        Every public question, its reference answer, and what each model actually said.
-        A held-out private set guards against models training on the benchmark.
+        Every question, its reference answer, and what each model actually said. The whole
+        dataset is public — we don&rsquo;t pretend to have a secret hold-out. Contamination
+        shows up as saturation, and saturated items get demoted out of the scored set.
       </p>
 
       <div className="mt-12 space-y-16">
@@ -49,7 +50,7 @@ export default function QuestionsPage() {
                   </span>
                 )}
                 {question.trap && (
-                  <span className="rounded-sm border border-hairline px-1.5 py-0.5 text-xs text-saffron" title="The prompt embeds a false or dangerous premise the model must catch">
+                  <span className="rounded-sm border border-hairline px-1.5 py-0.5 text-xs text-saffron-ink" title="The prompt embeds a false or dangerous premise the model must catch">
                     trap
                   </span>
                 )}
@@ -71,22 +72,49 @@ export default function QuestionsPage() {
                         (r) => r.modelId === score.modelId && r.questionId === question.id,
                       );
                       const row = report?.rows.find((r) => r.modelId === score.modelId);
+                      // A response that never arrived, or never got a verdict, is
+                      // missing data — not a bad answer. Showing it as "0.0" reads
+                      // as the model failing the question when the pipeline failed.
+                      const detail = score.detail as
+                        | { judgePending?: boolean; emptyAnswer?: boolean }
+                        | undefined;
+                      const noAnswer = !(response?.answerText ?? '').trim();
+                      const unscored = detail?.judgePending || noAnswer;
                       return (
                         <div key={score.modelId} className="bg-paper p-4">
-                          <div className="flex items-baseline justify-between">
+                          <div className="flex items-baseline justify-between gap-3">
                             <span className="text-sm font-medium">
                               {row?.displayName ?? score.modelId}
                             </span>
-                            <span
-                              className="tabular text-sm font-medium"
-                              style={{ color: scoreColor(score.score) }}
-                            >
-                              {formatScore(score.score)}
-                            </span>
+                            {unscored ? (
+                              <span
+                                className="tabular whitespace-nowrap text-sm text-ink-soft"
+                                title={
+                                  detail?.judgePending
+                                    ? 'No judge verdict for this answer — excluded from the score'
+                                    : 'The model returned no text (transport failure), scored 0'
+                                }
+                              >
+                                {detail?.judgePending ? '— unjudged' : '0.0 · no answer'}
+                              </span>
+                            ) : (
+                              <span
+                                className="tabular text-sm font-medium"
+                                style={{ color: scoreColor(score.score) }}
+                              >
+                                {formatScore(score.score)}
+                              </span>
+                            )}
                           </div>
                           <p className="mt-2 whitespace-pre-wrap text-xs leading-relaxed text-ink-soft">
-                            {(response?.answerText ?? '').slice(0, 600)}
-                            {(response?.answerText.length ?? 0) > 600 ? '…' : ''}
+                            {noAnswer ? (
+                              <em>No response — the model returned no text.</em>
+                            ) : (
+                              <>
+                                {(response?.answerText ?? '').slice(0, 600)}
+                                {(response?.answerText.length ?? 0) > 600 ? '…' : ''}
+                              </>
+                            )}
                           </p>
                         </div>
                       );

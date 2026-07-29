@@ -6,6 +6,8 @@ import { RUNS_DIR } from './dataset.js';
 export interface QuestionAnalysis {
   questionId: string;
   category: string;
+  /** active | basics | retired — the ratchet only acts on active items. */
+  status: string;
   difficulty: number;
   graderType: string;
   models: number;
@@ -27,8 +29,13 @@ export interface RunAnalysis {
   generatedAt: string;
   models: number;
   questions: number;
+  /** All-perfect across every analysed item, active and basics together. */
   allPerfect: number;
   saturated: number;
+  /** Active items only — the figures the de-saturation targets are set against. */
+  activeQuestions: number;
+  activeAllPerfect: number;
+  activeSaturated: number;
   questionsAnalyzed: QuestionAnalysis[];
 }
 
@@ -80,7 +87,7 @@ export function analyzeRun(
   const items: QuestionAnalysis[] = [];
   for (const [questionId, qScores] of byQuestion) {
     const q = questionsById.get(questionId);
-    if (!q) continue;
+    if (!q || q.status === 'retired') continue;
     const values = qScores.map((s) => s.score);
     const mean = values.reduce((a, b) => a + b, 0) / values.length;
     const sd = Math.sqrt(values.reduce((a, b) => a + (b - mean) ** 2, 0) / values.length);
@@ -96,11 +103,18 @@ export function analyzeRun(
     const cleanPerfect = cleanValues.length > 0 && cleanValues.every((v) => v === 100);
     // llm-judge items are never demoted here: judge-v2 (deduction grading)
     // changes their scoring regime entirely, so v1 saturation is not evidence.
+    // Only an ACTIVE item can be demoted to basics. Without this check the
+    // ratchet recommended demoting items that were already basics — 82 of the
+    // 115 basics-candidate verdicts in run 2026-06-v2 — and reported saturation
+    // against a denominator of all 184 items rather than the 102 that count.
     const verdict: QuestionAnalysis['verdict'] =
-      q.grader.type !== 'llm-judge' && cleanPerfect ? 'basics-candidate' : 'keep';
+      q.status === 'active' && q.grader.type !== 'llm-judge' && cleanPerfect
+        ? 'basics-candidate'
+        : 'keep';
     items.push({
       questionId,
       category: q.category,
+      status: q.status,
       difficulty: q.difficulty,
       graderType: q.grader.type,
       models: values.length,
@@ -123,6 +137,9 @@ export function analyzeRun(
     questions: items.length,
     allPerfect: items.filter((i) => i.allPerfect).length,
     saturated: items.filter((i) => i.mean >= 95 && i.sd <= 5).length,
+    activeQuestions: items.filter((i) => i.status === 'active').length,
+    activeAllPerfect: items.filter((i) => i.status === 'active' && i.allPerfect).length,
+    activeSaturated: items.filter((i) => i.status === 'active' && i.mean >= 95 && i.sd <= 5).length,
     questionsAnalyzed: items,
   };
 }

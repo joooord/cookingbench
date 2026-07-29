@@ -19,6 +19,12 @@ export interface LeaderboardRow {
   questionsGraded: number;
   /** Responses that stayed empty/filtered after retries — transport noise, scored 0 but surfaced. */
   incidents?: number;
+  /**
+   * Active items excluded from `overall` because they never got a verdict.
+   * Non-zero means this row's mean is over a smaller denominator than its
+   * peers', which a reader has to know before comparing the numbers.
+   */
+  unjudged?: number;
   costUsd: number;
 }
 
@@ -87,18 +93,28 @@ export function buildLeaderboard(
     active: number[];
     basics: number[];
     frontier: number[];
+    unjudged: number;
     perCategory: Map<CategoryId, number[]>;
   }
   const byModel = new Map<string, Buckets>();
+  const ensure = (modelId: string): Buckets => {
+    if (!byModel.has(modelId)) {
+      byModel.set(modelId, { active: [], basics: [], frontier: [], unjudged: 0, perCategory: new Map() });
+    }
+    return byModel.get(modelId)!;
+  };
   for (const s of scores) {
     const q = questionsById.get(s.questionId);
     if (!q || q.status === 'retired') continue;
-    // Unjudged answers are missing data, not zeros — report.ts warns upstream.
-    if ((s.detail as { judgePending?: boolean }).judgePending) continue;
-    if (!byModel.has(s.modelId)) {
-      byModel.set(s.modelId, { active: [], basics: [], frontier: [], perCategory: new Map() });
+    // Unjudged answers are missing data, not zeros — but the exclusion has to
+    // be counted and surfaced, because it shrinks this model's denominator
+    // relative to everyone else's. (Empty answers are scored 0 by cmdJudge and
+    // never reach here, so what remains is a genuine judge failure.)
+    if ((s.detail as { judgePending?: boolean }).judgePending) {
+      if (q.status !== 'basics') ensure(s.modelId).unjudged++;
+      continue;
     }
-    const buckets = byModel.get(s.modelId)!;
+    const buckets = ensure(s.modelId);
     if (q.status === 'basics') {
       buckets.basics.push(s.score);
       continue;
@@ -129,6 +145,7 @@ export function buildLeaderboard(
       categories,
       questionsGraded: buckets.active.length + buckets.basics.length,
       incidents: incidentsByModel.get(modelId) ?? 0,
+      unjudged: buckets.unjudged,
       costUsd: Math.round((costByModel.get(modelId) ?? 0) * 10000) / 10000,
     });
   }
