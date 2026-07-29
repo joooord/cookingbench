@@ -195,3 +195,41 @@ describe('llm-judge deterministic component', () => {
     expect(blendJudgeScore(judgeOnly, 77, null)).toBe(77);
   });
 });
+
+/**
+ * Downstream negation: the term is named, and what rules it out comes later in
+ * the same sentence. A lookback window cannot see any of this, and correct
+ * answers to constraint questions are written this way constantly — you name
+ * the banned ingredient in order to say what to do about it.
+ */
+describe('negation following the term', () => {
+  it('credits an arrow-style replacement note', () => {
+    // claude-fable-5, subs-020: "**Parmesan → umami replacements.**"
+    const spec: GraderSpec = { type: 'keyword', forbidden: ['parmesan'] };
+    expect(gradeKeyword(spec, 'Parmesan → umami replacements. This is the hardest one.').score).toBe(100);
+  });
+
+  it('credits an absence-of construction after the term', () => {
+    const spec: GraderSpec = { type: 'keyword', forbidden: ['onion'] };
+    expect(
+      gradeKeyword(spec, 'To compensate for the lack of onion, this recipe layers umami.').score,
+    ).toBe(100);
+  });
+
+  it('credits "X, which you should swap for Y"', () => {
+    const spec: GraderSpec = { type: 'keyword', forbidden: ['butter'] };
+    expect(gradeKeyword(spec, 'Butter, which you should swap for olive oil here.').score).toBe(100);
+  });
+
+  it('does not let a cue from the next sentence excuse a real use', () => {
+    const spec: GraderSpec = { type: 'keyword', forbidden: ['peanut'] };
+    expect(
+      gradeKeyword(spec, 'Stir the peanut butter through the sauce. Avoid sesame entirely.').score,
+    ).toBe(0);
+  });
+
+  it('still zeroes a plain recommendation', () => {
+    const spec: GraderSpec = { type: 'keyword', forbidden: ['cayenne'] };
+    expect(gradeKeyword(spec, 'Add a good pinch of cayenne for warmth.').score).toBe(0);
+  });
+});

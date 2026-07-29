@@ -26,8 +26,24 @@ function normalize(text: string): string {
  * collapses newlines, and a markdown heading ("### Without onion or garlic")
  * legitimately scopes the prose beneath it. The lookback window is the bound.
  */
-const NEGATION_BEFORE =
-  /(?:\bno\b|\bnot\b|\bnone\b|\bnothing\b|\bneither\b|\bnor\b|\bnever\b|\bwithout\b|\bavoid(?:ing|s|ed)?\b|\bexclud(?:e|es|ed|ing)\b|\beliminat(?:e|es|ed|ing)\b|\bomit(?:ting|s|ted)?\b|\bskip(?:ping|s|ped)?\b|\bleav(?:e|es|ing) out\b|\bfree of\b|\bfree from\b|\binstead of\b|\bin place of\b|\brather than\b|\bsteer clear of\b|\bstay(?:s|ing)? away from\b|\bhold the\b|\bzero\b|\bcannot\b|\bdon'?t\b|\bcan'?t\b|\b\w+n't\b)[^.!?]*$/;
+const NEGATION_CUE =
+  /(?:\bno\b|\bnot\b|\bnone\b|\bnothing\b|\bneither\b|\bnor\b|\bnever\b|\bwithout\b|\bavoid(?:ing|s|ed)?\b|\bexclud(?:e|es|ed|ing)\b|\beliminat(?:e|es|ed|ing)\b|\bomit(?:ting|s|ted)?\b|\bskip(?:ping|s|ped)?\b|\bleav(?:e|es|ing) out\b|\bfree of\b|\bfree from\b|\binstead of\b|\bin place of\b|\bin lieu of\b|\brather than\b|\bsteer clear of\b|\bstay(?:s|ing)? away from\b|\bhold the\b|\bzero\b|\bcannot\b|\bdon'?t\b|\bcan'?t\b|\b\w+n't\b|\black of\b|\babsence of\b|\bcompensat(?:e|es|ed|ing|ion) for\b|\bmake(?:s|ing)? up for\b|\breplac(?:e|es|ed|ing|ement|ements)\b|\bswap(?:s|ped|ping)?\b|\bsubstitut(?:e|es|ed|ing|ion|ions)\b|\balternative(?:s)? to\b|\bstand(?:s|ing)? in for\b|\bsans\b)/;
+
+/**
+ * Same cues, anchored to the end so they only count within the sentence
+ * preceding the term. The 80-character lookback in isNegatedAt is the outer
+ * bound; this keeps a cue from an earlier sentence from leaking forward.
+ */
+const NEGATION_BEFORE = new RegExp(`${NEGATION_CUE.source}[^.!?]*$`);
+
+/**
+ * The same cues *following* the term, inside the same sentence. Correct answers
+ * routinely name a banned ingredient and then rule it out downstream —
+ * "Parmesan → umami replacements", "to compensate for the lack of onion" — and
+ * a lookback alone cannot see any of it. Bounded to the sentence so a cue about
+ * something else entirely cannot excuse a real violation.
+ */
+const NEGATION_CUE_AFTER = new RegExp(`^[^.!?]{0,80}?${NEGATION_CUE.source}`);
 
 /**
  * Negation appearing AFTER the term: a thing named and then ruled out.
@@ -53,7 +69,8 @@ function isNegatedAt(haystack: string, index: number, termLength: number): boole
   if (/\b[a-z]+-free\s*$/.test(before)) return true;
   const after = haystack.slice(index + termLength);
   if (/^[\s-]*free\b/.test(after.slice(0, 8))) return true;
-  return NEGATION_AFTER.test(after);
+  if (NEGATION_AFTER.test(after)) return true;
+  return NEGATION_CUE_AFTER.test(after);
 }
 
 function isWordChar(ch: string | undefined): boolean {
