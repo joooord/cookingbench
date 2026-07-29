@@ -41,10 +41,13 @@ if (existsSync(envPath)) {
 
 const DEFAULTS = {
   temperature: 0,
-  // Flat 8k cap with medium reasoning effort: v1's 2000/4000 caps starved
-  // hidden-reasoning models into empty answers (measuring budgeting, not cooking).
-  maxTokens: 8000,
-  maxTokensRecipe: 8000,
+  // v1's 2000/4000 caps starved hidden-reasoning models into empty answers.
+  // v2's flat 8000 fixed that for short answers but still truncated Opus 5 on
+  // recipe generation, where it spends thousands of tokens reasoning before it
+  // writes anything — see maxTokensFor for the measurements. Headroom is cheap
+  // (you pay for tokens emitted, not for the cap); truncation is not.
+  maxTokens: 16000,
+  maxTokensRecipe: 32000,
   concurrency: 4,
   // Panel judging: two non-conflicted seats score each answer (a judge never
   // scores its own provider). Seat rotation is deterministic — see panelSeats.

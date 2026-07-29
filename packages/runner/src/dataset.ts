@@ -70,8 +70,18 @@ export function buildMessages(question: Question) {
   ];
 }
 
-export function maxTokensFor(_question: Question, config: { maxTokens: number; maxTokensRecipe: number }) {
-  // v2: one flat cap for every category (the old recipe split is kept in the
-  // config shape only for v1 artifact compatibility).
-  return config.maxTokens;
+export function maxTokensFor(question: Question, config: { maxTokens: number; maxTokensRecipe: number }) {
+  // The recipe split is back, because a flat cap is not neutral across
+  // providers. Measured on rgen-013 with the 2026-07 roster:
+  //
+  //   gpt-5.6-terra-pro  23,559 out (15,132 reasoning)  finish: stop
+  //   gpt-5.6-sol-pro    21,864 out (13,192 reasoning)  finish: stop
+  //   claude-opus-5       8,000 out ( 2,362 reasoning)  finish: LENGTH
+  //
+  // OpenAI does not count reasoning against max_tokens; Anthropic does. So a
+  // flat 8k cap truncated Opus 5 at 1,323 characters on a question where Fable
+  // 5 wrote 8,409 — a scoring penalty that measures the provider's token
+  // accounting, not the cooking. This is v1's Kimi failure recurring with a
+  // different model, and it would have skewed the headline result.
+  return question.category === 'recipe-generation' ? config.maxTokensRecipe : config.maxTokens;
 }
