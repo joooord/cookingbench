@@ -354,7 +354,7 @@ function cmdValidate() {
 }
 
 async function cmdEstimate() {
-  const questionsAll = runnableQuestions();
+  const questionsAll = runnableQuestions(arg('tier') === 'active' ? 'active' : 'all');
   const limit = arg('limit') ? Number(arg('limit')) : undefined;
   const questions = limit ? questionsAll.slice(0, limit) : questionsAll;
   const models = loadModels();
@@ -403,7 +403,7 @@ async function cmdModelsCheck() {
 
 async function cmdRun() {
   const mock = arg('mock') === 'true';
-  const questionsAll = runnableQuestions();
+  const questionsAll = runnableQuestions(arg('tier') === 'active' ? 'active' : 'all');
   const limit = arg('limit') ? Number(arg('limit')) : undefined;
   const questions = limit ? questionsAll.slice(0, limit) : questionsAll;
   const questionsById = new Map(questions.map((q) => [q.id, q]));
@@ -1092,9 +1092,10 @@ Usage: pnpm bench <command> [options]
 Commands:
   validate                       Validate the dataset (questions + models)
   models --check                 Check roster slugs against the live OpenRouter catalog
-  estimate [--models all|a,b] [--limit N]
+  estimate [--models all|a,b] [--limit N] [--tier all|active]
                                  Worst-case cost table; required before any paid run
-  run --budget <usd> [--models all|a,b] [--limit N] [--run-id id] [--mock]
+  run --budget <usd> [--models all|a,b] [--limit N] [--tier all|active] [--run-id id] [--mock]
+                                 --tier active skips the basics regression gate (82 of 184 items)
   grade --run <id>               Deterministic grading
   judge --run <id>               LLM-judge grading for subjective questions
   report --run <id>              Build the leaderboard JSON + print the table

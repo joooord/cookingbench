@@ -48,8 +48,13 @@ export function loadModels(): ModelEntry[] {
 }
 
 /** Everything a run executes: active + basics. Retired items never run again. */
-export function runnableQuestions(): Question[] {
-  return loadQuestions().filter((q) => q.status !== 'retired');
+export function runnableQuestions(tier: 'all' | 'active' = 'all'): Question[] {
+  const runnable = loadQuestions().filter((q) => q.status !== 'retired');
+  // `basics` is a regression gate, excluded from Overall by design — so on a
+  // routine run it is 82 of 184 questions buying nothing that affects the
+  // ranking. Worth re-running when a model is new to the roster, or when you
+  // want the gate figure; not worth it every time.
+  return tier === 'active' ? runnable.filter((q) => q.status === 'active') : runnable;
 }
 
 const BASE_SYSTEM_PROMPT =
