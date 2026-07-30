@@ -162,7 +162,7 @@ describe('route registry is acceptance-grade', () => {
     // unregistered database route. A completeness check that cries wolf gets
     // suppressed, so the built-ins are excluded rather than the file.
     const sinkPattern =
-      /writeFileSync|appendFileSync|openSync|copyFileSync|renameSync|rmSync|unlinkSync|mkdirSync|fetch\(|(?<!Array)(?<!Object)\.from\(/;
+      /writeFileSync|appendFileSync|openSync|copyFileSync|linkSync|symlinkSync|renameSync|rmSync|unlinkSync|mkdirSync|fetch\(|(?<!Array)(?<!Object)\.from\(/;
     const uncovered: string[] = [];
     const covered = new Set(registry.routes.map((r) => r.file));
     for (const file of readdirSync(srcDir).filter((f) => f.endsWith('.ts'))) {

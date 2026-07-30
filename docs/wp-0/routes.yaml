@@ -171,6 +171,23 @@ routes:
         enforcementPoint: capability check before the request; reclassified from benign because it is still network activity
         test: "the paid client cannot be built without authorisation > refuses the live catalog without catalog-read, before any request"
 
+  # --- derivation --------------------------------------------------------------
+  - key: runner:derive:responses:inherit
+    file: packages/runner/src/derive.ts
+    function: deriveRun
+    kind: fs-write
+    operation: hard-links or copies a source run's responses into a new run id
+    risks:
+      - risk: historical-overwrite
+        status: open
+        enforcementPoint: "NOT YET REVIEWED — writes via linkSync/copyFileSync; needs confirming these go through the firewall resolver rather than around it"
+        test: null
+      - risk: unauthorised-publish
+        status: open
+        capability: publication
+        enforcementPoint: "NOT YET WIRED — a derived run must not inherit its source's release state"
+        test: null
+
   # --- permits ---------------------------------------------------------------
   - key: runner:permit:keyring:read
     file: packages/runner/src/permit.ts

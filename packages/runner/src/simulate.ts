@@ -697,8 +697,8 @@ export function ceilingSensitivity(m: ScoreMatrix, ceilings: readonly number[] =
 /* Power, design and multiplicity                                             */
 /* -------------------------------------------------------------------------- */
 
-/** Share of paired resamples in which `diffs` stays positive. The published test. */
-function pairedPAhead(diffs: readonly number[], seed: string, reps: number): number {
+/** Resamples in which `diffs` summed positive. The published test's raw count. */
+function pairedAheadCount(diffs: readonly number[], seed: string, reps: number): number {
   const rnd = seededUniform(fnv1a32(seed));
   let ahead = 0;
   for (let rep = 0; rep < reps; rep++) {
@@ -706,7 +706,27 @@ function pairedPAhead(diffs: readonly number[], seed: string, reps: number): num
     for (let k = 0; k < diffs.length; k++) sum += diffs[(rnd() * diffs.length) | 0]!;
     if (sum > 0) ahead++;
   }
-  return ahead / reps;
+  return ahead;
+}
+
+/** Share of paired resamples in which `diffs` stays positive. The published test. */
+function pairedPAhead(diffs: readonly number[], seed: string, reps: number): number {
+  return pairedAheadCount(diffs, seed, reps) / reps;
+}
+
+/**
+ * Two-sided bootstrap p-value with the (1 + k)/(B + 1) correction.
+ *
+ * The correction is load-bearing, and its absence was a real defect in this
+ * function's first version: without it a pair that led in all 300 resamples
+ * gets p = 0 exactly, p = 0 clears every multiplicity threshold however small,
+ * and the Holm arm of the check below reported a family-wise error of 0.8 —
+ * making a correct procedure look broken because the input was not a p-value.
+ */
+function pairedPValue(ahead: number, reps: number): number {
+  const forward = (1 + (reps - ahead)) / (reps + 1);
+  const reverse = (1 + ahead) / (reps + 1);
+  return Math.min(1, 2 * Math.min(forward, reverse));
 }
 
 export interface PowerPoint {
@@ -840,6 +860,17 @@ export interface MultiplicityResult {
   familywiseErrorHolm: number;
   /** Mean number of falsely separated pairs per null roster, uncorrected. */
   falsePairsPerRun: number;
+  /**
+   * Whether the resample count can resolve the smallest Holm threshold at all.
+   *
+   * The smallest attainable bootstrap p is 1/(reps+1), and Holm's tightest step
+   * is α/m. With 91 pairs at α=0.05 that needs about 1,800 resamples; below it
+   * NOTHING can be rejected and `familywiseErrorHolm` comes out 0 for a reason
+   * that has nothing to do with Holm. False here means the Holm arm is a
+   * resolution artefact and must not be quoted.
+   */
+  holmResolvable: boolean;
+  bootstrapReps: number;
 }
 
 /**
@@ -885,13 +916,13 @@ export function multiplicityCheck(opts: {
     for (let a = 0; a < opts.models; a++) {
       for (let b = a + 1; b < opts.models; b++) {
         const diffs = items.map((ii) => matrixValue(m, a, ii)! - matrixValue(m, b, ii)!);
-        const forward = pairedPAhead(diffs, `${opts.seed}:pair:${s}:${a}:${b}`, reps);
+        const ahead = pairedAheadCount(diffs, `${opts.seed}:pair:${s}:${a}:${b}`, reps);
         // Two-sided in effect: the board tests whichever model leads, so the
         // false-positive opportunity exists in both directions. Testing only
         // a>b would halve the measured error rate for the wrong reason.
-        const pAhead = Math.max(forward, 1 - forward);
+        const pAhead = Math.max(ahead / reps, 1 - ahead / reps);
         if (pAhead >= 1 - alpha) falseHere++;
-        tests.push({ key: `${a}:${b}`, p: 1 - pAhead });
+        tests.push({ key: `${a}:${b}`, p: pairedPValue(ahead, reps) });
       }
     }
     falsePairs += falseHere;
@@ -906,6 +937,8 @@ export function multiplicityCheck(opts: {
     familywiseErrorUncorrected: round(anyUncorrected / sims, 3),
     familywiseErrorHolm: round(anyHolm / sims, 3),
     falsePairsPerRun: round(falsePairs / sims, 2),
+    holmResolvable: 1 / (reps + 1) <= alpha / pairCount,
+    bootstrapReps: reps,
   };
 }
 
