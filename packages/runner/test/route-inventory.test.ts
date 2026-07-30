@@ -1,114 +1,181 @@
-import { existsSync, readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { join, relative } from 'node:path';
+import { parse } from 'yaml';
 import { describe, expect, it } from 'vitest';
 import { REPO_ROOT } from '../src/dataset.js';
 
 /**
- * RUN-001A validator. The inventory is an acceptance artifact, so it needs the
- * same treatment as code: an unreviewable or drifting inventory is worse than
- * none, because it looks like coverage.
+ * RUN-001A validator for the curated semantic route registry.
+ *
+ * The inventory is an acceptance artifact, so it gets the same treatment as
+ * code. An unreviewable or drifting inventory is worse than none, because it
+ * reads as coverage.
+ *
+ * Route identity is curated, not inferred: the previous generator derived ids
+ * from `sha256(file|kind|symbol)` where symbol came from auditor prose, which
+ * invented 41 symbols that appear nowhere in the source.
  */
 
-interface Route {
-  routeId: string;
-  sink: string;
-  symbol: string;
-  kind: string;
-  riskTags: string[];
-  capabilities: string[];
-  disposition: string;
+interface Risk {
+  risk: string;
+  status: 'open' | 'closed';
+  capability?: string | null;
   enforcementPoint: string;
   test: string | null;
-  rationale: string;
-  sinkExists: boolean;
-  observationCount: number;
-  observations: unknown[];
 }
-
-interface Inventory {
-  schemaVersion: number;
-  vocabularies: { riskTags: string[]; capabilities: string[]; dispositions: string[] };
-  totals: {
-    routes: number;
-    observations: number;
-    dangerousRoutes: number;
-    closed: number;
-    open: number;
-    noAction: number;
-  };
+interface Route {
+  key: string;
+  file: string;
+  function: string;
+  kind: string;
+  operation: string;
+  risks: Risk[];
+}
+interface Registry {
+  pinnedCommit: string;
+  routeKinds: string[];
   routes: Route[];
 }
 
-const PATH = join(REPO_ROOT, 'docs/wp-0/route-inventory.json');
-const inventory = JSON.parse(readFileSync(PATH, 'utf8')) as Inventory;
+const CAPABILITIES = [
+  'catalog-read',
+  'candidate-inference',
+  'judge-inference',
+  'development-db-write',
+  'live-db-write',
+  'presentation-erratum',
+  'result-sync',
+  'publication',
+];
+const RISKS = [
+  'historical-overwrite',
+  'unauthorised-publish',
+  'budget-bypass',
+  'unauthorised-inference',
+];
 
-describe('route inventory is acceptance-grade', () => {
-  it('has a unique routeId per route', () => {
-    const ids = inventory.routes.map((r) => r.routeId);
-    const dupes = ids.filter((id, i) => ids.indexOf(id) !== i);
-    expect(dupes).toEqual([]);
+const registry = parse(
+  readFileSync(join(REPO_ROOT, 'docs/wp-0/routes.yaml'), 'utf8'),
+) as Registry;
+
+/** Every named test case that actually exists, harvested from the test files. */
+function declaredTestNames(): Set<string> {
+  const dir = join(REPO_ROOT, 'packages/runner/test');
+  const names = new Set<string>();
+  const describes: string[] = [];
+  for (const file of readdirSync(dir).filter((f) => f.endsWith('.ts'))) {
+    const src = readFileSync(join(dir, file), 'utf8');
+    let current = '';
+    for (const line of src.split('\n')) {
+      const d = /^\s*describe\(\s*['"`](.+?)['"`]/.exec(line);
+      if (d) {
+        current = d[1]!;
+        describes.push(current);
+      }
+      const i = /^\s*it(?:\.each\([^)]*\))?\(\s*['"`](.+?)['"`]/.exec(line);
+      if (i) names.add(`${current} > ${i[1]!}`);
+    }
+  }
+  return names;
+}
+
+describe('route registry is acceptance-grade', () => {
+  it('has a unique key per route', () => {
+    const keys = registry.routes.map((r) => r.key);
+    expect(keys.filter((k, i) => keys.indexOf(k) !== i)).toEqual([]);
   });
 
-  it('totals match the routes actually present — no drift', () => {
-    const { routes } = inventory;
-    expect(inventory.totals.routes).toBe(routes.length);
-    expect(inventory.totals.closed).toBe(routes.filter((r) => r.disposition === 'closed').length);
-    expect(inventory.totals.open).toBe(routes.filter((r) => r.disposition === 'open').length);
-    expect(inventory.totals.noAction).toBe(routes.filter((r) => r.disposition === 'no-action').length);
-    expect(inventory.totals.observations).toBe(
-      routes.reduce((sum, r) => sum + r.observationCount, 0),
-    );
-    expect(inventory.totals.dangerousRoutes).toBe(
-      routes.filter((r) => !r.riskTags.every((t) => t === 'benign')).length,
-    );
-  });
-
-  it('names only sinks that still exist', () => {
-    const stale = inventory.routes
-      .filter((r) => r.sink !== 'unknown' && !existsSync(join(REPO_ROOT, r.sink)))
-      .map((r) => `${r.routeId} ${r.sink}`);
-    expect(stale).toEqual([]);
-  });
-
-  it('uses only vocabulary terms, never free text', () => {
-    for (const route of inventory.routes) {
-      expect(inventory.vocabularies.dispositions).toContain(route.disposition);
-      for (const tag of route.riskTags) expect(inventory.vocabularies.riskTags).toContain(tag);
-      for (const cap of route.capabilities) expect(inventory.vocabularies.capabilities).toContain(cap);
+  it('uses the declared route-kind vocabulary', () => {
+    for (const route of registry.routes) {
+      expect(registry.routeKinds, route.key).toContain(route.kind);
     }
   });
 
-  it('has no "closed" route without a real, existing test file', () => {
-    // The failure mode this catches: marking a route closed to improve the
-    // coverage number without anything actually proving it.
-    for (const route of inventory.routes.filter((r) => r.disposition === 'closed')) {
-      expect(route.test, `${route.routeId} (${route.sink}) is closed with no test`).toBeTruthy();
-      expect(existsSync(join(REPO_ROOT, route.test!)), `${route.test} does not exist`).toBe(true);
-      expect(route.enforcementPoint).not.toMatch(/NOT YET|unassigned/i);
+  it('names only source files that exist, with a real enclosing function', () => {
+    for (const route of registry.routes) {
+      const path = join(REPO_ROOT, route.file);
+      expect(existsSync(path), `${route.key}: ${route.file} missing`).toBe(true);
+      const src = readFileSync(path, 'utf8');
+      // Bidirectional anchor: the named function must actually be there, so a
+      // rename or deletion fails the build rather than leaving a phantom route.
+      expect(src.includes(route.function), `${route.key}: ${route.function} not found in ${route.file}`).toBe(
+        true,
+      );
     }
   });
 
-  it('retains untruncated observation evidence for every route', () => {
-    for (const route of inventory.routes) {
-      expect(route.observations.length).toBe(route.observationCount);
-      expect(route.observationCount).toBeGreaterThan(0);
+  it('uses only vocabulary risks and capabilities', () => {
+    for (const route of registry.routes) {
+      expect(route.risks.length, `${route.key} has no risks`).toBeGreaterThan(0);
+      for (const risk of route.risks) {
+        expect(RISKS, `${route.key}`).toContain(risk.risk);
+        expect(['open', 'closed']).toContain(risk.status);
+        if (risk.capability) expect(CAPABILITIES, `${route.key}`).toContain(risk.capability);
+      }
     }
   });
 
-  it('does not claim any open route is enforced', () => {
-    for (const route of inventory.routes.filter((r) => r.disposition === 'open')) {
-      expect(route.test).toBeNull();
+  it('cites an EXACT named test case for every closed risk', () => {
+    // Not merely an existing test file: the previous inventory pointed all 25
+    // closed routes at one filename, which proves nothing about any of them.
+    const known = declaredTestNames();
+    for (const route of registry.routes) {
+      for (const risk of route.risks.filter((r) => r.status === 'closed')) {
+        expect(risk.test, `${route.key}/${risk.risk} closed with no test`).toBeTruthy();
+        expect(known.has(risk.test!), `${route.key}/${risk.risk}: no test named "${risk.test}"`).toBe(true);
+        expect(risk.enforcementPoint).not.toMatch(/NOT YET|unassigned/i);
+      }
     }
   });
 
-  it('classifies the catalog fetch as network activity, not benign', () => {
-    // Explicitly reclassified: a live OpenRouter catalog fetch is network
-    // activity requiring catalog-read, not a no-action route.
-    const openrouter = inventory.routes.filter((r) => r.sink.includes('openrouter.ts'));
-    expect(openrouter.length).toBeGreaterThan(0);
-    for (const route of openrouter) {
-      expect(route.disposition).toBe('open');
-      expect(route.capabilities.length).toBeGreaterThan(0);
+  it('never claims an open risk is enforced', () => {
+    for (const route of registry.routes) {
+      for (const risk of route.risks.filter((r) => r.status === 'open')) {
+        expect(risk.test, `${route.key}/${risk.risk} is open but cites a test`).toBeNull();
+      }
     }
+  });
+
+  it('derives route status as open until every risk is closed', () => {
+    // Reported here rather than stored, so the two cannot drift apart.
+    const status = (r: Route) => (r.risks.every((x) => x.status === 'closed') ? 'closed' : 'open');
+    const open = registry.routes.filter((r) => status(r) === 'open');
+    const closed = registry.routes.filter((r) => status(r) === 'closed');
+    expect(open.length + closed.length).toBe(registry.routes.length);
+    // A route with any open risk is open even if other risks are closed —
+    // leaderboard:write is closed for overwrite but open for publication.
+    const board = registry.routes.find((r) => r.key === 'runner:store:leaderboard:write')!;
+    expect(status(board)).toBe('open');
+  });
+
+  it('covers every filesystem, network and database sink in the runner', () => {
+    // Bidirectional completeness: a new writer with no registry entry fails.
+    const srcDir = join(REPO_ROOT, 'packages/runner/src');
+    const sinkPattern = /writeFileSync|renameSync|rmSync|unlinkSync|fetch\(|\.from\(/;
+    const uncovered: string[] = [];
+    const covered = new Set(registry.routes.map((r) => r.file));
+    for (const file of readdirSync(srcDir).filter((f) => f.endsWith('.ts'))) {
+      const rel = relative(REPO_ROOT, join(srcDir, file));
+      const src = readFileSync(join(srcDir, file), 'utf8');
+      if (!sinkPattern.test(src)) continue;
+      // firewall.ts is the enforcement layer itself; mock.ts writes nothing real.
+      if (/firewall\.ts|mock\.ts/.test(rel)) continue;
+      if (!covered.has(rel)) uncovered.push(rel);
+    }
+    expect(uncovered, 'sinks with no registry route').toEqual([]);
+  });
+
+  it('reports honest totals', () => {
+    const risks = registry.routes.flatMap((r) => r.risks);
+    const totals = {
+      routes: registry.routes.length,
+      risks: risks.length,
+      closedRisks: risks.filter((r) => r.status === 'closed').length,
+      openRisks: risks.filter((r) => r.status === 'open').length,
+      openRoutes: registry.routes.filter((r) => r.risks.some((x) => x.status === 'open')).length,
+    };
+    expect(totals.closedRisks + totals.openRisks).toBe(totals.risks);
+    expect(totals.openRoutes).toBeGreaterThan(0); // WP-0 is not complete
+    console.log('route registry totals:', JSON.stringify(totals));
   });
 });

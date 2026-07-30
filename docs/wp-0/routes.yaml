@@ -1,0 +1,266 @@
+# RUN-001A — curated semantic route registry.
+#
+# Hand-maintained, not generated. The previous inventory inferred route identity
+# from auditor prose (sha256 of file|kind|symbol), which produced 41 inferred
+# symbols that do not occur in the source, merged distinct sinks, and split
+# single sinks across several ids. An identity derived from prose is not an
+# identity.
+#
+# Each entry is keyed by a stable semantic route key. Every dangerous risk on a
+# route carries its OWN status, enforcement point, capability and named test
+# case; the route is `open` until every one of its risks is closed. Raw auditor
+# observations are attached by the generator from the committed input.
+#
+# Completeness is checked bidirectionally: every route here must resolve to a
+# real sink in the source, and every filesystem/network/database sink found by
+# the scanner must appear here.
+
+pinnedCommit: 980dfcb5e3ff920fe1a3231121a6115e3fa48dcb
+routeKinds: [fs-write, fs-read, fs-delete, network-out, db-write, db-read, process-exec]
+
+routes:
+  # --- run artifact writers -------------------------------------------------
+  - key: runner:store:config:write
+    file: packages/runner/src/store.ts
+    function: writeRunConfig
+    kind: fs-write
+    operation: writes config.json for a run
+    risks:
+      - risk: historical-overwrite
+        status: closed
+        enforcementPoint: firewall.writeRunFileAtomic via resolveRunFile
+        test: "adversarial round 2 — bypasses Codex reproduced on 3edf98c > refuses a leaf symlink for every run-scoped writer"
+
+  - key: runner:store:response:write
+    file: packages/runner/src/store.ts
+    function: writeResponse
+    kind: fs-write
+    operation: writes one candidate response JSON
+    risks:
+      - risk: historical-overwrite
+        status: closed
+        enforcementPoint: firewall.writeRunFileAtomic via resolveRunFile
+        test: "DATA-001 — historical artifacts cannot be overwritten > blocks the real writers, not just the resolver"
+      - risk: historical-overwrite
+        status: closed
+        enforcementPoint: injective responseFileName with byte bound
+        test: "adversarial round 2 — bypasses Codex reproduced on 3edf98c > has an injective response filename across tuple boundaries"
+
+  - key: runner:store:scores:write
+    file: packages/runner/src/store.ts
+    function: writeScores
+    kind: fs-write
+    operation: writes scores.json for a run
+    risks:
+      - risk: historical-overwrite
+        status: closed
+        enforcementPoint: firewall.writeRunFileAtomic via resolveRunFile
+        test: "DATA-001 — historical artifacts cannot be overwritten > leaves the published artifact byte-identical after a refused write"
+
+  - key: runner:store:leaderboard:write
+    file: packages/runner/src/store.ts
+    function: writeLeaderboard
+    kind: fs-write
+    operation: writes leaderboard.json, which the site selects from
+    risks:
+      - risk: historical-overwrite
+        status: closed
+        enforcementPoint: firewall.writeRunFileAtomic via resolveRunFile
+        test: "adversarial round 2 — bypasses Codex reproduced on 3edf98c > refuses a leaf symlink for every run-scoped writer"
+      - risk: unauthorised-publish
+        status: open
+        capability: publication
+        enforcementPoint: "NOT YET WIRED — needs an approved public-release manifest at the boundary"
+        test: null
+
+  - key: runner:analyze:analysis:write
+    file: packages/runner/src/analyze.ts
+    function: writeAnalysis
+    kind: fs-write
+    operation: writes analysis.json, which the site reads for the separation table
+    risks:
+      - risk: historical-overwrite
+        status: closed
+        enforcementPoint: firewall.resolveRunDir write mode
+        test: "path confinement — the traversal that WP-0 closed > guards files inside a frozen run, and validates the final target"
+      - risk: unauthorised-publish
+        status: open
+        capability: publication
+        enforcementPoint: "NOT YET WIRED"
+        test: null
+
+  - key: runner:calibration:result:write
+    file: packages/runner/src/calibration.ts
+    function: runCalibration
+    kind: fs-write
+    operation: writes calibration.json after paid judge calls
+    risks:
+      - risk: historical-overwrite
+        status: closed
+        enforcementPoint: firewall.writeRunFileAtomic, re-resolved immediately before write
+        test: "path confinement — the traversal that WP-0 closed > guards files inside a frozen run, and validates the final target"
+
+  # --- run artifact readers -------------------------------------------------
+  - key: runner:store:responses:read
+    file: packages/runner/src/store.ts
+    function: readResponses
+    kind: fs-read
+    operation: reads every stored response for a run
+    risks:
+      - risk: historical-overwrite
+        status: closed
+        enforcementPoint: resolveRunDir read mode rejects symlink components
+        test: "adversarial round 2 — bypasses Codex reproduced on 3edf98c > refuses a linked responses directory on read as well as write"
+
+  # --- taste ---------------------------------------------------------------
+  - key: runner:taste:archive:replace
+    file: packages/runner/src/taste.ts
+    function: archiveTasteVotes
+    kind: fs-write
+    operation: replaces the permanent ballot archive and ratings snapshot
+    risks:
+      - risk: historical-overwrite
+        status: closed
+        enforcementPoint: assertArchiveGrows superset check plus atomic replace
+        test: "adversarial round 2 — bypasses Codex reproduced on 3edf98c > refuses a Taste archive that loses, mutates or reorders a committed ballot"
+
+  - key: runner:taste:votes:read
+    file: packages/runner/src/taste.ts
+    function: archiveTasteVotes
+    kind: db-read
+    operation: reads every row of the live taste_votes table
+    risks:
+      - risk: unauthorised-inference
+        status: open
+        capability: live-db-write
+        enforcementPoint: "NOT YET WIRED — needs guarded client construction"
+        test: null
+
+  # --- network -------------------------------------------------------------
+  - key: runner:openrouter:completion:post
+    file: packages/runner/src/openrouter.ts
+    function: complete
+    kind: network-out
+    operation: paid completion call to a candidate or judge model
+    risks:
+      - risk: unauthorised-inference
+        status: open
+        capability: candidate-inference
+        enforcementPoint: "NOT YET WIRED — client is directly constructible"
+        test: null
+      - risk: budget-bypass
+        status: open
+        capability: candidate-inference
+        enforcementPoint: "NOT YET BUILT — atomic reservation ledger"
+        test: null
+
+  - key: runner:openrouter:catalog:get
+    file: packages/runner/src/openrouter.ts
+    function: fetchCatalog
+    kind: network-out
+    operation: live catalog and pricing fetch
+    risks:
+      - risk: unauthorised-inference
+        status: open
+        capability: catalog-read
+        enforcementPoint: "NOT YET WIRED — reclassified from benign; this is network activity"
+        test: null
+
+  # --- budget --------------------------------------------------------------
+  - key: runner:budget:guard:spend
+    file: packages/runner/src/budget.ts
+    function: assertCanSpend
+    kind: process-exec
+    operation: check-then-record spend accounting
+    risks:
+      - risk: budget-bypass
+        status: open
+        capability: candidate-inference
+        enforcementPoint: "NOT YET BUILT — reserve/settle/release ledger"
+        test: null
+
+  # --- web -----------------------------------------------------------------
+  - key: web:data:board:select
+    file: apps/web/lib/data.ts
+    function: getLatestReport
+    kind: fs-read
+    operation: selects the published board by newest generatedAt
+    risks:
+      - risk: unauthorised-publish
+        status: open
+        capability: publication
+        enforcementPoint: "NOT YET WIRED — heuristic selection, not an approved manifest"
+        test: null
+
+  - key: web:supabase:vote:insert
+    file: apps/web/lib/supabase.ts
+    function: castTasteVote
+    kind: db-write
+    operation: anonymous ballot insert from the public site
+    risks:
+      - risk: unauthorised-publish
+        status: open
+        capability: live-db-write
+        enforcementPoint: "NOT YET WIRED — RLS only; no signed ballot"
+        test: null
+
+  # --- sinks the validator found that the first registry missed -------------
+  - key: runner:sync:dataset:upsert
+    file: packages/runner/src/sync.ts
+    function: syncDataset
+    kind: db-write
+    operation: upserts models and questions into Supabase
+    risks:
+      - risk: unauthorised-publish
+        status: open
+        capability: result-sync
+        enforcementPoint: "NOT YET WIRED"
+        test: null
+
+  - key: runner:sync:run:upsert
+    file: packages/runner/src/sync.ts
+    function: syncRun
+    kind: db-write
+    operation: upserts run, responses and scores into Supabase
+    risks:
+      - risk: unauthorised-publish
+        status: open
+        capability: result-sync
+        enforcementPoint: "NOT YET WIRED — must require an approved manifest"
+        test: null
+
+  - key: runner:sync:run:publish
+    file: packages/runner/src/sync.ts
+    function: publishRun
+    kind: db-write
+    operation: makes a synced run publicly readable
+    risks:
+      - risk: unauthorised-publish
+        status: open
+        capability: publication
+        enforcementPoint: "NOT YET WIRED — assertPublishable is not called here"
+        test: null
+
+  - key: runner:estimate:record:write
+    file: packages/runner/src/estimate.ts
+    function: runEstimate
+    kind: fs-write
+    operation: writes data/.estimate.json, the gate hash for a paid run
+    risks:
+      - risk: budget-bypass
+        status: open
+        capability: candidate-inference
+        enforcementPoint: "NOT YET WIRED — gate record is unguarded and gitignored"
+        test: null
+
+  - key: runner:cli:pilot:record:write
+    file: packages/runner/src/cli.ts
+    function: cmdPilot
+    kind: fs-write
+    operation: writes data/pilot/<batch>.json admission records
+    risks:
+      - risk: unauthorised-inference
+        status: open
+        capability: candidate-inference
+        enforcementPoint: "NOT YET WIRED — bench pilot is prohibited for v3 but not yet disabled in code"
+        test: null
