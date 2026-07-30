@@ -1,9 +1,13 @@
 node_modules/
 .next/
 dist/
+# Secrets. `.env.*` deliberately covers the whole family: the old list matched
+# .env, .env.local and .env.*.local only, so a .env.production or .env.backup
+# would have been committable. The repo is public and .env holds the OpenRouter
+# key.
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
 *.tsbuildinfo
 data/.estimate.json
 next-env.d.ts
