@@ -229,17 +229,20 @@ export type RunManifest = z.infer<typeof runManifestSchema>;
 /**
  * A manifest that has passed `validatedRunManifestSchema`.
  *
- * Branded so execution and publication cannot be handed a merely
- * structurally-valid object: the brand is unforgeable outside this module, so
- * the only way to obtain one is `parseRunManifest`. Previously the validated
- * schema existed but nothing required its use, and `RunManifest` was inferred
- * from the raw schema — so the checks were opt-in.
+ * DELIBERATELY NOT A BRANDED TYPE. An earlier version used
+ * `declare const brand: unique symbol` and cast to it — TypeScript erases that
+ * at compile time, so at runtime a hand-built three-field object literal sailed
+ * straight through `assertPublishable`. A type-level brand is a lint, not a
+ * security boundary, and describing one as a boundary is worse than having
+ * none because it stops people looking.
+ *
+ * Authority therefore comes from PARSING at the boundary, every time. The type
+ * alias below documents intent; it is the `parse` call that enforces it.
  */
-declare const validatedBrand: unique symbol;
-export type ValidatedRunManifest = RunManifest & { readonly [validatedBrand]: true };
+export type ValidatedRunManifest = RunManifest;
 
 export function parseRunManifest(value: unknown): ValidatedRunManifest {
-  return validatedRunManifestSchema.parse(value) as ValidatedRunManifest;
+  return validatedRunManifestSchema.parse(value);
 }
 
 export function safeParseRunManifest(
@@ -252,7 +255,7 @@ export function safeParseRunManifest(
       error: result.error.issues.map((i) => `${i.path.join('.') || '(root)'}: ${i.message}`).join('; '),
     };
   }
-  return { ok: true, manifest: result.data as ValidatedRunManifest };
+  return { ok: true, manifest: result.data };
 }
 
 /**

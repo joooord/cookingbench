@@ -37,7 +37,8 @@ import {
   resolveRunFile,
   undeclaredPublishedRuns,
 } from '../src/firewall.js';
-import { writeResponse, writeScores } from '../src/store.js';
+import { writeLeaderboard, writeResponse, writeScores } from '../src/store.js';
+import { assertArchiveGrows } from '../src/taste.js';
 
 /**
  * WP-0 mandatory tests. Offline by construction: nothing here opens a socket,
@@ -631,5 +632,163 @@ describe('adversarial — the bypasses Codex found in the first firewall', () =>
     expect(cross.ok).toBe(false);
     const own = safeParseRunManifest({ ...manifestFixture, runId: 'r-1', outputRoot: 'data/runs/r-1' });
     expect(own.ok).toBe(true);
+  });
+});
+
+describe('adversarial round 2 — bypasses Codex reproduced on 3edf98c', () => {
+  const mk = () => {
+    const dir = join(RUNS_DIR, SCRATCH);
+    mkdirSync(join(dir, 'responses'), { recursive: true });
+    writeFileSync(join(dir, 'config.json'), JSON.stringify({ releaseState: 'draft' }));
+    return dir;
+  };
+  const outside = join(RUNS_DIR, '..', '__codex-score-target.json');
+  afterEach(() => rmSync(outside, { force: true }));
+
+  it('refuses a leaf symlink for every run-scoped writer', () => {
+    // Only writeResponse used final-target resolution, so scores.json -> ../x
+    // in an UNFROZEN run passed the directory check and the write followed the
+    // link straight out of RUNS_DIR.
+    const dir = mk();
+    writeFileSync(outside, 'original');
+    for (const [file, write] of [
+      ['scores.json', () => writeScores(SCRATCH, [])],
+      ['leaderboard.json', () => writeLeaderboard(SCRATCH, {})],
+    ] as const) {
+      const leaf = join(dir, file);
+      rmSync(leaf, { force: true });
+      symlinkSync(outside, leaf);
+      expect(write, `${file} followed a leaf symlink`).toThrow(FirewallError);
+      expect(readFileSync(outside, 'utf8')).toBe('original');
+      rmSync(leaf, { force: true });
+    }
+  });
+
+  it('refuses a linked responses directory on read as well as write', () => {
+    const dir = mk();
+    const link = join(dir, 'responses');
+    rmSync(link, { recursive: true, force: true });
+    symlinkSync(join(RUNS_DIR, '2026-07-v2.1', 'responses'), link);
+    try {
+      expect(() => resolveRunFile(SCRATCH, 'responses/x.json', { write: false })).toThrow(FirewallError);
+      expect(() => resolveRunFile(SCRATCH, 'responses/x.json', { write: true })).toThrow(FirewallError);
+    } finally {
+      rmSync(link, { recursive: true, force: true });
+    }
+  });
+
+  it('refuses a symlinked output-family root', () => {
+    // resolveOutputPath trusted realpath(root), so a linked data/taste became
+    // its own trust anchor and writes escaped.
+    expect(() => outputRoot('taste')).not.toThrow();
+    const real = outputRoot('taste');
+    expect(real.startsWith(join(RUNS_DIR, '..'))).toBe(true);
+  });
+
+  it('has an injective response filename across tuple boundaries', () => {
+    const dir = mk();
+    const base = { runId: SCRATCH, raw: {}, tokensIn: 0, tokensOut: 0, costUsd: 0, latencyMs: 0 };
+    // ("a/b","c__d") vs ("a/b__c","d") both produced a~2Fb__c__d.json.
+    writeResponse({ ...base, modelId: 'a/b', questionId: 'c__d', answerText: 'left' });
+    writeResponse({ ...base, modelId: 'a/b__c', questionId: 'd', answerText: 'right' });
+    // Two different astral characters both became ~EF~BF~BD~EF~BF~BD.
+    writeResponse({ ...base, modelId: 'm', questionId: '\u{1F600}', answerText: 'grin' });
+    writeResponse({ ...base, modelId: 'm', questionId: '\u{1F680}', answerText: 'rocket' });
+    const files = readdirSync(join(dir, 'responses'));
+    expect(new Set(files).size).toBe(4);
+    const bodies = files.map((f) => JSON.parse(readFileSync(join(dir, 'responses', f), 'utf8')).answerText);
+    expect(new Set(bodies)).toEqual(new Set(['left', 'right', 'grin', 'rocket']));
+  });
+
+  it('rejects a filename whose escaped form exceeds the byte bound', () => {
+    mk();
+    expect(() =>
+      writeResponse({
+        runId: SCRATCH,
+        modelId: '\u{1F600}'.repeat(60), // 4 bytes each -> 12 chars encoded each
+        questionId: 'q',
+        answerText: 'x',
+        raw: {},
+        tokensIn: 0,
+        tokensOut: 0,
+        costUsd: 0,
+        latencyMs: 0,
+      }),
+    ).toThrow(FirewallError);
+  });
+
+  it('rejects hand-built objects at the publication boundary at RUNTIME', () => {
+    // The previous brand was `declare const s: unique symbol`, which TypeScript
+    // erases — this exact object was accepted.
+    const forged = { runId: 'x', evidenceClass: 'public-release', releaseState: 'released' };
+    expect(() => assertPublishable(forged, 'publish')).toThrow(FirewallError);
+    expect(() => assertPublishable({} as unknown, 'publish')).toThrow(FirewallError);
+    expect(() => assertPublishable(null, 'publish')).toThrow(FirewallError);
+    // A complete, coherent public-release manifest is accepted.
+    const good = {
+      ...manifestFixture,
+      evidenceClass: 'public-release',
+      releaseState: 'released',
+      rankEligible: true,
+      artifactOrigin: ['live-provider'],
+    };
+    expect(() => assertPublishable(good, 'publish')).not.toThrow();
+  });
+
+  it('freezes a board with missing policy metadata', () => {
+    // leaderboard.json only froze a run when config.json also existed, so a
+    // board with no config was writable — fail-open with the least information.
+    const dir = join(RUNS_DIR, SCRATCH);
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(join(dir, 'leaderboard.json'), '{}');
+    expect(isHistoricalRun(SCRATCH)).toBe(true);
+    expect(() => writeScores(SCRATCH, [])).toThrow(FirewallError);
+  });
+
+  it('treats an unrecognised release state as frozen', () => {
+    const dir = join(RUNS_DIR, SCRATCH);
+    mkdirSync(dir, { recursive: true });
+    for (const releaseState of ['released', 'retired', 'quarantined', 'something-new']) {
+      writeFileSync(join(dir, 'config.json'), JSON.stringify({ releaseState }));
+      expect(isHistoricalRun(SCRATCH), releaseState).toBe(true);
+    }
+    for (const releaseState of ['draft', 'audited']) {
+      writeFileSync(join(dir, 'config.json'), JSON.stringify({ releaseState }));
+      expect(isHistoricalRun(SCRATCH), releaseState).toBe(false);
+    }
+  });
+
+  it('refuses a Taste archive that loses, mutates or reorders a committed ballot', () => {
+    const line = (id: string, winner = 'a') =>
+      JSON.stringify({
+        id,
+        created_at: `2026-01-0${id}T00:00:00+00:00`,
+        run_id: 'r',
+        question_id: 'q',
+        model_a: 'm1',
+        model_b: 'm2',
+        winner,
+        session_id: null,
+        vote_ms: null,
+      });
+    const committed = [line('1'), line('2')];
+    mkdirSync(join(RUNS_DIR, SCRATCH), { recursive: true });
+    const fixture = join(RUNS_DIR, SCRATCH, 'votes.ndjson');
+    writeFileSync(fixture, `${committed.join('\n')}\n`);
+
+    // Superset: fine.
+    expect(() => assertArchiveGrows([...committed, line('3')], fixture)).not.toThrow();
+    // Shrink, mutate, reorder, duplicate, empty: all refused.
+    expect(() => assertArchiveGrows([line('1')], fixture)).toThrow(/superset|missing/i);
+    expect(() => assertArchiveGrows([line('1'), line('2', 'b')], fixture)).toThrow(/mutated|superset/i);
+    expect(() => assertArchiveGrows([line('2'), line('1')], fixture)).toThrow(/order|superset/i);
+    expect(() => assertArchiveGrows([line('1'), line('1')], fixture)).toThrow(/duplicate/i);
+    expect(() => assertArchiveGrows([], fixture)).toThrow(/superset|missing/i);
+    // The real committed archive is a superset of itself.
+    expect(() =>
+      assertArchiveGrows(
+        readFileSync(join(RUNS_DIR, '..', 'taste', 'votes.ndjson'), 'utf8').split('\n').filter(Boolean),
+      ),
+    ).not.toThrow();
   });
 });

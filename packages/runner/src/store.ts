@@ -7,6 +7,7 @@ import {
   assertSafePathComponent,
   resolveRunDir,
   resolveRunFile,
+  writeRunFileAtomic,
 } from './firewall.js';
 
 /**
@@ -39,14 +40,36 @@ function legacySafeName(modelId: string): string {
  * becomes ~XX hex, and "~" itself is escaped first so the mapping stays
  * one-to-one. Distinct model ids can no longer share a stored cell.
  */
+const ALLOWED_FILENAME_CHAR = /^[A-Za-z0-9.-]$/;
+/** ext4/APFS cap is 255 bytes; leave room for the ".json" suffix and staging. */
+const MAX_FILENAME_BYTES = 200;
+
+/**
+ * Injective component encoding.
+ *
+ * Two defects in the previous version, both reproduced:
+ *   - `_` was inside the allowed set while `__` was the field separator, so
+ *     ("a/b", "c__d") and ("a/b__c", "d") produced the same filename. `_` is
+ *     now encoded, which makes `__` unambiguously a separator.
+ *   - the regex walked UTF-16 code UNITS, so each half of a surrogate pair was
+ *     encoded separately and TextEncoder turned every lone surrogate into
+ *     U+FFFD — 😀 and 🚀 both became ~EF~BF~BD~EF~BF~BD. Iterating with
+ *     `for...of` yields whole code points.
+ */
 function encodeComponent(value: string): string {
-  return value
-    .replace(/~/g, '~7E')
-    .replace(/[^A-Za-z0-9._-]/g, (ch) =>
-      [...new TextEncoder().encode(ch)]
-        .map((b) => `~${b.toString(16).toUpperCase().padStart(2, '0')}`)
-        .join(''),
-    );
+  let out = '';
+  for (const ch of value) {
+    if (ch === '~') {
+      out += '~7E';
+    } else if (ALLOWED_FILENAME_CHAR.test(ch)) {
+      out += ch;
+    } else {
+      for (const b of new TextEncoder().encode(ch)) {
+        out += `~${b.toString(16).toUpperCase().padStart(2, '0')}`;
+      }
+    }
+  }
+  return out;
 }
 
 function responseFileName(modelId: string, questionId: string): string {
@@ -62,13 +85,20 @@ function responseFileName(modelId: string, questionId: string): string {
       'INVALID_PATH_COMPONENT',
     );
   }
-  return `${encodeComponent(modelId)}__${encodeComponent(questionId)}.json`;
+  const name = `${encodeComponent(modelId)}__${encodeComponent(questionId)}.json`;
+  const bytes = Buffer.byteLength(name, 'utf8');
+  if (bytes > MAX_FILENAME_BYTES) {
+    throw new FirewallError(
+      `Encoded response filename is ${bytes} bytes, over the ${MAX_FILENAME_BYTES}-byte limit (${modelId} × ${questionId}). Escaping can expand an accepted input past the filesystem bound.`,
+      'INVALID_PATH_COMPONENT',
+    );
+  }
+  return name;
 }
 
 export function writeRunConfig(config: RunConfig): void {
-  const dir = join(runDirForWrite(config.runId), 'responses');
-  mkdirSync(dir, { recursive: true });
-  writeFileSync(join(runDirForWrite(config.runId), 'config.json'), JSON.stringify(config, null, 2));
+  mkdirSync(join(runDirForWrite(config.runId), 'responses'), { recursive: true });
+  writeRunFileAtomic(config.runId, 'config.json', JSON.stringify(config, null, 2));
 }
 
 /**
@@ -161,12 +191,9 @@ export function writeResponse(response: StoredResponse): void {
   // the path a mistargeted --run-id would use to overwrite published answers.
   // Both components validated here, at the writer boundary, rather than
   // trusting whichever caller got here.
-  writeFileSync(
-    resolveRunFile(
-      response.runId,
-      join('responses', responseFileName(response.modelId, response.questionId)),
-      { write: true },
-    ),
+  writeRunFileAtomic(
+    response.runId,
+    join('responses', responseFileName(response.modelId, response.questionId)),
     JSON.stringify(response, null, 2),
   );
 }
@@ -181,7 +208,7 @@ export function readResponses(runId: string): StoredResponse[] {
 }
 
 export function writeScores(runId: string, scores: Score[]): void {
-  writeFileSync(join(runDirForWrite(runId), 'scores.json'), JSON.stringify(scores, null, 2));
+  writeRunFileAtomic(runId, 'scores.json', JSON.stringify(scores, null, 2));
 }
 
 export function readScores(runId: string): Score[] {
@@ -191,7 +218,7 @@ export function readScores(runId: string): Score[] {
 }
 
 export function writeLeaderboard(runId: string, leaderboard: unknown): void {
-  writeFileSync(join(runDirForWrite(runId), 'leaderboard.json'), JSON.stringify(leaderboard, null, 2));
+  writeRunFileAtomic(runId, 'leaderboard.json', JSON.stringify(leaderboard, null, 2));
 }
 
 export function listRuns(): string[] {

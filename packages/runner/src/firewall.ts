@@ -1,4 +1,13 @@
-import { existsSync, lstatSync, readFileSync, readdirSync, realpathSync } from 'node:fs';
+import {
+  existsSync,
+  lstatSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  realpathSync,
+  renameSync,
+  writeFileSync,
+} from 'node:fs';
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import {
   NON_SCORING_LABEL,
@@ -7,6 +16,7 @@ import {
   runIdSchema,
   type Capability,
   type EvidenceClass,
+  safeParseRunManifest,
   type ValidatedRunManifest,
 } from '@cookingbench/core';
 import { DATA_DIR, RUNS_DIR } from './dataset.js';
@@ -69,8 +79,52 @@ const ROOTS: Record<OutputFamily, string> = {
   shadow: join(DATA_DIR, 'shadow'),
 };
 
+/**
+ * Anchor every family root to the canonical data directory.
+ *
+ * `resolveOutputPath` previously trusted `realpath(root)`, which makes a
+ * SYMLINKED root its own authority: replacing `data/taste` with a link to an
+ * outside directory made that outside directory the trusted root, and writes
+ * escaped. The trust has to come from a parent that cannot itself be swapped,
+ * so the canonical data directory is the anchor and the family root must sit
+ * directly beneath it with no link in between.
+ */
+function canonicalDataDir(): string {
+  const real = realpathSync(DATA_DIR);
+  return real;
+}
+
+function assertAnchoredRoot(family: OutputFamily): string {
+  const root = ROOTS[family];
+  const anchor = canonicalDataDir();
+  if (existsSync(root)) {
+    if (lstatSync(root).isSymbolicLink()) {
+      throw new FirewallError(
+        `Output root for '${family}' (${root}) is a symlink. A linked root would become its own trust anchor.`,
+        'SYMLINK_COMPONENT',
+      );
+    }
+    const real = realpathSync(root);
+    if (dirname(real) !== anchor) {
+      throw new FirewallError(
+        `Output root for '${family}' resolves to ${real}, which is not directly beneath ${anchor}.`,
+        'SYMLINK_ESCAPE',
+      );
+    }
+    return real;
+  }
+  // Not yet created: validate the deepest canonical parent instead.
+  if (dirname(root) !== DATA_DIR && dirname(realpathSync(deepestExisting(root))) !== anchor) {
+    throw new FirewallError(
+      `Output root for '${family}' (${root}) is not anchored beneath ${anchor}.`,
+      'SYMLINK_ESCAPE',
+    );
+  }
+  return root;
+}
+
 export function outputRoot(family: OutputFamily): string {
-  return ROOTS[family];
+  return assertAnchoredRoot(family);
 }
 
 // ---------------------------------------------------------------------------
@@ -148,23 +202,31 @@ function declaredFrozen(): ReadonlySet<string> {
  *     their own status and a published board is evidence of release
  *   - anything else                  → resumable
  */
+const FROZEN_RELEASE_STATES = new Set(['released', 'retired', 'quarantined']);
+
 function isReleasedOnDisk(realRunDir: string): boolean {
   if (existsSync(join(realRunDir, RELEASED_MARKER))) return true;
+  const hasBoard = existsSync(join(realRunDir, 'leaderboard.json'));
   const configPath = join(realRunDir, 'config.json');
-  if (existsSync(configPath)) {
-    try {
-      const config = JSON.parse(readFileSync(configPath, 'utf8')) as { releaseState?: string };
-      if (config.releaseState === 'released') return true;
-      if (config.releaseState === undefined && existsSync(join(realRunDir, 'leaderboard.json'))) {
-        return true;
-      }
-    } catch {
-      // An unreadable config on a run we are about to write to is not something
-      // to shrug at.
-      return true;
-    }
+
+  // Missing policy metadata plus a published board must FREEZE, not unlock.
+  // The earlier version only consulted the board when config.json existed, so
+  // a board with no config was considered writable — fail-open in exactly the
+  // case with the least information.
+  if (!existsSync(configPath)) return hasBoard;
+
+  try {
+    const config = JSON.parse(readFileSync(configPath, 'utf8')) as { releaseState?: string };
+    if (config.releaseState === undefined) return hasBoard;
+    // Only an explicit in-progress state keeps a run writable. Anything else —
+    // released, retired, quarantined, or a value we do not recognise — freezes.
+    if (config.releaseState === 'draft' || config.releaseState === 'audited') return false;
+    return FROZEN_RELEASE_STATES.has(config.releaseState) || true;
+  } catch {
+    // Corrupt policy metadata on a run we are about to write to is not
+    // something to shrug at.
+    return true;
   }
-  return false;
 }
 
 /** Membership only. Deliberately not a collection — see bypass class 3 above. */
@@ -215,22 +277,78 @@ function deepestExisting(target: string): string {
  * links outright, which is stricter than resolving them and much easier to
  * reason about.
  */
+/**
+ * Reject a symlink anywhere between `root` and `target`, INCLUDING the leaf.
+ *
+ * The leaf matters most and was the gap: only response writes went through
+ * final-target resolution, so `scores.json -> ../outside.json` inside an
+ * unfrozen run passed the directory check and the write followed the link out.
+ * Applied to reads as well, because a linked `responses` directory or a linked
+ * JSON file can otherwise pull content in from outside the root.
+ */
 function assertNoSymlinkComponent(root: string, target: string): void {
   const rel = relative(root, target);
   if (rel === '' || rel.startsWith('..') || isAbsolute(rel)) return; // containment checked elsewhere
-  // Walk root -> target one component at a time. Stop at the first component
-  // that does not exist yet; nothing below it can be a link.
+  // Walk root -> target one component at a time, leaf included. Stop at the
+  // first component that does not exist; nothing below it can be a link.
   let current = root;
   for (const part of rel.split(sep).filter(Boolean)) {
     current = join(current, part);
-    if (!existsSync(current)) return;
-    if (lstatSync(current).isSymbolicLink()) {
+    if (!existsSync(current) && !isLink(current)) return;
+    if (isLink(current)) {
       throw new FirewallError(
-        `Refusing to write through symlink component ${current}. Write to the canonical path instead.`,
+        `Refusing to traverse symlink component ${current}. Use the canonical path instead.`,
         'SYMLINK_COMPONENT',
       );
     }
   }
+}
+
+/** lstat that tolerates a dangling link (existsSync follows links and lies). */
+function isLink(path: string): boolean {
+  try {
+    return lstatSync(path).isSymbolicLink();
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Write a guarded path atomically.
+ *
+ * Staging to a sibling temp file and renaming means the destination entry is
+ * REPLACED rather than followed, so even a leaf symlink that appeared between
+ * resolution and write cannot redirect the bytes. The path is re-resolved
+ * immediately before the rename to close the gap Codex identified between an
+ * early preflight and the final write.
+ */
+export function writeRunFileAtomic(runId: string, relativePath: string, data: string): string {
+  const target = resolveRunFile(runId, relativePath, { write: true });
+  return atomicReplace(target, data);
+}
+
+export function writeOutputFileAtomic(
+  family: OutputFamily,
+  relativePath: string,
+  data: string,
+): string {
+  const target = resolveOutputPath(family, relativePath, { write: true });
+  return atomicReplace(target, data);
+}
+
+let tempCounter = 0;
+function atomicReplace(target: string, data: string): string {
+  if (isLink(target)) {
+    throw new FirewallError(
+      `Refusing to write through leaf symlink ${target}.`,
+      'SYMLINK_COMPONENT',
+    );
+  }
+  mkdirSync(dirname(target), { recursive: true });
+  const tmp = `${target}.tmp-${process.pid}-${tempCounter++}`;
+  writeFileSync(tmp, data);
+  renameSync(tmp, target); // replaces the entry; never follows a link
+  return target;
 }
 
 /**
@@ -242,7 +360,7 @@ export function resolveOutputPath(
   relativePath: string,
   opts: { write: boolean },
 ): string {
-  const root = ROOTS[family];
+  const root = assertAnchoredRoot(family);
   const target = resolve(root, relativePath);
   if (!containedBy(root, target) || target === root) {
     throw new FirewallError(
@@ -324,7 +442,7 @@ export function resolveRunFile(runId: string, relativePath: string, opts: { writ
       'PATH_ESCAPE',
     );
   }
-  if (opts.write) assertNoSymlinkComponent(RUNS_DIR, target);
+  assertNoSymlinkComponent(RUNS_DIR, target);
   return target;
 }
 
@@ -439,11 +557,24 @@ export class Firewall {
 // ---------------------------------------------------------------------------
 
 /**
- * Takes a ValidatedRunManifest, not a structural Pick: publication must not be
- * reachable with a hand-rolled object literal that merely has the right three
- * fields. The brand can only come from parseRunManifest.
+ * The publication boundary. Takes `unknown` and PARSES.
+ *
+ * The previous signature took a compile-time-branded type, which TypeScript
+ * erases: `{ runId, evidenceClass: 'public-release', releaseState: 'released' }`
+ * was accepted at runtime. Treating external input as unknown and re-parsing
+ * the complete manifest here is the only version of this that survives being
+ * called from JavaScript, from a test with `as any`, or across a package
+ * boundary.
  */
-export function assertPublishable(manifest: ValidatedRunManifest, context: string): void {
+export function assertPublishable(candidate: unknown, context: string): ValidatedRunManifest {
+  const parsed = safeParseRunManifest(candidate);
+  if (!parsed.ok) {
+    throw new FirewallError(
+      `${context} refused: manifest failed validation (${parsed.error}). Publication requires a complete, coherent manifest.`,
+      'INELIGIBLE_EVIDENCE',
+    );
+  }
+  const manifest = parsed.manifest;
   if (!canPublish(manifest)) {
     throw new FirewallError(
       `${context} refused for run ${manifest.runId}: evidenceClass '${manifest.evidenceClass}' / releaseState '${manifest.releaseState}'. ` +
@@ -451,6 +582,7 @@ export function assertPublishable(manifest: ValidatedRunManifest, context: strin
       'INELIGIBLE_EVIDENCE',
     );
   }
+  return manifest;
 }
 
 export function nonScoringBanner(evidenceClass: EvidenceClass): string | null {

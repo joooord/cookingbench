@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { parse } from 'yaml';
 import type { Question } from '@cookingbench/core';
 import { DATA_DIR } from './dataset.js';
-import { resolveRunDir } from './firewall.js';
+import { resolveRunDir, writeRunFileAtomic } from './firewall.js';
 import { judgeAnswer } from './judge.js';
 import type { CompletionClient } from './openrouter.js';
 
@@ -115,9 +115,10 @@ export async function runCalibration(
   runId: string,
   questionsById: Map<string, Question>,
 ): Promise<CalibrationResult> {
-  // Preflight the WRITE TARGET before any paid work. Discovering a historical
+  // Preflight the WRITE TARGET before any paid work: discovering a historical
   // write refusal after the judge calls have been billed is the wrong order.
-  const outPath = calibrationWritePath(runId);
+  // The result is deliberately NOT reused for the write — see below.
+  calibrationWritePath(runId);
   const anchors = loadAnchors();
   // Anchors x seats x two calls each — real money, and previously unrecorded.
   const spend = { costUsd: 0 };
@@ -135,6 +136,10 @@ export async function runCalibration(
     costUsd: Math.round(spend.costUsd * 10000) / 10000,
     judges,
   };
-  writeFileSync(outPath, JSON.stringify(result, null, 2));
+  // Re-resolve immediately before writing rather than trusting the preflight
+  // path: the model-call loop above takes minutes, and a release transition or
+  // a newly planted symlink during that window would not be caught by a path
+  // resolved before it.
+  writeRunFileAtomic(runId, 'calibration.json', JSON.stringify(result, null, 2));
   return result;
 }
