@@ -392,3 +392,80 @@ first answer shown"). `both_unacceptable` is excluded from the fit and reported
 per model as a release-gating signal; `davidsonSummary` runs the declared
 exclusion sensitivity. `taste.ts` should import `ratingFromStrength` from here
 rather than keeping its private copy of the same transform.
+
+## M4.6 / M4.10 — specificity, simulation and paraphrase (packages/runner/src)
+
+Three new modules, no CLI wiring (cli.ts belongs to the integration pass). All
+three are pure: they take already-loaded data, never read or write the
+filesystem, and never call a model or the network.
+
+**`specificity.ts` — `bench specificity --run <id> --predictor <path.json>
+[--scope a,b] [--seed <s>] [--reps <n>] [--inference-started-at <iso>]`**
+
+1. `parseGeneralPredictorDocument(JSON.parse(readFileSync(predictorPath)))` —
+   throws `SpecificityError` on anything malformed; print `.message` and exit
+   non-zero.
+2. `specificityAnalysis({ runId, outcomes, predictor, scope?, inferenceStartedAt?,
+   seed?, reps? })` where `outcomes` are `{ modelId, overall, ci95, provider? }`
+   taken from the run's `leaderboard.json` rows (`overallCi` → `ci95`).
+3. Print `formatSpecificityReport(result)`.
+
+Expect a REFUSAL today, and do not route around it: no verified OpenRouter →
+Arena snapshot mapping exists, so every mapping is `asserted` and the module
+refuses by design (M4.10). Run against the archived board it prints
+`MAPPING_UNVERIFIED` for all 14 routes and produces no residual table. Even with
+a verified mapping the archived run trips `omissionRecommended`: mean CI
+half-width 3.58 points against a between-model SD of 3.42.
+
+If the result is persisted, it must NOT go into `data/runs/**` — those are
+frozen. Route it through a firewall output family; there is no `analysis`
+family in `firewall.ts` today, so either add one or write under `shadow`.
+
+`assessIncrementalValidity(inputs)` is the confirmatory gate and returns
+`claimPermitted: false` unconditionally. There is deliberately no
+incremental-validity estimator: the only culinary criterion available is the
+benchmark's own scores, which were used to author and tune it. Do not "finish"
+it during integration.
+
+**`simulate.ts` — `bench simulate --run <id> [--seed <s>] [--reps <n>]
+[--sims <n>] [--margin <points>]`**
+
+`runSimulationSuite({ seed, matrix, judgedItems?, practicalMarginPoints?, reps?,
+sims? })` then `formatSimulationReport(report)`. Build the matrix with
+`matrixFromScores(readScores(runId))` — read-only — and pass the llm-judge item
+ids as `judgedItems`. Two constraints: `reps` below ~400 is refused by
+`clusterBootstrapMean` (a 0.025 quantile needs ten order statistics), and
+`multiplicityCheck` reports `holmResolvable: false` below ~1,800 resamples for a
+91-pair family, where a Holm error rate of 0 is a resolution artefact rather
+than a result.
+
+Measured on `2026-07-v2.1` (read-only, nothing written): median interval
+half-width 2.12 against a between-model SD of 1.94 (ratio 1.10); the smallest
+audited deletion that flips the leader is ONE item (0.5% of the evidence);
+111 of 184 items are dead (identical for every model); 20 have non-positive
+item-total correlation, `nutr-036` among them; top-group stability 0.36 against
+M4.5's 0.90 target; a −15-point judge severity shift changes the leader. On a
+null roster of 14 clones the uncorrected 91-pair family separates 12.6 pairs per
+run with a family-wise error of 1.00, and Holm removes all of them.
+
+**`paraphrase.ts` — `bench paraphrase --fixtures <path.json>`**
+
+`compareParaphrase(pair)` per pair, then `summariseParaphraseSet` and
+`formatParaphraseReport`. It consumes stored scores or fixtures and never calls
+a model; generating the paraphrased answers is a separate, permitted activity.
+Each pair needs an `attestation`, and `contentDrift` refuses a variant whose
+quantities, units or constraint terms changed unless the attester listed the
+difference verbatim in `acceptedDrift`. `wording-robust` additionally requires a
+preregistered `equivalenceMarginPoints`; without one the verdict is
+`inconclusive`, never robust.
+
+Tests: `packages/runner/test/specificity.test.ts` and
+`packages/runner/test/simulate.test.ts`. The paraphrase cases live in the latter
+because this workstream was allocated two test files for three modules — move
+them to `paraphrase.test.ts` when convenient.
+
+Both modules import `fnv1a32`, `seededUniform`, `clusterBootstrapMean`,
+`holmAdjust`, `rankFragility` and `smallestFlipSet` from
+`../../core/src/stats.js` by relative path, for the reason `analyze.ts` already
+documents: core's `exports` map does not expose stats.ts. Three one-line changes
+when `index.ts` gains `export * from './stats.js'`.

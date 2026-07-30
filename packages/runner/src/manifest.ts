@@ -136,10 +136,16 @@ const VALIDATOR_DIR = join('packages', 'core', 'src', 'graders');
  * shorter list — deletion changes the hash either way, but the reader can see
  * which happened.
  */
-const NAMED_VALIDATOR_FILES = [
-  join('packages', 'core', 'src', 'kitchenplan.ts'),
-  join('packages', 'core', 'src', 'graders.ts'),
-];
+const NAMED_VALIDATOR_FILES = [join('packages', 'core', 'src', 'kitchenplan.ts')];
+
+/**
+ * Written by derive.ts, read here by name.
+ *
+ * Named locally rather than imported so the dependency stays one-directional
+ * (derive → manifest). The alternative is an import cycle between two modules
+ * that both run at load time, for the sake of one string.
+ */
+const DERIVATION_FILE_NAME = 'derivation.json';
 
 // ---------------------------------------------------------------------------
 // Content digests
@@ -296,34 +302,34 @@ export function computeContentDigest(questions: Question[], settings: PromptSett
     );
   }
 
+  // Parallel arrays rather than re-reading `items[id]`: the set digests are
+  // over ORDERED (id, hash) pairs, so building them in the same pass keeps the
+  // order provably the sorted one.
   const items: Record<string, ItemDigest> = {};
+  const bankPairs: Array<[string, string]> = [];
+  const promptPairs: Array<[string, string]> = [];
+  const judgePairs: Array<[string, string | null]> = [];
   for (const q of sorted) {
     const judge = judgePromptHashFor(q);
-    items[q.id] = {
+    const entry: ItemDigest = {
       item: itemHash(q),
       prompt: promptHashFor(q, settings),
       judgePrompt: judge.hash,
       judgeMode: judge.mode,
     };
+    items[q.id] = entry;
+    bankPairs.push([q.id, entry.item]);
+    promptPairs.push([q.id, entry.prompt]);
+    judgePairs.push([q.id, entry.judgePrompt]);
   }
-  const ids = sorted.map((q) => q.id);
   const validator = validatorDigest();
 
   return {
     digestVersion: DIGEST_VERSION,
-    itemIds: ids,
-    bankHash: digest(
-      'cookingbench/bank',
-      ids.map((id) => [id, items[id].item]),
-    ),
-    promptHash: digest(
-      'cookingbench/prompt-set',
-      ids.map((id) => [id, items[id].prompt]),
-    ),
-    judgePromptHash: digest(
-      'cookingbench/judge-prompt-set',
-      ids.map((id) => [id, items[id].judgePrompt]),
-    ),
+    itemIds: sorted.map((q) => q.id),
+    bankHash: digest('cookingbench/bank', bankPairs),
+    promptHash: digest('cookingbench/prompt-set', promptPairs),
+    judgePromptHash: digest('cookingbench/judge-prompt-set', judgePairs),
     validatorHash: validator.validatorHash,
     items,
     validatorFiles: validator.files,
@@ -720,6 +726,25 @@ function componentOf(item: ItemDigest | undefined, field: HashField): string | n
   return undefined; // validatorHash is not item-scoped
 }
 
+/**
+ * Run ids whose responses this run legitimately carries.
+ *
+ * Reads only the lineage edge. A malformed or absent derivation record yields
+ * the empty set, so an undeclared foreign stamp still fails — the permissive
+ * direction here would be to guess.
+ */
+function inheritedSourceRuns(runId: string): string[] {
+  const path = resolveRunFile(runId, DERIVATION_FILE_NAME, { write: false });
+  if (!existsSync(path)) return [];
+  try {
+    const record = JSON.parse(readFileSync(path, 'utf8')) as { derivedFrom?: { runId?: unknown } };
+    const source = record.derivedFrom?.runId;
+    return typeof source === 'string' && source !== '' ? [source] : [];
+  } catch {
+    return [];
+  }
+}
+
 function loadDatasetSafely(findings: VerificationFinding[]): Question[] {
   try {
     return loadQuestions();
@@ -753,6 +778,12 @@ function verifyStoredResponses(
   const declaredModels = new Set(manifest.candidateRoutes.map((r) => r.modelId));
   const declaredItems = digest ? new Set(digest.itemIds) : null;
   const seen = new Set<string>();
+  // A derived run's answers legitimately carry the SOURCE run's id: they are the
+  // same bytes, verified by hash, and rewriting the stamp would break both that
+  // verification and hard-linking. Inheritance is declared in derivation.json,
+  // so the set of ids a response may carry is bounded by the lineage rather
+  // than by a blanket exemption.
+  const acceptableRunIds = new Set<string>([runId, ...inheritedSourceRuns(runId)]);
 
   for (const file of readdirSync(dir).filter((f) => f.endsWith('.json')).sort()) {
     let stored: { runId?: unknown; modelId?: unknown; questionId?: unknown };
@@ -776,13 +807,15 @@ function verifyStoredResponses(
       });
       continue;
     }
-    if (stored.runId !== runId) {
-      // A response stamped with another run's id inside this run's directory is
-      // how copied evidence would enter a run unnoticed. derive.ts restamps.
+    if (typeof stored.runId !== 'string' || !acceptableRunIds.has(stored.runId)) {
+      // A response stamped with an id this run neither owns nor inherits is how
+      // copied evidence would enter a run unnoticed.
       findings.push({
         code: 'RESPONSE_WRONG_RUN',
         severity: 'error',
-        detail: `responses/${file} is stamped runId '${String(stored.runId)}' but stored under '${runId}'.`,
+        detail:
+          `responses/${file} is stamped runId ${JSON.stringify(stored.runId)} but stored under '${runId}', ` +
+          `which inherits from [${[...acceptableRunIds].filter((r) => r !== runId).join(', ') || 'nothing'}].`,
       });
     }
     if (!declaredModels.has(modelId)) {

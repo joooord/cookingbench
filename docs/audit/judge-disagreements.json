@@ -1,0 +1,2158 @@
+{
+  "runId": "2026-07-v2.1",
+  "generatedAt": "2026-07-30",
+  "source": "data/runs/2026-07-v2.1/scores.json",
+  "flagRule": "flagged = |seatA - seatB| > 15 over the two panel verdicts per answer (verified: 0 exceptions in 630 judged answers)",
+  "scoring": "judgeScore = mean of the two seat scores; publishedScore = judgeWeight*judgeScore + (1-judgeWeight)*constraintScore where the item has constraintChecks (judgeWeight 0.5 or 0.7), else judgeScore. Seat scores are 100 minus deductions: critical -40, major -15, minor -5, floored at 0 (packages/runner/src/judge.ts at commit e3f8aee).",
+  "panel": [
+    "anthropic/claude-opus-4.8",
+    "openai/gpt-5.5",
+    "x-ai/grok-4.5"
+  ],
+  "classificationDefinitions": {
+    "ITEM-AMBIGUOUS": "The prompt admits two defensible readings and the seats each took one; the item, not the judges, is the root cause.",
+    "JUDGE-ERROR": "One seat is wrong on a checkable fact — including lenient misses, where a seat scored high past a verifiable fault the other seat caught.",
+    "SEVERITY-STACKING": "The seats found the SAME fault(s) and priced them differently, or one seat counted a single root mistake as several findings — a compliance failure against the judge prompt's \"each distinct underlying mistake exactly once\" instruction.",
+    "GENUINELY-BORDERLINE": "A real judgement call (doctrine, severity of a marginal risk, edge-of-band arithmetic) where both readings are defensible.",
+    "REFERENCE-SUSPECT": "The item's own referenceAnswer/judgingNotes look wrong or contested; scores split along exactly that line."
+  },
+  "reviewDepthDefinitions": {
+    "deep": "Question text and candidate answer (or the decisive part of it) read alongside both verdicts.",
+    "verdicts": "Both seat verdicts (scores, findings, summaries) read; question context from the item file; answer text not independently re-read."
+  },
+  "summary": {
+    "judgedAnswers": 630,
+    "flagged": 73,
+    "flagRate": 0.116,
+    "classificationCounts": {
+      "REFERENCE-SUSPECT": 3,
+      "SEVERITY-STACKING": 30,
+      "JUDGE-ERROR": 11,
+      "GENUINELY-BORDERLINE": 21,
+      "ITEM-AMBIGUOUS": 8
+    },
+    "seatSeverity": {
+      "note": "Mean signed difference vs the colleague seat over all judged answers (95% normal CI). Severity is episodic, not a constant offset: unflagged answers agree to within 0.6 points on average in every pair.",
+      "openai/gpt-5.5": {
+        "n": 393,
+        "meanVsColleague": -4.27,
+        "ci95": [
+          -5.93,
+          -2.62
+        ]
+      },
+      "x-ai/grok-4.5": {
+        "n": 478,
+        "meanVsColleague": 1.71,
+        "ci95": [
+          0.35,
+          3.06
+        ]
+      },
+      "anthropic/claude-opus-4.8": {
+        "n": 389,
+        "meanVsColleague": 2.22,
+        "ci95": [
+          0.91,
+          3.54
+        ]
+      }
+    },
+    "lowSeatInFlaggedCases": {
+      "openai/gpt-5.5": 49,
+      "x-ai/grok-4.5": 18,
+      "anthropic/claude-opus-4.8": 6
+    }
+  },
+  "cases": [
+    {
+      "questionId": "flav-013",
+      "modelId": "anthropic/claude-opus-5",
+      "category": "flavor-pairing",
+      "difficulty": 4,
+      "publishedScore": 23.75,
+      "judgeScore": 47.5,
+      "constraintScore": 0,
+      "disagreement": 95,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 0
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 95
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "REFERENCE-SUSPECT",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "Answer is NHS-correct (\"Hard cheeses are fine, even unpasteurised\"; blue kept separate; three safe options for her). gpt-5.5 scored 0 with three criticals enforcing the judgingNotes' claim that unpasteurised cheese must be avoided; grok-4.5 scored 95 citing NHS that hard cheeses are allowed. The item's notes, not the answer, are wrong relative to the cited source.",
+      "evidence": [
+        "gpt-5.5 (0): \"The prompt's pregnancy constraint calls for avoiding unpasteurised cheeses; presenting unpasteurised hard cheeses as fine violates that dietary safety constraint.\"",
+        "grok-4.5 (95): \"hard blues such as Stilton are explicitly allowed (NHS); only soft blues need avoiding.\""
+      ]
+    },
+    {
+      "questionId": "flav-013",
+      "modelId": "google/gemini-3.1-pro-preview",
+      "category": "flavor-pairing",
+      "difficulty": 4,
+      "publishedScore": 80,
+      "judgeScore": 60,
+      "constraintScore": 100,
+      "disagreement": 80,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 100
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 20
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "REFERENCE-SUSPECT",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "Same split: opus-4.8 100, gpt-5.5 20 with criticals against unpasteurised hard-cheese examples (Montgomery's) per the judgingNotes; NHS itself treats hard unpasteurised cheese as safe.",
+      "evidence": [
+        "gpt-5.5 (20): \"Montgomery's is an unpasteurised/raw-milk cheddar; the prompt requires avoiding unpasteurised cheeses\"",
+        "opus-4.8 (100): no findings."
+      ]
+    },
+    {
+      "questionId": "flav-013",
+      "modelId": "qwen/qwen3.7-max",
+      "category": "flavor-pairing",
+      "difficulty": 4,
+      "publishedScore": 80,
+      "judgeScore": 60,
+      "constraintScore": 100,
+      "disagreement": 80,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 20
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "REFERENCE-SUSPECT",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "gpt-5.5 20 (criticals: \"hard blue below is perfectly safe\" / \"All hard cheeses are safe during pregnancy\" treated as violations per notes); grok-4.5 100 (accepts the same claims, which match NHS).",
+      "evidence": [
+        "gpt-5.5 (20): \"the prompt's pregnancy constraint says unpasteurised cheeses should be avoided\"",
+        "grok-4.5 (100): no findings."
+      ]
+    },
+    {
+      "questionId": "rgen-013",
+      "modelId": "x-ai/grok-4.5",
+      "category": "recipe-generation",
+      "difficulty": 3,
+      "publishedScore": 58,
+      "judgeScore": 40,
+      "constraintScore": 100,
+      "disagreement": 80,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 80
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 0
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "Both seats found the same root (mackerel portion protein short of target). opus-4.8: major + minor (80). gpt-5.5: critical for the mackerel plus separate majors for Monday, Wednesday, pork and fibre macros — the same \"macros overstated\" root enumerated per day (0).",
+      "evidence": [
+        "opus-4.8 (80): \"Mackerel... roughly 35-40 g protein, below/short of the stated 46 g\"",
+        "gpt-5.5 (0): 1 critical + 5 majors + 2 minors over the same macro-arithmetic class."
+      ]
+    },
+    {
+      "questionId": "subs-020",
+      "modelId": "anthropic/claude-sonnet-5",
+      "category": "substitutions",
+      "difficulty": 5,
+      "publishedScore": 26.25,
+      "judgeScore": 52.5,
+      "constraintScore": 0,
+      "disagreement": 75,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 15
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 90
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": "GENUINELY-BORDERLINE",
+      "review": "deep",
+      "rationale": "Both seats found the same two faults: the anchovy/fish-sauce umami option (judgingNotes say umami should come from \"anchovy-free sources\") and dairy served alongside the meat meal. gpt-5.5 priced them 2 criticals + minor (15); grok-4.5 2 minors (90). Same findings, 75 points apart.",
+      "evidence": [
+        "gpt-5.5 (15): \"[critical] many kosher-observant people do not mix fish and meat\"",
+        "grok-4.5 (90): \"[minor] Many kosher observers customarily avoid mixing fish with meat... even though the answer caves the option\""
+      ]
+    },
+    {
+      "questionId": "rgen-013",
+      "modelId": "qwen/qwen3.7-max",
+      "category": "recipe-generation",
+      "difficulty": 3,
+      "publishedScore": 59.75,
+      "judgeScore": 42.5,
+      "constraintScore": 100,
+      "disagreement": 75,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 80
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 5
+        }
+      ],
+      "lowSeat": "x-ai/grok-4.5",
+      "classification": "JUDGE-ERROR",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "grok-4.5 (5) called Tuesday's protein \"fabricated\": \"180g raw sea trout yields only ~36-40g protein... missing the strict 40-60g target\" — but the same dish contains a 250 g Puy-lentil pouch and 200 g broad beans (verified in the answer text), which opus-4.8 (80) correctly counted: \"~48-50g; 57g is overstated\" (a minor). grok ignored two protein sources; the arithmetic is checkable.",
+      "evidence": [
+        "Answer: \"Mix in a bowl with 1 pouch (250g) of pre-cooked Puy lentils\" (data/runs/2026-07-v2.1/responses/qwen__qwen3.7-max__rgen-013.json)",
+        "grok-4.5 (5): \"claimed 57g macro is fabricated\"",
+        "opus-4.8 (80): \"Sea trout (180g raw ≈36g) plus half a lentil pouch and broad beans realistically totals ~48-50g\""
+      ]
+    },
+    {
+      "questionId": "rgen-012",
+      "modelId": "mistralai/mistral-large-2512",
+      "category": "recipe-generation",
+      "difficulty": 2,
+      "publishedScore": 38.5,
+      "judgeScore": 55,
+      "constraintScore": 0,
+      "disagreement": 70,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 90
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 20
+        }
+      ],
+      "lowSeat": "x-ai/grok-4.5",
+      "classification": "JUDGE-ERROR",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "The answer literally offers \"gluten-free or regular spaghetti (low-FODMAP)\" (verified in the answer text). Wheat spaghetti at 100 g/serve is high-FODMAP (fructans); grok-4.5's critical (20) is correct and opus-4.8 (90) missed the mislabel entirely. A lenient miss of a checkable constraint violation.",
+      "evidence": [
+        "Answer: \"- 200g gluten-free or regular spaghetti (low-FODMAP)\" (data/runs/2026-07-v2.1/responses/mistralai__mistral-large-2512__rgen-012.json)",
+        "grok-4.5 (20): \"Wheat pasta is high-FODMAP (fructans)\"",
+        "opus-4.8 (90): no pasta finding."
+      ]
+    },
+    {
+      "questionId": "rgen-019",
+      "modelId": "anthropic/claude-opus-5",
+      "category": "recipe-generation",
+      "difficulty": 4,
+      "publishedScore": 16.25,
+      "judgeScore": 32.5,
+      "constraintScore": 0,
+      "disagreement": 65,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 0
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 65
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "Both seats found the same two roots: chilled-not-ambient cured meat, and the stew/noodles routed through the small frying pan. gpt-5.5 split them into 2 criticals (chorizo AND salami) + 2 majors (pan night 1 AND night 2) = 0; grok-4.5 2 majors + 1 minor = 65.",
+      "evidence": [
+        "gpt-5.5 (0): separate criticals for \"200g diced cooking chorizo\" and \"100g sliced salami\"",
+        "grok-4.5 (65): one major for the chorizo, one for the pan."
+      ]
+    },
+    {
+      "questionId": "rgen-013",
+      "modelId": "anthropic/claude-sonnet-5",
+      "category": "recipe-generation",
+      "difficulty": 3,
+      "publishedScore": 77.25,
+      "judgeScore": 67.5,
+      "constraintScore": 100,
+      "disagreement": 65,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 35
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "gpt-5.5 (35): 300 g mackerel pp ≈ 55-60 g protein \"likely exceeds\" the 40-60 g band once peas are added — a marginal, at-the-edge call priced critical. grok-4.5 (100) found nothing, missing a checkable internal contradiction gpt caught (venison cooked ~4 min, told to rest \"exactly as long as it cooked\", i.e. 5 min). Drift in both directions on genuine edge calls.",
+      "evidence": [
+        "gpt-5.5 (35): \"roughly 55-60g protein; with peas it likely exceeds the strict 40-60g target\"",
+        "grok-4.5 (100): \"No concrete errors or constraint violations.\""
+      ]
+    },
+    {
+      "questionId": "rgen-016",
+      "modelId": "deepseek/deepseek-v4-pro",
+      "category": "recipe-generation",
+      "difficulty": 5,
+      "publishedScore": 81.25,
+      "judgeScore": 62.5,
+      "constraintScore": 100,
+      "disagreement": 65,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 95
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 30
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "ITEM-AMBIGUOUS",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "The prompt enumerates the equipment exhaustively (\"a kettle, a 900 W microwave, one bowl, one mug, a fork and a spoon\"). gpt-5.5 (30) read it strictly: recipes require slicing with no knife listed (critical) and a plate she does not have (major). opus-4.8 (95) read the list charitably as cooking equipment only. Both readings are defensible; the seats each took one.",
+      "evidence": [
+        "gpt-5.5 (30): \"the stated equipment includes no knife, peeler, grater, chopping board, or similar tool\"",
+        "opus-4.8 (95): \"largely sound. Minor quibble on honey\""
+      ]
+    },
+    {
+      "questionId": "rgen-016",
+      "modelId": "meta-llama/llama-4-maverick",
+      "category": "recipe-generation",
+      "difficulty": 5,
+      "publishedScore": 68.75,
+      "judgeScore": 37.5,
+      "constraintScore": 100,
+      "disagreement": 65,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 70
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 5
+        }
+      ],
+      "lowSeat": "x-ai/grok-4.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "Identical faults (dried lentils and raw quinoa cannot cook in 6-8 microwave minutes with 1 cup water). gpt-5.5 priced them 2 majors (70); grok-4.5 2 criticals + 1 major (5). Grok's pricing arguably matches the rubric (\"an error that would ruin the dish\" = critical); the 65-point gap is pure severity pricing.",
+      "evidence": [
+        "gpt-5.5 (70): \"dried lentils will not become tender... undercooked\" [major]",
+        "grok-4.5 (5): \"they remain hard and undercooked, ruining the dish\" [critical]"
+      ]
+    },
+    {
+      "questionId": "rgen-014",
+      "modelId": "qwen/qwen3.7-max",
+      "category": "recipe-generation",
+      "difficulty": 2,
+      "publishedScore": 63.25,
+      "judgeScore": 47.5,
+      "constraintScore": 100,
+      "disagreement": 65,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 15
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 80
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "Same root (meal 5 uses processed items): gpt-5.5 split into 2 criticals — chicken sausage AND chickpea pasta (15); grok-4.5 one major covering both + a minor (80).",
+      "evidence": [
+        "gpt-5.5 (15): two criticals",
+        "grok-4.5 (80): \"[major] Chicken sausage and chickpea pasta are processed foods\" — one finding."
+      ]
+    },
+    {
+      "questionId": "flav-013",
+      "modelId": "meta-llama/llama-4-maverick",
+      "category": "flavor-pairing",
+      "difficulty": 4,
+      "publishedScore": 15,
+      "judgeScore": 30,
+      "constraintScore": 0,
+      "disagreement": 60,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 60
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 0
+        }
+      ],
+      "lowSeat": "x-ai/grok-4.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": "REFERENCE-SUSPECT",
+      "review": "deep",
+      "rationale": "Both seats agree the board (Stilton, Gorgonzola Dolce, Époisses, Serra da Estrela, no flags for the pregnant guest) is unsafe. gpt-5.5 merged it into one critical (60); grok-4.5 enumerated five criticals, one per cheese plus the false reassurance (0). One root failure counted five times.",
+      "evidence": [
+        "grok-4.5 (0): five separate criticals for the same unflagged-risky-board failure",
+        "gpt-5.5 (60): one critical covering \"all four suggested cheeses are pregnancy-risky\""
+      ]
+    },
+    {
+      "questionId": "rgen-019",
+      "modelId": "openai/gpt-5.4-mini",
+      "category": "recipe-generation",
+      "difficulty": 4,
+      "publishedScore": 80,
+      "judgeScore": 60,
+      "constraintScore": 100,
+      "disagreement": 60,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 90
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 30
+        }
+      ],
+      "lowSeat": "x-ai/grok-4.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "Same root (simmer sauce while boiling pasta on one burner): opus-4.8 minor, \"slightly misleading but workable\" (90); grok-4.5 critical \"impossible\" plus two majors on vessel logistics (30). Same fault, opposite pricing.",
+      "evidence": [
+        "opus-4.8 (90): \"[minor] instruction is slightly misleading but workable\"",
+        "grok-4.5 (30): \"[critical] cannot simmer sauce and boil pasta at the same time\""
+      ]
+    },
+    {
+      "questionId": "rgen-003",
+      "modelId": "anthropic/claude-sonnet-5",
+      "category": "recipe-generation",
+      "difficulty": 3,
+      "publishedScore": 66.75,
+      "judgeScore": 52.5,
+      "constraintScore": 100,
+      "disagreement": 55,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 25
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 80
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "CONFIRMED suspect case. Both seats found the same root: quantities not all in grams. gpt-5.5 (25) split it into four separate majors (eggs by count, ml buttermilk, tsp lemon juice, pinch of salt) plus a fifth for GF certification; grok-4.5 (80) counted it once (major + minor). The judge prompt orders \"List each DISTINCT underlying mistake exactly once\" — gpt-5.5 did not comply.",
+      "evidence": [
+        "gpt-5.5 (25): four majors all restating \"not given in grams\"",
+        "grok-4.5 (80): \"[major] several liquids given in ml and eggs unweighed\" — one finding for the same root."
+      ]
+    },
+    {
+      "questionId": "rgen-004",
+      "modelId": "mistralai/mistral-large-2512",
+      "category": "recipe-generation",
+      "difficulty": 2,
+      "publishedScore": 77.25,
+      "judgeScore": 67.5,
+      "constraintScore": 100,
+      "disagreement": 55,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 95
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 40
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "JUDGE-ERROR",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "The item scores \"protein numbers that genuinely sum\" at weight 0.5. The answer's bowl lists 23+24+6+2+0.5 = 55.5 g but states \"Total Protein: ~42.5g\" (verified from the answer text) — the breakdown literally does not add up — and with realistic tempeh/nutritional-yeast values the vegan alternative falls below the required 40 g. gpt-5.5 (40) caught all of this; opus-4.8 (95) asserted the numbers \"sum to ≥40g\" and missed the internal contradiction. A lenient miss of checkable arithmetic.",
+      "evidence": [
+        "Answer: \"Total Protein: ~42.5g\" beneath items summing to 55.5 g (data/runs/2026-07-v2.1/responses/mistralai__mistral-large-2512__rgen-004.json)",
+        "gpt-5.5 (40): \"The listed Greek yogurt bowl protein values add to about 55.5 g, not 42.5 g\"",
+        "opus-4.8 (95): \"the protein numbers are largely plausible and sum to ≥40g\""
+      ]
+    },
+    {
+      "questionId": "rgen-014",
+      "modelId": "meta-llama/llama-4-maverick",
+      "category": "recipe-generation",
+      "difficulty": 2,
+      "publishedScore": 75.5,
+      "judgeScore": 65,
+      "constraintScore": 100,
+      "disagreement": 50,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 90
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 40
+        }
+      ],
+      "lowSeat": "x-ai/grok-4.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "grok-4.5 (40) faulted whole-recipe quantities labelled as per-portion macros (2 majors) and weak world-cuisine variety (major); opus-4.8 (90) noted both as minors. The macro-labelling reading is plausible but interpretive; variety severity is taste.",
+      "evidence": [
+        "grok-4.5 (40): \"1 cup cooked brown rice + 1 lb chicken split two ways cannot credibly yield the claimed 780 kcal / 52 g\"",
+        "opus-4.8 (90): the same concerns as minors."
+      ]
+    },
+    {
+      "questionId": "rgen-002",
+      "modelId": "anthropic/claude-opus-5",
+      "category": "recipe-generation",
+      "difficulty": 2,
+      "publishedScore": 84.25,
+      "judgeScore": 77.5,
+      "constraintScore": 100,
+      "disagreement": 45,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 55
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "ITEM-AMBIGUOUS",
+      "secondaryClassification": "SEVERITY-STACKING",
+      "review": "deep",
+      "rationale": "Whether \"vegetarian\" excludes Parmesan (animal rennet is required for PDO Parmesan) is a strict-vs-mainstream reading of the prompt. gpt-5.5 applied the strict reading as a critical (55); grok-4.5 (100) the mainstream one. The item never says how strict it is.",
+      "evidence": [
+        "gpt-5.5 (55): \"[critical] Parmesan is often made with animal rennet and is not vegetarian\"",
+        "grok-4.5 (100): \"fully satisfies the... vegetarian dinner constraints\""
+      ]
+    },
+    {
+      "questionId": "rgen-012",
+      "modelId": "anthropic/claude-opus-5",
+      "category": "recipe-generation",
+      "difficulty": 2,
+      "publishedScore": 54.25,
+      "judgeScore": 77.5,
+      "constraintScore": 0,
+      "disagreement": 45,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 55
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "gpt-5.5 (55) faulted a \"100% spelt sourdough pasta\" alternative as not reliably low-FODMAP (critical); Monash validates spelt sourdough bread, not pasta, so the point is defensible but its severity is a judgement call. grok-4.5 (100) accepted.",
+      "evidence": [
+        "gpt-5.5 (55): \"sourdough fermentation is a validated low-FODMAP strategy for bread, not a general assurance for pasta\""
+      ]
+    },
+    {
+      "questionId": "rgen-016",
+      "modelId": "google/gemini-3.6-flash",
+      "category": "recipe-generation",
+      "difficulty": 5,
+      "publishedScore": 88.75,
+      "judgeScore": 77.5,
+      "constraintScore": 100,
+      "disagreement": 45,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 55
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "JUDGE-ERROR",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "judgingNotes require hidden-gluten vigilance (\"strictly gluten-free including hidden sources (regular soy sauce is out unless certified GF)\"). gpt-5.5 (55) caught unverified marinated/smoked tofu — marinades are a classic soy-sauce gluten source. grok-4.5 (100) asserted the menu was \"properly gluten-free\". A lenient miss of a notes-grounded coeliac risk.",
+      "evidence": [
+        "gpt-5.5 (55): \"Marinated/smoked tofu can contain wheat-based soy sauce... unsafe for coeliac requirements\"",
+        "grok-4.5 (100): \"properly gluten-free dinners... No concrete errors\""
+      ]
+    },
+    {
+      "questionId": "rgen-017",
+      "modelId": "mistralai/mistral-large-2512",
+      "category": "recipe-generation",
+      "difficulty": 5,
+      "publishedScore": 88.75,
+      "judgeScore": 77.5,
+      "constraintScore": 100,
+      "disagreement": 45,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 55
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "anthropic/claude-opus-4.8",
+      "classification": "ITEM-AMBIGUOUS",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "Is coconut \"nut-free\"? opus-4.8 (55): coconut is often banned in nut-free schools (FDA historically classed it as a tree nut) — critical. grok-4.5 (100): coconut is not a nut, bake is compliant. Both readings are defensible and the item does not resolve it.",
+      "evidence": [
+        "opus-4.8 (55): \"[critical] In a 'strictly nut-free' school coconut is often banned (FDA classes it a tree nut)\"",
+        "grok-4.5 (100): \"fully vegan, banana-free, nut-free\""
+      ]
+    },
+    {
+      "questionId": "rgen-020",
+      "modelId": "mistralai/mistral-large-2512",
+      "category": "recipe-generation",
+      "difficulty": 4,
+      "publishedScore": 68.75,
+      "judgeScore": 37.5,
+      "constraintScore": 100,
+      "disagreement": 45,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 15
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 60
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "Both seats agree the raw-marinated white fish starter is unsafe (critical). gpt-5.5 (15) added a second critical for serving it at room temperature — a facet of the same unsafe-raw-fish root — plus a minor; grok-4.5 (60) one critical.",
+      "evidence": [
+        "grok-4.5 (60): one critical: \"not sushi-grade and the mild short acid cure does not make them safe\"",
+        "gpt-5.5 (15): the same fault as two criticals."
+      ]
+    },
+    {
+      "questionId": "flav-004",
+      "modelId": "anthropic/claude-opus-5",
+      "category": "flavor-pairing",
+      "difficulty": 2,
+      "publishedScore": 80,
+      "judgeScore": 80,
+      "constraintScore": null,
+      "disagreement": 40,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 60
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "ITEM-AMBIGUOUS",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "\"Exactly five spices\" — the answer added 6 mashed garlic cloves to the rub paste. The item's own rubric lists garlic among eligible spices, so gpt-5.5's sixth-spice critical (60) is rubric-grounded; common usage says fresh garlic cloves are an aromatic, not a spice, which is grok-4.5's reading (100). The item creates the ambiguity.",
+      "evidence": [
+        "Rubric: \"five spices that genuinely flatter lamb (e.g. cumin, coriander, rosemary, garlic, black pepper...)\" (data/questions/flavor-pairing.yaml)",
+        "gpt-5.5 (60): \"[critical] garlic is treated as an eligible spice/seasoning in the prompt's reference\""
+      ]
+    },
+    {
+      "questionId": "rgen-008",
+      "modelId": "anthropic/claude-opus-5",
+      "category": "recipe-generation",
+      "difficulty": 3,
+      "publishedScore": 86,
+      "judgeScore": 80,
+      "constraintScore": 100,
+      "disagreement": 40,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 60
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "Is a hard-cheese wedge \"shelf-stable\" for a camping trip? gpt-5.5 (60) said no (critical); grok-4.5 (100) said yes. Hard cheese survives days unrefrigerated; the constraint reading is genuinely contestable.",
+      "evidence": [
+        "gpt-5.5 (60): \"A wedge of Parmesan/pecorino is not reliably shelf-stable\"",
+        "grok-4.5 (100): \"genuinely shelf-stable ingredients\""
+      ]
+    },
+    {
+      "questionId": "flav-004",
+      "modelId": "anthropic/claude-sonnet-5",
+      "category": "flavor-pairing",
+      "difficulty": 2,
+      "publishedScore": 80,
+      "judgeScore": 80,
+      "constraintScore": null,
+      "disagreement": 40,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 60
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "ITEM-AMBIGUOUS",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "Same garlic-as-sixth-spice split: gpt-5.5 critical (60), grok-4.5 (100).",
+      "evidence": [
+        "gpt-5.5 (60): \"[critical] the application tip adds garlic as an additional spice/flavoring, making the rub no longer exactly five spices\""
+      ]
+    },
+    {
+      "questionId": "rgen-008",
+      "modelId": "anthropic/claude-sonnet-5",
+      "category": "recipe-generation",
+      "difficulty": 3,
+      "publishedScore": 86,
+      "judgeScore": 80,
+      "constraintScore": 100,
+      "disagreement": 40,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 60
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "JUDGE-ERROR",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "The answer suggested \"Cacique or similar\" chorizo for a no-refrigeration trip; Cacique is a raw refrigerated Mexican-style chorizo, so gpt-5.5's critical (60) is on a checkable product fact. grok-4.5 (100) found nothing — a lenient miss.",
+      "evidence": [
+        "gpt-5.5 (60): \"Cacique-style chorizo is typically raw/refrigerated Mexican chorizo, not shelf-stable\""
+      ]
+    },
+    {
+      "questionId": "rgen-015",
+      "modelId": "anthropic/claude-sonnet-5",
+      "category": "recipe-generation",
+      "difficulty": 5,
+      "publishedScore": 40,
+      "judgeScore": 80,
+      "constraintScore": 0,
+      "disagreement": 40,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 60
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "gpt-5.5 (60): \"cool completely, then refrigerate in the pot\" for a 3.5 kg braise leaves food in the danger zone too long (critical) — consistent with safe-cooling guidance, though it is standard home practice. grok-4.5 (100) accepted. Real judgement call, leaning gpt.",
+      "evidence": [
+        "gpt-5.5 (60): \"[critical] cooling completely in the pot before refrigerating can leave food in the danger zone too long\""
+      ]
+    },
+    {
+      "questionId": "rgen-019",
+      "modelId": "anthropic/claude-sonnet-5",
+      "category": "recipe-generation",
+      "difficulty": 4,
+      "publishedScore": 20,
+      "judgeScore": 40,
+      "constraintScore": 0,
+      "disagreement": 40,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 20
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 60
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "Identical faults (non-ambient \"pre-cooked or long-life sausages\"; pre-soaked lentils spoiling): gpt-5.5 2 criticals (20), grok-4.5 2 majors + 2 minors (60).",
+      "evidence": [
+        "Both verdicts quote the same two passages; severities differ critical-vs-major."
+      ]
+    },
+    {
+      "questionId": "tech-006",
+      "modelId": "google/gemini-3.1-pro-preview",
+      "category": "technique",
+      "difficulty": 3,
+      "publishedScore": 70,
+      "judgeScore": 70,
+      "constraintScore": null,
+      "disagreement": 40,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 90
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 50
+        }
+      ],
+      "lowSeat": "x-ai/grok-4.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "grok-4.5 (50) holds a consistent minority doctrine — \"a lively simmer is required\", gentle simmer is an error, all-at-once stock omission is major — applied identically on three different candidates' tech-006 answers. opus-4.8 (90) treats the same omissions as minors. Contested culinary doctrine, not checkable fact.",
+      "evidence": [
+        "grok-4.5 (50): \"[major] heat too low for too long causes gluey risotto; a lively simmer is required\"",
+        "opus-4.8 (90): same omissions as minors."
+      ]
+    },
+    {
+      "questionId": "rgen-007",
+      "modelId": "google/gemini-3.6-flash",
+      "category": "recipe-generation",
+      "difficulty": 3,
+      "publishedScore": 82.5,
+      "judgeScore": 75,
+      "constraintScore": 100,
+      "disagreement": 40,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 95
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 55
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "gpt-5.5 (55) faulted an unspecified \"vanilla bean panna cotta\" — traditionally set with beef/pork gelatin — as a pescatarian risk (critical); opus-4.8 (95) passed the menu. The catch is legitimate; whether naming a dessert that CAN be made with agar violates the constraint is a judgement call.",
+      "evidence": [
+        "gpt-5.5 (55): \"[critical] Traditional panna cotta is set with animal gelatin; the answer does not specify pescatarian-safe gelatin or agar\""
+      ]
+    },
+    {
+      "questionId": "tech-002",
+      "modelId": "meta-llama/llama-4-maverick",
+      "category": "technique",
+      "difficulty": 2,
+      "publishedScore": 50,
+      "judgeScore": 50,
+      "constraintScore": null,
+      "disagreement": 40,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 70
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 30
+        }
+      ],
+      "lowSeat": "x-ai/grok-4.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "Overlapping fault set (over-flouring omitted, overmixing over-ranked, under-kneading buried). opus-4.8: 1 major + 3 minors (70). grok-4.5: each omission and ranking error as a separate major, 4 majors + 2 minors (30). Enumeration of omissions drives the gap.",
+      "evidence": [
+        "grok-4.5 (30): two separate \"omission\" majors (excess flour; hot water kills yeast) where opus rolled the diagnosis gaps into minors."
+      ]
+    },
+    {
+      "questionId": "rgen-002",
+      "modelId": "moonshotai/kimi-k3",
+      "category": "recipe-generation",
+      "difficulty": 2,
+      "publishedScore": 86,
+      "judgeScore": 80,
+      "constraintScore": 100,
+      "disagreement": 40,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 60
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "ITEM-AMBIGUOUS",
+      "secondaryClassification": "SEVERITY-STACKING",
+      "review": "verdicts",
+      "rationale": "Same rennet split: gpt-5.5 critical (60), grok-4.5 nothing (100).",
+      "evidence": [
+        "gpt-5.5 (60): \"[critical] not reliably vegetarian unless specified as vegetarian Parmesan\""
+      ]
+    },
+    {
+      "questionId": "rgen-008",
+      "modelId": "qwen/qwen3.7-max",
+      "category": "recipe-generation",
+      "difficulty": 3,
+      "publishedScore": 82.5,
+      "judgeScore": 75,
+      "constraintScore": 100,
+      "disagreement": 40,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 95
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 55
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": "GENUINELY-BORDERLINE",
+      "review": "verdicts",
+      "rationale": "Both seats flagged fresh avocados against the shelf-stable constraint: opus-4.8 minor (95), gpt-5.5 critical (55). Same fault, 35-point pricing gap.",
+      "evidence": [
+        "opus-4.8 (95): \"[minor] Ripe avocados are perishable\"",
+        "gpt-5.5 (55): \"[critical] Fresh avocados are not shelf-stable in the strict canned/dried/cured/UHT sense\""
+      ]
+    },
+    {
+      "questionId": "rgen-009",
+      "modelId": "mistralai/mistral-large-2512",
+      "category": "recipe-generation",
+      "difficulty": 3,
+      "publishedScore": 17.5,
+      "judgeScore": 17.5,
+      "constraintScore": null,
+      "disagreement": 35,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 0
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 35
+        }
+      ],
+      "lowSeat": "anthropic/claude-opus-4.8",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "Both seats agree the answer reversed BOTH key high-altitude adjustments (increase leavening; lower oven temp). opus-4.8: 2 criticals + major + minor (0); gpt-5.5: 4 majors + minor (35). Same faults, critical-vs-major pricing. Note opus-4.8 is the harsher seat here.",
+      "evidence": [
+        "opus-4.8 (0): \"[critical] Wrong direction: at high altitude leavening must be REDUCED\"",
+        "gpt-5.5 (35): \"[major] Leavening is adjusted in the wrong direction\""
+      ]
+    },
+    {
+      "questionId": "rgen-002",
+      "modelId": "qwen/qwen3.7-max",
+      "category": "recipe-generation",
+      "difficulty": 2,
+      "publishedScore": 84.25,
+      "judgeScore": 77.5,
+      "constraintScore": 100,
+      "disagreement": 35,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 95
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 60
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": "ITEM-AMBIGUOUS",
+      "review": "verdicts",
+      "rationale": "Here BOTH seats flagged the rennet fact and priced it minor (opus-4.8, 95) vs critical (gpt-5.5, 60) — the same fault at a 35-point spread, which is the purest form of the pricing failure.",
+      "evidence": [
+        "opus-4.8 (95): \"[minor] Traditional Parmesan uses animal rennet\"",
+        "gpt-5.5 (60): \"[critical] Parmesan is often made with animal rennet\""
+      ]
+    },
+    {
+      "questionId": "rgen-020",
+      "modelId": "qwen/qwen3.7-max",
+      "category": "recipe-generation",
+      "difficulty": 4,
+      "publishedScore": 38.75,
+      "judgeScore": 77.5,
+      "constraintScore": 0,
+      "disagreement": 35,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 95
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 60
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": "ITEM-AMBIGUOUS",
+      "review": "verdicts",
+      "rationale": "The rennet fact again, both seats found it: opus-4.8 minor (95) vs gpt-5.5 critical (60).",
+      "evidence": [
+        "opus-4.8 (95): \"[minor] Traditional Parmesan uses animal rennet\"",
+        "gpt-5.5 (60): \"[critical] Parmesan is typically made with animal rennet\""
+      ]
+    },
+    {
+      "questionId": "rgen-003",
+      "modelId": "x-ai/grok-4.5",
+      "category": "recipe-generation",
+      "difficulty": 3,
+      "publishedScore": 84.25,
+      "judgeScore": 77.5,
+      "constraintScore": 100,
+      "disagreement": 35,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 95
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 60
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "gpt-5.5 (60) priced a single un-grammed \"Pinch of salt\" as CRITICAL (-40) — the same fault class it priced major elsewhere on this item. opus-4.8 (95) gave a batter-ratio minor. Severity inflation on a trivial instance.",
+      "evidence": [
+        "gpt-5.5 (60): \"[critical] the frosting salt is given as a non-gram 'pinch'\""
+      ]
+    },
+    {
+      "questionId": "rgen-008",
+      "modelId": "x-ai/grok-4.5",
+      "category": "recipe-generation",
+      "difficulty": 3,
+      "publishedScore": 84.25,
+      "judgeScore": 77.5,
+      "constraintScore": 100,
+      "disagreement": 35,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 95
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 60
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "gpt-5.5 (60) called keeping cooked leftovers to the next day without refrigeration a critical safety fault — a fair point the opus-4.8 seat (95) did not raise. Severity and whether an aside about leftovers counts as \"the plan\" are both judgement calls.",
+      "evidence": [
+        "gpt-5.5 (60): \"cooked leftovers should not be kept until the next day at ambient temperature\""
+      ]
+    },
+    {
+      "questionId": "subs-020",
+      "modelId": "anthropic/claude-fable-5",
+      "category": "substitutions",
+      "difficulty": 5,
+      "publishedScore": 42.5,
+      "judgeScore": 85,
+      "constraintScore": 0,
+      "disagreement": 30,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 70
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "JUDGE-ERROR",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "The answer literally advises \"don't announce the substitutions until after they've eaten them\" — to guests including a kosher-keeping father and a sesame-allergic sister (quote verified in the answer text). gpt-5.5 (70) faulted the concealment and the missing dairy check on the bread; grok-4.5 (100) found nothing. A lenient miss of a real safety/consent fault.",
+      "evidence": [
+        "Answer: \"don't announce the substitutions until after they've eaten them\" (data/runs/2026-07-v2.1/responses/anthropic__claude-fable-5__subs-020.json)",
+        "grok-4.5 (100): \"No concrete errors\""
+      ]
+    },
+    {
+      "questionId": "flav-006",
+      "modelId": "meta-llama/llama-4-maverick",
+      "category": "flavor-pairing",
+      "difficulty": 2,
+      "publishedScore": 80,
+      "judgeScore": 80,
+      "constraintScore": null,
+      "disagreement": 30,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 65
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 95
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "Same root (mango sticky rice is rich, not a \"light\" palate-reset after coconut curry): gpt-5.5 2 majors + minor (65); grok-4.5 1 minor (95).",
+      "evidence": [
+        "gpt-5.5 (65): \"[major] relatively rich/heavy, not a light palate-resetting dessert\"",
+        "grok-4.5 (95): \"[minor] dense and coconut-rich rather than light\""
+      ]
+    },
+    {
+      "questionId": "rgen-012",
+      "modelId": "moonshotai/kimi-k3",
+      "category": "recipe-generation",
+      "difficulty": 2,
+      "publishedScore": 52.5,
+      "judgeScore": 75,
+      "constraintScore": 0,
+      "disagreement": 30,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 90
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 60
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "JUDGE-ERROR",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "gpt-5.5 (60): the answer offers 100 g/person spelt pasta while itself citing ~74 g as the low-FODMAP serve — an internal contradiction checkable from the answer. opus-4.8 (90) missed it and found two unrelated minors.",
+      "evidence": [
+        "gpt-5.5 (60): \"200 g dry for 2 is 100 g per person, exceeding the candidate's own cited low-FODMAP serving of about 74 g\""
+      ]
+    },
+    {
+      "questionId": "rgen-019",
+      "modelId": "openai/gpt-5.6-sol-pro",
+      "category": "recipe-generation",
+      "difficulty": 4,
+      "publishedScore": 87.5,
+      "judgeScore": 75,
+      "constraintScore": 100,
+      "disagreement": 30,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 90
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 60
+        }
+      ],
+      "lowSeat": "x-ai/grok-4.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "grok-4.5 (60): adding 400 ml separately-boiled water to couscous is impossible with one burner and the pot in use (critical). opus-4.8 (90) read the same passage as a water-quantity nit. A genuine workability judgement, leaning grok.",
+      "evidence": [
+        "grok-4.5 (60): \"no second vessel or burner available to produce it\"",
+        "opus-4.8 (90): \"[minor] the added-water amount is on the light side\""
+      ]
+    },
+    {
+      "questionId": "rgen-006",
+      "modelId": "x-ai/grok-4.5",
+      "category": "recipe-generation",
+      "difficulty": 1,
+      "publishedScore": 82.5,
+      "judgeScore": 75,
+      "constraintScore": 100,
+      "disagreement": 30,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 90
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 60
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "ITEM-AMBIGUOUS",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "The coconut-under-nut-free-policy ambiguity again (school lunchbox item): gpt-5.5 (60) critical for coconut oil; opus-4.8 (90) two minors. Same unresolved policy reading as rgen-017.",
+      "evidence": [
+        "gpt-5.5 (60): \"[critical] Coconut is sometimes treated/regulatorily labeled as a tree nut and may be disallowed under strict school no-nut policies\""
+      ]
+    },
+    {
+      "questionId": "rgen-013",
+      "modelId": "anthropic/claude-opus-5",
+      "category": "recipe-generation",
+      "difficulty": 3,
+      "publishedScore": 59.75,
+      "judgeScore": 42.5,
+      "constraintScore": 100,
+      "disagreement": 25,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 30
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 55
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "Both seats agree several macro lines are internally inconsistent (both recompute venison at ~44 g vs claimed 52 g). gpt-5.5 4 majors + 2 minors (30); grok-4.5 3 majors (55). Same fault class, different enumeration.",
+      "evidence": [
+        "Both verdicts quote \"~22 g protein/100 g raw → 52 g pp\" as wrong; gpt adds Wednesday/Thursday macros as further majors."
+      ]
+    },
+    {
+      "questionId": "rgen-014",
+      "modelId": "anthropic/claude-opus-5",
+      "category": "recipe-generation",
+      "difficulty": 2,
+      "publishedScore": 80.75,
+      "judgeScore": 72.5,
+      "constraintScore": 100,
+      "disagreement": 25,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 60
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 85
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "Textbook pricing case: both seats found exactly one fault, the same fault (\"1 chipotle in adobo\" contains added sugar). gpt-5.5 priced it critical (60); grok-4.5 major (85).",
+      "evidence": [
+        "gpt-5.5 (60): \"[critical] Chipotle in adobo commonly contains added sugar\"",
+        "grok-4.5 (85): \"[major] Commercial chipotles in adobo almost always contain added sugar\""
+      ]
+    },
+    {
+      "questionId": "flav-013",
+      "modelId": "anthropic/claude-sonnet-5",
+      "category": "flavor-pairing",
+      "difficulty": 4,
+      "publishedScore": 8.75,
+      "judgeScore": 17.5,
+      "constraintScore": 0,
+      "disagreement": 25,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 5
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 30
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": "REFERENCE-SUSPECT",
+      "review": "deep",
+      "rationale": "Both seats found the same three faults (pasteurised-blue-is-safe claim, Stilton as core cheese, Brillat-Savarin); gpt-5.5 priced them 2 critical + 1 major (5), grok 1 critical + 2 major (30).",
+      "evidence": [
+        "gpt-5.5 (5) and grok-4.5 (30) quote the same three passages with different severities."
+      ]
+    },
+    {
+      "questionId": "rgen-016",
+      "modelId": "anthropic/claude-sonnet-5",
+      "category": "recipe-generation",
+      "difficulty": 5,
+      "publishedScore": 88.75,
+      "judgeScore": 77.5,
+      "constraintScore": 100,
+      "disagreement": 25,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 90
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 65
+        }
+      ],
+      "lowSeat": "x-ai/grok-4.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "grok-4.5 (65) faulted one-bowl logistics (nowhere to hold hot rice) and microwave-arborio reliability as majors; gpt-5.5 (90) saw the same plate issue as a minor. Workability judgement, defensible both ways. Note the inversion: grok is the harsh seat here.",
+      "evidence": [
+        "grok-4.5 (65): \"no second vessel exists to hold a full portion of hot cooked rice (mug is too small)\""
+      ]
+    },
+    {
+      "questionId": "tech-002",
+      "modelId": "anthropic/claude-sonnet-5",
+      "category": "technique",
+      "difficulty": 2,
+      "publishedScore": 87.5,
+      "judgeScore": 87.5,
+      "constraintScore": null,
+      "disagreement": 25,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 75
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "The item asks for causes ranked by probability; gpt-5.5 (75) disputed the ranking (dead yeast first vs under-proofing), grok-4.5 (100) accepted. Which cause of dense bread is \"most common\" is inherently a judgement call.",
+      "evidence": [
+        "gpt-5.5 (75): \"dead yeast is usually less likely than under-proofing for dense homemade white bread\""
+      ]
+    },
+    {
+      "questionId": "tech-006",
+      "modelId": "deepseek/deepseek-v4-pro",
+      "category": "technique",
+      "difficulty": 3,
+      "publishedScore": 77.5,
+      "judgeScore": 77.5,
+      "constraintScore": null,
+      "disagreement": 25,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 90
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 65
+        }
+      ],
+      "lowSeat": "x-ai/grok-4.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "Same doctrine split: gpt-5.5 (90) two minors; grok-4.5 (65) prices the gentle-simmer advice and mantecatura omission as majors.",
+      "evidence": [
+        "grok-4.5 (65): \"[major] Opposite of correct cause/fix... proper method is a lively simmer, not gentle.\""
+      ]
+    },
+    {
+      "questionId": "rgen-020",
+      "modelId": "google/gemini-3.1-pro-preview",
+      "category": "recipe-generation",
+      "difficulty": 4,
+      "publishedScore": 86.25,
+      "judgeScore": 72.5,
+      "constraintScore": 100,
+      "disagreement": 25,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 85
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 60
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": "ITEM-AMBIGUOUS",
+      "review": "verdicts",
+      "rationale": "Both seats flag prawns against \"vegetarian-except-fish\" (does that include shellfish?): opus-4.8 major (85), gpt-5.5 critical (60). Same fault, different price, on an item phrase that invites the dispute.",
+      "evidence": [
+        "opus-4.8 (85): \"[major] Prawns are shellfish; 'vegetarian-except-fish' pescatarians often exclude shellfish\"",
+        "gpt-5.5 (60): \"[critical] prawns are not fish\""
+      ]
+    },
+    {
+      "questionId": "tech-008",
+      "modelId": "google/gemini-3.6-flash",
+      "category": "technique",
+      "difficulty": 3,
+      "publishedScore": 82.5,
+      "judgeScore": 82.5,
+      "constraintScore": null,
+      "disagreement": 25,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 70
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 95
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "Same omission (crowding/leave-steak-unmoved advice missing): gpt-5.5 2 majors (70); grok-4.5 1 minor (95).",
+      "evidence": [
+        "gpt-5.5 (70): two \"omission\" majors",
+        "grok-4.5 (95): \"[minor] Does not mention leaving the steak unmoved\""
+      ]
+    },
+    {
+      "questionId": "rgen-017",
+      "modelId": "meta-llama/llama-4-maverick",
+      "category": "recipe-generation",
+      "difficulty": 5,
+      "publishedScore": 93.75,
+      "judgeScore": 87.5,
+      "constraintScore": 100,
+      "disagreement": 25,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 75
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "anthropic/claude-opus-4.8",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "opus-4.8 (75) faulted the vegan bake's lack of a robust egg-replacement structure (speculative texture risk, major + minor); gpt-5.5 (100) accepted baking powder + lemon as workable, which many vegan recipes are. A technique judgement, not a checkable fact.",
+      "evidence": [
+        "opus-4.8 (75): \"[major] No acid-activated leavening structure fully replaces egg binding... risk of poor rise/crumbly texture\""
+      ]
+    },
+    {
+      "questionId": "tech-010",
+      "modelId": "meta-llama/llama-4-maverick",
+      "category": "technique",
+      "difficulty": 2,
+      "publishedScore": 42.5,
+      "judgeScore": 42.5,
+      "constraintScore": null,
+      "disagreement": 25,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 55
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 30
+        }
+      ],
+      "lowSeat": "x-ai/grok-4.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "Identical three faults (missed too-hot-pan diagnosis; softened-butter advice; wrong separation mechanism): opus-4.8 3 majors (55); grok-4.5 1 critical + 2 majors (30). Pure pricing difference; both agree the answer fails.",
+      "evidence": [
+        "opus-4.8 (55): \"[major] Fails to identify the primary cause: pan too hot\"",
+        "grok-4.5 (30): same omission as [critical]."
+      ]
+    },
+    {
+      "questionId": "rgen-003",
+      "modelId": "moonshotai/kimi-k3",
+      "category": "recipe-generation",
+      "difficulty": 3,
+      "publishedScore": 87.75,
+      "judgeScore": 82.5,
+      "constraintScore": 100,
+      "disagreement": 25,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 95
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 70
+        }
+      ],
+      "lowSeat": "x-ai/grok-4.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "Same not-in-grams root: opus-4.8 1 minor (95); grok-4.5 2 majors (70).",
+      "evidence": [
+        "opus-4.8 (95): \"[minor] Frosting quantities given in tbsp/ml\"; grok-4.5 (70): two majors for ml milk and tsp leaveners."
+      ]
+    },
+    {
+      "questionId": "flav-013",
+      "modelId": "x-ai/grok-4.5",
+      "category": "flavor-pairing",
+      "difficulty": 4,
+      "publishedScore": 66.25,
+      "judgeScore": 32.5,
+      "constraintScore": 100,
+      "disagreement": 25,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 45
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 20
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": "REFERENCE-SUSPECT",
+      "review": "deep",
+      "rationale": "Both seats fault the same \"Pasteurized Stilton\" recommendation; opus-4.8 critical+major (45), gpt-5.5 2 criticals (20). Pricing difference on an item whose own premise (Stilton unsafe) contradicts NHS.",
+      "evidence": [
+        "opus-4.8 (45): \"implying pasteurised blue is safe is incorrect and unsafe\"",
+        "gpt-5.5 (20): same two passages as criticals."
+      ]
+    },
+    {
+      "questionId": "rgen-007",
+      "modelId": "x-ai/grok-4.5",
+      "category": "recipe-generation",
+      "difficulty": 3,
+      "publishedScore": 80.75,
+      "judgeScore": 72.5,
+      "constraintScore": 100,
+      "disagreement": 25,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 60
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 85
+        }
+      ],
+      "lowSeat": "anthropic/claude-opus-4.8",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "Both seats flag Worcestershire sauce (malt vinegar/barley, not GF) — a real, checkable coeliac risk: opus-4.8 critical (60), gpt-5.5 major (85). Same fault, different price; note opus is the harsh seat here.",
+      "evidence": [
+        "opus-4.8 (60): \"[critical] Standard Worcestershire sauce contains malt vinegar (barley)\"",
+        "gpt-5.5 (85): same fault as [major]."
+      ]
+    },
+    {
+      "questionId": "rgen-016",
+      "modelId": "x-ai/grok-4.5",
+      "category": "recipe-generation",
+      "difficulty": 5,
+      "publishedScore": 91.25,
+      "judgeScore": 82.5,
+      "constraintScore": 100,
+      "disagreement": 25,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 95
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 70
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "ITEM-AMBIGUOUS",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "Same strict-vs-charitable equipment split as the deepseek case: gpt-5.5 (70) faults reliance on a plate plus doubtful 10-12 min microwave rice; opus-4.8 (95) accepts with a rennet minor.",
+      "evidence": [
+        "gpt-5.5 (70): \"the recipe relies on an extra plate or cling film not included in the allowed setup\""
+      ]
+    },
+    {
+      "questionId": "rgen-013",
+      "modelId": "anthropic/claude-fable-5",
+      "category": "recipe-generation",
+      "difficulty": 3,
+      "publishedScore": 82.5,
+      "judgeScore": 75,
+      "constraintScore": 100,
+      "disagreement": 20,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 65
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 85
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "gpt-5.5 (65): Thursday pork tenderloin protein understated → meal \"likely exceeds\" the band (2 majors). grok-4.5 (85): three unrelated minors (cherry season, frozen peas, salmon estimate). Non-overlapping marginal readings of macro tolerance.",
+      "evidence": [
+        "gpt-5.5: \"250g raw pork tenderloin per person is already about 52-56g protein\"",
+        "grok-4.5: \"52 g is a modest overestimate, though still inside 40-60 g\""
+      ]
+    },
+    {
+      "questionId": "tech-002",
+      "modelId": "anthropic/claude-fable-5",
+      "category": "technique",
+      "difficulty": 2,
+      "publishedScore": 90,
+      "judgeScore": 90,
+      "constraintScore": null,
+      "disagreement": 20,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 80
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "gpt-5.5 (80) faulted the answer's \"yeast dies above ~130°F\" threshold as too high; standard kill range is ~130-140°F with damage from ~115°F, so the claim is defensible and the fault contestable. grok-4.5 (100) accepted. A real judgement call on a fuzzy threshold.",
+      "evidence": [
+        "gpt-5.5 (80): \"yeast can be damaged or killed well below 130°F, with many bread guides warning above about 115-120°F\""
+      ]
+    },
+    {
+      "questionId": "tech-009",
+      "modelId": "anthropic/claude-opus-5",
+      "category": "technique",
+      "difficulty": 1,
+      "publishedScore": 90,
+      "judgeScore": 90,
+      "constraintScore": null,
+      "disagreement": 20,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 80
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "gpt-5.5 (80) faulted \"enriched doughs often skip the second rise\" as inaccurate (major) and the oxygen-for-yeast framing (minor); both points are contestable simplifications rather than checkable errors. grok-4.5 (100) accepted.",
+      "evidence": [
+        "gpt-5.5 (80): \"[major] enriched doughs commonly need both bulk fermentation and a final proof\""
+      ]
+    },
+    {
+      "questionId": "rgen-012",
+      "modelId": "anthropic/claude-sonnet-5",
+      "category": "recipe-generation",
+      "difficulty": 2,
+      "publishedScore": 62.99999999999999,
+      "judgeScore": 90,
+      "constraintScore": 0,
+      "disagreement": 20,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 80
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "Same spelt-pasta fault as the opus-5 case but priced major (80) — gpt-5.5 itself prices this identical fault critical on one answer and major on another. grok-4.5 (100) accepted. The fault is real; its price is unstable.",
+      "evidence": [
+        "gpt-5.5 (80): \"[major] Spelt pasta is not reliably low-FODMAP at a normal 90g dry serving\" vs gpt-5.5 on claude-opus-5: \"[critical] Spelt pasta is not reliably low-FODMAP\""
+      ]
+    },
+    {
+      "questionId": "rgen-003",
+      "modelId": "deepseek/deepseek-v4-pro",
+      "category": "recipe-generation",
+      "difficulty": 3,
+      "publishedScore": 93,
+      "judgeScore": 90,
+      "constraintScore": 100,
+      "disagreement": 20,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 100
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 80
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "Same root again: opus-4.8 no findings (100); gpt-5.5 major + minor (80) for ml oil and unspecified sprinkles.",
+      "evidence": [
+        "gpt-5.5 (80): \"[major] several ingredients are given in ml, tsp, tbsp\""
+      ]
+    },
+    {
+      "questionId": "rgen-018",
+      "modelId": "deepseek/deepseek-v4-pro",
+      "category": "recipe-generation",
+      "difficulty": 4,
+      "publishedScore": 95,
+      "judgeScore": 90,
+      "constraintScore": 100,
+      "disagreement": 20,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 80
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "JUDGE-ERROR",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "gpt-5.5 (80) found a checkable internal inconsistency — 2 avocados bought but 6 portions × ½ avocado = 3 needed — plus an implausibly low broth ratio for 2 cups quinoa. grok-4.5 (100) found nothing. Lenient miss of checkable arithmetic.",
+      "evidence": [
+        "gpt-5.5 (80): \"[minor] 6 portions would require 3 avocados, not 2\" and \"[major] 2½ cups... too little liquid for 2 cups of quinoa\""
+      ]
+    },
+    {
+      "questionId": "flav-013",
+      "modelId": "google/gemini-3.6-flash",
+      "category": "flavor-pairing",
+      "difficulty": 4,
+      "publishedScore": 55,
+      "judgeScore": 10,
+      "constraintScore": 100,
+      "disagreement": 20,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 20
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 0
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": "REFERENCE-SUSPECT",
+      "review": "deep",
+      "rationale": "Same faults (Stilton-safe claim, Montgomery's); opus-4.8 2 criticals (20), gpt-5.5 3 criticals (0).",
+      "evidence": [
+        "Both verdicts quote \"Stilton\" safety claims; gpt adds a third critical for the unpasteurised cheddar example."
+      ]
+    },
+    {
+      "questionId": "rgen-011",
+      "modelId": "meta-llama/llama-4-maverick",
+      "category": "recipe-generation",
+      "difficulty": 3,
+      "publishedScore": 93,
+      "judgeScore": 90,
+      "constraintScore": 100,
+      "disagreement": 20,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 80
+        },
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "anthropic/claude-opus-4.8",
+      "classification": "JUDGE-ERROR",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "opus-4.8 (80): 1/8 cup almonds is ~90-100 kcal, the answer claims 50 kcal — checkable, and it risks the 450 kcal cap the item imposes. gpt-5.5 (100) certified compliance without catching it. A lenient miss by gpt-5.5 — the severe seat is not uniformly severe.",
+      "evidence": [
+        "opus-4.8 (80): \"[major] 1/8 cup almonds is ~90-100 kcal and ~3g protein; calories understated by ~50, risking the 450 kcal limit\"",
+        "gpt-5.5 (100): \"the final revised recipe satisfies\" the constraints."
+      ]
+    },
+    {
+      "questionId": "tech-001",
+      "modelId": "meta-llama/llama-4-maverick",
+      "category": "technique",
+      "difficulty": 2,
+      "publishedScore": 85,
+      "judgeScore": 85,
+      "constraintScore": null,
+      "disagreement": 20,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 95
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 75
+        }
+      ],
+      "lowSeat": "x-ai/grok-4.5",
+      "classification": "JUDGE-ERROR",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "The answer claims yolks are safe until \"above 180°F/82°C\"; yolks coagulate/scramble around 65-70°C — a checkable factual error grok-4.5 (75) caught as major. opus-4.8 (95) called the rescue \"sound and actionable\" and missed it. Lenient miss.",
+      "evidence": [
+        "grok-4.5 (75): \"[major] Yolks begin coagulating/scrambling well below this (around 149-160°F / 65-70°C); 180°F is far too high\"",
+        "opus-4.8 (95): \"[minor]\" findings only."
+      ]
+    },
+    {
+      "questionId": "flav-013",
+      "modelId": "mistralai/mistral-large-2512",
+      "category": "flavor-pairing",
+      "difficulty": 4,
+      "publishedScore": 55,
+      "judgeScore": 10,
+      "constraintScore": 100,
+      "disagreement": 20,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 20
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 0
+        }
+      ],
+      "lowSeat": "x-ai/grok-4.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": "REFERENCE-SUSPECT",
+      "review": "deep",
+      "rationale": "Same faults (Stilton recommendation, cured meats); gpt-5.5 2 criticals (20), grok-4.5 2 criticals + major + minor (0).",
+      "evidence": [
+        "grok-4.5 (0) adds a major for prosciutto/salami and a minor for Wensleydale on top of the same two criticals gpt found."
+      ]
+    },
+    {
+      "questionId": "tech-002",
+      "modelId": "mistralai/mistral-large-2512",
+      "category": "technique",
+      "difficulty": 2,
+      "publishedScore": 80,
+      "judgeScore": 80,
+      "constraintScore": null,
+      "disagreement": 20,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 90
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 70
+        }
+      ],
+      "lowSeat": "x-ai/grok-4.5",
+      "classification": "SEVERITY-STACKING",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "Same fault class (overkneading wrongly listed, hot-water cause missing): opus-4.8 prices as 2 minors (90), grok-4.5 as 2 majors (70).",
+      "evidence": [
+        "Both verdicts fault the overkneading entry and the missing water-temperature cause, at different severities."
+      ]
+    },
+    {
+      "questionId": "rgen-013",
+      "modelId": "moonshotai/kimi-k3",
+      "category": "recipe-generation",
+      "difficulty": 3,
+      "publishedScore": 93,
+      "judgeScore": 90,
+      "constraintScore": 100,
+      "disagreement": 20,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 80
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "anthropic/claude-opus-4.8",
+      "classification": "JUDGE-ERROR",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "opus-4.8 (80) shows checkable arithmetic that the mackerel meal misses the 40 g floor (\"160g/person ≈ 30-33g. Even with beans/peas total ~37g, below the 40g minimum\"); grok-4.5 (100) found nothing. A lenient miss of a computable constraint violation.",
+      "evidence": [
+        "opus-4.8 (80): \"4 mackerel fillets (~320g total)... 44g protein\" flagged as overstated",
+        "grok-4.5 (100): no findings."
+      ]
+    },
+    {
+      "questionId": "tech-006",
+      "modelId": "openai/gpt-5.6-sol-pro",
+      "category": "technique",
+      "difficulty": 3,
+      "publishedScore": 90,
+      "judgeScore": 90,
+      "constraintScore": null,
+      "disagreement": 20,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 100
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 80
+        }
+      ],
+      "lowSeat": "x-ai/grok-4.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "Same doctrine a third time: opus-4.8 (100) clean; grok-4.5 (80) major for the missing all-at-once-stock cause plus the gentle-simmer minor.",
+      "evidence": [
+        "grok-4.5 (80): \"[major] Does not identify adding all the stock at once (rice left swimming) as a cause\""
+      ]
+    },
+    {
+      "questionId": "tech-008",
+      "modelId": "openai/gpt-5.6-sol-pro",
+      "category": "technique",
+      "difficulty": 3,
+      "publishedScore": 90,
+      "judgeScore": 90,
+      "constraintScore": null,
+      "disagreement": 20,
+      "seats": [
+        {
+          "judge": "anthropic/claude-opus-4.8",
+          "score": 100
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 80
+        }
+      ],
+      "lowSeat": "x-ai/grok-4.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "deep",
+      "rationale": "The answer takes the modern position that tempering steak does little (\"cooking from cold is fine\"); grok-4.5 (80) penalised it against traditional doctrine the prompt echoes, opus-4.8 (100) accepted. Contested culinary doctrine.",
+      "evidence": [
+        "grok-4.5 (80): \"[major] Incorrectly downplays fridge-cold steak as a non-issue\"",
+        "opus-4.8 (100): \"correctly diagnoses all three core issues... No factual errors found.\""
+      ]
+    },
+    {
+      "questionId": "rgen-007",
+      "modelId": "qwen/qwen3.7-max",
+      "category": "recipe-generation",
+      "difficulty": 3,
+      "publishedScore": 93,
+      "judgeScore": 90,
+      "constraintScore": 100,
+      "disagreement": 20,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 80
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "Identical panna cotta fault — but gpt-5.5 priced it MAJOR here (80) after pricing it CRITICAL on gemini-3.6-flash. grok-4.5 (100) found nothing. The fault price is unstable within the same seat on the same item.",
+      "evidence": [
+        "gpt-5.5 (80): \"[major] Panna cotta is commonly set with beef or pork gelatin\" vs gpt-5.5 on gemini-3.6-flash: same fault as [critical]."
+      ]
+    },
+    {
+      "questionId": "subs-020",
+      "modelId": "qwen/qwen3.7-max",
+      "category": "substitutions",
+      "difficulty": 5,
+      "publishedScore": 45,
+      "judgeScore": 90,
+      "constraintScore": 0,
+      "disagreement": 20,
+      "seats": [
+        {
+          "judge": "openai/gpt-5.5",
+          "score": 80
+        },
+        {
+          "judge": "x-ai/grok-4.5",
+          "score": 100
+        }
+      ],
+      "lowSeat": "openai/gpt-5.5",
+      "classification": "GENUINELY-BORDERLINE",
+      "secondaryClassification": null,
+      "review": "verdicts",
+      "rationale": "gpt-5.5 (80): 1:1 nutritional-yeast-for-parmesan is overpowering (major) and the sesame check too narrow (minor); grok-4.5 (100) clean. Culinary judgement on both.",
+      "evidence": [
+        "gpt-5.5 (80): \"[major] Replacing a large amount of parmesan with the same volume/amount of nutritional yeast can be overpowering\""
+      ]
+    }
+  ]
+}

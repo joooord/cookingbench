@@ -296,11 +296,22 @@ describe('power and multiplicity', () => {
   });
 
   it('shows the uncorrected pair family inventing separations, and Holm removing them', () => {
-    const r = multiplicityCheck({ seed: 'm', models: 5, items: 30, sims: 20, bootstrapReps: 200 });
+    // 10 pairs at α=0.05 needs ~200 resamples before Holm's tightest step is
+    // even attainable; 400 keeps the arm meaningful rather than structurally 0.
+    const r = multiplicityCheck({ seed: 'm', models: 5, items: 30, sims: 20, bootstrapReps: 400 });
     expect(r.pairs).toBe(10);
+    expect(r.holmResolvable).toBe(true);
     expect(r.familywiseErrorUncorrected).toBeGreaterThan(0);
     expect(r.familywiseErrorHolm).toBeLessThanOrEqual(r.familywiseErrorUncorrected);
     expect(r.familywiseErrorHolm).toBeLessThanOrEqual(0.2);
+  });
+
+  it('admits when the resample count cannot resolve the Holm threshold', () => {
+    // 91 pairs at α=0.05 needs ~1,819 resamples. At 300 nothing can be
+    // rejected, and a familywiseErrorHolm of 0 would be an artefact.
+    const r = multiplicityCheck({ seed: 'm', models: 14, items: 20, sims: 2, bootstrapReps: 300 });
+    expect(r.holmResolvable).toBe(false);
+    expect(r.familywiseErrorHolm).toBe(0);
   });
 
   it('is reproducible', () => {
