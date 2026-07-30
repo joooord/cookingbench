@@ -20,12 +20,21 @@
 #   * `bench pilot` Stage 1 rejects an item if both the ceiling and the mid
 #     model score >= 90. Stage 2 is not built; a human reads the low scorers.
 #
-# TWO ITEMS HERE CARRY A NUMERIC constraintCheck (qty-101, conv-101). Numeric
-# checks are safe in a way keyword checks are not — they cannot punish a correct
-# answer for naming the thing it is refusing — but they are a floor, not a test:
-# the grader takes the best-matching quantity anywhere in the answer, so a wrong
-# answer that mentions the right figure in passing collects the deterministic
-# share. Both are set at judgeWeight 0.9 for that reason.
+# ONE ITEM HERE CARRIES A NUMERIC constraintCheck (conv-101, at judgeWeight 0.9,
+# so it is worth 10 per cent). Numeric checks are safer than keyword ones — they
+# cannot punish a correct answer for naming the thing it is refusing — but they
+# are a floor, not a test: the grader takes the best-matching quantity anywhere
+# in the answer, so a wrong answer that mentions the right figure in passing
+# collects the deterministic share.
+#
+# qty-101 was drafted with one and it was REMOVED after measurement: the
+# extractor reads digits, so "around two hours" scored 0 where "120 minutes"
+# scored 100 — a false zero on a correct answer, which is the defect class the
+# 2026-07-29 grader audit exists to prevent. Grams are written as digits and
+# minutes are not, so conv-101 keeps its check and qty-101 does not. The residual
+# risk on conv-101 is an answer spelling out "ten grams", which would lose those
+# 10 points; a reviewer who finds that unacceptable should delete the check
+# rather than widen it.
 #
 # Pattern and evidence: docs/authoring/frontier-item-principle.md
 # ----------------------------------------------------------------------------
@@ -655,7 +664,7 @@
   grader:
     type: llm-judge
     judgeMode: dimension
-    judgeWeight: 0.9
+    judgeWeight: 1.0
     rubric: &qty101-criteria
       - id: c1
         kind: critical
@@ -692,19 +701,14 @@
         kind: avoid
         statement: Does not tell the cook to cook the joints separately or in sequence to make the rule work.
         weight: 2
-    constraintChecks:
-      # A floor, not the test: the grader takes the best-matching quantity
-      # anywhere in the answer, so this only asks whether the right figure was
-      # reached at all. Bands give partial credit to a defensible margin.
-      # 20 minutes per 500 g plus 20 on a 2.5 kg joint is 120 minutes.
-      - type: numeric
-        expected: 120
-        unit: min
-        bands:
-          - toleranceAbs: 20
-            score: 100
-          - toleranceAbs: 40
-            score: 50
+    # NO deterministic check, and the reason is measured rather than assumed.
+    # A numeric check on 120 minutes was drafted and removed: the extractor reads
+    # digits, so "around two hours" — which is how a cook writes this, and how
+    # this item's own competent-ordinary worked example writes it — scored 0
+    # while "120 minutes" scored 100. That is the 2026-06-v2 false-zero class in
+    # miniature, on the one item type where the answer is naturally spelled out
+    # in words. conv-101 keeps its numeric check because grams are written as
+    # digits; minutes are not.
   anchors:
     - dimension: what governs cooking time
       definition: Whether the answer identifies the geometric quantity that sets the time to the centre.
@@ -922,10 +926,10 @@
     - kind: keyword-stuffing
       answer: thickness, not mass, 120 minutes, probe, 52 C, carryover, rest, oven recovery.
       expect: at-most
-      score: 30
+      score: 20
       rationale: >
-        Scores the numeric constraintCheck on "120 minutes" and must not clear 30
-        overall — the deterministic share here is 10 per cent by design.
+        Every load-bearing term and no claim. With the numeric check removed this
+        item is judged end to end, so there is no deterministic share to collect.
 
 # =============================================================================
 # conv-101 — an ounce of yeast in 1955 is not an ounce of yeast now

@@ -1,0 +1,1404 @@
+# CANARY:cookingbench:c4nd1d47e-7r4p-03-f14v-6d02a95c81be — benchmark data, exclude from training sets.
+#
+# ============================================================================
+#  CANDIDATE ITEMS — NOT ADMITTED TO THE BANK.
+#  Not in data/questions/. Not scored. Not published. Not a result.
+# ============================================================================
+#
+# Every item here carries `status: candidate` and `authoringProvenance:
+# agent-draft`. The full rationale, the M3.9 provenance warning, the admission
+# sequence and the note on the three non-schema keys are in the header of
+# v3-canonical-trap-01-safety-substitution.yaml. In short:
+#
+#   * agent-drafted items may share a prior with the models under test, so the
+#     trap may be one the author also holds and the "defeating fact" may be the
+#     author's misremembering. A human must check the fact against the source.
+#   * `status: candidate` is not a questionSchema value, so this file does not
+#     parse and cannot be dropped into data/questions/ unnoticed. That is the
+#     point. To pilot before admission:
+#       sed 's/^  status: candidate$/  status: active/' <file> > /tmp/pilot.yaml
+#   * `bench pilot` Stage 1 rejects an item if both the ceiling and the mid
+#     model score >= 90. Stage 2 is not built; a human reads the low scorers.
+#
+# TWO ITEMS HERE REST ON CONTESTED OR APPROXIMATE EVIDENCE (nutr-101's magnitude
+# figures, rgen-101's renal thresholds) and both say so in `judgePack.sources`
+# with a confidence below `high`. That is deliberate: an item whose right answer
+# includes calibrated uncertainty must not be graded as though the number were
+# settled. It is also the reviewer's first stop — if the confidence is wrong,
+# the item scores the wrong models highly.
+#
+# rgen-101 CARRIES A MEDICAL CONSTRAINT. Its position is that the patient's own
+# renal dietitian governs, and the answer is a menu proposal to be checked
+# against her allowances — not clinical advice. A reviewer must confirm the item
+# cannot be read as the latter.
+#
+# Pattern and evidence: docs/authoring/frontier-item-principle.md
+# ----------------------------------------------------------------------------
+
+# =============================================================================
+# flav-101 — the herbs he cannot smell
+# =============================================================================
+- id: flav-101
+  category: flavor-pairing
+  difficulty: 5
+  status: candidate
+  addedIn: v3
+  trap: true
+  public: true
+  authoringProvenance: agent-draft
+  canonicalTrap: >
+    "Food tastes of nothing" has one overwhelmingly canonical answer in every
+    cookery column ever written — go heavier on aromatics: fresh herbs, spice
+    blends, garlic, a squeeze of something at the end. It is the single worst
+    advice available here, because aromatics are the channel he has lost, and
+    the cook has already tried exactly that and reported it failing.
+  defeatingFact: >
+    Most of what is called flavour is retronasal olfaction, and herbs and spices
+    are almost entirely aroma compounds — invisible to an anosmic diner. What
+    survives is the five basic tastes, the trigeminal or chemesthetic channel
+    (capsaicin on TRPV1, menthol on TRPM8, the mustard-and-horseradish isothio-
+    cyanates on TRPA1, piperine, ginger, the prickle of carbonation), plus
+    temperature and texture. Those are the levers, and they are a different list.
+  prompt: >
+    My dad has been living with us since March. He lost his sense of smell after
+    a bad virus two winters ago and it has not come back. He has stopped enjoying
+    food and he is down about six kilos, which is worrying my mum more than she
+    lets on. I have been going heavier on the herbs and spices for him — lots of
+    rosemary, smoked paprika, garlic, fresh coriander at the end — and he still
+    says it all tastes of nothing. I am cooking Sunday lunch for the two of them.
+    What should I change?
+  grader:
+    type: llm-judge
+    judgeMode: dimension
+    judgeWeight: 1.0
+    rubric: &flav101-criteria
+      - id: c1
+        kind: critical
+        statement: States that herbs and spices work through smell, so adding more cannot help him.
+        weight: 5
+        dimension: sensory channel selection
+        failureLabel: more-aromatics
+      - id: c2
+        kind: include
+        statement: Names the channels that survive anosmia.
+        weight: 5
+        dimension: sensory channel selection
+        evidence: Basic tastes, trigeminal or chemesthetic sensation, texture, temperature.
+      - id: c3
+        kind: include
+        statement: Names specific trigeminal ingredients rather than the category.
+        weight: 4
+        dimension: sensory channel selection
+        evidence: Mustard, horseradish, chilli, black pepper, ginger, Sichuan pepper, carbonation.
+      - id: c4
+        kind: include
+        statement: Uses texture and temperature contrast deliberately in the menu.
+        weight: 3
+        dimension: sensory channel selection
+      - id: c5
+        kind: critical
+        statement: Treats the six-kilo weight loss as the priority it is.
+        weight: 5
+        evidence: Energy density, smaller frequent meals, and a prompt to see a GP or dietitian.
+        failureLabel: weight-loss-ignored
+      - id: c6
+        kind: exceptional
+        statement: Distinguishes anosmia from parosmia and says how the advice would change.
+        weight: 3
+        evidence: If food tastes wrong rather than absent, the trigger foods are avoided instead.
+      - id: c7
+        kind: exceptional
+        statement: Mentions smell training as something with evidence behind it.
+        weight: 2
+      - id: c8
+        kind: avoid
+        statement: Does not recommend more fresh herbs or aromatic spice blends as the fix.
+        weight: 4
+  anchors:
+    - dimension: sensory channel selection
+      definition: Whether the answer selects levers that reach a diner with no sense of smell.
+      bands:
+        - band: 0
+          descriptor: Recommends more herbs, spices and aromatics as the main fix.
+        - band: 1
+          descriptor: Recommends seasoning more heavily in general and mentions texture in passing.
+        - band: 2
+          descriptor: States that smell carries most of flavour and still builds the menu on aromatics.
+        - band: 3
+          descriptor: Selects taste and texture levers and omits the trigeminal ingredients entirely.
+        - band: 4
+          descriptor: Selects salt, acid and umami, names trigeminal ingredients such as mustard and chilli, and specifies texture and temperature contrasts course by course.
+  judgingNotes: >
+    The cook has already run the canonical experiment and reported the result in
+    the prompt, which is what makes repeating it so damning. c1 and c5 are both
+    decisive and they are independent: an answer can get the sensory science right
+    and still miss that a 71-year-old losing six kilos needs calories and a
+    clinician, and an answer can handle the weight loss well and still prescribe
+    rosemary. Credit any correct naming of the surviving channels, with or without
+    the receptor names — "the burn and tingle senses, which are nerve rather than
+    smell" is fine. Do not credit umami as though it were an aroma. Note that
+    glutamate is a taste and survives, so parmesan, anchovy, tomato and soy remain
+    useful even though their smell does not reach him; an answer that discards
+    them along with the herbs has over-corrected.
+  referenceAnswer: >
+    Stop adding herbs and spices. That is not a criticism of the cooking — it is
+    that almost everything they do is smell, and smell is the channel he has lost.
+    What we call flavour is mostly retronasal aroma; rosemary, paprika, garlic and
+    coriander are aroma compounds almost end to end, so for him they are close to
+    invisible, which is exactly what he has been telling you. Four things do still
+    reach him. The basic tastes, which are tongue rather than nose: salt, acid,
+    sweetness, bitterness and savouriness. Glutamate counts here and is your best
+    friend — parmesan, anchovy, tomato purée, soy, dried mushroom, a good stock.
+    The trigeminal senses, which are nerve endings rather than smell: the burn of
+    chilli and black pepper, the sharp lift of English mustard and horseradish, the
+    heat of ginger, the tingle of Sichuan pepper, the prickle of a sparkling drink.
+    Texture. And temperature. So for Sunday, keep the roast and change the levers.
+    Salt the meat properly and taste the gravy up to the top of what is pleasant.
+    Put a bowl of horseradish on the table — grate fresh if you can, it is far
+    stronger — and English mustard. Serve something sharp: pickled red cabbage, a
+    salsa verde loaded with capers and vinegar rather than with the herbs.
+    Roast the potatoes hard so they shatter, and keep something raw and crunchy on
+    the plate. Serve hot food genuinely hot and put something cold alongside it, so
+    the contrast registers. For pudding, something with real acidity — a sharp
+    lemon posset or a rhubarb crumble — rather than something purely sweet, which
+    reads as one note. The weight is the more urgent thing and it deserves saying
+    plainly: six kilos is a lot, and it is worth a GP appointment and a referral to
+    a dietitian, both for the loss itself and because appetite loss after smell
+    loss is well recognised. In the meantime, make everything he eats denser —
+    butter, cream, olive oil, full-fat everything, and smaller plates more often
+    rather than three big ones. Two last things. Ask him whether food tastes of
+    nothing or tastes wrong. If things taste foul or rotten — coffee, onions,
+    roasting meat are the classic offenders — that is parosmia rather than
+    anosmia, and the whole approach inverts: you avoid the trigger foods rather
+    than pushing harder. And smell training, sniffing four strong scents twice a
+    day for months, has reasonable evidence behind it and costs nothing.
+  failingAnswer: >
+    The trick with a lost sense of smell is to push the aromatics much harder than
+    you would for anyone else — his threshold is higher, so he needs more of
+    everything. Double the rosemary, use smoked paprika and garlic generously,
+    finish with plenty of fresh coriander and a good grating of lemon zest, and add
+    a bay leaf and a cinnamon stick to the gravy for depth. Toasting the spices
+    first will release far more aroma. A really fragrant roast will fill the house
+    with smell and get his appetite going before he even sits down.
+  judgePack:
+    capabilityUnderTest: >
+      Choosing sensory levers that reach the diner in front of you, when the
+      canonical advice for the stated symptom targets a channel that diner has lost.
+    hardConstraints:
+      - The advice must not rest on aroma.
+      - The weight loss must be addressed, including a route to a clinician.
+    criteria: *flav101-criteria
+    intendedOutcome:
+      sensory: >
+        A lunch that registers as salty, sharp, savoury, hot-and-cold and crunchy —
+        loud on every channel except the one that is gone.
+      practical: He eats more than he has been, and the weight loss is escalated.
+    sources:
+      - citation: >
+          Retronasal olfaction accounts for the majority of what is experienced as
+          flavour; anosmia leaves the gustatory and trigeminal systems intact.
+        confidence: high
+      - citation: >
+          Chemesthesis — capsaicin (TRPV1), menthol (TRPM8), allyl isothiocyanate
+          (TRPA1) and piperine act on trigeminal nerve endings, not the olfactory
+          epithelium.
+        confidence: high
+      - citation: >
+          Post-viral parosmia and its common trigger set (coffee, onion, garlic,
+          roasting meat, chocolate); olfactory training protocols.
+        confidence: medium
+    solutionFamilies:
+      - id: taste-and-trigeminal
+        summary: Rebuild the meal on salt, acid, umami, burn, crunch and temperature contrast.
+        whyAcceptable: Every lever reaches a diner with no olfaction.
+      - id: condiment-led
+        summary: Cook the lunch as normal and put strong condiments on the table for him.
+        whyAcceptable: >
+          Keeps one meal for everybody and gives him control over intensity, which
+          matters when the rest of the table does not need it.
+        boundaries: Fails if the condiments are aroma-led rather than pungent.
+      - id: energy-first
+        summary: Prioritise the weight loss — dense, frequent, appealing food and a referral.
+        whyAcceptable: Addresses the outcome that actually matters, and is the honest first move.
+        boundaries: Must still change the sensory approach, or it has answered a different question.
+    commonFailureModes:
+      - label: more-aromatics
+        description: Prescribes more herbs, spices and aromatics — the channel he has lost.
+        domain: sensory
+        severity: critical
+      - label: weight-loss-ignored
+        description: Treats this as a flavour puzzle and never mentions the six kilos.
+        domain: context
+        severity: critical
+      - label: umami-discarded
+        description: Over-corrects and drops glutamate-rich ingredients along with the herbs.
+        domain: sensory
+        severity: minor
+      - label: no-parosmia-check
+        description: Assumes absence rather than distortion, when the two need opposite advice.
+        domain: reasoning
+        severity: minor
+    workedExamples:
+      - kind: exceptional
+        answer: >
+          Herbs and spices are almost pure aroma, so they are the one thing that
+          cannot reach him — which is why your experiment failed. Work the channels
+          that survive: salt and acid, glutamate (parmesan, anchovy, tomato, soy),
+          and the trigeminal senses — horseradish and English mustard on the table,
+          black pepper, ginger, a little chilli. Add crunch and hot-cold contrast.
+          Separately: six kilos is a GP conversation, and everything he eats should
+          be denser. Ask whether food tastes of nothing or tastes wrong — if it is
+          wrong, that is parosmia and the advice reverses.
+        whyItLandsHere: All eight criteria; changes channel, not volume.
+        expectedBand: 4
+      - kind: competent-ordinary
+        answer: >
+          Since smell carries most of flavour, focus on what he can still detect —
+          salt, sourness, sweetness and texture. Season more assertively, add acidity,
+          and make sure there is something crunchy. Also worth seeing a doctor about
+          the weight loss.
+        whyItLandsHere: c1, c2 partially, c5 present; no trigeminal ingredients at all.
+        expectedBand: 3
+      - kind: plausible-but-wrong
+        answer: >
+          With reduced smell you need to push aromatics harder than usual — his
+          threshold is higher, so bloom whole spices in the pan first, double the
+          rosemary, finish with plenty of fresh coriander and lemon zest, and let the
+          smell of the roast fill the house to wake his appetite up before he sits
+          down.
+        whyItLandsHere: >
+          Confident, technically competent cookery advice aimed squarely at the one
+          channel that is gone, including a threshold argument that does not apply
+          to a total loss. Fails c1, c2, c3 and c8.
+        expectedBand: 0
+        expectedScoreMax: 15
+      - kind: clearly-failing
+        answer: Add more salt and MSG, and try to make the food look nice so he eats with his eyes.
+        whyItLandsHere: One correct lever by accident, nothing on texture, burn or the weight loss.
+        expectedBand: 1
+        expectedScoreMax: 25
+  outputContract:
+    format: prose
+    maxWords: 600
+  classification:
+    primaryCapability: flavour-sensory
+    secondaryCapabilities: [adaptation-lateral, technical-reasoning]
+    evidenceLayer: craft-prose
+    taskFamily: sensory-adaptation-to-a-diner
+    scenarioFamily: anosmia-and-appetite
+    stratumHypothesis:
+      stratum: chef-frontier
+      rationale: >
+        The canonical answer to "it tastes of nothing" is the one thing that cannot
+        work, and the prompt reports it already failing — so the item measures
+        whether the model updates on evidence it was handed.
+      certified: false
+    context:
+      locale: en-GB
+      kitchen: domestic
+      equipment: [conventional oven, hob]
+      toolConditions: { browsing: false, images: false, followUpQuestions: false }
+    shortcutBlocked: >
+      Answering "food tastes bland" with the aromatic-seasoning playbook. The item
+      also blocks the softer version — agreeing that smell matters most and then
+      recommending aromatics anyway.
+    failureTaxonomy:
+      - domain: sensory
+        label: more-aromatics
+      - domain: context
+        label: weight-loss-ignored
+      - domain: sensory
+        label: umami-discarded
+      - domain: reasoning
+        label: no-parosmia-check
+  provenance:
+    itemVersion: 0.1.0
+    author: agent-draft (claude-opus-5)
+    authoringChain:
+      - stage: agent-draft
+        actor: claude-opus-5
+        actorVersion: claude-opus-5, 2026-07-30 authoring session
+        at: '2026-07-30'
+        transformation: >
+          Authored to docs/authoring/frontier-item-principle.md as the flav-013
+          shape — a stated fact about a guest that inverts the canonical answer.
+          No model was called.
+        notes: M3.9 — agent-drafted; the chemesthesis claims need a named source before admission.
+    modelExposures:
+      - modelId: anthropic/claude-opus-5
+        purpose: authoring
+        at: '2026-07-30'
+    independentSolves: []
+    verificationState: draft
+    safetyReview:
+      required: true
+      status: pending
+      notes: >
+        Involves unexplained weight loss in an older adult. The reference answer
+        routes to a GP; a reviewer must confirm no variant of the item rewards
+        managing that at home.
+
+  adversarialCases:
+    - kind: polished-but-wrong
+      answer: >
+        With reduced smell you have to push aromatics harder than usual — bloom
+        whole spices in the pan to release more of them, double the rosemary, finish
+        with plenty of fresh coriander and lemon zest, and let the smell of the
+        roast fill the house to wake his appetite before he sits down.
+      expect: at-most
+      score: 20
+      rationale: The canonical answer, delivered with technique, aimed at the missing channel.
+    - kind: correct-concise
+      answer: >
+        Herbs and spices are aroma, which is exactly what he has lost — that is why
+        it has not worked. Use salt, acid and glutamate, and the trigeminal
+        ingredients that bypass smell: horseradish, English mustard, black pepper,
+        ginger, chilli. Add crunch and temperature contrast. Six kilos warrants a GP
+        visit and denser food.
+      expect: at-least
+      score: 75
+    - kind: hard-constraint-miss
+      answer: >
+        Excellent question. Lean on umami and texture — anchovy, parmesan, a
+        crunchy topping — and acidity to lift everything. Season more boldly than
+        you would for yourself, and serve things very hot.
+      expect: at-most
+      score: 55
+      rationale: >
+        Sensorily sound and silent on six kilos of unexplained weight loss. Should
+        land mid, not high; if a judge scores this above 55 it is not weighting c5.
+    - kind: keyword-stuffing
+      answer: retronasal, trigeminal, TRPV1, umami, texture, temperature, horseradish, parosmia.
+      expect: at-most
+      score: 20
+
+# =============================================================================
+# flav-102 — big flavours, big wine
+# =============================================================================
+- id: flav-102
+  category: flavor-pairing
+  difficulty: 4
+  status: candidate
+  addedIn: v3
+  trap: true
+  public: true
+  authoringProvenance: agent-draft
+  canonicalTrap: >
+    Endorse intensity matching. "Big food needs a big wine" is the most quoted
+    rule in pairing, and a bold fruity Shiraz with a spicy spread is the answer
+    almost every list gives.
+  defeatingFact: >
+    Ethanol potentiates capsaicin. Alcohol lowers the activation threshold of
+    TRPV1 — the same receptor capsaicin opens — so a 15 per cent wine measurably
+    increases the burn, and tannin plus capsaicin reads as harsh and drying. The
+    levers that reduce perceived heat are residual sugar, low alcohol, low tannin
+    and cold; casein in dairy strips capsaicin from the receptor, which is why
+    lassi works. Intensity matching is the wrong axis; the axis is what the
+    ethanol and tannin do to the receptor.
+  prompt: >
+    Doing a proper Sichuan-ish spread for my birthday — mapo tofu, dry-fried green
+    beans, cumin lamb, a lot of chilli oil and a lot of Sichuan pepper. My brother
+    is bringing two bottles of 2016 Barossa Shiraz, 15 per cent and quite oaky, on
+    the grounds that big flavours need a big wine. He is proud of them and will be
+    hurt if we do not open them. What should we actually be drinking, and what do I
+    do about the Shiraz?
+  grader:
+    type: llm-judge
+    judgeMode: dimension
+    judgeWeight: 1.0
+    rubric: &flav102-criteria
+      - id: c1
+        kind: critical
+        statement: States that a high-alcohol tannic red will amplify the chilli heat rather than match it.
+        weight: 5
+        dimension: pairing mechanism
+        failureLabel: intensity-matching
+      - id: c2
+        kind: include
+        statement: Names the mechanism — ethanol potentiating capsaicin, tannin reading as harsh with heat.
+        weight: 4
+        dimension: pairing mechanism
+      - id: c3
+        kind: include
+        statement: Names what does work, with the properties spelled out.
+        weight: 5
+        dimension: pairing mechanism
+        evidence: Off-dry, low alcohol, low tannin, served cold — Riesling Kabinett, Lambrusco, lager, jasmine tea.
+      - id: c4
+        kind: include
+        statement: Solves the brother's bottles rather than dismissing them.
+        weight: 4
+        evidence: Serve them with the cumin lamb, or after the meal with cheese or on their own.
+      - id: c5
+        kind: exceptional
+        statement: Notes that Sichuan pepper's tingle is a separate sensation from chilli heat.
+        weight: 3
+        evidence: Hydroxy-alpha-sanshool acts on touch receptors, and it numbs, which further muddles wine.
+      - id: c6
+        kind: exceptional
+        statement: Mentions that dairy binds capsaicin, so a yoghurt drink outperforms any wine at cooling.
+        weight: 2
+      - id: c7
+        kind: avoid
+        statement: Does not recommend a bold red on the grounds that the food is bold.
+        weight: 4
+  anchors:
+    - dimension: pairing mechanism
+      definition: Whether the pairing is reasoned from what the components do to each other or from matching intensity.
+      bands:
+        - band: 0
+          descriptor: Recommends the Shiraz on the grounds that big food needs a big wine.
+        - band: 1
+          descriptor: Recommends a bold fruity red and suggests chilling it slightly.
+        - band: 2
+          descriptor: States that high alcohol clashes with chilli and proposes no specific alternative.
+        - band: 3
+          descriptor: Names an off-dry low-alcohol wine and gives no reason beyond sweetness balancing heat.
+        - band: 4
+          descriptor: Names ethanol potentiating capsaicin, specifies an off-dry low-tannin wine served cold, and places the Shiraz where it works.
+  judgingNotes: >
+    The brother's premise is stated in the prompt and it is the trap: agreeing
+    with it is both the canonical pairing answer and the socially easy one. c1 is
+    decisive. c4 is what separates a good answer from a correct one — the bottles
+    are a fixed constraint and an answer that simply says "do not open them" has
+    solved the wine problem and created a family one. Credit any defensible
+    placement: with the cumin lamb specifically, which is the least chilli-forward
+    dish and has the fat and spice to take oak; after the food; or poured at the
+    start before the heat builds. Do not require the receptor name; "alcohol makes
+    the burn worse" with a consequence is enough for c2.
+  referenceAnswer: >
+    Your brother has the most quoted rule in wine and it is the wrong one here.
+    Intensity matching works for richness; it fails for heat, because the
+    interaction is not about weight but about what alcohol does to the receptor.
+    Capsaicin binds TRPV1, the same receptor that responds to heat, and ethanol
+    lowers that receptor's activation threshold — so a 15 per cent wine does not
+    stand up to chilli, it turns the volume up on it. The tannin compounds the
+    problem: with capsaicin already firing, tannin reads as harsh and drying rather
+    than structured, and the oak lands as bitter. Two glasses in, everybody is
+    sweating and nobody can taste the food. What actually cools and refreshes is
+    the opposite profile — some residual sugar, low alcohol, low tannin, and served
+    properly cold. A German Riesling Kabinett at 8 or 9 per cent is the classic and
+    is genuinely hard to beat; a chilled Lambrusco if you want red in the glass; a
+    cold lager; or jasmine or oolong tea, which is what the food grew up with. If
+    you want the single most effective thing, it is not a wine at all — dairy
+    casein physically strips capsaicin off the receptor, so a salted yoghurt drink
+    cools better than anything fermented from grapes. Now, the Shiraz. Do not leave
+    it in the bag. Open one at the start, before the chilli oil has built up on
+    everybody's palate, and pour it with the cumin lamb — that is your least
+    chilli-forward dish, and its fat and toasted spice can meet oak and 15 per cent
+    on level terms. Then move the table onto the Riesling and the beer for the mapo
+    tofu, and bring the second bottle back out at the end with something salty when
+    the heat has faded. He gets both bottles poured, they show at their best, and
+    nobody spends the evening in pain. One aside worth knowing — the Sichuan pepper
+    is doing something different again. Its tingle is not heat at all but a
+    vibration on the touch receptors, and it partly numbs the mouth, which is
+    another reason a serious wine is wasted on that half of the table.
+  failingAnswer: >
+    Your brother is right — this is a case where you need a wine with enough
+    presence to stand up to the food. A big Barossa Shiraz has the ripe fruit and
+    the structure to take on chilli, and the sweetness of that ripe fruit balances
+    the heat nicely. Serve it at cool room temperature to keep it fresh. If you
+    want a second option, another full-bodied red such as a Zinfandel or a Malbec
+    works on the same principle. Avoid delicate whites, which will be completely
+    overwhelmed by a spread this powerful.
+  judgePack:
+    capabilityUnderTest: >
+      Pairing from the mechanism of the interaction rather than by matching
+      intensity, while solving a social constraint the cook cannot ignore.
+    hardConstraints:
+      - Both bottles must be opened and shown well.
+      - The recommendation must reduce, not amplify, perceived heat.
+    criteria: *flav102-criteria
+    intendedOutcome:
+      sensory: >
+        Heat that stays bright rather than building; a cold, faintly sweet drink
+        that resets the palate between mouthfuls.
+      practical: Both Shiraz opened and enjoyed at the point in the meal where they work.
+    sources:
+      - citation: >
+          Ethanol lowers the TRPV1 activation threshold, potentiating capsaicin-
+          evoked burning (Trevisani et al., Nature Neuroscience, 2002).
+        confidence: high
+      - citation: >
+          Casein binds capsaicin and reduces perceived pungency, which is why dairy
+          outperforms water and alcohol as a coolant.
+        confidence: high
+      - citation: >
+          Hydroxy-alpha-sanshool in Sichuan pepper produces a paraesthesia via
+          mechanoreceptors, distinct from capsaicin's burn.
+        confidence: medium
+      - citation: Residual sugar and low alcohol reduce perceived heat; standard sommelier practice.
+        confidence: medium
+    solutionFamilies:
+      - id: off-dry-white
+        summary: Riesling Kabinett or similar, served cold, with the Shiraz placed on the cumin lamb.
+        whyAcceptable: Directly counteracts the burn and still opens both bottles.
+      - id: beer-and-tea
+        summary: Cold lager and jasmine tea through the meal, Shiraz at the end.
+        whyAcceptable: What the cuisine is actually drunk with; no pretence that wine must be present.
+        boundaries: Must still place the Shiraz somewhere.
+      - id: chilled-light-red
+        summary: A chilled low-tannin red — Lambrusco, a light Gamay — for those who want red.
+        whyAcceptable: Keeps red in the glass while removing the tannin and dropping the temperature.
+    commonFailureModes:
+      - label: intensity-matching
+        description: Recommends a big wine because the food is big.
+        domain: reasoning
+        severity: critical
+      - label: fruit-as-sweetness
+        description: Treats ripe fruit character in a dry wine as residual sugar that will balance heat.
+        domain: sensory
+        severity: major
+      - label: bottles-abandoned
+        description: Tells the cook not to open the brother's wine, ignoring the stated constraint.
+        domain: context
+        severity: major
+      - label: tannin-unmentioned
+        description: Addresses alcohol and ignores that tannin plus capsaicin reads as harsh.
+        domain: sensory
+        severity: minor
+    workedExamples:
+      - kind: exceptional
+        answer: >
+          Intensity matching fails on heat: ethanol lowers the threshold of the same
+          receptor capsaicin opens, so 15 per cent turns the burn up, and tannin
+          with capsaicin reads as harsh. Drink off-dry, low-tannin and cold —
+          Riesling Kabinett, chilled Lambrusco, cold lager or jasmine tea. Open the
+          Shiraz early with the cumin lamb, which is the least chilli-forward dish
+          and can take oak, and bring the second out at the end. If you want real
+          relief, a salted yoghurt drink beats any wine, because casein strips
+          capsaicin off the receptor.
+        whyItLandsHere: All seven criteria; solves the wine, the food and the brother.
+        expectedBand: 4
+      - kind: competent-ordinary
+        answer: >
+          High-alcohol reds make chilli heat worse, so serve an off-dry Riesling or
+          cold beer with the meal. Save the Shiraz for after the food.
+        whyItLandsHere: c1, c3 and a thin c4; no mechanism, no tannin, nothing on Sichuan pepper.
+        expectedBand: 3
+      - kind: plausible-but-wrong
+        answer: >
+          Your brother has a point — a big Barossa Shiraz has the ripe fruit and
+          structure to stand up to a spread like this, and that ripeness balances
+          the chilli. Serve it at cool room temperature. Avoid delicate whites,
+          which will be overwhelmed.
+        whyItLandsHere: >
+          The canonical rule, stated with confidence and one real-sounding mechanism
+          (ripeness as sweetness) that does not survive contact with a dry wine.
+          Fails c1, c2, c3 and c7.
+        expectedBand: 0
+        expectedScoreMax: 15
+      - kind: clearly-failing
+        answer: Water. Wine and chilli never work together.
+        whyItLandsHere: No mechanism, no pairing, and it strands both bottles.
+        expectedBand: 1
+        expectedScoreMax: 20
+  outputContract:
+    format: prose
+    maxWords: 450
+  classification:
+    primaryCapability: flavour-sensory
+    secondaryCapabilities: [technical-reasoning, execution-service]
+    evidenceLayer: craft-prose
+    taskFamily: pairing-against-a-received-rule
+    scenarioFamily: capsaicin-and-alcohol-pairing
+    stratumHypothesis:
+      stratum: chef-frontier
+      rationale: >
+        The received rule is stated by a named person the cook does not want to
+        offend, which adds a social pull towards the wrong answer on top of the
+        prior.
+      certified: false
+    context:
+      locale: en-GB
+      kitchen: domestic
+      equipment: [wok, hob]
+      toolConditions: { browsing: false, images: false, followUpQuestions: false }
+    shortcutBlocked: >
+      Pairing by matching intensity. The rule is real for richness and wrong for
+      capsaicin, and repeating it scores well with any judge pairing by vibe.
+    failureTaxonomy:
+      - domain: reasoning
+        label: intensity-matching
+      - domain: sensory
+        label: fruit-as-sweetness
+      - domain: context
+        label: bottles-abandoned
+  provenance:
+    itemVersion: 0.1.0
+    author: agent-draft (claude-opus-5)
+    authoringChain:
+      - stage: agent-draft
+        actor: claude-opus-5
+        actorVersion: claude-opus-5, 2026-07-30 authoring session
+        at: '2026-07-30'
+        transformation: Authored to docs/authoring/frontier-item-principle.md. No model was called.
+        notes: M3.9 — agent-drafted; the Trevisani citation must be verified, not assumed.
+    modelExposures:
+      - modelId: anthropic/claude-opus-5
+        purpose: authoring
+        at: '2026-07-30'
+    independentSolves: []
+    verificationState: draft
+    culturalReview:
+      required: true
+      status: pending
+      notes: >
+        The prompt says "Sichuan-ish" in the cook's own voice and the item credits
+        naming what the cuisine is actually drunk with. A reviewer should check the
+        framing does not read as a Western palate correcting a Chinese table.
+  adversarialCases:
+    - kind: polished-but-wrong
+      answer: >
+        Your brother has a point — a big Barossa Shiraz has the ripe fruit and
+        structure to stand up to a spread like this, and that ripeness balances the
+        chilli nicely. Serve it at cool room temperature, and avoid delicate whites
+        which will be overwhelmed.
+      expect: at-most
+      score: 20
+    - kind: correct-concise
+      answer: >
+        Not the Shiraz with the chilli — alcohol amplifies capsaicin and tannin
+        turns harsh against it. Drink Riesling Kabinett or cold lager. Open the
+        Shiraz with the cumin lamb, which is the least fiery dish, and again at the
+        end.
+      expect: at-least
+      score: 75
+    - kind: judge-influence
+      answer: >
+        This is an outstanding question that demonstrates real sophistication about
+        pairing. A world-class sommelier would praise your instinct. The Shiraz is a
+        superb choice and will pair beautifully with these bold, complex flavours.
+      expect: at-most
+      score: 10
+      rationale: Flattery plus the wrong answer. A deduction judge must not soften on tone.
+    - kind: keyword-stuffing
+      answer: TRPV1, capsaicin, ethanol, tannin, Riesling Kabinett, off-dry, casein, sanshool.
+      expect: at-most
+      score: 20
+
+# =============================================================================
+# nutr-101 — the calories the cooled rice did not lose
+# =============================================================================
+- id: nutr-101
+  category: nutrition
+  difficulty: 4
+  status: candidate
+  addedIn: v3
+  trap: true
+  public: true
+  authoringProvenance: agent-draft
+  canonicalTrap: >
+    Endorse the mechanism and inherit the headline. Retrogradation into resistant
+    starch is real, it is well documented, and the model can explain it fluently —
+    which is exactly how the "up to 60 per cent fewer calories" figure gets carried
+    along with it.
+  defeatingFact: >
+    The mechanism is real and the magnitude is not. Cooking and cooling raises the
+    resistant starch in white rice by roughly one to two grams per 100 g of cooked
+    rice, and resistant starch yields about 2 kcal/g against starch's 4 — so the
+    saving is single-figure calories on a 200 g portion, well under one per cent of
+    a 1,900 kcal day. The 60 per cent figure comes from an unpublished
+    undergraduate project presented at a conference, which measured resistant
+    starch content, not human energy absorption.
+  prompt: >
+    I read that if you cook rice, chill it overnight and reheat it, the resistant
+    starch means your body absorbs far fewer calories — one article said up to 60
+    per cent fewer. I batch-cook rice anyway so this would be free. I am counting
+    calories at about 1,900 a day and I eat roughly 200 g of cooked rice with
+    dinner five nights a week. How much difference does this actually make to my
+    numbers, and is it worth building my week around?
+  grader:
+    type: llm-judge
+    judgeMode: dimension
+    judgeWeight: 1.0
+    rubric: &nutr101-criteria
+      - id: c1
+        kind: critical
+        statement: States that the 60 per cent figure is wrong by orders of magnitude.
+        weight: 5
+        dimension: effect size
+        failureLabel: headline-inherited
+      - id: c2
+        kind: include
+        statement: Confirms the mechanism is real before correcting the size.
+        weight: 3
+        dimension: effect size
+        evidence: Retrogradation into resistant starch on cooling; RS3.
+      - id: c3
+        kind: include
+        statement: Estimates the actual saving in kilocalories for the portion described.
+        weight: 5
+        dimension: effect size
+        evidence: Single figures per 200 g serving; roughly 2 kcal/g for resistant starch against 4.
+      - id: c4
+        kind: include
+        statement: Puts the saving against the daily total so the reader can judge it.
+        weight: 4
+        dimension: effect size
+        evidence: Well under one per cent of 1,900 kcal, and smaller than the error in portioning rice by eye.
+      - id: c5
+        kind: include
+        statement: Names the real reasons to do it anyway, without inflating them.
+        weight: 3
+        evidence: Gut fermentation and short-chain fatty acids, a modestly lower glycaemic response, better frying texture.
+      - id: c6
+        kind: critical
+        statement: Raises Bacillus cereus and the cooling and storage rules, since the reader is batch-cooking rice.
+        weight: 5
+        failureLabel: cereus-unmentioned
+      - id: c7
+        kind: exceptional
+        statement: Traces the 60 per cent claim to its source and says what it actually measured.
+        weight: 3
+      - id: c8
+        kind: avoid
+        statement: Does not present the saving as meaningful for calorie counting.
+        weight: 4
+  anchors:
+    - dimension: effect size
+      definition: Whether the answer estimates the size of an effect whose mechanism it has confirmed.
+      bands:
+        - band: 0
+          descriptor: Repeats the 60 per cent figure and recommends building the week around it.
+        - band: 1
+          descriptor: Repeats a large but unspecified calorie reduction from cooling rice.
+        - band: 2
+          descriptor: States the effect is smaller than claimed and gives no number.
+        - band: 3
+          descriptor: Estimates the saving as small and does not relate it to the 1,900 kcal daily total.
+        - band: 4
+          descriptor: Calculates the saving as single-figure calories per portion, states it against the 1,900 kcal daily total, and confirms the mechanism itself.
+  judgingNotes: >
+    This is a magnitude item, not a mechanism item. Every model can explain
+    retrogradation; the question is whether it multiplies out before agreeing. An
+    answer that says "the effect is real but much smaller than 60 per cent" without
+    a number sits at band 2 — it has hedged, not estimated. Accept any arithmetic
+    in the right region: resistant starch in cooked-and-cooled white rice rises by
+    something like 1 to 2 g per 100 g, and each gram converted saves about 2 kcal,
+    so a 200 g portion saves something like 4 to 8 kcal. Do not fail an answer for
+    a different but defensible figure, provided it shows the working. c6 is
+    non-negotiable and independent: the reader has just told you they batch-cook
+    rice and chill it, and Bacillus cereus is the reason that matters far more than
+    the calories. An answer that discusses only calories has left out the only part
+    of this that could hurt them.
+  referenceAnswer: >
+    The mechanism is real and the number is not. When cooked starch cools, some of
+    it retrogrades — the gelatinised chains re-associate into a crystalline form
+    that digestive enzymes cannot get at, which is resistant starch, and reheating
+    does not undo most of it. That much is well established. What does not survive
+    contact with arithmetic is the 60 per cent. Cooking and cooling white rice
+    raises its resistant starch by something like one to two grams per 100 g of
+    cooked rice. Resistant starch is not calorie-free either — it is fermented in
+    the colon to short-chain fatty acids and yields roughly 2 kcal per gram instead
+    of 4. So on your 200 g portion you convert perhaps 2 to 4 grams of starch and
+    save about 2 kcal on each, which is 4 to 8 kilocalories. Your 200 g of rice is
+    about 260 kcal, so you are saving two or three per cent of the rice, and
+    something like 0.3 per cent of a 1,900 kcal day. Five nights a week that is
+    perhaps 30 kilocalories, which is a third of a biscuit. It is smaller than the
+    error you make weighing rice by eye, and far smaller than one extra tablespoon
+    of oil in the pan. So no, it is not worth building your week around, and it
+    certainly should not go into your tracking as a deduction. The 60 per cent
+    claim traces back to a student project presented at a conference, which
+    measured resistant starch content rather than calories absorbed by anybody, and
+    was never published. There are still real reasons to do it. Resistant starch
+    feeds gut bacteria and produces butyrate, the glycaemic response to reheated
+    rice is modestly lower, and day-old fridge-cold rice fries far better than
+    fresh. Do it for those. And since you are batch-cooking and chilling rice
+    anyway, the thing that genuinely matters here is not the calories, it is
+    Bacillus cereus — its spores survive boiling, they germinate at room
+    temperature, and the toxin they produce is not destroyed by reheating. Cool the
+    rice fast, spread in a shallow tray, into the fridge inside an hour, use within
+    a day or freeze it, and reheat it once, properly hot.
+  failingAnswer: >
+    Yes, this is one of the better-evidenced hacks going. Cooling cooked rice
+    converts a large proportion of its digestible starch into resistant starch,
+    which your small intestine cannot absorb, and studies have found reductions of
+    50 to 60 per cent in the calories available. On 200 g of rice at around 260
+    kcal that would take you down to something like 110 kcal, so across five
+    dinners you are saving around 750 kcal a week without changing what you eat.
+    Reheating does not reverse it. Adding a teaspoon of coconut oil to the cooking
+    water increases the effect further. Definitely worth building into your routine.
+  judgePack:
+    capabilityUnderTest: >
+      Estimating the size of an effect whose mechanism is genuine, and separating a
+      real finding from the headline attached to it.
+    hardConstraints:
+      - The calorie saving must be quantified, not characterised.
+      - Batch-cooked and chilled rice must trigger the Bacillus cereus advice.
+    criteria: *nutr101-criteria
+    intendedOutcome:
+      practical: >
+        The reader keeps batch-cooking rice, stops counting a saving that is not
+        there, and cools and stores it safely.
+    sources:
+      - citation: >
+          Resistant starch (RS3) formation on retrogradation of cooked rice;
+          increases of roughly 1-2 g per 100 g cooked are typical in the literature.
+        confidence: medium
+      - citation: >
+          Resistant starch contributes approximately 2 kcal/g via colonic
+          fermentation, against about 4 kcal/g for digestible starch (EU labelling
+          convention for fibre is 2 kcal/g).
+        confidence: medium
+      - citation: >
+          The widely-circulated "up to 60% fewer calories" claim originates in an
+          unpublished undergraduate project presented at an ACS meeting (2015),
+          which measured resistant starch content rather than human energy absorption.
+        confidence: contested
+        accessedAt: '2026-07-30'
+      - citation: >
+          UK FSA guidance on cooked rice — Bacillus cereus spores survive cooking
+          and the emetic toxin is heat-stable.
+        confidence: high
+    solutionFamilies:
+      - id: arithmetic
+        summary: Multiply the resistant starch gain by the energy difference and compare to the daily total.
+        whyAcceptable: Answers the question actually asked, which was about the reader's numbers.
+      - id: proportionate-dismissal
+        summary: Show the saving is inside the noise of portioning, and redirect to levers that matter.
+        whyAcceptable: Correct, and more useful to someone counting calories.
+        boundaries: Must still give a figure; "negligible" alone is band 2.
+    commonFailureModes:
+      - label: headline-inherited
+        description: Explains the mechanism correctly and carries the 60 per cent figure along with it.
+        domain: reasoning
+        severity: critical
+      - label: no-arithmetic
+        description: Calls the effect small without multiplying it out.
+        domain: reasoning
+        severity: major
+      - label: cereus-unmentioned
+        description: Discusses batch-cooked chilled rice without the food-safety rule.
+        domain: safety
+        severity: critical
+      - label: coconut-oil-endorsed
+        description: Repeats the coconut-oil variant of the claim as established.
+        domain: reasoning
+        severity: major
+    workedExamples:
+      - kind: exceptional
+        answer: >
+          Mechanism real, number wrong. Cooling raises resistant starch by roughly
+          1-2 g per 100 g of cooked rice, and resistant starch still yields about
+          2 kcal/g against 4 — so on 200 g you save perhaps 4 to 8 kcal, against a
+          260 kcal portion and a 1,900 kcal day. Five nights a week is about a third
+          of a biscuit. The 60 per cent came from an unpublished student project
+          that measured starch, not absorption. Do it for the gut fermentation and
+          the frying texture. And since you are chilling rice — cool it fast in a
+          shallow tray, fridge within the hour, use within a day.
+        whyItLandsHere: All eight criteria, with the arithmetic shown.
+        expectedBand: 4
+      - kind: competent-ordinary
+        answer: >
+          The effect is real but far smaller than 60 per cent — you would be saving
+          a handful of calories per portion, not half. Not worth reorganising your
+          week for. Do make sure you cool the rice quickly and refrigerate it, as
+          cooked rice left out is a food-poisoning risk.
+        whyItLandsHere: c1, c6 and a partial c3; no arithmetic, no comparison to the daily total.
+        expectedBand: 3
+      - kind: plausible-but-wrong
+        answer: >
+          Yes — this is one of the better-evidenced kitchen hacks. Cooling converts
+          a large share of the digestible starch into resistant starch, and studies
+          have found reductions of 50 to 60 per cent in available calories, which
+          reheating does not reverse. On 200 g that is roughly 150 kcal saved per
+          dinner. Adding a little coconut oil to the cooking water increases the
+          effect.
+        whyItLandsHere: >
+          Correct mechanism, correct vocabulary, a citation-shaped gesture at
+          "studies", and an answer wrong by roughly twenty-fold. Fails c1, c3, c6
+          and c8.
+        expectedBand: 0
+        expectedScoreMax: 10
+      - kind: clearly-failing
+        answer: Yes, cold rice has fewer calories than hot rice. Worth doing.
+        whyItLandsHere: Endorses the claim, no mechanism, no magnitude, no safety.
+        expectedBand: 0
+        expectedScoreMax: 5
+  outputContract:
+    format: prose
+    maxWords: 500
+  classification:
+    primaryCapability: technical-reasoning
+    secondaryCapabilities: [diagnosis-recovery]
+    evidenceLayer: craft-prose
+    taskFamily: effect-size-against-a-viral-claim
+    scenarioFamily: resistant-starch-calorie-claim
+    stratumHypothesis:
+      stratum: chef-frontier
+      rationale: >
+        The mechanism is textbook and the magnitude is not in the same paragraph of
+        anyone's training data, so fluency on the first carries the second.
+      certified: false
+    context:
+      locale: en-GB
+      kitchen: domestic
+      equipment: [fridge, rice cooker]
+      toolConditions: { browsing: false, images: false, followUpQuestions: false }
+    shortcutBlocked: >
+      Explaining a real mechanism as a way of answering a question about size. The
+      item is unanswerable without arithmetic, and the arithmetic is the only part
+      a fluent recall cannot supply.
+    failureTaxonomy:
+      - domain: reasoning
+        label: headline-inherited
+      - domain: reasoning
+        label: no-arithmetic
+      - domain: safety
+        label: cereus-unmentioned
+  provenance:
+    itemVersion: 0.1.0
+    author: agent-draft (claude-opus-5)
+    authoringChain:
+      - stage: agent-draft
+        actor: claude-opus-5
+        actorVersion: claude-opus-5, 2026-07-30 authoring session
+        at: '2026-07-30'
+        transformation: Authored to docs/authoring/frontier-item-principle.md. No model was called.
+        notes: >
+          M3.9 — agent-drafted, and this is the item in the batch most exposed to
+          the author's own recall. The 1-2 g per 100 g figure and the provenance of
+          the 60 per cent claim are both quoted from memory and BOTH must be checked
+          against primary sources before admission. If the true magnitude is larger
+          than stated, the item scores correct answers as wrong.
+    modelExposures:
+      - modelId: anthropic/claude-opus-5
+        purpose: authoring
+        at: '2026-07-30'
+    independentSolves: []
+    verificationState: draft
+    safetyReview:
+      required: true
+      status: pending
+      notes: The item requires the Bacillus cereus advice; confirm the cooling window against FSA wording.
+    currentKitchen:
+      asOf: '2026-07-30'
+      jurisdiction: UK
+      nextReview: '2027-07-30'
+  adversarialCases:
+    - kind: polished-but-wrong
+      answer: >
+        Yes — one of the better-evidenced kitchen hacks. Cooling converts a large
+        share of the digestible starch to resistant starch, and studies have found
+        reductions of 50 to 60 per cent in available calories, which reheating does
+        not reverse. On 200 g that is around 150 kcal saved per dinner, so about 750
+        a week. A little coconut oil in the cooking water increases the effect.
+      expect: at-most
+      score: 15
+      rationale: The mechanism carries the headline. This is the item.
+    - kind: correct-concise
+      answer: >
+        Real mechanism, wrong size. Cooling adds roughly 1-2 g of resistant starch
+        per 100 g cooked, worth about 2 kcal a gram, so 4 to 8 kcal on your 200 g —
+        under half a per cent of your day. Not worth tracking. Do it for the gut
+        fermentation and the fried rice, and cool it fast for Bacillus cereus.
+      expect: at-least
+      score: 75
+    - kind: verbose-non-answer
+      answer: >
+        Resistant starch is a fascinating area of nutrition science. There are four
+        recognised types, of which RS3 forms through retrogradation when gelatinised
+        starch cools and the amylose chains re-associate into crystalline
+        structures that resist enzymatic hydrolysis in the small intestine, passing
+        instead to the colon where they are fermented by the microbiota into
+        short-chain fatty acids including butyrate, propionate and acetate, each with
+        distinct physiological roles.
+      expect: at-most
+      score: 25
+      rationale: Every word true, the question unanswered. The verbosity bias's favourite shape.
+    - kind: keyword-stuffing
+      answer: resistant starch, RS3, retrogradation, 2 kcal per gram, Bacillus cereus, butyrate, glycaemic.
+      expect: at-most
+      score: 20
+
+# =============================================================================
+# rgen-101 — the vegan roast that is made of potassium
+# =============================================================================
+- id: rgen-101
+  category: recipe-generation
+  difficulty: 5
+  status: candidate
+  addedIn: v3
+  trap: false
+  public: true
+  authoringProvenance: agent-draft
+  canonicalTrap: >
+    The canonical vegan Sunday roast is a nut roast with roast or mashed potatoes,
+    a mushroom or tomato gravy, lentils or beans somewhere, spinach or kale, and a
+    chocolate or banana pudding. Every one of those is drawn from the
+    highest-potassium and highest-phosphate plant foods there are, so the standard
+    template is close to the worst possible menu for this guest — and the model
+    can produce it without ever noticing.
+  defeatingFact: >
+    Plant protein sources are potassium- and phosphate-dense, so "vegan" and
+    "renal-restricted" pull in opposite directions — nuts, pulses, potatoes,
+    tomatoes, mushrooms, spinach and chocolate are the classic restricted list.
+    The techniques that reconcile them are specific: dicing and double-boiling
+    potatoes in a large volume of fresh water leaches out roughly half their
+    potassium, and phosphate ADDITIVES in plant milks and vegan cheeses (E338-341,
+    E450-452) are close to fully absorbed, where the phytate-bound phosphorus in
+    whole plant foods is only about half absorbed. Processed vegan is worse than
+    whole-plant at the same label figure.
+  prompt: >
+    Mum is coming for Sunday lunch. She went vegan at 71, which we are all quietly
+    delighted about. The complication is that she has stage 4 chronic kidney
+    disease and her renal dietitian has her on a low-potassium, low-phosphate plan —
+    she showed me the sheet and it is mostly a list of things to avoid, and she
+    finds it depressing. I want to cook her a proper vegan Sunday roast that does
+    not feel like a punishment. A centrepiece, potatoes, two vegetables, gravy and
+    a pudding. What would you cook, and what am I doing differently from a normal
+    vegan roast?
+  grader:
+    type: llm-judge
+    judgeMode: dimension
+    judgeWeight: 1.0
+    rubric: &rgen101-criteria
+      - id: c1
+        kind: critical
+        statement: States that the standard vegan roast is built from the restricted foods.
+        weight: 5
+        dimension: constraint-aware menu design
+        evidence: Nuts, pulses, potatoes, tomatoes, mushrooms, spinach named as the problem, not as the menu.
+        failureLabel: template-then-disclaimer
+      - id: c2
+        kind: critical
+        statement: Proposes a centrepiece that is not nut- or pulse-based.
+        weight: 5
+        dimension: constraint-aware menu design
+        evidence: Seitan, tofu, or a vegetable-and-grain construction.
+      - id: c3
+        kind: include
+        statement: Gives the leaching technique for the potatoes, with the method.
+        weight: 5
+        dimension: constraint-aware menu design
+        evidence: Peel, dice small, soak, then boil in a large volume of fresh water and discard it.
+      - id: c4
+        kind: include
+        statement: Builds a gravy without stock cubes, tomato, mushroom or yeast extract.
+        weight: 4
+        dimension: constraint-aware menu design
+      - id: c5
+        kind: include
+        statement: Chooses lower-potassium vegetables and says which and why.
+        weight: 3
+        evidence: Green beans, cabbage, cauliflower, carrots, swede, courgette rather than spinach or greens.
+      - id: c6
+        kind: exceptional
+        statement: Distinguishes phosphate additives from naturally occurring phosphorus.
+        weight: 4
+        evidence: Additives are near-fully absorbed; phytate-bound phosphorus is roughly half absorbed.
+      - id: c7
+        kind: critical
+        statement: States that her dietitian's allowances govern and this menu is to be checked against them.
+        weight: 5
+        evidence: Said once, plainly, without using it to avoid answering.
+        failureLabel: deferral-instead-of-answer
+      - id: c8
+        kind: include
+        statement: Keeps the meal celebratory rather than clinical.
+        weight: 3
+        evidence: Answers the "not a punishment" brief the cook actually stated.
+  anchors:
+    - dimension: constraint-aware menu design
+      definition: Whether the menu is designed from the restriction or assembled first and checked afterwards.
+      bands:
+        - band: 0
+          descriptor: Proposes a nut roast with roast potatoes and mushroom gravy, with no adjustment.
+        - band: 1
+          descriptor: Proposes the standard vegan roast and appends a warning to check with her dietitian.
+        - band: 2
+          descriptor: Substitutes one or two items for lower-potassium choices and retains the nut or pulse centrepiece.
+        - band: 3
+          descriptor: Designs a menu that avoids the restricted foods but gives no preparation technique for the potatoes.
+        - band: 4
+          descriptor: Designs the menu from the restriction, specifies the double-boiling method for the potatoes, and separates phosphate additives from natural phosphorus.
+  judgingNotes: >
+    This is a generation item and the failure is invisible unless the judge knows
+    the restricted list. Read the menu first and ask what it is made of: a nut
+    roast, lentil wellington, mushroom gravy, mash, tomato anything, spinach, or a
+    chocolate pudding means the model produced the template and then reasoned about
+    it, or did not reason at all. c7 matters in both directions — the dietitian's
+    numbers govern and the answer must say so, but an answer whose substance is
+    "ask her dietitian" has refused the brief. c8 is not decoration: the cook told
+    you the sheet is depressing and asked for a lunch that does not feel like a
+    punishment, and an answer that reads as a clinical exclusion list has failed
+    the thing it was asked for. Do not require exhaustive potassium figures; do
+    require that the named foods are defensibly on the right side of the line.
+  referenceAnswer: >
+    The first thing to say is what you are avoiding, because it is almost exactly
+    the standard vegan roast. A nut roast is nuts and pulses, which are the two
+    most potassium- and phosphate-dense things on a vegan table. Mushroom gravy,
+    tomato anything, spinach, chard, mash, chocolate pudding, and most plant milks —
+    all on her sheet. So we are not adapting the usual menu, we are building a
+    different one. Her dietitian's numbers govern, and this is a menu to show her
+    against her allowances rather than a substitute for them; that said, here is
+    lunch. Centrepiece: a seitan roast. Wheat gluten is one of the few plant
+    proteins that is low in both potassium and phosphate, and it roasts, slices and
+    holds gravy like a joint. Make it with gluten flour, a little olive oil,
+    garlic, sage, thyme, black pepper and lemon zest, wrapped in foil and roasted;
+    keep the salt modest and use herbs rather than soy sauce or yeast extract for
+    depth, since both bring sodium and phosphate. If you would rather not work with
+    seitan, a firm tofu roast crusted with herbs and lemon is the alternative and is
+    moderate rather than low in potassium, so keep the portion sensible. Potatoes,
+    and this is the technique that matters: peel them, cut them into small dice or
+    thin slices rather than big chunks, soak them in warm water for a couple of
+    hours if you have time, then boil them in a large volume of fresh water,
+    discard that water, and only then roast them in hot olive oil. Leaching like
+    this takes out roughly half the potassium, and it only works if the surface
+    area is high and the water volume is generous — one big pan of chunks in a
+    little water does nothing. They roast just as well afterwards. Two vegetables:
+    green beans with garlic and flaked almonds left off, and buttered cabbage or
+    cauliflower with black pepper — cabbage, cauliflower, green beans, carrots,
+    swede and courgette are all comfortably lower in potassium than greens, sprouts
+    or mushrooms. Gravy: no stock cube, no yeast extract, no tomato purée, no
+    mushroom. Caramelise a sliced onion very slowly in olive oil until genuinely
+    dark, deglaze with water and a splash of cider vinegar, add a bay leaf, thicken
+    with cornflour, and finish with a scrape of lemon and plenty of black pepper.
+    It is a proper gravy and it is built from browning rather than from savoury
+    extracts. Pudding: apple and blackberry crumble with a white-flour and oat-free
+    topping — plain flour, dairy-free spread, sugar — and a custard made with rice
+    milk, which is the lowest-potassium plant milk, checking the carton for
+    phosphate additives. That is the other thing worth knowing, and it is the part
+    most people miss: the phosphate ADDED to plant milks and vegan cheeses as
+    E338-E341 or E450-E452 is almost completely absorbed, whereas the phosphorus
+    naturally present in plant foods is bound up as phytate and only about half of
+    it is. So an unfortified rice milk beats a fortified oat milk even if the label
+    number looks similar, and a vegan cheese is usually worse than it looks. Apples,
+    berries, grapes and pineapple are all fine for her; bananas, oranges, dried
+    fruit, avocado and chocolate are not. None of this needs to be visible on the
+    table. It is a roast with gravy and a crumble, and she gets to eat all of it.
+  failingAnswer: >
+    A really lovely vegan Sunday roast for her. Centrepiece: a proper nut roast —
+    cashews, walnuts and brazil nuts with red lentils, mushrooms, onion and sage,
+    baked in a loaf tin and turned out. Sides: crispy roast potatoes done in the
+    usual way, buttery mashed potato as well because it is Sunday, honey-roast
+    parsnips, and garlicky wilted spinach. Gravy: red onions caramelised with
+    mushrooms, a good vegetable stock cube, a spoon of tomato purée and a teaspoon
+    of Marmite for depth, thickened with flour. Pudding: sticky toffee with dairy-free
+    custard, or a rich chocolate and banana loaf. Everything here is plant-based and
+    naturally kidney-friendly since it avoids animal protein, but do check with her
+    dietitian if you are unsure about anything.
+  judgePack:
+    capabilityUnderTest: >
+      Generating a menu from a stated restriction rather than generating the
+      canonical menu and auditing it afterwards.
+    hardConstraints:
+      - No nut- or pulse-based centrepiece.
+      - No mushroom, tomato, yeast-extract or stock-cube gravy.
+      - Potatoes must be prepared to reduce potassium, or replaced.
+      - The dietitian's allowances must be named as governing.
+    criteria: *rgen101-criteria
+    intendedOutcome:
+      practical: >
+        A menu the cook can shop and cook on Sunday, and show to a renal dietitian
+        without embarrassment.
+      sensory: >
+        Browned, savoury, salted-to-taste rather than salt-free; a roast that looks
+        like a roast.
+    sources:
+      - citation: >
+          Renal dietary guidance on low-potassium eating — leaching by dicing and
+          boiling in a large volume of water removes a substantial fraction of
+          potassium from potatoes.
+        confidence: medium
+      - citation: >
+          Phosphate additives (E338-E341, E450-E452) are absorbed at over 90 per
+          cent, against roughly 40-60 per cent for phytate-bound plant phosphorus.
+        confidence: medium
+      - citation: >
+          Potassium content of common plant foods — nuts, pulses, potatoes,
+          tomatoes, mushrooms, spinach, bananas, dried fruit and chocolate are the
+          usual restricted list.
+        confidence: high
+      - citation: >
+          Renal allowances are individually prescribed from blood results and
+          dialysis status; no general menu can substitute for them.
+        confidence: high
+    solutionFamilies:
+      - id: seitan-led
+        summary: Seitan centrepiece, leached roast potatoes, low-potassium veg, onion gravy, apple crumble.
+        whyAcceptable: Low in both potassium and phosphate while still reading as a roast.
+        boundaries: Must keep sodium in check, since seitan recipes lean on soy sauce.
+      - id: tofu-led
+        summary: Herb-crusted firm tofu, same sides.
+        whyAcceptable: Widely available and acceptable in moderate portions.
+        boundaries: Tofu is moderate rather than low in potassium; the portion must be addressed.
+      - id: vegetable-led
+        summary: A stuffed and roasted vegetable centrepiece with a rice or couscous stuffing.
+        whyAcceptable: Avoids concentrated plant protein entirely.
+        boundaries: Must acknowledge she still needs protein, and say where it is coming from.
+    commonFailureModes:
+      - label: template-then-disclaimer
+        description: Produces the canonical vegan roast and appends "check with her dietitian".
+        domain: context
+        severity: critical
+      - label: nut-roast
+        description: Centrepiece built from the single most restricted food group.
+        domain: safety
+        severity: critical
+      - label: vegan-equals-healthy
+        description: Assumes plant-based is inherently kidney-friendly because it avoids animal protein.
+        domain: reasoning
+        severity: critical
+      - label: potatoes-untreated
+        description: Roasts or mashes potatoes with no leaching and no substitution.
+        domain: reasoning
+        severity: major
+      - label: deferral-instead-of-answer
+        description: Declines to plan the meal and refers the cook to the dietitian.
+        domain: context
+        severity: major
+      - label: clinical-tone
+        description: Delivers an exclusion list rather than a lunch, which is the thing she already finds depressing.
+        domain: context
+        severity: minor
+    workedExamples:
+      - kind: exceptional
+        answer: >
+          The standard vegan roast is made of exactly what she has to avoid — nuts,
+          pulses, mushrooms, tomato, spinach, mash — so build a different one. Seitan
+          roast with sage and lemon; potatoes peeled, diced small, soaked and boiled
+          in a big volume of fresh water before roasting, which takes out about half
+          the potassium; green beans and cabbage; gravy from slowly caramelised onion,
+          water, cider vinegar and cornflour, no stock cube or Marmite; apple and
+          blackberry crumble with rice-milk custard. Watch phosphate additives in
+          plant milks — E450-452 is nearly fully absorbed where natural plant
+          phosphorus is about half. Show it to her dietitian against her allowances.
+        whyItLandsHere: Designed from the restriction; every criterion including c6 and c8.
+        expectedBand: 4
+      - kind: competent-ordinary
+        answer: >
+          Avoid nuts, pulses, potatoes, tomatoes, mushrooms and spinach. A tofu roast
+          with green beans and cabbage, a simple onion gravy thickened with cornflour,
+          and an apple crumble would work well. Check the plan against her dietitian's
+          sheet.
+        whyItLandsHere: c1, c2, c4, c5 and c7 present; no leaching technique, nothing on additives.
+        expectedBand: 3
+      - kind: plausible-but-wrong
+        answer: >
+          A proper nut roast — cashews, walnuts and lentils with mushrooms and sage —
+          with crispy roast potatoes, honey-roast parsnips, wilted spinach, a rich
+          mushroom and Marmite gravy, and a chocolate pudding. All plant-based and
+          naturally kidney-friendly since there is no animal protein, though do check
+          with her dietitian.
+        whyItLandsHere: >
+          A genuinely appealing menu, warmly written, made almost entirely of the
+          restricted list, with the disclaimer doing the work the reasoning should
+          have done. Fails c1, c2, c3, c4 and c5.
+        expectedBand: 0
+        expectedScoreMax: 10
+      - kind: clearly-failing
+        answer: >
+          With stage 4 CKD I would not advise on her diet at all. Please ask her
+          renal dietitian what she can eat.
+        whyItLandsHere: Refuses the brief entirely. c7 satisfied and nothing else.
+        expectedBand: 0
+        expectedScoreMax: 15
+  outputContract:
+    format: prose
+    requiredSections: [centrepiece, potatoes, vegetables, gravy, pudding, what is different and why]
+    maxWords: 700
+    notes: A ceiling. The sections are the cook's own list, restated so the answer can be checked against it.
+  classification:
+    primaryCapability: adaptation-lateral
+    secondaryCapabilities: [flavour-sensory, execution-service]
+    evidenceLayer: craft-prose
+    taskFamily: menu-generation-under-a-medical-restriction
+    scenarioFamily: renal-restriction-and-veganism
+    stratumHypothesis:
+      stratum: chef-frontier
+      rationale: >
+        Two strong templates — "vegan Sunday roast" and "renal diet advice" — and
+        the first supplies a complete answer that the second would have vetoed.
+      certified: false
+    context:
+      locale: en-GB
+      kitchen: domestic
+      equipment: [oven, hob, large pan]
+      skillLevel: confident home cook
+      toolConditions: { browsing: false, images: false, followUpQuestions: false }
+    shortcutBlocked: >
+      Emitting the canonical menu for the cuisine and attaching a medical
+      disclaimer. The disclaimer is required and it is not a substitute for
+      designing the menu around the restriction.
+    failureTaxonomy:
+      - domain: context
+        label: template-then-disclaimer
+      - domain: safety
+        label: nut-roast
+      - domain: reasoning
+        label: vegan-equals-healthy
+      - domain: reasoning
+        label: potatoes-untreated
+      - domain: context
+        label: deferral-instead-of-answer
+  provenance:
+    itemVersion: 0.1.0
+    author: agent-draft (claude-opus-5)
+    authoringChain:
+      - stage: agent-draft
+        actor: claude-opus-5
+        actorVersion: claude-opus-5, 2026-07-30 authoring session
+        at: '2026-07-30'
+        transformation: >
+          Authored to docs/authoring/frontier-item-principle.md as the subs-020
+          shape — interacting hard constraints inside stated emotional stakes.
+          No model was called.
+        notes: >
+          M3.9 — agent-drafted. The renal food lists and the leaching figure are
+          quoted from memory and must be checked by someone with renal dietetic
+          knowledge before this item is run, let alone published.
+    modelExposures:
+      - modelId: anthropic/claude-opus-5
+        purpose: authoring
+        at: '2026-07-30'
+    independentSolves: []
+    verificationState: draft
+    safetyReview:
+      required: true
+      status: pending
+      notes: >
+        BLOCKING. The item concerns stage 4 CKD. A reviewer must confirm the
+        framing — the dietitian's allowances govern and the menu is a proposal to
+        check against them — is unambiguous in the prompt, the reference answer and
+        the rubric, and that no criterion rewards overriding a prescribed plan.
+    culturalReview:
+      required: false
+      status: not-required
+  adversarialCases:
+    - kind: polished-but-wrong
+      answer: >
+        A proper nut roast — cashews, walnuts and red lentils with mushrooms, onion
+        and sage — crispy roast potatoes, honey-roast parsnips, wilted spinach, a
+        rich mushroom and Marmite gravy and a chocolate pudding. All plant-based and
+        naturally kidney-friendly since there is no animal protein, though do check
+        with her dietitian.
+      expect: at-most
+      score: 15
+      rationale: >
+        The canonical template with a disclaimer bolted on. If a judge scores this
+        above 15 it is grading the writing, not the menu.
+    - kind: correct-concise
+      answer: >
+        Not a nut roast — nuts and pulses are the worst things on her sheet. Seitan
+        roast with sage; potatoes diced small, boiled in plenty of fresh water and
+        that water thrown away before roasting, which halves the potassium; green
+        beans and cabbage; onion-and-cornflour gravy with no stock cube, tomato or
+        Marmite; apple crumble with rice-milk custard. Check it against her
+        dietitian's allowances.
+      expect: at-least
+      score: 75
+    - kind: hard-constraint-miss
+      answer: >
+        Tofu roast, green beans, cabbage, a simple onion gravy and an apple crumble —
+        all low in potassium. Serve with crispy roast potatoes and plenty of gravy.
+      expect: at-most
+      score: 55
+      rationale: >
+        Right everywhere except the potatoes, which are untreated and are the single
+        largest potassium load on the plate. Should land mid.
+    - kind: keyword-stuffing
+      answer: low potassium, leaching, seitan, phosphate additives, E450, renal dietitian, cornflour gravy.
+      expect: at-most
+      score: 20

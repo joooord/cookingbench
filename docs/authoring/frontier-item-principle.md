@@ -225,10 +225,16 @@ Then:
   `expect: at-least` so that a terse right answer cannot be marked down for
   brevity. (`expect: at-most` on a correct answer is refused by the schema: it
   would pass when the grader zeroes the answer.)
-- **Deterministic checks only where they are safe.** A numeric check on a figure
-  the answer must contain is safe. A `forbidden` list on a trap item is a
-  landmine: the correct answer names the banned thing in order to refuse it.
-  That class of defect put eighteen wrong scores into `2026-06-v2`.
+- **Deterministic checks only where they are safe, and measure before you keep
+  one.** A `forbidden` list on a trap item is a landmine: the correct answer
+  names the banned thing in order to refuse it. That class of defect put
+  eighteen wrong scores into `2026-06-v2`. A numeric check on a figure the
+  answer must contain is safer — but only where the figure is written in
+  digits. A numeric check drafted for `qty-101` was removed after testing: the
+  extractor reads digits, so "around two hours" scored 0 where "120 minutes"
+  scored 100. Grams get written as digits; minutes get spelled out. Run the
+  reference answer, the failing answer and every worked example through
+  `gradeDeterministic` before you commit a check.
 
 ### Disqualifiers
 

@@ -155,8 +155,14 @@ describe('route registry is acceptance-grade', () => {
     // `openSync`/`appendFileSync` and slipped past a pattern that only knew
     // about `writeFileSync`. A completeness check is only as complete as its
     // list of what counts as a sink.
+    //
+    // `.from(` is the Supabase table accessor, but bare `\.from\(` also matches
+    // `Array.from(...)` and `Object.fromEntries` — which is how simulate.ts, a
+    // pure-arithmetic module with no sink of any kind, was flagged as an
+    // unregistered database route. A completeness check that cries wolf gets
+    // suppressed, so the built-ins are excluded rather than the file.
     const sinkPattern =
-      /writeFileSync|appendFileSync|openSync|copyFileSync|renameSync|rmSync|unlinkSync|mkdirSync|fetch\(|\.from\(/;
+      /writeFileSync|appendFileSync|openSync|copyFileSync|renameSync|rmSync|unlinkSync|mkdirSync|fetch\(|(?<!Array)(?<!Object)\.from\(/;
     const uncovered: string[] = [];
     const covered = new Set(registry.routes.map((r) => r.file));
     for (const file of readdirSync(srcDir).filter((f) => f.endsWith('.ts'))) {
