@@ -79,9 +79,25 @@ export const rubricEntrySchema = z.union([atomicCriterionSchema, legacyRubricCri
 
 const LEGACY_WEIGHT_SUM_TOLERANCE = 1e-6;
 
-export function isAtomicCriterion(entry: unknown): boolean {
+export function isAtomicCriterion(
+  entry: unknown,
+): entry is z.infer<typeof atomicCriterionSchema> {
   return typeof entry === 'object' && entry !== null && 'kind' in entry &&
     (ATOMIC_CRITERION_KINDS as readonly string[]).includes((entry as { kind: string }).kind);
+}
+
+/**
+ * One line of judge attention hint from a criterion of either shape.
+ *
+ * judge.ts renders hints as `${c.name}: ${c.description}`, which cannot survive
+ * the widened rubric type — an atomic criterion has neither field. This is that
+ * line's replacement rather than a reason to give atomic criteria a vestigial
+ * `name`.
+ */
+export function criterionAttentionHint(entry: z.infer<typeof rubricEntrySchema>): string {
+  return isAtomicCriterion(entry)
+    ? `${entry.kind}: ${entry.statement.trim()}`
+    : `${entry.name}: ${entry.description.trim()}`;
 }
 
 /**
@@ -1301,7 +1317,9 @@ export const questionObjectSchema = z.object({
   category: z.enum(CATEGORY_IDS),
   difficulty: z.number().int().min(1).max(5),
   status: z.enum(['active', 'basics', 'retired']).default('active'),
-  addedIn: z.enum(['v1', 'v2']).default('v1'),
+  // 'v3' is admissible so v3 items can declare their vintage; the default stays
+  // 'v1' because every item that omits the field predates the question.
+  addedIn: z.enum(['v1', 'v2', 'v3']).default('v1'),
   trap: z.boolean().default(false),
   prompt: z.string().min(10),
   systemHint: z.string().optional(),
