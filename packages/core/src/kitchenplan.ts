@@ -380,7 +380,7 @@ function decodeJsonish(text: string): unknown {
   if (direct !== undefined) return direct;
 
   const fenced = /```(?:json|yaml|yml)?\s*\n([\s\S]*?)```/i.exec(text);
-  if (fenced) {
+  if (fenced?.[1]) {
     const inner = attempt(fenced[1].trim());
     if (inner !== undefined) return inner;
   }
@@ -1692,13 +1692,16 @@ export function scaleKitchenPlan(plan: KitchenPlan, factor: number): KitchenPlan
       `scaling ${plan.servings} servings by ${factor} gives ${servings}, which is not a whole number of servings`,
     );
   }
-  return {
-    ...plan,
-    servings,
-    ingredients: plan.ingredients.map((ing) =>
-      ing.quantity ? { ...ing, quantity: { ...ing.quantity, amount: ing.quantity.amount * factor } } : ing,
-    ),
-  };
+  // A deep copy, not a spread. A spread shares `operations`, `dependencies` and
+  // every ingredient without a quantity with the input, so a caller adjusting
+  // the scaled plan — which is the entire point of having one — silently edits
+  // the plan it is being compared against, and the comparison finds nothing.
+  const scaled: KitchenPlan = structuredClone(plan);
+  scaled.servings = servings;
+  for (const ingredient of scaled.ingredients) {
+    if (ingredient.quantity) ingredient.quantity.amount *= factor;
+  }
+  return scaled;
 }
 
 export interface ScaleComparison {

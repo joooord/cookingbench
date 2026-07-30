@@ -77,13 +77,19 @@ describe('the v1/v2 bank survives the v3 contract', () => {
     expect(legacy.length).toBe(184);
   });
 
-  it('still parses all 97 legacy rubric criteria as legacy criteria', () => {
+  it('never reinterprets a legacy rubric criterion as an atomic one', () => {
+    // Deliberately NOT pinned to an absolute count. The first version asserted
+    // exactly 97, which is how many existed the day it was written — and it
+    // broke within the hour, when the grader audit converted a defective
+    // keyword item to llm-judge and legitimately took the bank to 100. The
+    // invariant that actually matters is that no legacy `{name, description,
+    // weight}` criterion is silently absorbed into the new atomic shape on the
+    // way in; the population size is the dataset's business, not this test's.
     const criteria = items
       .filter((q) => q.grader.type === 'llm-judge')
       .flatMap((q) => (q.grader.type === 'llm-judge' ? (q.grader.rubric ?? []) : []));
     const legacy = criteria.filter((c) => !('kind' in c) || c.kind === undefined);
-    expect(legacy.length).toBe(97);
-    // Nothing was silently reinterpreted as an atomic criterion on the way in.
+    expect(legacy.length).toBeGreaterThan(90);
     expect(criteria.length).toBe(legacy.length);
     for (const c of legacy) {
       expect(typeof (c as { name?: unknown }).name).toBe('string');

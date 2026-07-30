@@ -9,7 +9,7 @@
  * passes, so a failure localises to the mutation rather than to the plumbing.
  */
 import { describe, expect, it } from 'vitest';
-import type { KitchenPlan } from '../src/types.js';
+import type { KitchenPlan, PlanEquipment, PlanIngredient, PlanOperation } from '../src/types.js';
 import {
   buildPlanGraph,
   compareScaledPlan,
@@ -33,6 +33,41 @@ import { buildTrnTable, type TrnTable } from '../src/trn.js';
 /* -------------------------------------------------------------------------- */
 
 const clone = <T>(value: T): T => structuredClone(value);
+
+/**
+ * Fixtures are mutated by name, not by array position. One of the tests below
+ * deliberately shuffles the operation array, and index-based mutation would
+ * have quietly moved with it.
+ */
+function op(plan: KitchenPlan, id: string): PlanOperation {
+  const found = plan.operations.find((o) => o.id === id);
+  if (!found) throw new Error(`fixture has no operation "${id}"`);
+  return found;
+}
+
+function ingredient(plan: KitchenPlan, id: string): PlanIngredient {
+  const found = plan.ingredients.find((i) => i.id === id);
+  if (!found) throw new Error(`fixture has no ingredient "${id}"`);
+  return found;
+}
+
+function equipmentEntry(plan: KitchenPlan, id: string): PlanEquipment {
+  const found = plan.equipment.find((e) => e.id === id);
+  if (!found) throw new Error(`fixture has no equipment "${id}"`);
+  return found;
+}
+
+function servedComponent(plan: KitchenPlan, componentId: string) {
+  const found = plan.serviceState.components.find((c) => c.componentId === componentId);
+  if (!found) throw new Error(`fixture does not serve "${componentId}"`);
+  return found;
+}
+
+function at<T>(items: readonly T[], index: number): T {
+  const item = items[index];
+  if (item === undefined) throw new Error(`fixture has nothing at index ${index}`);
+  return item;
+}
 
 /**
  * The brief every plan below answers, expressed as the item would verify it:
@@ -305,7 +340,7 @@ describe('two different valid plans for the same brief', () => {
     // Declaration order is not execution order. A validator that quietly relied
     // on the array order would pass the fixture and fail the shuffle.
     const plan = roastAndBoil();
-    plan.operations = [plan.operations[3], plan.operations[2], plan.operations[0], plan.operations[1]];
+    plan.operations = ['op-boil', 'op-rest', 'op-season', 'op-roast'].map((id) => op(plan, id));
     const result = validateKitchenPlan(plan, stateBrief());
     expect(result.findings.filter((f) => f.severity === 'violation')).toEqual([]);
   });
@@ -367,7 +402,7 @@ describe('structural consistency', () => {
 
   it('names the cycle rather than merely reporting one', () => {
     const plan = roastAndBoil();
-    plan.operations[0].inputs.push('chicken-rested');
+    op(plan, 'op-season').inputs.push('chicken-rested');
     const result = validateKitchenPlan(plan, stateBrief());
     expect(codes(result, 'acyclicity')).toEqual(['cycle']);
     const cycle = result.findings.find((f) => f.code === 'cycle')!;
@@ -388,7 +423,7 @@ describe('structural consistency', () => {
 
   it('catches a step that starts before its input exists', () => {
     const plan = roastAndBoil();
-    plan.operations[2].startAtMinute = 70; // rest begins while the bird is still roasting
+    op(plan, 'op-rest').startAtMinute = 70; // rest begins while the bird is still roasting
     const result = validateKitchenPlan(plan, stateBrief());
     expect(codes(result, 'ordering-feasibility')).toContain('consumes-before-produced');
     expect(codes(result, 'ordering-feasibility')).toContain('declared-start-breaks-dependency');
@@ -396,7 +431,7 @@ describe('structural consistency', () => {
 
   it('catches a state transition that starts from the wrong state', () => {
     const plan = roastAndBoil();
-    plan.stateTransitions[1].from = 'raw, chilled';
+    at(plan.stateTransitions, 1).from = 'raw, chilled';
     const result = validateKitchenPlan(plan, stateBrief());
     expect(codes(result, 'state-transition')).toContain('invalid-transition');
   });
@@ -415,28 +450,28 @@ describe('structural consistency', () => {
 
   it('refuses to order transitions when the graph is cyclic instead of guessing', () => {
     const plan = roastAndBoil();
-    plan.operations[0].inputs.push('chicken-rested');
+    op(plan, 'op-season').inputs.push('chicken-rested');
     expect(outcome(validateKitchenPlan(plan, stateBrief()), 'state-transition')).toBe('indeterminate');
   });
 
   it('catches a plan that breaks a holding limit it set itself', () => {
     const plan = roastAndBoil();
-    plan.operations[3].startAtMinute = 20; // potatoes done at 45, served at 90
+    op(plan, 'op-boil').startAtMinute = 20; // potatoes done at 45, served at 90
     const result = validateKitchenPlan(plan, stateBrief());
     expect(codes(result, 'self-declared-limit')).toContain('holds-past-own-limit');
   });
 
   it('catches a checkpoint the plan contradicts one line later', () => {
     const plan = roastAndBoil();
-    plan.operations[1].temperature = { value: 61, unit: 'C', kind: 'internal' };
+    op(plan, 'op-roast').temperature = { value: 61, unit: 'C', kind: 'internal' };
     const result = validateKitchenPlan(plan, stateBrief());
     expect(codes(result, 'self-declared-limit')).toContain('checkpoint-contradicts-operation');
   });
 
   it('resolves ids and refuses references to things that do not exist', () => {
     const plan = roastAndBoil();
-    plan.operations[1].inputs = ['chicken-brined'];
-    plan.operations[1].equipment = ['tandoor'];
+    op(plan, 'op-roast').inputs = ['chicken-brined'];
+    op(plan, 'op-roast').equipment = ['tandoor'];
     const result = validateKitchenPlan(plan, stateBrief());
     expect(codes(result, 'reference-integrity')).toEqual(
       expect.arrayContaining(['unknown-input', 'unknown-equipment']),
@@ -445,7 +480,7 @@ describe('structural consistency', () => {
 
   it('rejects one id naming two things', () => {
     const plan = roastAndBoil();
-    plan.operations[3].outputs[0].id = 'chicken-rested';
+    at(op(plan, 'op-boil').outputs, 0).id = 'chicken-rested';
     const result = validateKitchenPlan(plan, stateBrief());
     expect(codes(result, 'reference-integrity')).toContain('duplicate-id');
   });
@@ -458,12 +493,12 @@ describe('structural consistency', () => {
 describe('a plan cannot supply its own constraint values', () => {
   it('rejects a plan that gives itself a second oven, and still schedules against one', () => {
     const plan = roastAndBoil();
-    plan.equipment[0].countAvailable = 2;
-    plan.equipment[0].capacity = '2 shelves';
-    plan.equipment[0].capacitySource = 'candidate-assumption';
+    equipmentEntry(plan, 'oven').countAvailable = 2;
+    equipmentEntry(plan, 'oven').capacity = '2 shelves';
+    equipmentEntry(plan, 'oven').capacitySource = 'candidate-assumption';
     // Roast the potatoes in the oven the plan just invented, alongside the bird.
-    plan.operations[3].equipment = ['oven'];
-    plan.operations[3].startAtMinute = 30;
+    op(plan, 'op-boil').equipment = ['oven'];
+    op(plan, 'op-boil').startAtMinute = 30;
 
     const result = validateKitchenPlan(plan, stateBrief());
     expect(codes(result, 'constraint-provenance')).toContain('self-declared-capacity');
@@ -477,7 +512,7 @@ describe('a plan cannot supply its own constraint values', () => {
   it('treats equipment the stated kitchen does not have as unavailable, not as free', () => {
     const plan = roastAndBoil();
     plan.equipment.push({ id: 'sous-vide', name: 'sous vide circulator', countAvailable: 1 });
-    plan.operations[1].equipment = ['sous-vide'];
+    op(plan, 'op-roast').equipment = ['sous-vide'];
     const result = validateKitchenPlan(plan, stateBrief());
     expect(codes(result, 'constraint-provenance')).toContain('equipment-not-in-stated-kitchen');
     expect(codes(result, 'equipment-contention')).toContain('equipment-unavailable');
@@ -520,8 +555,8 @@ describe('a plan cannot supply its own constraint values', () => {
 describe('resources, timing and service', () => {
   it('catches two simultaneous oven steps against one oven', () => {
     const plan = roastAndBoil();
-    plan.operations[3].equipment = ['oven'];
-    plan.operations[3].startAtMinute = 40;
+    op(plan, 'op-boil').equipment = ['oven'];
+    op(plan, 'op-boil').startAtMinute = 40;
     const result = validateKitchenPlan(plan, stateBrief());
     const finding = result.findings.find((f) => f.code === 'equipment-oversubscribed')!;
     expect(finding.subjects).toEqual(expect.arrayContaining(['oven', 'op-roast', 'op-boil']));
@@ -529,9 +564,9 @@ describe('resources, timing and service', () => {
 
   it('warns rather than fails when a collision needs every step to run long', () => {
     const plan = roastAndBoil();
-    plan.operations[1].duration = { minMinutes: 50, maxMinutes: 70 };
-    plan.operations[3].equipment = ['oven'];
-    plan.operations[3].startAtMinute = 60; // clear of the fast reading, not the slow one
+    op(plan, 'op-roast').duration = { minMinutes: 50, maxMinutes: 70 };
+    op(plan, 'op-boil').equipment = ['oven'];
+    op(plan, 'op-boil').startAtMinute = 60; // clear of the fast reading, not the slow one
     const result = validateKitchenPlan(plan, stateBrief());
     expect(codes(result, 'equipment-contention')).toEqual(['equipment-tight']);
     expect(result.culinary.verdict).toBe('pass');
@@ -539,8 +574,8 @@ describe('resources, timing and service', () => {
 
   it('catches hands-on steps that need two cooks when the brief states one', () => {
     const plan = roastAndBoil();
-    plan.operations[3].attention = 'active';
-    plan.operations[3].startAtMinute = 2; // overlapping the seasoning
+    op(plan, 'op-boil').attention = 'active';
+    op(plan, 'op-boil').startAtMinute = 2; // overlapping the seasoning
     const result = validateKitchenPlan(plan, stateBrief());
     expect(codes(result, 'cook-contention')).toContain('cook-oversubscribed');
   });
@@ -553,8 +588,8 @@ describe('resources, timing and service', () => {
 
   it('catches a sequence that cannot reach the stated service time', () => {
     const plan = roastAndBoil();
-    plan.operations[1].duration = { minMinutes: 150, maxMinutes: 150 };
-    plan.operations[2].startAtMinute = 155;
+    op(plan, 'op-roast').duration = { minMinutes: 150, maxMinutes: 150 };
+    op(plan, 'op-rest').startAtMinute = 155;
     plan.serviceState.atMinute = 170;
     const result = validateKitchenPlan(plan, stateBrief());
     expect(codes(result, 'critical-path')).toEqual(
@@ -564,24 +599,24 @@ describe('resources, timing and service', () => {
 
   it('will not confirm a fit when a step declares no duration', () => {
     const plan = roastAndBoil();
-    delete plan.operations[0].duration;
+    delete op(plan, 'op-season').duration;
     // A lower bound that fits proves nothing; a lower bound that misses is proof.
     expect(outcome(validateKitchenPlan(plan, stateBrief()), 'critical-path')).toBe('indeterminate');
   });
 
   it('still fails a plan that misses the deadline even at its fastest reading', () => {
     const plan = roastAndBoil();
-    delete plan.operations[0].duration;
-    plan.operations[1].duration = { minMinutes: 200, maxMinutes: 200 };
-    plan.operations[2].startAtMinute = 210;
+    delete op(plan, 'op-season').duration;
+    op(plan, 'op-roast').duration = { minMinutes: 200, maxMinutes: 200 };
+    op(plan, 'op-rest').startAtMinute = 210;
     const result = validateKitchenPlan(plan, stateBrief());
     expect(codes(result, 'critical-path')).toContain('cannot-reach-service');
   });
 
   it('catches a component held past the stated limit', () => {
     const plan = roastAndBoil();
-    plan.operations[3].startAtMinute = 10; // potatoes ready at 35, plated at 90
-    plan.holdingLimits[0].maxHoldMinutes = 90; // the plan's own limit is generous
+    op(plan, 'op-boil').startAtMinute = 10; // potatoes ready at 35, plated at 90
+    at(plan.holdingLimits, 0).maxHoldMinutes = 90; // the plan's own limit is generous
     const result = validateKitchenPlan(plan, stateBrief());
     expect(codes(result, 'holding-limit')).toContain('held-too-long');
     expect(codes(result, 'self-declared-limit')).toEqual([]);
@@ -602,15 +637,15 @@ describe('resources, timing and service', () => {
 describe('safety trajectory', () => {
   it('catches a checkpoint that does not reach the stated threshold', () => {
     const plan = roastAndBoil();
-    plan.safetyCheckpoints[0].threshold = { value: 63, unit: 'C', comparator: 'at-least' };
-    plan.operations[1].temperature = { value: 63, unit: 'C', kind: 'internal' };
+    at(plan.safetyCheckpoints, 0).threshold = { value: 63, unit: 'C', comparator: 'at-least' };
+    op(plan, 'op-roast').temperature = { value: 63, unit: 'C', kind: 'internal' };
     const result = validateKitchenPlan(plan, stateBrief());
     expect(codes(result, 'safety-checkpoint')).toContain('checkpoint-below-threshold');
   });
 
   it('accepts the same threshold stated in Fahrenheit', () => {
     const plan = roastAndBoil();
-    plan.safetyCheckpoints[0].threshold = { value: 167, unit: 'F', comparator: 'at-least' };
+    at(plan.safetyCheckpoints, 0).threshold = { value: 167, unit: 'F', comparator: 'at-least' };
     const result = validateKitchenPlan(plan, stateBrief());
     expect(codes(result, 'safety-checkpoint')).toEqual([]);
   });
@@ -624,7 +659,7 @@ describe('safety trajectory', () => {
 
   it('does not let a candidate-assumed checkpoint discharge a verified requirement', () => {
     const plan = roastAndBoil();
-    plan.safetyCheckpoints[0].source = 'candidate-assumption';
+    at(plan.safetyCheckpoints, 0).source = 'candidate-assumption';
     const result = validateKitchenPlan(plan, stateBrief());
     expect(codes(result, 'safety-checkpoint')).toContain('required-checkpoint-missing');
   });
@@ -690,7 +725,7 @@ describe('safety trajectory', () => {
 
   it('refuses to price an invariant it cannot measure rather than passing it', () => {
     const brief = stateBrief();
-    delete brief.trajectoryInvariants![0].dangerBand;
+    delete at(brief.trajectoryInvariants!, 0).dangerBand;
     expect(outcome(validateKitchenPlan(roastAndBoil(), brief), 'trajectory-invariant')).toBe('indeterminate');
   });
 
@@ -709,7 +744,7 @@ describe('safety trajectory', () => {
 describe('service state', () => {
   it('catches a required dish that never reaches the table', () => {
     const plan = roastAndBoil();
-    plan.serviceState.components = [plan.serviceState.components[0]];
+    plan.serviceState.components = [servedComponent(plan, 'chicken-rested')];
     plan.operations = plan.operations.filter((op) => op.id !== 'op-boil');
     plan.ingredients = plan.ingredients.filter((i) => i.id !== 'potatoes' && i.id !== 'water');
     plan.holdingLimits = [];
@@ -719,31 +754,31 @@ describe('service state', () => {
 
   it('catches a dish served in the wrong state', () => {
     const brief = stateBrief();
-    brief.serviceComponents![0].state = 'rested';
+    at(brief.serviceComponents!, 0).state = 'rested';
     const plan = roastAndBoil();
-    plan.serviceState.components[0].state = 'straight from the oven';
+    servedComponent(plan, 'chicken-rested').state = 'straight from the oven';
     const result = validateKitchenPlan(plan, brief);
     expect(codes(result, 'service-state')).toContain('wrong-service-state');
   });
 
   it('catches a dish served below the stated temperature', () => {
     const plan = roastAndBoil();
-    plan.serviceState.components[0].temperature = { value: 40, unit: 'C', kind: 'internal' };
+    servedComponent(plan, 'chicken-rested').temperature = { value: 40, unit: 'C', kind: 'internal' };
     const result = validateKitchenPlan(plan, stateBrief());
     expect(codes(result, 'service-state')).toContain('service-too-cold');
   });
 
   it('refuses a required temperature the plan simply does not state', () => {
     const plan = roastAndBoil();
-    delete plan.serviceState.components[0].temperature;
+    delete servedComponent(plan, 'chicken-rested').temperature;
     const result = validateKitchenPlan(plan, stateBrief());
     expect(codes(result, 'service-state')).toContain('service-temperature-undeclared');
   });
 
   it('matches a component by role rather than by the item author guessing its id', () => {
     const plan = roastAndBoil();
-    plan.operations[3].outputs[0] = { id: 'spuds-1', name: 'buttered new potatoes', state: 'tender' };
-    plan.holdingLimits[0].componentId = 'spuds-1';
+    op(plan, 'op-boil').outputs[0] = { id: 'spuds-1', name: 'buttered new potatoes', state: 'tender' };
+    at(plan.holdingLimits, 0).componentId = 'spuds-1';
     plan.serviceState.components[1] = {
       componentId: 'spuds-1',
       state: 'tender',
@@ -818,9 +853,9 @@ describe('scaling the graph', () => {
     const base = roastAndBoil();
     const doubled = scaleKitchenPlan(base, 2);
     expect(doubled.servings).toBe(8);
-    expect(doubled.ingredients[0].quantity?.amount).toBe(3200);
-    expect(doubled.operations[1].duration).toEqual(base.operations[1].duration);
-    expect(doubled.operations[1].temperature).toEqual(base.operations[1].temperature);
+    expect(ingredient(doubled, 'chicken').quantity?.amount).toBe(3200);
+    expect(op(doubled, 'op-roast').duration).toEqual(op(base, 'op-roast').duration);
+    expect(op(doubled, 'op-roast').temperature).toEqual(op(base, 'op-roast').temperature);
     expect(compareScaledPlan(base, doubled, 2).findings).toEqual([]);
   });
 
@@ -834,7 +869,7 @@ describe('scaling the graph', () => {
   it('catches a ratio that drifts while the rest scales', () => {
     const base = roastAndBoil();
     const scaled = scaleKitchenPlan(base, 2);
-    scaled.ingredients[1].quantity!.amount = 48; // salt quadrupled
+    ingredient(scaled, 'salt').quantity!.amount = 48; // salt quadrupled
     const comparison = compareScaledPlan(base, scaled, 2);
     expect(comparison.findings.map((f) => f.code)).toEqual(['quantity-not-scaled']);
     expect(comparison.outcome).toBe('violation');
@@ -843,16 +878,16 @@ describe('scaling the graph', () => {
   it('accepts the same quantity restated in a larger unit', () => {
     const base = roastAndBoil();
     const scaled = scaleKitchenPlan(base, 2);
-    scaled.ingredients[0].quantity = { amount: 3.2, unit: 'kg' };
+    ingredient(scaled, 'chicken').quantity = { amount: 3.2, unit: 'kg' };
     expect(compareScaledPlan(base, scaled, 2).findings).toEqual([]);
   });
 
   it('checks a unit the conversion table has never heard of', () => {
     const base = roastAndBoil();
-    base.ingredients[0].quantity = { amount: 2, unit: 'gō' };
-    const scaled = clone(base);
-    scaled.servings = 8;
-    scaled.ingredients[0].quantity = { amount: 3, unit: 'gō' };
+    ingredient(base, 'chicken').quantity = { amount: 2, unit: 'gō' };
+    const scaled = scaleKitchenPlan(base, 2);
+    ingredient(scaled, 'chicken').quantity = { amount: 3, unit: 'gō' }; // should be 4
+
     expect(compareScaledPlan(base, scaled, 2).findings.map((f) => f.code)).toEqual(['quantity-not-scaled']);
   });
 
@@ -861,7 +896,7 @@ describe('scaling the graph', () => {
     // timings scale would be marking candidates against a culinary mistake.
     const base = roastAndBoil();
     const scaled = scaleKitchenPlan(base, 2);
-    scaled.operations[1].duration = { minMinutes: 95, maxMinutes: 95 };
+    op(scaled, 'op-roast').duration = { minMinutes: 95, maxMinutes: 95 };
     scaled.operations.push({
       id: 'op-second-tray',
       action: 'roast',
@@ -890,7 +925,7 @@ describe('scaling the graph', () => {
 describe('graph and schedule', () => {
   it('honours a declared start rather than silently repairing it', () => {
     const plan = roastAndBoil();
-    plan.operations[2].startAtMinute = 10;
+    op(plan, 'op-rest').startAtMinute = 10;
     const schedule = scheduleOperations(plan, buildPlanGraph(plan), 'min');
     expect(schedule.byOperation.get('op-rest')?.start).toBe(10);
   });
@@ -907,7 +942,7 @@ describe('graph and schedule', () => {
 
   it('reports missing durations rather than assuming a plausible one', () => {
     const plan = roastAndBoil();
-    delete plan.operations[1].duration;
+    delete op(plan, 'op-roast').duration;
     const schedule = scheduleOperations(plan, buildPlanGraph(plan), 'max');
     expect(schedule.durationsComplete).toBe(false);
     expect(schedule.byOperation.get('op-roast')?.durationAssumedZero).toBe(true);
@@ -940,7 +975,7 @@ describe('TRN table model', () => {
 
   it('carries the quantities and the detail a reader needs', () => {
     const trn = table(roastAndBoil());
-    expect(trn.rows[0].quantity).toBe('1600 g');
+    expect(at(trn.rows, 0).quantity).toBe('1600 g');
     const roast = trn.cells.find((c) => c.operationId === 'op-roast')!;
     expect(roast.detail).toMatchObject({ duration: '70 min', temperature: '75°C internal', equipment: ['oven'] });
   });
@@ -957,12 +992,12 @@ describe('TRN table model', () => {
 
   it('draws a shared component once and points at it afterwards', () => {
     const plan = roastAndBoil();
-    plan.operations[3].inputs.push('salt'); // salt seasons the water too
+    op(plan, 'op-boil').inputs.push('salt'); // salt seasons the water too
     const trn = table(plan);
     expect(trn.sharedComponents).toEqual(['salt']);
     const reference = trn.rows.find((r) => r.kind === 'back-reference')!;
     expect(reference.nodeId).toBe('salt');
-    expect(trn.rows[reference.refersToRow!].kind).toBe('ingredient');
+    expect(at(trn.rows, reference.refersToRow!).kind).toBe('ingredient');
   });
 
   it('shows an orphan ingredient instead of quietly dropping it', () => {
@@ -972,7 +1007,7 @@ describe('TRN table model', () => {
     plan.ingredients.push({ id: 'thyme', name: 'thyme', allergens: [], startingState: 'fresh' });
     const trn = table(plan);
     expect(trn.orphanRows).toHaveLength(1);
-    expect(trn.rows[trn.orphanRows[0]]).toMatchObject({ nodeId: 'thyme', kind: 'orphan' });
+    expect(at(trn.rows, at(trn.orphanRows, 0))).toMatchObject({ nodeId: 'thyme', kind: 'orphan' });
     expect(trn.cells.some((c) => c.rowStart === trn.orphanRows[0])).toBe(false);
   });
 
@@ -991,7 +1026,7 @@ describe('TRN table model', () => {
     expect(order).toHaveLength(4);
     expect(order.indexOf('op-season')).toBeLessThan(order.indexOf('op-roast'));
     expect(order.indexOf('op-roast')).toBeLessThan(order.indexOf('op-rest'));
-    expect(trn.steps[0].summary).toContain('season whole chicken, salt');
+    expect(at(trn.steps, 0).summary).toContain('season whole chicken, salt');
   });
 
   it('is deterministic — the same plan renders to the same table', () => {
@@ -1001,7 +1036,7 @@ describe('TRN table model', () => {
 
   it('refuses a cyclic plan rather than looping or drawing a lie', () => {
     const plan = roastAndBoil();
-    plan.operations[0].inputs.push('chicken-rested');
+    op(plan, 'op-season').inputs.push('chicken-rested');
     const result = buildTrnTable(plan);
     expect(result.renderable).toBe(false);
     expect(result).toMatchObject({ reason: 'cycle' });
@@ -1009,13 +1044,13 @@ describe('TRN table model', () => {
 
   it('refuses when an operation consumes something that does not exist', () => {
     const plan = roastAndBoil();
-    plan.operations[1].inputs = ['chicken-brined'];
+    op(plan, 'op-roast').inputs = ['chicken-brined'];
     expect(buildTrnTable(plan)).toMatchObject({ renderable: false, reason: 'unresolved-input' });
   });
 
   it('refuses when one id names two things', () => {
     const plan = roastAndBoil();
-    plan.operations[3].outputs[0].id = 'chicken-rested';
+    at(op(plan, 'op-boil').outputs, 0).id = 'chicken-rested';
     expect(buildTrnTable(plan)).toMatchObject({ renderable: false, reason: 'duplicate-id' });
   });
 
