@@ -1,18 +1,10 @@
 import { existsSync, mkdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { createClient } from '@supabase/supabase-js';
 import { computeTasteRatings, type TasteVoteRecord } from '@cookingbench/core';
 import { REPO_ROOT } from './dataset.js';
 import { outputRoot, resolveOutputPath, writeOutputFileAtomic } from './firewall.js';
-
-function client() {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) {
-    throw new Error('SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set (see .env.example)');
-  }
-  return createClient(url, key, { auth: { persistSession: false } });
-}
+import type { VerifiedGrant } from './permit.js';
+import { TASTE_ARCHIVE_CAPABILITY, serviceRoleClient } from './supabase.js';
 
 /**
  * Snapshot every taste vote into committed artifacts so the human signal is
@@ -72,8 +64,8 @@ export function assertArchiveGrows(incomingLines: string[], existingPath?: strin
   }
 }
 
-export async function archiveTasteVotes(): Promise<void> {
-  const db = client();
+export async function archiveTasteVotes(grant: VerifiedGrant): Promise<void> {
+  const db = serviceRoleClient(grant, TASTE_ARCHIVE_CAPABILITY, 'archiveTasteVotes');
   const votes: TasteVoteRecord[] = [];
   const pageSize = 1000;
   for (let from = 0; ; from += pageSize) {

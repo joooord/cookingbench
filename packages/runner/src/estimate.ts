@@ -4,6 +4,7 @@ import { join } from 'node:path';
 import { EXPECTED_OUTPUT_TOKENS, estimateModelCost, type Question } from '@cookingbench/core';
 import { DATA_DIR, buildMessages, maxTokensFor } from './dataset.js';
 import { fetchCatalog } from './openrouter.js';
+import type { VerifiedGrant } from './permit.js';
 
 const ESTIMATE_PATH = join(DATA_DIR, '.estimate.json');
 const ESTIMATE_TTL_MS = 24 * 60 * 60 * 1000;
@@ -30,11 +31,14 @@ export function estimateHash(
 }
 
 export async function runEstimate(
+  grant: VerifiedGrant,
   modelIds: string[],
   questions: Question[],
   config: { maxTokens: number; maxTokensRecipe: number },
 ): Promise<EstimateRecord> {
-  const catalog = await fetchCatalog();
+  // Live pricing is an outbound request, so it needs `catalog-read` like any
+  // other network route.
+  const catalog = await fetchCatalog(grant);
   const prompts = questions.map((q) => ({
     text: buildMessages(q)
       .map((m) => m.content)

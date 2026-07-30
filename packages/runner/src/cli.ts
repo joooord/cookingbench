@@ -11,7 +11,8 @@ import {
   type StoredResponse,
 } from '@cookingbench/core';
 import { analyzeRun, tiedRanks, writeAnalysis } from './analyze.js';
-import { BudgetExceededError, BudgetGuard } from './budget.js';
+import { BudgetExceededError, ReservationLedger } from './ledger.js';
+import { PermitError, verifyPermitFile, type VerifiedGrant } from './permit.js';
 import { DATA_DIR, REPO_ROOT, RUNS_DIR, buildMessages, loadModels, loadQuestions, maxTokensFor, runnableQuestions } from './dataset.js';
 import { assertFreshEstimate, runEstimate } from './estimate.js';
 import { JUDGE_PROMPT_VERSION, judgeAnswerPanel } from './judge.js';
@@ -117,6 +118,78 @@ function fail(message: string): never {
   console.error(`\n✗ ${message}`);
   process.exit(1);
 }
+
+// ---------------------------------------------------------------------------
+// RUN-001 — nothing dangerous happens without an approved permit
+// ---------------------------------------------------------------------------
+
+/**
+ * The methodology revision a permit must have been issued against.
+ *
+ * Read from the committed sidecar rather than recomputed, so a local edit to
+ * the vendored plan invalidates every permit instead of silently redefining
+ * what was approved.
+ */
+function frozenMethodologyHash(): string {
+  const sidecar = join(REPO_ROOT, 'docs/methodology/CookingBench-methodology-first-master-plan.sha256');
+  if (!existsSync(sidecar)) {
+    fail(`Missing ${sidecar}. A permit is issued against a specific methodology revision; without the sidecar there is nothing to bind to.`);
+  }
+  const digest = /^[a-f0-9]{64}/.exec(readFileSync(sidecar, 'utf8').trim())?.[0];
+  if (!digest) fail(`${sidecar} does not start with a sha256 digest.`);
+  return digest;
+}
+
+/**
+ * Load and verify the permit for a command that spends money or touches live
+ * data. Refuses loudly rather than degrading to unauthorised work.
+ *
+ * The ordering friction is real and deliberate: `estimate` needs `catalog-read`,
+ * and sizing a permit's budget wants an estimate. The intended resolution is a
+ * cheap `development-probe` permit that grants `catalog-read` and nothing else —
+ * it authorises no inference, so it needs no cells and costs nothing to honour.
+ */
+function requireGrant(context: string): VerifiedGrant {
+  const permitPath = arg('permit');
+  const manifestPath = arg('manifest');
+  if (!permitPath || !manifestPath) {
+    fail(
+      `${context} requires an approved permit (RUN-001): pass --permit <file> --manifest <file>.\n` +
+        `  Permits are Ed25519-signed offline; this process cannot mint one — see data/permits/keys/README.md.\n` +
+        `  Execution is deny-by-default, so the absence of a permit is a refusal, not a default.`,
+    );
+  }
+  const resolvedPermit = isAbsolute(permitPath) ? permitPath : join(process.cwd(), permitPath);
+  const resolvedManifest = isAbsolute(manifestPath) ? manifestPath : join(process.cwd(), manifestPath);
+  if (!existsSync(resolvedManifest)) fail(`No manifest at ${resolvedManifest}.`);
+  let manifest: unknown;
+  try {
+    manifest = JSON.parse(readFileSync(resolvedManifest, 'utf8'));
+  } catch (e) {
+    fail(`Manifest ${resolvedManifest} is not valid JSON (${(e as Error).message}).`);
+  }
+  try {
+    const { grant } = verifyPermitFile(resolvedPermit, {
+      manifest,
+      expectedMethodologyHash: frozenMethodologyHash(),
+    });
+    console.log(
+      `Permit ${grant.permitId} (${grant.kind}) verified with key '${grant.keyId}' — ` +
+        `[${grant.capabilities.join(', ')}], cap $${grant.budgetCapUsd.toFixed(2)}, run ${grant.runId}.`,
+    );
+    return grant;
+  } catch (e) {
+    if (e instanceof PermitError) fail(`${context} refused — ${e.code}: ${e.message}`);
+    throw e;
+  }
+}
+
+/** What the CLI reports about spend. A mock run spends nothing. */
+interface SpendReport {
+  readonly settledUsd: number;
+  settledByModel(): Record<string, number>;
+}
+const NO_SPEND: SpendReport = { settledUsd: 0, settledByModel: () => ({}) };
 
 function resolveModelIds(models: ReturnType<typeof loadModels>): string[] {
   const flag = arg('models') ?? 'all';
@@ -382,7 +455,7 @@ async function cmdEstimate() {
   const models = loadModels();
   const modelIds = resolveModelIds(models);
   console.log(`Estimating worst-case cost for ${modelIds.length} models × ${questions.length} questions…`);
-  const record = await runEstimate(modelIds, questions, DEFAULTS);
+  const record = await runEstimate(requireGrant('estimate'), modelIds, questions, DEFAULTS);
   for (const m of record.perModel) {
     console.log(`    ${m.modelId.padEnd(40)} ${m.calls} calls   $${m.worstCaseUsd.toFixed(2)}`);
   }
@@ -394,7 +467,7 @@ async function cmdEstimate() {
 
 async function cmdModelsCheck() {
   const models = loadModels();
-  const catalog = await fetchCatalog();
+  const catalog = await fetchCatalog(requireGrant('models --check'));
   let ok = true;
   for (const m of models) {
     if (catalog.has(m.id)) {
@@ -433,13 +506,13 @@ async function cmdRun() {
 
   let modelIds: string[];
   let client: CompletionClient;
-  let budget: BudgetGuard;
+  let spend: SpendReport = NO_SPEND;
+  let ledger: ReservationLedger | null = null;
   let runId = arg('run-id') ?? (mock ? 'mock-run' : `${new Date().toISOString().slice(0, 10)}-v1`);
 
   if (mock) {
     modelIds = MOCK_MODELS.map((m) => m.id);
     client = new MockClient(questionsById);
-    budget = new BudgetGuard(Infinity, Infinity);
   } else {
     const models = loadModels();
     modelIds = resolveModelIds(models);
@@ -471,8 +544,9 @@ async function cmdRun() {
     // call fills its max_tokens; with the recipe cap at 32k that is roughly 8x
     // what models actually emit, and gating on it would demand --budget 343 for
     // a batch that really costs about $8 — which makes the cap meaningless.
-    // BudgetGuard still enforces the hard ceiling against ACTUAL spend at
-    // runtime, so an underestimate costs an early abort, not an overspend.
+    // The reservation ledger still enforces the hard ceiling against ACTUAL
+    // spend at runtime, so an underestimate costs an early abort, not an
+    // overspend.
     if (estimate.totalExpectedUsd > totalBudget) {
       fail(
         `Expected cost ($${estimate.totalExpectedUsd.toFixed(2)}) exceeds the budget cap ($${totalBudget.toFixed(2)}). Raise --budget or trim models/questions.`,
@@ -484,8 +558,23 @@ async function cmdRun() {
           `Expected is $${estimate.totalExpectedUsd.toFixed(2)}; the run will abort gracefully if actual spend reaches the cap.`,
       );
     }
-    client = new OpenRouterClient();
-    budget = new BudgetGuard(totalBudget, perModelBudget);
+    const grant = requireGrant('run');
+    if (grant.runId !== runId) {
+      fail(
+        `Permit ${grant.permitId} authorises run '${grant.runId}', not '${runId}'. ` +
+          `A permit binds one execution envelope; use --run-id ${grant.runId}.`,
+      );
+    }
+    // The permit's cap is the approved ceiling; --budget may only lower it.
+    ledger = ReservationLedger.forGrant(grant, runId, {
+      totalCapUsd: totalBudget,
+      perModelCapUsd: perModelBudget,
+    });
+    client = OpenRouterClient.forCandidates(grant, ledger);
+    spend = ledger;
+    if (ledger.settledUsd > 0) {
+      console.log(`Resuming: $${ledger.settledUsd.toFixed(4)} already spent on this run (from spend.ndjson).`);
+    }
   }
 
   const batchBudget = mock ? 0 : Number(arg('budget'));
@@ -536,13 +625,16 @@ async function cmdRun() {
       // Worst-case for the next call at flagship pricing ($10/$50 per Mtok upper bound).
       const promptChars = buildMessages(question).reduce((n, m) => n + m.content.length, 0);
       const worstCase = (promptChars / 4) * 0.00001 + maxTokens * 0.00005;
-      budget.assertCanSpend(modelId, worstCase);
+      // The reservation and the settlement both happen inside the client now,
+      // in one atomic step around the call — the old check-then-record pair let
+      // four concurrent calls each pass a check none of them had yet debited.
       let result = await client.complete(modelId, buildMessages(question), {
         temperature: DEFAULTS.temperature,
         maxTokens,
         reasoning: { effort: 'medium' },
+        questionId: question.id,
+        estimateUsd: worstCase,
       });
-      budget.record(modelId, result.costUsd);
       let totalCost = result.costUsd;
       // Empty/filtered completions are transport noise — retry before storing,
       // with extra token headroom on the second retry.
@@ -551,8 +643,9 @@ async function cmdRun() {
           temperature: DEFAULTS.temperature,
           maxTokens: retry === 0 ? maxTokens : maxTokens * 2,
           reasoning: { effort: 'medium' },
+          questionId: question.id,
+          estimateUsd: worstCase,
         });
-        budget.record(modelId, result.costUsd);
         totalCost += result.costUsd;
       }
       const stored: StoredResponse = {
@@ -571,7 +664,7 @@ async function cmdRun() {
       writeResponse(stored);
       done++;
       if (done % 20 === 0) {
-        console.log(`  ${done}/${tasks.length} done — spent $${budget.spentTotalUsd.toFixed(4)}`);
+        console.log(`  ${done}/${tasks.length} done — spent $${spend.settledUsd.toFixed(4)}`);
       }
     } catch (error) {
       if (error instanceof BudgetExceededError) {
@@ -589,13 +682,18 @@ async function cmdRun() {
     }
   });
 
+  // Release before any exit path, including the failure below. A leaked lock
+  // is recoverable — the next runner takes over a lock whose holder is gone —
+  // but leaving one on a clean exit would make that recovery routine rather
+  // than exceptional.
+  ledger?.close();
   if (done === 0 && tasks.length > 0) {
     fail(
       `No responses were stored despite ${tasks.length} task(s) queued — the run did nothing. ` +
         `Check the budget warnings above rather than treating this as a completed run.`,
     );
   }
-  console.log(`\n✓ Run complete: ${done} responses stored, total spend $${budget.spentTotalUsd.toFixed(4)}`);
+  console.log(`\n✓ Run complete: ${done} responses stored, total spend $${spend.settledUsd.toFixed(4)}`);
   if (failures.length > 0) {
     console.error(`✗ ${failures.length} failures (re-run the same command to retry just these):`);
     for (const f of failures.slice(0, 10)) console.error(`    ${f}`);
@@ -671,7 +769,32 @@ async function cmdJudge() {
     console.log('✓ Nothing pending for the judge.');
     return;
   }
-  const client = config.mock ? null : new OpenRouterClient();
+  // Judging is the expensive half of the pipeline — three flagship seats per
+  // answer, up to three calls per seat on a parse failure — and until v2 it was
+  // the half with no cap and no cost recording at all. Roughly $29 of the ~$56
+  // spent across both published runs never appeared in any artifact.
+  //
+  // The cap is settled BEFORE the client exists, because the calibration gate
+  // below already makes paid calls and must be inside the same ledger.
+  const judgeBudget = Number(arg('budget') ?? NaN);
+  if (!config.mock && !Number.isFinite(judgeBudget)) {
+    fail(
+      `Judging ${pending.length} answers needs a cap: pass --budget <usd>. ` +
+        `Rough worst case is ${pending.length * 3} seat calls (3× that if seats return unparseable output).`,
+    );
+  }
+
+  // Judging is paid work: it needs its own capability, its own reservation
+  // ledger and the same cell authorisation candidate calls get.
+  const judgeGrant = config.mock ? null : requireGrant('judge');
+  if (judgeGrant && judgeGrant.runId !== runId) {
+    fail(`Permit ${judgeGrant.permitId} authorises run '${judgeGrant.runId}', not '${runId}'.`);
+  }
+  const judgeLedger = judgeGrant
+    ? ReservationLedger.forGrant(judgeGrant, runId, { totalCapUsd: judgeBudget })
+    : null;
+  const client = judgeGrant && judgeLedger ? OpenRouterClient.forJudging(judgeGrant, judgeLedger) : null;
+  const judgeSpend: SpendReport = judgeLedger ?? NO_SPEND;
 
   // The judging configuration of record. Written AFTER the calibration gate,
   // and unconditionally, because both details were wrong before: the write was
@@ -721,20 +844,6 @@ async function cmdJudge() {
     writeRunConfig(config);
   }
 
-  // Judging is the expensive half of the pipeline — two flagship seats per
-  // answer, up to three calls per seat on a parse failure — and until now it
-  // was the half with no cap and no cost recording at all. Roughly $29 of the
-  // ~$56 spent across both published runs never appeared in any artifact.
-  const judgeBudget = Number(arg('budget') ?? NaN);
-  if (!config.mock && !Number.isFinite(judgeBudget)) {
-    fail(
-      `Judging ${pending.length} answers needs a cap: pass --budget <usd>. ` +
-        `Rough worst case is ${pending.length * 2} seat calls (3× that if seats return unparseable output).`,
-    );
-  }
-  const budget = new BudgetGuard(config.mock ? Infinity : judgeBudget, Infinity);
-  // A flagship seat pair on a long answer; used only for the pre-flight check.
-  const WORST_CASE_PER_ANSWER_USD = 0.25;
 
   console.log(`Judging ${pending.length} answers with panel [${judgePanel.join(', ')}] (${config.judgePromptVersion})…`);
   let flagged = 0;
@@ -779,9 +888,10 @@ async function cmdJudge() {
       judgeDetail = { mockJudge: true };
     } else {
       let verdict: Awaited<ReturnType<typeof judgeAnswerPanel>>;
-      budget.assertCanSpend('judge-panel', WORST_CASE_PER_ANSWER_USD);
-      // The spend object is shared with the panel so a seat that fails after
-      // two paid retries still reports what it burned.
+      // Reservation and settlement now happen per seat call inside the client,
+      // so there is no check-then-record window here at all. The spend object
+      // is still shared with the panel so a seat that fails after two paid
+      // retries still reports what it burned into the verdict detail.
       const spend = { costUsd: 0 };
       try {
         verdict = await judgeAnswerPanel(
@@ -795,11 +905,9 @@ async function cmdJudge() {
       } catch (error) {
         // One unjudgeable answer must not sink the batch — it stays
         // judgePending and the next `bench judge` retries just these.
-        budget.record('judge-panel', spend.costUsd);
         judgeFailures.push(`${s.modelId} × ${s.questionId}: ${(error as Error).message.slice(0, 120)}`);
         return;
       }
-      budget.record('judge-panel', verdict.costUsd);
       judgeScore = verdict.score;
       judgeDetail = {
         judges: verdict.judges,
@@ -825,7 +933,7 @@ async function cmdJudge() {
     };
     if (++done % 25 === 0) {
       checkpoint();
-      console.log(`  ${done}/${pending.length} judged — spent $${budget.spentTotalUsd.toFixed(4)}`);
+      console.log(`  ${done}/${pending.length} judged — spent $${judgeSpend.settledUsd.toFixed(4)}`);
     }
   });
   } finally {
@@ -834,9 +942,10 @@ async function cmdJudge() {
     checkpoint();
   }
   if (!config.mock) {
-    config.judgeCostUsd = Math.round(budget.spentTotalUsd * 10000) / 10000;
+    config.judgeCostUsd = Math.round(judgeSpend.settledUsd * 10000) / 10000;
     writeRunConfig(config);
-    console.log(`  judge spend this pass: $${budget.spentTotalUsd.toFixed(4)}`);
+    console.log(`  judge spend this pass: $${judgeSpend.settledUsd.toFixed(4)}`);
+    judgeLedger?.close();
   }
   const judgedCount = pending.length - judgeFailures.length - emptyAnswers;
   console.log(`✓ Judged ${judgedCount} answers${flagged > 0 ? ` (${flagged} flagged for manual review)` : ''}`);
@@ -966,26 +1075,29 @@ function cmdAnalyze() {
 }
 
 async function cmdSync() {
+  const grant = requireGrant('sync');
   const { syncDataset, syncRun } = await import('./sync.js');
-  await syncDataset(loadModels(), loadQuestions());
+  await syncDataset(grant, loadModels(), loadQuestions());
   console.log('✓ models + questions synced to Supabase');
   const runId = arg('run');
   if (runId) {
-    await syncRun(readRunConfig(runId), readResponses(runId), readScores(runId));
+    await syncRun(grant, readRunConfig(runId), readResponses(runId), readScores(runId));
     console.log(`✓ run ${runId} synced (unpublished — use \`bench publish --run ${runId}\`)`);
   }
 }
 
 async function cmdPublish() {
   const runId = arg('run') ?? fail('publish requires --run <id>');
+  const grant = requireGrant('publish');
   const { publishRun } = await import('./sync.js');
-  await publishRun(runId);
+  await publishRun(grant, runId);
   console.log(`✓ run ${runId} is now publicly readable`);
 }
 
 async function cmdTasteArchive() {
+  const grant = requireGrant('taste-archive');
   const { archiveTasteVotes } = await import('./taste.js');
-  await archiveTasteVotes();
+  await archiveTasteVotes(grant);
 }
 
 /** Both models comfortable here and the item separates nobody. */
@@ -1108,10 +1220,23 @@ async function cmdPilot() {
   if (!mock && budgetArg === undefined) fail('pilot requires --budget <usd> (hard cap).');
   const cap = mock ? Infinity : Number(budgetArg);
   if (!mock && !Number.isFinite(cap)) fail('--budget must be a number.');
-  const budget = new BudgetGuard(cap, Infinity);
-  const client: CompletionClient = mock
-    ? new MockClient(new Map(survivors.map((q) => [q.id, q])))
-    : new OpenRouterClient();
+  // The pilot calls a ceiling model and a mid model on every candidate, so it
+  // is paid work and takes a permit like the rest. The ledger journals against
+  // the run the permit binds, since the pilot has no run id of its own.
+  const pilotGrant = mock ? null : requireGrant('pilot');
+  const pilotLedger = pilotGrant
+    ? ReservationLedger.forGrant(pilotGrant, pilotGrant.runId, { totalCapUsd: cap })
+    : null;
+  const pilotSpend: SpendReport = pilotLedger ?? NO_SPEND;
+  const mockClient = new MockClient(new Map(survivors.map((q) => [q.id, q])));
+  const client: CompletionClient =
+    pilotGrant && pilotLedger ? OpenRouterClient.forCandidates(pilotGrant, pilotLedger) : mockClient;
+  // Scoring a candidate's answer is judge inference, not candidate inference.
+  // One client for both would let a candidate-only permit buy judge calls —
+  // the two capabilities exist precisely because they are different approvals.
+  // Both clients share the one ledger, so the cap is shared too.
+  const judgeClient: CompletionClient =
+    pilotGrant && pilotLedger ? OpenRouterClient.forJudging(pilotGrant, pilotLedger) : mockClient;
 
   const results: PilotResult[] = [];
   try {
@@ -1120,21 +1245,20 @@ async function cmdPilot() {
     for (const modelId of [seats.ceiling, seats.mid]) {
       const maxTokens = maxTokensFor(q, DEFAULTS);
       const promptChars = buildMessages(q).reduce((n, m) => n + m.content.length, 0);
-      budget.assertCanSpend(modelId, (promptChars / 4) * 0.00001 + maxTokens * 0.00005);
       const result = await client.complete(modelId, buildMessages(q), {
         temperature: DEFAULTS.temperature,
         maxTokens,
         reasoning: { effort: 'medium' },
+        questionId: q.id,
+        estimateUsd: (promptChars / 4) * 0.00001 + maxTokens * 0.00005,
       });
-      budget.record(modelId, result.costUsd);
       const deterministic = gradeDeterministic(q, result.text);
       if (q.grader.type === 'llm-judge') {
         const judgeScore = mock
           ? mockJudgeScore(modelId, q)
-          : await judgeAnswerPanel(client, DEFAULTS.judgePanel, modelId, q, result.text).then((v) => {
-              budget.record(modelId, v.costUsd);
-              return v.score;
-            });
+          : await judgeAnswerPanel(judgeClient, DEFAULTS.judgePanel, modelId, q, result.text).then(
+              (v) => v.score,
+            );
         scores[modelId] = blendJudgeScore(q, judgeScore, deterministic?.score ?? null);
       } else {
         scores[modelId] = deterministic?.score ?? 0;
@@ -1160,11 +1284,12 @@ async function cmdPilot() {
     // A budget abort must not discard verdicts already paid for — the guard
     // says "completed work is saved" and for the pilot that has to be true too.
     if (results.length > 0) writePilot(file, results);
+    pilotLedger?.close();
   }
 
   const admitted = results.filter((r) => r.verdict === 'admit');
   console.log(
-    `\n${admitted.length}/${candidates.length} admitted. Spend $${budget.spentTotalUsd.toFixed(4)}.`,
+    `\n${admitted.length}/${candidates.length} admitted. Spend $${pilotSpend.settledUsd.toFixed(4)}.`,
   );
   if (admitted.length > 0) {
     console.log('Admitted candidates still need the Stage 2 validity check before going active.');

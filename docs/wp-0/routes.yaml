@@ -131,10 +131,10 @@ routes:
     operation: reads every row of the live taste_votes table
     risks:
       - risk: unauthorised-inference
-        status: open
-        capability: live-db-write
-        enforcementPoint: "NOT YET WIRED — needs guarded client construction"
-        test: null
+        status: closed
+        capability: result-sync
+        enforcementPoint: supabase.serviceRoleClient — the only construction path, capability-checked
+        test: "the paid client cannot be built without authorisation > refuses a service-role database client without the capability"
 
   # --- network -------------------------------------------------------------
   - key: runner:openrouter:completion:post
@@ -144,15 +144,20 @@ routes:
     operation: paid completion call to a candidate or judge model
     risks:
       - risk: unauthorised-inference
-        status: open
+        status: closed
         capability: candidate-inference
-        enforcementPoint: "NOT YET WIRED — client is directly constructible"
-        test: null
+        enforcementPoint: private constructor plus runtime grant check; forCandidates/forJudging split
+        test: "the paid client cannot be built without authorisation > refuses a candidate client to a judge-only permit"
+      - risk: unauthorised-inference
+        status: closed
+        capability: candidate-inference
+        enforcementPoint: per-call requireCell before any transport
+        test: "every completion is authorised and accounted for > refuses a cell the permit does not name, without making the call"
       - risk: budget-bypass
-        status: open
+        status: closed
         capability: candidate-inference
-        enforcementPoint: "NOT YET BUILT — atomic reservation ledger"
-        test: null
+        enforcementPoint: ReservationLedger reserve/settle/release around each call
+        test: "every completion is authorised and accounted for > stops at the cap instead of spending past it"
 
   - key: runner:openrouter:catalog:get
     file: packages/runner/src/openrouter.ts
@@ -161,10 +166,10 @@ routes:
     operation: live catalog and pricing fetch
     risks:
       - risk: unauthorised-inference
-        status: open
+        status: closed
         capability: catalog-read
-        enforcementPoint: "NOT YET WIRED — reclassified from benign; this is network activity"
-        test: null
+        enforcementPoint: capability check before the request; reclassified from benign because it is still network activity
+        test: "the paid client cannot be built without authorisation > refuses the live catalog without catalog-read, before any request"
 
   # --- permits ---------------------------------------------------------------
   - key: runner:permit:keyring:read
@@ -209,17 +214,31 @@ routes:
         test: "a grant is identity, not shape > refuses a hand-built object with the right shape"
 
   # --- budget --------------------------------------------------------------
-  - key: runner:budget:guard:spend
-    file: packages/runner/src/budget.ts
-    function: assertCanSpend
-    kind: process-exec
-    operation: check-then-record spend accounting
+  - key: runner:ledger:spend:journal
+    file: packages/runner/src/ledger.ts
+    function: ReservationLedger
+    kind: fs-write
+    operation: atomic spend reservation, journalled to data/runs/<id>/spend.ndjson
     risks:
       - risk: budget-bypass
-        status: open
+        status: closed
         capability: candidate-inference
-        enforcementPoint: "NOT YET BUILT — reserve/settle/release ledger"
-        test: null
+        enforcementPoint: reserve() checks and debits in one synchronous step; no await inside
+        test: "the check-then-record race is closed > never authorises more concurrent calls than the cap allows"
+      - risk: budget-bypass
+        status: closed
+        capability: candidate-inference
+        enforcementPoint: journal replay on construction, so a resumed run inherits prior spend
+        test: "spend survives the process > replays prior spend so a resumed run does not spend its cap twice"
+      - risk: budget-bypass
+        status: closed
+        capability: candidate-inference
+        enforcementPoint: exclusive run lock via open(wx), with dead-holder takeover
+        test: "two runners cannot each spend the whole cap > refuses a second ledger while the first holds the lock"
+      - risk: historical-overwrite
+        status: closed
+        enforcementPoint: write-mode resolveRunDir preflight in the constructor
+        test: "the cap comes from the permit > refuses to spend against a published run"
 
   # --- web -----------------------------------------------------------------
   - key: web:data:board:select
@@ -254,10 +273,10 @@ routes:
     operation: upserts models and questions into Supabase
     risks:
       - risk: unauthorised-publish
-        status: open
+        status: closed
         capability: result-sync
-        enforcementPoint: "NOT YET WIRED"
-        test: null
+        enforcementPoint: supabase.serviceRoleClient — the only construction path, capability-checked
+        test: "the paid client cannot be built without authorisation > refuses a service-role database client without the capability"
 
   - key: runner:sync:run:upsert
     file: packages/runner/src/sync.ts
@@ -266,9 +285,14 @@ routes:
     operation: upserts run, responses and scores into Supabase
     risks:
       - risk: unauthorised-publish
-        status: open
+        status: closed
         capability: result-sync
-        enforcementPoint: "NOT YET WIRED — must require an approved manifest"
+        enforcementPoint: supabase.serviceRoleClient requires result-sync
+        test: "the paid client cannot be built without authorisation > refuses a service-role database client without the capability"
+      - risk: unauthorised-publish
+        status: open
+        capability: publication
+        enforcementPoint: "NOT YET WIRED — the capability is checked but the run's own manifest is not"
         test: null
 
   - key: runner:sync:run:publish
@@ -278,9 +302,14 @@ routes:
     operation: makes a synced run publicly readable
     risks:
       - risk: unauthorised-publish
+        status: closed
+        capability: publication
+        enforcementPoint: serviceRoleClient requires the publication capability, distinct from result-sync
+        test: "the paid client cannot be built without authorisation > refuses a service-role database client without the capability"
+      - risk: unauthorised-publish
         status: open
         capability: publication
-        enforcementPoint: "NOT YET WIRED — assertPublishable is not called here"
+        enforcementPoint: "NOT YET WIRED — assertPublishable is still not called here, so the capability is checked but the artifact is not"
         test: null
 
   - key: runner:estimate:record:write
@@ -302,7 +331,7 @@ routes:
     operation: writes data/pilot/<batch>.json admission records
     risks:
       - risk: unauthorised-inference
-        status: open
+        status: closed
         capability: candidate-inference
-        enforcementPoint: "NOT YET WIRED — bench pilot is prohibited for v3 but not yet disabled in code"
-        test: null
+        enforcementPoint: cmdPilot requires a grant and builds its client through forCandidates
+        test: "the paid client cannot be built without authorisation > refuses a candidate client to a judge-only permit"

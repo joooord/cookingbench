@@ -1,17 +1,13 @@
-import { createClient } from '@supabase/supabase-js';
 import type { ModelEntry, Question, RunConfig, Score, StoredResponse } from '@cookingbench/core';
+import type { VerifiedGrant } from './permit.js';
+import { serviceRoleClient } from './supabase.js';
 
-function client() {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) {
-    throw new Error('SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set (see .env.example)');
-  }
-  return createClient(url, key, { auth: { persistSession: false } });
-}
-
-export async function syncDataset(models: ModelEntry[], questions: Question[]): Promise<void> {
-  const db = client();
+export async function syncDataset(
+  grant: VerifiedGrant,
+  models: ModelEntry[],
+  questions: Question[],
+): Promise<void> {
+  const db = serviceRoleClient(grant, 'result-sync', 'syncDataset');
   const { error: modelError } = await db.from('models').upsert(
     models.map((m) => ({
       id: m.id,
@@ -44,11 +40,12 @@ export async function syncDataset(models: ModelEntry[], questions: Question[]): 
 }
 
 export async function syncRun(
+  grant: VerifiedGrant,
   config: RunConfig,
   responses: StoredResponse[],
   scores: Score[],
 ): Promise<void> {
-  const db = client();
+  const db = serviceRoleClient(grant, 'result-sync', 'syncRun');
   const totalCost = responses.reduce((sum, r) => sum + r.costUsd, 0);
   const { error: runError } = await db.from('runs').upsert({
     id: config.runId,
@@ -129,8 +126,9 @@ export async function syncRun(
   }
 }
 
-export async function publishRun(runId: string): Promise<void> {
-  const db = client();
+export async function publishRun(grant: VerifiedGrant, runId: string): Promise<void> {
+  // Making a synced run publicly readable is publication, not sync.
+  const db = serviceRoleClient(grant, 'publication', 'publishRun');
   const { error } = await db.from('runs').update({ published: true }).eq('id', runId);
   if (error) throw new Error(`publish failed: ${error.message}`);
 }

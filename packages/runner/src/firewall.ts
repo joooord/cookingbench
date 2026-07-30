@@ -1,4 +1,5 @@
 import {
+  appendFileSync,
   existsSync,
   lstatSync,
   mkdirSync,
@@ -335,6 +336,29 @@ export function writeOutputFileAtomic(
 ): string {
   const target = resolveOutputPath(family, relativePath, { write: true });
   return atomicReplace(target, data);
+}
+
+/**
+ * Append a single line to a guarded journal.
+ *
+ * Append rather than replace, because a spend journal must never lose an
+ * earlier entry — a temp-file-and-rename would rewrite the whole file, and a
+ * crash mid-rewrite loses the record of money already spent. `appendFileSync`
+ * opens O_APPEND, so each write lands at the current end of file even with
+ * another writer present.
+ *
+ * The leaf is re-checked for a symlink immediately before the write, the same
+ * way `atomicReplace` does, because append FOLLOWS a link where rename replaces
+ * it.
+ */
+export function appendRunFileLine(runId: string, relativePath: string, line: string): string {
+  const target = resolveRunFile(runId, relativePath, { write: true });
+  if (isLink(target)) {
+    throw new FirewallError(`Refusing to append through leaf symlink ${target}.`, 'SYMLINK_COMPONENT');
+  }
+  mkdirSync(dirname(target), { recursive: true });
+  appendFileSync(target, line.endsWith('\n') ? line : `${line}\n`);
+  return target;
 }
 
 let tempCounter = 0;

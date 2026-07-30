@@ -10,6 +10,13 @@ export const JUDGE_PROMPT_VERSION = 'judge-v2';
  * perfect); finding faults is the discriminating task.
  */
 export const SEVERITY_POINTS = { critical: 40, major: 15, minor: 5 } as const;
+
+/**
+ * Reserved per judge call before it is made. Measured: 1,260 judge calls in
+ * 2026-07-v2.1 cost $14.19, about $0.011 each; this is a deliberate ceiling
+ * over that, since a reservation that undershoots lets the cap be passed.
+ */
+export const JUDGE_WORST_CASE_PER_CALL_USD = 0.05;
 export type Severity = keyof typeof SEVERITY_POINTS;
 
 export interface JudgeFinding {
@@ -123,6 +130,10 @@ async function singleVerdict(
       temperature: 0,
       maxTokens: 2000 * (attempt + 1),
       reasoning: { effort: 'low' },
+      // Carried through so the permit's cell list and the reservation ledger
+      // apply to judge calls too. A judging pass is paid work like any other.
+      questionId: question.id,
+      estimateUsd: JUDGE_WORST_CASE_PER_CALL_USD,
     });
     spend.costUsd += result.costUsd;
     try {
