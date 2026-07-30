@@ -1,7 +1,7 @@
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { Question, Score, StoredResponse } from '@cookingbench/core';
-import { RUNS_DIR } from './dataset.js';
+import { resolveRunDir } from './firewall.js';
 
 export interface QuestionAnalysis {
   questionId: string;
@@ -365,5 +365,7 @@ export function tiedRanks(separation: PairSeparation[], scope: 'active' | 'front
 }
 
 export function writeAnalysis(runId: string, analysis: RunAnalysis): void {
-  writeFileSync(join(RUNS_DIR, runId, 'analysis.json'), JSON.stringify(analysis, null, 2));
+  // Firewall-resolved: analysis.json feeds the site (apps/web reads it for the
+  // separation table), so a mistargeted run id here is a publish route.
+  writeFileSync(join(resolveRunDir(runId, { write: true }), 'analysis.json'), JSON.stringify(analysis, null, 2));
 }

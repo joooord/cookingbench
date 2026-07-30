@@ -2,9 +2,21 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import { join } from 'node:path';
 import type { RunConfig, Score, StoredResponse } from '@cookingbench/core';
 import { RUNS_DIR } from './dataset.js';
+import { resolveRunDir } from './firewall.js';
 
+/**
+ * Every run-scoped path in this module resolves through the firewall
+ * (WP-0, DATA-001). Reads may target a historical run; writes may not, and
+ * neither may escape the runs directory.
+ *
+ * This replaced a bare `join(RUNS_DIR, runId)` on an unvalidated argv string.
+ */
 function runDir(runId: string): string {
-  return join(RUNS_DIR, runId);
+  return resolveRunDir(runId, { write: false });
+}
+
+function runDirForWrite(runId: string): string {
+  return resolveRunDir(runId, { write: true });
 }
 
 function safeName(modelId: string): string {
@@ -12,9 +24,9 @@ function safeName(modelId: string): string {
 }
 
 export function writeRunConfig(config: RunConfig): void {
-  const dir = join(runDir(config.runId), 'responses');
+  const dir = join(runDirForWrite(config.runId), 'responses');
   mkdirSync(dir, { recursive: true });
-  writeFileSync(join(runDir(config.runId), 'config.json'), JSON.stringify(config, null, 2));
+  writeFileSync(join(runDirForWrite(config.runId), 'config.json'), JSON.stringify(config, null, 2));
 }
 
 /**
@@ -93,8 +105,15 @@ export function hasResponse(runId: string, modelId: string, questionId: string):
 }
 
 export function writeResponse(response: StoredResponse): void {
+  // The write-guarded resolver, not responsePath: this is the highest-volume
+  // writer in the pipeline (2,576 files in 2026-07-v2.1 alone) and is exactly
+  // the path a mistargeted --run-id would use to overwrite published answers.
   writeFileSync(
-    responsePath(response.runId, response.modelId, response.questionId),
+    join(
+      runDirForWrite(response.runId),
+      'responses',
+      `${safeName(response.modelId)}__${response.questionId}.json`,
+    ),
     JSON.stringify(response, null, 2),
   );
 }
@@ -109,7 +128,7 @@ export function readResponses(runId: string): StoredResponse[] {
 }
 
 export function writeScores(runId: string, scores: Score[]): void {
-  writeFileSync(join(runDir(runId), 'scores.json'), JSON.stringify(scores, null, 2));
+  writeFileSync(join(runDirForWrite(runId), 'scores.json'), JSON.stringify(scores, null, 2));
 }
 
 export function readScores(runId: string): Score[] {
@@ -119,7 +138,7 @@ export function readScores(runId: string): Score[] {
 }
 
 export function writeLeaderboard(runId: string, leaderboard: unknown): void {
-  writeFileSync(join(runDir(runId), 'leaderboard.json'), JSON.stringify(leaderboard, null, 2));
+  writeFileSync(join(runDirForWrite(runId), 'leaderboard.json'), JSON.stringify(leaderboard, null, 2));
 }
 
 export function listRuns(): string[] {

@@ -1,0 +1,13 @@
+{
+  "_comment": "DATA-001. Runs whose artifacts are read-only inputs forever. The firewall (packages/runner/src/firewall.ts) refuses any write resolving into these directories. Adding a published run here is a data change, not an enforcement-code change. If this file is missing the firewall fails CLOSED by treating every existing run directory as historical.",
+  "frozenAt": "2026-07-30",
+  "pinnedCommit": "980dfcb5e3ff920fe1a3231121a6115e3fa48dcb",
+  "runIds": [
+    "2026-06-v1",
+    "2026-06-v2",
+    "2026-07-v2.1",
+    "canary",
+    "canary2",
+    "mock-run"
+  ]
+}

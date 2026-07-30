@@ -2,7 +2,8 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { parse } from 'yaml';
 import type { Question } from '@cookingbench/core';
-import { DATA_DIR, RUNS_DIR } from './dataset.js';
+import { DATA_DIR } from './dataset.js';
+import { resolveRunDir } from './firewall.js';
 import { judgeAnswer } from './judge.js';
 import type { CompletionClient } from './openrouter.js';
 
@@ -50,7 +51,7 @@ export function loadAnchors(): CalibrationAnchor[] {
 }
 
 function calibrationPath(runId: string): string {
-  return join(RUNS_DIR, runId, 'calibration.json');
+  return join(resolveRunDir(runId, { write: true }), 'calibration.json');
 }
 
 export function readCalibration(runId: string): CalibrationResult | null {
