@@ -207,19 +207,53 @@ export const validatedRunManifestSchema = runManifestSchema.superRefine((m, ctx)
       message: `rank-eligible manifest cannot carry origin [${nonEvidential.join(', ')}]. Origin never upgrades eligibility.`,
     });
   }
-  // outputRoot must stay inside the run's own directory. Enforcement of the
-  // real filesystem boundary lives in the firewall; this catches the lexical
-  // case at parse so a manifest cannot even describe an escape.
-  if (m.outputRoot.includes('..') || m.outputRoot.startsWith('/')) {
+  // outputRoot is DERIVED from run identity, not asserted. A manifest for
+  // `r-1` naming `data/runs/r-2` as its output root was previously accepted,
+  // which would have let one run write into another's directory.
+  if (m.outputRoot !== expectedOutputRoot(m.runId)) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       path: ['outputRoot'],
-      message: `outputRoot must be a relative path with no '..' segments; got '${m.outputRoot}'.`,
+      message: `outputRoot must be '${expectedOutputRoot(m.runId)}' for run '${m.runId}'; got '${m.outputRoot}'.`,
     });
   }
 });
 
+/** The one legitimate output root for a run. */
+export function expectedOutputRoot(runId: string): string {
+  return `data/runs/${runId}`;
+}
+
 export type RunManifest = z.infer<typeof runManifestSchema>;
+
+/**
+ * A manifest that has passed `validatedRunManifestSchema`.
+ *
+ * Branded so execution and publication cannot be handed a merely
+ * structurally-valid object: the brand is unforgeable outside this module, so
+ * the only way to obtain one is `parseRunManifest`. Previously the validated
+ * schema existed but nothing required its use, and `RunManifest` was inferred
+ * from the raw schema — so the checks were opt-in.
+ */
+declare const validatedBrand: unique symbol;
+export type ValidatedRunManifest = RunManifest & { readonly [validatedBrand]: true };
+
+export function parseRunManifest(value: unknown): ValidatedRunManifest {
+  return validatedRunManifestSchema.parse(value) as ValidatedRunManifest;
+}
+
+export function safeParseRunManifest(
+  value: unknown,
+): { ok: true; manifest: ValidatedRunManifest } | { ok: false; error: string } {
+  const result = validatedRunManifestSchema.safeParse(value);
+  if (!result.success) {
+    return {
+      ok: false,
+      error: result.error.issues.map((i) => `${i.path.join('.') || '(root)'}: ${i.message}`).join('; '),
+    };
+  }
+  return { ok: true, manifest: result.data as ValidatedRunManifest };
+}
 
 /**
  * Canonical JSON serialisation, for hashing and for signature verification.

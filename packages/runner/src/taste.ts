@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { createClient } from '@supabase/supabase-js';
 import { computeTasteRatings, type TasteVoteRecord } from '@cookingbench/core';
 import { REPO_ROOT } from './dataset.js';
+import { outputRoot, resolveOutputPath } from './firewall.js';
 
 function client() {
   const url = process.env.SUPABASE_URL;
@@ -35,7 +36,7 @@ export async function archiveTasteVotes(): Promise<void> {
     if (!data || data.length < pageSize) break;
   }
 
-  const dir = join(REPO_ROOT, 'data', 'taste');
+  const dir = outputRoot('taste');
   mkdirSync(dir, { recursive: true });
 
   // Stable key order per line so re-exports diff cleanly.
@@ -52,11 +53,11 @@ export async function archiveTasteVotes(): Promise<void> {
       vote_ms: v.vote_ms ?? null,
     }),
   );
-  writeFileSync(join(dir, 'votes.ndjson'), lines.join('\n') + (lines.length ? '\n' : ''));
+  writeFileSync(resolveOutputPath('taste', 'votes.ndjson', { write: true }), lines.join('\n') + (lines.length ? '\n' : ''));
 
   const ratings = computeTasteRatings(votes, { bootstrap: 200 });
   writeFileSync(
-    join(dir, 'ratings.json'),
+    resolveOutputPath('taste', 'ratings.json', { write: true }),
     JSON.stringify({ generatedAt: new Date().toISOString(), totalVotes: votes.length, ratings }, null, 2) + '\n',
   );
 

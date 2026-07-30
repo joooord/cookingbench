@@ -2,7 +2,12 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import { join } from 'node:path';
 import type { RunConfig, Score, StoredResponse } from '@cookingbench/core';
 import { RUNS_DIR } from './dataset.js';
-import { assertSafePathComponent, resolveRunDir } from './firewall.js';
+import {
+  FirewallError,
+  assertSafePathComponent,
+  resolveRunDir,
+  resolveRunFile,
+} from './firewall.js';
 
 /**
  * Every run-scoped path in this module resolves through the firewall
@@ -19,8 +24,45 @@ function runDirForWrite(runId: string): string {
   return resolveRunDir(runId, { write: true });
 }
 
-function safeName(modelId: string): string {
+/**
+ * The legacy, LOSSY filename encoding. Kept only to read artifacts written
+ * before WP-0: it collapses every run of non-word characters to "__", so
+ * `openai/gpt-5.5` and `openai:gpt-5.5` produce the same filename and one
+ * response silently overwrites the other.
+ */
+function legacySafeName(modelId: string): string {
   return modelId.replace(/[^\w.-]+/g, '__');
+}
+
+/**
+ * Injective, reversible component encoding: anything outside [A-Za-z0-9._-]
+ * becomes ~XX hex, and "~" itself is escaped first so the mapping stays
+ * one-to-one. Distinct model ids can no longer share a stored cell.
+ */
+function encodeComponent(value: string): string {
+  return value
+    .replace(/~/g, '~7E')
+    .replace(/[^A-Za-z0-9._-]/g, (ch) =>
+      [...new TextEncoder().encode(ch)]
+        .map((b) => `~${b.toString(16).toUpperCase().padStart(2, '0')}`)
+        .join(''),
+    );
+}
+
+function responseFileName(modelId: string, questionId: string): string {
+  // Validate the RAW values first. Encoding would happily turn
+  // `../../../etc/passwd` into a safe-but-mangled filename, which hides bad
+  // input rather than refusing it — a question id containing a separator is a
+  // bug upstream, not something to silently rewrite. Model ids legitimately
+  // contain "/", so only the question id is checked for separators.
+  assertSafePathComponent(questionId, 'question id');
+  if (modelId === '' || modelId.includes('\0') || modelId.length > 160) {
+    throw new FirewallError(
+      `Unsafe model id ${JSON.stringify(modelId)}.`,
+      'INVALID_PATH_COMPONENT',
+    );
+  }
+  return `${encodeComponent(modelId)}__${encodeComponent(questionId)}.json`;
 }
 
 export function writeRunConfig(config: RunConfig): void {
@@ -96,12 +138,17 @@ export function readRunConfig(runId: string): RunConfig {
   return JSON.parse(readFileSync(join(runDir(runId), 'config.json'), 'utf8')) as RunConfig;
 }
 
+/**
+ * Read path. Prefers the injective encoding and falls back to the legacy name
+ * so historical runs — which are frozen and will never be rewritten — stay
+ * readable.
+ */
 export function responsePath(runId: string, modelId: string, questionId: string): string {
-  return join(
-    runDir(runId),
-    'responses',
-    `${assertSafePathComponent(safeName(modelId), 'model id')}__${assertSafePathComponent(questionId, 'question id')}.json`,
-  );
+  const dir = join(runDir(runId), 'responses');
+  const current = join(dir, responseFileName(modelId, questionId));
+  if (existsSync(current)) return current;
+  const legacy = join(dir, `${legacySafeName(modelId)}__${questionId}.json`);
+  return existsSync(legacy) ? legacy : current;
 }
 
 export function hasResponse(runId: string, modelId: string, questionId: string): boolean {
@@ -115,10 +162,10 @@ export function writeResponse(response: StoredResponse): void {
   // Both components validated here, at the writer boundary, rather than
   // trusting whichever caller got here.
   writeFileSync(
-    join(
-      runDirForWrite(response.runId),
-      'responses',
-      `${assertSafePathComponent(safeName(response.modelId), 'model id')}__${assertSafePathComponent(response.questionId, 'question id')}.json`,
+    resolveRunFile(
+      response.runId,
+      join('responses', responseFileName(response.modelId, response.questionId)),
+      { write: true },
     ),
     JSON.stringify(response, null, 2),
   );

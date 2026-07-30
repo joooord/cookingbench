@@ -1,4 +1,12 @@
-import { existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
@@ -9,6 +17,7 @@ import {
   canonicalJson,
   hasJudgeConflict,
   isRankEligible,
+  safeParseRunManifest,
   validatedRunManifestSchema,
 } from '@cookingbench/core';
 import { RUNS_DIR } from '../src/dataset.js';
@@ -18,11 +27,14 @@ import {
   FirewallError,
   assertPublishable,
   assertSafePathComponent,
-  assertWritablePath,
+  declaredHistoricalRunIds,
   isHistoricalRun,
   nonScoringBanner,
+  outputRoot,
   readHistoricalRegistry,
+  resolveOutputPath,
   resolveRunDir,
+  resolveRunFile,
   undeclaredPublishedRuns,
 } from '../src/firewall.js';
 import { writeResponse, writeScores } from '../src/store.js';
@@ -33,6 +45,36 @@ import { writeResponse, writeScores } from '../src/store.js';
  */
 
 const SCRATCH = '__test-firewall-scratch';
+
+/** Minimal manifest that parses; individual tests override fields. */
+const manifestFixture = {
+  manifestVersion: 1,
+  runId: 'r-1',
+  methodologyVersion: 'v3.0',
+  schemaVersion: '1',
+  gitCommit: '980dfcb',
+  parentArtifacts: [],
+  evidenceClass: 'development',
+  artifactOrigin: ['synthetic'],
+  releaseState: 'draft',
+  rankEligible: false,
+  bankHash: 'a'.repeat(64),
+  promptHash: 'b'.repeat(64),
+  judgePromptHash: 'c'.repeat(64),
+  validatorHash: 'd'.repeat(64),
+  candidateRoutes: [],
+  judgeRoutes: [],
+  generationSettings: {
+    temperature: 0,
+    maxTokens: 16000,
+    maxTokensRecipe: 32000,
+    repeats: 1,
+    repeatPolicy: 'single',
+  },
+  callPlan: { concurrency: 4, maxAttempts: 3, abortOn: [] },
+  budgetCapUsd: 10,
+  outputRoot: 'data/runs/r-1',
+};
 
 afterEach(() => {
   rmSync(join(RUNS_DIR, SCRATCH), { recursive: true, force: true });
@@ -144,11 +186,13 @@ describe('path confinement — the traversal that WP-0 closed', () => {
     expect(resolveRunDir('2026-08-v2.2', { write: true })).toBe(join(RUNS_DIR, '2026-08-v2.2'));
   });
 
-  it('guards arbitrary paths that resolve into a frozen run', () => {
-    expect(() => assertWritablePath(join(RUNS_DIR, '2026-07-v2.1', 'anything.json'))).toThrow(
+  it('guards files inside a frozen run, and validates the final target', () => {
+    expect(() => resolveRunFile('2026-07-v2.1', 'anything.json', { write: true })).toThrow(FirewallError);
+    mkdirSync(join(RUNS_DIR, SCRATCH), { recursive: true });
+    expect(() => resolveRunFile(SCRATCH, 'responses/ok.json', { write: true })).not.toThrow();
+    expect(() => resolveRunFile(SCRATCH, '../2026-07-v2.1/scores.json', { write: true })).toThrow(
       FirewallError,
     );
-    expect(() => assertWritablePath(join(RUNS_DIR, SCRATCH, 'ok.json'))).not.toThrow();
   });
 });
 
@@ -234,9 +278,16 @@ describe('RELEASE-002 — publication eligibility', () => {
 
   it('fails closed with a clear error for every ineligible class', () => {
     for (const evidenceClass of classes.filter((c) => c !== 'public-release')) {
-      expect(() =>
-        assertPublishable({ runId: 'r', evidenceClass, releaseState: 'released' }, 'sync'),
-      ).toThrow(FirewallError);
+      const parsed = safeParseRunManifest({
+        ...manifestFixture,
+        runId: 'r-1',
+        evidenceClass,
+        releaseState: 'released',
+        rankEligible: isRankEligible(evidenceClass),
+        artifactOrigin: ['archived'],
+      });
+      if (!parsed.ok) continue; // some class/state pairs are rejected at parse
+      expect(() => assertPublishable(parsed.manifest, 'sync')).toThrow(FirewallError);
     }
   });
 
@@ -379,7 +430,7 @@ describe('filesystem boundary, not just lexical paths', () => {
 });
 
 describe('filename components are validated at the writer boundary', () => {
-  it.each(['', '.', '..', 'a/b', 'a\\b', 'x'.repeat(129)])('rejects %j', (bad) => {
+  it.each(['', '.', '..', 'a/b', 'a\\b', 'x'.repeat(161)])('rejects %j', (bad) => {
     expect(() => assertSafePathComponent(bad, 'question id')).toThrow(FirewallError);
   });
 
@@ -471,5 +522,114 @@ describe('DATA-002 — coherence is enforced at parse, not by an optional call',
 
   it('hashes deterministically regardless of key order', () => {
     expect(canonicalJson({ b: 1, a: { d: 2, c: 3 } })).toBe(canonicalJson({ a: { c: 3, d: 2 }, b: 1 }));
+  });
+});
+
+describe('adversarial — the bypasses Codex found in the first firewall', () => {
+  it('cannot disable protection by mutating a returned id collection', () => {
+    // historicalRunIds() used to hand back the live cached Set; a caller could
+    // .clear() it and every published run became writable.
+    const ids = declaredHistoricalRunIds() as string[];
+    expect(() => {
+      (ids as unknown as string[]).length = 0;
+    }).toThrow();
+    expect(isHistoricalRun('2026-07-v2.1')).toBe(true);
+    expect(() => resolveRunDir('2026-07-v2.1', { write: true })).toThrow(FirewallError);
+  });
+
+  it('refuses an alias pointing at a historical run', () => {
+    // The alias stays under RUNS_DIR so containment passes; identity must come
+    // from the REAL path, not the supplied name.
+    const alias = `${SCRATCH}-alias`;
+    const link = join(RUNS_DIR, alias);
+    rmSync(link, { recursive: true, force: true });
+    symlinkSync(join(RUNS_DIR, '2026-07-v2.1'), link);
+    try {
+      expect(() => resolveRunDir(alias, { write: true })).toThrow(FirewallError);
+    } finally {
+      rmSync(link, { recursive: true, force: true });
+    }
+  });
+
+  it('refuses a nested responses symlink inside a legitimate run', () => {
+    const dir = join(RUNS_DIR, SCRATCH);
+    mkdirSync(dir, { recursive: true });
+    const link = join(dir, 'responses');
+    rmSync(link, { recursive: true, force: true });
+    symlinkSync(join(RUNS_DIR, '2026-07-v2.1', 'responses'), link);
+    try {
+      expect(() =>
+        writeResponse({
+          runId: SCRATCH,
+          modelId: 'openai/gpt-5.5',
+          questionId: 'conv-001',
+          answerText: 'redirected',
+          raw: {},
+          tokensIn: 0,
+          tokensOut: 0,
+          costUsd: 0,
+          latencyMs: 0,
+        }),
+      ).toThrow(FirewallError);
+    } finally {
+      rmSync(link, { recursive: true, force: true });
+    }
+  });
+
+  it('stores colliding model ids in distinct cells', () => {
+    // safeName() mapped both of these to the same filename, so one response
+    // silently overwrote the other.
+    const dir = join(RUNS_DIR, SCRATCH);
+    mkdirSync(join(dir, 'responses'), { recursive: true });
+    const base = {
+      runId: SCRATCH,
+      questionId: 'conv-001',
+      raw: {},
+      tokensIn: 0,
+      tokensOut: 0,
+      costUsd: 0,
+      latencyMs: 0,
+    };
+    writeResponse({ ...base, modelId: 'a/x:y', answerText: 'first' });
+    writeResponse({ ...base, modelId: 'a/x__y', answerText: 'second' });
+    const files = readdirSync(join(dir, 'responses'));
+    expect(files.length).toBe(2);
+    const bodies = files.map((f) => JSON.parse(readFileSync(join(dir, 'responses', f), 'utf8')).answerText);
+    expect(new Set(bodies)).toEqual(new Set(['first', 'second']));
+  });
+
+  it('freezes a released run even when the registry omits it', () => {
+    // {"runIds": []} is structurally valid; release state must be enforced at
+    // runtime from the run itself, not from the registry alone.
+    const dir = join(RUNS_DIR, SCRATCH);
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(join(dir, 'config.json'), JSON.stringify({ releaseState: 'released' }));
+    expect(isHistoricalRun(SCRATCH)).toBe(true);
+    expect(() => writeScores(SCRATCH, [])).toThrow(FirewallError);
+    expect(undeclaredPublishedRuns()).toContain(SCRATCH);
+  });
+
+  it('keeps an in-progress run resumable across batches', () => {
+    const dir = join(RUNS_DIR, SCRATCH);
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(join(dir, 'config.json'), JSON.stringify({ releaseState: 'draft' }));
+    expect(isHistoricalRun(SCRATCH)).toBe(false);
+    expect(() => writeScores(SCRATCH, [])).not.toThrow();
+    expect(() => writeScores(SCRATCH, [])).not.toThrow(); // batch two
+  });
+
+  it('allows taste writes in the taste root but not aliases into a frozen run', () => {
+    expect(() => resolveOutputPath('taste', 'votes.ndjson', { write: true })).not.toThrow();
+    expect(outputRoot('taste').endsWith(join('data', 'taste'))).toBe(true);
+    for (const escape of ['../runs/2026-07-v2.1/scores.json', '../../etc/passwd', '..']) {
+      expect(() => resolveOutputPath('taste', escape, { write: true })).toThrow(FirewallError);
+    }
+  });
+
+  it('rejects a manifest whose output root belongs to another run', () => {
+    const cross = safeParseRunManifest({ ...manifestFixture, runId: 'r-1', outputRoot: 'data/runs/r-2' });
+    expect(cross.ok).toBe(false);
+    const own = safeParseRunManifest({ ...manifestFixture, runId: 'r-1', outputRoot: 'data/runs/r-1' });
+    expect(own.ok).toBe(true);
   });
 });

@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, readdirSync, realpathSync } from 'node:fs';
+import { existsSync, lstatSync, readFileSync, readdirSync, realpathSync } from 'node:fs';
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import {
   NON_SCORING_LABEL,
@@ -7,100 +7,105 @@ import {
   runIdSchema,
   type Capability,
   type EvidenceClass,
-  type RunManifest,
+  type ValidatedRunManifest,
 } from '@cookingbench/core';
 import { DATA_DIR, RUNS_DIR } from './dataset.js';
 
 /**
  * WP-0 evidence firewall — RUN-001, RUN-001A, DATA-001, RELEASE-002.
  *
- * The design rule is that a firewall you have to REMEMBER to call is not a
- * firewall. The bypass-path inventory found 178 routes; 134 of them were
- * capable of overwriting history, publishing without authorisation, bypassing
- * the budget or spending money. Adding a check at each of those call sites
- * would leave the next command written by someone who never read the plan wide
- * open. So the dangerous capabilities are made unreachable instead:
+ * A firewall you have to REMEMBER to call is not a firewall, so the dangerous
+ * capabilities are made unreachable rather than merely discouraged: every
+ * output path resolves through a root-scoped guard, and the default posture
+ * with no permit grants nothing.
  *
- *   - every run-scoped path resolves through `resolveRunDir`, which confines
- *     and refuses published runs on write;
- *   - every network client is constructed through a capability grant;
- *   - the default state, with no permit, denies all of it.
+ * Three classes of bypass shaped this design, all found in review of earlier
+ * drafts of this same file:
  *
- * Enforcement sits beneath the CLI so every current and future entry point
- * shares one policy.
+ *   1. Lexical containment is not filesystem containment. `resolve()` never
+ *      touches disk, so a symlink passes it.
+ *   2. Filesystem containment is not IDENTITY containment. An alias
+ *      `data/runs/alias -> 2026-07-v2.1` stays under RUNS_DIR and passes a
+ *      realpath check, while a registry lookup on the lexical name "alias"
+ *      finds nothing — and the write lands in the frozen run. Identity must be
+ *      taken from the REAL path, never from the name the caller supplied.
+ *   3. A guard whose state is reachable is not a guard. Returning the cached
+ *      frozen-set let a caller `.clear()` it.
  */
+
+export type FirewallErrorCode =
+  | 'PATH_ESCAPE'
+  | 'HISTORICAL_WRITE'
+  | 'NO_PERMIT'
+  | 'CAPABILITY_DENIED'
+  | 'CELL_NOT_AUTHORISED'
+  | 'INELIGIBLE_EVIDENCE'
+  | 'INVALID_RUN_ID'
+  | 'REGISTRY_INVALID'
+  | 'SYMLINK_ESCAPE'
+  | 'SYMLINK_COMPONENT'
+  | 'INVALID_PATH_COMPONENT';
 
 export class FirewallError extends Error {
   constructor(
     message: string,
-    readonly code:
-      | 'PATH_ESCAPE'
-      | 'HISTORICAL_WRITE'
-      | 'NO_PERMIT'
-      | 'CAPABILITY_DENIED'
-      | 'CELL_NOT_AUTHORISED'
-      | 'INELIGIBLE_EVIDENCE'
-      | 'INVALID_RUN_ID'
-      | 'REGISTRY_INVALID'
-      | 'SYMLINK_ESCAPE'
-      | 'INVALID_PATH_COMPONENT',
+    readonly code: FirewallErrorCode,
   ) {
     super(message);
     this.name = 'FirewallError';
   }
 }
 
-/**
- * DATA-001. Runs whose artifacts are read-only inputs forever.
- *
- * Sourced from a committed registry rather than hardcoded so that publishing a
- * new run adds to the frozen set by data change, not by editing enforcement
- * code. If the registry is missing we fall back to treating EVERY existing run
- * directory as historical — failing closed, because the alternative is a fresh
- * checkout silently permitting overwrites.
- */
+// ---------------------------------------------------------------------------
+// Output families. Each has exactly one permitted root.
+// ---------------------------------------------------------------------------
+
+export type OutputFamily = 'runs' | 'taste' | 'pilot' | 'shadow';
+
+const ROOTS: Record<OutputFamily, string> = {
+  runs: RUNS_DIR,
+  taste: join(DATA_DIR, 'taste'),
+  pilot: join(DATA_DIR, 'pilot'),
+  shadow: join(DATA_DIR, 'shadow'),
+};
+
+export function outputRoot(family: OutputFamily): string {
+  return ROOTS[family];
+}
+
+// ---------------------------------------------------------------------------
+// DATA-001 — the frozen set
+// ---------------------------------------------------------------------------
+
 const HISTORICAL_REGISTRY = join(DATA_DIR, 'historical-runs.json');
 
-/** Every run directory currently on disk. The fail-closed fallback. */
+/**
+ * Marker file naming a run as released. Written by an explicit release step,
+ * never by ordinary pipeline commands, so an in-progress run stays resumable
+ * across batches until that transition happens.
+ */
+const RELEASED_MARKER = 'RELEASED';
+
 function everyRunDirectory(): string[] {
   return existsSync(RUNS_DIR)
     ? readdirSync(RUNS_DIR, { withFileTypes: true })
-        .filter((e) => e.isDirectory())
+        .filter((e) => e.isDirectory() || e.isSymbolicLink())
         .map((e) => e.name)
     : [];
 }
 
-let historicalCache: Set<string> | null = null;
-
 /**
- * DATA-001. The frozen set.
+ * Read the declared frozen set from a registry file.
  *
- * Genuinely fail-closed, which the first cut was not: it did
- * `parsed.runIds ?? []`, so a malformed registry — or one missing the key —
- * produced an EMPTY set and permitted writes to every published run. That is
- * the exact inverse of the intent. Now:
+ * Fail-closed in every direction: an absent file freezes every run directory,
+ * and an unparseable or malformed one throws rather than defaulting to "nothing
+ * is frozen" — which is what an earlier `parsed.runIds ?? []` actually did.
  *
- *   absent file → every run directory on disk is frozen (fail closed)
- *   unparseable → throw; refuse to operate on an unknown policy
- *   valid       → the registry is authoritative
- *
- * The registry is authoritative when valid rather than unioned with the
- * directories on disk, because unioning would freeze a run the moment its first
- * batch wrote — and this pipeline is resume-aware by design, so batch two would
- * be refused. Omission is guarded instead by a CI test asserting that every run
- * directory carrying a leaderboard.json appears in the registry: a published
- * board that is not declared frozen fails the build rather than breaking runs.
+ * Exported with an explicit path parameter so the failure modes are testable
+ * against fixtures. There is deliberately no setter and no accessor returning
+ * mutable internal state.
  */
-/**
- * Read the frozen set from a registry file.
- *
- * Takes the path as a parameter so the failure modes can be tested against
- * fixtures without any global mutation. There is deliberately NO setter: an
- * exported `__setHistoricalRunIds([])` would have been a production API call
- * that disables DATA-001 outright, and a guard with an off switch in its own
- * public interface is not a guard.
- */
-export function readHistoricalRegistry(registryPath: string = HISTORICAL_REGISTRY): Set<string> {
+export function readHistoricalRegistry(registryPath: string = HISTORICAL_REGISTRY): ReadonlySet<string> {
   if (!existsSync(registryPath)) return new Set(everyRunDirectory());
   let parsed: unknown;
   try {
@@ -121,41 +126,151 @@ export function readHistoricalRegistry(registryPath: string = HISTORICAL_REGISTR
   return new Set(result.runIds);
 }
 
-export function historicalRunIds(): Set<string> {
-  historicalCache ??= readHistoricalRegistry();
-  return historicalCache;
+/** Private. Never returned to a caller — a mutable frozen set is an off switch. */
+let registryCache: ReadonlySet<string> | null = null;
+
+function declaredFrozen(): ReadonlySet<string> {
+  registryCache ??= readHistoricalRegistry();
+  return registryCache;
 }
 
 /**
- * CI guard for registry omission. Any run directory that has published a board
- * must be declared frozen; if it is not, this returns it and the test fails.
+ * Runtime-enforced release state for a single run, independent of the registry.
+ *
+ * The registry alone is not sufficient: `{"runIds": []}` is structurally valid,
+ * so a run released but omitted from the registry would be writable. Checking
+ * the run itself closes that without freezing work in progress:
+ *
+ *   - an explicit RELEASED marker    → frozen
+ *   - config.releaseState 'released' → frozen
+ *   - a published board (leaderboard.json) on a run whose config predates
+ *     releaseState → frozen, conservatively, because legacy runs cannot state
+ *     their own status and a published board is evidence of release
+ *   - anything else                  → resumable
  */
+function isReleasedOnDisk(realRunDir: string): boolean {
+  if (existsSync(join(realRunDir, RELEASED_MARKER))) return true;
+  const configPath = join(realRunDir, 'config.json');
+  if (existsSync(configPath)) {
+    try {
+      const config = JSON.parse(readFileSync(configPath, 'utf8')) as { releaseState?: string };
+      if (config.releaseState === 'released') return true;
+      if (config.releaseState === undefined && existsSync(join(realRunDir, 'leaderboard.json'))) {
+        return true;
+      }
+    } catch {
+      // An unreadable config on a run we are about to write to is not something
+      // to shrug at.
+      return true;
+    }
+  }
+  return false;
+}
+
+/** Membership only. Deliberately not a collection — see bypass class 3 above. */
+export function isHistoricalRun(runId: string): boolean {
+  if (declaredFrozen().has(runId)) return true;
+  const dir = join(RUNS_DIR, runId);
+  return existsSync(dir) && isReleasedOnDisk(dir);
+}
+
+/** An immutable copy, for reporting only. */
+export function declaredHistoricalRunIds(): readonly string[] {
+  return Object.freeze([...declaredFrozen()]);
+}
+
+/** CI/reporting helper: released runs that the registry fails to declare. */
 export function undeclaredPublishedRuns(): string[] {
-  const declared = historicalRunIds();
+  const declared = declaredFrozen();
   return everyRunDirectory().filter(
-    (runId) => !declared.has(runId) && existsSync(join(RUNS_DIR, runId, 'leaderboard.json')),
+    (runId) => !declared.has(runId) && isReleasedOnDisk(join(RUNS_DIR, runId)),
   );
 }
 
-export function isHistoricalRun(runId: string): boolean {
-  return historicalRunIds().has(runId);
+// ---------------------------------------------------------------------------
+// Path confinement
+// ---------------------------------------------------------------------------
+
+function containedBy(root: string, target: string): boolean {
+  const rel = relative(root, target);
+  return target === root || (rel !== '' && !rel.startsWith('..') && !isAbsolute(rel));
+}
+
+/** Deepest ancestor of `target` that exists, for resolving not-yet-created paths. */
+function deepestExisting(target: string): string {
+  let probe = target;
+  while (!existsSync(probe)) {
+    const parent = dirname(probe);
+    if (parent === probe) return probe;
+    probe = parent;
+  }
+  return probe;
 }
 
 /**
- * The single confined path resolver. Every run-scoped read and write goes
- * through this.
+ * Reject a path that reaches its destination through a symlink.
  *
- * Before WP-0 the three write roots — store.ts, analyze.ts and calibration.ts —
- * each computed `join(RUNS_DIR, runId)` on an unvalidated argv string. Because
- * `join` resolves `..` segments, `--run-id ../../apps/web/public` left the runs
- * directory entirely and recursive mkdir built the tree, so config.json,
- * scores.json, leaderboard.json and responses/*.json could be planted anywhere
- * the process could write. Verified: join('/…/data/runs', '../..') is the repo
- * root.
+ * Containment alone is not enough (bypass class 2): a link *inside* the root
+ * still satisfies containment while redirecting the write. On writes we refuse
+ * links outright, which is stricter than resolving them and much easier to
+ * reason about.
+ */
+function assertNoSymlinkComponent(root: string, target: string): void {
+  const rel = relative(root, target);
+  if (rel === '' || rel.startsWith('..') || isAbsolute(rel)) return; // containment checked elsewhere
+  // Walk root -> target one component at a time. Stop at the first component
+  // that does not exist yet; nothing below it can be a link.
+  let current = root;
+  for (const part of rel.split(sep).filter(Boolean)) {
+    current = join(current, part);
+    if (!existsSync(current)) return;
+    if (lstatSync(current).isSymbolicLink()) {
+      throw new FirewallError(
+        `Refusing to write through symlink component ${current}. Write to the canonical path instead.`,
+        'SYMLINK_COMPONENT',
+      );
+    }
+  }
+}
+
+/**
+ * Confine `relativePath` beneath the root of `family`, proving both lexical and
+ * real containment, and return the absolute path.
+ */
+export function resolveOutputPath(
+  family: OutputFamily,
+  relativePath: string,
+  opts: { write: boolean },
+): string {
+  const root = ROOTS[family];
+  const target = resolve(root, relativePath);
+  if (!containedBy(root, target) || target === root) {
+    throw new FirewallError(
+      `Path ${JSON.stringify(relativePath)} resolves outside the ${family} root (${target}).`,
+      'PATH_ESCAPE',
+    );
+  }
+  if (existsSync(root)) {
+    const realTarget = realpathSync(deepestExisting(target));
+    if (!containedBy(realpathSync(root), realTarget)) {
+      throw new FirewallError(
+        `Path ${target} resolves through a link to ${realTarget}, outside the ${family} root.`,
+        'SYMLINK_ESCAPE',
+      );
+    }
+    if (opts.write) assertNoSymlinkComponent(root, target);
+  }
+  return target;
+}
+
+/**
+ * Resolve a run directory, taking the run's IDENTITY from its real path.
  *
- * Two independent defences, because either alone is one bug from failure:
- * the run id is validated against a strict pattern, AND the resolved absolute
- * path is proven to remain beneath RUNS_DIR.
+ * This is the fix for the alias bypass. `data/runs/alias -> 2026-07-v2.1`
+ * satisfies containment and would previously be checked against the registry as
+ * "alias", which is not frozen, so the write landed in the published run. The
+ * canonical id is now derived from the resolved path, so the alias is refused
+ * under the name it actually points at.
  */
 export function resolveRunDir(runId: string, opts: { write: boolean }): string {
   const parsed = runIdSchema.safeParse(runId);
@@ -165,36 +280,60 @@ export function resolveRunDir(runId: string, opts: { write: boolean }): string {
       'INVALID_RUN_ID',
     );
   }
-  const dir = resolve(RUNS_DIR, runId);
-  const rel = relative(RUNS_DIR, dir);
-  if (rel === '' || rel.startsWith('..') || isAbsolute(rel) || rel.includes(`..${sep}`)) {
-    throw new FirewallError(
-      `Run id ${JSON.stringify(runId)} resolves outside the runs directory (${dir}).`,
-      'PATH_ESCAPE',
-    );
+  const dir = resolveOutputPath('runs', runId, { write: false });
+
+  // Identity from the real path, not the supplied name.
+  let canonical = runId;
+  if (existsSync(dir)) {
+    const real = realpathSync(dir);
+    if (!containedBy(realpathSync(RUNS_DIR), real)) {
+      throw new FirewallError(
+        `Run ${JSON.stringify(runId)} resolves to ${real}, outside the runs directory.`,
+        'SYMLINK_ESCAPE',
+      );
+    }
+    canonical = relative(realpathSync(RUNS_DIR), real).split(sep)[0] || runId;
   }
-  // Lexical containment is not filesystem containment. `resolve()` never
-  // touches the disk, so a run directory that IS a symlink — or sits under one
-  // — passes every check above while writing somewhere else entirely. Compare
-  // real paths for the components that actually exist.
-  assertNoSymlinkEscape(dir);
-  if (opts.write && isHistoricalRun(runId)) {
-    throw new FirewallError(
-      `Run ${runId} is historical and immutable (DATA-001). Derived work must use a new run id and its own output root.`,
-      'HISTORICAL_WRITE',
-    );
+
+  if (opts.write) {
+    if (isHistoricalRun(canonical) || isHistoricalRun(runId)) {
+      const via = canonical === runId ? '' : ` (via alias ${JSON.stringify(runId)})`;
+      throw new FirewallError(
+        `Run ${canonical}${via} is historical and immutable (DATA-001). Derived work must use a new run id and its own output root.`,
+        'HISTORICAL_WRITE',
+      );
+    }
+    assertNoSymlinkComponent(RUNS_DIR, dir);
   }
   return dir;
 }
 
 /**
+ * Resolve a file INSIDE a run, validating the final target.
+ *
+ * Validating only the run directory left a nested `responses` symlink able to
+ * redirect every response write.
+ */
+export function resolveRunFile(runId: string, relativePath: string, opts: { write: boolean }): string {
+  const dir = resolveRunDir(runId, opts);
+  for (const part of relativePath.split(/[\\/]/)) assertSafePathComponent(part, 'path component');
+  const target = resolve(dir, relativePath);
+  if (!containedBy(dir, target)) {
+    throw new FirewallError(
+      `Path ${JSON.stringify(relativePath)} escapes run directory ${dir}.`,
+      'PATH_ESCAPE',
+    );
+  }
+  if (opts.write) assertNoSymlinkComponent(RUNS_DIR, target);
+  return target;
+}
+
+/**
  * Validate a single filename component at the writer boundary.
  *
- * `safeName()` in store.ts sanitised the model id but the question id went into
- * the filename raw. The CLI's schema happens to constrain question ids today,
- * so this was not exploitable through `bench` — but shared enforcement must not
- * depend on an upstream caller remembering to validate, and a programmatic or
- * future caller has no such schema in the way.
+ * Shared enforcement must not depend on an upstream caller remembering to
+ * validate: the CLI's schema constrains question ids today, but a programmatic
+ * or future caller has no such schema in the way.
  */
 export function assertSafePathComponent(value: string, label: string): string {
   if (
@@ -204,72 +343,20 @@ export function assertSafePathComponent(value: string, label: string): string {
     value.includes('/') ||
     value.includes('\\') ||
     value.includes('\0') ||
-    value.length > 128
+    value.length > 160
   ) {
     throw new FirewallError(
-      `Unsafe ${label} ${JSON.stringify(value)}: filename components may not be empty, traverse, contain separators or NUL, or exceed 128 chars.`,
+      `Unsafe ${label} ${JSON.stringify(value)}: filename components may not be empty, traverse, contain separators or NUL, or exceed 160 chars.`,
       'INVALID_PATH_COMPONENT',
     );
   }
   return value;
 }
 
-/**
- * Reject any path whose real location escapes RUNS_DIR.
- *
- * Walks from the deepest existing ancestor because the target usually does not
- * exist yet on a first write. `realpathSync` resolves every symlink component,
- * so a link planted at `data/runs/<id>` pointing at `/etc` is caught here even
- * though the lexical check passed.
- */
-function assertNoSymlinkEscape(target: string): void {
-  const runsReal = realpathSync(RUNS_DIR);
-  let probe = target;
-  while (!existsSync(probe)) {
-    const parent = dirname(probe);
-    if (parent === probe) return; // walked past the filesystem root
-    probe = parent;
-  }
-  const real = realpathSync(probe);
-  const rel = relative(runsReal, real);
-  const contained = real === runsReal || (rel !== '' && !rel.startsWith('..') && !isAbsolute(rel));
-  if (!contained) {
-    throw new FirewallError(
-      `Path ${target} resolves through a link to ${real}, outside the runs directory.`,
-      'SYMLINK_ESCAPE',
-    );
-  }
-}
+// ---------------------------------------------------------------------------
+// RUN-001 — capabilities
+// ---------------------------------------------------------------------------
 
-/**
- * Guards writes to any path, not just run directories. Used for the taste
- * archive and any future writer, so a new output location cannot quietly land
- * inside a published run.
- */
-export function assertWritablePath(target: string): string {
-  const abs = resolve(target);
-  assertNoSymlinkEscape(abs);
-  const relToRuns = relative(RUNS_DIR, abs);
-  const insideRuns = relToRuns !== '' && !relToRuns.startsWith('..') && !isAbsolute(relToRuns);
-  if (insideRuns) {
-    const runId = relToRuns.split(sep)[0]!;
-    if (isHistoricalRun(runId)) {
-      throw new FirewallError(
-        `Refusing to write ${abs}: run ${runId} is historical and immutable (DATA-001).`,
-        'HISTORICAL_WRITE',
-      );
-    }
-  }
-  return abs;
-}
-
-/**
- * The active authorisation for this process.
- *
- * Deny-by-default is the whole point: a Firewall constructed with no permit
- * grants nothing, so any code path that reaches a paid or publishing operation
- * without an explicit grant fails rather than proceeding.
- */
 export interface PermitGrant {
   permitId: string;
   kind: string;
@@ -278,11 +365,7 @@ export interface PermitGrant {
   budgetCapUsd: number;
 }
 
-/**
- * Unambiguous composite key. A plain concatenation or a single-character
- * separator can collide when one component contains the separator, and model
- * ids are vendor/model slugs with punctuation. JSON encoding is injective.
- */
+/** JSON-encoded tuple: injective, unlike concatenation or a single separator. */
 function cellKey(modelId: string, questionId: string): string {
   return JSON.stringify([modelId, questionId]);
 }
@@ -299,7 +382,13 @@ export class Firewall {
     return new Firewall(null);
   }
 
-  /** Constructed only from a permit that has already passed signature verification. */
+  /**
+   * Constructed only from a permit that has already passed verification.
+   *
+   * NOTE: this still accepts a plain object. Replacing `PermitGrant` with an
+   * opaque branded type that only the verifier can mint is the next task; until
+   * then a method name is not a security boundary.
+   */
   static fromVerifiedPermit(grant: PermitGrant): Firewall {
     return new Firewall(grant);
   }
@@ -316,7 +405,6 @@ export class Firewall {
     return this.grant?.capabilities.includes(capability) ?? false;
   }
 
-  /** Throws unless the active permit explicitly grants `capability`. */
   requireCapability(capability: Capability, context: string): void {
     if (!this.grant) {
       throw new FirewallError(
@@ -332,16 +420,10 @@ export class Firewall {
     }
   }
 
-  /**
-   * RUN-001. Inference is authorised per (model, item) cell, not wholesale.
-   * An empty cell list authorises nothing — absence is denial.
-   */
+  /** Inference is authorised per cell. An empty cell list authorises nothing. */
   requireCell(modelId: string, questionId: string, context: string): void {
     if (!this.grant) {
-      throw new FirewallError(
-        `${context} requires an authorised cell but no permit is active.`,
-        'NO_PERMIT',
-      );
+      throw new FirewallError(`${context} requires an authorised cell but no permit is active.`, 'NO_PERMIT');
     }
     if (!this.cellIndex.has(cellKey(modelId, questionId))) {
       throw new FirewallError(
@@ -352,16 +434,16 @@ export class Firewall {
   }
 }
 
+// ---------------------------------------------------------------------------
+// RELEASE-002 — publication
+// ---------------------------------------------------------------------------
+
 /**
- * RELEASE-002. The publication gate.
- *
- * Every class other than an approved public-release manifest fails closed here,
- * which is why sync and publish call it before touching anything live.
+ * Takes a ValidatedRunManifest, not a structural Pick: publication must not be
+ * reachable with a hand-rolled object literal that merely has the right three
+ * fields. The brand can only come from parseRunManifest.
  */
-export function assertPublishable(
-  manifest: Pick<RunManifest, 'runId' | 'evidenceClass' | 'releaseState'>,
-  context: string,
-): void {
+export function assertPublishable(manifest: ValidatedRunManifest, context: string): void {
   if (!canPublish(manifest)) {
     throw new FirewallError(
       `${context} refused for run ${manifest.runId}: evidenceClass '${manifest.evidenceClass}' / releaseState '${manifest.releaseState}'. ` +
@@ -371,7 +453,6 @@ export function assertPublishable(
   }
 }
 
-/** Surfaces built from shadow or probe evidence must carry this verbatim. */
 export function nonScoringBanner(evidenceClass: EvidenceClass): string | null {
   return evidenceClass === 'legacy-shadow' || evidenceClass === 'development-probe'
     ? NON_SCORING_LABEL

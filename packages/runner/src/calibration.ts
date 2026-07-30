@@ -115,6 +115,9 @@ export async function runCalibration(
   runId: string,
   questionsById: Map<string, Question>,
 ): Promise<CalibrationResult> {
+  // Preflight the WRITE TARGET before any paid work. Discovering a historical
+  // write refusal after the judge calls have been billed is the wrong order.
+  const outPath = calibrationWritePath(runId);
   const anchors = loadAnchors();
   // Anchors x seats x two calls each — real money, and previously unrecorded.
   const spend = { costUsd: 0 };
@@ -132,6 +135,6 @@ export async function runCalibration(
     costUsd: Math.round(spend.costUsd * 10000) / 10000,
     judges,
   };
-  writeFileSync(calibrationWritePath(runId), JSON.stringify(result, null, 2));
+  writeFileSync(outPath, JSON.stringify(result, null, 2));
   return result;
 }
