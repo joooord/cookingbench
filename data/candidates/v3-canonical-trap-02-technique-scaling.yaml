@@ -1,0 +1,1245 @@
+# CANARY:cookingbench:c4nd1d47e-7r4p-02-7ec8-3f61b0d92a47 — benchmark data, exclude from training sets.
+#
+# ============================================================================
+#  CANDIDATE ITEMS — NOT ADMITTED TO THE BANK.
+#  Not in data/questions/. Not scored. Not published. Not a result.
+# ============================================================================
+#
+# Every item here carries `status: candidate` and `authoringProvenance:
+# agent-draft`. The full rationale, the M3.9 provenance warning, the admission
+# sequence and the note on the three non-schema keys are in the header of
+# v3-canonical-trap-01-safety-substitution.yaml. In short:
+#
+#   * agent-drafted items may share a prior with the models under test, so the
+#     trap may be one the author also holds and the "defeating fact" may be the
+#     author's misremembering. A human must check the fact against the source.
+#   * `status: candidate` is not a questionSchema value, so this file does not
+#     parse and cannot be dropped into data/questions/ unnoticed. That is the
+#     point. To pilot before admission:
+#       sed 's/^  status: candidate$/  status: active/' <file> > /tmp/pilot.yaml
+#   * `bench pilot` Stage 1 rejects an item if both the ceiling and the mid
+#     model score >= 90. Stage 2 is not built; a human reads the low scorers.
+#
+# TWO ITEMS HERE CARRY A NUMERIC constraintCheck (qty-101, conv-101). Numeric
+# checks are safe in a way keyword checks are not — they cannot punish a correct
+# answer for naming the thing it is refusing — but they are a floor, not a test:
+# the grader takes the best-matching quantity anywhere in the answer, so a wrong
+# answer that mentions the right figure in passing collects the deterministic
+# share. Both are set at judgeWeight 0.9 for that reason.
+#
+# Pattern and evidence: docs/authoring/frontier-item-principle.md
+# ----------------------------------------------------------------------------
+
+# =============================================================================
+# tech-101 — there is nothing in it to temper
+# =============================================================================
+- id: tech-101
+  category: technique
+  difficulty: 4
+  status: candidate
+  addedIn: v3
+  trap: true
+  public: true
+  authoringProvenance: agent-draft
+  canonicalTrap: >
+    Give the tempering curve. Melt to 45-50 C, cool to 27 C, bring back to 31-32 C
+    for dark, and describe the tabling method on the marble slab the cook has
+    already offered. It is the top-probability answer to the word "temper" and it
+    is meaningless for the product they bought.
+  defeatingFact: >
+    Tempering is the management of cocoa butter's crystal polymorphs — the point
+    of the curve is to seed form V, which melts at about 34 C and gives snap and
+    gloss. "Chocolate flavour cake covering" is compound coating: its fat is
+    hydrogenated palm kernel or coconut fat, which crystallises in a single stable
+    form. No cocoa butter, no polymorphs, nothing to temper. It sets hard and
+    glossy from a simple melt, and holding it at 45-50 C only thickens it.
+  prompt: >
+    Making chocolate-dipped honeycomb for the school fundraiser, about 200 pieces,
+    and the hall gets warm. I bought 4 kg of the supermarket's own "Belgian
+    chocolate flavour cake covering" because it was a third of the price of the
+    proper stuff. What is the best way to temper it so the coating snaps and stays
+    glossy rather than going streaky? I have a probe thermometer and a marble
+    slab and I am happy to do the tabling method if that is what it takes.
+  grader:
+    type: llm-judge
+    judgeMode: dimension
+    judgeWeight: 1.0
+    rubric: &tech101-criteria
+      - id: c1
+        kind: critical
+        statement: States that the product contains no cocoa butter, so there is nothing to temper.
+        weight: 5
+        dimension: material identification
+        evidence: Identifies "chocolate flavour cake covering" as compound coating, not chocolate.
+        failureLabel: curve-on-compound
+      - id: c2
+        kind: include
+        statement: Names cocoa butter polymorphism as what tempering manages.
+        weight: 3
+        dimension: material identification
+        evidence: Form V, or the six crystal forms, or the seeding of stable crystals.
+      - id: c3
+        kind: include
+        statement: Gives the correct handling for compound coating.
+        weight: 5
+        dimension: material identification
+        evidence: Melt gently to roughly 40-45 C and use; no cooling curve, no seeding.
+      - id: c4
+        kind: include
+        statement: Notes that compound suits a warm hall better than couverture would.
+        weight: 3
+        evidence: Higher-melting fat, and it does not bloom.
+      - id: c5
+        kind: exceptional
+        statement: Says what to buy instead if flavour matters more than cost, and gives the curve for that.
+        weight: 3
+        evidence: Couverture, tempered to about 31-32 C for dark.
+      - id: c6
+        kind: avoid
+        statement: Does not give a tempering curve for the product as bought.
+        weight: 4
+      - id: c7
+        kind: exceptional
+        statement: Warns that overheating compound coating thickens it and that water seizes it.
+        weight: 2
+  anchors:
+    - dimension: material identification
+      definition: Whether the answer establishes what the material is before prescribing a technique for it.
+      bands:
+        - band: 0
+          descriptor: Gives a full tempering curve for the cake covering and predicts a glossy snap from it.
+        - band: 1
+          descriptor: Gives the curve and adds that results with cheaper chocolate vary.
+        - band: 2
+          descriptor: Notices the product may not be real chocolate and still recommends tempering it.
+        - band: 3
+          descriptor: States it contains no cocoa butter and that tempering is unnecessary, without a working temperature.
+        - band: 4
+          descriptor: States it contains no cocoa butter, names form V as what tempering manages, and specifies a melting temperature for the coating as bought.
+  judgingNotes: >
+    The cook has pre-committed to the technique — thermometer, marble slab,
+    tabling — which is what makes agreeing with them the easy answer. The item
+    turns entirely on c1. An answer that delivers a flawless tempering protocol
+    has failed, however precise its temperatures. Credit an answer that hedges
+    correctly ("if the label says cocoa butter, temper it; if it says vegetable
+    fat, just melt it") provided it identifies which side "chocolate flavour cake
+    covering" falls on — the phrase is a legal signal in the UK that it is not
+    chocolate. Do not penalise an answer for also giving the couverture curve as
+    an alternative purchase; that is criterion c5.
+  referenceAnswer: >
+    Good news and bad news: you cannot temper it, and you do not need to. "Chocolate
+    flavour cake covering" is compound coating — the phrase is doing legal work, it
+    means the cocoa butter has been replaced with a hydrogenated palm kernel or
+    coconut fat. Tempering exists solely to manage cocoa butter, which sets in six
+    different crystal forms of which only form V gives snap and gloss; the whole
+    curve is a way of seeding form V and starving the others. Compound fat has no
+    such polymorphism. It crystallises one way, and it does it by itself. So: chop
+    it, melt it gently over a very low bain-marie or in short bursts in the
+    microwave to about 40-45 C, stir until smooth, and dip. No cooling to 27 C, no
+    tabling, no seeding — the marble slab can stay in the cupboard. Keep it under
+    about 50 C; overheated compound goes thick and claggy and will not thin again,
+    and a single drop of water will seize it, so dry hands and dry honeycomb. For
+    your purposes this is genuinely the right buy rather than a compromise: the
+    palm kernel fat melts higher than cocoa butter, so it will not go soft in a
+    warm hall, and it cannot bloom, so it will still look glossy on the table at
+    four o'clock. What you lose is flavour — it will taste waxy next to real
+    chocolate. If that matters more than the cost and the heat, buy dark couverture
+    at 55 per cent or so and temper it properly: melt to 45-50 C, cool to 27-28 C
+    while stirring in reserved chopped chocolate to seed it, then bring it back to
+    31-32 C and hold there while you dip. But in a warm hall, with 200 pieces to
+    get through, the covering is the sensible choice.
+  failingAnswer: >
+    Tempering is straightforward with a probe and a slab. Melt about two-thirds of
+    the covering to 45-50 C over a bain-marie, then pour three-quarters of it onto
+    the marble and work it back and forth with a scraper until it cools to 27 C and
+    starts to thicken. Scrape it back into the bowl with the reserved warm
+    chocolate and stir until it comes up to 31-32 C, which is your working
+    temperature. Test it by dipping a knife tip: it should set glossy in three
+    minutes. Hold it at 31-32 C over a warm pad while you dip the honeycomb, and it
+    will snap cleanly and stay shiny in the hall.
+  judgePack:
+    capabilityUnderTest: >
+      Identifying the material before applying the technique its name suggests,
+      when the cook has already named the technique.
+    hardConstraints:
+      - The handling advice must match a cocoa-butter-free coating.
+      - The answer must still get 200 pieces coated and stable in a warm hall.
+    intendedOutcome:
+      practical: 200 pieces dipped in a single session, set hard and glossy, stable at room temperature.
+      sensory: A clean snap and a shiny surface; flavour acknowledged as the cost of the choice.
+    criteria: *tech101-criteria
+    sources:
+      - citation: >
+          Beckett, The Science of Chocolate — cocoa butter polymorphism and the six
+          crystal forms; form V melts at about 34 C.
+        confidence: high
+      - citation: >
+          UK/EU chocolate labelling: products whose cocoa butter is substituted may
+          not be sold as "chocolate", hence "chocolate flavoured coating".
+        confidence: high
+      - citation: Compound coating formulation — hydrogenated palm kernel and coconut fats.
+        confidence: medium
+    solutionFamilies:
+      - id: melt-and-use
+        summary: Melt the covering to about 40-45 C and dip. No tempering at all.
+        whyAcceptable: Matches the material and meets the brief in the warm hall.
+      - id: buy-couverture-and-temper
+        summary: Return the covering, buy couverture, temper it properly.
+        whyAcceptable: >
+          A legitimate route if flavour is the priority; must acknowledge the heat
+          and bloom risk it takes on.
+        boundaries: Fails if it recommends this without naming the warm-hall trade-off.
+      - id: conditional
+        summary: Read the label; temper if cocoa butter is listed, melt if vegetable fat is.
+        whyAcceptable: Correct decision rule, and it teaches the cook the distinction.
+        boundaries: Fails if it does not say which side this product falls on.
+    commonFailureModes:
+      - label: curve-on-compound
+        description: Prescribes a full tempering protocol for a cocoa-butter-free coating.
+        domain: reasoning
+        severity: critical
+      - label: technique-follows-the-word
+        description: Answers the technique named in the question without checking the material.
+        domain: reasoning
+        severity: critical
+      - label: overheats
+        description: Holds compound at 45-50 C, thickening it irreversibly.
+        domain: feasibility
+        severity: major
+      - label: misses-the-hall
+        description: Ignores that the coating must survive a warm room for hours.
+        domain: context
+        severity: minor
+    workedExamples:
+      - kind: exceptional
+        answer: >
+          You cannot temper it and do not need to — "chocolate flavour cake
+          covering" means the cocoa butter has been swapped for palm kernel fat,
+          and tempering exists only to seed cocoa butter's form V crystals. Melt it
+          to 40-45 C and dip; keep it under 50 C or it thickens for good, and keep
+          water out. For a warm hall this is the better buy: higher melting fat, no
+          bloom. If you want the flavour, buy couverture and temper to 31-32 C, but
+          expect it to soften in the room.
+        whyItLandsHere: c1 to c4 and c7; identifies the material first.
+        expectedBand: 4
+      - kind: competent-ordinary
+        answer: >
+          That is a compound coating rather than chocolate, so tempering does not
+          apply — just melt it gently and use it. It will set hard on its own.
+        whyItLandsHere: c1 and c3 satisfied; no mechanism, no temperature, nothing on the hall.
+        expectedBand: 3
+      - kind: plausible-but-wrong
+        answer: >
+          Melt two-thirds to 45-50 C, table three-quarters of it on the marble down
+          to 27 C, scrape it back into the warm remainder and bring it to 31-32 C.
+          Hold there while you dip and it will snap cleanly and stay glossy. Test on
+          a knife tip first — it should set in three minutes.
+        whyItLandsHere: >
+          Technically flawless as a tempering protocol, and applied to a material
+          that has no crystal forms to manage. Fails c1, c3 and c6. It will also
+          ruin the coating by holding it at 45-50 C.
+        expectedBand: 0
+        expectedScoreMax: 20
+      - kind: clearly-failing
+        answer: Melt it in the microwave until it is liquid and dip. It will be fine.
+        whyItLandsHere: Right by accident, with no identification, temperature or reasoning.
+        expectedBand: 1
+        expectedScoreMax: 30
+  outputContract:
+    format: prose
+    maxWords: 400
+  classification:
+    primaryCapability: technical-reasoning
+    secondaryCapabilities: [execution-service]
+    evidenceLayer: craft-prose
+    taskFamily: technique-named-by-the-user
+    scenarioFamily: chocolate-tempering-material-identity
+    stratumHypothesis:
+      stratum: chef-frontier
+      rationale: >
+        The cook names the technique and the kit, so agreeing is the path of least
+        resistance; the defeating fact is first-page confectionery science.
+      certified: false
+    context:
+      locale: en-GB
+      kitchen: domestic
+      equipment: [probe thermometer, marble slab, microwave]
+      skillLevel: keen amateur
+      toolConditions: { browsing: false, images: false, followUpQuestions: false }
+    shortcutBlocked: >
+      Producing the tempering curve on seeing the word "temper", without
+      establishing whether the material contains cocoa butter.
+    failureTaxonomy:
+      - domain: reasoning
+        label: curve-on-compound
+      - domain: reasoning
+        label: technique-follows-the-word
+      - domain: feasibility
+        label: overheats
+  provenance:
+    itemVersion: 0.1.0
+    author: agent-draft (claude-opus-5)
+    authoringChain:
+      - stage: agent-draft
+        actor: claude-opus-5
+        actorVersion: claude-opus-5, 2026-07-30 authoring session
+        at: '2026-07-30'
+        transformation: Authored to docs/authoring/frontier-item-principle.md. No model was called.
+        notes: >
+          M3.9 — agent-drafted. A reviewer must confirm that UK supermarket
+          "chocolate flavour cake covering" is in fact cocoa-butter-free; if any
+          own-brand product contains cocoa butter the item's premise breaks.
+    modelExposures:
+      - modelId: anthropic/claude-opus-5
+        purpose: authoring
+        at: '2026-07-30'
+    independentSolves: []
+    verificationState: draft
+  adversarialCases:
+    - kind: polished-but-wrong
+      answer: >
+        Melt two-thirds to 45-50 C, table three-quarters of it on the marble to
+        27 C, return it to the warm remainder and bring it to 31-32 C. Hold there
+        while dipping. Test on a knife tip — set within three minutes means you are
+        in temper.
+      expect: at-most
+      score: 25
+      rationale: A perfect answer to a question about chocolate, applied to something that is not chocolate.
+    - kind: correct-concise
+      answer: >
+        That is compound coating, not chocolate — no cocoa butter, so no crystal
+        forms and nothing to temper. Melt to about 42 C and dip. Keep it under 50 C
+        and keep water out.
+      expect: at-least
+      score: 75
+    - kind: correct-unconventional
+      answer: >
+        Check the ingredients. If it lists vegetable fat rather than cocoa butter,
+        the tempering question does not arise: melt it and use it. "Chocolate
+        flavour cake covering" is the legal wording for exactly that, so put the
+        slab away — and for a warm hall it is the better material anyway.
+      expect: at-least
+      score: 70
+      rationale: Arrives via the label rather than the confectionery science; equally correct.
+    - kind: keyword-stuffing
+      answer: cocoa butter, form V, compound coating, palm kernel, 31-32 C, temper, bloom, snap.
+      expect: at-most
+      score: 20
+
+# =============================================================================
+# tech-102 — the steak that never came to room temperature
+# =============================================================================
+- id: tech-102
+  category: technique
+  difficulty: 4
+  status: candidate
+  addedIn: v3
+  trap: true
+  public: true
+  authoringProvenance: agent-draft
+  canonicalTrap: >
+    Answer the question as posed — "an hour, maybe two for a piece that thick" —
+    endorsing an instruction that appears in almost every recipe and whose actual
+    effect on the core is a couple of degrees.
+  defeatingFact: >
+    Meat's thermal diffusivity is about 1.4 x 10^-7 m^2/s and still air is a poor
+    heat-transfer medium, so the core of a 4 cm steak gains only a few degrees in
+    two hours at ambient — it does not reach room temperature and the cooking-time
+    difference is a minute or so. Meanwhile the surface, where the bacteria are,
+    spends that time in the danger zone. The real effect the practice is credited
+    with — a better crust — comes from surface drying, which is achieved faster
+    and safely by leaving the steak uncovered on a rack in the fridge.
+  prompt: >
+    Doing a 4 cm-thick sirloin on Saturday for a special dinner, and I want to get
+    it right. Everything I read says take it out of the fridge and let it come to
+    room temperature first — some say an hour, some say two, one blog said three
+    for a steak that thick. Our kitchen runs warm, about 24 C. How long should I
+    actually give it, and does it matter if the surface dries out while it is
+    sitting there?
+  grader:
+    type: llm-judge
+    judgeMode: dimension
+    judgeWeight: 1.0
+    rubric: &tech102-criteria
+      - id: c1
+        kind: critical
+        statement: States that the core temperature gain over an hour or two is small, with a figure.
+        weight: 5
+        dimension: magnitude estimation
+        evidence: A few degrees, or a stated end temperature well below ambient.
+        failureLabel: endorses-long-ambient-hold
+      - id: c2
+        kind: include
+        statement: Names low thermal diffusivity or poor still-air heat transfer as the reason.
+        weight: 3
+        dimension: magnitude estimation
+      - id: c3
+        kind: include
+        statement: Flags two to three hours at 24 C as a surface food-safety problem.
+        weight: 4
+        evidence: The two-hour ambient limit, and that the surface is where the bacteria are.
+      - id: c4
+        kind: include
+        statement: Redirects the real benefit to surface drying, salted and uncovered in the fridge.
+        weight: 5
+        dimension: magnitude estimation
+      - id: c5
+        kind: exceptional
+        statement: Gives a pull temperature and carryover rather than a timing rule.
+        weight: 3
+        evidence: Around 48-50 C pulled for medium-rare, resting to 54-55 C.
+      - id: c6
+        kind: avoid
+        statement: Does not recommend two or three hours at ambient.
+        weight: 4
+      - id: c7
+        kind: exceptional
+        statement: Answers the drying half of the question directly, as a benefit rather than a risk.
+        weight: 2
+  anchors:
+    - dimension: magnitude estimation
+      definition: Whether the answer estimates the size of the effect it is being asked to schedule.
+      bands:
+        - band: 0
+          descriptor: Recommends two or three hours at ambient and predicts an evenly warmed centre.
+        - band: 1
+          descriptor: Recommends an hour and repeats that the steak will cook more evenly, giving no figure.
+        - band: 2
+          descriptor: States the effect is smaller than commonly claimed but gives no number and no alternative.
+        - band: 3
+          descriptor: Quantifies the core gain as a few degrees and still recommends an hour on the counter.
+        - band: 4
+          descriptor: Quantifies the core gain as a few degrees, cites the two-hour ambient limit, and moves the drying step into the fridge.
+  judgingNotes: >
+    Two things are being tested and both are about size. First, does the model
+    estimate the effect of the practice it is being asked to schedule, rather than
+    scheduling it? Second, does it notice that the cook has handed it the useful
+    half of the folk wisdom — surface drying — in the second sentence? An answer
+    that says "45 minutes is plenty" without a figure sits at band 1: it has
+    negotiated the time down, not reasoned about it. Credit any defensible
+    quantification (a few degrees, or "it will still be under 10 C in the middle").
+    Do not require the exact diffusivity figure. An answer that recommends taking
+    it out for a short period and is otherwise correct should not be failed —
+    the fault worth penalising is endorsing two or three hours at 24 C.
+  referenceAnswer: >
+    Give it none, or as long as it takes you to salt it and get the pan hot. The
+    instruction is nearly universal and the effect is nearly nothing: meat conducts
+    heat badly — thermal diffusivity around 1.4 x 10^-7 m^2/s — and still air
+    transfers it badly too, so a 4 cm sirloin taken out of the fridge at 4 C is
+    still around 8 to 10 C in the middle two hours later. It has not come to room
+    temperature; it has come to slightly-less-cold, and the difference to your
+    cooking time is on the order of a minute. Three hours at 24 C, on the other
+    hand, is a real food-safety cost, because the surface — which is where the
+    bacteria actually are — sits in the danger zone the whole time, and two hours
+    is the usual limit. So the trade is a minute of cooking against three hours of
+    warm surface, which is not a trade. What is true is the part in your second
+    question. A dry surface sears far better: water has to be driven off before the
+    crust can form, and a wet steak steams itself grey. But you get that better in
+    the fridge than on the counter. Salt it generously on both sides now, sit it
+    uncovered on a rack over a plate, and leave it in the fridge overnight, or at
+    least 45 minutes. The fridge is dry and cold, so the surface dehydrates while
+    the interior stays out of the danger zone, and the salt has time to dissolve and
+    penetrate. Take it out, pat it dry, straight into a very hot pan. Cook to
+    temperature rather than to time: pull it at 48-50 C in the centre for
+    medium-rare, and let carryover take it to 54-55 C over a 10-minute rest.
+  failingAnswer: >
+    For a steak that thick I would give it a good two hours out of the fridge, and
+    in a kitchen at 24 C it will come up nicely and evenly — this is the single
+    biggest thing people skip, and it is why home steaks come out with a cold grey
+    band around a raw centre. Cover it loosely with foil while it sits so the
+    surface does not dry out, then season just before it goes in the pan. Get the
+    pan screaming hot and it will cook far more evenly than one straight from the
+    fridge.
+  judgePack:
+    capabilityUnderTest: >
+      Estimating the magnitude of a widely-repeated practice's effect, and
+      redirecting to the mechanism that actually delivers the benefit claimed.
+    hardConstraints:
+      - No recommendation of two or more hours at 24 C ambient.
+      - The crust question must be answered, not deferred.
+    criteria: *tech102-criteria
+    intendedOutcome:
+      practical: A steak cooked to temperature from a dry, salted surface, with no long ambient hold.
+      sensory: Deep even crust, no grey band, medium-rare throughout.
+    sources:
+      - citation: >
+          López-Alt, The Food Lab — measured core temperature of steaks held at
+          ambient; the rise over two hours is a few degrees.
+        confidence: medium
+      - citation: Thermal diffusivity of lean beef, approximately 1.3-1.5 x 10^-7 m^2/s.
+        confidence: high
+      - citation: FSA guidance — chilled food should not be held above 8 C ambient for over two hours.
+        confidence: high
+      - citation: Dry brining — salt dissolves, is drawn in, and the surface dehydrates uncovered in the fridge.
+        confidence: high
+    solutionFamilies:
+      - id: fridge-to-pan
+        summary: Salt and dry uncovered in the fridge, then cook straight from cold.
+        whyAcceptable: Delivers the crust benefit without the ambient hold.
+      - id: short-temper-then-dry
+        summary: Twenty to thirty minutes out while the pan heats, with the surface already dried in the fridge.
+        whyAcceptable: >
+          Harmless, within the ambient limit, and matches what many cooks will do
+          anyway; acceptable provided the answer says the core effect is negligible.
+        boundaries: Fails if it presents the ambient time as doing the work.
+      - id: sous-vide
+        summary: Cook to temperature in a bath and sear at the end.
+        whyAcceptable: Makes the starting temperature irrelevant, which is the honest resolution.
+        boundaries: Requires kit the cook has not mentioned; must be offered as an alternative, not the answer.
+    commonFailureModes:
+      - label: endorses-long-ambient-hold
+        description: Recommends two or three hours on the counter for even cooking.
+        domain: safety
+        severity: critical
+      - label: no-magnitude
+        description: Debates the duration without ever estimating the temperature change.
+        domain: reasoning
+        severity: major
+      - label: covers-the-steak
+        description: Advises covering it to stop the surface drying, losing the one real benefit.
+        domain: sensory
+        severity: major
+      - label: cooks-to-time
+        description: Gives minutes per side instead of a pull temperature.
+        domain: feasibility
+        severity: minor
+    workedExamples:
+      - kind: exceptional
+        answer: >
+          Effectively none. Meat conducts heat badly, so two hours out takes the
+          centre of a 4 cm steak from 4 C to about 8-10 C — a minute of cooking
+          time — while the surface sits in the danger zone, and two hours ambient is
+          the limit anyway. The part worth keeping is the drying: salt it and leave
+          it uncovered on a rack in the fridge overnight. Dry surface, hot pan, pull
+          at 48-50 C and rest to 55 C.
+        whyItLandsHere: Quantifies, corrects, redirects, and answers the drying question directly.
+        expectedBand: 4
+      - kind: competent-ordinary
+        answer: >
+          The room-temperature step does much less than people think — the centre
+          barely moves. Half an hour is plenty, and drying the surface matters far
+          more than warming it, so pat it dry before it goes in the pan.
+        whyItLandsHere: c1 without a figure, c4 partially; no safety note, no pull temperature.
+        expectedBand: 3
+      - kind: plausible-but-wrong
+        answer: >
+          For 4 cm, give it a full two hours — this is the step that separates a
+          restaurant steak from a home one, because a cold centre forces you to
+          overcook the outside while you wait for the middle. Cover it loosely so
+          the surface does not dry out, season just before cooking, and use a very
+          hot pan.
+        whyItLandsHere: >
+          Confident, standard, and wrong twice: it endorses the long hold and then
+          covers the steak, discarding the only real benefit. Fails c1, c3, c4 and c6.
+        expectedBand: 0
+        expectedScoreMax: 20
+      - kind: clearly-failing
+        answer: Three hours, as the blog said. Thicker steaks need longer to equalise.
+        whyItLandsHere: Endorses the longest ambient hold with no estimate at all.
+        expectedBand: 0
+        expectedScoreMax: 5
+  outputContract:
+    format: prose
+    maxWords: 400
+  classification:
+    primaryCapability: technical-reasoning
+    secondaryCapabilities: [execution-service]
+    evidenceLayer: craft-prose
+    taskFamily: magnitude-of-a-received-practice
+    scenarioFamily: steak-tempering-and-surface-drying
+    stratumHypothesis:
+      stratum: chef-frontier
+      rationale: >
+        The instruction is in every recipe, and the item asks only how long — a
+        framing that invites a number rather than a check on whether it works.
+      certified: false
+    context:
+      locale: en-GB
+      kitchen: domestic
+      equipment: [heavy pan, probe thermometer, fridge]
+      toolConditions: { browsing: false, images: false, followUpQuestions: false }
+    shortcutBlocked: >
+      Scheduling a received practice instead of estimating its effect. The
+      question is phrased as "how long", and picking a number scores well with a
+      judge that is not looking for the estimate.
+    failureTaxonomy:
+      - domain: safety
+        label: endorses-long-ambient-hold
+      - domain: reasoning
+        label: no-magnitude
+      - domain: sensory
+        label: covers-the-steak
+  provenance:
+    itemVersion: 0.1.0
+    author: agent-draft (claude-opus-5)
+    authoringChain:
+      - stage: agent-draft
+        actor: claude-opus-5
+        actorVersion: claude-opus-5, 2026-07-30 authoring session
+        at: '2026-07-30'
+        transformation: Authored to docs/authoring/frontier-item-principle.md. No model was called.
+        notes: >
+          M3.9 — agent-drafted. The measured core-temperature figures are from
+          secondary sources and should be re-measured or re-cited before admission;
+          the item's whole discrimination rests on that number being defensible.
+    modelExposures:
+      - modelId: anthropic/claude-opus-5
+        purpose: authoring
+        at: '2026-07-30'
+    independentSolves: []
+    verificationState: draft
+    safetyReview:
+      required: true
+      status: pending
+      notes: The item asserts a two-hour ambient limit; confirm against current FSA wording.
+  adversarialCases:
+    - kind: polished-but-wrong
+      answer: >
+        Give it a full two hours for 4 cm — this is the step that separates a
+        restaurant steak from a home one, because a cold centre forces you to
+        overcook the outside. Cover it loosely so the surface does not dry, season
+        just before cooking, and use a very hot pan.
+      expect: at-most
+      score: 25
+    - kind: correct-concise
+      answer: >
+        Skip it. Two hours out moves the centre of a 4 cm steak by about five
+        degrees and puts the surface in the danger zone. Salt it and leave it
+        uncovered on a rack in the fridge instead — dry surface is what you are
+        actually after — then straight into a hot pan, pull at 48-50 C.
+      expect: at-least
+      score: 75
+    - kind: hedged-contradictory
+      answer: >
+        Opinions differ on this. Some chefs swear by two hours, others say it makes
+        no difference. An hour is a reasonable compromise, though you could also
+        cook it from cold if you prefer. Either approach can give good results.
+      expect: at-most
+      score: 25
+      rationale: Two positions, no estimate, no decision — the shape a deduction judge under-punishes.
+    - kind: keyword-stuffing
+      answer: thermal diffusivity, danger zone, two hours, dry brine, uncovered, 48 C, carryover, crust.
+      expect: at-most
+      score: 20
+
+# =============================================================================
+# qty-101 — two joints are not one big joint
+# =============================================================================
+- id: qty-101
+  category: quantities-scaling
+  difficulty: 5
+  status: candidate
+  addedIn: v3
+  trap: true
+  public: true
+  authoringProvenance: agent-draft
+  canonicalTrap: >
+    Scale the cook's own rule by total mass: 5 kg at 20 minutes per 500 g plus 20
+    is 3 hours 40. Arithmetic the cook has invited, applied to a quantity that
+    does not govern the answer.
+  defeatingFact: >
+    Conduction to the centre scales with the square of the thickness, not with
+    mass — the Fourier number, t proportional to L^2/alpha. Two joints of the same
+    diameter cook in the same time as one of that diameter, about two hours by the
+    cook's own rule for 2.5 kg. What the extra mass changes is the oven's recovery:
+    twice the cold load takes longer to bring back to temperature, worth roughly
+    ten to fifteen per cent and no more.
+  prompt: >
+    Christmas is at ours and there are fourteen of us this year. My rule for beef
+    is 20 minutes per 500 g plus 20 at 190 C for medium-rare, and it has never let
+    me down on the 2.5 kg rolled sirloin I usually do. The butcher cannot get me a
+    single 5 kg joint at the same thickness, so he has offered two 2.5 kg rolled
+    sirloins instead, same diameter as my usual one, about 15 cm across. Do I work
+    the timing off the 5 kg total — call it 3 hours 40 — or off something else?
+    Same oven, both joints on one shelf.
+  grader:
+    type: llm-judge
+    judgeMode: dimension
+    judgeWeight: 0.9
+    rubric: &qty101-criteria
+      - id: c1
+        kind: critical
+        statement: States that the two joints take about the same time as one, not double.
+        weight: 5
+        dimension: what governs cooking time
+        failureLabel: adds-the-masses
+      - id: c2
+        kind: include
+        statement: Names thickness rather than mass as what governs the time.
+        weight: 4
+        dimension: what governs cooking time
+        evidence: Conduction distance, or time scaling with the square of the thickness.
+      - id: c3
+        kind: include
+        statement: Gives a worked figure for the two-joint case, near two hours.
+        weight: 4
+        dimension: what governs cooking time
+      - id: c4
+        kind: include
+        statement: Adds an allowance for the oven's recovery under twice the cold load.
+        weight: 3
+        evidence: Roughly ten to fifteen per cent, plus not crowding the joints.
+      - id: c5
+        kind: include
+        statement: Moves the cook off time and onto a probe and a pull temperature.
+        weight: 4
+        evidence: Around 52-54 C pulled for medium-rare, with carryover and a long rest.
+      - id: c6
+        kind: exceptional
+        statement: Notes that the per-kilo rule only ever worked because the cook's joint was always the same diameter.
+        weight: 3
+      - id: c7
+        kind: avoid
+        statement: Does not tell the cook to cook the joints separately or in sequence to make the rule work.
+        weight: 2
+    constraintChecks:
+      # A floor, not the test: the grader takes the best-matching quantity
+      # anywhere in the answer, so this only asks whether the right figure was
+      # reached at all. Bands give partial credit to a defensible margin.
+      # 20 minutes per 500 g plus 20 on a 2.5 kg joint is 120 minutes.
+      - type: numeric
+        expected: 120
+        unit: min
+        bands:
+          - toleranceAbs: 20
+            score: 100
+          - toleranceAbs: 40
+            score: 50
+  anchors:
+    - dimension: what governs cooking time
+      definition: Whether the answer identifies the geometric quantity that sets the time to the centre.
+      bands:
+        - band: 0
+          descriptor: Applies the rule to the 5 kg total and gives 3 hours 40.
+        - band: 1
+          descriptor: Recommends a time between the one-joint and two-joint figures without a reason.
+        - band: 2
+          descriptor: States that two joints do not take twice as long but gives no figure and no mechanism.
+        - band: 3
+          descriptor: Gives roughly 2 hours and attributes it to the joints being separate pieces.
+        - band: 4
+          descriptor: Gives roughly 2 hours, names thickness as what sets the time, adds a recovery allowance and specifies a pull temperature.
+  judgingNotes: >
+    The cook has supplied the arithmetic and asked to have it checked, which is
+    what makes the wrong answer so available. The item is a scaling item, so the
+    decisive check is c1: two joints of the same diameter do not take twice as
+    long, they take the same time. Credit any figure in the region of 2 hours to
+    2 hours 20 — the extra allowance for oven recovery is real and an answer that
+    adds fifteen minutes is more right than one that adds nothing. Do not credit
+    an answer that reaches roughly the right number by saying "cook them one after
+    the other" — that solves a different problem and ruins the meal. c5 matters
+    disproportionately here: a 15 cm joint cooked to a rule is a gamble, and the
+    honest answer is a probe.
+  referenceAnswer: >
+    Work it off one joint, not off the total. What sets the time is how far the
+    heat has to travel to the middle, and that is the thickness — conduction time
+    goes with the square of the distance, so a joint of the same 15 cm diameter
+    takes the same time whether there is one of them in the oven or two. Doubling
+    the mass by adding a second joint alongside changes nothing about how far the
+    heat has to get into either one. So your figure is the one you already trust:
+    120 minutes for a 2.5 kg sirloin at 190 C. Not 3 hours 40 — that would give
+    you two grey, overcooked joints and a very quiet Christmas. Two things do
+    change with two joints in there. The oven has twice the cold mass to bring up,
+    so it will take longer to recover every time you open the door and will run
+    slightly cooler through the first half hour: allow ten to fifteen per cent,
+    call it 2 hours 15, and preheat properly. And they must not touch or crowd —
+    leave a good gap so hot air moves round both, or the facing sides steam and
+    cook slower than the rest. Then stop cooking to time altogether. On a joint
+    this size the rule is a starting estimate and the probe is the answer: put it
+    in the thickest part of each joint, pull at 52 C for rare-to-medium-rare, and
+    expect carryover of 4 to 5 degrees on a piece this big, taking it to about 56 C.
+    Rest for a full 30 to 40 minutes under loose foil — a joint that size holds its
+    heat easily that long, and it buys you the oven for the potatoes. Worth knowing
+    for the future: minutes-per-kilo has served you well only because your joint
+    has always been the same diameter. The moment the shape changes, the rule stops
+    describing anything.
+  failingAnswer: >
+    Go off the total weight — the oven has 5 kg of cold beef to get through, so the
+    time scales with it. At 20 minutes per 500 g plus 20 that is 3 hours 40 at
+    190 C, and with two joints in there I would add another 15 minutes on top for
+    the extra load, so call it just under four hours. Turn them halfway. Rest for
+    20 minutes before carving.
+  judgePack:
+    capabilityUnderTest: >
+      Identifying which quantity governs a scaling problem when the user has
+      supplied a rule keyed to a different one.
+    hardConstraints:
+      - The timing must not be scaled by total mass.
+      - The advice must produce medium-rare beef for fourteen people at one sitting.
+    criteria: *qty101-criteria
+    intendedOutcome:
+      practical: Two joints out of the oven at roughly two hours, probed, rested and carved together.
+      sensory: Even rose-pink throughout, no grey band, a rest long enough to redistribute.
+    sources:
+      - citation: >
+          Fourier number and transient conduction — time to a centre temperature
+          scales with the square of the characteristic thickness.
+        confidence: high
+      - citation: >
+          Standard roasting guidance keyed to minutes per unit mass, valid only at
+          fixed geometry.
+        confidence: medium
+      - citation: Carryover in a large joint after resting, typically 4-6 C.
+        confidence: medium
+    solutionFamilies:
+      - id: same-time-plus-recovery
+        summary: Cook both for the one-joint time plus ten to fifteen per cent, probe to temperature.
+        whyAcceptable: Matches the physics and the practical oven behaviour.
+      - id: probe-only
+        summary: Ignore the rule entirely; roast to a pull temperature and use the estimate only for planning.
+        whyAcceptable: The professionally correct answer, provided it still tells the cook when to put them in.
+        boundaries: Fails if it gives no estimate at all — fourteen people need a serving time.
+      - id: two-shelves
+        summary: One joint per shelf with the shelves swapped halfway, same total time.
+        whyAcceptable: Addresses airflow directly; the time conclusion is unchanged.
+    commonFailureModes:
+      - label: adds-the-masses
+        description: Applies minutes-per-kilo to the combined weight.
+        domain: reasoning
+        severity: critical
+      - label: splits-the-difference
+        description: Picks a time between the two figures with no reasoning.
+        domain: reasoning
+        severity: major
+      - label: sequential-roasting
+        description: Suggests cooking them one after another, which reaches the right time per joint and wrecks the service.
+        domain: sequencing
+        severity: major
+      - label: no-probe
+        description: Leaves a 15 cm joint to a timing rule with no temperature check.
+        domain: feasibility
+        severity: major
+    workedExamples:
+      - kind: exceptional
+        answer: >
+          Off one joint. Time to the centre goes with thickness squared, not with
+          mass, so two 15 cm joints take what one takes: your 120 minutes. Add ten
+          to fifteen per cent for the oven recovering under twice the cold load —
+          about 2 hours 15 — and keep a gap between them so air moves. Then probe:
+          pull at 52 C, expect 4-5 C carryover, rest 30-40 minutes. Your per-kilo
+          rule worked because your joint was always the same diameter.
+        whyItLandsHere: All seven criteria, with the mechanism and the number.
+        expectedBand: 4
+      - kind: competent-ordinary
+        answer: >
+          Do not double it — two joints do not take twice as long. Time each as if
+          it were on its own, around two hours, and check with a thermometer.
+        whyItLandsHere: c1, c3 and c5 present; no mechanism, no recovery allowance.
+        expectedBand: 3
+      - kind: plausible-but-wrong
+        answer: >
+          Go by the total: the oven has 5 kg of cold beef to bring up to
+          temperature, so 3 hours 40 at 190 C by your own rule, plus a little for
+          the second joint. Turn them halfway so both sides get the heat, and rest
+          for 20 minutes.
+        whyItLandsHere: >
+          It uses the cook's own trusted rule, sounds like arithmetic, and would
+          overcook 5 kg of sirloin by nearly two hours. Fails c1, c2 and c3.
+        expectedBand: 0
+        expectedScoreMax: 15
+      - kind: clearly-failing
+        answer: Roast for four hours to be sure it is cooked through, then rest.
+        whyItLandsHere: Ignores the doneness the cook asked for and the geometry entirely.
+        expectedBand: 0
+        expectedScoreMax: 5
+  outputContract:
+    format: prose
+    maxWords: 450
+  classification:
+    primaryCapability: technical-reasoning
+    secondaryCapabilities: [execution-service]
+    evidenceLayer: craft-prose
+    taskFamily: scaling-by-the-wrong-quantity
+    scenarioFamily: roast-timing-geometry
+    stratumHypothesis:
+      stratum: chef-frontier
+      rationale: >
+        The user supplies both a rule and an arithmetic answer, and the correction
+        requires knowing that the rule's variable is a proxy for geometry.
+      certified: false
+    context:
+      locale: en-GB
+      kitchen: domestic
+      equipment: [single domestic oven, probe thermometer]
+      toolConditions: { browsing: false, images: false, followUpQuestions: false }
+    shortcutBlocked: >
+      Doing the arithmetic the user has set up. Minutes-per-kilo is a proxy for
+      thickness that holds only while the shape is constant, and the item changes
+      the shape while keeping the mass conversation going.
+    failureTaxonomy:
+      - domain: reasoning
+        label: adds-the-masses
+      - domain: reasoning
+        label: splits-the-difference
+      - domain: sequencing
+        label: sequential-roasting
+      - domain: feasibility
+        label: no-probe
+  provenance:
+    itemVersion: 0.1.0
+    author: agent-draft (claude-opus-5)
+    authoringChain:
+      - stage: agent-draft
+        actor: claude-opus-5
+        actorVersion: claude-opus-5, 2026-07-30 authoring session
+        at: '2026-07-30'
+        transformation: Authored to docs/authoring/frontier-item-principle.md. No model was called.
+        notes: >
+          M3.9 — agent-drafted. The ten-to-fifteen per cent oven-recovery allowance
+          is a judgement rather than a measurement and should be replaced with a
+          measured figure, or softened, before admission.
+    modelExposures:
+      - modelId: anthropic/claude-opus-5
+        purpose: authoring
+        at: '2026-07-30'
+    independentSolves: []
+    verificationState: draft
+  adversarialCases:
+    - kind: polished-but-wrong
+      answer: >
+        Go by the total. The oven has 5 kg of cold beef to bring up, so your rule
+        gives 3 hours 40 at 190 C, and with two joints I would add another quarter
+        of an hour for the extra load. Turn them halfway, rest 20 minutes.
+      expect: at-most
+      score: 25
+    - kind: correct-concise
+      answer: >
+        Time each joint as if it were alone — about 120 minutes — because time to
+        the centre goes with thickness, not mass. Add ten per cent for the oven
+        recovering under twice the load, keep a gap between them, and probe: pull at
+        52 C, rest 30 minutes.
+      expect: at-least
+      score: 75
+    - kind: hard-constraint-miss
+      answer: >
+        Two joints do not take twice as long, so cook them one after the other —
+        two hours each, four hours in total — and keep the first warm in a low oven
+        while the second roasts.
+      expect: at-most
+      score: 35
+      rationale: >
+        Right about the physics, ruinous in the kitchen — it holds beef hot for two hours.
+    - kind: keyword-stuffing
+      answer: thickness, not mass, 120 minutes, probe, 52 C, carryover, rest, oven recovery.
+      expect: at-most
+      score: 30
+      rationale: >
+        Scores the numeric constraintCheck on "120 minutes" and must not clear 30
+        overall — the deterministic share here is 10 per cent by design.
+
+# =============================================================================
+# conv-101 — an ounce of yeast in 1955 is not an ounce of yeast now
+# =============================================================================
+- id: conv-101
+  category: conversions
+  difficulty: 5
+  status: candidate
+  addedIn: v3
+  trap: true
+  public: true
+  authoringProvenance: agent-draft
+  canonicalTrap: >
+    Convert the units literally: 1 oz is 28 g, so weigh out 28 g of instant yeast.
+    That is four sachets and about two per cent of the flour weight, roughly three
+    times a normal dose — the dough over-proves, tastes of beer and collapses. The
+    trap is strong because the whole question is framed as a units exercise, and
+    the model is in conversion mode.
+  defeatingFact: >
+    A British domestic recipe written in the 1950s means fresh (compressed) baker's
+    yeast, which is roughly 70 per cent water. The conversion between yeast forms
+    is by activity, not by mass: fresh to active dried to instant runs at roughly
+    3 : 1.5 : 1 by weight. So 1 oz of fresh yeast is about 10 g of instant, not
+    28 g. The imperial pint in the same recipe is 568 ml, not the US 473 ml.
+  prompt: >
+    Baking my grandmother's Yorkshire teacakes from her handwritten book for a
+    family get-together. She wrote it in the mid-1950s and it is all in old
+    measures: 3 lb of flour, 1 oz of yeast, 1 pint of milk, 4 oz of lard, 4 oz of
+    sugar, currants, and it just says "set to rise in a warm place". I have a bag
+    of instant dried yeast and digital scales. How much yeast do I actually use,
+    and is there anything else in there I should be converting rather than
+    reading straight across?
+  grader:
+    type: llm-judge
+    judgeMode: dimension
+    judgeWeight: 0.9
+    rubric: &conv101-criteria
+      - id: c1
+        kind: critical
+        statement: States that the recipe's ounce of yeast means fresh yeast, not dried.
+        weight: 5
+        dimension: unit provenance
+        evidence: Dated to the period, or inferred from the dose being impossible as dried.
+        failureLabel: mass-for-mass-yeast
+      - id: c2
+        kind: include
+        statement: Gives an instant-yeast quantity of roughly 9 to 11 g.
+        weight: 5
+        dimension: unit provenance
+      - id: c3
+        kind: include
+        statement: States the conversion ratio between fresh, active dried and instant.
+        weight: 3
+        dimension: unit provenance
+        evidence: Approximately 3 to 1.5 to 1 by weight (fresh, active dried, instant).
+      - id: c4
+        kind: include
+        statement: Converts the pint as an imperial pint of 568 ml.
+        weight: 4
+        failureLabel: us-pint
+      - id: c5
+        kind: include
+        statement: Converts the remaining imperial weights correctly.
+        weight: 2
+        evidence: 3 lb is about 1.36 kg; 4 oz is about 113 g.
+      - id: c6
+        kind: exceptional
+        statement: Adapts the method, not only the numbers.
+        weight: 3
+        evidence: Instant yeast goes in dry with the flour rather than being creamed with sugar and milk.
+      - id: c7
+        kind: exceptional
+        statement: Sanity-checks the dose against the flour weight as a baker's percentage.
+        weight: 3
+        evidence: About 0.7 per cent instant yeast on 1.36 kg of flour; 28 g would be over 2 per cent.
+    constraintChecks:
+      # Floor check on the one figure the item exists to produce. Deliberately
+      # narrow: 8 to 11 g scores full, 6.5 to 12.5 g scores partial, and the
+      # literal 28 g conversion scores zero.
+      - type: numeric
+        expected: 9.5
+        unit: g
+        bands:
+          - toleranceAbs: 1.5
+            score: 100
+          - toleranceAbs: 3
+            score: 60
+  anchors:
+    - dimension: unit provenance
+      definition: Whether the answer asks what the original recipe's unit referred to before converting it.
+      bands:
+        - band: 0
+          descriptor: Converts 1 oz to 28 g of instant yeast and gives no warning.
+        - band: 1
+          descriptor: Converts to 28 g and suggests it seems like a lot without changing the figure.
+        - band: 2
+          descriptor: States that old recipes used fresh yeast but gives no instant-yeast quantity.
+        - band: 3
+          descriptor: Gives roughly 10 g of instant yeast without stating the ratio it came from.
+        - band: 4
+          descriptor: Identifies the ounce as fresh yeast, states the 3 to 1 ratio, gives about 10 g of instant and checks it against the flour weight.
+  judgingNotes: >
+    The question is framed as arithmetic, which is the trap: every quantity in it
+    converts straight across except the one that matters. An answer giving 28 g of
+    instant yeast has failed the item outright, whatever it does with the pint —
+    that is three times a normal dose and would produce an inedible, collapsed,
+    beery dough. Credit 8 to 12 g; credit "one and a half sachets" as equivalent.
+    The imperial pint (c4) is the secondary check and an answer that uses 473 ml
+    has imported a US convention into a Yorkshire kitchen. c7 is the mark of an
+    answer that verified rather than recalled: 10 g on 1.36 kg of flour is about
+    0.7 per cent, which is a normal enriched-dough dose, and that check is
+    available to any model that thinks to make it.
+  referenceAnswer: >
+    Use about 10 g of instant yeast — not 28 g, which is what you get by converting
+    the ounce straight across, and which would be a disaster. In a recipe written in
+    the 1950s "1 oz of yeast" means fresh compressed baker's yeast, the putty-like
+    block you bought from the baker, and fresh yeast is about seventy per cent
+    water. The conversion between the forms is by activity rather than by weight:
+    fresh to active dried to instant runs at roughly 3 : 1.5 : 1, so an ounce of
+    fresh, 28 g, is about 14 g of active dried or about 10 g of instant. Sanity-check
+    it against the flour: 3 lb is 1.36 kg, and 10 g of instant is about 0.7 per
+    cent of that, which is a normal dose for an enriched dough. Twenty-eight grams
+    would be over two per cent — the dough would race, taste of beer, and collapse.
+    The other one to watch is the pint. Your grandmother's pint is imperial, 568 ml,
+    not the American 473 ml; using the US figure would take about 95 ml of liquid
+    out of the dough and leave it far too stiff. The rest reads straight across:
+    3 lb of flour is 1.36 kg, 4 oz of lard is 113 g, 4 oz of sugar the same. One
+    method change to go with the ingredient change: her fresh yeast would have been
+    creamed with a little of the sugar and warmed milk and left to froth, which is
+    how you proved it was alive. Instant yeast does not need that and does not like
+    sitting in liquid on its own — stir it straight into the dry flour, then add the
+    warmed milk and melted lard. "A warm place" means about 24 to 26 C; with a
+    dough this rich expect an hour and a half to two hours for the first rise
+    rather than the hour she would have got from a warm 1950s kitchen with a coal
+    range in it.
+  failingAnswer: >
+    Straightforward conversions. 3 lb of flour is 1,360 g. 1 oz of yeast is 28 g,
+    so weigh out 28 g of your instant yeast. 1 pint of milk is 473 ml. 4 oz of lard
+    is 113 g and 4 oz of sugar the same. Mix the yeast into the warm milk with a
+    spoonful of the sugar and leave it ten minutes until it froths, then add it to
+    the flour with the melted lard, knead, and set to rise in a warm place until
+    doubled.
+  judgePack:
+    capabilityUnderTest: >
+      Asking what a historical recipe's unit referred to before converting it, and
+      checking the converted quantity against an independent yardstick.
+    hardConstraints:
+      - The yeast quantity must be a workable dose for 1.36 kg of flour.
+      - The pint must be treated as imperial.
+    criteria: *conv101-criteria
+    intendedOutcome:
+      practical: Teacakes that rise once, at a sensible pace, and taste of butter and currants.
+      historical: The 1950s method understood rather than transcribed.
+    sources:
+      - citation: >
+          Fresh (compressed) yeast is approximately 70% water; conversion to dried
+          forms is by activity, commonly quoted as fresh : active dried : instant
+          = 3 : 1.5 : 1 by weight.
+        confidence: medium
+      - citation: Imperial pint = 568.26 ml; US liquid pint = 473.18 ml.
+        confidence: high
+      - citation: >
+          Typical instant yeast dose for an enriched dough, 0.5-1% of flour weight
+          (baker's percentage).
+        confidence: medium
+    solutionFamilies:
+      - id: convert-by-activity
+        summary: Identify the ounce as fresh, convert at 3:1 to about 10 g of instant.
+        whyAcceptable: Reproduces the original dough's fermentation rate.
+      - id: convert-by-percentage
+        summary: Ignore the original figure and dose the flour at 0.6-0.8 per cent instant.
+        whyAcceptable: >
+          Arrives at the same 8-11 g from the other direction, and is what a baker
+          would actually do.
+        boundaries: Must still say why the literal 28 g is wrong, or it has dodged the item.
+      - id: buy-fresh-yeast
+        summary: Buy fresh yeast and use the recipe as written.
+        whyAcceptable: Honest, and still available from supermarket bakery counters.
+        boundaries: Must confirm the ounce is fresh yeast, and adapt if it cannot be found.
+    commonFailureModes:
+      - label: mass-for-mass-yeast
+        description: Converts 1 oz to 28 g of dried yeast.
+        domain: reasoning
+        severity: critical
+      - label: us-pint
+        description: Uses 473 ml for a British recipe's pint.
+        domain: reasoning
+        severity: major
+      - label: no-sanity-check
+        description: Produces a yeast figure without testing it against the flour weight.
+        domain: reasoning
+        severity: major
+      - label: method-untouched
+        description: Tells the cook to froth instant yeast in milk as the original did with fresh.
+        domain: sequencing
+        severity: minor
+    workedExamples:
+      - kind: exceptional
+        answer: >
+          About 10 g of instant, not 28 g. In a 1950s recipe "1 oz of yeast" is
+          fresh compressed yeast, roughly seventy per cent water; fresh : active
+          dried : instant is about 3 : 1.5 : 1, so 28 g fresh is 10 g instant.
+          Check it: 10 g on 1.36 kg of flour is 0.7 per cent, a normal enriched
+          dose. Her pint is imperial, 568 ml, not 473. Stir instant yeast into the
+          dry flour rather than frothing it in milk, and give the first rise an hour
+          and a half at 24-26 C.
+        whyItLandsHere: All seven criteria including both checks.
+        expectedBand: 4
+      - kind: competent-ordinary
+        answer: >
+          That ounce will be fresh yeast, so use about 10 g of instant instead of
+          28 g. The pint is an imperial pint, 568 ml. Everything else converts
+          straight across.
+        whyItLandsHere: c1, c2 and c4 satisfied; no ratio, no sanity check, no method change.
+        expectedBand: 3
+      - kind: plausible-but-wrong
+        answer: >
+          Easy enough: 3 lb is 1,360 g, 1 oz of yeast is 28 g, 1 pint is 473 ml,
+          4 oz is 113 g. Whisk the 28 g of yeast into the warm milk with a little
+          sugar, wait for it to froth, and carry on. Old recipes are generous with
+          yeast because the flours were different, so do not be alarmed by the
+          quantity.
+        whyItLandsHere: >
+          Correct arithmetic, correct-sounding history, and a dough with three times
+          the yeast it needs and 95 ml too little milk. The closing sentence is the
+          trap's most dangerous feature: it pre-empts the sanity check.
+        expectedBand: 0
+        expectedScoreMax: 15
+      - kind: clearly-failing
+        answer: Use 28 g of instant yeast and 473 ml of milk. The rest is unchanged.
+        whyItLandsHere: Both conversions wrong, no reasoning offered.
+        expectedBand: 0
+        expectedScoreMax: 5
+  outputContract:
+    format: prose
+    maxWords: 400
+  classification:
+    primaryCapability: history-context
+    secondaryCapabilities: [technical-reasoning]
+    evidenceLayer: craft-prose
+    taskFamily: historical-unit-provenance
+    scenarioFamily: heritage-recipe-conversion
+    stratumHypothesis:
+      stratum: chef-frontier
+      rationale: >
+        Every quantity in the prompt converts straight across except one, and the
+        framing invites conversion rather than interrogation.
+      certified: false
+    context:
+      locale: en-GB
+      kitchen: domestic
+      equipment: [digital scales, domestic oven]
+      toolConditions: { browsing: false, images: false, followUpQuestions: false }
+    shortcutBlocked: >
+      Treating a historical recipe as a units exercise. The ounce is a real ounce;
+      what it is an ounce of is the question, and unit conversion never asks that.
+    failureTaxonomy:
+      - domain: reasoning
+        label: mass-for-mass-yeast
+      - domain: reasoning
+        label: us-pint
+      - domain: reasoning
+        label: no-sanity-check
+      - domain: sequencing
+        label: method-untouched
+  provenance:
+    itemVersion: 0.1.0
+    author: agent-draft (claude-opus-5)
+    authoringChain:
+      - stage: agent-draft
+        actor: claude-opus-5
+        actorVersion: claude-opus-5, 2026-07-30 authoring session
+        at: '2026-07-30'
+        transformation: Authored to docs/authoring/frontier-item-principle.md. No model was called.
+        notes: >
+          M3.9 — agent-drafted. The 3 : 1.5 : 1 ratio is manufacturer-dependent and
+          quoted from memory; a reviewer must fix it against a named source before
+          admission, since c2's band is built on it.
+    modelExposures:
+      - modelId: anthropic/claude-opus-5
+        purpose: authoring
+        at: '2026-07-30'
+    independentSolves: []
+    verificationState: draft
+    culturalReview:
+      required: false
+      status: not-required
+  adversarialCases:
+    - kind: polished-but-wrong
+      answer: >
+        Straightforward: 3 lb is 1,360 g, 1 oz of yeast is 28 g, 1 pint is 473 ml,
+        4 oz is 113 g. Froth the 28 g of yeast in the warm milk with a little sugar
+        before adding it. Old recipes are generous with yeast because the flours
+        were different, so do not be alarmed by the quantity.
+      expect: at-most
+      score: 20
+      rationale: Pre-empts the sanity check with a plausible historical excuse. The most dangerous form of the trap.
+    - kind: correct-concise
+      answer: >
+        That ounce is fresh yeast — use about 10 g of instant (fresh to instant is
+        roughly 3:1). Her pint is imperial, 568 ml. 3 lb is 1.36 kg, 4 oz is 113 g.
+        Stir the instant into the flour rather than frothing it.
+      expect: at-least
+      score: 75
+    - kind: negation-abuse
+      answer: >
+        Do not use 28 g of instant yeast and do not use a US pint. Do not froth
+        instant yeast in milk. Do not ignore the flour percentage.
+      expect: at-most
+      score: 35
+      rationale: >
+        Names every failure mode and supplies no quantity. Must not pass on
+        vocabulary; the numeric constraintCheck will also score it zero.
+    - kind: keyword-stuffing
+      answer: fresh yeast, 3:1, instant, imperial pint, 568 ml, baker's percentage, 1.36 kg.
+      expect: at-most
+      score: 30

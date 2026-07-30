@@ -1064,6 +1064,146 @@ export function davidsonSummary(
 }
 
 /* -------------------------------------------------------------------------- */
+/* M4.4 — clustered uncertainty on the Davidson ratings                       */
+/* -------------------------------------------------------------------------- */
+
+export interface DavidsonBootstrapOptions extends DavidsonOptions {
+  reps?: number;
+  seed: string;
+  alpha?: number;
+  /**
+   * Share of resamples that must produce a usable fit before any interval is
+   * reported. Below it the intervals would describe the subset of resamples
+   * that happened to stay connected, which is a different population.
+   */
+  minUsableShare?: number;
+  minOrderStatistics?: number;
+}
+
+export interface DavidsonInterval {
+  modelId: string;
+  rating: number;
+  lower: number;
+  upper: number;
+}
+
+export interface DavidsonBootstrapResult {
+  point: DavidsonFit;
+  /** Null when the resample could not support intervals; see `refusal`. */
+  intervals: DavidsonInterval[] | null;
+  refusal?: string;
+  reps: number;
+  usable: number;
+  clusters: number;
+}
+
+/**
+ * Cluster bootstrap of the Davidson ratings, resampling scenario families.
+ *
+ * Every ballot on a scenario travels with it. Resampling ballots individually
+ * would treat five judgements of the same dish as five independent readings of
+ * the roster and shrink the intervals accordingly; the whole point of M4.4's
+ * clustering rule is that they are one.
+ *
+ * Every observation must declare its cluster. There is no fallback to
+ * one-cluster-per-ballot, because that fallback IS the error being guarded
+ * against and it would be invisible in the output.
+ *
+ * Resamples that cannot be fitted — a draw that happens to disconnect the graph
+ * is entirely possible on sparse vote sets — are counted, not silently skipped.
+ * Below `minUsableShare` the intervals are refused outright.
+ */
+export function davidsonClusterBootstrap(
+  observations: readonly PairwiseObservation[],
+  opts: DavidsonBootstrapOptions,
+): DavidsonBootstrapResult {
+  const reps = opts.reps ?? 200;
+  const alpha = opts.alpha ?? 0.05;
+  const minUsableShare = opts.minUsableShare ?? 0.8;
+  const minOrder = opts.minOrderStatistics ?? 5;
+  if (!Number.isInteger(reps) || reps < 20) {
+    throw new StatsError(`davidsonClusterBootstrap: reps must be an integer >= 20, got ${reps}`);
+  }
+  if (typeof opts.seed !== 'string' || opts.seed.length === 0) {
+    throw new StatsError('davidsonClusterBootstrap: a non-empty seed label is required');
+  }
+  const byCluster = new Map<string, PairwiseObservation[]>();
+  for (const o of observations) {
+    if (typeof o.cluster !== 'string' || o.cluster.length === 0) {
+      throw new StatsError(
+        `davidsonClusterBootstrap: the ${o.a} vs ${o.b} ballot declares no scenario family; ` +
+          'ballots on one scenario must be resampled together',
+      );
+    }
+    let bucket = byCluster.get(o.cluster);
+    if (!bucket) byCluster.set(o.cluster, (bucket = []));
+    bucket.push(o);
+  }
+  const point = fitDavidson(observations, opts);
+  const clusters = [...byCluster.keys()].sort();
+  const result: DavidsonBootstrapResult = {
+    point,
+    intervals: null,
+    reps,
+    usable: 0,
+    clusters: clusters.length,
+  };
+  if (clusters.length < 2) {
+    result.refusal = `${clusters.length} scenario family/families; a cluster bootstrap over one cluster reports no variability`;
+    return result;
+  }
+
+  const rnd = seededUniform(fnv1a32(opts.seed));
+  const samples = new Map<string, number[]>(point.ratings.map((r) => [r.modelId, []]));
+  for (let rep = 0; rep < reps; rep++) {
+    const drawn: PairwiseObservation[] = [];
+    for (let k = 0; k < clusters.length; k++) {
+      for (const o of byCluster.get(clusters[(rnd() * clusters.length) | 0]!)!) drawn.push(o);
+    }
+    let fit: DavidsonFit;
+    try {
+      fit = fitDavidson(drawn, opts);
+    } catch {
+      // A draw that disconnects the graph or leaves a model winless is not a
+      // fit. It is counted against `usable` rather than quietly discarded.
+      continue;
+    }
+    result.usable += 1;
+    for (const r of fit.ratings) samples.get(r.modelId)?.push(r.rating);
+  }
+
+  if (result.usable < reps * minUsableShare) {
+    result.refusal =
+      `only ${result.usable}/${reps} resamples produced a fittable comparison graph ` +
+      `(minimum share ${minUsableShare}); the surviving resamples are not a random subset`;
+    return result;
+  }
+  if ((alpha / 2) * result.usable < minOrder) {
+    result.refusal =
+      `${result.usable} usable resamples resolve the ${alpha / 2} quantile with only ` +
+      `${((alpha / 2) * result.usable).toFixed(1)} order statistics (minimum ${minOrder})`;
+    return result;
+  }
+
+  const intervals: DavidsonInterval[] = [];
+  for (const r of point.ratings) {
+    const drawn = samples.get(r.modelId)!;
+    // A model can drop out of a resample entirely; require most to be usable,
+    // the same rule taste.ts applies to its Bradley-Terry CIs.
+    if (drawn.length < result.usable * minUsableShare) continue;
+    const sorted = [...drawn].sort((x, y) => x - y);
+    intervals.push({
+      modelId: r.modelId,
+      rating: r.rating,
+      lower: percentile(sorted, alpha / 2),
+      upper: percentile(sorted, 1 - alpha / 2),
+    });
+  }
+  result.intervals = intervals;
+  return result;
+}
+
+/* -------------------------------------------------------------------------- */
 /* M4.4 — influence: the smallest audited deletion that flips the leader      */
 /* -------------------------------------------------------------------------- */
 

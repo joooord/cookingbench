@@ -315,3 +315,80 @@ helper, reconcile the two rather than letting both ship; agreement.ts's
 `clusteredBootstrap` requires an explicit `relabel` function for a reason
 (duplicate cluster draws must not merge into one unit) and that requirement
 should survive any merge.
+
+## packages/core/src/stats.ts + packages/runner/src/analyze.ts — M4.3/M4.4 statistics
+
+New: `packages/core/src/stats.ts` (pure; no I/O, no model calls). `analyze.ts`
+gains a `confirmatory` block alongside the existing `separation` array. Nothing
+existing changed shape: `analyzeRun`, `tiedRanks`, `writeAnalysis` and
+`PairSeparation` keep their signatures and their numbers, so `cli.ts`,
+`apps/web/lib/data.ts` and every committed `analysis.json` are unaffected.
+
+Three things the integration pass has to do:
+
+1. **`packages/core/src/index.ts` does not re-export stats.ts**, and that file
+   belongs to another workstream. Until it gains `export * from './stats.js';`,
+   `analyze.ts` imports it by relative path (`../../core/src/stats.js`) with a
+   comment saying so. Add the re-export, then change that one import line to
+   `@cookingbench/core`. `packages/runner/test/analyze.test.ts` has the same
+   import and needs the same edit.
+
+2. **`analyzeRun` takes an optional 5th argument.** `cli.ts` calls it with four
+   and keeps working, but with no options no practical margin is preregistered,
+   so `confirmatory[].soleWinner.model` is always `null` — deliberately. To
+   allow a sole-winner claim the run must pass
+   `{ confirmatory: { practicalMargin: { points, preregisteredIn, approvedBy,
+   rationale } } }`, and the margin must be frozen **before** the run under
+   M4.3. `resolvePracticalMargin` refuses anything less, including a margin of
+   zero.
+
+3. **`cmdAnalyze` should print the confirmatory block.** `formatConfirmatory`
+   (exported from `analyze.ts`) returns the lines; there is no argv in it.
+
+       for (const scope of ['active', 'frontier'] as const) {
+         for (const line of formatConfirmatory(analysis, scope)) console.log(line);
+       }
+
+   No new verb. Suggested flags if any are ever wanted:
+   `pnpm bench analyze --run <id> [--margin <points>] [--alpha 0.05]`.
+
+### What the existing CLI output now contradicts
+
+`cmdAnalyze` prints `separated`/`tied` off `separation`, which is **91
+uncorrected tests at alpha 0.05** — the defect this workstream exists for. The
+line `places (48/91 of all pairs separated)` should be relabelled as screening
+and the places taken from `confirmatory[].places`. `tiedRanks` still works and
+is still built from the full matrix (its one correct property), but its doc
+comment no longer says "proven": M4.4 forbids that phrase for an unadjusted 95%
+result and it was in this repo's own comments, CLI output and CLAUDE.md.
+`assertClaimLanguage` will throw on it, and there is a standing test that every
+line `formatConfirmatory` produces passes that check.
+
+### Behaviour worth knowing before reading the numbers
+
+- **Clustering is by `classification.scenarioFamily`.** None of the 184 current
+  items declares one, so today every run reports `clustering:
+  'item-unclustered'`, records a refusal, and **cannot name a sole winner
+  whatever the gap**. That is the designed outcome, not a wiring gap: an item
+  bootstrap treats variants of one scenario as independent evidence.
+- **Repeats are averaged into their item**, so a twice-generated item is one
+  item, not two. `confirmatory[].repeats` reports how many were folded.
+- Two Holm families: all pairs (drives tiers/places) and leader-vs-rest (drives
+  the sole-winner claim, with Bonferroni simultaneous intervals). A pair outside
+  a declared `confirmatoryFamily` gets `pAdjusted: null` and `ordered: false` —
+  untested is never treated as ordered.
+- Every failure inside the confirmatory pass becomes a string in `refusals`; it
+  never throws, and it never falls back to a permissive default.
+
+### Available and not yet wired anywhere
+
+`fitDavidson` / `davidsonSummary` / `davidsonClusterBootstrap` implement M4.4's
+tie-aware pairwise summarisation over `PairwiseOutcome` from
+`graders/pairwise.ts`. They need pairwise ballots, which no run artifact carries
+yet, so nothing calls them. When the M2.1 pairwise route produces ballots, feed
+them in as `{ a, b, outcome, cluster }` with candidate-identity outcomes (use
+`canonicalise` from graders/pairwise.ts first — an `a` in a ballot means "the
+first answer shown"). `both_unacceptable` is excluded from the fit and reported
+per model as a release-gating signal; `davidsonSummary` runs the declared
+exclusion sensitivity. `taste.ts` should import `ratingFromStrength` from here
+rather than keeping its private copy of the same transform.
