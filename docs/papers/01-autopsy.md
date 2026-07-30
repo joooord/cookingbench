@@ -185,10 +185,12 @@ carry 47.5% of the spread — 3.2× the variance per item of a judged item. Near
 half of what separates these models comes from the component with the weakest
 claim to validity.
 
-The `disc = 0` column needs care and the distinction matters: for `numeric`,
-27 of 34 items have exactly zero discrimination because they are *saturated*
-(26 are perfect for all 14 models), not because they are perverse. For
-`keyword`, 6 items are *strictly negative*: better models do worse.
+The `disc = 0` column needs care, and the distinction matters: for `numeric`, 27
+of 34 items have exactly zero discrimination because they are *saturated* (26 are
+perfect for all 14 models), not because they are perverse. Strictly negative
+discrimination — better models doing worse — occurs on 12 active items, 6
+keyword and 6 judge-graded, and those twelve carry **15.4%** of all active
+variance between them.
 
 ### 4.3 Central exhibit: `flav-014`
 
@@ -218,8 +220,6 @@ it separately, and do not share the grinder.
   the sentence carries no negation cue at all, so no improvement to the matcher
   can rescue it. Recommending an ingredient and warning against it are the same
   string.
-- `qwen3.7-max` — zeroed on `cayenne`, for *"Do not use standard store-bought
-  'chili powder,' as it is a blend that almost always contains cayenne pepper."*
 
 Eight of the nine zeroes were triggered by phrases that are correct advice. The
 ninth, `llama-4-maverick`, put *"2 tablespoons chili powder"* in the blend and
@@ -515,33 +515,33 @@ labelled where it matters.
 
 ## 6. What this shows, and what it does not
 
-**It shows** that a deterministic grading component that looks objective
-produced 38 demonstrably wrong zeroes, carried a disproportionate share of total
-variance, and that removing the items it damaged permutes the entire top four of
-a published leaderboard. It shows the damage falls on a recognisable class of
-behaviour — warning about hidden allergens, advising on cross-contamination,
-naming what is being replaced — with the correlation between a model's mean
-answer length and its contradiction count at ρ = 0.50 across 14 models.
+**It shows** that a deterministic grading component that looks objective produced
+38 demonstrably wrong zeroes, carried a disproportionate share of total variance,
+and that removing the items it damaged permutes the entire top four of a
+published leaderboard. The damage falls on a recognisable class of behaviour —
+warning about hidden allergens, advising on cross-contamination, naming what is
+being replaced — and the correlation between a model's mean answer length and its
+contradiction count is ρ = 0.50 across 14 models.
 
-**It does not show** that the de-noised ordering is correct. Both orderings sit
+**It does not show that the de-noised ordering is correct.** Both orderings sit
 inside a five-way tie the run's own paired bootstrap reports. Anyone quoting
 "GPT-5.4 Mini is really first" from this paper has misread it.
 
-**It does not show** that the damaged models are better than the undamaged ones.
-The per-model correlation between overall score and contradiction count is
-ρ = 0.09 — essentially nil. This is not a systematic bias in favour of weak
-models; it is a large, roughly arbitrary perturbation that becomes decisive only
-because the underlying differences are smaller than it.
+**It does not show that the damaged models are better.** The per-model
+correlation between overall score and contradiction count is ρ = 0.09 —
+essentially nil. This is not a systematic bias in favour of weak models; it is a
+large, roughly arbitrary perturbation that becomes decisive only because the
+underlying differences are smaller than it.
 
-**It does not show** that deterministic grading is unsound in general. On the
-verifiable layer — 176.7 °C, 20 ml, 74 °C — it is right, and the numeric grader
-produced no negatively discriminating items at all on this run. The failure is
-specific: deterministic grading of *natural-language constraint compliance*,
-where the same string is written by the best answer and the worst.
+**It does not show that deterministic grading is unsound in general.** On the
+verifiable layer it is right, and the numeric grader produced no negatively
+discriminating items at all here. The failure is specific: deterministic grading
+of *natural-language constraint compliance*, where the same string is written by
+the best answer and the worst.
 
-**It does not show** that LLM judges are reliable — only that where the two
-disagreed sharply here, the judge was right and the matcher wrong 38 times out
-of 38. That is a comparison, not an endorsement.
+**It does not show that LLM judges are reliable** — only that where the two
+disagreed sharply here, the judge was right 38 times out of 38. That is a
+comparison, not an endorsement.
 
 ---
 
@@ -571,10 +571,10 @@ names what it replaces — cost no model calls and would have caught this class.
 
 **Report separation, and refuse to render an ordering the statistics do not
 support.** This run's board shows three models at 96.0 in a numbered column
-while its own artifact says five are tied for first. Wherever a leaderboard is
-consumed, the tie structure has to travel with it.
+while its own artifact says five are tied for first. The tie structure has to
+travel wherever the leaderboard is consumed.
 
-**Publish per-item variance share.** Concentration is the vulnerability. If six
+**Publish per-item variance share.** Concentration is the vulnerability: if six
 items carry 41.6% of the spread, those six items *are* the benchmark and deserve
 the scrutiny given to the aggregate. `nutr-036` would never have been read
 closely without it.

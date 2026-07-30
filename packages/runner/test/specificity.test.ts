@@ -180,6 +180,30 @@ describe('mapping evidence gates the whole analysis', () => {
     expect(result.status).toBe('refused');
   });
 
+  it('refuses the same model listed twice in the outcomes', () => {
+    const result = specificityAnalysis({
+      runId: 'r',
+      outcomes: [...outcomes(), { modelId: 'openai/a', overall: 40 }],
+      predictor: predictor(),
+    });
+    expect(result.status).toBe('refused');
+  });
+
+  it('names a narrowed scope and recommends omission for it', () => {
+    // Excluding the models with no external snapshot is selection on the
+    // predictor, even when it is declared honestly.
+    const scope = ROSTER.slice(0, 9).map((r) => r.modelId);
+    const result = specificityAnalysis({
+      runId: 'r',
+      outcomes: outcomes(),
+      predictor: predictor(),
+      scope,
+    });
+    if (result.status !== 'descriptive') throw new Error('expected a descriptive result');
+    expect(result.caveats.join(' ')).toMatch(/x-ai\/b/);
+    expect(result.omissionRecommended).toBe(true);
+  });
+
   it('refuses fewer than eight mapped models', () => {
     const subset = ROSTER.slice(0, 5);
     const result = specificityAnalysis({
@@ -355,7 +379,9 @@ describe('reporting language', () => {
     expect(text).toContain(RESIDUAL_LABEL);
     expect(text).toMatch(/Descriptive only/);
     expect(text).toMatch(/NOT a ranking/);
-    expect(text.toLowerCase()).not.toMatch(/culinary ability(?! )/);
+    // The phrase may appear only negated. An un-negated "culinary ability"
+    // anywhere in this report is the claim M4.10 forbids.
+    expect(text).not.toMatch(/(?<!not )culinary ability/i);
   });
 });
 

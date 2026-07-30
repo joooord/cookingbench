@@ -466,6 +466,19 @@ export function specificityAnalysis(input: SpecificityInput): SpecificityResult 
   const outcomeById = new Map(input.outcomes.map((o) => [o.modelId, o]));
   const mappingByRoute = new Map(input.predictor.mappings.map((m) => [m.route, m]));
 
+  const duplicateOutcomes = input.outcomes
+    .map((o) => o.modelId)
+    .filter((id, i, all) => all.indexOf(id) !== i);
+  if (duplicateOutcomes.length > 0) {
+    // A Map would silently keep the last row, so a run listed twice under two
+    // scores would quietly regress on whichever happened to be second.
+    refusals.push({
+      code: 'PREDICTOR_INVALID',
+      message: 'The same model appears twice in the outcomes.',
+      routes: [...new Set(duplicateOutcomes)],
+    });
+  }
+
   const missingOutcome = scope.filter((m) => !outcomeById.has(m));
   if (missingOutcome.length > 0) {
     refusals.push({
@@ -621,10 +634,23 @@ export function specificityAnalysis(input: SpecificityInput): SpecificityResult 
 
   const caveats: string[] = [
     'The route → snapshot mapping is the load-bearing assumption; every residual inherits its errors.',
-    'Fourteen provider-clustered observations cannot separate a lab effect from a cooking effect.',
+    `${rows.length} provider-clustered observations over ${clusterCounts.size} lab(s) cannot separate a lab effect from a cooking effect.`,
     'Residuals are reported in model-id order because sorting them is ranking them.',
   ];
   const omissionReasons: string[] = [];
+
+  const excluded = input.outcomes.map((o) => o.modelId).filter((id) => !scopeSet.has(id));
+  if (excluded.length > 0) {
+    // A narrowed scope is declared rather than emergent, which is the point of
+    // the parameter — but it is still selection, and the models most likely to
+    // be dropped are the ones with no published external snapshot. Naming them
+    // is the minimum; recommending omission is the honest reading of M4.10's
+    // "may be omitted entirely if mapping uncertainty makes it misleading".
+    caveats.push(`Scope excludes ${excluded.length} model(s) with CookingBench outcomes: ${excluded.join(', ')}.`);
+    omissionReasons.push(
+      `${excluded.length} model(s) with CookingBench scores are outside the analysed scope; the fit describes a selected subset of the roster.`,
+    );
+  }
 
   if (uncertaintyRatio !== null && uncertaintyRatio > MAX_UNCERTAINTY_RATIO) {
     omissionReasons.push(
@@ -938,6 +964,16 @@ export function formatSpecificityReport(result: SpecificityResult): string {
   if (result.omissionRecommended) {
     lines.push('OMISSION RECOMMENDED — publishing this table would mislead:');
     for (const reason of result.omissionReasons) lines.push(`  • ${reason}`);
+  }
+  // Absolute performance first, association second, residuals last: M1.10 asks
+  // for the three to be reported separately, and this is the order in which
+  // each is least likely to be mistaken for the next.
+  lines.push('Absolute CookingBench performance:');
+  for (const row of result.absolute) {
+    lines.push(
+      `  ${row.modelId.padEnd(32)} ${row.overall.toFixed(1)}` +
+        (row.ci95 ? ` [${row.ci95[0].toFixed(1)}, ${row.ci95[1].toFixed(1)}]` : ''),
+    );
   }
   const a = result.association;
   lines.push(

@@ -70,6 +70,9 @@ const UNIT_SYNONYMS: Record<string, string> = {
   kcal: 'kcal', calorie: 'kcal', calories: 'kcal', cal: 'kcal',
 };
 
+/** Words that sit between a number and its unit without being either. */
+const FILLER_BEFORE_UNIT = new Set(['degrees', 'degree', 'deg', 'of', 'a', 'an']);
+
 /** Written numbers a paraphrase legitimately swaps for digits, and vice versa. */
 const WORD_NUMBERS: Record<string, number> = {
   half: 0.5, quarter: 0.25, third: 1 / 3, one: 1, two: 2, three: 3, four: 4, five: 5,
@@ -153,11 +156,16 @@ export function culinaryContentFingerprint(prompt: string): ContentFingerprint {
   for (let i = 0; i < tokens.length; i++) {
     const value = parseNumberToken(tokens[i]!);
     if (value === null) continue;
-    const next = tokens[i + 1];
-    const unit = next ? UNIT_SYNONYMS[next] : undefined;
+    // "180 degrees Celsius" and "180 °C" must fingerprint identically, so a
+    // filler word between the number and its unit is stepped over. Only one:
+    // if nothing unit-shaped follows, the number stays a bare number rather
+    // than being attached to whatever word happened to be nearby.
+    let j = i + 1;
+    if (tokens[j] !== undefined && FILLER_BEFORE_UNIT.has(tokens[j]!)) j++;
+    const unit = tokens[j] !== undefined ? UNIT_SYNONYMS[tokens[j]!] : undefined;
     if (unit) {
       quantities.push(`${canonicalNumber(value)} ${unit}`);
-      i++;
+      i = j;
     } else {
       numbers.push(canonicalNumber(value));
     }
@@ -369,6 +377,12 @@ export function compareParaphrase(pair: ParaphrasePair): ParaphraseComparison {
       continue;
     }
     models.push({ modelId, base: b.score, variant: v.score, delta: round(v.score - b.score, 3) });
+  }
+
+  if (models.length === 0) {
+    // Nothing paired at all. Without this the aggregates below are NaN and
+    // -Infinity, and a report would print them as though they were findings.
+    refusals.push('No model was scored on both wordings; there is nothing to compare.');
   }
 
   const base = {

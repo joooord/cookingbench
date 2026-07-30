@@ -1086,6 +1086,16 @@ export function tastePublicationThreshold(opts: {
   const bootstrap = opts.bootstrap ?? 100;
   const tieRate = opts.tieRate ?? 0.1;
   if (opts.strengths.length < 2) throw new SimulationError('at least two strengths are required');
+  // p = s_a/(s_a+s_b) is meaningless for a non-positive strength, and a pair of
+  // zeroes divides by zero into a NaN that would sample as a silent 'b' win.
+  for (const s of opts.strengths) {
+    if (!Number.isFinite(s) || s <= 0) {
+      throw new SimulationError(`Bradley–Terry strengths must be finite and positive, got ${s}`);
+    }
+  }
+  if (!(opts.tieRate === undefined || (opts.tieRate >= 0 && opts.tieRate < 1))) {
+    throw new SimulationError(`tieRate must lie in [0, 1), got ${opts.tieRate}`);
+  }
   const models = opts.strengths.map((_, i) => `taste-m${i}`);
   let trueTop = 0;
   for (let i = 1; i < opts.strengths.length; i++) {
@@ -1146,7 +1156,12 @@ export interface SimulationSuiteOptions {
   /** Items scored by the judge panel, for the severity scenario. */
   judgedItems?: readonly string[];
   practicalMarginPoints?: number;
-  /** Cheap defaults; a published report should raise these and say so. */
+  /**
+   * Cheap defaults; a published report should raise these and say so. `reps`
+   * has a hard floor set by the interval: at α=0.05 the 0.025 quantile needs
+   * ten order statistics, so anything below 400 is refused by
+   * `clusterBootstrapMean` rather than silently producing a two-draw bound.
+   */
   reps?: number;
   sims?: number;
 }
@@ -1202,7 +1217,9 @@ export function runSimulationSuite(opts: SimulationSuiteOptions): SimulationRepo
         : {}),
     }),
     dominantItem: dominantItemSensitivity(complete),
-    severity: judgeSeveritySensitivity(complete, opts.judgedItems ? { judgedItems: opts.judgedItems } : {}),
+    // The RAW matrix, nulls intact: dropping incomplete items first would
+    // remove the unequal-coverage channel and leave only the ceiling one.
+    severity: judgeSeveritySensitivity(matrix, opts.judgedItems ? { judgedItems: opts.judgedItems } : {}),
     ceiling: ceilingSensitivity(complete),
     negativeDiscrimination: negativeDiscriminationScan(complete).filter((d) => d.negative || d.flat),
     missingness: missingResponseSensitivity(matrix, complete),
