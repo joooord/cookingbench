@@ -151,7 +151,12 @@ describe('route registry is acceptance-grade', () => {
   it('covers every filesystem, network and database sink in the runner', () => {
     // Bidirectional completeness: a new writer with no registry entry fails.
     const srcDir = join(REPO_ROOT, 'packages/runner/src');
-    const sinkPattern = /writeFileSync|renameSync|rmSync|unlinkSync|fetch\(|\.from\(/;
+    // Widened after the ledger and the redemption record both wrote through
+    // `openSync`/`appendFileSync` and slipped past a pattern that only knew
+    // about `writeFileSync`. A completeness check is only as complete as its
+    // list of what counts as a sink.
+    const sinkPattern =
+      /writeFileSync|appendFileSync|openSync|copyFileSync|renameSync|rmSync|unlinkSync|mkdirSync|fetch\(|\.from\(/;
     const uncovered: string[] = [];
     const covered = new Set(registry.routes.map((r) => r.file));
     for (const file of readdirSync(srcDir).filter((f) => f.endsWith('.ts'))) {

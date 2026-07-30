@@ -60,7 +60,8 @@ export type PermitErrorCode =
   | 'PERMIT_CELLS_INCOHERENT'
   | 'PERMIT_BUDGET_EXCEEDS_MANIFEST'
   | 'PERMIT_REVOCATION_UNAVAILABLE'
-  | 'PERMIT_REVOKED';
+  | 'PERMIT_REVOKED'
+  | 'PERMIT_EXHAUSTED';
 
 export class PermitError extends Error {
   constructor(

@@ -198,6 +198,40 @@ routes:
         enforcementPoint: absent or malformed list refuses; revoked ids rejected after signature
         test: "revocation fails closed > refuses when the revocation list is absent, rather than assuming nothing is revoked"
 
+  - key: runner:permit:redemption:write
+    file: packages/runner/src/redemption.ts
+    function: redeemPermit
+    kind: fs-write
+    operation: records one use of a permit against its execution limit
+    risks:
+      - risk: unauthorised-inference
+        status: closed
+        enforcementPoint: "open(wx) per redemption slot — the filesystem arbitrates, so there is no count-then-write window"
+        test: "single use means single use > refuses a second redemption of a single-use permit"
+      - risk: unauthorised-inference
+        status: closed
+        enforcementPoint: durable on-disk record, so a restarted runner cannot replay
+        test: "single use means single use > survives the process, because the record is on disk"
+      - risk: historical-overwrite
+        status: closed
+        enforcementPoint: resolveRunFile write mode
+        test: "single use means single use > cannot record a redemption against a published run"
+
+  - key: runner:judge:seating:conflict
+    file: packages/runner/src/judge.ts
+    function: panelSeats
+    kind: process-exec
+    operation: chooses which judges may score a candidate answer
+    risks:
+      - risk: unauthorised-publish
+        status: closed
+        enforcementPoint: "hasJudgeConflict on declared provider AND base-model family, from the roster"
+        test: "panel seat assignment > never lets a judge score its own base model under another vendor prefix"
+      - risk: unauthorised-publish
+        status: closed
+        enforcementPoint: an undeclared identity counts as a conflict, not as distinct
+        test: "panel seat assignment > treats an undeclared identity as conflicted rather than as distinct"
+
   - key: runner:permit:envelope:read
     file: packages/runner/src/permit.ts
     function: verifyPermitFile

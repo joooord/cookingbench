@@ -1,4 +1,4 @@
-import type { Question } from '@cookingbench/core';
+import { canonicalId, hasJudgeConflict, type Question } from '@cookingbench/core';
 import type { CompletionClient } from './openrouter.js';
 
 export const JUDGE_PROMPT_VERSION = 'judge-v2';
@@ -145,9 +145,38 @@ async function singleVerdict(
   throw lastError ?? new Error(`Judge ${judgeModel} failed on ${question.id}`);
 }
 
-/** Provider prefix of an OpenRouter slug ("anthropic/claude-x" → "anthropic"). */
-function providerOf(modelId: string): string {
-  return modelId.split('/')[0] ?? modelId;
+/**
+ * JUDGE-001. Where a model's conflict identity comes from.
+ *
+ * Seating used to compare the OpenRouter slug prefix — `anthropic/claude-x` vs
+ * `openai/gpt-x` — which is a routing detail, not an identity. It misses the
+ * case the rule exists for: a model served under one vendor's prefix that is
+ * another vendor's base model underneath, or two entries of the same family
+ * shipped under different prefixes. `hasJudgeConflict` compares the declared
+ * provider AND the base-model family, and treats a MISSING identity as a
+ * conflict rather than as conflict-free.
+ */
+export interface JudgeIdentity {
+  provider: string;
+  baseModelFamily: string;
+}
+export type IdentityOf = (modelId: string) => JudgeIdentity | undefined;
+
+/**
+ * Build a lookup from the roster. Structural on purpose so this module does not
+ * need the dataset loader — judge.ts stays free of filesystem imports.
+ */
+export function identityIndex(
+  models: ReadonlyArray<{ id: string; provider: string; family?: string }>,
+): IdentityOf {
+  const index = new Map<string, JudgeIdentity>();
+  for (const m of models) {
+    // A model with no declared family has no identity, and no identity means
+    // conflict everywhere. Recorded as undefined rather than defaulted to the
+    // slug, which would manufacture a distinctness that was never declared.
+    if (m.family) index.set(m.id, { provider: m.provider, baseModelFamily: m.family });
+  }
+  return (modelId) => index.get(modelId);
 }
 
 /** Deterministic 32-bit FNV-1a hash — seat assignment must be reproducible. */
@@ -162,15 +191,37 @@ function fnv1a(text: string): number {
 
 /**
  * Pick two panel seats for a (candidate, question) pair:
- * - a judge NEVER scores its own provider's models (self-preference bias);
+ * - a judge NEVER scores a model sharing its provider OR its base-model family
+ *   (self-preference bias), and an undeclared identity counts as a conflict;
  * - otherwise the excluded seat rotates deterministically by hash, so seat
  *   load is balanced and any published score is reproducible.
  */
-export function panelSeats(panel: string[], candidateModelId: string, questionId: string): string[] {
-  const eligible = panel.filter((j) => providerOf(j) !== providerOf(candidateModelId));
+export function panelSeats(
+  panel: string[],
+  candidateModelId: string,
+  questionId: string,
+  identify: IdentityOf,
+): string[] {
+  const candidate = identify(candidateModelId);
+  const eligible = panel.filter((seat) => !hasJudgeConflict(identify(seat) ?? {}, candidate ?? {}));
   if (eligible.length <= 2) return eligible;
   const drop = fnv1a(`${candidateModelId}|${questionId}`) % eligible.length;
   return eligible.filter((_, i) => i !== drop);
+}
+
+/** Why a seat was excluded, for the diagnostic when too few remain. */
+function conflictReason(seatId: string, candidateId: string, identify: IdentityOf): string {
+  const seat = identify(seatId);
+  const candidate = identify(candidateId);
+  if (!seat) return `${seatId}: no declared identity in the roster`;
+  if (!candidate) return `${candidateId}: no declared identity in the roster`;
+  if (canonicalId(seat.provider) === canonicalId(candidate.provider)) {
+    return `${seatId}: same provider (${seat.provider})`;
+  }
+  if (canonicalId(seat.baseModelFamily) === canonicalId(candidate.baseModelFamily)) {
+    return `${seatId}: same base-model family (${seat.baseModelFamily})`;
+  }
+  return `${seatId}: eligible`;
 }
 
 export interface PanelVerdict extends JudgeVerdict {
@@ -192,11 +243,19 @@ export async function judgeAnswerPanel(
   candidateModelId: string,
   question: Question,
   answerText: string,
+  identify: IdentityOf,
   spend: JudgeSpend = { costUsd: 0 },
 ): Promise<PanelVerdict> {
-  const seats = panelSeats(panel, candidateModelId, question.id);
+  const seats = panelSeats(panel, candidateModelId, question.id, identify);
   if (seats.length < 2) {
-    throw new Error(`Panel too small for ${candidateModelId} on ${question.id} (need 2 non-conflicted judges)`);
+    // Name WHY each seat was dropped. The likeliest cause is an incomplete
+    // roster rather than a genuinely small panel, and "panel too small" sends
+    // you looking in the wrong place — including at the temptation to relax the
+    // conflict rule, which is the one thing that must not happen here.
+    throw new Error(
+      `Only ${seats.length} non-conflicted judge(s) for ${candidateModelId} on ${question.id}; two are required.\n` +
+        panel.map((seat) => `  ${conflictReason(seat, candidateModelId, identify)}`).join('\n'),
+    );
   }
   const before = spend.costUsd;
   const verdicts = await Promise.all(

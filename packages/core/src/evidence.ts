@@ -367,7 +367,11 @@ export function canonicalJson(value: unknown): string {
 /** RUN-001. A signed, single-use authorisation to do something dangerous. */
 export const permitSchema = z.object({
   permitVersion: z.literal(1),
-  permitId: z.string().min(8),
+  /**
+   * Used as a filename component in the redemption record, so it is constrained
+   * here rather than sanitised at the point of use.
+   */
+  permitId: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]{7,63}$/, 'permitId must be 8–64 chars of [A-Za-z0-9._-] and start alphanumeric'),
   kind: permitKindSchema,
 
   /** Binds the permit to exactly one manifest and one methodology revision. */

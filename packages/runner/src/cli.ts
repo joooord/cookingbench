@@ -13,9 +13,10 @@ import {
 import { analyzeRun, tiedRanks, writeAnalysis } from './analyze.js';
 import { BudgetExceededError, ReservationLedger } from './ledger.js';
 import { PermitError, verifyPermitFile, type VerifiedGrant } from './permit.js';
+import { redeemPermit } from './redemption.js';
 import { DATA_DIR, REPO_ROOT, RUNS_DIR, buildMessages, loadModels, loadQuestions, maxTokensFor, runnableQuestions } from './dataset.js';
 import { assertFreshEstimate, runEstimate } from './estimate.js';
-import { JUDGE_PROMPT_VERSION, judgeAnswerPanel } from './judge.js';
+import { JUDGE_PROMPT_VERSION, identityIndex, judgeAnswerPanel } from './judge.js';
 import { MOCK_MODELS, MockClient, mockJudgeScore } from './mock.js';
 import { OpenRouterClient, fetchCatalog, type CompletionClient } from './openrouter.js';
 import { buildLeaderboard } from './report.js';
@@ -565,6 +566,10 @@ async function cmdRun() {
           `A permit binds one execution envelope; use --run-id ${grant.runId}.`,
       );
     }
+    // Point of no return: consume a use of the permit. Deliberately after the
+    // run-id check above, so a mistyped flag does not burn an approval.
+    const redemption = redeemPermit(grant, 'bench run');
+    console.log(`Permit redemption ${redemption.sequence}/${grant.executionLimit}.`);
     // The permit's cap is the approved ceiling; --budget may only lower it.
     ledger = ReservationLedger.forGrant(grant, runId, {
       totalCapUsd: totalBudget,
@@ -790,11 +795,19 @@ async function cmdJudge() {
   if (judgeGrant && judgeGrant.runId !== runId) {
     fail(`Permit ${judgeGrant.permitId} authorises run '${judgeGrant.runId}', not '${runId}'.`);
   }
+  if (judgeGrant) {
+    const redemption = redeemPermit(judgeGrant, 'bench judge');
+    console.log(`Permit redemption ${redemption.sequence}/${judgeGrant.executionLimit}.`);
+  }
   const judgeLedger = judgeGrant
     ? ReservationLedger.forGrant(judgeGrant, runId, { totalCapUsd: judgeBudget })
     : null;
   const client = judgeGrant && judgeLedger ? OpenRouterClient.forJudging(judgeGrant, judgeLedger) : null;
   const judgeSpend: SpendReport = judgeLedger ?? NO_SPEND;
+  // JUDGE-001. Conflict identity comes from the declared roster, not from the
+  // slug prefix, and a model missing from the roster conflicts with everything
+  // rather than being waved through as distinct.
+  const judgeIdentity = identityIndex(loadModels());
 
   // The judging configuration of record. Written AFTER the calibration gate,
   // and unconditionally, because both details were wrong before: the write was
@@ -900,6 +913,7 @@ async function cmdJudge() {
           s.modelId,
           question,
           response.answerText,
+          judgeIdentity,
           spend,
         );
       } catch (error) {
@@ -1076,6 +1090,7 @@ function cmdAnalyze() {
 
 async function cmdSync() {
   const grant = requireGrant('sync');
+  redeemPermit(grant, 'bench sync');
   const { syncDataset, syncRun } = await import('./sync.js');
   await syncDataset(grant, loadModels(), loadQuestions());
   console.log('✓ models + questions synced to Supabase');
@@ -1089,6 +1104,7 @@ async function cmdSync() {
 async function cmdPublish() {
   const runId = arg('run') ?? fail('publish requires --run <id>');
   const grant = requireGrant('publish');
+  redeemPermit(grant, 'bench publish');
   const { publishRun } = await import('./sync.js');
   await publishRun(grant, runId);
   console.log(`✓ run ${runId} is now publicly readable`);
@@ -1096,6 +1112,7 @@ async function cmdPublish() {
 
 async function cmdTasteArchive() {
   const grant = requireGrant('taste-archive');
+  redeemPermit(grant, 'bench taste-archive');
   const { archiveTasteVotes } = await import('./taste.js');
   await archiveTasteVotes(grant);
 }
@@ -1224,6 +1241,7 @@ async function cmdPilot() {
   // is paid work and takes a permit like the rest. The ledger journals against
   // the run the permit binds, since the pilot has no run id of its own.
   const pilotGrant = mock ? null : requireGrant('pilot');
+  if (pilotGrant) redeemPermit(pilotGrant, 'bench pilot');
   const pilotLedger = pilotGrant
     ? ReservationLedger.forGrant(pilotGrant, pilotGrant.runId, { totalCapUsd: cap })
     : null;
@@ -1256,7 +1274,14 @@ async function cmdPilot() {
       if (q.grader.type === 'llm-judge') {
         const judgeScore = mock
           ? mockJudgeScore(modelId, q)
-          : await judgeAnswerPanel(judgeClient, DEFAULTS.judgePanel, modelId, q, result.text).then(
+          : await judgeAnswerPanel(
+              judgeClient,
+              DEFAULTS.judgePanel,
+              modelId,
+              q,
+              result.text,
+              identityIndex(models),
+            ).then(
               (v) => v.score,
             );
         scores[modelId] = blendJudgeScore(q, judgeScore, deterministic?.score ?? null);
