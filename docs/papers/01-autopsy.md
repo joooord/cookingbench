@@ -53,19 +53,19 @@ reproducible pipeline and committed artifacts carries an implicit claim: that
 the ordering reflects something about the models. This paper is a worked
 counter-example, from a benchmark we built, using numbers we published.
 
-Cooking is an unusually good domain for this argument. A cooking answer carries
-two layers at once. There is a **verifiable layer** — 176.7 °C is not 200 °C, an
-Australian tablespoon is 20 ml, poultry stuffing must reach 74 °C — where a
-deterministic grader is genuinely appropriate. And there is an **aesthetic and
-judgement layer** — whether a blend tastes "big and Mexican", whether a cheese
-board sings with vintage port — where it plainly is not. Most domains blur these
-together. Cooking lets you put them in the same question and watch which
-component of the instrument does the damage.
+Cooking is an unusually good domain for this argument, because a cooking answer
+carries two layers at once. There is a **verifiable layer** — 176.7 °C is not
+200 °C, an Australian tablespoon is 20 ml, poultry stuffing must reach 74 °C —
+where a deterministic grader is genuinely appropriate. And there is an
+**aesthetic and judgement layer** — whether a blend tastes "big and Mexican",
+whether a cheese board sings with vintage port — where it plainly is not. Most
+domains blur the two. Cooking lets you put them in the same question and watch
+which component of the instrument does the damage.
 
-That is the setup for the finding. The verifiable-looking layer is where the
-authors reached for deterministic grading, because deterministic grading feels
-like rigour. It is precisely there that the instrument broke, and it broke in a
-direction that penalised competence.
+That is the setup. The verifiable-*looking* layer is where the authors reached
+for deterministic grading, because deterministic grading feels like rigour. It
+is precisely there that the instrument broke, in a direction that penalised
+competence.
 
 Related work on benchmark contamination, construct validity and LLM-as-judge
 reliability belongs here and is not yet written:
@@ -102,15 +102,13 @@ confidence intervals per model. Critically for this paper, `analyze` also
 computes **paired** separation over all 91 model pairs by resampling per-item
 score *differences*, because every model answers the same items.
 
-**The run.** `2026-07-v2.1`, 14 models × 184 questions = 2,576 answers
-(`data/runs/2026-07-v2.1/scores.json`, 2,576 records). All 14 models completed
-184/184. 630 answers were judged, 0 unjudged, 73 flagged for cross-judge
-disagreement > 15 (11.6%). Candidate answers cost $26.93, judging $14.19
-(sums over `responses/*.json` and over judge verdicts in `scores.json`).
-
-**The board as published** (`data/runs/2026-07-v2.1/leaderboard.json`): GPT-5.4
-Mini 96.0, GPT-5.6 Sol Pro 96.0, Grok 4.5 96.0, GPT-5.6 Terra Pro 95.4, Claude
-Fable 5 94.1, then nine more down to Llama 4 Maverick at 84.5.
+**The run.** `2026-07-v2.1`: 14 models × 184 questions = 2,576 answers, all
+models complete at 184/184; 630 answers judged, 0 unjudged, 73 flagged for
+cross-judge disagreement > 15 (11.6%); candidates cost $26.93 and judging $14.19
+(`data/runs/2026-07-v2.1/scores.json`, `responses/*.json`). The board as
+published (`leaderboard.json`): GPT-5.4 Mini 96.0, GPT-5.6 Sol Pro 96.0, Grok
+4.5 96.0, GPT-5.6 Terra Pro 95.4, Claude Fable 5 94.1, then nine more down to
+Llama 4 Maverick at 84.5.
 
 ---
 
@@ -148,13 +146,9 @@ judgement made by the authors on their own dataset; §5 treats it as a threat.
 
 **Counterfactual boards.** We recomputed the Overall column under four
 alternative item sets and one alternative scoring rule, holding everything else
-fixed. Ranks are positional. No new bootstrap was run; separation is quoted
-from the committed `analysis.separation`, which contains all 91 pairs.
-
-**Reproduction.** Every number below can be regenerated from
-`data/runs/2026-07-v2.1/{scores,analysis,leaderboard,calibration,config}.json`,
-`data/runs/2026-07-v2.1/responses/*.json`, and `data/questions/*.yaml` at commit
-`055ac90^` for the dataset as it stood at run time.
+fixed. Ranks are positional. No new bootstrap was run; separation is quoted from
+the committed `analysis.separation`, which contains all 91 pairs. Sources for
+every figure are listed in §8.
 
 ---
 
@@ -243,21 +237,19 @@ cayenne, chipotle, ancho" point and survived that, then added one more sentence:
 etc. separately — and use a clean spoon so her portion stays genuinely
 heat-free."*
 
-That sentence is strictly additional correct advice, and it cost 100 points.
-`gpt-5.4-mini`, the model that scored 100, gives no cross-contamination advice
-at all, and hedges with *"sweet paprika or smoked paprika if she tolerates
-it"*. On the item's own rubric — the one written later, when it was converted to
-judge grading — the 100 is the weaker answer.
+That sentence is strictly additional correct advice, and it cost 100 points. The
+model that scored 100 gives no cross-contamination advice at all and hedges with
+*"sweet paprika or smoked paprika if she tolerates it"*. On the item's own
+rubric — written later, when it was converted to judge grading — the 100 is the
+weaker answer. `flav-014` posted discrimination **−9.5** and the second-widest
+spread on the board (sd 45.4, 9.0% of all active variance).
 
-`flav-014` posted discrimination **−9.5** and the second-widest spread on the
-board (sd 45.4, 9.0% of all active variance).
-
-The item has since been rewritten: converted to `llm-judge`, with the forbidden
-list narrowed to quantity-anchored recipe lines (`tsp cayenne`, `tablespoons
-chili powder`) that only ever occur in a use, plus `judgingNotes` stating the
-warning-versus-use distinction explicitly. The repair is itself evidence for the
-argument: the fault could not be fixed inside the keyword paradigm, only by
-leaving it. Full detail is in `docs/audit/anti-correlated-items.md`.
+The item has since been converted to `llm-judge`, its forbidden list narrowed to
+quantity-anchored recipe lines (`tsp cayenne`, `tablespoons chili powder`) that
+only ever occur in a use, with `judgingNotes` stating the warning-versus-use
+distinction explicitly. The repair is itself evidence: the fault could not be
+fixed inside the keyword paradigm, only by leaving it
+(`docs/audit/anti-correlated-items.md`).
 
 ### 4.4 The failure generalises: 38 contradictions
 
@@ -285,13 +277,12 @@ next to sesame in shared scoops."*
 
 **Substitution instructions.** On `subs-020` (a kosher and sesame-safe rewrite
 of a grandmother's Parmesan-heavy meatball recipe) nine models were zeroed on
-`parmesan` — for saying to replace it. `qwen3.7-max`: *"Substitute the parmesan
-with nutritional yeast."* `gpt-5.4-mini` was zeroed for *"Serve grated parmesan
-on the side only for guests who can eat dairy, after the kosher guests..."* —
-the same shape as `flav-014`'s habanero sentence, in a different category,
-under a different grader, on the same run. Three models on `rgen-001` (strictly
-dairy-free pancakes) were zeroed on `buttermilk` for the standard technique:
-*"let sit 5 minutes to curdle slightly (this is your dairy-free
+`parmesan` — for saying to replace it. `gpt-5.4-mini` was zeroed for *"Serve
+grated parmesan on the side only for guests who can eat dairy, after the kosher
+guests..."* — the same shape as `flav-014`'s habanero sentence, in a different
+category, under a different grader, on the same run. Three models on `rgen-001`
+(strictly dairy-free pancakes) were zeroed on `buttermilk` for the standard
+technique: *"let sit 5 minutes to curdle slightly (this is your dairy-free
 'buttermilk')."*
 
 **Comparisons and similes.** `gemini-3.6-flash` on `rgen-004` (tofu scramble)
@@ -306,30 +297,30 @@ was zeroed on `coriander` after writing *"Zero coriander anywhere"* and
 *"Coriander watch: dill and parsley only"* — the trigger being its correct
 observation that *"Ground coriander seed is a different compound and usually
 fine for soap-taste people."* Two models were zeroed on `onion` in `rgen-012`
-for using spring-onion green tops, which are low-FODMAP precisely because the
-fructans concentrate in the white bulb. `claude-sonnet-5` was zeroed on
-`crushed garlic` for garlic-infused oil, the canonical low-FODMAP technique.
+for spring-onion green tops, low-FODMAP precisely because the fructans
+concentrate in the white bulb; `claude-sonnet-5` was zeroed on `crushed garlic`
+for garlic-infused oil, the canonical low-FODMAP technique.
 
-One further shape deserves its own note. `gpt-5.6-terra-pro` on `rgen-015` wrote
+A sixth shape is purely grammatical. `gpt-5.6-terra-pro` on `rgen-015` wrote
 *"It is sesame- and tree-nut-free as written"*. English coordination distributes
 the suffix; the matcher requires it adjacent. Correct grammar was scored as an
 allergen.
 
 ### 4.5 The mechanism: forbidden terms the question itself supplies
 
-The proximate cause is a property of the dataset that can be checked
-mechanically. At run time, **16 of the 28 questions carrying a forbidden list
-contained at least one of their own forbidden terms in the prompt** — 15 of them
-active. The list: `flav-014` (habanero), `rgen-004` (egg), `rgen-007`
-(cilantro), `rgen-012` (onion), `rgen-014` (white rice, white potato),
-`rgen-015` (sesame, broil), `rgen-016` (hob), `rgen-017` (banana), `rgen-019`
-(coolbox), `rgen-020` (coriander, wok, stir-fry), `subs-020` (parmesan, sesame),
-plus four dangerous-premise traps and one basics item.
+The proximate cause is a dataset property that can be checked mechanically. At
+run time, **16 of the 28 questions carrying a forbidden list contained at least
+one of their own forbidden terms in the prompt** — 15 of them active:
+`flav-014` (habanero), `rgen-004` (egg), `rgen-007` (cilantro), `rgen-012`
+(onion), `rgen-014` (white rice, white potato), `rgen-015` (sesame, broil),
+`rgen-016` (hob), `rgen-017` (banana), `rgen-019` (coolbox), `rgen-020`
+(coriander, wok, stir-fry), `subs-020` (parmesan, sesame), plus four
+dangerous-premise traps and one basics item.
 
-Five of these — four active traps and one basics item — are deliberate and
-defensible: on a premise trap the forbidden phrase *is* the user's wrong claim
-("dodged a bullet", "kills everything") and the correct answer must quote it to
-refute it. The project's `bench validate` already warns on exactly that case
+Five of these — four active traps and one basics item — are deliberate: on a
+premise trap the forbidden phrase *is* the user's wrong claim ("dodged a
+bullet", "kills everything") and the correct answer must quote it to refute it.
+`bench validate` already warns on exactly that case
 (`packages/runner/src/cli.ts`, `checkReferenceAnswers`).
 
 The other eleven are the defect, and the validator's own comment explains why it
@@ -384,10 +375,10 @@ board clears P = 0.95; the closest is Qwen over Mistral at 0.941. The
 permutation happens entirely inside a group the statistics already say is
 unordered.
 
-That is the finding. The instrument reports 0.01-point gaps and the site renders
-them as an ordering; the same run's separation matrix says the ordering is not
-there; and the counterfactuals show it is not even stable under removing items
-the instrument itself flags as broken.
+The instrument reports 0.01-point gaps and the site renders them as an ordering;
+the same run's separation matrix says the ordering is not there; and the
+counterfactuals show it is not even stable under removing items the instrument
+itself flags as broken.
 
 The one ordering claim this run does support is on the pre-declared frontier
 column (35 items at difficulty ≥ 4): Grok 4.5 leads at 98.6 and separates from
@@ -419,13 +410,11 @@ measure — it launders the failure into a perfect score.
 The biggest variance contributor in the whole active set is not a keyword item.
 `nutr-036` — *"Estimate the total kilocalories in a typical takeaway 12-inch
 margherita pizza"* — is a `numeric` item with `expected: 850 kcal`, full credit
-within ±200 and half credit within ±400. It carries **9.1%** of all active
-variance.
-
-The answers (`scores.json`): five models between 800 and 1000 (100 points), two
-at 1100 (50), and seven between 1400 and 2200 (0) — including Grok 4.5 at 2200
-and Terra Pro at 1500. The item's own reference answer states a band of
-700–1050 kcal, narrower than the models' disagreement.
+within ±200 and half within ±400, carrying **9.1%** of all active variance. The
+answers (`scores.json`): five models between 800 and 1000 (100 points), two at
+1100 (50), and seven between 1400 and 2200 (0), including Grok 4.5 at 2200 and
+Terra Pro at 1500. The item's own reference answer states 700–1050 kcal,
+narrower than the models' disagreement.
 
 We take no position on the correct figure
 [CITATION NEEDED: published nutritional data for 12-inch takeaway margherita
@@ -468,13 +457,10 @@ it.
 models, four of them falsely. `deepseek-v4-pro` scored **100 from both judge
 seats** and landed at 50.0 for writing *"hard cheeses are generally fine, even if
 unpasteurised, because their low moisture content discourages listeria"* — the
-NHS position, stated correctly. `claude-opus-5` and `claude-fable-5` were zeroed
-for the same sentence in other words. `claude-sonnet-5` was zeroed for a
-near-identical warning, though its final 8.8 is roughly defensible on other
-grounds: the judge gave it 17.5 for proposing a *pasteurised* blue as the fix,
-which is the very error the item tests. Only `llama-4-maverick` earned its zero
-outright, recommending Gorgonzola Dolce and Époisses without mentioning
-pregnancy at all.
+NHS position, stated correctly. `claude-opus-5`, `claude-fable-5` and
+`claude-sonnet-5` were zeroed for near-identical warnings. Only
+`llama-4-maverick` earned its zero outright, recommending Gorgonzola Dolce and
+Époisses without mentioning pregnancy at all.
 
 So the paper's designated counter-example is *itself* a demonstration of the
 defect: `flav-013`'s judge half works, its string-matching half does not, and its

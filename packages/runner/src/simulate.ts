@@ -599,16 +599,26 @@ export interface SeverityResult {
 /**
  * Impact of judge severity.
  *
- * A uniform additive shift applied to every cell cannot change any ordering:
- * it is a constant. Severity only bites through two channels, and both are
- * modelled here — the CEILING (a strict judge pushes everyone off 100, which
- * *creates* discrimination on a saturated set; a lenient one destroys it) and
- * DIFFERENTIAL EXPOSURE (the shift lands on judged items only, and models are
- * not equally exposed to them).
+ * Worth being precise about, because the naive expectation is wrong in both
+ * directions. An additive shift applied to a fixed set of items, on a matrix
+ * where every model answers every item, moves every model's mean by exactly
+ * the same amount — it is a constant, and it cannot reorder anything. Even
+ * restricting it to the judged subset does not help: the subset is the same
+ * subset for everyone.
  *
- * That is why `judgedItems` matters: pass the llm-judge subset, not everything,
- * or the simulation will conclude severity is harmless — which is true only of
- * the arithmetic, not of the benchmark.
+ * Severity therefore bites through two channels only, and both are modelled:
+ *
+ *   - the CEILING. A strict judge pushes a saturated roster off 100 and
+ *     *creates* discrimination; a lenient one presses everyone against the cap
+ *     and destroys it. Clipping is non-linear, so it reorders.
+ *   - UNEQUAL COVERAGE. A model missing some judged items takes a smaller
+ *     share of the shift than one that answered them all, so severity and the
+ *     missing-response policy interact. Pass the raw matrix (nulls intact) to
+ *     see it; pass a drop-item matrix and it is invisible by construction.
+ *
+ * `judgedItems` matters for the ceiling channel: shifting unjudged
+ * deterministic items too would exaggerate how much of the board a judge
+ * controls.
  */
 export function judgeSeveritySensitivity(
   m: ScoreMatrix,
