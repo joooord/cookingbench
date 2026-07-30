@@ -128,6 +128,7 @@ export const ESCALATION_REASONS = [
   'unhandled-critical-criterion',
   'no-preference-evidence',
   'no-automated-evidence',
+  'incomplete-evidence',
   'challenged-reference',
   'sampled-audit',
 ] as const;
@@ -274,6 +275,18 @@ export function routeCascade(request: CascadeRequest): CascadeResult {
     );
   }
 
+  if (request.deterministic?.resolves && request.judgement !== undefined) {
+    // Contradictory input, refused rather than reconciled. Whichever way it were
+    // reconciled would be a scoring rule invented here: dropping the panel
+    // discards evidence the caller collected, and blending it contradicts
+    // `resolves: true`. The cascade's first rung either settles the item or it
+    // does not, and the caller has to say which.
+    throw new Error(
+      `routeCascade: ${request.questionId} supplies a resolving deterministic check and structured ` +
+        'judgement together; set resolves:false to blend the check in, or omit the judgement',
+    );
+  }
+
   const policy = request.policy ?? {};
   const tolerance = policy.disagreementTolerance ?? DEFAULT_DISAGREEMENT_TOLERANCE;
   const minimumConfidence = policy.minimumConfidence ?? DEFAULT_MINIMUM_CONFIDENCE;
@@ -377,8 +390,14 @@ export function routeCascade(request: CascadeRequest): CascadeResult {
   let route: CascadeRoute;
   if (request.deterministic?.resolves && !judgementUsed) {
     route = 'deterministic';
-  } else if (judgementUsed || request.deterministic) {
+  } else if (judgementUsed) {
     route = 'structured-judgement';
+  } else if (request.deterministic) {
+    // A constraint check that explicitly does not settle the item, with nothing
+    // to settle it. Half an answer is not an answer: the score would be the
+    // constraint component alone, wearing the authority of a full grade.
+    route = 'human-escalation';
+    push(escalations, 'incomplete-evidence');
   } else {
     route = 'human-escalation';
     push(escalations, 'no-automated-evidence');
