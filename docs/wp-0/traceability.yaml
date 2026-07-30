@@ -1,0 +1,185 @@
+# WP-0 requirement traceability matrix.
+#
+# Each requirement from the Revision 3 master plan, what enforces it, which
+# named test cases prove it, and — importantly — what is still missing.
+#
+# Validated by packages/runner/test/traceability.test.ts, on the same principle
+# as the route registry: every cited test must EXIST by exact name, a
+# requirement marked `closed` may not carry gaps, and a requirement carrying
+# gaps may not be marked closed. A matrix that can drift from the code reads as
+# coverage while providing none, which is worse than no matrix.
+
+requirements:
+  - id: RUN-001
+    statement: >-
+      Execution is deny-by-default. Dangerous capabilities are exercised only
+      under a cryptographically signed permit that cannot be replaced by a local
+      boolean, and the permit's kind bounds what its capabilities may be.
+    status: closed
+    enforcementPoints:
+      - packages/runner/src/permit.ts — Ed25519 verification over the raw signed body, before any field is acted on
+      - packages/runner/src/permit.ts — grant authority is WeakSet membership, checked at runtime, not a TypeScript brand
+      - packages/core/src/evidence.ts — CAPABILITIES_FOR_PERMIT_KIND and EVIDENCE_CLASSES_FOR_PERMIT_KIND
+      - packages/runner/src/firewall.ts — Firewall.denyAll is the default posture; the constructor re-checks the grant
+      - packages/runner/src/openrouter.ts — private constructor plus forCandidates/forJudging factories
+      - packages/runner/src/supabase.ts — the single capability-checked path to a service-role client
+      - packages/runner/src/redemption.ts — executionLimit enforced by an atomic on-disk redemption record
+      - packages/runner/src/cli.ts — every paid or live-data command requires --permit and --manifest
+    tests:
+      - "permit verification mints a grant > accepts a correctly signed, correctly bound permit"
+      - "a grant is identity, not shape > refuses a hand-built object with the right shape"
+      - "a grant is identity, not shape > refuses a forged grant pushed through the erased private constructor"
+      - "signature verification > refuses a permit whose body was edited after signing"
+      - "signature verification > refuses a committed key that is not Ed25519"
+      - "permit kind bounds what a signature can buy > refuses a legacy-shadow permit that explicitly requests candidate-inference"
+      - "revocation fails closed > refuses when the revocation list is absent, rather than assuming nothing is revoked"
+      - "the paid client cannot be built without authorisation > refuses a candidate client to a judge-only permit"
+      - "single use means single use > refuses a second redemption of a single-use permit"
+      - "RUN-001 — deny by default > grants nothing without a permit"
+    gaps: []
+
+  - id: RUN-001A
+    statement: >-
+      Every filesystem, network and database route out of the system is
+      enumerated, with its risks, enforcement point and proof, and the
+      enumeration is checked against the source in both directions.
+    status: partial
+    enforcementPoints:
+      - docs/wp-0/routes.yaml — curated semantic route registry
+      - packages/runner/test/route-inventory.test.ts — bidirectional completeness and exact test-name checking
+    tests:
+      - "route registry is acceptance-grade > covers every filesystem, network and database sink in the runner"
+      - "route registry is acceptance-grade > cites an EXACT named test case for every closed risk"
+      - "route registry is acceptance-grade > never claims an open risk is enforced"
+    gaps:
+      - The sink scanner covers writes, network and database calls but not filesystem READS, so a new reader is not forced into the registry.
+      - Coverage is scanned in packages/runner/src only. apps/web routes are registered by hand and not checked against the source.
+
+  - id: DATA-001
+    statement: Historical run artifacts are immutable inputs and can never be overwritten.
+    status: closed
+    enforcementPoints:
+      - packages/runner/src/firewall.ts — resolveRunDir derives identity from the RESOLVED path, so an alias cannot launder a write
+      - packages/runner/src/firewall.ts — readHistoricalRegistry fails closed on absent, unparseable or malformed policy
+      - packages/runner/src/firewall.ts — isReleasedOnDisk freezes a run with a RELEASED marker, a released config, or a board and no policy metadata
+      - packages/runner/src/firewall.ts — assertNoSymlinkComponent walks root-down including the leaf, on reads and writes
+      - packages/runner/src/ledger.ts — write-mode preflight in the constructor, before any spend is authorised
+    tests:
+      - "DATA-001 — historical artifacts cannot be overwritten > blocks the real writers, not just the resolver"
+      - "DATA-001 — historical artifacts cannot be overwritten > leaves the published artifact byte-identical after a refused write"
+      - "DATA-001 — historical artifacts cannot be overwritten > refuses to operate on a malformed or unparseable registry"
+      - "DATA-001 — historical artifacts cannot be overwritten > has no exported switch that can disable the guard"
+      - "path confinement — the traversal that WP-0 closed > guards files inside a frozen run, and validates the final target"
+      - "the cap comes from the permit > refuses to spend against a published run"
+    gaps: []
+
+  - id: DATA-002
+    statement: >-
+      Every run executes under an immutable manifest naming its evidence class,
+      lineage, content hashes, routes and budget, with coherence bound at parse
+      rather than checked by a separate call a caller could forget.
+    status: partial
+    enforcementPoints:
+      - packages/core/src/evidence.ts — validatedRunManifestSchema, with rankEligible and outputRoot derived rather than asserted
+      - packages/runner/src/permit.ts — the manifest is re-parsed at the permit boundary and bound by hash
+    tests:
+      - "a permit authorises one exact envelope > refuses a manifest that is not the one the permit names"
+      - "a permit authorises one exact envelope > refuses a manifest that does not validate"
+      - "the canonical forms a signature covers are frozen > is sensitive to every field it claims to cover"
+    gaps:
+      - No command writes a manifest. Runs are still described by RunConfig, and the manifest is supplied by the operator alongside the permit.
+      - Nothing yet verifies that a run's stored artifacts match the bankHash, promptHash, judgePromptHash or validatorHash its manifest declares.
+
+  - id: RELEASE-001
+    statement: >-
+      Evidence class, artifact origin and release state are three orthogonal
+      axes. Origin never upgrades eligibility.
+    status: closed
+    enforcementPoints:
+      - packages/core/src/evidence.ts — the three vocabularies, with isRankEligible derived from evidenceClass alone
+      - packages/core/src/evidence.ts — a rank-eligible manifest cannot carry synthetic or mock origin
+    tests:
+      - "RELEASE-002 — publication eligibility > keeps rank eligibility tied to evidence class"
+      - "RELEASE-001 — origin never upgrades eligibility > rejects a rank-eligible manifest built from synthetic or mock material"
+      - "RELEASE-001 — origin never upgrades eligibility > rejects a manifest that asserts rank eligibility its class does not carry"
+    gaps: []
+
+  - id: RELEASE-002
+    statement: Only an approved public-release manifest in the released state may create a public result.
+    status: partial
+    enforcementPoints:
+      - packages/core/src/evidence.ts — canPublish
+      - packages/runner/src/firewall.ts — assertPublishable takes unknown and PARSES, rather than trusting an erasable type
+      - packages/runner/src/supabase.ts — publishRun requires the publication capability, distinct from result-sync
+    tests:
+      - "RELEASE-002 — publication eligibility > permits publication only from an approved public-release manifest"
+      - "RELEASE-002 — publication eligibility > fails closed with a clear error for every ineligible class"
+      - "adversarial round 2 — bypasses Codex reproduced on 3edf98c > rejects hand-built objects at the publication boundary at RUNTIME"
+      - "RELEASE-002 — publication eligibility > marks shadow and probe surfaces non-scoring"
+      - "the paid client cannot be built without authorisation > refuses a service-role database client without the capability"
+    gaps:
+      - assertPublishable is not called by writeLeaderboard, writeAnalysis, syncRun or publishRun. The capability is checked; the artifact is not.
+      - apps/web selects a board by newest generatedAt, which is a heuristic, not an approval.
+
+  - id: JUDGE-001
+    statement: >-
+      A judge never scores a model sharing its provider or its base-model
+      family, and a missing identity is treated as a conflict.
+    status: closed
+    enforcementPoints:
+      - packages/core/src/evidence.ts — hasJudgeConflict, failing closed on unknown identity, with canonicalId folding case and whitespace
+      - packages/runner/src/judge.ts — panelSeats seats from the declared roster, not the OpenRouter slug prefix
+      - packages/runner/src/judge.ts — the too-few-seats error names which seat conflicted and why
+    tests:
+      - "panel seat assignment > never lets a judge score its own provider"
+      - "panel seat assignment > never lets a judge score its own base model under another vendor prefix"
+      - "panel seat assignment > treats an undeclared identity as conflicted rather than as distinct"
+      - "panel seat assignment > compares identity case- and whitespace-insensitively"
+      - "panel seat assignment > explains which seat conflicted when too few remain"
+    gaps: []
+
+  - id: BUDGET-001
+    statement: >-
+      Spend is reserved atomically before a call and settled after, so no
+      concurrent set of calls can pass a check none of them has yet debited.
+    status: closed
+    enforcementPoints:
+      - packages/runner/src/ledger.ts — reserve() checks and debits in one synchronous step, with no await inside
+      - packages/runner/src/ledger.ts — settle/release close a reservation exactly once
+      - packages/runner/src/ledger.ts — journal replay on construction, so a resumed run inherits prior spend
+      - packages/runner/src/ledger.ts — exclusive run lock via open(wx), with dead-holder takeover
+      - packages/runner/src/openrouter.ts — every completion reserves before the request and settles at actual cost
+    tests:
+      - "the check-then-record race is closed > never authorises more concurrent calls than the cap allows"
+      - "the check-then-record race is closed > counts an in-flight reservation against the cap before it settles"
+      - "the check-then-record race is closed > refuses to settle or release the same reservation twice"
+      - "spend survives the process > replays prior spend so a resumed run does not spend its cap twice"
+      - "spend survives the process > refuses to run against a corrupt journal rather than assuming zero"
+      - "two runners cannot each spend the whole cap > refuses a second ledger while the first holds the lock"
+      - "the cap comes from the permit > lets an operator sub-cap lower the ceiling but never raise it"
+      - "every completion is authorised and accounted for > stops at the cap instead of spending past it"
+      - "every completion is authorised and accounted for > releases the reservation when the call fails, rather than stranding the cap"
+    gaps: []
+
+  - id: TRACE-001
+    statement: >-
+      Canonicalisation is deterministic, the hashes a signature covers are
+      frozen against drift, and every artifact can be traced to the approval
+      that authorised it.
+    status: partial
+    enforcementPoints:
+      - packages/core/src/evidence.ts — canonicalJson, recursive key sort
+      - packages/runner/src/permit.ts — manifestHash parses before hashing, so equivalent serialisations agree
+      - packages/runner/test/golden-hashes.test.ts — frozen digests with a per-field mutation pass
+      - packages/runner/src/redemption.ts — the redemption record links permit, key, manifest, capabilities, command and time
+      - packages/runner/src/firewall.ts — Firewall.provenance for the run artifact
+    tests:
+      - "the canonical forms a signature covers are frozen > hashes the golden manifest to its recorded digest"
+      - "the canonical forms a signature covers are frozen > hashes the golden permit body to its recorded digest"
+      - "the canonical forms a signature covers are frozen > is independent of key order, at every depth"
+      - "the canonical forms a signature covers are frozen > is sensitive to every field it claims to cover"
+      - "single use means single use > records what was redeemed, for the audit trail"
+      - "the firewall enforces exactly what the grant carries > records provenance for the run artifact"
+    gaps:
+      - Firewall.provenance is not yet written into any run artifact; the redemption record is currently the only durable trail.
+      - No CI job proves that the committed acceptance artifacts regenerate byte-identically.
