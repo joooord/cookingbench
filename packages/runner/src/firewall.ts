@@ -20,6 +20,7 @@ import {
   type ValidatedRunManifest,
 } from '@cookingbench/core';
 import { DATA_DIR, RUNS_DIR } from './dataset.js';
+import { assertVerifiedGrant, type VerifiedGrant } from './permit.js';
 
 /**
  * WP-0 evidence firewall — RUN-001, RUN-001A, DATA-001, RELEASE-002.
@@ -475,24 +476,32 @@ export function assertSafePathComponent(value: string, label: string): string {
 // RUN-001 — capabilities
 // ---------------------------------------------------------------------------
 
-export interface PermitGrant {
-  permitId: string;
-  kind: string;
-  capabilities: readonly Capability[];
-  cells: ReadonlyArray<{ modelId: string; questionId: string }>;
-  budgetCapUsd: number;
-}
-
 /** JSON-encoded tuple: injective, unlike concatenation or a single separator. */
 function cellKey(modelId: string, questionId: string): string {
   return JSON.stringify([modelId, questionId]);
 }
 
 export class Firewall {
-  private readonly cellIndex: Set<string>;
+  /**
+   * `#private`, not TypeScript `private`.
+   *
+   * TS `private` is a compile-time convention: `(firewall as any).cellIndex.add(
+   * ...)` or `(firewall as any).grant = forged` both work at runtime, which
+   * would make every check below advisory. `#` fields are genuinely
+   * unreachable from outside the class body. Same reasoning as the grant
+   * registry — the boundary has to survive being called from JavaScript.
+   */
+  readonly #grant: VerifiedGrant | null;
+  readonly #cellIndex: Set<string>;
 
-  private constructor(private readonly grant: PermitGrant | null) {
-    this.cellIndex = new Set((grant?.cells ?? []).map((c) => cellKey(c.modelId, c.questionId)));
+  private constructor(grant: VerifiedGrant | null) {
+    // The constructor re-checks rather than trusting `fromVerifiedPermit`.
+    // `private constructor` is also erased: `Reflect.construct(Firewall,
+    // [forgedGrant])` and `new (Firewall as any)(forgedGrant)` reach it
+    // directly, so the static factory alone is not the boundary.
+    if (grant !== null) assertVerifiedGrant(grant, 'Firewall construction');
+    this.#grant = grant;
+    this.#cellIndex = new Set((grant?.cells ?? []).map((c) => cellKey(c.modelId, c.questionId)));
   }
 
   /** The default posture. Nothing dangerous is permitted. */
@@ -501,30 +510,55 @@ export class Firewall {
   }
 
   /**
-   * Constructed only from a permit that has already passed verification.
+   * Constructed only from a grant this process minted by verifying a signature.
    *
-   * NOTE: this still accepts a plain object. Replacing `PermitGrant` with an
-   * opaque branded type that only the verifier can mint is the next task; until
-   * then a method name is not a security boundary.
+   * The runtime check is the boundary, not the parameter type. An earlier
+   * version took a plain `PermitGrant` interface and relied on the method NAME
+   * to imply verification, which meant `Firewall.fromVerifiedPermit({ permitId:
+   * 'x', capabilities: ['publication'], ... })` authorised publication. That
+   * interface is gone: there is no exported shape a caller can fill in.
    */
-  static fromVerifiedPermit(grant: PermitGrant): Firewall {
-    return new Firewall(grant);
+  static fromVerifiedPermit(grant: VerifiedGrant): Firewall {
+    return new Firewall(assertVerifiedGrant(grant, 'Firewall.fromVerifiedPermit'));
   }
 
   get permitId(): string | null {
-    return this.grant?.permitId ?? null;
+    return this.#grant?.permitId ?? null;
   }
 
   get budgetCapUsd(): number {
-    return this.grant?.budgetCapUsd ?? 0;
+    return this.#grant?.budgetCapUsd ?? 0;
+  }
+
+  /** TRACE-001: what a run artifact should record about its authorisation. */
+  provenance(): {
+    permitId: string;
+    kind: string;
+    keyId: string;
+    manifestHash: string;
+    runId: string;
+    capabilities: readonly Capability[];
+    verifiedAtIso: string;
+  } | null {
+    if (!this.#grant) return null;
+    const g = this.#grant;
+    return {
+      permitId: g.permitId,
+      kind: g.kind,
+      keyId: g.keyId,
+      manifestHash: g.manifestHash,
+      runId: g.runId,
+      capabilities: g.capabilities,
+      verifiedAtIso: g.verifiedAtIso,
+    };
   }
 
   has(capability: Capability): boolean {
-    return this.grant?.capabilities.includes(capability) ?? false;
+    return this.#grant?.capabilities.includes(capability) ?? false;
   }
 
   requireCapability(capability: Capability, context: string): void {
-    if (!this.grant) {
+    if (!this.#grant) {
       throw new FirewallError(
         `${context} requires capability '${capability}' but no permit is active. Execution is deny-by-default (RUN-001).`,
         'NO_PERMIT',
@@ -532,7 +566,7 @@ export class Firewall {
     }
     if (!this.has(capability)) {
       throw new FirewallError(
-        `Permit ${this.grant.permitId} (${this.grant.kind}) does not grant '${capability}', required by ${context}. Granted: [${this.grant.capabilities.join(', ')}].`,
+        `Permit ${this.#grant.permitId} (${this.#grant.kind}) does not grant '${capability}', required by ${context}. Granted: [${this.#grant.capabilities.join(', ')}].`,
         'CAPABILITY_DENIED',
       );
     }
@@ -540,12 +574,12 @@ export class Firewall {
 
   /** Inference is authorised per cell. An empty cell list authorises nothing. */
   requireCell(modelId: string, questionId: string, context: string): void {
-    if (!this.grant) {
+    if (!this.#grant) {
       throw new FirewallError(`${context} requires an authorised cell but no permit is active.`, 'NO_PERMIT');
     }
-    if (!this.cellIndex.has(cellKey(modelId, questionId))) {
+    if (!this.#cellIndex.has(cellKey(modelId, questionId))) {
       throw new FirewallError(
-        `Permit ${this.grant.permitId} does not authorise ${modelId} × ${questionId}.`,
+        `Permit ${this.#grant.permitId} does not authorise ${modelId} × ${questionId}.`,
         'CELL_NOT_AUTHORISED',
       );
     }

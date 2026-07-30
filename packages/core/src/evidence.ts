@@ -76,6 +76,91 @@ export type Capability = (typeof CAPABILITIES)[number];
 export const NON_SCORING_LABEL = 'NON-SCORING — NOT FOR LEADERBOARD' as const;
 
 /**
+ * RUN-001. The kinds of work a permit may authorise.
+ *
+ * A permit's KIND is what a human approved; its CAPABILITIES are what the code
+ * will then do. Those are not the same statement, and the gap between them is
+ * where authorisation creep lives — an approver who signs off "re-judge the
+ * archive" should not thereby authorise fresh candidate inference on the paid
+ * roster, however the capability list happens to be written.
+ */
+export const PERMIT_KINDS = [
+  'legacy-shadow',
+  'development-probe',
+  'confirmatory-pilot',
+  'presentation-erratum',
+  'publication',
+] as const;
+export type PermitKind = (typeof PERMIT_KINDS)[number];
+export const permitKindSchema = z.enum(PERMIT_KINDS);
+
+/**
+ * The capability matrix: the MOST a permit of each kind may ever grant.
+ *
+ * Enforced during verification, not merely at authoring time, so a permit that
+ * requests more than its kind allows is refused even with a valid signature.
+ * The signature proves who asked; the matrix decides what that question was
+ * allowed to be.
+ *
+ * `legacy-shadow` is the load-bearing row. Re-scoring archived answers is the
+ * whole v2.2 scope and needs judging only — a shadow permit must never be able
+ * to buy fresh candidate inference, because that would silently turn a
+ * re-analysis of paid-for data into a new paid run whose results are not
+ * rank-eligible but whose spend is real.
+ */
+export const CAPABILITIES_FOR_PERMIT_KIND: Readonly<Record<PermitKind, readonly Capability[]>> =
+  Object.freeze({
+    'legacy-shadow': Object.freeze(['judge-inference'] as const),
+    'development-probe': Object.freeze([
+      'catalog-read',
+      'candidate-inference',
+      'judge-inference',
+      'development-db-write',
+    ] as const),
+    'confirmatory-pilot': Object.freeze([
+      'catalog-read',
+      'candidate-inference',
+      'judge-inference',
+    ] as const),
+    'presentation-erratum': Object.freeze(['presentation-erratum'] as const),
+    publication: Object.freeze(['publication', 'result-sync', 'live-db-write'] as const),
+  });
+
+/**
+ * Which evidence classes each permit kind may be bound to.
+ *
+ * The permit names the work; the manifest names the artifact. Letting a
+ * `legacy-shadow` permit bind a `confirmatory-pilot` manifest would launder a
+ * non-ranking re-analysis into rank-bearing evidence through the permit layer,
+ * which is exactly the move RELEASE-002 exists to stop.
+ */
+export const EVIDENCE_CLASSES_FOR_PERMIT_KIND: Readonly<
+  Record<PermitKind, readonly EvidenceClass[]>
+> = Object.freeze({
+  'legacy-shadow': Object.freeze(['legacy-shadow'] as const),
+  'development-probe': Object.freeze(['development-probe', 'development'] as const),
+  'confirmatory-pilot': Object.freeze(['confirmatory-pilot'] as const),
+  // An erratum corrects how an existing result is PRESENTED. It binds the
+  // artifact being corrected, and never mints a new one.
+  'presentation-erratum': Object.freeze(['historical', 'public-release'] as const),
+  publication: Object.freeze(['public-release'] as const),
+});
+
+/** Capabilities that spend money on model calls. */
+export const INFERENCE_CAPABILITIES: readonly Capability[] = Object.freeze([
+  'candidate-inference',
+  'judge-inference',
+] as const);
+
+export function permitKindAllowsCapability(kind: PermitKind, capability: Capability): boolean {
+  return CAPABILITIES_FOR_PERMIT_KIND[kind].includes(capability);
+}
+
+export function permitKindAllowsEvidenceClass(kind: PermitKind, evidenceClass: EvidenceClass): boolean {
+  return EVIDENCE_CLASSES_FOR_PERMIT_KIND[kind].includes(evidenceClass);
+}
+
+/**
  * Run ids are a path component, so they are constrained here rather than
  * trusted. Before WP-0 this was the single largest hole in the system: `runId`
  * went from argv into `join(RUNS_DIR, runId)` unvalidated, so `--run-id ../..`
@@ -283,7 +368,7 @@ export function canonicalJson(value: unknown): string {
 export const permitSchema = z.object({
   permitVersion: z.literal(1),
   permitId: z.string().min(8),
-  kind: z.enum(['legacy-shadow', 'development-probe', 'confirmatory-pilot', 'presentation-erratum', 'publication']),
+  kind: permitKindSchema,
 
   /** Binds the permit to exactly one manifest and one methodology revision. */
   manifestHash: hashSchema,

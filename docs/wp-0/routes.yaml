@@ -166,6 +166,48 @@ routes:
         enforcementPoint: "NOT YET WIRED — reclassified from benign; this is network activity"
         test: null
 
+  # --- permits ---------------------------------------------------------------
+  - key: runner:permit:keyring:read
+    file: packages/runner/src/permit.ts
+    function: loadPublicKey
+    kind: fs-read
+    operation: reads a committed Ed25519 public verification key
+    risks:
+      - risk: unauthorised-inference
+        status: closed
+        enforcementPoint: key id pattern, symlink refusal, ed25519 key-type pin
+        test: "signature verification > refuses an unknown key id, and a key id that traverses"
+      - risk: unauthorised-publish
+        status: closed
+        enforcementPoint: absent keyring refuses rather than defaulting to trust
+        test: "signature verification > refuses when the keyring is absent"
+
+  - key: runner:permit:revocation:read
+    file: packages/runner/src/permit.ts
+    function: revokedPermitIds
+    kind: fs-read
+    operation: reads the committed permit revocation list
+    risks:
+      - risk: unauthorised-inference
+        status: closed
+        enforcementPoint: absent or malformed list refuses; revoked ids rejected after signature
+        test: "revocation fails closed > refuses when the revocation list is absent, rather than assuming nothing is revoked"
+
+  - key: runner:permit:envelope:read
+    file: packages/runner/src/permit.ts
+    function: verifyPermitFile
+    kind: fs-read
+    operation: reads a signed permit envelope from disk
+    risks:
+      - risk: unauthorised-inference
+        status: closed
+        enforcementPoint: verifyPermit — signature before any field is acted on, then kind/class/cell/budget binding
+        test: "permit kind bounds what a signature can buy > refuses a legacy-shadow permit that explicitly requests candidate-inference"
+      - risk: unauthorised-publish
+        status: closed
+        enforcementPoint: grant identity is WeakSet membership, not object shape
+        test: "a grant is identity, not shape > refuses a hand-built object with the right shape"
+
   # --- budget --------------------------------------------------------------
   - key: runner:budget:guard:spend
     file: packages/runner/src/budget.ts

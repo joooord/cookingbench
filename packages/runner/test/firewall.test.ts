@@ -39,6 +39,7 @@ import {
 } from '../src/firewall.js';
 import { writeLeaderboard, writeResponse, writeScores } from '../src/store.js';
 import { assertArchiveGrows } from '../src/taste.js';
+import { mintTestGrant } from './support/grant.js';
 
 /**
  * WP-0 mandatory tests. Offline by construction: nothing here opens a socket,
@@ -209,13 +210,17 @@ describe('RUN-001 — deny by default', () => {
   });
 
   it('grants only what the permit names', () => {
-    const fw = Firewall.fromVerifiedPermit({
-      permitId: 'p-1',
-      kind: 'legacy-shadow',
-      capabilities: ['judge-inference'],
-      cells: [],
-      budgetCapUsd: 30,
-    });
+    // A REAL grant: signed, verified, and minted by this process. Building this
+    // from an object literal is what the verified-permit work made impossible.
+    const fw = Firewall.fromVerifiedPermit(
+      mintTestGrant({
+        permitId: 'permit-p-1',
+        kind: 'legacy-shadow',
+        capabilities: ['judge-inference'],
+        cells: [{ modelId: 'anthropic/claude-opus-4.8', questionId: 'flav-002' }],
+        budgetCapUsd: 30,
+      }),
+    );
     expect(() => fw.requireCapability('judge-inference', 'shadow')).not.toThrow();
     // Shadow cannot call candidates — mandatory test 2.
     expect(() => fw.requireCapability('candidate-inference', 'shadow')).toThrow(FirewallError);
@@ -223,35 +228,39 @@ describe('RUN-001 — deny by default', () => {
   });
 
   it('authorises inference per cell, and an empty cell list authorises nothing', () => {
-    const fw = Firewall.fromVerifiedPermit({
-      permitId: 'p-2',
-      kind: 'development-probe',
-      capabilities: ['candidate-inference'],
-      cells: [{ modelId: 'openai/gpt-5.5', questionId: 'conv-001' }],
-      budgetCapUsd: 5,
-    });
+    const fw = Firewall.fromVerifiedPermit(
+      mintTestGrant({
+        permitId: 'permit-p-2',
+        kind: 'development-probe',
+        capabilities: ['candidate-inference'],
+        cells: [{ modelId: 'openai/gpt-5.5', questionId: 'conv-001' }],
+        budgetCapUsd: 5,
+      }),
+    );
     expect(() => fw.requireCell('openai/gpt-5.5', 'conv-001', 'probe')).not.toThrow();
     expect(() => fw.requireCell('openai/gpt-5.5', 'conv-002', 'probe')).toThrow(FirewallError);
     expect(() => fw.requireCell('anthropic/claude-opus-5', 'conv-001', 'probe')).toThrow(FirewallError);
 
-    const empty = Firewall.fromVerifiedPermit({
-      permitId: 'p-3',
-      kind: 'development-probe',
-      capabilities: ['candidate-inference'],
-      cells: [],
-      budgetCapUsd: 5,
-    });
+    // A permit with no cells authorises no cell at all. (An INFERENCE permit
+    // with no cells is now refused outright at verification — see
+    // permit.test.ts — so the empty-cell grant here is a publication permit,
+    // which legitimately carries none.)
+    const empty = Firewall.fromVerifiedPermit(
+      mintTestGrant({ permitId: 'permit-p-3', kind: 'publication', capabilities: ['publication'] }),
+    );
     expect(() => empty.requireCell('openai/gpt-5.5', 'conv-001', 'probe')).toThrow(FirewallError);
   });
 
   it('does not confuse cells whose concatenation collides', () => {
-    const fw = Firewall.fromVerifiedPermit({
-      permitId: 'p-4',
-      kind: 'development-probe',
-      capabilities: ['candidate-inference'],
-      cells: [{ modelId: 'ab', questionId: 'c' }],
-      budgetCapUsd: 1,
-    });
+    const fw = Firewall.fromVerifiedPermit(
+      mintTestGrant({
+        permitId: 'permit-p-4',
+        kind: 'development-probe',
+        capabilities: ['candidate-inference'],
+        cells: [{ modelId: 'ab', questionId: 'c' }],
+        budgetCapUsd: 1,
+      }),
+    );
     expect(() => fw.requireCell('ab', 'c', 'probe')).not.toThrow();
     expect(() => fw.requireCell('a', 'bc', 'probe')).toThrow(FirewallError);
   });
