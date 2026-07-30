@@ -1,4 +1,5 @@
 export * from './types.js';
+export * from './constructs.js';
 export * from './evidence.js';
 export * from './schema.js';
 export * from './graders/index.js';

@@ -1,3 +1,31 @@
+// Type-only, so this does not create a runtime cycle with schema.ts, which
+// imports CATEGORY_IDS from here as a value.
+import type { z } from 'zod';
+import type {
+  adversarialCaseSchema,
+  atomicCriterionSchema,
+  behaviouralAnchorSetSchema,
+  evidencePackSchema,
+  interactiveScriptSchema,
+  itemClassificationSchema,
+  itemExposureSchema,
+  itemProvenanceSchema,
+  judgePackSchema,
+  kitchenPlanContractSchema,
+  kitchenPlanSchema,
+  outputContractSchema,
+  planEquipmentSchema,
+  planIngredientSchema,
+  planOperationSchema,
+  sensoryDossierSchema,
+  workedExampleSchema,
+  JUDGE_MODES,
+  ATOMIC_CRITERION_KINDS,
+  EXPOSURE_STATES,
+  ITEM_STRATA,
+  PLAN_LIMIT_SOURCES,
+} from './schema.js';
+
 export const CATEGORY_IDS = [
   'quantities-scaling',
   'conversions',
@@ -126,8 +154,18 @@ export type GraderSpec =
     }
   | {
       type: 'llm-judge';
-      /** judge-v1 criteria; judge-v2 (deduction grading) uses them only as attention hints. */
-      rubric?: RubricCriterion[];
+      /**
+       * M2.1's grading route. Absent means the legacy route — v1/v2 items are
+       * graded exactly as they were. Never read absence as "any mode".
+       */
+      judgeMode?: JudgeMode;
+      /**
+       * judge-v1 criteria; judge-v2 (deduction grading) uses them only as
+       * attention hints. v3 items put atomic criteria here instead. The array
+       * is homogeneous — the schema refuses a mixture, because legacy weights
+       * are shares summing to 1 and atomic weights are per-claim magnitudes.
+       */
+      rubric?: (RubricCriterion | AtomicCriterion)[];
       /** Deterministic sub-checks blended into the score (e.g. allergen absence). */
       constraintChecks?: GraderSpec[];
       /** Weight of the judge score when constraintChecks exist. Default 0.7. */
@@ -169,7 +207,72 @@ export interface Question {
   source?: string;
   /** Kept for artifact compatibility — the whole dataset is public (see methodology). */
   public: boolean;
+
+  /* ---- v3 blocks, all optional. See schema.ts for the parsing rules. ----- */
+
+  /** M2.3 behavioural anchors, one set per scored dimension. */
+  anchors?: BehaviouralAnchorSet[];
+  /** M2.4 judge pack — what replaces a lone reference answer on subjective items. */
+  judgePack?: JudgePack;
+  outputContract?: OutputContract;
+  kitchenPlanContract?: KitchenPlanContract;
+  interactiveScript?: InteractiveScript;
+  classification?: ItemClassification;
+  provenance?: ItemProvenance;
+  exposure?: ItemExposure;
+  adversarialCases?: AdversarialCase[];
+  evidencePack?: EvidencePack;
+  validatorVersion?: string;
 }
+
+/* -------------------------------------------------------------------------- */
+/* v3 domain types                                                            */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The v3 types are derived from the zod schemas rather than restated here.
+ *
+ * The rest of this file mirrors its schemas by hand, which is tolerable for a
+ * dozen fields and dishonest for the v3 contract: KitchenPlan alone is fifteen
+ * object types, ten packages compile against them, and a hand-mirror that
+ * drifts from the parser would hand every one of those packages a type that
+ * accepts what the parser rejects. One source of truth, in schema.ts.
+ */
+
+/** M2.1: fault-deduction, anchored dimensions, or pairwise comparison. */
+export type JudgeMode = (typeof JUDGE_MODES)[number];
+export type AtomicCriterionKind = (typeof ATOMIC_CRITERION_KINDS)[number];
+/** M3.6 bank exposure — who has seen the item, not whether it scores. */
+export type ExposureState = (typeof EXPOSURE_STATES)[number];
+/** M3.7 reporting strata, carried as a hypothesis until certified. */
+export type ItemStratum = (typeof ITEM_STRATA)[number];
+/** Where a limit a validator relies on came from. M1.2. */
+export type PlanLimitSource = (typeof PLAN_LIMIT_SOURCES)[number];
+
+export type AtomicCriterion = z.infer<typeof atomicCriterionSchema>;
+export type BehaviouralAnchorSet = z.infer<typeof behaviouralAnchorSetSchema>;
+export type WorkedExample = z.infer<typeof workedExampleSchema>;
+export type JudgePack = z.infer<typeof judgePackSchema>;
+export type OutputContract = z.infer<typeof outputContractSchema>;
+export type AdversarialCase = z.infer<typeof adversarialCaseSchema>;
+export type EvidencePack = z.infer<typeof evidencePackSchema>;
+
+/** M1.2 — the candidate's kitchen representation. */
+export type KitchenPlan = z.infer<typeof kitchenPlanSchema>;
+export type KitchenPlanContract = z.infer<typeof kitchenPlanContractSchema>;
+export type PlanIngredient = z.infer<typeof planIngredientSchema>;
+export type PlanEquipment = z.infer<typeof planEquipmentSchema>;
+export type PlanOperation = z.infer<typeof planOperationSchema>;
+
+/** M1.4 — the comparable sensory contract the Palate jury judges. */
+export type SensoryDossier = z.infer<typeof sensoryDossierSchema>;
+
+/** M1.3 — the deterministic two-turn observation script. */
+export type InteractiveScript = z.infer<typeof interactiveScriptSchema>;
+
+export type ItemClassification = z.infer<typeof itemClassificationSchema>;
+export type ItemProvenance = z.infer<typeof itemProvenanceSchema>;
+export type ItemExposure = z.infer<typeof itemExposureSchema>;
 
 export interface ModelEntry {
   /** OpenRouter slug, e.g. "anthropic/claude-fable-5". */
