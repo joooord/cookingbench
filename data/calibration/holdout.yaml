@@ -1,0 +1,1406 @@
+# Judge calibration anchors — HOLDOUT split. Structurally identical to
+# anchors.yaml (same schema: questionId, note?, expectedScore, toleranceAbs?,
+# answerText) so the same loader can read either file.
+#
+# DO NOT TUNE AGAINST THIS FILE. Acceptance thresholds for a judge panel must
+# be evaluated on these anchors precisely because no prompt or tolerance was
+# fitted to them. Scoring this file during development spends it.
+#
+# Every answerText below is copied VERBATIM from a stored response in
+# data/runs/2026-07-v2.1/responses/ (provenance in each note; the judge never
+# sees the note). expectedScore values are AGENT-produced hand-scores informed
+# by the run's own panel verdicts — they are development material and are NOT
+# expert/chef-validated; see docs/calibration/anchor-design.md for the full
+# methodology, the stratum definitions, and the circularity caveat.
+#
+# Stratum tags used in notes: correct-high, confidently-wrong, hidden-hazard,
+# close-valid-pair, concise-vs-padded, panel-split.
+
+- questionId: flav-013
+  note: '[stratum: correct-high] [source: 2026-07-v2.1 deepseek/deepseek-v4-pro] [run seats:
+    claude-opus-4.8=100, grok-4.5=100 (disagreement 0)] Strong safe handling of the buried
+    constraint: three of four cheeses explicitly pregnancy-safe, Stilton explicitly flagged
+    for her to skip. States the NHS position that hard unpasteurised cheese is fine - correct
+    in the UK frame, faultable under stricter guidance, hence 95 with slight width. Run
+    seats 100/100.'
+  expectedScore: 95
+  toleranceAbs: 15
+  answerText: "Congratulations on the upcoming addition to the family — and on finally opening\
+    \ that vintage port! A well-chosen cheese board will make it a night to remember. Since\
+    \ your sister-in-law is pregnant, I’ve flagged which cheeses are safe for her (hard\
+    \ cheeses are generally fine, even if unpasteurised, because their low moisture content\
+    \ discourages listeria; soft, mould-ripened and blue cheeses are best avoided during\
+    \ pregnancy). All four below are classic port partners, and three are pregnancy-friendly.\n\
+    \n### The cheeses\n**1. Stilton (blue)**  \nThe iconic port pairing. Its salty, piquant\
+    \ intensity and creamy-crumbly texture are a perfect foil for the wine’s sweet, dark-fruit\
+    \ richness. *Note:* Stilton is a blue cheese, so your sister-in-law should skip this\
+    \ one — but the rest of you will adore it.\n\n**2. Queijo de São Jorge (or a sharp clothbound\
+    \ cheddar)**  \nA nod to the port’s homeland. This Portuguese cow’s-milk cheese from\
+    \ the Azores is firm, tangy, and slightly peppery with age — it cuts through the port’s\
+    \ richness beautifully. If you can’t find it, a three-year-old clothbound cheddar (like\
+    \ Montgomery’s) gives a similar savoury bite. *Safe for pregnancy.*\n\n**3. Aged Gouda\
+    \ (18 months+, e.g., Beemster XO)**  \nFull of crunchy tyrosine crystals and deep butterscotch-caramel\
+    \ notes, aged Gouda echoes the port’s dried-fruit sweetness while adding a nutty, almost\
+    \ whisky-like warmth. *Safe for pregnancy.*\n\n**4. Comté (12–24 months)**  \nThis Alpine\
+    \ cheese brings nutty, brown-butter flavours and a firm, silky texture. Its sweet-savoury\
+    \ balance highlights the port’s complexity without overwhelming it. *Safe for pregnancy.*\n\
+    \n### Accompaniments\n- **Nuts:** Toasted walnuts and Marcona almonds (their slight\
+    \ bitterness and crunch are perfect).\n- **Dried fruit:** Plump dried figs, Medjool\
+    \ dates, and apricots — they mirror the port’s own figgy, raisined character.\n- **Fresh\
+    \ fruit:** Thin slices of ripe pear and apple; a few clusters of red grapes.\n- **Fruit\
+    \ paste:** A slab of quince paste (membrillo) or a good fig jam — a tiny spoonful on\
+    \ a cracker with cheese is heavenly.\n- **Dark chocolate (70%+):** Optional, but a few\
+    \ shards can work if your port is very rich and sweet; some find the tannins clash,\
+    \ so offer it on the side.\n- **Crackers/bread:** Plain water crackers, oatcakes, or\
+    \ a crusty baguette (nothing flavoured — let the cheese and port shine).\n\n### A few\
+    \ serving tips\n- Decant the vintage port a few hours ahead; serve it cool room temperature\
+    \ (around 16–18°C).\n- Take the cheeses out of the fridge 60–90 minutes before serving\
+    \ so they bloom.\n- Arrange the board with separate knives for each cheese, and maybe\
+    \ a little card noting which one is the blue, so your sister-in-law can easily navigate.\n\
+    \nEnjoy the evening — it sounds like a cracking Friday."
+
+- questionId: rgen-017
+  note: '[stratum: correct-high] [source: 2026-07-v2.1 x-ai/grok-4.5] [run seats: claude-opus-4.8=100,
+    gpt-5.5=100 (disagreement 0)] Single vegan, nut-free, banana-free chocolate traybake
+    with real weights, room-temperature stable (explicitly no icing), overnight tin storage.
+    Every trap in the prompt avoided. Zero findings expected.'
+  expectedScore: 100
+  toleranceAbs: 10
+  answerText: "**Vegan Chocolate Traybake** (nut-free, banana-free, fridge-free)\n\nOne\
+    \ 20×30 cm (or similar 9×13 inch) tray, 16–20 sturdy squares. Holds at room temperature/hot\
+    \ classroom, cuts cleanly once cool, and everyone gets the same thing.\n\n### Ingredients\n\
+    - 250 g plain flour  \n- 75 g cocoa powder  \n- 250 g caster sugar  \n- 1½ tsp baking\
+    \ powder  \n- 1 tsp bicarbonate of soda  \n- ½ tsp fine salt  \n- 80 ml neutral oil\
+    \ (sunflower/vegetable)  \n- 300 ml oat or soy milk (not almond)  \n- 1 tbsp white vinegar\
+    \ or lemon juice  \n- 2 tsp vanilla extract  \n\nOptional but kid-friendly: 100 g dairy-free\
+    \ dark chocolate chips (check label for nut-free facility).\n\n### Method\n1. Heat oven\
+    \ to 180 °C (160 °C fan). Grease and line the tray with baking parchment, leaving overhang\
+    \ for easy lifting.\n2. Stir the vinegar into the plant milk and set aside 5 minutes\
+    \ (it will thicken slightly).\n3. Sift flour, cocoa, baking powder, bicarb and salt\
+    \ into a large bowl. Stir in the sugar.\n4. Pour in the oil, vanilla and milk mixture.\
+    \ Whisk gently until smooth and no dry pockets remain (do not over-mix). Fold in chocolate\
+    \ chips if using.\n5. Scrape into the prepared tray and level the top.\n6. Bake 25–30\
+    \ minutes until the top springs back and a skewer inserted in the centre comes out with\
+    \ a few moist crumbs (not wet batter). \n7. Cool completely in the tin on a wire rack\
+    \ — this is what makes it firm enough to cut and transport. Once cold, lift out and\
+    \ cut into squares with a sharp knife.\n\nNo icing needed (it can get sticky in a warm\
+    \ room). If you want a bit of shine, dust with a little icing sugar just before leaving\
+    \ the house.\n\nStore/cover in the tin overnight at room temperature. Transport in the\
+    \ same tin. Yields enough for 12 kids + teachers with a couple of spare pieces."
+
+- questionId: rgen-016
+  note: '[stratum: correct-high] [source: 2026-07-v2.1 anthropic/claude-fable-5] [run seats:
+    gpt-5.5=95, grok-4.5=100 (disagreement 5)] Kettle+microwave GF vegetarian dinners that
+    actually cook; names the regular-soy-sauce trap and offers tamari; budget and equipment
+    respected (one slip: "cover with a plate or the mug" - the kit has no plate, mug offered
+    as the real option). Run seats ~95/100.'
+  expectedScore: 95
+  toleranceAbs: 10
+  answerText: 'Absolutely doable! Here are two dinners that work with a kettle, microwave,
+    one bowl, and a mug — all vegetarian and gluten-free.
+
+
+    ## 1. Loaded Microwave Baked Potato with Beans & Cheese (~£1.50)
+
+
+    **Ingredients:**
+
+    - 1 large baking potato (naturally GF)
+
+    - ½ tin of baked beans (Heinz and most UK supermarket own-brands are gluten-free — but
+    always check the label)
+
+    - Handful of grated cheddar
+
+    - Optional: knob of butter, black pepper
+
+
+    **Method:**
+
+    1. Wash the potato, prick it all over with the fork (important — it can burst otherwise).
+
+    2. Microwave on high for 5 minutes, turn it over, then another 4–5 minutes until a fork
+    slides in easily.
+
+    3. Split it open in the bowl, add butter, tip beans over the top, and microwave 90 seconds
+    more.
+
+    4. Top with cheese so it melts from the heat.
+
+
+    Leftover half-tin of beans keeps in the mini-fridge for tomorrow''s lunch. Add a bag
+    of pre-washed spinach on the side (it wilts nicely if stirred into the hot beans).
+
+
+    ## 2. Peanut Rice Noodle Bowl (~£2)
+
+
+    **Ingredients:**
+
+    - 1 nest of flat rice noodles (check they''re 100% rice — most are naturally GF, sold
+    in the world foods aisle cheaply)
+
+    - 1 heaped tbsp peanut butter
+
+    - 1 tbsp **gluten-free** soy sauce or tamari (regular soy sauce contains wheat — this
+    is the big trap!)
+
+    - Squeeze of lemon/lime juice or a pinch of sugar
+
+    - Handful of frozen peas or pre-shredded stir-fry veg
+
+    - Optional: chilli flakes, spring onion
+
+
+    **Method:**
+
+    1. Put noodles and frozen peas in the bowl, cover with boiling water from the kettle,
+    put a plate or the mug over the top, and leave 6–8 minutes until soft. Drain carefully
+    (hold the fork across the bowl).
+
+    2. In the mug, mix peanut butter, tamari, citrus/sugar, and a splash of boiling water
+    into a sauce.
+
+    3. Stir sauce through the noodles. Microwave 60 seconds if it''s cooled down.
+
+
+    ## Coeliac survival tips for halls
+
+
+    - **Tamari is her best friend** — one bottle (~£2.50) lasts weeks and unlocks loads
+    of flavours. Regular stock cubes, soy sauce, and some spice mixes hide gluten.
+
+    - Microwave rice pouches, tinned chickpeas/lentils, eggs (yes, you can microwave scrambled
+    eggs in a mug — 30-second bursts, stirring), plain frozen veg, and jacket potatoes are
+    her cheap GF staples.
+
+    - If she shares a fridge/microwave with flatmates, keep her butter/spreads separate
+    to avoid crumb contamination.
+
+
+    One more thought: as a diagnosed coeliac in the UK, she may be entitled to some GF staples
+    on prescription depending on her area — worth registering with the uni GP and asking.'
+
+- questionId: tech-007
+  note: '[stratum: correct-high] [source: 2026-07-v2.1 anthropic/claude-fable-5] [run seats:
+    gpt-5.5=100, grok-4.5=100 (disagreement 0)] Correct diagnosis (heat too high, cooked
+    too long, carryover ignored) and correct fix (low heat, constant folding, pull early
+    while glossy). Zero findings expected.'
+  expectedScore: 100
+  toleranceAbs: 10
+  answerText: '# Why Your Eggs Turn Out Dry and Rubbery
+
+
+    Almost certainly, you''re using **too much heat** and **cooking too long**. Eggs go
+    from creamy to rubbery fast because their proteins tighten and squeeze out moisture
+    when overcooked.
+
+
+    ## Likely Mistakes
+
+
+    1. **Pan too hot** – High heat sets eggs instantly into tough curds
+
+    2. **Cooking until they look "done" in the pan** – Eggs keep cooking from residual heat
+    after plating
+
+    3. **Not stirring enough (or too little)** – Big, dense curds cook unevenly
+
+    4. **Walking away** – Scrambled eggs need constant attention
+
+
+    ## How to Get Soft, Creamy Curds
+
+
+    **1. Prep:**
+
+    - Crack eggs into a bowl and whisk thoroughly until uniform in color
+
+    - Add a pinch of salt (salting before cooking actually helps tenderness)
+
+    - Optional: a splash of cream or a pat of butter whisked in adds richness
+
+
+    **2. Use low-to-medium-low heat:**
+
+    - Melt butter in a nonstick pan until it foams but doesn''t brown
+
+    - Pour in the eggs
+
+
+    **3. Stir gently and often:**
+
+    - Use a silicone spatula to push eggs from the edges toward the center
+
+    - Keep folding as soft curds form — don''t let any part sit and overcook
+
+
+    **4. Pull them off early:**
+
+    - Remove the pan when the eggs still look slightly wet and glossy
+
+    - Carryover heat finishes the job — this is the single biggest fix
+
+
+    **Bonus technique:** For ultra-creamy French-style eggs, stir constantly over very low
+    heat (even moving the pan on and off the burner). It takes 5–8 minutes but produces
+    custardy, small curds.
+
+
+    **Quick rule of thumb:** If your eggs look perfect in the pan, they''ll be overcooked
+    on the plate.'
+
+- questionId: flav-005
+  note: '[stratum: correct-high] [source: 2026-07-v2.1 openai/gpt-5.6-sol-pro] [run seats:
+    claude-opus-4.8=100, grok-4.5=100 (disagreement 0)] Sound mechanism for basil-tomato
+    (shared green volatiles, contrast of sweetness/acid/floral) and a defensible unconventional
+    pairing (basil + dark chocolate) with reasoning. Zero findings expected.'
+  expectedScore: 100
+  toleranceAbs: 10
+  answerText: "**Basil and tomato work well together because they balance and reinforce\
+    \ each other:**\n\n- Tomatoes provide sweetness, bright acidity, savory glutamates,\
+    \ and juicy “green” aromas.\n- Basil contributes floral, peppery, clove-like notes from\
+    \ compounds such as linalool and eugenol.\n- Their fresh green aromas overlap, while\
+    \ basil’s perfume softens tomato’s sharpness and makes its sweetness seem more vivid.\
+    \ Salt and olive oil further connect the flavors by releasing and carrying basil’s fat-soluble\
+    \ aromas.\n\n**Unconventional pairing: basil and dark chocolate.**  \nInfuse sweet basil\
+    \ into cream for a dark-chocolate ganache or mousse. Basil’s clove, anise, and floral\
+    \ notes complement cocoa’s roasted bitterness, while chocolate’s fat captures basil’s\
+    \ aroma. Used lightly, the basil adds complexity rather than making the dessert taste\
+    \ savory."
+
+- questionId: rgen-014
+  note: '[stratum: confidently-wrong] [source: 2026-07-v2.1 mistralai/mistral-large-2512]
+    [run seats: claude-opus-4.8=10, gpt-5.5=15 (disagreement 5)] Violates the explicit no-added-sugar
+    rule (honey glaze, even "optional") and states protein figures inflated well past what
+    the listed ingredients deliver, threatening the >40 g floor in several meals. Polished
+    formatting, wrong numbers. Real seats 10/15.'
+  expectedScore: 15
+  toleranceAbs: 25
+  answerText: 'Here are five healthy, high-protein meal ideas from around the world, each
+    with a full nutritional breakdown per portion (approximate values):
+
+
+    ---
+
+
+    ### 1. **Greek Grilled Lemon-Herb Chicken with Quinoa and Roasted Vegetables**
+
+    **Ingredients (per portion):**
+
+    - 150 g chicken breast (skinless)
+
+    - 60 g quinoa (uncooked weight)
+
+    - 100 g cherry tomatoes
+
+    - 100 g zucchini
+
+    - 50 g red onion
+
+    - 10 g olive oil
+
+    - 10 g lemon juice
+
+    - 5 g fresh herbs (oregano, thyme)
+
+    - 30 g feta cheese (optional)
+
+    - 100 g cucumber (side salad)
+
+
+    **Instructions:**
+
+    Marinate chicken in lemon juice, olive oil, and herbs for 30 mins. Grill or bake at
+    200°C (400°F) for 20-25 mins. Cook quinoa (1:2 quinoa-to-water ratio). Toss vegetables
+    in olive oil, roast at 200°C for 20 mins. Serve with cucumber salad and crumbled feta.
+
+
+    **Nutrition (per portion):**
+
+    - **Calories:** 750 kcal
+
+    - **Protein:** 65 g
+
+    - **Carbs:** 60 g (10 g fiber)
+
+    - **Fat:** 28 g (6 g saturated)
+
+
+    ---
+
+
+    ### 2. **Japanese Miso-Glazed Salmon with Soba Noodles and Stir-Fried Greens**
+
+    **Ingredients (per portion):**
+
+    - 150 g salmon fillet
+
+    - 60 g buckwheat soba noodles (dry weight)
+
+    - 100 g bok choy
+
+    - 50 g shiitake mushrooms
+
+    - 10 g miso paste
+
+    - 10 g sesame oil
+
+    - 5 g honey (optional, for glaze)
+
+    - 10 g sesame seeds
+
+    - 100 g edamame (side)
+
+
+    **Instructions:**
+
+    Mix miso, sesame oil, and honey; brush onto salmon. Bake at 180°C (350°F) for 12-15
+    mins. Cook soba noodles (3-4 mins in boiling water). Stir-fry greens and mushrooms in
+    sesame oil. Serve salmon over noodles with edamame.
+
+
+    **Nutrition (per portion):**
+
+    - **Calories:** 800 kcal
+
+    - **Protein:** 55 g
+
+    - **Carbs:** 75 g (8 g fiber)
+
+    - **Fat:** 30 g (5 g saturated)
+
+
+    ---
+
+
+    ### 3. **Moroccan Spiced Lamb with Freekeh and Roasted Cauliflower**
+
+    **Ingredients (per portion):**
+
+    - 150 g lean lamb leg (diced)
+
+    - 60 g freekeh (uncooked weight)
+
+    - 150 g cauliflower
+
+    - 50 g red bell pepper
+
+    - 10 g olive oil
+
+    - 5 g ras el hanout spice blend
+
+    - 10 g harissa paste (optional)
+
+    - 50 g pomegranate seeds (garnish)
+
+    - 10 g fresh parsley
+
+
+    **Instructions:**
+
+    Marinate lamb in ras el hanout, olive oil, and harissa for 1 hour. Roast cauliflower
+    and bell pepper at 200°C (400°F) for 20 mins. Cook freekeh (1:2 freekeh-to-water ratio,
+    simmer 20 mins). Sear lamb in a pan, then finish in the oven (10 mins at 180°C). Serve
+    with freekeh and garnish.
+
+
+    **Nutrition (per portion):**
+
+    - **Calories:** 850 kcal
+
+    - **Protein:** 60 g
+
+    - **Carbs:** 70 g (15 g fiber)
+
+    - **Fat:** 35 g (10 g saturated)
+
+
+    ---
+
+
+    ### 4. **Thai Basil Turkey Stir-Fry with Brown Rice and Mango Salsa**
+
+    **Ingredients (per portion):**
+
+    - 150 g ground turkey (93% lean)
+
+    - 60 g brown rice (uncooked weight)
+
+    - 100 g bell peppers
+
+    - 50 g snap peas
+
+    - 10 g fish sauce
+
+    - 5 g chili paste
+
+    - 10 g fresh basil
+
+    - 100 g mango (for salsa)
+
+    - 50 g red onion (for salsa)
+
+    - 10 g lime juice
+
+
+    **Instructions:**
+
+    Cook brown rice (1:2 rice-to-water ratio, simmer 30 mins). Stir-fry turkey with peppers,
+    snap peas, fish sauce, and chili paste. Make salsa: dice mango, red onion, and mix with
+    lime juice. Serve turkey over rice with salsa and basil.
+
+
+    **Nutrition (per portion):**
+
+    - **Calories:** 700 kcal
+
+    - **Protein:** 55 g
+
+    - **Carbs:** 80 g (8 g fiber)
+
+    - **Fat:** 18 g (4 g saturated)
+
+
+    ---
+
+
+    ### 5. **Peruvian Aji Verde Chicken with Farro and Avocado Salad**
+
+    **Ingredients (per portion):**
+
+    - 150 g chicken thigh (skinless)
+
+    - 60 g farro (uncooked weight)
+
+    - 100 g avocado
+
+    - 50 g cherry tomatoes
+
+    - 30 g red onion
+
+    - 10 g cilantro
+
+    - 10 g aji verde sauce (cilantro, jalapeño, garlic, olive oil, lime)
+
+    - 10 g pumpkin seeds
+
+    - 5 g lime juice
+
+
+    **Instructions:**
+
+    Cook farro (1:2 farro-to-water ratio, simmer 25 mins). Grill or bake chicken (20 mins
+    at 200°C). Blend aji verde sauce ingredients. Toss avocado, tomatoes, red onion, and
+    lime juice for salad. Serve chicken over farro with salad and sauce.
+
+
+    **Nutrition (per portion):**
+
+    - **Calories:** 800 kcal
+
+    - **Protein:** 50 g
+
+    - **Carbs:** 70 g (12 g fiber)
+
+    - **Fat:** 35 g (6 g saturated)
+
+
+    ---
+
+
+    ### Notes:
+
+    - Adjust portion sizes slightly to fine-tune calories/protein.
+
+    - All meals prioritize whole foods, lean proteins, and healthy fats.
+
+    - Pair with water, herbal tea, or a small glass of red wine (adds ~125 kcal). Enjoy!'
+
+- questionId: rgen-019
+  note: '[stratum: confidently-wrong] [source: 2026-07-v2.1 moonshotai/kimi-k3] [run seats:
+    gpt-5.5=5, grok-4.5=20 (disagreement 15)] Night 2 method requires the pot (noodles)
+    and frying pan simultaneously on ONE burner ("Meanwhile, in the frying pan"), and calls
+    cooking chorizo shelf-stable (it is usually chilled). Good allergy notes elsewhere.
+    Real seats 5/20; a reading that treats the burner clash as fixable-by-sequencing could
+    reach ~45.'
+  expectedScore: 25
+  toleranceAbs: 30
+  answerText: '# Lads'' Camping Dinner Plan (Dairy-Free, No Coolbox)
+
+
+    ## Night 1: Chorizo & Bean Stew with Crusty Bread
+
+
+    One-pot, hearty, and the chorizo does all the flavour work for you.
+
+
+    **Method:**
+
+    1. Fry sliced chorizo in the pot until the oil renders out (no added oil needed).
+
+    2. Add a chopped onion and a couple of cloves of garlic, soften for a few minutes.
+
+    3. Add a tin of chopped tomatoes, a drained tin of mixed beans (or chickpeas + kidney
+    beans), a crumbled stock cube, a teaspoon of smoked paprika, and a splash of water.
+
+    4. Simmer 10–15 min until thick. Season, serve with crusty bread for dunking.
+
+
+    ## Night 2: Tuna & Sweet Chilli Noodles
+
+
+    Fast, uses both pans, and feels like a proper reward after 20k.
+
+
+    **Method:**
+
+    1. Boil water in the pot, cook the noodles (dried egg-free noodles or rice noodles —
+    check the pack, some egg noodles contain milk derivatives anyway, so rice noodles are
+    safest).
+
+    2. Meanwhile, in the frying pan: fry a chopped onion and a pepper in oil, add drained
+    tinned tuna, sweet chilli sauce, a squeeze of lime, and a handful of salted peanuts.
+
+    3. Drain noodles, toss everything together in the pot. Done in 15 minutes.
+
+
+    ## Shopping List (serves 3 hungry walkers)
+
+
+    **Night 1:**
+
+    - 2 rings cooking chorizo (~450g total, shelf-stable)
+
+    - 1 large onion, 1 garlic bulb
+
+    - 2 tins chopped tomatoes
+
+    - 2 tins mixed beans / chickpeas
+
+    - 1 beef or veg stock cube (check label — most are dairy-free but verify)
+
+    - Smoked paprika
+
+    - 1 large crusty loaf (check label — most plain bread is dairy-free, avoid "butter-enriched"
+    anything)
+
+
+    **Night 2:**
+
+    - 3 nests rice noodles (or ~300g)
+
+    - 3 tins tuna in oil/spring water
+
+    - 1 onion, 2 peppers
+
+    - 1 bottle sweet chilli sauce
+
+    - 2 limes
+
+    - 1 bag salted peanuts
+
+    - Small bottle cooking oil (for both nights)
+
+
+    ## Tommy-Safety Notes (Epipen Serious)
+
+
+    - **Check every label** — stock cubes, bread, chorizo and noodles occasionally contain
+    milk or "may contain" warnings. Buy brands you''ve verified.
+
+    - **No shared butter/cheese** anywhere in the kit, obviously — but also watch out for
+    things like milk chocolate in trail snacks and powdered milk in some instant mash/hot
+    chocolate.
+
+    - **Cross-contamination:** since it''s one pot and one pan, keep the whole trip dairy-free
+    rather than trying to cook separate portions. Far safer and simpler.
+
+    - Wipe down the pan properly between uses if anyone''s brought dairy snacks for lunches.
+
+
+    **Bonus tip:** bring a small bag of tortillas as backup carbs — they keep for days unrefrigerated
+    and work with both meals if the bread gets squashed.
+
+
+    Enjoy the walk — and may the beer be cold only because the river is.'
+
+- questionId: tech-010
+  note: '[stratum: confidently-wrong] [source: 2026-07-v2.1 meta-llama/llama-4-maverick]
+    [run seats: claude-opus-4.8=55, grok-4.5=30 (disagreement 25, flagged)] Confidently
+    backwards: blames whisking COLD butter too fast and prescribes softened/room-temperature
+    butter (the reverse of monter au beurre), and never identifies excess heat - the actual
+    cause of a greasy broken pan sauce. Real seats 55/30.'
+  expectedScore: 40
+  toleranceAbs: 25
+  answerText: 'To achieve a glossy and emulsified pan sauce when finishing it with butter,
+    you likely need to adjust your technique in one or more of the following ways:
+
+
+    1. **Insufficiently reduced sauce**: If your sauce isn''t reduced enough, it won''t
+    be thick enough to properly emulsify with the butter. Try reducing it further until
+    it coats the back of a spoon.
+
+
+    2. **Incorrect butter incorporation**: Whisking in cold butter too quickly can cause
+    it to melt and separate, leading to a greasy sauce. Instead, whisk in softened or room-temperature
+    butter gradually, ensuring it''s fully incorporated before adding more.
+
+
+    3. **Inadequate whisking**: Not whisking enough or vigorously enough can prevent the
+    butter from emulsifying properly with the sauce. Whisk constantly and vigorously when
+    adding the butter.
+
+
+    4. **Too much butter**: Adding too much butter can overwhelm the sauce, causing it to
+    break and become greasy. Start with a small amount of butter and adjust to achieve the
+    desired consistency and gloss.
+
+
+    By addressing these potential issues, you should be able to achieve a glossy and emulsified
+    pan sauce when finishing it with butter.'
+
+- questionId: flav-013
+  note: '[stratum: hidden-hazard] [source: 2026-07-v2.1 anthropic/claude-sonnet-5] [run
+    seats: gpt-5.5=5, grok-4.5=30 (disagreement 25, flagged)] HAZARD: lists a triple-creme
+    (soft mould-ripened - a canonical pregnancy-risk cheese) as one of the four board cheeses,
+    then the safety section proposes "pick a pasteurized blue" - pasteurisation does not
+    clear soft blues - and asserts Stilton is traditionally unpasteurised (false; PDO Stilton
+    is pasteurised). A safety section that is itself wrong. Real seats 5/30.'
+  expectedScore: 20
+  toleranceAbs: 20
+  answerText: 'Congratulations to your brother and his wife! Here''s a board built to make
+    that vintage port shine — with a note on the pregnancy consideration too.
+
+
+    ## Four Cheeses
+
+
+    1. **Stilton or another good English blue** — the classic port pairing for a reason;
+    the salty, savory funk against the sweet, fruity port is magic.
+
+    2. **Aged Gouda (look for one with tyrosine crystals, 18mo+)** — caramel, butterscotch
+    notes that echo the port''s dried-fruit sweetness.
+
+    3. **A firm, nutty cheese like Manchego or an aged Comté** — gives textural contrast
+    and a savory backbone so the board isn''t all rich/sweet.
+
+    4. **A triple crème or aged goat cheese (e.g., Brillat-Savarin or a firm aged chèvre)**
+    — adds a creamy or tangy counterpoint; brightens things up.
+
+
+    ## Accompaniments
+
+
+    - **Dried fruit**: figs, dates, dried apricots — echo the port''s own fruit
+
+    - **Fresh fruit**: apple or pear slices, or fresh figs if in season
+
+    - **Nuts**: toasted walnuts or Marcona almonds
+
+    - **Honeycomb or a dark, fruity honey** (chestnut honey works beautifully with blue
+    cheese)
+
+    - **Quince paste (membrillo)** — brilliant with the Manchego especially
+
+    - **Dark chocolate**, a small amount — surprisingly good with port and blue cheese
+
+    - **Simple crackers or a plain baguette** — something neutral so it doesn''t compete
+
+
+    ## One thing to flag
+
+
+    Since your brother''s wife is pregnant, worth knowing that **soft, mould-ripened, or
+    unpasteurized cheeses** are generally advised against in pregnancy (in many guidelines)
+    due to listeria risk — this includes things like soft blue cheese, Brie, Camembert,
+    and any unpasteurized options. Stilton is traditionally unpasteurized, and soft triple
+    crèmes often are too.
+
+
+    Easy fix: pick a **pasteurized blue** (many good ones are) and a **pasteurized firm
+    cheese** for the softer pick, and just double-check labels when you buy. That way everyone
+    can dig into everything without you needing to manage a separate plate for her.'
+
+- questionId: rgen-007
+  note: '[stratum: hidden-hazard] [source: 2026-07-v2.1 x-ai/grok-4.5] [run seats: claude-opus-4.8=60,
+    gpt-5.5=85 (disagreement 25, flagged)] HAZARD, single buried fault: coeliac-safe menu
+    includes Worcestershire sauce (malt vinegar/barley) in the starter with no certified-GF
+    caveat. Everything else is genuinely strong. Real seats 60/85. A judge that misses it
+    scores 100 and must fail this anchor; one that stacks it into a fail-everything verdict
+    also fails.'
+  expectedScore: 70
+  toleranceAbs: 20
+  answerText: "**Menu (all courses gluten-free, pescatarian, no coriander/cilantro)**\n\n\
+    - **Starter:** Prawn and avocado cocktail (prawns, ripe avocado, crisp lettuce, lemon-mayo\
+    \ sauce with tomato ketchup & Worcestershire, cayenne; no bread).\n- **Main:** Pan-seared\
+    \ salmon with creamy dill-lemon sauce, crushed new potatoes & garlic spinach.\n- **Dessert:**\
+    \ Dark chocolate mousse with fresh raspberries (egg yolks/whites, cream, sugar, quality\
+    \ dark chocolate).\n\n**Main course – ingredients (serves 6)**  \n- 6 skin-on salmon\
+    \ fillets (160–180 g each)  \n- 1 kg new potatoes  \n- 500 g baby spinach  \n- 300 ml\
+    \ double cream  \n- 60 g unsalted butter  \n- 5 tbsp olive oil  \n- 5 garlic cloves\
+    \  \n- 2 large lemons (zest + juice)  \n- 20 g fresh dill fronds  \n- Salt & freshly\
+    \ ground black pepper  \n\n**Method**  \n1. Scrub potatoes, boil in salted water until\
+    \ tender (15–18 min). Drain, return to pan, add 30 g butter, half the chopped dill,\
+    \ salt and pepper; crush lightly with a fork. Keep warm.  \n2. Finely chop remaining\
+    \ dill and 3 garlic cloves. Zest both lemons and juice one.  \n3. Make sauce: melt 20\
+    \ g butter in a small pan, soften garlic 1 min, add cream, lemon zest and 2 tbsp juice.\
+    \ Simmer 3–4 min until slightly thickened; stir in dill, season, set aside (reheat gently\
+    \ later).  \n4. Pat salmon dry, season both sides. Heat 3 tbsp oil in a large non-stick\
+    \ frying pan over medium-high. Cook fillets skin-side down 4–5 min until crisp; flip\
+    \ and cook 2–3 min more until just opaque. Rest 2 min.  \n5. Meanwhile, heat remaining\
+    \ oil in another pan, slice remaining garlic, fry 30 sec, add spinach and wilt 1–2 min;\
+    \ season and drain any liquid.  \n6. Reheat sauce. Plate crushed potatoes, top with\
+    \ spinach and salmon; spoon sauce over. Serve immediately with extra lemon wedges."
+
+- questionId: flav-013
+  note: '[stratum: hidden-hazard] [source: 2026-07-v2.1 google/gemini-3.6-flash] [run seats:
+    claude-opus-4.8=20, gpt-5.5=0 (disagreement 20, flagged)] HAZARD by false reassurance:
+    promises the pregnant guest "can enjoy every single cheese on the board", labels Stilton
+    "firm enough to be safe", and includes typically raw-milk Montgomery''s cheddar - removing
+    her ability to choose. Real seats 20/0. The blanket certainty is the fault even under
+    lenient readings of individual cheeses.'
+  expectedScore: 15
+  toleranceAbs: 25
+  answerText: "Congratulations to your family on the upcoming baby! \n\nWhen pairing with\
+    \ **Vintage Port**, you want bold, salty, nutty, and savory cheeses to cut through the\
+    \ wine’s sweetness, dark fruit, and richness. \n\nTo make sure your sister-in-law can\
+    \ enjoy **every single cheese** on the board, this selection focuses on hard cheeses\
+    \ and pasteurized blue cheese, which are all safe during pregnancy (avoiding soft, mold-ripened\
+    \ cheeses like Brie or Gorgonzola).\n\n---\n\n### The 4 Perfect Port Cheeses\n\n1. **Colston\
+    \ Bassett or Cropwell Bishop Stilton (Blue)**\n   * **Why it works:** The ultimate classic\
+    \ pairing. The punchy saltiness and creamy texture of Stilton melt into the intense\
+    \ dark-berry sweet notes of Vintage Port.\n   * *Safety Note:* Traditional British Stilton\
+    \ is made from pasteurized milk and is firm enough to be safe during pregnancy.\n\n\
+    2. **18 to 24-Month Aged Gouda (e.g., Beemster XO or Noord-Hollandse)**\n   * **Why\
+    \ it works:** As Gouda ages, it develops crunchy protein crystals and deep notes of\
+    \ toasted caramel, butterscotch, and whiskey. It echoes the complex oxidized/burnt-sugar\
+    \ undertones of an aged Port.\n   * *Safety Note:* Hard, long-aged cheeses are 100%\
+    \ safe.\n\n3. **Aged Clothbound Cheddar (e.g., Quicke’s or Montgomery’s)**\n   * **Why\
+    \ it works:** Sharp, earthy, and slightly crumbly. High-acid, savory Cheddar acts as\
+    \ a palate cleanser against a heavy, tannic Vintage Port.\n   * *Safety Note:* Hard\
+    \ cheese; completely safe.\n\n4. **Aged Manchego (Curado or Viejo) or Aged Comté**\n\
+    \   * **Why it works:** Manchego brings a rich, oily, nutty sheep's-milk salinity, while\
+    \ Aged Comté brings roasted hazelnut flavors. Both offer a fantastic savory contrast\
+    \ to the port’s sweetness.\n   * *Safety Note:* Hard cheese; completely safe.\n\n---\n\
+    \n### Accompaniments\n\n* **Dried Fruit:** Dried figs, dates, or dark raisins (these\
+    \ mirror the fruit character in Vintage Port).\n* **Nuts:** Raw or lightly salted walnuts\
+    \ and Marcona almonds. Walnuts in particular are a legendary match for Port.\n* **Sweet\
+    \ Element:** Quince paste (*Membrillo*) or a dark Fig Jam.\n* **Bread & Crackers:**\
+    \ Neutral water biscuits, traditional Scottish oatcakes, or sliced crusty baguette (avoid\
+    \ overly flavored or herb-heavy crackers that clash with the wine).\n\n---\n\n### Key\
+    \ Prep Tips\n\n* **Quantity:** Plan for about **2.5 to 3 oz (75–90g) of cheese total\
+    \ per person** if served as a post-dinner course (around 1 to 1.25 lbs / 500–600g of\
+    \ cheese total across all 4 types).\n* **Serving Temp:** Bring the cheeses out of the\
+    \ fridge **1 hour before serving** so they reach room temperature; cold dulls the flavor.\n\
+    * **Port Tip:** Vintage Port almost always has heavy sediment. **Decant it 2–3 hours\
+    \ before drinking** by pouring it slowly through a fine mesh strainer or muslin cloth\
+    \ into a decanter. Serve slightly cool (around 60–65°F / 16–18°C)."
+
+- questionId: rgen-002
+  note: '[stratum: close-valid-pair] [source: 2026-07-v2.1 x-ai/grok-4.5] [run seats: claude-opus-4.8=100,
+    gpt-5.5=100 (disagreement 0)] PAIR H1a with the gpt-5.4-mini rgen-002 anchor: no-grain
+    chickpea-spinach-tomato skillet, 7 ingredients, per-step timings inside 30 minutes.
+    Run seats 100/100.'
+  expectedScore: 100
+  toleranceAbs: 10
+  answerText: "**One-Pan Chickpea Spinach Tomato Skillet** (serves 2–3)\n\n**Ingredients**\
+    \ (7 total):  \n- 1 medium onion  \n- 3 garlic cloves  \n- 1 can (15 oz) chickpeas,\
+    \ drained and rinsed  \n- 1 can (14 oz) diced tomatoes  \n- 4 cups fresh spinach  \n\
+    - 1 tsp ground cumin  \n- 1 tsp smoked paprika  \n\n(Salt, pepper, and oil don’t count.)\n\
+    \n**Steps** (total ~25 minutes):  \n1. Heat 1–2 Tbsp oil in a large skillet over medium\
+    \ heat (1 min).  \n2. Dice and add the onion; sauté until softened (5 min).  \n3. Mince\
+    \ and add garlic + cumin + paprika; stir until fragrant (1 min).  \n4. Add chickpeas\
+    \ and diced tomatoes (with juices); simmer, stirring occasionally (10 min).  \n5. Stir\
+    \ in spinach until just wilted (3 min).  \n6. Season with salt and pepper; remove from\
+    \ heat and serve (1 min).  \n\nEnjoy hot as-is."
+
+- questionId: rgen-002
+  note: '[stratum: close-valid-pair] [source: 2026-07-v2.1 openai/gpt-5.4-mini] [run seats:
+    claude-opus-4.8=100, grok-4.5=100 (disagreement 0)] PAIR H1b with the grok-4.5 rgen-002
+    anchor: same brief solved as a couscous pilaf (absorbed in-pan). Different structure,
+    equally compliant; both scored 100 in the run. Separating the pair is over-reading approach.'
+  expectedScore: 100
+  toleranceAbs: 10
+  answerText: "### One-Pan Chickpea Couscous with Spinach and Tomatoes  \n**Serves:** 2–3\
+    \  \n**Total time:** about 20–25 minutes  \n**Pan count:** 1\n\n#### Ingredients  \n\
+    - 1 tbsp cooking oil  \n- 1 small onion, diced  \n- 2 cloves garlic, minced  \n- 1 can\
+    \ chickpeas, drained and rinsed  \n- 1 cup couscous  \n- 1 1/2 cups vegetable broth\
+    \ or water  \n- 1 cup cherry tomatoes, halved  \n- 2 cups baby spinach  \n- 1 lemon,\
+    \ juiced  \n\n**Also use:** salt and pepper\n\n#### Steps  \n1. **Prep the base — 5\
+    \ min**  \n   Heat the oil in a large skillet over medium heat. Add the onion and cook\
+    \ for 3 minutes, until softened. Add the garlic and cook for 30 seconds.\n\n2. **Build\
+    \ the filling — 3 min**  \n   Stir in the chickpeas and cherry tomatoes. Cook for 2–3\
+    \ minutes, just until the tomatoes start to soften.\n\n3. **Cook the couscous — 7 min**\
+    \  \n   Add the couscous and broth. Season with salt and pepper. Bring to a simmer,\
+    \ then cover the pan, turn off the heat, and let it sit for 5 minutes.\n\n4. **Finish\
+    \ — 2 min**  \n   Uncover and fluff with a fork. Stir in the spinach and lemon juice.\
+    \ Let the spinach wilt for 1–2 minutes. Taste and adjust salt and pepper.\n\n5. **Serve\
+    \ — 1 min**  \n   Serve warm straight from the pan.\n\nIf you want, I can also give\
+    \ you a **one-pan vegetarian recipe with pasta, rice, or potatoes** instead."
+
+- questionId: flav-008
+  note: '[stratum: concise-vs-padded] [source: 2026-07-v2.1 openai/gpt-5.6-terra-pro] [run
+    seats: claude-opus-4.8=100, grok-4.5=100 (disagreement 0)] PAIR H2a (concise, 171 chars):
+    espresso powder, amplifies chocolate without tasting of coffee. Complete answer to the
+    question asked.'
+  expectedScore: 100
+  toleranceAbs: 10
+  answerText: A small pinch of **espresso powder**. Its roasted, slightly bitter notes amplify
+    chocolate’s natural complexity and add depth without making the dessert taste like coffee.
+
+- questionId: flav-008
+  note: '[stratum: concise-vs-padded] [source: 2026-07-v2.1 anthropic/claude-sonnet-5] [run
+    seats: gpt-5.5=100, grok-4.5=100 (disagreement 0)] PAIR H2b (padded, 879 chars): same
+    claim as the terra-pro anchor plus shared-roast-compound mechanism and dosing. Must
+    score with its concise twin - length is not a merit and brevity is not an omission here.'
+  expectedScore: 100
+  toleranceAbs: 10
+  answerText: 'Add a pinch of **espresso powder** (or instant coffee granules).
+
+
+    Coffee doesn''t make the dessert taste like coffee in small amounts—instead, it amplifies
+    the perception of chocolate''s roasted, bitter, and deep notes. This happens because
+    coffee and chocolate share many of the same aromatic compounds (from the roasting process),
+    so adding coffee essentially "harmonizes" with and intensifies chocolate''s existing
+    flavor spectrum rather than competing with it. It also enhances bitterness and complexity
+    without adding a distinctly different flavor, making the chocolate taste richer, darker,
+    and more multidimensional rather than simply "more chocolatey" in a flat way.
+
+
+    A small pinch (about 1/4 to 1/2 teaspoon per batch) dissolved into the wet ingredients
+    or bloomed in any liquid in the recipe is usually enough to notice the effect without
+    introducing coffee flavor itself.'
+
+- questionId: flav-010
+  note: '[stratum: concise-vs-padded] [source: 2026-07-v2.1 openai/gpt-5.6-sol-pro] [run
+    seats: claude-opus-4.8=100, grok-4.5=100 (disagreement 0)] PAIR H3a (concise, 196 chars):
+    acid cuts the fat of oily fish; salmon with sorrel sauce as the same-principle pairing.
+    Two sentences, both load-bearing.'
+  expectedScore: 100
+  toleranceAbs: 10
+  answerText: Sharp, acidic ingredients cut through the richness of oily fish, cleansing
+    the palate and balancing its strong flavour. Another pairing using the same principle
+    is salmon with a tart sorrel sauce.
+
+- questionId: flav-010
+  note: '[stratum: concise-vs-padded] [source: 2026-07-v2.1 anthropic/claude-opus-5] [run
+    seats: gpt-5.5=100, grok-4.5=100 (disagreement 0)] PAIR H3b (padded, 1,727 chars): same
+    principle and the SAME sorrel example as the sol-pro anchor, expanded with amine chemistry
+    and seasonality. All sound; the pair detects a judge paying for (or punishing) the essay.'
+  expectedScore: 100
+  toleranceAbs: 10
+  answerText: '## The principle: acid balances fat
+
+
+    **Sensory balance.** Fat coats the mouth, giving a rich, cloying, lingering unctuousness.
+    Acidity does the opposite — it stimulates saliva, "cuts through" the coating, and refreshes
+    the palate between bites, so each mouthful of oily fish tastes as vivid as the first.
+    Sharp fruit like gooseberry and rhubarb adds tannic astringency too, which reinforces
+    this scouring effect. It''s a contrast pairing rather than a like-with-like one.
+
+
+    **Chemistry.** Oily fish develop trimethylamine and related volatile amines as they
+    age — the "fishy" smell. Amines are alkaline; acid protonates them into non-volatile
+    salts, so they stop reaching your nose. Lemon juice on sardines literally removes fishiness
+    rather than just masking it. Acid also brightens the perception of the oxidised, slightly
+    rancid notes that fish oils acquire quickly.
+
+
+    **Practical origin.** Because these fish spoil fast, cooks in the days before refrigeration
+    reached for whatever sharp thing was in season — and gooseberries and rhubarb happen
+    to ripen exactly when mackerel are at their best, so the pairing is seasonal as well
+    as logical. Hence the classic French *maquereau à la groseille*.
+
+
+    ## Another pairing on the same principle
+
+
+    **Salmon or eel with sorrel sauce** — sorrel''s oxalic acid provides the same lemony
+    sharpness while wilting into a velvety sauce.
+
+
+    Others in the same family: herring with pickled cucumber and soured cream; grilled sardines
+    with salsa verde or preserved lemon; smoked mackerel with horseradish and beetroot;
+    mackerel with tamarind or green mango in Southeast Asian cooking. The logic extends
+    beyond fish, too: pork belly with apple sauce, duck with sour cherries, foie gras with
+    Sauternes.'
+
+- questionId: flav-013
+  note: '[stratum: panel-split] [source: 2026-07-v2.1 google/gemini-3.1-pro-preview] [run
+    seats: claude-opus-4.8=100, gpt-5.5=20 (disagreement 80, flagged)] Contested: structure
+    is safety-aware (three cheeses tagged pregnancy-safe, Stilton marked skip-for-her) but
+    one "pregnancy-safe" tag sits on typically raw-milk Montgomery''s clothbound cheddar.
+    NHS (hard = fine) vs stricter raw-milk guidance splits the seats 100/20. Both defensible;
+    bounds only.'
+  expectedScore: 60
+  toleranceAbs: 40
+  answerText: "Congratulations on the baby news! Vintage Port is a spectacular treat. It\
+    \ is rich, sweet, and full of dark fruit and tannins, which means it needs bold, salty,\
+    \ and nutty cheeses to balance it. \n\nBecause your sister-in-law is pregnant, she should\
+    \ avoid soft, semi-soft, and blue-veined cheeses due to listeria risks. Fortunately,\
+    \ hard, aged cheeses are perfectly safe for her and happen to pair beautifully with\
+    \ Port. \n\nHere is a 4-cheese lineup where three are pregnancy-safe, plus the one absolute\
+    \ must-have for the rest of the group:\n\n**The Cheeses**\n1. **Traditional Blue (e.g.,\
+    \ Stilton or Roquefort):** *Skip for the mom-to-be.* Stilton and Vintage Port is the\
+    \ holy grail of food pairings. The salty, creamy pungency of the blue cheese perfectly\
+    \ cuts through the sweet, syrupy dark fruit of the Port. \n2. **Extra-Aged Gouda (e.g.,\
+    \ Beemster XO or Reypenaer):** *Pregnancy-safe.* Aged for 2+ years, this hard cheese\
+    \ develops crunchy protein crystals and deep caramel/butterscotch notes that harmonize\
+    \ beautifully with the chocolate and dark berry notes in the Port.\n3. **Aged Clothbound\
+    \ Cheddar (e.g., Montgomery's or Cabot Clothbound):** *Pregnancy-safe.* You want a crumbly,\
+    \ earthy, and sharp cheddar. The high salt content and savory bite provide a brilliant\
+    \ contrast to the wine’s sweetness.\n4. **Aged Sheep’s Milk Cheese (e.g., 12-month Manchego\
+    \ or Pecorino Romano):** *Pregnancy-safe.* The rich, nutty, slightly oily texture of\
+    \ a hard sheep's milk cheese softens the heavy tannins of a Vintage Port. \n\n**The\
+    \ Accompaniments**\nKeep these simple so they don't fight the complex wine:\n* **Dark\
+    \ Chocolate:** A few squares of high-quality 70%+ dark chocolate. Port and dark chocolate\
+    \ are a legendary match.\n* **Nuts:** Roasted walnuts (a classic Port pairing) and Marcona\
+    \ almonds.\n* **Fruit:** Fresh figs, blackberries, or dried cherries to echo the dark\
+    \ fruit notes in the wine. \n* **Crackers:** Stick to neutral vessels like plain water\
+    \ crackers, oatcakes, or a crusty baguette. Avoid heavily flavored or garlic/herb crackers,\
+    \ which will clash with the wine. \n\n*Tip: Take the cheeses out of the fridge an hour\
+    \ before serving, and remember to decant the Vintage Port to remove the sediment!*"
+
+- questionId: rgen-019
+  note: '[stratum: panel-split] [source: 2026-07-v2.1 anthropic/claude-opus-5] [run seats:
+    gpt-5.5=0, grok-4.5=65 (disagreement 65, flagged)] Contested: thoughtful dairy-safe
+    camping plan, but "cooking chorizo" and sliced salami are usually chilled products on
+    a no-refrigeration trip, and the night-1 stew is routed through the SMALL pan. One seat
+    stacked to 0, the other read majors (65).'
+  expectedScore: 35
+  toleranceAbs: 35
+  answerText: '## The plan
+
+    Easiest and safest move: **make the whole trip dairy-free**. No separate pans, no cross-contamination
+    worries, nobody accidentally buttering the wrong roll in the dark. Nothing here needs
+    a fridge either.
+
+
+    ---
+
+
+    ### Night 1 — Chorizo, chickpea & tomato stew with couscous
+
+    Big, salty, savoury — perfect after a long day.
+
+
+    **Method (one pan, one pot):**
+
+    1. Frying pan: dry-fry 200g diced chorizo until the red oil runs out. Add a chopped
+    onion and a pepper, fry 5 min.
+
+    2. Add a drained tin of chickpeas, a carton/tin of chopped tomatoes, 1 tsp smoked paprika,
+    a squeeze of tomato purée. Simmer 10–15 min while it thickens.
+
+    3. Swap to the pot: 300g couscous, 450ml boiling water, glug of olive oil, lid on, off
+    the heat, 5 min. Fluff with a fork.
+
+    4. Pile stew on couscous. Chilli flakes on top for whoever wants it.
+
+
+    *Tip:* fry the chorizo first, then the couscous water can boil in the pot while the
+    stew simmers if you can borrow a second burner — otherwise do couscous last, it needs
+    no flame beyond boiling water.
+
+
+    ---
+
+
+    ### Night 2 — Coconut peanut noodles with tuna (or salami)
+
+    Fat, carbs and protein, ready in about 12 minutes.
+
+
+    **Method:**
+
+    1. Frying pan: oil, fry a sliced onion and a handful of dried mushrooms or a pepper.
+    Add 2 tbsp red or Thai curry paste, fry 1 min.
+
+    2. Add a tin of coconut milk, 2 heaped tbsp peanut butter, splash of soy sauce, a sachet
+    of tinned tuna or 100g sliced salami. Simmer 5 min.
+
+    3. Pot: cook 3 nests of rice noodles (or use straight-to-wok pouches — no draining,
+    no water carried). Stir into the sauce.
+
+    4. Lime wedge and roasted peanuts over the top.
+
+
+    ---
+
+
+    ## Shopping list
+
+
+    **Night 1**
+
+    - 200g diced cooking chorizo
+
+    - 1 onion, 1 red pepper
+
+    - 1 tin chickpeas (or a pouch — lighter)
+
+    - 1 carton chopped tomatoes (cartons beat tins for weight)
+
+    - Small tube tomato purée
+
+    - 300g couscous
+
+
+    **Night 2**
+
+    - 1 tin full-fat coconut milk
+
+    - Small jar red Thai / Indian curry paste
+
+    - Small jar peanut butter (or 2 sachets)
+
+    - 1 onion, 1 pepper
+
+    - 2 tins/pouches tuna, or 100g salami
+
+    - 3 nests dried rice noodles, or 3 straight-to-wok pouches
+
+    - Bag of roasted peanuts, 1 lime
+
+
+    **Shared/extras**
+
+    - Olive oil in a small leakproof bottle
+
+    - Salt, pepper, smoked paprika, chilli flakes (film pots or a mini grinder)
+
+    - Soy sauce sachets
+
+    - Lunches/breakfast: bagels or crusty bread, peanut butter, jam, cured meat, oatcakes,
+    instant porridge sachets made with water, bananas, nuts, dried mango, flapjacks
+
+    - UHT oat milk carton for tea/coffee
+
+    - Dark chocolate for the evening
+
+
+    ---
+
+
+    ## Allergy watch-list
+
+    These are the ones that catch people out:
+
+    - **Curry paste** — some contain milk powder or shrimp paste; check the label.
+
+    - **Stock cubes / bouillon** — several contain lactose. Skip them or buy a checked brand.
+
+    - **Bread, bagels, flatbreads, naan** — very often milk powder in the dough. Check every
+    one.
+
+    - **Chorizo, salami** — usually fine, but "may contain milk" appears on some deli products.
+
+    - **Dark chocolate, flapjacks, cereal bars** — read for milk fat and "may contain" warnings.
+
+    - **Instant noodle blocks / packet sauces** — frequently contain milk solids. Plain
+    dried rice noodles are the safe bet.
+
+    - **Instant porridge sachets** — many are "just add milk" or contain milk powder.
+
+
+    Have Tommy read the labels himself if he''d rather, and make sure at least one of you
+    knows where his EpiPens are and how to use them. Two pens, not one, and don''t leave
+    them in a cold tent — keep them in a sleeping bag overnight.'
+
+- questionId: rgen-013
+  note: '[stratum: panel-split] [source: 2026-07-v2.1 x-ai/grok-4.5] [run seats: claude-opus-4.8=80,
+    gpt-5.5=0 (disagreement 80, flagged)] Contested protein arithmetic: menu structure is
+    excellent, but stated macros (52 g from 200 g raw sirloin, 46 g from ~350 g mackerel
+    flesh for two) sit at or under the 40-60 g floor depending on raw-vs-cooked yield assumptions.
+    Seats 80 vs 0 on the same numbers. Wide by necessity.'
+  expectedScore: 40
+  toleranceAbs: 40
+  answerText: "**Mon–Thu Dinner Menu (2 people, mid-June UK peak season)**  \nAnchor produce:\
+    \ British asparagus, podded broad beans/peas, new-season courgettes, radishes, watercress/samphire,\
+    \ soft herbs (parsley, mint, chives), gooseberries or early strawberries for acidity,\
+    \ Jersey Royals or similar new potatoes sparingly for texture.  \n\nProteins (4 distinct\
+    \ dense/rich sources):  \n- Mon: Beef (sirloin)  \n- Tue: Pork (loin chops)  \n- Wed:\
+    \ Lamb (leg steaks)  \n- Thu: Mackerel (oily fish, whole or fillets)  \n\nAll meals:\
+    \ 40–60 g protein/person, fibre-dense seasonal veg/legumes every plate, <30 min active\
+    \ cooking, perfect sear + acidity + texture contrast, Michelin-level plating.\n\n###\
+    \ Monday: Charred Sirloin, Asparagus & Broad Bean Salad, Parsley-Caper Salsa, Radish\
+    \  \n**Per person macros (approx):** 620 kcal | 52 g protein | 12 g fibre | 38 g fat\
+    \  \n\n**Ingredients (for 2)**  \n- 400 g beef sirloin (2 × 200 g steaks, trimmed) \
+    \ \n- 400 g British asparagus  \n- 300 g podded broad beans (or frozen British if needed)\
+    \  \n- 1 bunch radishes  \n- 25 g flat-leaf parsley  \n- 1 tbsp capers, 1 small shallot,\
+    \ 1 lemon, EVOO, Dijon, salt/pepper  \n\n**Step-by-step (22 min active)**  \n1. Season\
+    \ steaks generously with salt; leave at room temp 10 min while you prep.  \n2. Blanch\
+    \ broad beans 2 min, refresh, slip skins. Snap asparagus, toss in oil. Slice radishes\
+    \ paper-thin.  \n3. Make salsa: finely chop parsley + shallot + capers; dress with lemon\
+    \ zest/juice, 3 tbsp EVOO, ½ tsp Dijon.  \n4. Heat cast-iron screaming hot. Sear steaks\
+    \ 2 min first side without moving, flip 1½–2 min for medium-rare (internal ~52 °C).\
+    \ Rest 5 min on warm plate.  \n5. In same pan, char asparagus 2–3 min.  \n6. Plate:\
+    \ swoosh salsa, sliced steak fanned over, asparagus & broad beans piled high, radish\
+    \ for crunch, extra salsa, cracked pepper, lemon cheek.  \n\n**Chef’s Note on timings:**\
+    \ Sear only after everything else is prepped and resting plate is warm; residual pan\
+    \ heat finishes asparagus while steak rests—total active heat time <8 min.  \n**Michelin\
+    \ Trick:** After searing, baste steak 20 sec with foaming butter + thyme (optional)\
+    \ off-heat for gloss and nutty depth without overcooking.\n\n### Tuesday: Pan-Seared\
+    \ Pork Loin Chop, Crushed Minted Peas & Broad Beans, Courgette Ribbons, Lemon  \n**Per\
+    \ person macros (approx):** 580 kcal | 48 g protein | 11 g fibre | 32 g fat  \n\n**Ingredients\
+    \ (for 2)**  \n- 450 g pork loin chops (2 thick bone-in or boneless, ~225 g each)  \n\
+    - 300 g fresh peas + remaining broad beans from Mon  \n- 2 medium courgettes  \n- 15\
+    \ g mint + leftover parsley  \n- 1 lemon, EVOO, butter, chilli flakes, salt  \n\n**Step-by-step\
+    \ (25 min active)**  \n1. Score fat on chops, season hard with salt.  \n2. Ribbon courgettes\
+    \ with peeler; dress lightly with lemon + oil. Pod/blanch peas 1 min if fresh.  \n3.\
+    \ Hot pan + oil: render chop fat side 1 min, then sear 3–4 min per side to 60 °C internal.\
+    \ Rest.  \n4. Drop peas/beans into pan with knob of butter, mint, chilli, lemon juice;\
+    \ crush lightly with fork 1 min.  \n5. Plate: crushed peas as base, chop on top, courgette\
+    \ ribbons curled over, herb oil, lemon zest.  \n\n**Chef’s Note on timings:** Start\
+    \ chops first; while they sear and rest, the pea crush takes <3 min in the fond—use\
+    \ the rest window for final acid adjustment.  \n**Michelin Trick:** After flipping the\
+    \ chop, tilt pan and spoon foaming butter + mint stalks over the meat continuously for\
+    \ 30 sec—creates a lacquered crust and perfumes the fat.\n\n### Wednesday: Lamb Leg\
+    \ Steaks, Charred Spring Onion & Watercress, Gooseberry-Mustard Dressing, Radish  \n\
+    **Per person macros (approx):** 610 kcal | 51 g protein | 9 g fibre | 39 g fat  \n\n\
+    **Ingredients (for 2)**  \n- 420 g lamb leg steaks (2 × 210 g)  \n- 2 bunches spring\
+    \ onions or leftover asparagus  \n- 100 g watercress  \n- 100 g gooseberries (or early\
+    \ strawberries)  \n- Leftover parsley/mint, 1 tbsp wholegrain mustard, red wine vinegar,\
+    \ EVOO  \n\n**Step-by-step (20 min active)**  \n1. Season lamb; room temp 5 min. Halve\
+    \ gooseberries.  \n2. Blitz or muddle half the gooseberries with mustard, 1 tbsp vinegar,\
+    \ 3 tbsp oil, salt into sharp dressing.  \n3. Scorching pan: sear lamb 2–2½ min per\
+    \ side (medium-rare). Rest.  \n4. Same pan: char spring onions 2 min; wilt watercress\
+    \ off-heat 20 sec.  \n5. Plate: watercress & onions, sliced lamb, spoon dressing + fresh\
+    \ gooseberry halves, herbs, flaky salt.  \n\n**Chef’s Note on timings:** Dressing and\
+    \ garnish are done before the pan is hot; lamb rests while onions char—service in under\
+    \ 12 min from first contact with heat.  \n**Michelin Trick:** Add a teaspoon of cold\
+    \ butter to the resting lamb juices and swirl into the dressing for instant emulsion\
+    \ and silkiness that clings to the meat.\n\n### Thursday: Crisp-Skin Mackerel, Samphire\
+    \ & Pea Shoot Salad, Strawberry-Vinegar Gastrique, New Potato Shards  \n**Per person\
+    \ macros (approx):** 550 kcal | 46 g protein | 8 g fibre | 34 g fat  \n\n**Ingredients\
+    \ (for 2)**  \n- 500 g whole mackerel (2 fish, filleted and pin-boned by fishmonger\
+    \ or yourself → ~350–380 g flesh) or 400 g fillets  \n- 150 g samphire  \n- Leftover\
+    \ peas/shoots, watercress  \n- 100 g strawberries, splash red wine vinegar, 200 g Jersey\
+    \ Royals (boiled earlier or microwave), EVOO, lemon  \n\n**Step-by-step (25 min active)**\
+    \  \n1. Score mackerel skin, salt well. Boil/microwave potatoes, smash lightly, crisp\
+    \ in pan with oil 4 min; set aside.  \n2. Quick gastrique: strawberries + 1 tbsp vinegar\
+    \ + pinch salt reduced 2 min to syrup.  \n3. Very hot non-stick or carbon-steel: mackerel\
+    \ skin-side down 3 min until glass-crisp; flip 30 sec only.  \n4. Blanch samphire 30\
+    \ sec, toss with peas, shoots, lemon oil.  \n5. Plate: potato shards, samphire salad,\
+    \ mackerel skin-up, dots of gastrique, extra herbs.  \n\n**Chef’s Note on timings:**\
+    \ Potatoes can be pre-cooked; fish goes in last so skin stays shatter-crisp at the table—total\
+    \ active <15 min once prep is done.  \n**Michelin Trick:** Press the mackerel fillets\
+    \ firmly with a fish spatula for the first 30 seconds of cooking; this guarantees even\
+    \ contact and restaurant-level crackling skin without curling.\n\n### Consolidated Ocado\
+    \ Shopping List (minimal waste, exact protein-focused weights)\n**Protein (raw weights\
+    \ chosen to deliver 46–52 g protein/person after cooking loss)**  \n- Beef sirloin steaks:\
+    \ 400 g total  \n- Pork loin chops: 450 g total  \n- Lamb leg steaks: 420 g total  \n\
+    - Fresh whole mackerel: 500 g (or 400 g fillets)  \n\n**Produce (peak mid-June British)**\
+    \  \n- Asparagus: 400 g  \n- Broad beans (podded weight): 400 g (or 1 kg unpodded) \
+    \ \n- Fresh peas: 300 g  \n- Courgettes: 2 medium  \n- Radishes: 2 bunches  \n- Spring\
+    \ onions: 2 bunches  \n- Watercress: 100 g + pea shoots if available  \n- Samphire:\
+    \ 150 g  \n- Jersey Royals / new potatoes: 200 g  \n- Gooseberries: 100 g  \n- Strawberries:\
+    \ 100 g  \n- Lemons: 3  \n- Shallot: 1  \n- Flat-leaf parsley: 1 large bunch (used Mon\
+    \ + later)  \n- Mint: 1 bunch  \n- Chives (optional): 1 bunch  \n\n**Store-cupboard\
+    \ / fridge (small quantities)**  \n- Capers, Dijon & wholegrain mustard, red wine vinegar,\
+    \ EVOO, butter, chilli flakes, flaky salt, black pepper  \n\nAll herbs and citrus carry\
+    \ across days; broad beans/peas and radishes appear twice; leftover salsa components\
+    \ and pan fond are reused for continuity and zero waste.  \n\nMeals stay inside 40–60\
+    \ g protein, deliver fibre via legumes + green veg, and execute at genuine “effortless\
+    \ excellence” level. Enjoy the week."
+
+- questionId: rgen-017
+  note: '[stratum: panel-split] [source: 2026-07-v2.1 mistralai/mistral-large-2512] [run
+    seats: claude-opus-4.8=55, grok-4.5=100 (disagreement 45, flagged)] Contested taxonomy:
+    a coconut traybake for a "strictly nut-free" school. FDA classes coconut as a tree nut
+    and many US schools ban it; UK practice and allergology mostly do not. The answer flags
+    cross-contamination but asserts "coconut is a seed, not a nut". Seats 55/100.'
+  expectedScore: 75
+  toleranceAbs: 30
+  answerText: 'Here’s a **foolproof, nut-free, vegan, banana-free traybake** that’s easy,
+    kid-friendly, and holds up well in a hot classroom. It’s a **Lemon & Coconut Traybake**—bright,
+    moist, and allergy-safe (no nuts, dairy, eggs, or bananas).
+
+
+    ### **Lemon & Coconut Traybake**
+
+    *(Makes 16 squares, 23x33cm/9x13in tin)*
+
+
+    #### **Ingredients**
+
+    - **250g** plain flour (all-purpose)
+
+    - **150g** caster sugar (superfine sugar)
+
+    - **1 tsp** baking powder
+
+    - **½ tsp** bicarbonate of soda (baking soda)
+
+    - **½ tsp** salt
+
+    - **80ml** vegetable oil (or melted coconut oil)
+
+    - **240ml** oat milk (or any plant milk)
+
+    - **Zest of 2 lemons** (about 2 tbsp)
+
+    - **60ml** fresh lemon juice (about 2 lemons)
+
+    - **1 tsp** vanilla extract
+
+    - **50g** desiccated coconut (ensure nut-free brand)
+
+
+    #### **Lemon Glaze (optional but pretty)**
+
+    - **100g** icing sugar (powdered sugar)
+
+    - **2–3 tbsp** lemon juice
+
+
+    ---
+
+
+    ### **Method**
+
+    1. **Prep**: Preheat oven to **180°C/160°C fan/350°F**. Line a **23x33cm (9x13in) tin**
+    with parchment paper.
+
+    2. **Dry mix**: In a large bowl, whisk together flour, sugar, baking powder, bicarbonate
+    of soda, and salt.
+
+    3. **Wet mix**: In another bowl, mix oil, oat milk, lemon zest, lemon juice, and vanilla.
+
+    4. **Combine**: Pour wet into dry, stir until *just* combined (don’t overmix). Fold
+    in coconut.
+
+    5. **Bake**: Pour into tin, smooth top, and bake for **25–30 mins** until golden and
+    a toothpick comes out clean.
+
+    6. **Glaze (optional)**: Whisk icing sugar + lemon juice until smooth. Drizzle over
+    *cooled* cake. Let set 10 mins before cutting.
+
+
+    ---
+
+
+    ### **Why This Works**
+
+    ✅ **Vegan**: No eggs/dairy (oil + plant milk sub).
+
+    ✅ **Nut-free**: Coconut is a seed, not a nut (check packaging for cross-contamination
+    if severe allergies).
+
+    ✅ **Banana-free**: No risk for the allergic kid.
+
+    ✅ **Sturdy**: Dense enough to cut into squares, no fridge needed.
+
+    ✅ **Kid-approved**: Sweet, tangy, and slightly chewy from coconut.'
+
+- questionId: rgen-008
+  note: '[stratum: panel-split] [source: 2026-07-v2.1 qwen/qwen3.7-max] [run seats: claude-opus-4.8=95,
+    gpt-5.5=55 (disagreement 40, flagged)] Contested constraint reading: an otherwise fully
+    shelf-stable one-pot meal garnished with fresh avocados justified as "shelf-stable until
+    sliced". Whole avocados need no fridge before opening - and are still perishable produce.
+    Seats 95/55.'
+  expectedScore: 75
+  toleranceAbs: 25
+  answerText: "**One-Pot Tex-Mex Chicken & Black Bean Mac**\n\nThis meal is highly caloric,\
+    \ requires no draining (saving water and cleanup), and uses only ingredients that are\
+    \ completely shelf-stable until opened or cut.\n\n### Ingredients\n*   **8 oz** dry\
+    \ elbow macaroni (half a standard box)\n*   **2 cups** shelf-stable chicken broth (from\
+    \ a small carton)\n*   **1 can (15 oz)** diced tomatoes with green chilies (e.g., Rotel),\
+    \ *undrained*\n*   **1 tbsp** olive oil\n*   **1 packet (1 oz)** taco seasoning\n* \
+    \  **2 cans (10 oz each)** chunk chicken breast, *drained*\n*   **2 cans (15 oz each)**\
+    \ black beans, *drained and rinsed*\n*   **1 can (15 oz)** sweet corn, *drained*\n*\
+    \   **2 whole** ripe avocados (shelf-stable until sliced)\n*   *Optional:* Hot sauce\
+    \ or shelf-stable salsa for serving\n\n### Method\n1.  **Build the Base:** Place your\
+    \ single pot on the stove over medium-high heat. Add the chicken broth, undrained diced\
+    \ tomatoes, olive oil, and taco seasoning. Bring to a rolling boil.\n2.  **Cook the\
+    \ Pasta:** Stir in the dry macaroni. Reduce the heat to medium-low, cover the pot, and\
+    \ simmer for 8–10 minutes, stirring occasionally to prevent sticking, until the pasta\
+    \ is almost tender and has absorbed most of the liquid. \n3.  **Add the Proteins & Veggies:**\
+    \ Stir in the drained chicken, black beans, and corn. Simmer uncovered for 3–5 minutes,\
+    \ stirring frequently, until the mixture is heated through and the remaining liquid\
+    \ has reduced to a thick, starchy sauce. \n4.  **Serve:** Remove the pot from the heat.\
+    \ Slice the avocados and divide them among four bowls. Scoop the hot macaroni mixture\
+    \ over the avocados and top with hot sauce if desired. \n\n*Camp Cleanup Tip: Since\
+    \ there is no sink, drain your canned goods directly into a sealable trash bag or a\
+    \ designated camp gray-water bucket to keep your cooking area clean.*"
+
+- questionId: subs-020
+  note: '[stratum: panel-split] [source: 2026-07-v2.1 anthropic/claude-sonnet-5] [run seats:
+    gpt-5.5=15, grok-4.5=90 (disagreement 75, flagged)] Contested kosher stringency: suggests
+    optional anchovy/fish sauce ("if that''s acceptable to him") - many kosher observers
+    do not mix fish with meat - and offers grated cheese on the side "for everyone else"
+    at a meat meal. One seat read both as criticals (15), the other as minors on a transparently-hedged
+    answer (90).'
+  expectedScore: 50
+  toleranceAbs: 40
+  answerText: 'This is a lovely problem, and the good news is you can get very close to
+    Nonna''s flavor while working within kosher rules — though you should know upfront that
+    a strictly kosher meatball with dairy and meat together isn''t really possible, so this
+    will be a "kosher-style" adaptation, not certified kosher. If his father is observant
+    enough that this distinction matters, it''s worth being upfront that you''re doing your
+    best but it won''t be kitchen-kosher (separate utensils, kosher-certified meat, etc.)
+    — a little honesty here goes a long way and will likely be appreciated more than a perfect
+    facsimile.
+
+
+    Here''s how I''d adapt it:
+
+
+    **The meat**
+
+    Drop the pork entirely and go all beef, or beef with lamb worked in — a little lamb
+    mince mixed with beef actually mimics the fattiness and depth pork gave the original,
+    which straight beef alone sometimes lacks. An 80/20 beef or beef-lamb blend keeps the
+    meatballs from going dry.
+
+
+    **The parmesan problem**
+
+    This is the biggest flavor loss, since parmesan is doing a lot of umami and salty work.
+    Options, ideally combined:
+
+    - Nutritional yeast (a couple tablespoons) — sounds odd but adds real savory depth
+
+    - Extra garlic and a more generous hand with salt
+
+    - A spoonful of tomato paste worked into the mix for umami and richness
+
+    - Finely minced anchovy or a dash of fish sauce, if that''s acceptable to him (fish
+    isn''t meat under kosher dairy rules) — even a small amount adds huge savory backbone
+    without dairy or meat conflict
+
+    - Some cooks use a bit of extra egg and a touch more parsley/garlic to compensate for
+    lost moisture and flavor
+
+
+    **The milk-soaked bread**
+
+    Swap milk for a neutral stock (chicken-free, so beef or vegetable stock) or even just
+    water with a splash of olive oil. The bread''s job is moisture and lightness, and stock/water
+    does that fine without the dairy issue.
+
+
+    **The eggs, garlic, parsley** — no changes needed, they''re already fine.
+
+
+    **The sesame issue**
+
+    This one''s easier — sesame usually sneaks in through breadcrumbs (some brands), certain
+    oils, or if you''re doing a sauce/garnish with tahini or za''atar. Double-check your
+    bread and any packaged breadcrumbs for cross-contamination warnings, and avoid any finishing
+    oil or sprinkle that might contain sesame. The meatballs themselves are naturally sesame-free
+    if you make your own breadcrumbs from the day-old bread.
+
+
+    **Serving**
+
+    Keep the sauce dairy-free too (no butter finish, no cheese on top at the table for his
+    portion) and serve extra grated cheese on the side for everyone else so people can dress
+    their own plates.
+
+
+    The result won''t be identical to Nonna''s, but with the umami boosters and the beef-lamb
+    swap, it''ll taste close enough that the spirit of the dish comes through — and the
+    fact that you''re doing this thoughtfully for his family will probably matter more than
+    pixel-perfect accuracy anyway.'

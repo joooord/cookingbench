@@ -116,10 +116,36 @@
     required:
       - ['plain flour', 'all-purpose', 'all purpose']
       - ['baking powder']
-      - ['2 tsp', '2 teaspoon', 'two teaspoon', '4 tsp', '4 teaspoon']
+      # Group 2 is a quantity band expressed as strings, which is what a keyword
+      # grader can do and no more. The published list held five exact spellings
+      # and scored two right answers 66.7 in run 2026-07-v2.1:
+      #   gpt-5.4-mini    "2 level tsp baking powder"  — an intervening
+      #                   adjective, so '2 tsp' cannot match
+      #   gpt-5.6-terra-pro "2½–2⅔ tsp (about 10–11 g)" — a defensible
+      #                   quantity that simply was not enumerated
+      # Both are correct; roughly 2–4 tsp per 200 g plain flour is the whole
+      # published range (UK ~2 tsp/200 g, US ~1½ tsp/cup ≈ 2.4 tsp/200 g, and
+      # some references go to 4). The band below is that range plus the
+      # qualifiers cooks actually write, and the gram equivalents, since a
+      # grader that only knows one spelling of a right answer is testing
+      # phrasing rather than knowledge.
+      - ['2 tsp', '2 level tsp', '2 rounded tsp', '2 heaped tsp', '2 teaspoon',
+         'two teaspoon', 'two tsp', 'two level tsp',
+         '2½', '2 1/2 tsp', '2 1/2 teaspoon', '2.5 tsp', '2.5 teaspoon',
+         '2¾', '2 3/4 tsp',
+         '3 tsp', '3 level tsp', '3 teaspoon', 'three teaspoon', 'three tsp',
+         '4 tsp', '4 level tsp', '4 teaspoon', 'four teaspoon', 'four tsp',
+         '8 g', '9 g', '10 g', '11 g', '12 g']
   referenceAnswer: >
     Use 200 g plain flour plus about 2 teaspoons of baking powder (roughly
     2 tsp per 150–200 g flour); whisk to distribute.
+  # Right base, wrong raising agent (bicarb has no acid to react with here) and
+  # wrong dose. It clears group 0 on purpose: a failing answer that fell over at
+  # the first gate would leave groups 1 and 2 untested.
+  failingAnswer: >
+    Easy — stir 1 teaspoon of bicarbonate of soda into your 200 g of plain
+    flour. Self-raising flour is just flour with a raising agent in it, and
+    bicarb is the raising agent, so that gets you there.
 
 - id: subs-008
   category: substitutions
@@ -324,9 +350,23 @@
   grader:
     type: keyword
     required:
-      - ['not the same', 'not interchangeable', 'much stronger', '3 to 4 times',
-         'three to four times', '3-4 times', '4 times', 'four times', 'needs an acid',
-         'requires an acid', 'requires acid', 'without an acid', 'no acid']
+      # Group 0 asks for the refutation: soda and powder are not the same
+      # thing, because soda needs an acid the batter does not have.
+      #
+      # Run 2026-07-v2.1 scored gpt-5.4-mini and grok-4.5 50 here on answers
+      # that made exactly that argument. Both wrote "are **not** the same
+      # thing" — markdown emphasis inside the phrase, so 'not the same' cannot
+      # match across it — and both stated the acid point as "doesn't have
+      # enough acid" / "needs enough acid", a quantifier the old list did not
+      # anticipate. Hence 'enough acid', which matches either, plus the two
+      # answers' other distinctive formulations. Nothing here can be satisfied
+      # by an answer that accepts the swap: 'enough acid' is only reachable via
+      # a claim about how much acid the batter has, which is the whole point.
+      - ['not the same', 'not interchangeable', 'not a substitute', 'much stronger',
+         '3 to 4 times', 'three to four times', '3-4 times', '4 times', 'four times',
+         'needs an acid', 'requires an acid', 'requires acid', 'without an acid',
+         'no acid', 'enough acid', 'complete leavening', 'pure sodium bicarbonate',
+         'way too much']
       - ['cream of tartar', 'buttermilk', 'lemon juice', 'vinegar', 'yogurt',
          '1 teaspoon', '¾ teaspoon', '3/4 teaspoon', 'soapy', 'metallic', 'bitter']
   referenceAnswer: >
@@ -334,6 +374,10 @@
     and this batter has none. Three teaspoons of soda would taste soapy and
     metallic. Use ~1 tsp soda plus ~2 tsp cream of tartar (or swap the milk
     for buttermilk), or just use ¾–1 tsp soda with an added acid.
+  failingAnswer: >
+    Yes, that's fine — they do the same job, so 3 teaspoons of bicarb in place
+    of 3 teaspoons of baking powder will give you the same lift. Sift it
+    through the flour so it distributes evenly and bake as normal.
 
 - id: subs-019
   category: substitutions

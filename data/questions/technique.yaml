@@ -227,23 +227,51 @@
     I'm trying to get a deep brown sear on a steak but it stays grey. The pan
     is non-stick and I take the steak straight from the fridge. Diagnose every
     problem and tell me how to fix each.
+  # The published rubric required "crowding/low heat" among the diagnoses. The
+  # prompt describes one steak and never mentions crowding, and the reference
+  # answer below does not mention it either — so the rubric asked for a fault
+  # that is not in the scenario and that the item's own gold answer omits. In
+  # run 2026-07-v2.1 both seats duly deducted gemini-3.1-pro-preview for it
+  # ("does not mention crowding the pan", major), taking a sound answer to 75
+  # and helping make this item anti-correlated with ability.
+  #
+  # The second correction concerns tempering. The old rubric required "bring
+  # toward room temp"; grok-4.5 hit gpt-5.6-sol-pro and gpt-5.6-terra-pro with
+  # major findings for saying fridge-cold matters little. Both readings are
+  # defensible — the interior barely warms in the time cooks actually leave a
+  # steak out, while surface temperature and surface dryness are what govern
+  # browning — so the item now credits either, and only faults an answer that
+  # ignores the fridge-cold fact the prompt hands it.
   grader:
     type: llm-judge
     rubric:
       - name: Diagnosis accuracy
         description: >
-          5 = catches all three: surface moisture + cold meat preventing the
-          Maillard reaction, non-stick pans not getting/holding high enough heat,
-          and crowding/low heat. 1 = misses most.
+          5 = catches all three faults the prompt actually contains: surface
+          moisture boiling off before the surface can brown, the fridge-cold
+          start (whether treated as a real drag on surface temperature and
+          pan-heat recovery or argued down with reasoning), and the non-stick
+          pan, which is neither made to reach nor safe at searing heat. 1 =
+          misses most. Crowding, thin steaks and weak burners are legitimate
+          extras, not requirements — the prompt describes one steak.
         weight: 0.5
       - name: Fixes
         description: >
-          5 = pat dry (or dry-brine), bring toward room temp, use cast iron or
-          stainless ripping hot, enough fat, don't move it early. 1 = generic.
+          5 = pat bone-dry or dry-brine uncovered in the fridge, swap to cast
+          iron or stainless preheated hard, a high-smoke-point fat, and leave
+          the steak undisturbed until a crust forms. 1 = generic.
         weight: 0.3
       - name: Clarity
         description: 5 = maps each fix to each problem. 1 = unstructured.
         weight: 0.2
+  judgingNotes: >
+    The prompt gives two facts — non-stick pan, steak straight from the fridge —
+    and one symptom, grey rather than brown. Do not deduct for omitting problems
+    the prompt does not describe; crowding in particular is not in this
+    scenario. An answer that argues fridge-cold is a minor factor, and puts the
+    weight on surface dryness and pan choice, is engaging with the fact rather
+    than ignoring it: judge the reasoning, not the conclusion. Only an answer
+    that never addresses the cold start at all has omitted something.
   referenceAnswer: >
     Grey not brown = no Maillard. Surface water must boil off first, so pat the
     steak bone-dry (ideally dry-brine uncovered in the fridge) and take the chill
@@ -350,13 +378,32 @@
     type: keyword
     required:
       - ['burn', 'burns', 'burnt', 'scorch', 'bitter', 'acrid']
-      - ['onion first', 'onions first', 'onion before', 'onions before', 'start with the onion',
-         'start with onions', 'garlic last', 'garlic later', 'garlic near the end',
-         'final minute', 'last minute', '30 seconds', '60 seconds']
+      # The corrected order. claude-fable-5 scored 50 on this group in run
+      # 2026-07-v2.1 with a completely correct answer, because it expressed the
+      # order in the two ways the list did not cover: "add the garlic only in
+      # the last 1–2 minutes" (a window, not a round 30/60 seconds) and "garlic
+      # almost always goes in after onions" (markdown emphasis sat inside the
+      # phrase, so no contiguous match was possible). Timing windows and
+      # after-the-onions phrasings are added; every entry still asserts garlic
+      # goes in late, which is the judgement being tested.
+      - ['onion first', 'onions first', 'onion before', 'onions before',
+         'start with the onion', 'start with onions', 'start the onion',
+         'start the onions', 'onion, carrot', 'onions, carrot',
+         'after the onion', 'after onions', 'once the onions',
+         'garlic last', 'garlic later', 'garlic near the end', 'garlic at the end',
+         'garlic goes in', 'garlic in last', 'garlic only in the last',
+         'final minute', 'last minute', 'final 30', 'final 60',
+         'last 1', 'last 2 minutes', 'last two minutes', 'last couple of minutes',
+         'minute or two', '30 seconds', '60 seconds', '30-60 seconds']
   referenceAnswer: >
     Backwards: minced garlic burns and turns bitter in well under five
     minutes, while onions need the long, gentle sweat. Start the onions
     first; add garlic for the last 30–60 seconds before deglazing.
+  failingAnswer: >
+    Sounds about right. Density is a reasonable guide to cooking time, so give
+    the minced garlic its five minutes over medium-high to drive off moisture
+    and concentrate it, then add the onions on top and carry on. The garlic
+    will have laid down a good base by the time the onions soften.
 
 - id: tech-013
   category: technique
@@ -371,15 +418,31 @@
   grader:
     type: keyword
     required:
+      # The premise must be refuted: oil does not help the sauce cling. Two ways
+      # of doing that were missing and cost gpt-5.4-mini 50 in run 2026-07-v2.1
+      # on a correct answer. It answered the literal question with a quantity —
+      # "0 ml of olive oil per litre" — which is the most direct refutation
+      # available, and then said the oil makes sauce cling "**worse**", where
+      # the markdown emphasis broke the phrase apart. Quantity answers and
+      # worse/myth phrasings are added; a zero dose and "worse, not better" both
+      # entail rejecting the premise, so the gate has not been loosened.
       - ['prevent', 'prevents', 'stops the sauce', 'keeps the sauce', 'keeps sauce',
          'slides off', 'slide off', 'slick', "won't cling", 'harder for the sauce',
-         'opposite', 'repels']
+         'opposite', 'repels', 'cling worse', 'clings worse', 'cling less',
+         'worse, not better', 'makes it worse', 'not better', 'no benefit',
+         'myth', '0 ml', '0ml', 'zero oil', 'zero ml', 'no oil', 'none at all',
+         'skip the oil', 'omit the oil', 'leave the oil out']
       - ['salt', 'pasta water', 'starchy water', 'reserve']
   referenceAnswer: >
     The premise is reversed: oil in the water coats the noodles and makes
     sauce cling WORSE, not better. Skip the oil; salt the water well
     (~10 g/L), stir early to prevent sticking, and finish the pasta in the
     sauce with a splash of reserved starchy water for cling.
+  failingAnswer: >
+    A tablespoon per litre is about right for spaghetti — enough to coat the
+    strands lightly so they don't glue together in the pot and so the sauce
+    has something to grip. Add it once the water is at a rolling boil, and go
+    up to two tablespoons if you are cooking a big batch.
 
 - id: tech-014
   category: technique

@@ -153,13 +153,49 @@
       - type: keyword
         required:
           - ['protein']
+        # Bare 'egg' cost gemini-3.6-flash 30 points in run 2026-07-v2.1 on an
+        # answer both judges certified egg-free: it proposed a tofu scramble and
+        # described crumbling the tofu "to mimic scrambled egg curds", with kala
+        # namak for "a hint of savory egg-like flavour". Comparing a substitute
+        # to the thing it replaces is what a good egg-free answer does, so the
+        # term punished exactly the fluency it was meant to reward — CLAUDE.md's
+        # rule that forbidden terms cannot be words a correct answer must use.
+        #
+        # These are the forms that only occur when egg is an ingredient. An
+        # egg-free answer has no reason to write "3 egg whites"; it will write
+        # "egg-like", "instead of eggs", "scrambled egg texture", none of which
+        # match. 'scrambled eggs' is plural on purpose — gemini's "scrambled egg
+        # curds" is the simile, "scrambled eggs" is the dish.
         forbidden:
-          - 'egg'
-          - 'eggs'
+          - 'egg white'
+          - 'egg whites'
+          - 'egg yolk'
+          - 'egg yolks'
+          - 'whole egg'
+          - 'whole eggs'
+          - 'boiled egg'
+          - 'boiled eggs'
+          - 'poached egg'
+          - 'poached eggs'
+          - 'fried egg'
+          - 'fried eggs'
+          - 'scrambled eggs'
+          - 'liquid egg'
+          - 'omelette'
+          - 'omelet'
+          - 'frittata'
+          - 'shakshuka'
   referenceAnswer: >
     E.g. Greek yogurt bowl: 250 g Greek yogurt (~25 g protein), 25 g whey or pea
     protein stirred in (~20 g), 30 g granola (~3 g), berries — or a tofu scramble
     with cottage cheese on toast; itemized so the total clearly reaches ≥40 g.
+  # Uses eggs as an ingredient, in the two commonest forms, and still talks about
+  # protein — so it can only fail on the constraint the item exists to test.
+  failingAnswer: >
+    Three whole eggs scrambled in butter (~18 g protein) with two extra egg
+    whites folded through (~7 g), a slice of buttered sourdough (~5 g) and a
+    glass of milk (~8 g). That gets you to about 38–40 g of protein and takes
+    five minutes.
 
 - id: rgen-005
   category: recipe-generation
@@ -203,6 +239,14 @@
     Smoky chickpea–tomato stew over rice: sweat onion and garlic in olive oil,
     bloom cumin/paprika/chili, add tomatoes and chickpeas, simmer 15 min, season;
     meanwhile cook rice by absorption (1:1.5 rice:water). Nothing beyond the list.
+  # Smuggles in three things that are not on the list. It keeps the chickpeas
+  # and the rice so it clears both required groups, leaving the forbidden list
+  # as the only thing that can fail it.
+  failingAnswer: >
+    Chickpea and tomato pilaf. Sweat the onion and garlic in olive oil with a
+    knob of butter, add the cumin and paprika, then the tomatoes, the drained
+    chickpeas and 400 ml of chicken stock. Stir in the rice, simmer 18 minutes
+    covered, and finish with a squeeze of lemon and chopped parsley.
 
 - id: rgen-006
   category: recipe-generation
@@ -285,6 +329,16 @@
           - 'lamb'
           - 'bacon'
           - 'soy sauce'
+          # Singular on purpose. Forbidden terms match whole words, so this
+          # never fires on "breadcrumbs" — and it must not. Adding the plural
+          # was tried during the 2026-07-30 anti-correlation audit and zeroed
+          # claude-fable-5 and kimi-k3, both of which correctly specified
+          # "60 g gluten-free breadcrumbs (certified GF)" in the ingredient list
+          # and then wrote "combine breadcrumbs, parsley, lemon zest…" in the
+          # method. The X-free rule excuses the first mention and nothing
+          # excuses the second, which is how a correct recipe reads. Leave it
+          # singular: the judge, not this list, decides whether a crumb is
+          # gluten-free.
           - 'breadcrumb'
           - 'wheat flour'
           - 'all-purpose flour'
@@ -295,6 +349,15 @@
     saffron-tomato butter beans and charred fennel (GF, pescatarian, no
     coriander), full ingredients scaled for 6 with timings; dessert: flourless
     dark chocolate torte with raspberries. Tamari instead of soy sauce if needed.
+  # Breaks all three diets at once and then punts the coeliac, which is the
+  # failure mode the first rubric line names. Every violation is an ingredient
+  # the forbidden list can see.
+  failingAnswer: >
+    Starter: crab cakes bound with breadcrumbs and topped with fresh coriander.
+    Main: roast chicken thighs glazed with soy sauce and honey, with dauphinoise
+    and green beans — scaled for 6, roasted 40 minutes at 200°C. Dessert: lemon
+    posset with shortbread. The coeliac guest can skip the shortbread and just
+    have the posset.
 
 - id: rgen-008
   category: recipe-generation

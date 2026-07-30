@@ -195,22 +195,27 @@ export function blindingLexicon(
     else certain.add(token);
   };
 
+  // Multi-word names and full slugs identify a model on their own; a single
+  // token might be a word. So the phrase is forced certain and every bare token
+  // — tail, vendor prefix, leading word, family — is classified. `meta/llama`
+  // must not put a bare "llama" on the always-redact list.
+  const multiWord = (value: string): boolean => value.trim().split(/\s+/).length > 1;
+
   for (const m of models) {
-    // The full slug and its tail are unambiguous whatever they contain.
-    add(m.id, true);
+    add(m.id, m.id.includes('/'));
     const tail = m.id.includes('/') ? m.id.slice(m.id.indexOf('/') + 1) : '';
-    if (tail) add(tail, true);
+    if (tail) add(tail);
     const vendorPrefix = m.id.includes('/') ? m.id.slice(0, m.id.indexOf('/')) : '';
     add(vendorPrefix);
 
     if (m.displayName) {
-      // Phrase first (certain), then only the leading word, which is the part
-      // that identifies a family. Trailing size/tier words never enter.
-      add(m.displayName, true);
+      // Phrase first, then only the leading word, which is the part that
+      // identifies a family. Trailing size/tier words never enter.
+      add(m.displayName, multiWord(m.displayName));
       add(m.displayName.split(/\s+/)[0]);
     }
     if (m.provider) {
-      add(m.provider, m.provider.trim().split(/\s+/).length > 1);
+      add(m.provider, multiWord(m.provider));
       add(m.provider.split(/\s+/)[0]);
     }
     if (m.family) {
@@ -278,14 +283,17 @@ export function anonymizeAnswer(text: string, lexicon: BlindingLexicon = STATIC_
     ];
     for (const frame of frames) out = out.replace(frame, REDACTION);
 
-    // 2. A trailing sign-off line: "— Claude", "Best, ChatGPT", "-Gemini".
-    //    Position is what makes an ambiguous token identifying here, so this is
-    //    anchored to the end of the text rather than applied line by line.
+    // 2. A trailing sign-off: "— Claude", "Best, ChatGPT", "-Gemini".
+    //    POSITION is what makes an ambiguous token identifying here, so this is
+    //    anchored to the end of the text. The separator (a line break or a dash)
+    //    is required and preserved: without it, an answer that simply ends on
+    //    the word "mistral" would be edited, and M2.5 forbids touching the
+    //    candidate's culinary text.
     const signOff = new RegExp(
-      `(?:\\r?\\n)\\s*(?:[-—–*_~]{0,3}\\s*)?(?:best(?: regards)?|regards|sincerely|cheers|yours(?: truly)?|from)?[,:]?\\s*(?:${alternation})\\s*[.!]?\\s*$`,
+      `(\\r?\\n|[—–]|\\s-\\s)\\s*(?:[-—–*_~]{0,3}\\s*)?(?:best(?: regards)?|regards|sincerely|cheers|yours(?: truly)?|from)?[,:]?\\s*(?:${alternation})\\s*[.!]?\\s*$`,
       'i',
     );
-    out = out.replace(signOff, `\n${REDACTION}`);
+    out = out.replace(signOff, `$1${REDACTION}`);
   }
 
   // 3. Certain tokens, wherever they appear.
@@ -871,6 +879,14 @@ export function parsePairwiseBallot(
     const answer = tag.answer as CriticalTag['answer'];
     if (answer !== 'A' && answer !== 'B' && answer !== 'both') {
       throw new Error(`Judge tagged a critical failure to "${String(tag.answer)}" on ${question.id}`);
+    }
+    // A safety claim citing a criterion the item does not have cannot be
+    // adjudicated against anything, and would sit in the escalation queue
+    // pointing at nothing.
+    if (tag.criterionId !== undefined && !expected.has(tag.criterionId)) {
+      throw new Error(
+        `Judge cited unknown criterion "${tag.criterionId}" in a critical failure on ${question.id}`,
+      );
     }
     return {
       answer,
@@ -1563,6 +1579,9 @@ export interface LeaveOneOutResult {
 }
 
 export interface PairwiseAggregate {
+  /** M2.1: "Every automated result records the route used". */
+  route: 'pairwise';
+  promptVersion: string;
   /**
    * M2.5's transparent primary: unweighted majority over rater units. No
    * severity weighting, no confidence weighting, no judge weighting.
@@ -1744,6 +1763,8 @@ export function aggregatePairwise(
   }
 
   return {
+    route: 'pairwise',
+    promptVersion: JUDGE_PROMPT_VERSIONS.pairwise,
     primary: {
       method: 'unweighted-majority',
       outcome: full.outcome,
@@ -1792,6 +1813,9 @@ export function leaveOneFamilyOutPairwise(units: readonly RaterUnit[]): LeaveOne
 }
 
 export interface DimensionAggregate {
+  /** M2.1: "Every automated result records the route used". */
+  route: 'dimension';
+  promptVersion: string;
   primary: {
     method: 'unweighted-majority';
     dimensions: Array<{
@@ -1950,6 +1974,8 @@ export function aggregateDimension(
   });
 
   return {
+    route: 'dimension',
+    promptVersion: JUDGE_PROMPT_VERSIONS.dimension,
     primary: { method: 'unweighted-majority', dimensions, criteria },
     ballots: entries.map((e) => ({ ...e })),
     minConfidence,

@@ -377,31 +377,141 @@
     she genuinely cannot handle ANY heat at all, like zero chilli, gets
     actual stomach pain. He still wants the seasoning to taste big and
     Mexican, not bland. What blend should I make?
+  # Was a pure keyword item and was the worst grader in the dataset: mean 33.3,
+  # sd 45.4, discrimination −9.5, nine of fourteen models zeroed in run
+  # 2026-07-v2.1 — including the best answer in the set. Three separate
+  # authoring faults, two of them fatal to the keyword approach:
+  #
+  # 1. 'habanero' was forbidden and appears in the PROMPT. The user's own
+  #    habanero blend is part of the scenario, so the correct answer — keep
+  #    your blend, serve it separately, don't share the grinder, trace
+  #    capsaicin is enough to hurt her — names it by necessity. It zeroed
+  #    fable-5, opus-5, sonnet-5, gemini-3.6-flash, sol-pro and terra-pro.
+  # 2. 'hot sauce' was forbidden. Putting hot sauce on the table for the other
+  #    guests is correct hospitality; the constraint is on the blend.
+  # 3. The paprika group forced a capsicum into the answer, so deepseek-v4-pro
+  #    scored 66.7 for the MOST cautious blend in the run — annatto, smoked
+  #    salt and tomato for colour and smoke, no capsicum at all — which is the
+  #    right call for someone who reacts to the fruit and not just the heat.
+  #
+  # The deeper problem is that 'cayenne' and 'chili powder' cannot be forbidden
+  # terms here at all. A correct answer must be able to say "supermarket chili
+  # powder almost always contains cayenne — buy single spices and mix them
+  # yourself", and kimi-k3's version of that warning ("some blends sneak in
+  # cayenne") carries no negation cue whatsoever, so no matcher improvement can
+  # rescue it. Recommending an ingredient and warning against it are the same
+  # string. That is the case CLAUDE.md names for moving an item to llm-judge.
+  #
+  # What stays deterministic is what keywords can actually decide: the positive
+  # ingredients, and a recipe line that puts a quantity in front of a chilli,
+  # which is only ever a use and never a warning.
   grader:
-    type: keyword
-    required:
-      - ['cumin']
-      - ['oregano', 'coriander', 'garlic', 'onion powder', 'lime', 'cocoa', 'annatto',
-         'cinnamon']
-      - ['smoked paprika', 'sweet paprika', 'mild paprika']
-    forbidden:
-      - 'cayenne'
-      - 'habanero'
-      - 'jalapeño'
-      - 'jalapeno'
-      - 'chipotle'
-      - 'chilli flakes'
-      - 'chili flakes'
-      - 'chilli powder'
-      - 'chili powder'
-      - 'hot sauce'
-      - 'red pepper flakes'
+    type: llm-judge
+    rubric:
+      - name: Heat constraint
+        description: >
+          5 = the blend carries no capsaicin at all, and the answer knows the
+          difference between capsicum and capsaicin — sweet or smoked paprika
+          used and flagged as capsaicin-free, or dropped entirely for a guest
+          who may react to the fruit. 1 = chilli heat in the blend, including
+          heat smuggled in as "mild", "just a pinch" or supermarket chili
+          powder.
+        weight: 0.45
+      - name: Flavour construction
+        description: >
+          5 = real Mexican depth without heat: toasted cumin and coriander,
+          Mexican oregano, garlic and onion powder, annatto/achiote or tomato
+          for colour, cocoa or cinnamon for roundness, smoke from smoked
+          paprika or smoked salt, lime to finish, and blooming the blend in
+          fat. 1 = a thin list, or "just leave the chilli out".
+        weight: 0.35
+      - name: Guest safety and the rest of the table
+        description: >
+          5 = keeps her exposure at zero and still feeds everyone else — warns
+          that shop-bought taco packets and "chili powder" contain chilli, and
+          serves the heat separately (shaker, side bowl, separate spoon, no
+          shared grinder or pan). 1 = ignores cross-contamination, or makes one
+          compromise blend for the whole table.
+        weight: 0.2
+    # The distinction the keyword grader could not draw, stated for the judge so
+    # it does not re-import the same fault.
+    constraintChecks:
+      - type: keyword
+        required:
+          - ['cumin']
+          - ['oregano', 'coriander', 'garlic', 'onion powder', 'lime', 'cocoa',
+             'annatto', 'achiote', 'cinnamon', 'allspice']
+          # Colour and smoke without capsaicin. A fully capsicum-free build is a
+          # better answer than a paprika one, not a worse one, so its
+          # ingredients belong in the same group.
+          - ['smoked paprika', 'sweet paprika', 'mild paprika', 'pimentón dulce',
+             'annatto', 'achiote', 'tomato powder', 'smoked salt', 'liquid smoke',
+             'dried mushroom', 'porcini']
+        # A quantity immediately before a chilli is a recipe line. No warning is
+        # ever written "1 tsp cayenne", so these catch a blatant violation
+        # without punishing the answer that names cayenne to rule it out. This
+        # is a backstop, not the constraint: the judge owns the constraint,
+        # because an ingredient list can be laid out in ways this cannot see.
+        forbidden:
+          - 'tsp cayenne'
+          - 'tsp of cayenne'
+          - 'teaspoon cayenne'
+          - 'teaspoons cayenne'
+          - 'tbsp cayenne'
+          - 'tablespoon cayenne'
+          - 'tablespoons cayenne'
+          - 'tsp chilli powder'
+          - 'tsp chili powder'
+          - 'tbsp chilli powder'
+          - 'tbsp chili powder'
+          - 'teaspoon chilli powder'
+          - 'teaspoon chili powder'
+          - 'teaspoons chilli powder'
+          - 'teaspoons chili powder'
+          - 'tablespoon chilli powder'
+          - 'tablespoon chili powder'
+          - 'tablespoons chilli powder'
+          - 'tablespoons chili powder'
+          - 'tsp chipotle'
+          - 'tbsp chipotle'
+          - 'teaspoon chipotle'
+          - 'tablespoon chipotle'
+          - 'tsp chilli flakes'
+          - 'tsp chili flakes'
+          - 'tsp red pepper flakes'
+          - 'tbsp chilli flakes'
+          - 'tbsp chili flakes'
+          - 'tbsp red pepper flakes'
+          - 'tsp hot paprika'
+          - 'tsp habanero'
+          - 'tbsp habanero'
+  judgingNotes: >
+    Naming cayenne, chipotle, habanero or shop-bought "chili powder" in order
+    to warn the cook away from them is correct and must never be scored as
+    using them — only an ingredient given a quantity in the blend counts as
+    used. The user's own habanero blend is in the prompt; advising that it be
+    kept, made separately and served on the side, with no shared grinder or
+    pan, is the right answer and not a constraint violation. Sweet and smoked
+    paprika are capsicum-derived but essentially capsaicin-free, so using them
+    is defensible; so is avoiding all capsicum for a guest who may react to the
+    fruit rather than the heat. Do not require both readings.
   referenceAnswer: >
     Build depth without capsaicin: cumin, smoked sweet paprika (capsaicin-
     free), Mexican oregano, garlic and onion powder, ground coriander, a
     pinch of cinnamon or cocoa for roundness, salt, and finish with lime
     zest. All chilli-derived heat (cayenne, chipotle, flakes, hot sauce)
-    stays out.
+    stays out. Make your habanero blend separately for everyone else and keep
+    it off her spoon — trace capsaicin is enough.
+  # Deliberately built to satisfy every required group — cumin, garlic powder,
+  # oregano, smoked paprika are all there — so the only thing standing between
+  # it and 100 is the quantity-anchored forbidden list. If that list is ever
+  # weakened this answer jumps to 100 and `bench validate` blocks the commit,
+  # which is the alarm this pairing exists to raise.
+  failingAnswer: >
+    Keep it simple: 2 tbsp ground cumin, 1 tbsp garlic powder, 1 tbsp onion
+    powder, 1 tbsp dried oregano, 2 tsp chilli powder, 1 tsp cayenne, 1 tsp
+    hot smoked paprika and salt. That is gentle enough that nobody will really
+    notice, and a little heat is what makes it taste Mexican.
 
 - id: flav-015
   category: flavor-pairing

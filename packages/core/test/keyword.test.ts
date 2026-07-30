@@ -233,3 +233,198 @@ describe('negation following the term', () => {
     expect(gradeKeyword(spec, 'Add a good pinch of cayenne for warmth.').score).toBe(0);
   });
 });
+
+/**
+ * flav-014, run 2026-07-v2.1: "Last time half of us were crying from my
+ * habanero blend … his new girlfriend genuinely cannot handle ANY heat."
+ * `habanero` was forbidden while appearing in the prompt, so the correct answer
+ * had to name it. Nine of fourteen models scored 0 and every flagged phrase was
+ * good advice. The item's discrimination was -9.5: it ranked the better answers
+ * lower, and it had the second-widest spread on the board, so it was moving the
+ * leaderboard while measuring nothing.
+ *
+ * What made the defect invisible is that it was INCONSISTENT rather than
+ * strict. On the same item "Skip: chilli powder, cayenne, chipotle, habanero"
+ * (gpt-5.4-mini) and "without any chilli powder, cayenne" (grok-4.5) both
+ * scored 100 — list-style exclusions were read, everything else was not.
+ *
+ * Every string below is verbatim from a stored response in that run. The
+ * llama-4-maverick line is the control: it is a genuine fault and must stay 0,
+ * or these fixtures prove only that the grader has stopped grading.
+ */
+describe('flav-014 regression: correct advice that names the banned term', () => {
+  const FORBIDDEN = [
+    'cayenne',
+    'habanero',
+    'jalapeño',
+    'jalapeno',
+    'chipotle',
+    'chilli flakes',
+    'chili flakes',
+    'chilli powder',
+    'chili powder',
+    'hot sauce',
+    'red pepper flakes',
+  ];
+  const spec: GraderSpec = { type: 'keyword', forbidden: FORBIDDEN };
+  const score = (answer: string) => gradeKeyword(spec, answer).score;
+
+  it('(d) credits cross-contamination advice about equipment — gpt-5.6-sol-pro', () => {
+    expect(
+      score(
+        'If her issue is specifically chilli/capsaicin, check every packet for chilli or vague ' +
+          '“spices,” and **don’t use the grinder, jar, spoon, or board that handled your habanero mix**.',
+      ),
+    ).toBe(100);
+  });
+
+  it('(b) credits a hidden-ingredient warning about a third product — claude-opus-5', () => {
+    expect(
+      score(
+        'Also note that supermarket "chili powder" and most taco seasoning packets *do* contain ' +
+          "ground chilli — don't shortcut with those.",
+      ),
+    ).toBe(100);
+  });
+
+  it('(a) credits the asker\'s own blend put out on the side — claude-sonnet-5', () => {
+    expect(
+      score(
+        'Consider making this mild batch as the base for everyone, then put your habanero blend ' +
+          'on the side as a "for the brave" shaker.',
+      ),
+    ).toBe(100);
+  });
+
+  it('(a) credits the asker\'s own blend made separately — claude-fable-5', () => {
+    // Two forbidden terms in one sentence; `hot sauce` sits 68 characters
+    // downstream of the `your` that governs the list, which is why the
+    // possessive check is sentence-scoped rather than adjacent.
+    expect(
+      score(
+        'Make your habanero blend separately as a finishing sprinkle, or just put hot sauce/' +
+          'sliced habaneros on the table.',
+      ),
+    ).toBe(100);
+  });
+
+  it('(a) credits a reference to what the asker used to use — kimi-k3', () => {
+    expect(
+      score(
+        'The smoked paprika is doing the heavy lifting your habanero used to do — it gives that ' +
+          '"big" flavour without any burn.',
+      ),
+    ).toBe(100);
+  });
+
+  it('(c) credits an exclusion list introduced by a bolded label — gpt-5.6-terra-pro', () => {
+    expect(
+      score(
+        '**Important:** leave out all chilli powders—including cayenne, chipotle, ancho, chilli ' +
+          'flakes, and, to be safest for her, **paprika too**.',
+      ),
+    ).toBe(100);
+  });
+
+  it('credits an eliminate-these parenthetical — gemini-3.6-flash', () => {
+    expect(
+      score(
+        'You need to completely eliminate capsaicin (chili powder, cayenne, flake peppers) and ' +
+          'rely on earthy, savory and aromatic spices for depth.',
+      ),
+    ).toBe(100);
+  });
+
+  it('(b) credits a hedged containment warning too far from its "do not" — qwen3.7-max', () => {
+    // The governing "Do not" is 91 characters upstream, outside the lookback
+    // window. Widening that window far enough to reach it would let a negation
+    // about something else excuse a real use, so the containment hedge carries
+    // this one instead.
+    expect(
+      score(
+        '**Crucial rule:** Do not use standard store-bought "chili powder," as it is a blend ' +
+          'that almost always contains cayenne pepper.',
+      ),
+    ).toBe(100);
+  });
+
+  it('CONTROL: still zeroes a recipe line that puts chilli powder in the blend — llama-4-maverick', () => {
+    const result = gradeKeyword(
+      spec,
+      "Here's a suggested blend: * 2 tablespoons chili powder (made from mild chilies or ancho " +
+        'chilies) * 1 tablespoon ground cumin',
+    );
+    expect(result.score).toBe(0);
+    expect(result.detail.forbiddenHits).toEqual(['chili powder']);
+  });
+});
+
+/**
+ * The loosenings above are conjunctions on purpose. Each test here removes one
+ * conjunct from a phrasing that flav-014 needs and asserts the answer still
+ * zeroes — otherwise the fix would have quietly disarmed the allergen items,
+ * which are the whole reason `forbidden` zeroes instead of deducting.
+ */
+describe('referential negation must not disarm allergen constraints', () => {
+  const peanut: GraderSpec = { type: 'keyword', forbidden: ['peanut'] };
+
+  it('a possessive alone does not excuse a prescription', () => {
+    expect(gradeKeyword(peanut, 'Spread your peanut butter on the crackers.').score).toBe(0);
+    expect(gradeKeyword(peanut, 'Use your usual peanut butter here.').score).toBe(0);
+  });
+
+  it('a segregation word alone does not excuse a prescription', () => {
+    expect(gradeKeyword(peanut, 'Serve the peanut sauce separately.').score).toBe(0);
+    expect(gradeKeyword(peanut, '**Toppings:** put out a bowl of peanut sauce.').score).toBe(0);
+  });
+
+  it('saying where the ingredient goes overrides both cues', () => {
+    // Possessive + "separately" in the same sentence, but the sentence also
+    // says the peanut butter goes into the dish. The incorporation veto is what
+    // stops the referential rule reading a coordinated clause as segregation.
+    expect(
+      gradeKeyword(peanut, 'Stir your peanut butter into the sauce and serve the rice separately.')
+        .score,
+    ).toBe(0);
+    expect(
+      gradeKeyword(
+        peanut,
+        'Whisk your peanut sauce through the noodles, then plate everything separately.',
+      ).score,
+    ).toBe(0);
+  });
+
+  it('an unhedged containment claim is a recipe description, not a warning', () => {
+    expect(gradeKeyword(peanut, 'The blend contains peanut flour.').score).toBe(0);
+    expect(gradeKeyword(peanut, 'Most supermarket satay blends contain peanut.').score).toBe(100);
+  });
+
+  it('a hyphenated "no-" compound no longer excuses an unrelated term', () => {
+    // `\bno\b` used to match inside "no-knead"/"no-churn", so any answer that
+    // mentioned one could then use an allergen in the same sentence.
+    expect(
+      gradeKeyword(peanut, '**No-knead dough:** brush with your peanut oil before baking.').score,
+    ).toBe(0);
+    expect(gradeKeyword(peanut, 'A no-churn ice cream base with peanut butter swirled in.').score).toBe(0);
+    // …while a "no-<term>" compound still negates the term it is bound to.
+    expect(gradeKeyword(peanut, 'Serve a no-peanut version for the whole table.').score).toBe(100);
+  });
+
+  it('an exclusion heading only scopes until the next label', () => {
+    const spec: GraderSpec = { type: 'keyword', forbidden: ['cayenne'] };
+    expect(gradeKeyword(spec, '**Leave out:** cayenne, chipotle, ancho.').score).toBe(100);
+    // A nearer, non-exclusion label breaks the scope — fail closed.
+    expect(
+      gradeKeyword(spec, '**Leave out these:** paprika notes. **To finish:** a pinch of cayenne.')
+        .score,
+    ).toBe(0);
+  });
+
+  it('the previously protected cases are untouched', () => {
+    expect(gradeKeyword(peanut, 'Feel free to add peanut butter to the sauce.').score).toBe(0);
+    expect(gradeKeyword(peanut, 'This sauce is dairy-free and uses peanut butter.').score).toBe(0);
+    expect(gradeKeyword(peanut, 'Use gluten-free soy sauce and 2 tbsp peanut oil.').score).toBe(0);
+    const egg: GraderSpec = { type: 'keyword', forbidden: ['egg'] };
+    expect(gradeKeyword(egg, 'Separate your egg whites and whip them to soft peaks.').score).toBe(0);
+  });
+});

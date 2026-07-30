@@ -102,3 +102,87 @@ the item must declare one via `dimensionCeiling` on the finding; `applyCaps`
 throws rather than defaulting.
 
 Tests: `packages/core/test/graders-v3.test.ts` (67).
+
+## packages/runner/src/judge.ts — M2.1 grading modes and the M2.5 jury
+
+Nothing existing changes shape. `judgeAnswerPanel`, `judgeAnswer`, `panelSeats`,
+`identityIndex`, `buildJudgeMessages`, `parseJudgeResponse` and
+`JUDGE_PROMPT_VERSION` keep their signatures, so `cli.ts` and `calibration.ts`
+compile and behave as before. Two behavioural changes to know about:
+
+1. **The v2 route now refuses a v3 item.** `buildJudgeMessages`,
+   `parseJudgeResponse` and `judgeAnswerPanel` throw when the item declares
+   `judgeMode: dimension | pairwise`. `cmdJudge` already catches per-answer
+   errors and leaves the row `judgePending`, so an unwired v3 item shows up as
+   an unjudged row rather than as a silently downgraded score. Wire the v3
+   routes before authoring v3 items into a paid run.
+2. **Prompts are now blind-checked at build time.** `buildJudgeMessages` calls
+   `assertPromptBlind`, which throws if the assembled prompt names a vendor or
+   model outright. Today's 184 items pass (there is a standing test); a new item
+   whose reference answer says "unlike Gemini 3.1…" will fail at judging.
+
+### What the CLI should call
+
+Pass the roster-derived lexicon everywhere, so blinding covers the live roster
+and not just the static vendor list:
+
+```ts
+const lexicon = blindingLexicon(loadModels());          // optional last arg on
+judgeAnswerPanel(client, panel, modelId, q, text, identify, spend, lexicon);
+judgeAnswer(client, judgeModel, q, text, spend, lexicon);
+```
+
+The v3 flow is three steps, and the middle one is the preregistration:
+
+```ts
+const identify = identityIndex(loadModels());
+const pool: JuryPool = { version: 'pool-2026-07', seats: [...] };   // versioned
+assertPoolAdmissible(pool, identify);          // ≥5 distinct families, or throw
+
+const design = buildJuryDesign({ pool, comparisons, identify, seed: runId });
+// persist design.assignments + design.balance into the run directory BEFORE any
+// paid judging: a balanced incomplete-block assignment that is only computed at
+// spend time is not preregistered. `design.balance.balanced` must be true and
+// `design.balance.routedToHuman` is the adjudication queue.
+
+const seating = juryFor(design, key);          // { ok: false, routeTo: 'human' }
+if (!seating.ok) { /* queue for M2.6 adjudication — never seat two */ }
+else if (mode === 'dimension') {
+  await judgeDimensionAnswer(client, seating, question, answerText,
+    { spend, lexicon, thresholds });
+} else {
+  await judgePairwiseComparison(client, seating, question,
+    { modelId: a, answerText: aText }, { modelId: b, answerText: bText },
+    { spend, lexicon, thresholds });
+}
+```
+
+Suggested commands (this module deliberately adds none):
+
+- `pnpm bench jury-design --run <id> --pool-version <v> [--seed <s>]` →
+  `buildJuryDesign(...)`, writes `jury-design.json` + the balance report.
+- `pnpm bench judge --run <id>` → unchanged for fault items; for v3 items reads
+  `jury-design.json` and calls `judgeDimensionAnswer` /
+  `judgePairwiseComparison` as above.
+
+### What the artifacts must retain
+
+M2.5 asks for criterion decisions, evidence, individual verdicts, confidence and
+vote entropy — not the mean. Both aggregates return all of it; persist the whole
+object, including `escalations` (M2.6's queue), `leaveOneFamilyOut` (M2.8's
+sensitivity) and `thresholds` (the provisional policy numbers the run used).
+Record `JUDGE_PROMPT_VERSIONS[mode]`, not the single `JUDGE_PROMPT_VERSION`
+constant: a ballot is only comparable within its own mode's version.
+
+`applySeverityCorrection` exists but throws unless it is declared
+`appliedAs: 'sensitivity'` and `learnedOn: 'development'`. There is no code path
+that makes a severity-weighted number the primary; do not add one.
+
+### Known limitation, for whoever picks this up
+
+`data/models.yaml`'s `family` is a **marketing tier** (`claude-frontier`,
+`gpt-mid`), not a base-model identity. Seating, `judgeFamilyGroups` and the
+balanced design all treat it as one, so cross-provider rebadge detection is
+correct in code and unexercised on the real roster — the tests cover it with
+synthetic rosters. A real registry of base-model identities is the proper fix
+and belongs with the model registry, not here.
