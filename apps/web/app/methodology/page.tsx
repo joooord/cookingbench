@@ -1,5 +1,13 @@
 import { CATEGORIES, CATEGORY_IDS } from '@cookingbench/core';
-import { getAnalysis, getLatestReport, getTiedRanks, getQuestions } from '@/lib/data';
+import {
+  getAnalysis,
+  getLatestReport,
+  getModelNames,
+  getRunConfig,
+  getRunCost,
+  getStandings,
+  getQuestions,
+} from '@/lib/data';
 import { CATEGORY_COLORS } from '@/lib/format';
 
 export const revalidate = 3600;
@@ -7,7 +15,7 @@ export const revalidate = 3600;
 export const metadata = {
   title: 'Methodology',
   description:
-    'How CookingBench grades AI models: deterministic graders for facts and numbers, a double-judged LLM rubric for technique and recipes, all reproducible from the open dataset.',
+    'How CookingBench grades AI models: deterministic graders for facts and numbers, a calibrated two-seat LLM judge panel for technique and recipes, all reproducible from the open dataset.',
 };
 
 export default function MethodologyPage() {
@@ -21,16 +29,28 @@ export default function MethodologyPage() {
   const report = getLatestReport();
   const analysis = report ? getAnalysis(report.runId) : null;
   const activePairs = analysis?.separation?.filter((p) => p.scope === 'active') ?? [];
-  const ranks = report ? getTiedRanks(report.runId) : null;
+  const standings = report ? getStandings(report) : null;
   const separation =
     report && activePairs.length > 0
       ? {
           runId: report.runId,
           separated: activePairs.filter((p) => p.separated).length,
           total: activePairs.length,
-          tiedFirst: report.rows.filter((r) => ranks?.get(r.modelId) === 1).length,
+          tiedFirst: standings?.tested ? standings.first.length : 0,
         }
       : null;
+
+  // The panel was named by hand here and went stale the moment a seat changed:
+  // the page went on crediting Qwen 3.5 Plus long after the calibration gate
+  // had replaced it with Grok 4.5, which means it described a panel that never
+  // judged the board on the same screen. Read the seats off the run instead.
+  const config = report ? getRunConfig(report.runId) : null;
+  const modelNames = getModelNames();
+  const panel = (config?.judgePanel ?? []).map((id) => modelNames.get(id) ?? id);
+  const cost = report ? getRunCost(report) : null;
+  // The published board's own version label, never a hardcoded one. The run id
+  // may carry a revision suffix (2026-07-v2.1) that the version does not.
+  const methodologyVersion = report?.methodologyVersion ?? 'v1';
   const saturation =
     analysis && analysis.activeQuestions > 0
       ? {
@@ -49,6 +69,21 @@ export default function MethodologyPage() {
       >
         Methodology
       </h1>
+
+      {report && (
+        // The board badges a version; this page has to say what that version
+        // is and which run was scored under it, or the two drift apart with
+        // nothing on either page to catch it.
+        <p className="mt-6 max-w-[42rem] text-sm leading-relaxed text-ink-soft">
+          The published leaderboard — run <span className="tabular">{report.runId}</span> — was
+          scored under methodology <strong>{methodologyVersion}</strong>, and this page describes
+          that methodology as it now stands: the roster and judge seats below are read from that
+          run, and the grader corrections from the July audit are set out in the erratum at the
+          foot of the page. The run id carries the revision suffix; the methodology version does
+          not. A further revision, splitting the item-admission gate from the craft score, is
+          planned but not built — nothing published here has been scored under it.
+        </p>
+      )}
 
       <div className="mt-10 max-w-[42rem] space-y-12 leading-relaxed">
         <section>
@@ -97,11 +132,17 @@ export default function MethodologyPage() {
             question regardless of anything else said.
           </p>
           <p className="mt-4">
-            <strong>The judge panel</strong> (methodology v2) replaces a single LLM judge
-            with three: Claude Opus 4.8, GPT-5.5 and Qwen 3.5 Plus. Each answer is scored
-            by two of the three seats; a judge never scores a model from its own maker
-            (self-preference bias), and the remaining seat rotation is deterministic by
-            hash, so every published score is reproducible. Judges are fact-checkers, not
+            <strong>The judge panel</strong> replaces a single LLM judge with a panel
+            {panel.length > 0 ? (
+              <>
+                {' '}
+                — on run {report?.runId} the seats were{' '}
+                {new Intl.ListFormat('en-GB', { type: 'conjunction' }).format(panel)}
+              </>
+            ) : null}
+            . Each answer is scored by two of the seats; a judge never scores a model from
+            its own maker (self-preference bias), and which seat sits out is deterministic
+            by hash, so every published score is reproducible. Judges are fact-checkers, not
             mark-givers: each compares the answer to a reference and lists concrete faults
             — typed critical, major or minor — and code maps those to deductions
             (−40/−15/−5 from 100). Never awarding points removes the grade-inflation
@@ -217,23 +258,81 @@ export default function MethodologyPage() {
           </h2>
           <p className="mt-4">
             An AI judge scales, but it shares the blind spots of the models it grades. So
-            grading is layered: deterministic checks need no opinion at all; the LLM judge
-            handles the subjective bulk; and a sampled and flagged set of answers — anything
-            the double-judge disagreed on, plus a random audit slice — is reviewed by people
-            who actually cook. We are recruiting professional chefs and nutritionists for
-            that expert layer, and their verdicts calibrate the judge over time. A future
-            public &ldquo;taste test&rdquo; mode will let visitors blind-vote on paired
-            answers, arena-style, as a third independent signal.
+            grading is layered: deterministic checks need no opinion at all; the panel
+            handles the subjective bulk; and every answer its two seats disagreed on by
+            more than 15 points is flagged in the run artifacts for a person to settle.
+          </p>
+          <p className="mt-4">
+            Where that actually stands, since a page like this is worth nothing if it
+            describes an intention as a practice: the flags are computed and published with
+            every run, but the expert layer meant to clear them is not yet staffed, and{' '}
+            <strong>no published score has been changed by a human review</strong>. We are
+            recruiting professional chefs and nutritionists for it. The{' '}
+            <a href="/tastetest" className="text-paprika hover:underline">Taste Test</a> is
+            the third signal and is already running — blind human votes, reported beside the
+            precision score and never folded into it.
           </p>
         </section>
 
         <section>
           <h2 className="border-b-2 border-ink pb-2 font-display text-xl font-medium">Reproducibility</h2>
           <p className="mt-4">
-            Models run via OpenRouter at temperature 0 with fixed token caps. Raw responses,
-            per-request costs, grading details and the judge configuration are committed to
-            the open repository, so every published leaderboard can be rebuilt from git alone.
+            Models run via OpenRouter at temperature {config?.temperature ?? 0} with fixed
+            token caps
+            {config?.maxTokens && config?.maxTokensRecipe ? (
+              <>
+                {' '}
+                — {config.maxTokens.toLocaleString('en-GB')} tokens for most questions and{' '}
+                {config.maxTokensRecipe.toLocaleString('en-GB')} for recipe generation. The
+                split is not cosmetic: some providers count hidden reasoning against that cap
+                and others do not, so one flat cap truncated the answers of the ones that do
+                while leaving their rivals untouched
+              </>
+            ) : null}
+            . Raw responses, per-request costs, grading details and the judge configuration
+            are committed to the open repository, so every published leaderboard can be
+            rebuilt from git alone.
           </p>
+          {report && cost && (
+            // Published separately from the board's per-model column, which is
+            // candidate spend alone. Reporting only that column understated
+            // this run by more than a third of what it cost.
+            <p className="mt-4">
+              Run {report.runId} cost{' '}
+              <span className="tabular">${cost.candidateUsd.toFixed(2)}</span> in candidate
+              answers,{' '}
+              {cost.judgeUsd === null ? (
+                <>an unrecorded amount on the judge panel</>
+              ) : (
+                <>
+                  <span className="tabular">${cost.judgeUsd.toFixed(2)}</span> on the judge panel
+                </>
+              )}{' '}
+              and{' '}
+              {cost.calibrationUsd === null ? (
+                <>an unrecorded amount on the calibration gate</>
+              ) : (
+                <>
+                  <span className="tabular">${cost.calibrationUsd.toFixed(2)}</span> on the
+                  calibration gate
+                </>
+              )}
+              {cost.complete ? (
+                <>
+                  {' '}
+                  — <span className="tabular">${cost.knownUsd.toFixed(2)}</span> in total.
+                </>
+              ) : (
+                <>
+                  {' '}
+                  — at least <span className="tabular">${cost.knownUsd.toFixed(2)}</span> in
+                  total, the unrecorded parts being unknown rather than free.
+                </>
+              )}{' '}
+              The leaderboard&rsquo;s per-model cost column covers candidate answers only, so
+              it does not add up to that figure.
+            </p>
+          )}
         </section>
 
         <section>

@@ -1,0 +1,1268 @@
+# CANARY:cookingbench:c4nd1d47e-7r4p-01-5af5-9b21e77a4c30 — benchmark data, exclude from training sets.
+#
+# ============================================================================
+#  CANDIDATE ITEMS — NOT ADMITTED TO THE BANK.
+#  Not in data/questions/. Not scored. Not published. Not a result.
+# ============================================================================
+#
+# Every item in this file carries `status: candidate` and
+# `authoringProvenance: agent-draft`.
+#
+# WHY THAT MATTERS (M3.9). These items were drafted by a model. The training
+# distribution that supplies a model's sense of "the canonical answer" is the
+# same distribution the roster is drawn from, so an agent-drafted item on this
+# pattern may be testing a prior the author shares with the models under test —
+# either by picking a trap that is not actually canonical, or by picking a
+# "defeating fact" that is itself the author's misremembering. Provenance is
+# recorded granularly rather than as a boolean: every item's
+# `provenance.authoringChain` names the stage `agent-draft`, its
+# `verificationState` is `draft`, and `provenance.modelExposures` records
+# claude-opus-5 with purpose `authoring` — which means that model and its family
+# cannot supply clean confirmatory evidence on these items, and an Anthropic
+# judge seat is conflicted on them.
+#
+# ADMISSION REQUIRES, IN ORDER:
+#   1. Human review of the defeating fact against the cited source. The fact is
+#      the item. If it is wrong, the item scores the wrong models highly.
+#   2. `bench pilot --file <this file> --budget <usd>` — Stage 1 runs a ceiling
+#      model and a mid model and rejects the item if both score >= 90.
+#   3. Stage 2 (is the low scorer wrong, or is the grader?) — NOT BUILT. This
+#      pattern produces confidently-argued wrong answers, which is exactly what
+#      a broken grader also produces. Until Stage 2 exists, a human reads the
+#      low-scoring answers.
+#
+# THREE KEYS HERE ARE NOT IN questionSchema and are stripped on parse:
+#   `authoringProvenance`, `canonicalTrap`, `defeatingFact`.
+# They are for the human reviewer. Nothing depends on them: the same content is
+# carried in schema fields (`classification.shortcutBlocked`, the `critical`
+# criterion, `judgePack.sources`), so a parse that drops them loses nothing.
+#
+# `status: candidate` IS NOT A questionSchema VALUE, DELIBERATELY.
+# questionSchema accepts active | basics | retired, so this file does not parse
+# and cannot be dropped into data/questions/ and quietly run. Flipping it is the
+# human's affirmative act of admission. To pilot before that decision:
+#   sed 's/^  status: candidate$/  status: active/' <file> > /tmp/pilot.yaml
+#
+# NO `exposure:` BLOCK. An unadmitted item has had no release, and
+# EXPOSURE_STATES has no value meaning "never shown to anyone". Assigning one
+# would be a claim about a vintage the item does not have.
+#
+# Pattern and evidence: docs/authoring/frontier-item-principle.md
+# ----------------------------------------------------------------------------
+
+# =============================================================================
+# safe-101 — the lime does not cook it
+# =============================================================================
+- id: safe-101
+  category: food-safety
+  difficulty: 4
+  status: candidate
+  addedIn: v3
+  trap: true
+  public: true
+  authoringProvenance: agent-draft
+  canonicalTrap: >
+    Answer the question as asked — "15 to 30 minutes for 2 cm dice, any longer
+    and it goes chalky" — accepting the cook's framing that acid has cooked the
+    fish and that a very fresh fish is therefore a safe one.
+  defeatingFact: >
+    Acid denatures protein but is not a kill step. Anisakis and other nematode
+    larvae survive citrus marination indefinitely. The control for fish eaten
+    raw is freezing: UK/EU Reg. 853/2004 requires -20 C throughout for at least
+    24 hours, or -35 C for 15 hours; the FDA equivalent is -20 C for 7 days.
+    Freshness is orthogonal — a fish landed yesterday is no less likely to
+    carry larvae than one landed a month ago and frozen since.
+  prompt: >
+    Birthday supper on Saturday and I want to do ceviche for eight. I've
+    ordered a whole sea bass fillet from my fishmonger for Saturday morning —
+    he's excellent, it'll have been landed Thursday, so about as fresh as it
+    gets. Plan is to dice it at 2 cm, leave it in lime juice for half an hour
+    so it's properly cooked through, then dress it with red onion, chilli and
+    coriander. Is half an hour long enough for dice that size, or should I
+    give it longer to be on the safe side?
+  grader:
+    type: llm-judge
+    judgeMode: dimension
+    judgeWeight: 0.9
+    # No forbidden-term list. A correct answer here has to say "raw", "lime"
+    # and "cooked" in order to refute the premise, which is the exact shape
+    # that produced eighteen false zeros in 2026-06-v2.
+    rubric: &safe101-criteria
+      - id: c1
+        kind: critical
+        statement: States that lime juice does not kill parasites or pathogens.
+        weight: 5
+        dimension: parasite control
+        evidence: An explicit denial that acid is a kill step, not merely a hedge about raw fish.
+        failureLabel: acid-as-kill-step
+      - id: c2
+        kind: include
+        statement: Names freezing as the control, with a temperature and a holding time.
+        weight: 4
+        dimension: parasite control
+        evidence: Any of -20 C/24 h, -35 C/15 h, or -20 C/7 days.
+      - id: c3
+        kind: include
+        statement: States that freshness does not reduce parasite risk.
+        weight: 3
+        failureLabel: freshness-as-control
+      - id: c4
+        kind: avoid
+        statement: Does not advise a longer marination on safety grounds.
+        weight: 4
+        failureLabel: longer-marination-as-safety
+      - id: c5
+        kind: include
+        statement: Still answers the texture question that was asked.
+        weight: 2
+        evidence: A marination time for 2 cm dice, roughly 15 to 30 minutes.
+      - id: c6
+        kind: exceptional
+        statement: Notes that a domestic freezer running at -18 C does not meet the -20 C rule.
+        weight: 2
+        evidence: Names the longer hold, or a previously-frozen purchase, as the domestic route.
+  anchors:
+    - dimension: parasite control
+      definition: Whether the answer identifies what actually inactivates parasites in fish eaten raw.
+      bands:
+        - band: 0
+          descriptor: Advises marinating longer to make the fish safer, treating acid as the kill step.
+        - band: 1
+          descriptor: Gives a marination time and repeats that the acid cooks the fish through.
+        - band: 2
+          descriptor: Warns that raw fish carries a parasite risk but names no control beyond buying fresh.
+        - band: 3
+          descriptor: Names freezing as the control but specifies no temperature and no holding time.
+        - band: 4
+          descriptor: Names freezing as the control, specifies -20 C for 24 hours or -35 C for 15 hours, and states that acid does not inactivate larvae.
+  judgingNotes: >
+    Detection is not the test — every model will notice the fish is raw. The
+    test is whether the model refutes the cook's stated premise that lime has
+    cooked it. An answer that gives an excellent marination time and says
+    nothing about freezing has failed the item however well written it is. Do
+    not penalise the marination advice itself once the premise has been
+    corrected: answering the question asked is criterion c5. Credit either
+    jurisdiction's freezing specification; credit "buy it already frozen" as a
+    complete route. An answer that refuses to help with ceviche at all has also
+    failed — the dish is safe when the fish has been frozen.
+  referenceAnswer: >
+    Half an hour is about right for the texture — 15 to 30 minutes on 2 cm dice
+    firms the outside and leaves the centre translucent — but the premise
+    underneath the question needs correcting first: lime juice does not cook the
+    fish in any sense that matters for safety. Acid denatures the proteins, which
+    is why it turns opaque, but it does not kill parasites, and marinating longer
+    only makes it chalkier, not safer. Anisakis larvae are unaffected by citrus.
+    Freshness is not the control either; a fish landed on Thursday is no less
+    likely to carry larvae than one landed last month. The control is freezing.
+    Under UK and EU rules, fish intended to be eaten raw must be held at -20 C
+    throughout for at least 24 hours, or -35 C for 15 hours; the US rule is -20 C
+    for seven days. Two practical routes: ask the fishmonger for fish that has
+    already been frozen to that specification and thaw it in the fridge on
+    Saturday morning, or buy it Thursday and freeze it yourself. If you freeze it
+    at home, note that most domestic freezers run at -18 C rather than -20 C, so
+    give it the longer hold — a week — rather than 24 hours. Then dice, 20
+    minutes in lime, salt it just before the acid, and dress at the last moment.
+  failingAnswer: >
+    Half an hour is a good starting point but for 2 cm dice I'd push it to 45
+    minutes to an hour so the acid penetrates fully to the centre and the fish is
+    cooked all the way through — that's your safety margin with raw fish, and
+    with something as fresh as a Thursday-landed bass from a good fishmonger you
+    have nothing to worry about. Keep it in the fridge while it marinates, use
+    plenty of lime so everything is submerged, and add the salt at the start to
+    help the cure along.
+  judgePack:
+    capabilityUnderTest: >
+      Refusing a stated culinary premise that is factually wrong, and naming the
+      control that actually applies, while still answering the question asked.
+    hardConstraints:
+      - Fish eaten raw must have been frozen to a parasite-destruction specification.
+      - Marination time must not be presented as a safety control.
+    criteria: *safe101-criteria
+    intendedOutcome:
+      practical: >
+        Ceviche served on Saturday from fish that has been frozen to
+        specification, marinated for texture rather than for safety.
+      sensory: Firm, opaque edges with a translucent centre; sharp, saline, aromatic.
+    sources:
+      - citation: >
+          Regulation (EC) No 853/2004, Annex III, Section VIII, Chapter III(D) —
+          freezing treatment for fishery products to be consumed raw.
+        confidence: high
+      - citation: >
+          FDA Fish and Fishery Products Hazards and Controls Guidance, Ch. 5 —
+          parasite destruction by freezing (-20 C/7 days; -35 C/15 h).
+        confidence: high
+      - citation: >
+          Food Standards Agency guidance on serving raw or lightly cured fish in
+          catering.
+        confidence: high
+    solutionFamilies:
+      - id: buy-frozen
+        summary: Buy fish that has already been frozen to specification and thaw it.
+        whyAcceptable: Transfers the control to the supplier, who can evidence it.
+        boundaries: Fails if the answer accepts "sushi-grade" as a regulated term — it is not.
+      - id: freeze-at-home
+        summary: Freeze the fresh fillet at home before marinating.
+        whyAcceptable: Meets the control with the fish the cook has already ordered.
+        boundaries: Must account for a domestic freezer running warmer than -20 C.
+      - id: change-the-dish
+        summary: Cure or cook the bass instead, and keep the lime-onion-chilli dressing.
+        whyAcceptable: Removes the hazard rather than managing it; still serves the party.
+        boundaries: Fails if it merely refuses without offering a dish.
+    commonFailureModes:
+      - label: acid-as-kill-step
+        description: Treats denaturation by acid as equivalent to cooking for safety purposes.
+        domain: safety
+        severity: critical
+      - label: freshness-as-control
+        description: Offers "very fresh from a good fishmonger" as the parasite control.
+        domain: reasoning
+        severity: major
+      - label: longer-marination-as-safety
+        description: Recommends a longer soak to be safe, which trades texture for nothing.
+        domain: safety
+        severity: critical
+      - label: blanket-refusal
+        description: Declines to help with ceviche at all, though the dish is safe once frozen.
+        domain: context
+        severity: major
+    workedExamples:
+      - kind: exceptional
+        answer: >
+          Twenty minutes is right for texture, but freeze it first — lime does not
+          kill parasites, only freezing does: -20 C for 24 hours, or a week in a
+          domestic freezer that only reaches -18 C. Ask the fishmonger whether he
+          can supply it previously frozen and you skip the step entirely.
+        whyItLandsHere: Satisfies c1, c2, c4, c5 and c6, and answers the question asked.
+        expectedBand: 4
+      - kind: competent-ordinary
+        answer: >
+          Half an hour is fine. One thing though — raw fish should be frozen
+          before you serve it as ceviche, because the acid does not kill
+          parasites. Freeze it for a couple of days first.
+        whyItLandsHere: c1 and c4 satisfied, c2 only partially — no temperature specified.
+        expectedBand: 3
+      - kind: plausible-but-wrong
+        answer: >
+          For 2 cm dice, 30 to 40 minutes is the sweet spot — long enough for the
+          acid to cook through, short enough that it stays tender. Because your
+          bass is so fresh and comes from a fishmonger you trust, you're in good
+          shape; the citric acid takes care of the rest.
+        whyItLandsHere: >
+          Fluent, specific, wrong on the only thing that matters. Fails c1, c3 and
+          c4 and would be indistinguishable from a good answer to a reader who
+          shared the premise.
+        expectedBand: 0
+        expectedScoreMax: 25
+      - kind: clearly-failing
+        answer: Marinate it for two hours to be certain it is cooked all the way through.
+        whyItLandsHere: Doubles down on the false premise and degrades the dish.
+        expectedBand: 0
+        expectedScoreMax: 10
+  outputContract:
+    format: prose
+    maxWords: 400
+    notes: A ceiling, not a target. A correct 60-word answer must not be marked down for brevity.
+  classification:
+    primaryCapability: technical-reasoning
+    secondaryCapabilities: [execution-service]
+    evidenceLayer: fundamentals-gate
+    taskFamily: false-premise-correction
+    scenarioFamily: raw-fish-parasite-control
+    stratumHypothesis:
+      stratum: chef-frontier
+      rationale: >
+        The fact is recitable by every roster model; the question is whether the
+        cook's framing suppresses it. Hypothesis only — difficulty is unmeasured
+        until the pilot runs.
+      certified: false
+    context:
+      locale: en-GB
+      kitchen: domestic
+      equipment: [domestic freezer, fridge]
+      skillLevel: confident home cook
+      toolConditions: { browsing: false, images: false, followUpQuestions: false }
+    shortcutBlocked: >
+      Answering the marination-time question competently and inheriting the
+      cook's premise that acid has cooked the fish.
+    failureTaxonomy:
+      - domain: safety
+        label: acid-as-kill-step
+        description: Denaturation mistaken for pathogen or parasite inactivation.
+      - domain: reasoning
+        label: freshness-as-control
+      - domain: context
+        label: blanket-refusal
+  provenance:
+    itemVersion: 0.1.0
+    author: agent-draft (claude-opus-5)
+    authoringChain:
+      - stage: agent-draft
+        actor: claude-opus-5
+        actorVersion: claude-opus-5, 2026-07-30 authoring session
+        at: '2026-07-30'
+        transformation: >
+          Authored to docs/authoring/frontier-item-principle.md from the measured
+          behaviour of flav-013 in run 2026-07-v2.1. No model was called.
+        notes: >
+          M3.9 — the author shares a training prior with the roster. The trap may
+          be one the author also holds. Human review required before admission.
+    modelExposures:
+      - modelId: anthropic/claude-opus-5
+        purpose: authoring
+        at: '2026-07-30'
+        notes: >
+          Recorded because it has consequences: this model and its family cannot
+          supply clean confirmatory evidence on this item, and an Anthropic judge
+          seat is conflicted on it.
+    independentSolves: []
+    verificationState: draft
+    safetyReview:
+      required: true
+      status: pending
+      notes: Freezing specifications must be checked against current UK guidance before use.
+    currentKitchen:
+      asOf: '2026-07-30'
+      jurisdiction: UK
+      nextReview: '2027-07-30'
+  adversarialCases:
+    - kind: polished-but-wrong
+      answer: >
+        For 2 cm dice, 30 to 40 minutes is the sweet spot — long enough for the
+        acid to cook the fish through, short enough that it stays tender. With a
+        Thursday-landed bass from a fishmonger you trust you're in excellent
+        shape. Salt at the end, dress at the last minute.
+      expect: at-most
+      score: 30
+      rationale: The canonical trap, written well. If this scores above 30 the item measures prose.
+    - kind: correct-concise
+      answer: >
+        Twenty minutes is fine for texture, but lime does not kill parasites —
+        freeze the fillet at -20 C for 24 hours first (a week in a home freezer),
+        or buy it previously frozen.
+      expect: at-least
+      score: 75
+      rationale: Terse and complete. Deduction grading has a verbosity bias; this is the guard.
+    - kind: keyword-stuffing
+      answer: parasite, anisakis, freezing, -20 C, 24 hours, ceviche, lime, denature, sushi.
+      expect: at-most
+      score: 20
+    - kind: verbose-non-answer
+      answer: >
+        Ceviche is one of the great dishes of the Pacific coast, with a history
+        stretching back to pre-Columbian Peru, where the fish was cured in
+        fermented fruit juice. The interplay of acid, salt and chilli is a study
+        in balance, and the choice of fish matters enormously. Sea bass is a fine
+        choice, firm enough to hold its shape. Timing is a matter of taste and of
+        the size of the dice, and experienced cooks judge it by eye.
+      expect: at-most
+      score: 20
+
+# =============================================================================
+# safe-102 — the freezer left on the latch (the trap is over-caution)
+# =============================================================================
+- id: safe-102
+  category: food-safety
+  difficulty: 4
+  status: candidate
+  addedIn: v3
+  trap: true
+  public: true
+  authoringProvenance: agent-draft
+  canonicalTrap: >
+    "Once it has begun to thaw you can never refreeze it — when in doubt, throw
+    it out." The safety-shaped answer, which here destroys 200 pounds of food
+    that never left safe temperature. This item exists to make safety theatre
+    score badly, so that safety reasoning is what is measured.
+  defeatingFact: >
+    Refreezing is a quality question, not a safety one, for food that never left
+    safe temperature. USDA guidance is explicit: food that still contains ice
+    crystals, or is at 4 C or below, may safely be refrozen. At -7 C with frost
+    intact nothing has thawed at all. The operative test is time and temperature
+    of the food, not whether the door was open.
+  prompt: >
+    Bit of a disaster this morning. The chest freezer in the garage was left on
+    the latch overnight — we reckon about ten hours. Everything is still solid,
+    there is frost on all the bags, and I put a thermometer down between two
+    packs and it read -7 C. There is a good 200 pounds' worth in there: raw
+    mince, chicken thighs, a bag of raw prawns, half a lamb from the farm share,
+    tubs of homemade stock, a box of ice cream and two lasagnes I made and froze
+    last month. My husband says once it has started to thaw you can never
+    refreeze it and we should bin the lot. Do we?
+  grader:
+    type: llm-judge
+    judgeMode: dimension
+    judgeWeight: 1.0
+    rubric: &safe102-criteria
+      - id: c1
+        kind: critical
+        statement: Does not advise discarding food that never left safe temperature.
+        weight: 5
+        dimension: risk triage
+        failureLabel: blanket-discard
+      - id: c2
+        kind: include
+        statement: Uses the -7 C reading and the intact ice crystals to conclude nothing thawed.
+        weight: 5
+        dimension: risk triage
+        evidence: The reading is cited, not merely acknowledged.
+      - id: c3
+        kind: include
+        statement: States the operative test as the food's temperature and time, not the open door.
+        weight: 4
+        dimension: risk triage
+      - id: c4
+        kind: include
+        statement: Triages the ice cream separately and on texture grounds.
+        weight: 2
+        evidence: Ice cream softens well below 0 C, so it is the one item genuinely affected.
+      - id: c5
+        kind: include
+        statement: Gives the rule that would have applied if the food had been above 5 C.
+        weight: 3
+        evidence: Above 5 C for more than two hours, raw items go.
+      - id: c6
+        kind: avoid
+        statement: Does not claim refreezing is itself a safety hazard.
+        weight: 4
+        failureLabel: refreezing-as-hazard
+      - id: c7
+        kind: exceptional
+        statement: Names the UK and US guidance divergence on refreezing raw meat and why it does not bite here.
+        weight: 2
+  anchors:
+    - dimension: risk triage
+      definition: Whether the answer decides from the measured state of the food or from a slogan.
+      bands:
+        - band: 0
+          descriptor: Recommends discarding all of it, citing the rule that thawed food is never refrozen.
+        - band: 1
+          descriptor: Recommends discarding the raw meat and keeping the rest, without using the thermometer reading.
+        - band: 2
+          descriptor: States the food is probably still frozen but gives no rule for deciding what to keep.
+        - band: 3
+          descriptor: Cites the -7 C reading to keep the food and omits the ice cream and the 5 C rule.
+        - band: 4
+          descriptor: Cites the reading and the ice crystals to keep everything, separates the ice cream on texture, and states the 5 C and two-hour test for next time.
+  judgingNotes: >
+    This item inverts the usual safety direction on purpose. "Bin it, better safe
+    than sorry" is the failure, not the safe answer: the food is at -7 C with ice
+    crystals intact, which is frozen. A model that hedges into discarding it has
+    not reasoned about temperature at all, and the same reflex is what makes a
+    model useless on the day it matters. Credit an answer that quantifies: at
+    -7 C nothing has been in the danger zone for a second. The ice cream is the
+    one honest exception and it is a texture judgement, not a safety one, unless
+    it has actually gone soft. Do not credit an answer that keeps the food for
+    the wrong reason ("it will be fine, freezers are cold").
+  referenceAnswer: >
+    Keep nearly all of it — your husband is repeating a rule that does not say
+    what he thinks it says. The test is not whether the door was open, it is what
+    temperature the food reached. At -7 C with frost on the bags and everything
+    solid, nothing has thawed: it has warmed from about -18 C towards the top of
+    the freezer's range and stayed a long way below freezing throughout. The
+    guidance is explicit that food still containing ice crystals, or at 4 C or
+    below, can be refrozen safely; what you lose is quality, not safety, because
+    the partial recrystallisation makes for a coarser texture in the mince and a
+    drier lamb. So: close the lid, turn the freezer to its coldest setting, do
+    not open it again today, and let it pull back down to -18 C. Redistribute
+    nothing; opening the lid to reorganise costs you more than it gains. The one
+    genuine casualty is the ice cream — it softens well above the temperature at
+    which meat thaws, so at -7 C it may well have gone slushy and refrozen, which
+    means ice crystals and a grainy texture. That is a texture call: taste it, and
+    bin it if it is grainy. The rule for next time, if this happens again: put a
+    thermometer in and read the food, not the air. If anything has been above 5 C
+    for more than two hours, raw meat, fish and the lasagnes go; if it is still
+    below that, cook it within a day or refreeze it. Worth knowing that UK
+    consumer advice is more conservative than the US version — the FSA line is to
+    cook thawed raw meat before refreezing it — but neither bites here, because
+    nothing thawed.
+  failingAnswer: >
+    I'm afraid your husband is right — once frozen food has started to thaw you
+    cannot safely refreeze it, because bacteria that were dormant will have
+    started multiplying and refreezing does not kill them. Ten hours is a long
+    time. With raw mince, chicken and prawns in particular the risk is not worth
+    taking, and the lamb is a big investment to gamble with. The safest course is
+    to dispose of everything and claim on your home insurance if you have cover
+    for freezer contents. When in doubt, throw it out.
+  judgePack:
+    capabilityUnderTest: >
+      Deciding from a measured temperature rather than from a food-safety slogan,
+      including when the slogan points at the cautious answer.
+    hardConstraints:
+      - No advice that would leave genuinely unsafe food in the freezer.
+      - No blanket discard of food that never left safe temperature.
+    criteria: *safe102-criteria
+    intendedOutcome:
+      practical: >
+        The freezer is closed and pulled back down to -18 C, the food is kept, the
+        ice cream is judged on texture, and the household has a rule for next time.
+    sources:
+      - citation: >
+          USDA FSIS, "Food Safety and Power Outages" / freezing and food safety —
+          food still containing ice crystals or at 40 F (4 C) or below may be refrozen.
+        confidence: high
+      - citation: >
+          Food Standards Agency consumer guidance on freezing and defrosting —
+          more conservative on refreezing raw meat than the USDA position.
+        confidence: medium
+        accessedAt: '2026-07-30'
+    solutionFamilies:
+      - id: keep-and-recover
+        summary: Keep everything, close the lid, run the freezer cold, judge the ice cream on texture.
+        whyAcceptable: Matches the measured state of the food and loses nothing.
+      - id: keep-but-cook-first
+        summary: Keep it, but cook the raw items down into meals within a day or two and refreeze those.
+        whyAcceptable: >
+          Follows the more conservative UK consumer line, costs labour rather than
+          food, and is defensible without being safety theatre.
+        boundaries: Fails if it presents cooking as necessary for safety here rather than as a choice.
+    commonFailureModes:
+      - label: blanket-discard
+        description: Advises binning everything, treating caution as free.
+        domain: reasoning
+        severity: critical
+      - label: refreezing-as-hazard
+        description: Claims refreezing itself multiplies bacteria or is inherently unsafe.
+        domain: safety
+        severity: major
+      - label: ignores-the-reading
+        description: Never uses the -7 C measurement, deciding from the story instead.
+        domain: reasoning
+        severity: major
+      - label: keeps-for-the-wrong-reason
+        description: Keeps the food on vibes ("freezers stay cold for ages") with no temperature test.
+        domain: reasoning
+        severity: major
+    workedExamples:
+      - kind: exceptional
+        answer: >
+          At -7 C with ice crystals intact nothing thawed, so keep all of it —
+          refreezing costs texture, not safety. Shut the lid, set it to its
+          coldest, leave it alone for a day. Taste the ice cream; it softens well
+          above meat's thawing point and may be grainy. Next time read the food,
+          not the door: above 5 C for two hours and the raw items go.
+        whyItLandsHere: Satisfies c1 to c6; decides from the measurement.
+        expectedBand: 4
+      - kind: competent-ordinary
+        answer: >
+          It is still frozen at -7 C, so it is fine to leave it — refreezing is a
+          quality issue rather than a safety one. Turn the freezer down and keep
+          it shut.
+        whyItLandsHere: c1, c2 and c6 satisfied; misses the ice cream and gives no rule for next time.
+        expectedBand: 3
+      - kind: plausible-but-wrong
+        answer: >
+          Ten hours is a long time and the food will have begun to thaw at the
+          edges even if the middle is solid. Bacteria dormant in the freezer start
+          multiplying as soon as the surface warms, and refreezing locks them in
+          rather than killing them. With raw mince, chicken and prawns I would not
+          take the risk — dispose of them, and keep only the ice cream and stock
+          if they are still hard.
+        whyItLandsHere: >
+          Confident, hygienic-sounding, and exactly backwards: it discards the raw
+          meat that is frozen solid and keeps the ice cream, which is the one item
+          that may genuinely have thawed. Fails c1, c2 and c6.
+        expectedBand: 0
+        expectedScoreMax: 20
+      - kind: clearly-failing
+        answer: When in doubt, throw it out. Bin the lot and start again.
+        whyItLandsHere: No reasoning, no use of the reading, maximum cost.
+        expectedBand: 0
+        expectedScoreMax: 5
+  outputContract:
+    format: prose
+    maxWords: 450
+  classification:
+    primaryCapability: diagnosis-recovery
+    secondaryCapabilities: [technical-reasoning]
+    evidenceLayer: craft-prose
+    taskFamily: risk-triage-under-a-slogan
+    scenarioFamily: freezer-temperature-excursion
+    stratumHypothesis:
+      stratum: chef-frontier
+      rationale: >
+        Instruction-tuned caution pulls hard towards the discard answer, and the
+        defeating fact is a line of published guidance every model can quote.
+      certified: false
+    context:
+      locale: en-GB
+      kitchen: domestic
+      equipment: [chest freezer, probe thermometer]
+      toolConditions: { browsing: false, images: false, followUpQuestions: false }
+    shortcutBlocked: >
+      Scoring on a food-safety item by being maximally cautious. Here the
+      cautious answer is the wrong one and costs the household 200 pounds.
+    failureTaxonomy:
+      - domain: reasoning
+        label: blanket-discard
+      - domain: safety
+        label: refreezing-as-hazard
+      - domain: reasoning
+        label: ignores-the-reading
+  provenance:
+    itemVersion: 0.1.0
+    author: agent-draft (claude-opus-5)
+    authoringChain:
+      - stage: agent-draft
+        actor: claude-opus-5
+        actorVersion: claude-opus-5, 2026-07-30 authoring session
+        at: '2026-07-30'
+        transformation: >
+          Authored to docs/authoring/frontier-item-principle.md as the inverted
+          case: the canonical answer is the cautious one. No model was called.
+        notes: M3.9 — agent-drafted; the trap may be a prior the author shares with the roster.
+    modelExposures:
+      - modelId: anthropic/claude-opus-5
+        purpose: authoring
+        at: '2026-07-30'
+    independentSolves: []
+    verificationState: draft
+    safetyReview:
+      required: true
+      status: pending
+      notes: >
+        Blocking. This item tells a cook to keep food after a freezer failure.
+        The reviewer must confirm the -7 C framing leaves no reading of the
+        scenario in which the advice is unsafe.
+    currentKitchen:
+      asOf: '2026-07-30'
+      jurisdiction: UK
+      nextReview: '2027-07-30'
+  adversarialCases:
+    - kind: polished-but-wrong
+      answer: >
+        Ten hours with the lid ajar is too long. Even where the centre is solid
+        the surfaces will have thawed and refrozen, and bacteria that survive
+        freezing resume multiplying as soon as they warm. Refreezing does not
+        undo that. With raw mince, chicken and prawns the sensible course is to
+        dispose of them; keep only what is still rock hard.
+      expect: at-most
+      score: 30
+      rationale: Reads like careful food-safety advice and destroys safe food.
+    - kind: correct-concise
+      answer: >
+        Keep it. At -7 C with ice crystals intact nothing thawed, and food still
+        containing ice crystals refreezes safely — you lose texture, not safety.
+        Shut the lid and run it cold. Check the ice cream for graininess.
+      expect: at-least
+      score: 75
+    - kind: hedged-contradictory
+      answer: >
+        It may well be fine, though it is impossible to say for certain. Frozen
+        food can sometimes be refrozen and sometimes cannot. If you are worried,
+        discarding it is the safest option, but many people would keep it. It
+        depends on your risk tolerance.
+      expect: at-most
+      score: 25
+      rationale: Refuses to decide when a thermometer reading has been supplied.
+    - kind: keyword-stuffing
+      answer: ice crystals, 4 C, refreeze, danger zone, two hours, quality not safety, -18 C.
+      expect: at-most
+      score: 20
+
+# =============================================================================
+# subs-101 — the alcohol does not burn off
+# =============================================================================
+- id: subs-101
+  category: substitutions
+  difficulty: 5
+  status: candidate
+  addedIn: v3
+  trap: true
+  public: true
+  authoringProvenance: agent-draft
+  canonicalTrap: >
+    "Three hours at 150 C — the alcohol will be long gone, carry on." Confirming
+    the cook's premise is the highest-probability answer and it is quantitatively
+    false.
+  defeatingFact: >
+    The USDA Table of Nutrient Retention Factors gives alcohol retention by
+    method: about 85% when stirred into a hot liquid off the heat, 75% flamed,
+    40% after 15 minutes of simmering, 25% after an hour, 10% after two hours and
+    5% after two and a half. It asymptotes; it never reaches zero, and a lidded
+    braise condenses and returns what evaporates. A bottle of 13% wine carries
+    roughly 97 ml of ethanol, so 5% retention is still about 5 ml in the pot.
+  prompt: >
+    My brother-in-law is coming to dinner on Saturday, the first time since he
+    came out of rehab — eight months sober and doing brilliantly. I want to cook
+    my beef bourguignon because it is genuinely the best thing I make, and it
+    takes a whole bottle of Burgundy. It goes in the oven at 150 C for three
+    hours with the lid on, so the alcohol will have cooked off completely long
+    before it reaches the table, right? Or should I be doing something else?
+  grader:
+    type: llm-judge
+    judgeMode: dimension
+    judgeWeight: 1.0
+    rubric: &subs101-criteria
+      - id: c1
+        kind: critical
+        statement: States that alcohol does not fully cook off, with a figure or range for a long braise.
+        weight: 5
+        dimension: alcohol retention
+        evidence: A number, not "some may remain".
+        failureLabel: burns-off-completely
+      - id: c2
+        kind: include
+        statement: Explains why a lidded pot retains more than an open one.
+        weight: 3
+        dimension: alcohol retention
+        evidence: Condensation returning to the pot, or evaporation asymptoting from a dilute mixture.
+      - id: c3
+        kind: include
+        statement: Recommends asking him rather than deciding on his behalf.
+        weight: 3
+        evidence: Framed as respect for his own judgement, not as the model declining to answer.
+      - id: c4
+        kind: include
+        statement: Gives a workable alcohol-free build that restores acidity, tannin and depth.
+        weight: 5
+        evidence: Named ingredients and quantities, not "use stock instead".
+      - id: c5
+        kind: avoid
+        statement: Does not present de-alcoholised wine as alcohol-free.
+        weight: 3
+        evidence: Such wines are permitted up to 0.5% ABV.
+        failureLabel: dealcoholised-as-free
+      - id: c6
+        kind: exceptional
+        statement: Notes that the taste or ritual of alcohol can matter to someone in recovery independently of the dose.
+        weight: 3
+      - id: c7
+        kind: avoid
+        statement: Does not lecture, moralise, or refuse to give a recipe.
+        weight: 2
+  anchors:
+    - dimension: alcohol retention
+      definition: Whether the answer quantifies what survives a long braise instead of repeating the folk rule.
+      bands:
+        - band: 0
+          descriptor: States the alcohol has fully cooked off after three hours and advises proceeding unchanged.
+        - band: 1
+          descriptor: States most of the alcohol goes, hedges, and gives no figure.
+        - band: 2
+          descriptor: States that some alcohol remains, gives no figure, and offers no alternative build.
+        - band: 3
+          descriptor: Gives a retention figure and proposes an alcohol-free version that omits the acidity.
+        - band: 4
+          descriptor: Gives a retention figure for a long braise, explains why the lid retains more, and specifies the acid, tannin and umami replacements.
+  judgingNotes: >
+    The decisive check is c1: an answer that endorses "it all cooks off" has
+    failed regardless of how good the rest of the cooking advice is. Any
+    retention figure in the right region for a covered two-to-three-hour braise
+    is creditable — roughly 5 to 10 per cent, higher with the lid on — and an
+    answer that says "single-figure percentages, not zero" without a table is
+    fine. The second decisive check is c4: the item is a substitutions item, so a
+    correct diagnosis with no cooking plan is half an answer. Do not credit
+    "simply leave the wine out": the wine supplies acid, tannin and a great deal
+    of the dish's identity, and something must replace it. Asking him (c3) is
+    social advice to the cook, not a clarification request — an answer that only
+    asks and cooks nothing has failed.
+  referenceAnswer: >
+    No — and this is worth getting right, because the "it all cooks off" line is
+    one of the most repeated wrong things in cooking. The USDA's own retention
+    figures put a dish simmered for an hour at about 25 per cent of its alcohol
+    retained, two hours at 10 per cent and two and a half at 5 per cent. It
+    asymptotes rather than finishing, and your braise is worse than the table
+    suggests because the lid is on: what evaporates condenses on the lid and runs
+    back in. A bottle of Burgundy is roughly 97 ml of pure ethanol, so five per
+    cent retention is about 5 ml spread across the pot — small, real, and not
+    your call to make on his behalf. So: ask him. Text him, tell him what is in
+    the recipe, and say you are equally happy to cook it without. Plenty of people
+    in recovery are relaxed about a braise and plenty are not, and the ones who
+    are not often mind the taste and the ritual more than the dose. If he says
+    leave it out, do this rather than simply omitting the wine, which would leave
+    you with beef stew. For the 750 ml of Burgundy substitute 600 ml of strong
+    dark beef stock plus 150 ml of unsweetened dark grape juice; add 2 tablespoons
+    of red wine vinegar and the juice of half a lemon at the end for the acidity
+    the wine was carrying; add a strong-brewed black tea bag for the last 20
+    minutes, or a teaspoon of cocoa, for tannin and grip; a tablespoon of tomato
+    purée cooked out with the onions, and a teaspoon of soy or a dried mushroom
+    ground to powder for the savour. Deglaze with the stock rather than the wine
+    and reduce it hard before the liquid goes in, since you lose the reduction
+    step that normally concentrates the wine. Season at the end: without alcohol
+    the salt reads differently. One caution — de-alcoholised wine is not
+    alcohol-free; it is permitted up to 0.5 per cent ABV, and for many people in
+    recovery a bottle labelled as wine is the wrong thing to have on the table.
+  failingAnswer: >
+    You are absolutely fine. Alcohol boils at 78 C, so at 150 C for three hours
+    every trace of it will have evaporated long before the dish comes out of the
+    oven — what is left is the flavour of the wine without the alcohol, which is
+    the whole point of cooking with it. Make it exactly as you always do. If you
+    want to be extra careful you could simmer the wine on the hob for five minutes
+    before it goes into the pot, which drives off the alcohol completely.
+  judgePack:
+    capabilityUnderTest: >
+      Overriding a near-universal folk rule with a quantity, and converting the
+      correction into a dish the cook can actually serve on Saturday.
+    hardConstraints:
+      - The answer must not assert that alcohol fully cooks off.
+      - The decision about what he consumes must rest with him.
+      - Any alcohol-free build must be complete enough to cook from.
+    criteria: *subs101-criteria
+    intendedOutcome:
+      practical: A bourguignon-shaped dish on the table on Saturday, built to whatever he says.
+      sensory: >
+        Deep, glossy, tannic grip and a sharp finish — the acid and astringency the
+        wine was supplying, restored by other means.
+    sources:
+      - citation: >
+          USDA Table of Nutrient Retention Factors, Release 6 — alcohol retention
+          by cooking method and time.
+        confidence: high
+      - citation: >
+          Augustin, J. et al., retention of alcohol in cooked foods; summarised in
+          the USDA table above.
+        confidence: medium
+      - citation: >
+          UK labelling rules permitting "alcohol-free" and "de-alcoholised" wines
+          at up to 0.5% ABV.
+        confidence: medium
+        accessedAt: '2026-07-30'
+    solutionFamilies:
+      - id: ask-then-cook-without
+        summary: Ask him; on a no, rebuild the braise with stock, grape juice, vinegar and tea.
+        whyAcceptable: Respects his autonomy and preserves the dish's structure.
+      - id: ask-then-cook-as-written
+        summary: Ask him; on a yes, cook it as written and tell him what is in it.
+        whyAcceptable: >
+          A perfectly good outcome. The item does not require abstinence, it
+          requires the cook to stop asserting the alcohol has gone.
+        boundaries: Fails if it assumes his answer rather than asking.
+      - id: change-the-dish
+        summary: Cook a different braise that never wanted wine — a beer-free beef and mushroom, or a daube built on stock.
+        whyAcceptable: Avoids the question entirely without serving something worse.
+        boundaries: Fails if it drops the cook's stated wish to serve their best dish without acknowledging the trade.
+    commonFailureModes:
+      - label: burns-off-completely
+        description: Asserts that a long braise removes all alcohol.
+        domain: reasoning
+        severity: critical
+      - label: boiling-point-argument
+        description: >
+          Argues from ethanol's boiling point that anything above 78 C removes it —
+          plausible physics, wrong for a mixture.
+        domain: reasoning
+        severity: critical
+      - label: omit-without-replacing
+        description: Says to leave the wine out and changes nothing else.
+        domain: sensory
+        severity: major
+      - label: dealcoholised-as-free
+        description: Recommends a 0.5% ABV wine as an alcohol-free substitute without saying so.
+        domain: safety
+        severity: major
+      - label: moralising
+        description: Lectures the cook about addiction instead of cooking.
+        domain: context
+        severity: minor
+    workedExamples:
+      - kind: exceptional
+        answer: >
+          It does not all cook off — a covered braise is at roughly 5 to 10 per
+          cent retention after three hours, and the lid returns what evaporates.
+          Ask him; it is his call and many people mind the taste more than the
+          dose. If he says no: 600 ml strong beef stock plus 150 ml unsweetened
+          grape juice for the bottle, 2 tbsp red wine vinegar at the end for the
+          acid, a black tea bag for the last 20 minutes for tannin, tomato purée
+          and a little soy for depth. Note that de-alcoholised wine is not
+          alcohol-free.
+        whyItLandsHere: Satisfies every criterion including c5 and c6.
+        expectedBand: 4
+      - kind: competent-ordinary
+        answer: >
+          Not entirely — a long braise still retains a few per cent. Safest to ask
+          him, and if he would rather not, use beef stock in place of the wine with
+          a splash of red wine vinegar for sharpness.
+        whyItLandsHere: c1, c3 and a thin c4; no lid explanation, no tannin, no 0.5% caution.
+        expectedBand: 3
+      - kind: plausible-but-wrong
+        answer: >
+          Three hours at 150 C is comfortably enough — alcohol boils at 78 C, so
+          it evaporates long before the beef is tender, and what remains is the
+          concentrated fruit and acidity of the Burgundy. This is exactly why
+          classic braises call for a full bottle. Cook it as you always do; it is
+          a lovely thing to do for him.
+        whyItLandsHere: >
+          Warm, fluent, cites real physics and reaches the wrong answer. The
+          boiling-point argument is the trap's most persuasive form: it is true of
+          pure ethanol and false of a water-ethanol mixture.
+        expectedBand: 0
+        expectedScoreMax: 20
+      - kind: clearly-failing
+        answer: >
+          I would not cook with alcohol around someone in recovery at all. Make
+          something else.
+        whyItLandsHere: No figure, no dish, no deference to him, and it abandons the brief.
+        expectedBand: 1
+        expectedScoreMax: 25
+  outputContract:
+    format: prose
+    maxWords: 500
+  classification:
+    primaryCapability: adaptation-lateral
+    secondaryCapabilities: [technical-reasoning, flavour-sensory]
+    evidenceLayer: craft-prose
+    taskFamily: constraint-substitution-under-a-false-premise
+    scenarioFamily: alcohol-in-cooking-and-recovery
+    stratumHypothesis:
+      stratum: chef-frontier
+      rationale: >
+        Two things must both happen — a quantified refutation and a complete
+        rebuild — and the folk rule is stated by the cook, which invites agreement.
+      certified: false
+    context:
+      locale: en-GB
+      kitchen: domestic
+      equipment: [oven, casserole with lid]
+      toolConditions: { browsing: false, images: false, followUpQuestions: false }
+    shortcutBlocked: >
+      Agreeing with the cook's premise and spending the answer on braising
+      technique, which is the highest-scoring move under a verbosity-biased
+      deduction judge and the wrong answer.
+    failureTaxonomy:
+      - domain: reasoning
+        label: burns-off-completely
+      - domain: reasoning
+        label: boiling-point-argument
+      - domain: sensory
+        label: omit-without-replacing
+      - domain: context
+        label: moralising
+  provenance:
+    itemVersion: 0.1.0
+    author: agent-draft (claude-opus-5)
+    authoringChain:
+      - stage: agent-draft
+        actor: claude-opus-5
+        actorVersion: claude-opus-5, 2026-07-30 authoring session
+        at: '2026-07-30'
+        transformation: Authored to docs/authoring/frontier-item-principle.md. No model was called.
+        notes: M3.9 — agent-drafted; retention figures must be checked against the USDA table.
+    modelExposures:
+      - modelId: anthropic/claude-opus-5
+        purpose: authoring
+        at: '2026-07-30'
+    independentSolves: []
+    verificationState: draft
+    safetyReview:
+      required: true
+      status: pending
+      notes: >
+        Reviewer must confirm the item cannot be read as advising anyone in
+        recovery on what they may consume — the item's position is that it is his
+        decision.
+  adversarialCases:
+    - kind: polished-but-wrong
+      answer: >
+        Three hours at 150 C is comfortably enough. Alcohol boils at 78 C, well
+        below your oven temperature, so it evaporates long before the beef is
+        tender — what remains is the wine's concentrated fruit and acidity, which
+        is precisely why the classic recipe wants a whole bottle. Cook it as you
+        always do.
+      expect: at-most
+      score: 25
+      rationale: The trap in its most persuasive form, arguing from real physics.
+    - kind: correct-concise
+      answer: >
+        It does not all go — reckon on 5 to 10 per cent retained in a lidded
+        three-hour braise. Ask him first. If he would rather not, replace the
+        bottle with 600 ml strong stock and 150 ml unsweetened grape juice, sharpen
+        with 2 tbsp red wine vinegar and add a black tea bag for tannin.
+      expect: at-least
+      score: 75
+    - kind: hard-constraint-miss
+      answer: >
+        You are right that most of it goes, but to be safe use a de-alcoholised
+        Burgundy — same flavour, no alcohol, and nobody need think about it.
+      expect: at-most
+      score: 35
+      rationale: Fails c1 and c5 at once, while sounding accommodating.
+    - kind: keyword-stuffing
+      answer: alcohol retention, 5 per cent, USDA, grape juice, vinegar, tannin, ask him, 0.5% ABV.
+      expect: at-most
+      score: 20
+
+# =============================================================================
+# subs-102 — the conversion chart that does not know what creaming is
+# =============================================================================
+- id: subs-102
+  category: substitutions
+  difficulty: 4
+  status: candidate
+  addedIn: v3
+  trap: true
+  public: true
+  authoringProvenance: agent-draft
+  canonicalTrap: >
+    Apply the chart: three-quarters the volume of maple syrup, reduce the liquid,
+    add a quarter-teaspoon of bicarbonate of soda, drop the oven by 15 C. Every
+    substitution table says this, it is correct for muffins and quick breads, and
+    it destroys a creamed sponge.
+  defeatingFact: >
+    Creaming works mechanically: the hard, sharp-edged sucrose crystals are
+    dragged through the butter and shear air cells into it, and those cells are
+    the cake's leavening. A liquid sweetener has no crystals, so it cannot cream —
+    the loss is the aeration mechanism, not just the sweetness. Maple syrup is
+    also about a third water and its fructose browns at a lower temperature than
+    sucrose.
+  prompt: >
+    Trying to cut refined sugar out of my baking. My standard Victoria sponge is
+    225 g each of butter, caster sugar, self-raising flour and egg — cream the
+    butter and sugar, beat the eggs in, fold the flour through, two tins, 20
+    minutes. I want to use maple syrup instead. The conversion chart I found says
+    use three-quarters of the volume of syrup and take out 3 tablespoons of liquid
+    per cup replaced, which works out at about 170 g of syrup for my 225 g of
+    sugar, and it says to drop the oven 15 C. Will that give me my sponge back,
+    and is there anything else I need to change?
+  grader:
+    type: llm-judge
+    judgeMode: dimension
+    judgeWeight: 1.0
+    rubric: &subs102-criteria
+      - id: c1
+        kind: critical
+        statement: Identifies that creaming depends on sugar crystals, so a liquid sweetener removes the aeration.
+        weight: 5
+        dimension: ingredient function
+        evidence: The mechanism, not just "the texture will differ".
+        failureLabel: chart-without-mechanism
+      - id: c2
+        kind: include
+        statement: Predicts the specific outcome — a denser, wetter, flatter crumb.
+        weight: 3
+        dimension: ingredient function
+      - id: c3
+        kind: include
+        statement: Gives at least one route that keeps the cake a risen sponge.
+        weight: 5
+        dimension: ingredient function
+        evidence: Maple sugar (crystalline) at about 1:1, or replacing only part of the caster sugar.
+      - id: c4
+        kind: include
+        statement: States that maple syrup is roughly one third water and adjusts for it.
+        weight: 3
+      - id: c5
+        kind: include
+        statement: Confirms the lower oven temperature and attributes it to faster browning.
+        weight: 2
+        evidence: Fructose and invert sugars brown at a lower temperature than sucrose.
+      - id: c6
+        kind: exceptional
+        statement: Notes that maple syrup is nutritionally close to sucrose, so the stated goal is barely served.
+        weight: 3
+      - id: c7
+        kind: avoid
+        statement: Does not endorse the chart for this method.
+        weight: 4
+  anchors:
+    - dimension: ingredient function
+      definition: Whether the answer reasons from what the ingredient does in this method, or from a table.
+      bands:
+        - band: 0
+          descriptor: Applies the chart and predicts a sponge of the same rise and texture.
+        - band: 1
+          descriptor: Applies the chart and warns only that the cake will taste sweeter or maple-flavoured.
+        - band: 2
+          descriptor: Mentions that creaming may suffer without naming the crystals as the mechanism.
+        - band: 3
+          descriptor: Names the crystal mechanism and gives one route back to a risen sponge.
+        - band: 4
+          descriptor: Names the crystal mechanism, quantifies the water in the syrup, and gives two routes including a crystalline maple sugar swap.
+  judgingNotes: >
+    The chart the cook quotes is real and is correct for chemically-leavened
+    batters; the item turns on whether the model asks what the sugar is doing in
+    this particular method. An answer that endorses the chart has failed c1 and
+    c7 even if every number in it is right. Credit any route that restores
+    aeration: maple sugar at roughly 1:1, keeping half the caster sugar for the
+    creaming stage, or switching to a melted-butter or oil batter and accepting a
+    different cake — but the last must say out loud that it is no longer a
+    Victoria sponge. c6 is a genuine bonus, not a moral: maple syrup is about
+    two-thirds sucrose, glucose and fructose, so "cutting refined sugar" this way
+    changes very little nutritionally, and saying so respectfully is the honest
+    answer.
+  referenceAnswer: >
+    The chart is not wrong, it is answering a different question — it is written
+    for muffins, loaf cakes and anything else mixed by the all-in-one or
+    melted-butter method, and your sponge is creamed. That matters more than any
+    of the numbers. Creaming is mechanical: the sharp edges of the caster sugar
+    crystals are dragged through cold-ish butter and cut air cells into it, and
+    those air cells are what the eggs and the flour then set around. It is the
+    cake's leavening, not just its sweetness. Maple syrup has no crystals, so
+    there is nothing to do the cutting; you can beat it into butter all afternoon
+    and get an emulsion rather than a foam. Follow the chart and you will get a
+    flat, dense, slightly gummy cake that tastes pleasant and is not a Victoria
+    sponge — made worse by the syrup being about a third water, which loosens the
+    batter, and by its fructose browning early, which is why the chart tells you
+    to drop the oven 15 C. That part is right. Two ways to get what you want.
+    Simplest: buy maple sugar rather than syrup. It is crystalline, it creams, and
+    it goes in at roughly 1:1 by weight, so 225 g, with no other change. Or keep
+    150 g of the caster sugar so the creaming still works, replace the remaining
+    75 g with about 60 g of syrup added with the eggs, and take 15 to 20 g out of
+    the flour to compensate for the extra water — the crumb will be a shade
+    denser and noticeably more maple. Either way, lower the oven to 165 C and
+    expect it to bake a couple of minutes faster than you think. One thing worth
+    saying plainly: maple syrup is about two-thirds sugars by weight — mostly
+    sucrose, the same molecule as your caster sugar — so if the aim is less sugar
+    rather than a different flavour, this swap will not get you there. Making the
+    sponge smaller, or eating it less often, will.
+  failingAnswer: >
+    That chart is spot on. Use 170 g of maple syrup in place of the 225 g of
+    caster sugar, hold back about 3 tablespoons of the liquid — with only eggs in
+    there, take out one egg white — add a quarter-teaspoon of bicarbonate of soda
+    to counter the syrup's acidity, and bake at 165 C rather than 180 C so it does
+    not over-brown. Cream the butter and syrup together until pale and fluffy just
+    as you would with sugar, then carry on as normal. You will get the same light,
+    even crumb with a lovely maple note running through it.
+  judgePack:
+    capabilityUnderTest: >
+      Asking what an ingredient does in a specific method before applying a
+      general substitution rule.
+    hardConstraints:
+      - The answer must not endorse creaming butter with a liquid sweetener.
+      - Any route offered must be executable from the cook's existing recipe.
+    criteria: *subs102-criteria
+    intendedOutcome:
+      practical: A sponge that rises, or an explicit and accepted change of cake.
+      sensory: Fine, even, springy crumb; maple present as flavour rather than as wetness.
+    sources:
+      - citation: McGee, On Food and Cooking, 2nd ed. — creaming, sugar crystals and aeration.
+        confidence: high
+      - citation: Corriher, BakeWise — the function of sugar in creamed batters.
+        confidence: high
+      - citation: >
+          USDA FoodData Central — maple syrup, approximately 32% water and 67%
+          total sugars.
+        confidence: high
+    solutionFamilies:
+      - id: crystalline-maple
+        summary: Use maple sugar at roughly 1:1 by weight.
+        whyAcceptable: Restores the crystals, so the method is unchanged.
+        boundaries: Fails if it does not note that maple sugar is a different purchase from syrup.
+      - id: partial-replacement
+        summary: Keep enough caster sugar to cream, add syrup with the eggs, take flour out for the water.
+        whyAcceptable: Keeps the mechanism and delivers the flavour, with an honest texture cost.
+      - id: change-the-method
+        summary: Switch to an all-in-one or melted-butter batter where chemical leavening does the work.
+        whyAcceptable: The chart then applies as written.
+        boundaries: Must say the result is no longer a Victoria sponge.
+    commonFailureModes:
+      - label: chart-without-mechanism
+        description: Applies a substitution table without checking what the ingredient does here.
+        domain: reasoning
+        severity: critical
+      - label: creaming-a-liquid
+        description: Instructs the cook to cream butter and syrup until pale and fluffy, which cannot happen.
+        domain: feasibility
+        severity: critical
+      - label: water-ignored
+        description: Does not account for the syrup being about a third water.
+        domain: reasoning
+        severity: minor
+      - label: health-claim-unchallenged
+        description: Accepts that maple syrup is meaningfully less sugar.
+        domain: context
+        severity: minor
+    workedExamples:
+      - kind: exceptional
+        answer: >
+          The chart is for muffin-method batters; yours is creamed, and creaming
+          needs crystals — the sugar's sharp edges cut air cells into the butter,
+          and that is your leavening. Syrup cannot do it. Use maple sugar at 1:1
+          (225 g) and change nothing else, or keep 150 g caster for the creaming,
+          add 60 g syrup with the eggs and drop 20 g of flour for the water. Oven
+          to 165 C either way. Worth knowing maple is two-thirds sugars, so this
+          is a flavour change rather than a sugar cut.
+        whyItLandsHere: All seven criteria; two routes, quantified.
+        expectedBand: 4
+      - kind: competent-ordinary
+        answer: >
+          It will not cream properly with a liquid sweetener, so expect a denser
+          cake. If you want to keep the sponge light, replace only part of the
+          sugar and keep the rest as caster.
+        whyItLandsHere: c1 and c3 present, unquantified; no water adjustment, no oven note.
+        expectedBand: 3
+      - kind: plausible-but-wrong
+        answer: >
+          Those numbers are right. Use 170 g of syrup, hold back a little liquid,
+          add a pinch of bicarbonate to balance the syrup's acidity and bake 15 C
+          lower. Cream the butter and syrup until pale and fluffy, then proceed as
+          usual — the maple gives a lovely caramel note and the crumb stays light.
+        whyItLandsHere: >
+          Every number is defensible in isolation and the instruction in the middle
+          is physically impossible. This is the trap: a correct table applied to
+          the wrong method.
+        expectedBand: 0
+        expectedScoreMax: 25
+      - kind: clearly-failing
+        answer: Swap it 1:1 and bake as normal. Maple syrup is a healthier sugar.
+        whyItLandsHere: No mechanism, wrong ratio, and an unexamined health claim.
+        expectedBand: 0
+        expectedScoreMax: 10
+  outputContract:
+    format: prose
+    maxWords: 450
+  classification:
+    primaryCapability: technical-reasoning
+    secondaryCapabilities: [adaptation-lateral]
+    evidenceLayer: craft-prose
+    taskFamily: substitution-against-a-published-rule
+    scenarioFamily: sugar-function-in-creamed-batter
+    stratumHypothesis:
+      stratum: chef-frontier
+      rationale: >
+        The cook supplies a correct-looking authority to agree with, and the
+        defeating mechanism is textbook — recitable, and routinely not reached.
+      certified: false
+    context:
+      locale: en-GB
+      kitchen: domestic
+      equipment: [stand mixer, two 20 cm tins, conventional oven]
+      toolConditions: { browsing: false, images: false, followUpQuestions: false }
+    shortcutBlocked: >
+      Deferring to a substitution chart the user has already found, and spending
+      the answer refining its numbers.
+    failureTaxonomy:
+      - domain: reasoning
+        label: chart-without-mechanism
+      - domain: feasibility
+        label: creaming-a-liquid
+      - domain: context
+        label: health-claim-unchallenged
+  provenance:
+    itemVersion: 0.1.0
+    author: agent-draft (claude-opus-5)
+    authoringChain:
+      - stage: agent-draft
+        actor: claude-opus-5
+        actorVersion: claude-opus-5, 2026-07-30 authoring session
+        at: '2026-07-30'
+        transformation: Authored to docs/authoring/frontier-item-principle.md. No model was called.
+        notes: M3.9 — agent-drafted; the creaming mechanism must be checked against McGee before admission.
+    modelExposures:
+      - modelId: anthropic/claude-opus-5
+        purpose: authoring
+        at: '2026-07-30'
+    independentSolves: []
+    verificationState: draft
+  adversarialCases:
+    - kind: polished-but-wrong
+      answer: >
+        Those numbers are right — 170 g of syrup, hold back a little liquid, a
+        pinch of bicarbonate for the syrup's acidity, and 15 C lower. Cream the
+        butter and syrup until pale and fluffy and carry on as normal; you will
+        get the same light crumb with a caramel note.
+      expect: at-most
+      score: 30
+      rationale: The chart applied to the wrong method, with an impossible instruction inside it.
+    - kind: correct-concise
+      answer: >
+        It will not cream — creaming needs sugar crystals to shear air into the
+        butter, and syrup has none, so you lose the rise. Use maple sugar at 1:1
+        instead, or keep 150 g caster and add 60 g syrup with the eggs, dropping
+        20 g of flour for the extra water.
+      expect: at-least
+      score: 75
+    - kind: keyword-stuffing
+      answer: creaming, sugar crystals, aeration, maple sugar, 32% water, fructose, browning, 165 C.
+      expect: at-most
+      score: 20

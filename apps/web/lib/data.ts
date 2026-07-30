@@ -28,7 +28,16 @@ export interface LeaderboardRow {
   questionsGraded: number;
   /** v2: transport-noise responses (empty/filtered after retries). */
   incidents?: number;
+  /**
+   * Candidate spend for THIS model's answers only. Not the cost of the run:
+   * it excludes the judge panel and the calibration gate, which are run-level.
+   * The board once labelled this column "Run cost" and so understated
+   * 2026-07-v2.1 by $14.68. Anything showing a run total must use
+   * `getRunCost`, never a sum of this field.
+   */
   costUsd: number;
+  /** v2.1+: judge-panel spend attributable to this model. Absent on older artifacts. */
+  judgeCostUsd?: number;
 }
 
 export interface LeaderboardReport {
@@ -156,6 +165,205 @@ export function getTiedRanks(runId: string): Map<string, number> | null {
     ranks.set(m, pairs.filter((p) => p.b === m && p.separated).length + 1);
   }
   return ranks;
+}
+
+/**
+ * A model's place on the board, from the one rank source.
+ *
+ * `sharedWith` is how many models hold this same place — 1 means the model
+ * holds it alone. Anything rendering a rank must branch on this rather than
+ * printing the number bare, or a joint first place reads as an outright win.
+ */
+export interface Standing {
+  place: number;
+  sharedWith: number;
+}
+
+export interface Standings {
+  byModel: Map<string, Standing>;
+  /**
+   * True when places came from the paired bootstrap; false when the run was
+   * never tested for separation and places are just row order.
+   */
+  tested: boolean;
+  /** Model ids holding place 1. Length > 1 is a shared first place. */
+  first: string[];
+  outOf: number;
+}
+
+/**
+ * THE rank source for every page. Do not derive a rank any other way.
+ *
+ * The board was taught about ties (`getTiedRanks`) but the model pages were
+ * not, so they kept computing `rows.indexOf(row) + 1`: a model badged "=1st"
+ * on the homepage was headed "rank #2" on its own page and in the description
+ * Google indexed. Two derivations of the same number is the defect — this
+ * function exists so there is only one.
+ *
+ * Falls back to row order when the run has no separation data, which is every
+ * pre-2026-07 artifact. Ties are never invented for a run that was not tested
+ * for them.
+ */
+export function getStandings(report: LeaderboardReport): Standings {
+  const tied = getTiedRanks(report.runId);
+  // Fail closed on a partial matrix. Competition places mean "models proven
+  // better than me", which is only true if every row was tested against every
+  // other; a row missing from analysis.json would otherwise be handed place 1
+  // for the sole reason that nothing was measured against it.
+  const trustworthy = tied !== null && report.rows.every((r) => tied.has(r.modelId));
+  const placeOf = (row: LeaderboardRow, index: number): number =>
+    trustworthy ? tied!.get(row.modelId)! : index + 1;
+
+  const occupants = new Map<number, number>();
+  report.rows.forEach((row, i) => {
+    const place = placeOf(row, i);
+    occupants.set(place, (occupants.get(place) ?? 0) + 1);
+  });
+
+  const byModel = new Map<string, Standing>();
+  report.rows.forEach((row, i) => {
+    const place = placeOf(row, i);
+    byModel.set(row.modelId, { place, sharedWith: occupants.get(place)! });
+  });
+
+  return {
+    byModel,
+    tested: trustworthy,
+    first: report.rows.filter((r) => byModel.get(r.modelId)!.place === 1).map((r) => r.modelId),
+    outOf: report.rows.length,
+  };
+}
+
+/**
+ * Renders a Standing as an ordinal, carrying the board's "=" marker when the
+ * place is shared: "=1st" for a joint first, "7th" for a place held alone.
+ *
+ * Lives next to `getStandings` on purpose. The rank contradiction this file
+ * fixes was a rendering decision made far from the rank computation, and
+ * splitting the two again is how it comes back.
+ */
+export function formatPlace(standing: Standing): string {
+  const n = standing.place;
+  // 11th/12th/13th are the exceptions to the last-digit rule.
+  const teen = n % 100 >= 11 && n % 100 <= 13;
+  const suffix = teen ? 'th' : (['th', 'st', 'nd', 'rd'][n % 10] ?? 'th');
+  return `${standing.sharedWith > 1 ? '=' : ''}${n}${suffix}`;
+}
+
+/** The slice of a run's config.json the site reads. */
+export interface RunConfig {
+  runId: string;
+  models?: string[];
+  temperature?: number;
+  maxTokens?: number;
+  maxTokensRecipe?: number;
+  judgeModel?: string;
+  judgePanel?: string[];
+  judgePromptVersion?: string;
+  methodologyVersion?: string;
+  mock?: boolean;
+  /** Total judge-panel spend. Absent on runs that predate cost recording. */
+  judgeCostUsd?: number;
+}
+
+export function getRunConfig(runId: string): RunConfig | null {
+  const path = join(RUNS_DIR, runId, 'config.json');
+  if (!existsSync(path)) return null;
+  try {
+    return readJson<RunConfig>(path);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * What a run actually cost, split by what the money bought.
+ *
+ * Unknown components are `null`, never 0: a run whose judge spend was never
+ * recorded did not judge for free, and rendering it as $0.00 would repeat the
+ * understatement in a new form. Callers must say "not recorded" and treat
+ * `knownUsd` as a lower bound whenever `complete` is false.
+ */
+export interface RunCost {
+  /** Candidate model spend — the sum of the board's per-model column. */
+  candidateUsd: number;
+  /** Judge panel spend for the whole run. */
+  judgeUsd: number | null;
+  /** Calibration gate spend — the anchor replay every seat runs before judging. */
+  calibrationUsd: number | null;
+  /** Sum of the components that are known. */
+  knownUsd: number;
+  /** False when any component is unknown. */
+  complete: boolean;
+}
+
+const money = (n: number) => Math.round(n * 100) / 100;
+const finite = (n: unknown): number | null =>
+  typeof n === 'number' && Number.isFinite(n) ? n : null;
+
+export function getRunCost(report: LeaderboardReport): RunCost {
+  // Candidate spend is summed from the board's own rows rather than from the
+  // responses, so the breakdown always reconciles with the column a reader can
+  // add up by hand.
+  const candidateUsd = report.rows.reduce((sum, r) => sum + (finite(r.costUsd) ?? 0), 0);
+
+  const config = getRunConfig(report.runId);
+  let judgeUsd = finite(config?.judgeCostUsd);
+  if (judgeUsd === null) {
+    // Fallback for artifacts written before the run config carried a judge
+    // total: the per-model figures, but only if every row has one. A partial
+    // sum would look authoritative while being too small.
+    const perModel = report.rows.map((r) => finite(r.judgeCostUsd));
+    if (perModel.length > 0 && perModel.every((v) => v !== null)) {
+      judgeUsd = perModel.reduce((sum, v) => sum + v!, 0);
+    }
+  }
+
+  let calibrationUsd: number | null = null;
+  const calibrationPath = join(RUNS_DIR, report.runId, 'calibration.json');
+  if (existsSync(calibrationPath)) {
+    try {
+      calibrationUsd = finite(readJson<{ costUsd?: number }>(calibrationPath).costUsd);
+    } catch {
+      calibrationUsd = null;
+    }
+  }
+
+  return {
+    candidateUsd: money(candidateUsd),
+    judgeUsd: judgeUsd === null ? null : money(judgeUsd),
+    calibrationUsd: calibrationUsd === null ? null : money(calibrationUsd),
+    knownUsd: money(candidateUsd + (judgeUsd ?? 0) + (calibrationUsd ?? 0)),
+    complete: judgeUsd !== null && calibrationUsd !== null,
+  };
+}
+
+/**
+ * id → display name for the roster, so pages can name a judge seat without
+ * hardcoding it. The methodology page named the panel by hand and went stale
+ * the moment the Qwen seat was replaced by Grok 4.5 — it went on claiming a
+ * panel that had not judged the published run.
+ *
+ * Deliberately shape-checked rather than parsed through the core schema: this
+ * only needs two fields, and a roster field the site does not read must never
+ * be able to take the site down.
+ */
+export function getModelNames(): Map<string, string> {
+  const names = new Map<string, string>();
+  const path = join(DATA_DIR, 'models.yaml');
+  if (!existsSync(path)) return names;
+  try {
+    const parsed: unknown = parse(readFileSync(path, 'utf8'));
+    if (!Array.isArray(parsed)) return names;
+    for (const entry of parsed) {
+      const { id, displayName } = (entry ?? {}) as { id?: unknown; displayName?: unknown };
+      if (typeof id === 'string' && typeof displayName === 'string') names.set(id, displayName);
+    }
+  } catch {
+    // An unreadable roster costs nice names, nothing else — callers fall back
+    // to the slug, which is still true.
+  }
+  return names;
 }
 
 export function getQuestions(): Question[] {

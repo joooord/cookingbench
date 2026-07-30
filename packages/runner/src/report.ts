@@ -25,7 +25,20 @@ export interface LeaderboardRow {
    * peers', which a reader has to know before comparing the numbers.
    */
   unjudged?: number;
+  /**
+   * Candidate spend on THIS model's answers. Not the cost of the run: the
+   * judge panel and the calibration gate are paid for separately, and a board
+   * that adds this column up and calls the sum "run cost" understates it —
+   * 2026-07-v2.1 read $26.93 against $41.61 actually spent. Anything showing a
+   * run total must add `judgeCostUsd` and the calibration artifact to it.
+   */
   costUsd: number;
+  /**
+   * Judge-panel spend attributable to this model's answers, summed from the
+   * per-score verdict costs. Left undefined — never 0 — when no score carries
+   * one, because "not recorded" and "free" must not render the same.
+   */
+  judgeCostUsd?: number;
 }
 
 export interface LeaderboardReport {
@@ -103,6 +116,19 @@ export function buildLeaderboard(
     }
     return byModel.get(modelId)!;
   };
+
+  // Judge spend, per model, over every score that records one — including
+  // retired and basics items, and including pending ones, because the money
+  // was spent whether or not the verdict counts towards a column. A model with
+  // no recorded verdict cost stays out of the map entirely so the row reports
+  // "unknown" rather than "$0.00".
+  const judgeCostByModel = new Map<string, number>();
+  for (const s of scores) {
+    const cost = (s.detail as { judgeCostUsd?: unknown }).judgeCostUsd;
+    if (typeof cost !== 'number' || !Number.isFinite(cost)) continue;
+    judgeCostByModel.set(s.modelId, (judgeCostByModel.get(s.modelId) ?? 0) + cost);
+  }
+
   for (const s of scores) {
     const q = questionsById.get(s.questionId);
     if (!q || q.status === 'retired') continue;
@@ -147,6 +173,9 @@ export function buildLeaderboard(
       incidents: incidentsByModel.get(modelId) ?? 0,
       unjudged: buckets.unjudged,
       costUsd: Math.round((costByModel.get(modelId) ?? 0) * 10000) / 10000,
+      judgeCostUsd: judgeCostByModel.has(modelId)
+        ? Math.round(judgeCostByModel.get(modelId)! * 10000) / 10000
+        : undefined,
     });
   }
   rows.sort((a, b) => b.overall - a.overall);

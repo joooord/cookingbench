@@ -186,3 +186,132 @@ balanced design all treat it as one, so cross-provider rebadge detection is
 correct in code and unexercised on the real roster — the tests cover it with
 synthetic rosters. A real registry of base-model identities is the proper fix
 and belongs with the model registry, not here.
+
+## packages/core — M1.2 KitchenPlan validator and TRN renderer (kitchenplan.ts, trn.ts)
+
+New: `packages/core/src/kitchenplan.ts` (graph validator, scaling) and
+`packages/core/src/trn.ts` (pure table model). Both are pure — no I/O, no model
+calls — so a stored plan re-validates and re-renders identically from artifacts.
+
+**No new CLI command.** These are libraries. If a verb is ever wanted for
+authoring work, the entry points are `readKitchenPlan(raw)` →
+`validateKitchenPlan(plan, constraints, { contract })` → `buildTrnTable(plan)`;
+nothing in them needs argv.
+
+What the integration pass has to wire up:
+
+1. **`packages/core/src/index.ts` does not re-export either module.** Add
+   `export * from './kitchenplan.js';` and `export * from './trn.js';`. That file
+   belongs to another workstream, so it was left alone. Nothing outside the
+   package can import them until this lands.
+
+2. **`kitchenPlanContractSchema` needs an optional machine-readable constraint
+   block.** The contract currently carries `verifiedLimits` as free-text
+   statements, which a validator cannot measure against. The validator takes a
+   `VerifiedConstraints` object (`verifiedConstraintsSchema`, exported from
+   `kitchenplan.ts`) whose `source` enum is restricted to `prompt | judge-pack`.
+   Suggested additive field: `kitchenPlanContract.constraints?:
+   VerifiedConstraints`, parsed with `readVerifiedConstraints`. Until then a
+   caller must build the pack itself, and it must build it **from the item**.
+   Passing anything a candidate produced defeats M1.2's firewall — the enum is
+   the only thing standing between the benchmark and plans that validate
+   themselves.
+
+3. **Three layers must be stored and reported separately**, never summed:
+   `PlanValidation.format`, `.structure`, `.culinary`. `format` is output-contract
+   failure (bad JSON, missing required object), `structure` is the plan against
+   itself, `culinary` is the plan against the stated kitchen. Each layer's
+   verdict is `pass | fail | unvalidatable`; `unvalidatable` means a limit was
+   never stated and must not be scored as either competence or failure. A
+   response whose plan never parsed yields `formatFailure(findings)`, whose
+   culinary verdict is `unvalidatable` — a culinary `pass` there would read as
+   "cooks fine" on the strength of having produced no plan.
+
+4. **Findings carry `severity: 'violation' | 'warning'`.** Warnings are the
+   M1.2 "never reject a viable approach" valve: a schedule that only collides
+   when every step runs long, a scaled plan that lengthens a braise, a
+   provenance claim the pack cannot corroborate. They must not fail an item.
+
+5. **`bench validate` should call the validator's item-side refusals.** It
+   throws `KitchenPlanValidationError` — not a finding against the candidate —
+   when an item requires an unknown plan object or pins an incompatible
+   `validatorVersion` (`PLAN_VALIDATOR_VERSION`, currently `kitchenplan-1.0.0`;
+   major must match, the validator may be newer within it). Those are authoring
+   bugs and should die in validate, not silently score a model down.
+
+6. **`VerifiedEquipment.countAvailable` is concurrent uses, not appliances.** An
+   oven that takes two trays at once is `countAvailable: 2`. Item authors need
+   telling; the contention check counts simultaneous operations against it.
+
+7. **The web app renders `TrnTable`, it does not build one.** `buildTrnTable`
+   returns rows/cells/steps or a refusal (`cycle`, `unresolved-input`,
+   `duplicate-id`, `no-root`) — render the refusal, never a partial table, and
+   keep `orphanRows` visible: hiding a declared-but-unused ingredient conceals
+   the fault the validator reports.
+
+The trajectory check's modelling limits are real and belong next to any number
+it produces: it counts declared minutes only and knows nothing about thermal
+mass, so a violation is strong evidence and a pass is not a safety certificate.
+
+Tests: `packages/core/test/kitchenplan.test.ts` (72), covering both modules.
+
+## packages/core — M2.7/M2.8 jury-fitness statistics (agreement.ts)
+
+New: `packages/core/src/agreement.ts` + `packages/core/test/agreement.test.ts`
+(100 tests, passing). Pure functions only — no I/O, no model calls, no unseeded
+randomness — so a judge-validation report is reproducible from committed
+fixtures.
+
+**`src/index.ts` needs `export * from './agreement.js';`.** index.ts is owned by
+the integration pass, so this workstream did not touch it. Nothing else in the
+repo imports agreement.ts yet.
+
+**No CLI command was added.** If one is wanted later, the shape is:
+
+    pnpm bench judge-validate --labels <path> --ballots <path> \
+                              --criteria <path> --out <path>
+
+which should read a `judgeBenchLabelSetSchema` file, call the statistics below,
+assemble a `Record<string, Measurement>` and hand it to
+`evaluateReleaseCriteria(criteria, measurements)`. The criteria must come from a
+**file**, not from code: `provisionalM28Criteria('documentation-only' | 'dry-run')`
+returns M2.8's list for seeding that file, and deliberately refuses any other
+argument, because a gate whose thresholds are compiled into the evaluator cannot
+be shown to have been frozen before the holdout was opened.
+
+Entry points the wiring will want:
+
+- `krippendorffAlpha(ratings, { metric: 'ordinal', domain: [0,1,2,3,4] })` for
+  anchored dimension bands; `metric: 'nominal'` (or `'custom'` with a distance
+  vetted by `assertPairwiseDistance`) for canonicalised pairwise outcomes.
+- `bootstrapAlpha(ratings, { clusterBy: 'rater' | 'family' | 'unit', ... })`.
+- `pairwiseRatingsForAgreement(ballots)` — canonicalises presentation to
+  candidate identity, maps `abstain` and order-unstable rater units to `null`.
+- `humanParity`, `orderEffect`, `repeatConsistency`, `identicalAnswerControl`,
+  `paddedDuplicatePreference`, `styleInvariance`, `safetyRates`,
+  `agreementRate`, `macroF1`, `stratumAgreement`, `clopperPearson`.
+
+Three things the integration pass must not "tidy":
+
+1. **`alpha` is `number | null`.** A constant matrix (every seat gave every case
+   a 4) has expected disagreement 0 and no defined coefficient. It returns
+   `null` with `degenerate: 'no-variation'`, never 1.0 — and the release
+   evaluator treats a null measurement as `not-measured`, which makes the
+   verdict `incomplete`, never `pass`.
+2. **`evaluateReleaseCriteria` has no default criteria argument** and returns
+   `incomplete` on a missing measurement. Do not add a fallback list.
+3. **`orderEffect` requires a preregistered `equivalenceMarginPoints`** and
+   decides equivalence on the bootstrap interval, not the point estimate.
+
+Human labels are an input, not an output: `judgeBenchLabelSetSchema` refuses any
+label whose `provenance` is `model`, refuses a set with fewer than two raters,
+refuses the same rater labelling a case twice, and refuses a `sealed-holdout`
+tranche with no preregistration id. There is no fixture data in the repo yet —
+that is Gate 2 work for qualified humans.
+
+Possible overlap to check at integration time: another workstream added
+`packages/core/src/stats.ts` in the same window. If it also exports a bootstrap
+helper, reconcile the two rather than letting both ship; agreement.ts's
+`clusteredBootstrap` requires an explicit `relabel` function for a reason
+(duplicate cluster draws must not merge into one unit) and that requirement
+should survive any merge.

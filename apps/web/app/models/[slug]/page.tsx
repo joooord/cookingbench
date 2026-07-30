@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { CATEGORIES, CATEGORY_IDS } from '@cookingbench/core';
-import { getLatestReport, modelIdFromSlug, modelSlug } from '@/lib/data';
+import { formatPlace, getLatestReport, getStandings, modelIdFromSlug, modelSlug } from '@/lib/data';
 import { CATEGORY_COLORS, formatScore, scoreColor } from '@/lib/format';
 import { ScoreBar } from '@/components/ScoreBar';
 
@@ -17,10 +17,17 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const report = getLatestReport();
   const row = report?.rows.find((r) => r.modelId === modelIdFromSlug(slug));
   if (!report || !row) return {};
-  const rank = report.rows.indexOf(row) + 1;
+  // Search descriptions outlive the page they were cut from, so this is the
+  // worst place to state a strict rank the run does not support. Same source
+  // as the board and the page body.
+  const standings = getStandings(report);
+  const standing = standings.byModel.get(row.modelId);
+  const place = standing
+    ? `${standing.sharedWith > 1 ? 'is joint' : 'ranks'} ${formatPlace(standing).replace(/^=/, '')}`
+    : 'appears';
   return {
     title: `${row.displayName} as a chef`,
-    description: `${row.displayName} ranks #${rank} of ${report.rows.length} on CookingBench with an overall culinary score of ${formatScore(row.overall)}. Full category breakdown: conversions, food safety, technique, flavour and more.`,
+    description: `${row.displayName} ${place} of ${standings.outOf} on CookingBench with an overall culinary score of ${formatScore(row.overall)}. Full category breakdown: conversions, food safety, technique, flavour and more.`,
   };
 }
 
@@ -31,7 +38,8 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
   const modelId = modelIdFromSlug(slug);
   const row = report.rows.find((r) => r.modelId === modelId);
   if (!row) notFound();
-  const rank = report.rows.indexOf(row) + 1;
+  const standings = getStandings(report);
+  const standing = standings.byModel.get(row.modelId);
   const familyPeers = row.family
     ? report.rows.filter((r) => r.family === row.family && r.modelId !== row.modelId)
     : [];
@@ -51,8 +59,28 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
         <span className="tabular text-3xl font-medium" style={{ color: scoreColor(row.overall) }}>
           {formatScore(row.overall)}
         </span>
-        <span className="tabular text-sm text-ink-soft">rank #{rank} · run {report.runId}</span>
+        <span className="tabular text-sm text-ink-soft">
+          {standing ? `rank ${formatPlace(standing)} of ${standings.outOf}` : 'unranked'} · run{' '}
+          {report.runId}
+        </span>
       </div>
+
+      {standing && standing.sharedWith > 1 && (
+        // The "=" marker is meaningless on its own away from the board, where
+        // the tie is explained. Spell it out here rather than letting a reader
+        // guess, and use the same wording the leaderboard does.
+        <p className="mt-4 max-w-2xl text-sm text-ink-soft">
+          {standing.sharedWith} models share this place: a paired bootstrap over per-question
+          score differences cannot show any of them beating the others.{' '}
+          <Link
+            href="/methodology#separation"
+            className="underline decoration-hairline underline-offset-4 hover:text-paprika"
+          >
+            How this is measured
+          </Link>
+          .
+        </p>
+      )}
 
       <section className="mt-12 max-w-2xl">
         <h2 className="border-b-2 border-ink pb-3 font-display text-xl font-medium">

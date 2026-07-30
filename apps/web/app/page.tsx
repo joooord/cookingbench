@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { CATEGORIES, CATEGORY_IDS } from '@cookingbench/core';
-import { getLatestReport, getTiedRanks, modelSlug } from '@/lib/data';
+import { getLatestReport, getRunCost, getStandings, modelSlug } from '@/lib/data';
 import { CATEGORY_COLORS, formatScore, scoreColor } from '@/lib/format';
 import { getTasteWinrates } from '@/lib/supabase';
 
@@ -18,11 +18,16 @@ export default async function LeaderboardPage() {
   // Models nothing on the board is proven to beat. The row order stays as it is
   // — readers expect a sorted table — but calling the top row "the winner" when
   // five models share first place is the one claim this page must not make.
-  const ranks = report ? getTiedRanks(report.runId) : null;
-  const tiedFirst = ranks
-    ? (report?.rows ?? []).filter((r) => ranks.get(r.modelId) === 1).map((r) => r.modelId)
-    : [];
+  // Same source as the model pages: see getStandings.
+  const standings = report ? getStandings(report) : null;
+  const tiedFirst = standings?.tested ? standings.first : [];
   const sharedFirst = tiedFirst.length > 1;
+  // Only a *tested* first place earns the highlight. On a run with no
+  // separation data the places are just row order, and colouring the top row
+  // would assert the win the paired bootstrap has not been run to support.
+  const provenFirst = (modelId: string) =>
+    standings?.tested === true && standings.byModel.get(modelId)?.place === 1;
+  const cost = report ? getRunCost(report) : null;
   return (
     <div>
       <section className="py-16">
@@ -103,7 +108,12 @@ export default async function LeaderboardPage() {
                   </th>
                 )}
                 <th className="hidden py-3 pr-4 font-normal md:table-cell">Categories</th>
-                <th className="py-3 text-right font-normal">Run cost</th>
+                <th
+                  className="py-3 text-right font-normal"
+                  title="Candidate spend on this model's answers. Judging and calibration are run-level costs and are broken out below the table."
+                >
+                  Model cost
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -114,14 +124,14 @@ export default async function LeaderboardPage() {
                     <Link href={`/models/${modelSlug(row.modelId)}`} className="hover:text-paprika">
                       <span
                         className={
-                          ranks?.get(row.modelId) === 1 ? 'font-semibold text-paprika' : 'font-medium'
+                          provenFirst(row.modelId) ? 'font-semibold text-paprika' : 'font-medium'
                         }
                       >
                         {row.displayName}
                       </span>
                       <span className="ml-2 text-xs text-ink-soft">{row.provider}</span>
                     </Link>
-                    {sharedFirst && ranks?.get(row.modelId) === 1 && (
+                    {sharedFirst && provenFirst(row.modelId) && (
                       <span
                         className="ml-2 rounded-sm border border-hairline px-1.5 py-0.5 align-middle text-[10px] uppercase tracking-wider text-ink-soft"
                         title={`Statistically tied for first with ${tiedFirst.length - 1} other model(s) — no model on this board is shown to beat it`}
@@ -218,6 +228,43 @@ export default async function LeaderboardPage() {
               ))}
             </tbody>
           </table>
+          {cost && (
+            // The per-model column only ever covered candidate spend, but the
+            // header said "Run cost" — so the page advertised 2026-07-v2.1 as a
+            // $26.93 run when judging and calibration took it to $41.61. Every
+            // component is named, and an unrecorded one says so rather than
+            // being counted as zero.
+            <p className="mt-4 text-xs leading-relaxed text-ink-soft">
+              <span className="text-ink">Run cost</span> ·{' '}
+              <span className="tabular">${cost.candidateUsd.toFixed(2)}</span> candidate answers
+              {' + '}
+              {cost.judgeUsd === null ? (
+                <span title="This run's artifacts predate judge-cost recording — the spend is unknown, not zero">
+                  judge panel not recorded
+                </span>
+              ) : (
+                <>
+                  <span className="tabular">${cost.judgeUsd.toFixed(2)}</span> judge panel
+                </>
+              )}
+              {' + '}
+              {cost.calibrationUsd === null ? (
+                <span title="No calibration artifact was written for this run — the spend is unknown, not zero">
+                  calibration not recorded
+                </span>
+              ) : (
+                <>
+                  <span className="tabular">${cost.calibrationUsd.toFixed(2)}</span> calibration gate
+                </>
+              )}
+              {' = '}
+              <span className="tabular text-ink">
+                {cost.complete ? '' : '≥ '}${cost.knownUsd.toFixed(2)}
+              </span>{' '}
+              {cost.complete ? 'total' : 'total recorded'}. The Model cost column is candidate
+              spend only.
+            </p>
+          )}
         </section>
       )}
 
