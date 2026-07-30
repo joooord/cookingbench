@@ -1,17 +1,29 @@
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
-import { assertManifestCoherent, canPublish, hasJudgeConflict, isRankEligible } from '@cookingbench/core';
+import {
+  assertManifestCoherent,
+  canPublish,
+  canonicalId,
+  canonicalJson,
+  hasJudgeConflict,
+  isRankEligible,
+  validatedRunManifestSchema,
+} from '@cookingbench/core';
 import { RUNS_DIR } from '../src/dataset.js';
+import * as firewallModule from '../src/firewall.js';
 import {
   Firewall,
   FirewallError,
-  __setHistoricalRunIds,
   assertPublishable,
+  assertSafePathComponent,
   assertWritablePath,
   isHistoricalRun,
   nonScoringBanner,
+  readHistoricalRegistry,
   resolveRunDir,
+  undeclaredPublishedRuns,
 } from '../src/firewall.js';
 import { writeResponse, writeScores } from '../src/store.js';
 
@@ -23,7 +35,6 @@ import { writeResponse, writeScores } from '../src/store.js';
 const SCRATCH = '__test-firewall-scratch';
 
 afterEach(() => {
-  __setHistoricalRunIds(null);
   rmSync(join(RUNS_DIR, SCRATCH), { recursive: true, force: true });
 });
 
@@ -71,8 +82,35 @@ describe('DATA-001 — historical artifacts cannot be overwritten', () => {
   it('fails closed when the registry is absent', () => {
     // A fresh checkout without data/historical-runs.json must not silently
     // permit overwrites; every existing run directory is treated as frozen.
-    __setHistoricalRunIds(null);
-    expect(isHistoricalRun('2026-07-v2.1')).toBe(true);
+    const frozen = readHistoricalRegistry(join(RUNS_DIR, '..', 'no-such-registry.json'));
+    expect(frozen.has('2026-07-v2.1')).toBe(true);
+    expect(frozen.has('2026-06-v2')).toBe(true);
+  });
+
+  it('refuses to operate on a malformed or unparseable registry', () => {
+    // The first cut did `parsed.runIds ?? []`, so a malformed registry produced
+    // an EMPTY frozen set and permitted writes to every published run — the
+    // exact inverse of failing closed.
+    mkdirSync(join(RUNS_DIR, SCRATCH), { recursive: true });
+    const bad = join(RUNS_DIR, SCRATCH, 'registry.json');
+    for (const contents of ['{ not json', '{}', '{"runIds": "2026-07-v2.1"}', '[]', 'null', '{"runIds": [""]}']) {
+      writeFileSync(bad, contents);
+      expect(() => readHistoricalRegistry(bad)).toThrow(FirewallError);
+    }
+    // Only a well-formed registry is accepted.
+    writeFileSync(bad, JSON.stringify({ runIds: ['a-run'] }));
+    expect(readHistoricalRegistry(bad)).toEqual(new Set(['a-run']));
+  });
+
+  it('has no exported switch that can disable the guard', () => {
+    // A guard with an off switch in its own public API is not a guard.
+    const api = firewallModule as Record<string, unknown>;
+    expect(Object.keys(api).some((k) => k.startsWith('__'))).toBe(false);
+  });
+
+  it('declares every run that has published a board', () => {
+    // Guards registry omission without freezing in-progress runs.
+    expect(undeclaredPublishedRuns()).toEqual([]);
   });
 });
 
@@ -103,7 +141,6 @@ describe('path confinement — the traversal that WP-0 closed', () => {
   });
 
   it('admits a legitimate new run id', () => {
-    __setHistoricalRunIds([]);
     expect(resolveRunDir('2026-08-v2.2', { write: true })).toBe(join(RUNS_DIR, '2026-08-v2.2'));
   });
 
@@ -312,5 +349,127 @@ describe('offline guarantee', () => {
     } finally {
       if (saved !== undefined) process.env.OPENROUTER_API_KEY = saved;
     }
+  });
+});
+
+describe('filesystem boundary, not just lexical paths', () => {
+  it('rejects a run directory that is a symlink out of RUNS_DIR', () => {
+    // resolve() never touches the disk, so a link planted at data/runs/<id>
+    // satisfies every lexical check while writing somewhere else entirely.
+    const linkName = `${SCRATCH}-link`;
+    const link = join(RUNS_DIR, linkName);
+    rmSync(link, { recursive: true, force: true });
+    symlinkSync(tmpdir(), link);
+    try {
+      expect(() => resolveRunDir(linkName, { write: true })).toThrow(FirewallError);
+      try {
+        resolveRunDir(linkName, { write: true });
+      } catch (e) {
+        expect((e as FirewallError).code).toBe('SYMLINK_ESCAPE');
+      }
+    } finally {
+      rmSync(link, { recursive: true, force: true });
+    }
+  });
+
+  it('allows a real directory inside RUNS_DIR', () => {
+    mkdirSync(join(RUNS_DIR, SCRATCH), { recursive: true });
+    expect(() => resolveRunDir(SCRATCH, { write: true })).not.toThrow();
+  });
+});
+
+describe('filename components are validated at the writer boundary', () => {
+  it.each(['', '.', '..', 'a/b', 'a\\b', 'x'.repeat(129)])('rejects %j', (bad) => {
+    expect(() => assertSafePathComponent(bad, 'question id')).toThrow(FirewallError);
+  });
+
+  it('accepts a normal question id', () => {
+    expect(assertSafePathComponent('conv-001', 'question id')).toBe('conv-001');
+  });
+
+  it('refuses a traversing question id through the real writer', () => {
+    // The CLI schema constrains question ids today, but shared enforcement must
+    // not depend on an upstream caller remembering to validate.
+    expect(() =>
+      writeResponse({
+        runId: SCRATCH,
+        modelId: 'openai/gpt-5.5',
+        questionId: '../../../etc/passwd',
+        answerText: 'x',
+        raw: {},
+        tokensIn: 0,
+        tokensOut: 0,
+        costUsd: 0,
+        latencyMs: 0,
+      }),
+    ).toThrow(FirewallError);
+  });
+});
+
+describe('JUDGE-001 identity is case-folded', () => {
+  it('treats display-case variants as the same identity', () => {
+    // Free-text provider labels would otherwise make "Anthropic" and
+    // "anthropic" look like independent seats.
+    expect(
+      hasJudgeConflict(
+        { provider: 'anthropic', baseModelFamily: 'CLAUDE' },
+        { provider: ' Anthropic ', baseModelFamily: 'claude' },
+      ),
+    ).toBe(true);
+    expect(canonicalId(' Anthropic ')).toBe('anthropic');
+  });
+});
+
+describe('DATA-002 — coherence is enforced at parse, not by an optional call', () => {
+  const ok = {
+    manifestVersion: 1,
+    runId: 'r-1',
+    methodologyVersion: 'v3.0',
+    schemaVersion: '1',
+    gitCommit: '980dfcb',
+    parentArtifacts: [],
+    evidenceClass: 'development',
+    artifactOrigin: ['synthetic'],
+    releaseState: 'draft',
+    rankEligible: false,
+    bankHash: 'a'.repeat(64),
+    promptHash: 'b'.repeat(64),
+    judgePromptHash: 'c'.repeat(64),
+    validatorHash: 'd'.repeat(64),
+    candidateRoutes: [],
+    judgeRoutes: [],
+    generationSettings: {
+      temperature: 0,
+      maxTokens: 16000,
+      maxTokensRecipe: 32000,
+      repeats: 1,
+      repeatPolicy: 'single',
+    },
+    callPlan: { concurrency: 4, maxAttempts: 3, abortOn: [] },
+    budgetCapUsd: 10,
+    outputRoot: 'data/runs/r-1',
+  };
+
+  it('accepts a coherent manifest', () => {
+    expect(validatedRunManifestSchema.safeParse(ok).success).toBe(true);
+  });
+
+  it('rejects an incoherent rankEligible at parse time', () => {
+    expect(validatedRunManifestSchema.safeParse({ ...ok, rankEligible: true }).success).toBe(false);
+  });
+
+  it('rejects a rank-eligible manifest built from mock material at parse time', () => {
+    const cheat = { ...ok, evidenceClass: 'public-release', releaseState: 'released', rankEligible: true };
+    expect(validatedRunManifestSchema.safeParse(cheat).success).toBe(false);
+  });
+
+  it('rejects an outputRoot that could escape', () => {
+    for (const outputRoot of ['../../etc', '/etc/passwd', 'data/runs/../../x']) {
+      expect(validatedRunManifestSchema.safeParse({ ...ok, outputRoot }).success).toBe(false);
+    }
+  });
+
+  it('hashes deterministically regardless of key order', () => {
+    expect(canonicalJson({ b: 1, a: { d: 2, c: 3 } })).toBe(canonicalJson({ a: { c: 3, d: 2 }, b: 1 }));
   });
 });

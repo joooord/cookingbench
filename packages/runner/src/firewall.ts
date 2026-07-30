@@ -1,8 +1,9 @@
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
-import { isAbsolute, join, relative, resolve, sep } from 'node:path';
+import { existsSync, readFileSync, readdirSync, realpathSync } from 'node:fs';
+import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import {
   NON_SCORING_LABEL,
   canPublish,
+  parseHistoricalRegistry,
   runIdSchema,
   type Capability,
   type EvidenceClass,
@@ -39,7 +40,10 @@ export class FirewallError extends Error {
       | 'CAPABILITY_DENIED'
       | 'CELL_NOT_AUTHORISED'
       | 'INELIGIBLE_EVIDENCE'
-      | 'INVALID_RUN_ID',
+      | 'INVALID_RUN_ID'
+      | 'REGISTRY_INVALID'
+      | 'SYMLINK_ESCAPE'
+      | 'INVALID_PATH_COMPONENT',
   ) {
     super(message);
     this.name = 'FirewallError';
@@ -57,28 +61,80 @@ export class FirewallError extends Error {
  */
 const HISTORICAL_REGISTRY = join(DATA_DIR, 'historical-runs.json');
 
+/** Every run directory currently on disk. The fail-closed fallback. */
+function everyRunDirectory(): string[] {
+  return existsSync(RUNS_DIR)
+    ? readdirSync(RUNS_DIR, { withFileTypes: true })
+        .filter((e) => e.isDirectory())
+        .map((e) => e.name)
+    : [];
+}
+
 let historicalCache: Set<string> | null = null;
 
-export function historicalRunIds(): Set<string> {
-  if (historicalCache) return historicalCache;
-  if (existsSync(HISTORICAL_REGISTRY)) {
-    const parsed = JSON.parse(readFileSync(HISTORICAL_REGISTRY, 'utf8')) as { runIds?: string[] };
-    historicalCache = new Set(parsed.runIds ?? []);
-  } else {
-    historicalCache = new Set(
-      existsSync(RUNS_DIR)
-        ? readdirSync(RUNS_DIR, { withFileTypes: true })
-            .filter((e) => e.isDirectory())
-            .map((e) => e.name)
-        : [],
+/**
+ * DATA-001. The frozen set.
+ *
+ * Genuinely fail-closed, which the first cut was not: it did
+ * `parsed.runIds ?? []`, so a malformed registry — or one missing the key —
+ * produced an EMPTY set and permitted writes to every published run. That is
+ * the exact inverse of the intent. Now:
+ *
+ *   absent file → every run directory on disk is frozen (fail closed)
+ *   unparseable → throw; refuse to operate on an unknown policy
+ *   valid       → the registry is authoritative
+ *
+ * The registry is authoritative when valid rather than unioned with the
+ * directories on disk, because unioning would freeze a run the moment its first
+ * batch wrote — and this pipeline is resume-aware by design, so batch two would
+ * be refused. Omission is guarded instead by a CI test asserting that every run
+ * directory carrying a leaderboard.json appears in the registry: a published
+ * board that is not declared frozen fails the build rather than breaking runs.
+ */
+/**
+ * Read the frozen set from a registry file.
+ *
+ * Takes the path as a parameter so the failure modes can be tested against
+ * fixtures without any global mutation. There is deliberately NO setter: an
+ * exported `__setHistoricalRunIds([])` would have been a production API call
+ * that disables DATA-001 outright, and a guard with an off switch in its own
+ * public interface is not a guard.
+ */
+export function readHistoricalRegistry(registryPath: string = HISTORICAL_REGISTRY): Set<string> {
+  if (!existsSync(registryPath)) return new Set(everyRunDirectory());
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(readFileSync(registryPath, 'utf8'));
+  } catch (e) {
+    throw new FirewallError(
+      `Historical registry ${registryPath} is not valid JSON (${(e as Error).message}). Refusing to operate with an unknown immutability policy.`,
+      'REGISTRY_INVALID',
     );
   }
+  const result = parseHistoricalRegistry(parsed);
+  if (!result.ok) {
+    throw new FirewallError(
+      `Historical registry ${registryPath} is malformed: ${result.error}. Refusing to operate with an unknown immutability policy.`,
+      'REGISTRY_INVALID',
+    );
+  }
+  return new Set(result.runIds);
+}
+
+export function historicalRunIds(): Set<string> {
+  historicalCache ??= readHistoricalRegistry();
   return historicalCache;
 }
 
-/** Test seam only. Production code reads the committed registry. */
-export function __setHistoricalRunIds(ids: string[] | null): void {
-  historicalCache = ids === null ? null : new Set(ids);
+/**
+ * CI guard for registry omission. Any run directory that has published a board
+ * must be declared frozen; if it is not, this returns it and the test fails.
+ */
+export function undeclaredPublishedRuns(): string[] {
+  const declared = historicalRunIds();
+  return everyRunDirectory().filter(
+    (runId) => !declared.has(runId) && existsSync(join(RUNS_DIR, runId, 'leaderboard.json')),
+  );
 }
 
 export function isHistoricalRun(runId: string): boolean {
@@ -117,6 +173,11 @@ export function resolveRunDir(runId: string, opts: { write: boolean }): string {
       'PATH_ESCAPE',
     );
   }
+  // Lexical containment is not filesystem containment. `resolve()` never
+  // touches the disk, so a run directory that IS a symlink — or sits under one
+  // — passes every check above while writing somewhere else entirely. Compare
+  // real paths for the components that actually exist.
+  assertNoSymlinkEscape(dir);
   if (opts.write && isHistoricalRun(runId)) {
     throw new FirewallError(
       `Run ${runId} is historical and immutable (DATA-001). Derived work must use a new run id and its own output root.`,
@@ -127,12 +188,67 @@ export function resolveRunDir(runId: string, opts: { write: boolean }): string {
 }
 
 /**
+ * Validate a single filename component at the writer boundary.
+ *
+ * `safeName()` in store.ts sanitised the model id but the question id went into
+ * the filename raw. The CLI's schema happens to constrain question ids today,
+ * so this was not exploitable through `bench` — but shared enforcement must not
+ * depend on an upstream caller remembering to validate, and a programmatic or
+ * future caller has no such schema in the way.
+ */
+export function assertSafePathComponent(value: string, label: string): string {
+  if (
+    value === '' ||
+    value === '.' ||
+    value === '..' ||
+    value.includes('/') ||
+    value.includes('\\') ||
+    value.includes('\0') ||
+    value.length > 128
+  ) {
+    throw new FirewallError(
+      `Unsafe ${label} ${JSON.stringify(value)}: filename components may not be empty, traverse, contain separators or NUL, or exceed 128 chars.`,
+      'INVALID_PATH_COMPONENT',
+    );
+  }
+  return value;
+}
+
+/**
+ * Reject any path whose real location escapes RUNS_DIR.
+ *
+ * Walks from the deepest existing ancestor because the target usually does not
+ * exist yet on a first write. `realpathSync` resolves every symlink component,
+ * so a link planted at `data/runs/<id>` pointing at `/etc` is caught here even
+ * though the lexical check passed.
+ */
+function assertNoSymlinkEscape(target: string): void {
+  const runsReal = realpathSync(RUNS_DIR);
+  let probe = target;
+  while (!existsSync(probe)) {
+    const parent = dirname(probe);
+    if (parent === probe) return; // walked past the filesystem root
+    probe = parent;
+  }
+  const real = realpathSync(probe);
+  const rel = relative(runsReal, real);
+  const contained = real === runsReal || (rel !== '' && !rel.startsWith('..') && !isAbsolute(rel));
+  if (!contained) {
+    throw new FirewallError(
+      `Path ${target} resolves through a link to ${real}, outside the runs directory.`,
+      'SYMLINK_ESCAPE',
+    );
+  }
+}
+
+/**
  * Guards writes to any path, not just run directories. Used for the taste
  * archive and any future writer, so a new output location cannot quietly land
  * inside a published run.
  */
 export function assertWritablePath(target: string): string {
   const abs = resolve(target);
+  assertNoSymlinkEscape(abs);
   const relToRuns = relative(RUNS_DIR, abs);
   const insideRuns = relToRuns !== '' && !relToRuns.startsWith('..') && !isAbsolute(relToRuns);
   if (insideRuns) {

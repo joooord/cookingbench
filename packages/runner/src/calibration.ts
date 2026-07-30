@@ -50,12 +50,22 @@ export function loadAnchors(): CalibrationAnchor[] {
   return parse(readFileSync(ANCHORS_PATH, 'utf8')) as CalibrationAnchor[];
 }
 
-function calibrationPath(runId: string): string {
+/**
+ * Read and write paths are separate on purpose. Routing reads through the
+ * write-guarded resolver made historical calibration artifacts unreadable — a
+ * regression, since the whole pipeline reads prior calibration to decide
+ * whether the gate has already passed.
+ */
+function calibrationReadPath(runId: string): string {
+  return join(resolveRunDir(runId, { write: false }), 'calibration.json');
+}
+
+function calibrationWritePath(runId: string): string {
   return join(resolveRunDir(runId, { write: true }), 'calibration.json');
 }
 
 export function readCalibration(runId: string): CalibrationResult | null {
-  const path = calibrationPath(runId);
+  const path = calibrationReadPath(runId);
   if (!existsSync(path)) return null;
   return JSON.parse(readFileSync(path, 'utf8')) as CalibrationResult;
 }
@@ -122,6 +132,6 @@ export async function runCalibration(
     costUsd: Math.round(spend.costUsd * 10000) / 10000,
     judges,
   };
-  writeFileSync(calibrationPath(runId), JSON.stringify(result, null, 2));
+  writeFileSync(calibrationWritePath(runId), JSON.stringify(result, null, 2));
   return result;
 }

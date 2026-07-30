@@ -174,7 +174,73 @@ export const runManifestSchema = z.object({
   /** Isolated root for this run's outputs. Never a historical run directory. */
   outputRoot: z.string().min(1),
 });
+
+/**
+ * The only manifest type execution may use.
+ *
+ * Coherence is enforced *at parse* rather than by a separate call that a caller
+ * could forget: `runManifestSchema.parse()` alone would happily accept a
+ * `development` manifest asserting `rankEligible: true`. Binding the invariants
+ * into the schema means an incoherent manifest cannot be constructed at all.
+ */
+export const validatedRunManifestSchema = runManifestSchema.superRefine((m, ctx) => {
+  const expected = isRankEligible(m.evidenceClass);
+  if (m.rankEligible !== expected) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['rankEligible'],
+      message: `evidenceClass '${m.evidenceClass}' implies rankEligible=${expected}, not ${m.rankEligible}. Rank eligibility is derived, never asserted.`,
+    });
+  }
+  if (m.evidenceClass === 'historical' && m.releaseState !== 'released') {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['releaseState'],
+      message: `historical artifacts are already released; got '${m.releaseState}'.`,
+    });
+  }
+  const nonEvidential = m.artifactOrigin.filter((o) => o === 'synthetic' || o === 'mock');
+  if (expected && nonEvidential.length > 0) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['artifactOrigin'],
+      message: `rank-eligible manifest cannot carry origin [${nonEvidential.join(', ')}]. Origin never upgrades eligibility.`,
+    });
+  }
+  // outputRoot must stay inside the run's own directory. Enforcement of the
+  // real filesystem boundary lives in the firewall; this catches the lexical
+  // case at parse so a manifest cannot even describe an escape.
+  if (m.outputRoot.includes('..') || m.outputRoot.startsWith('/')) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['outputRoot'],
+      message: `outputRoot must be a relative path with no '..' segments; got '${m.outputRoot}'.`,
+    });
+  }
+});
+
 export type RunManifest = z.infer<typeof runManifestSchema>;
+
+/**
+ * Canonical JSON serialisation, for hashing and for signature verification.
+ *
+ * Key order must be deterministic or the same manifest hashes differently on
+ * two machines and every signature check becomes a coin flip.
+ */
+export function canonicalJson(value: unknown): string {
+  const walk = (v: unknown): unknown => {
+    if (Array.isArray(v)) return v.map(walk);
+    if (v && typeof v === 'object') {
+      return Object.fromEntries(
+        Object.keys(v as Record<string, unknown>)
+          .sort()
+          .map((k) => [k, walk((v as Record<string, unknown>)[k])]),
+      );
+    }
+    return v;
+  };
+  return JSON.stringify(walk(value));
+}
 
 /** RUN-001. A signed, single-use authorisation to do something dangerous. */
 export const permitSchema = z.object({
@@ -226,6 +292,33 @@ export const signedPermitSchema = z.object({
   keyId: z.string().min(1),
 });
 export type SignedPermit = z.infer<typeof signedPermitSchema>;
+
+/**
+ * DATA-001. The committed registry of runs frozen as read-only inputs.
+ *
+ * Parsed here, next to the other schemas, so the runner needs no direct zod
+ * dependency and the policy shape lives with the rest of the vocabulary. The
+ * result is a discriminated union rather than a throw so the caller decides how
+ * to fail — and it must fail, never default to "nothing is frozen".
+ */
+const historicalRegistrySchema = z.object({
+  runIds: z.array(z.string().min(1)),
+});
+
+export function parseHistoricalRegistry(
+  value: unknown,
+): { ok: true; runIds: string[] } | { ok: false; error: string } {
+  const result = historicalRegistrySchema.safeParse(value);
+  if (!result.success) {
+    return {
+      ok: false,
+      error: result.error.issues
+        .map((i) => `${i.path.join('.') || '(root)'}: ${i.message}`)
+        .join('; '),
+    };
+  }
+  return { ok: true, runIds: result.data.runIds };
+}
 
 /** RELEASE-002. Only one class may ever create a public result. */
 export function isRankEligible(evidenceClass: EvidenceClass): boolean {
@@ -285,10 +378,26 @@ export function hasJudgeConflict(
   judge: { provider?: string; baseModelFamily?: string },
   candidate: { provider?: string; baseModelFamily?: string },
 ): boolean {
-  if (!judge.provider || !judge.baseModelFamily || !candidate.provider || !candidate.baseModelFamily) {
-    return true;
-  }
-  return (
-    judge.provider === candidate.provider || judge.baseModelFamily === candidate.baseModelFamily
-  );
+  const j = { provider: canonicalId(judge.provider), family: canonicalId(judge.baseModelFamily) };
+  const c = {
+    provider: canonicalId(candidate.provider),
+    family: canonicalId(candidate.baseModelFamily),
+  };
+  if (!j.provider || !j.family || !c.provider || !c.family) return true;
+  return j.provider === c.provider || j.family === c.family;
+}
+
+/**
+ * Fold an identity to a canonical form before comparing.
+ *
+ * These fields are free text carried from data/models.yaml, so "Anthropic",
+ * "anthropic" and " Anthropic " would otherwise compare as three independent
+ * identities and a judge could be seated against its own family. Comparison of
+ * a security-relevant identity must never depend on display casing.
+ *
+ * This is a defensive fold, not a substitute for the registry supplying stable
+ * canonical ids — which is the proper fix and belongs with the model registry.
+ */
+export function canonicalId(value: string | undefined | null): string {
+  return (value ?? '').trim().toLowerCase().replace(/\s+/g, ' ');
 }

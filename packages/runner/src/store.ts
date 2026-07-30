@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 
 import { join } from 'node:path';
 import type { RunConfig, Score, StoredResponse } from '@cookingbench/core';
 import { RUNS_DIR } from './dataset.js';
-import { resolveRunDir } from './firewall.js';
+import { assertSafePathComponent, resolveRunDir } from './firewall.js';
 
 /**
  * Every run-scoped path in this module resolves through the firewall
@@ -97,7 +97,11 @@ export function readRunConfig(runId: string): RunConfig {
 }
 
 export function responsePath(runId: string, modelId: string, questionId: string): string {
-  return join(runDir(runId), 'responses', `${safeName(modelId)}__${questionId}.json`);
+  return join(
+    runDir(runId),
+    'responses',
+    `${assertSafePathComponent(safeName(modelId), 'model id')}__${assertSafePathComponent(questionId, 'question id')}.json`,
+  );
 }
 
 export function hasResponse(runId: string, modelId: string, questionId: string): boolean {
@@ -108,11 +112,13 @@ export function writeResponse(response: StoredResponse): void {
   // The write-guarded resolver, not responsePath: this is the highest-volume
   // writer in the pipeline (2,576 files in 2026-07-v2.1 alone) and is exactly
   // the path a mistargeted --run-id would use to overwrite published answers.
+  // Both components validated here, at the writer boundary, rather than
+  // trusting whichever caller got here.
   writeFileSync(
     join(
       runDirForWrite(response.runId),
       'responses',
-      `${safeName(response.modelId)}__${response.questionId}.json`,
+      `${assertSafePathComponent(safeName(response.modelId), 'model id')}__${assertSafePathComponent(response.questionId, 'question id')}.json`,
     ),
     JSON.stringify(response, null, 2),
   );
