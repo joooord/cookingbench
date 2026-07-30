@@ -214,7 +214,12 @@ export function blindingLexicon(
       add(m.provider.split(/\s+/)[0]);
     }
     if (m.family) {
-      add(m.family, true);
+      // NOT forced certain. Roster families are sometimes a bare word — `llama`,
+      // `mistral`, `kimi` — and forcing those into the certain list would redact
+      // llama shoulder and the mistral out of the candidate's own text. The
+      // compound families (`claude-frontier`, `gemini-pro`) classify as certain
+      // on their own merits.
+      add(m.family);
       add(m.family.split('-')[0]);
     }
   }
