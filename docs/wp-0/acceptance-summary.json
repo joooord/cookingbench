@@ -2,7 +2,7 @@
   "acceptance": {
     "blockers": [
       "13 risk(s) are recorded as falsely closed",
-      "63 registered route risk(s) are open",
+      "62 registered route risk(s) are open",
       "BUDGET-001 is partial with 3 recorded gap(s)",
       "DATA-002 is partial with 2 recorded gap(s)",
       "JUDGE-001 is partial with 2 recorded gap(s)",
@@ -26,7 +26,7 @@
     },
     {
       "path": "docs/wp-0/routes.yaml",
-      "sha256": "d530ce52032ab3e47fc14208d07b7ee019d3ddcca929136a42d966e1318fd7a1"
+      "sha256": "4a79fc989b045ec717263534ef204cf66a40b7569f76cfef3e1f7f7a94f218de"
     },
     {
       "path": "docs/wp-0/traceability.yaml",
@@ -160,14 +160,14 @@
     "openRisksByKind": {
       "budget-bypass": 4,
       "historical-overwrite": 7,
-      "path-escape": 10,
+      "path-escape": 9,
       "secret-exposure": 1,
       "unauthorised-inference": 9,
       "unauthorised-publish": 14,
       "unverified-input": 18
     },
     "openRisksBySeverity": {
-      "high": 37,
+      "high": 36,
       "low": 10,
       "medium": 16
     },
@@ -192,7 +192,6 @@
       "runner:estimate:record:read",
       "runner:estimate:record:write",
       "runner:firewall:output-file:write",
-      "runner:firewall:registry:read",
       "runner:firewall:run-file:append",
       "runner:judge:dimension:complete",
       "runner:judge:pairwise:complete",
@@ -220,10 +219,10 @@
       "packages/runner/src"
     ],
     "totals": {
-      "closedRisks": 47,
+      "closedRisks": 48,
       "falselyClosed": 13,
       "files": 22,
-      "openRisks": 63,
+      "openRisks": 62,
       "risks": 110,
       "routes": 89
     }

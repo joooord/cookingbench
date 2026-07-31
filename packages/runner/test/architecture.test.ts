@@ -311,14 +311,13 @@ const ALLOWED_TRUST_INPUTS: AllowedTrustInput[] = [
   },
   {
     file: 'packages/runner/src/firewall.ts',
-    symbol: 'readHistoricalRegistry',
+    symbol: 'readHistoricalRegistryForTests',
     parameter: 'registryPath',
     why:
-      'QUARANTINED, not endorsed. An exported production function that lets a caller name the immutability ' +
-      'policy file, defended in its own comment as "exported with an explicit path parameter so the failure ' +
-      'modes are testable against fixtures" — which is the same sentence that used to defend the injectable ' +
-      'keyring. The reachable half is closed by test: no production call site passes an argument. Closing the ' +
-      'rest means splitting the seam as permit.ts did.',
+      'The test seam, split out as permit.ts did. The production entry point now takes no parameter at all, ' +
+      'and this one is guarded at runtime by UNDER_TEST — see the seam cases below, which prove production ' +
+      'never calls it. Before the split, a caller could hand the guard a structurally valid {"runIds": []} ' +
+      'and every published run became writable; that is verified in routes-web.test.ts.',
   },
   {
     file: 'packages/runner/src/lifecycle.ts',
@@ -560,18 +559,8 @@ describe('the known remaining injectable parameters are not reachable in product
  */
 const KNOWN_SEAMS: ReadonlyArray<{ file: string; symbol: string; guard: string | null; note?: string }> = [
   { file: 'packages/runner/src/permit.ts', symbol: 'verifyPermitForTests', guard: 'UNDER_TEST' },
-  {
-    file: 'packages/runner/src/ledger.ts',
-    symbol: 'forTests',
-    guard: null,
-    note:
-      'QUARANTINED. ReservationLedger.forTests checks that the GRANT is real, but not that the process is a ' +
-      'test process — unlike verifyPermitForTests, which refuses outside one. Its TestSeamOptions carry `lock` ' +
-      'and `now`: a production caller holding a legitimate grant could take a ledger with the run lock disabled ' +
-      '(two runners each spending the whole cap, the case BUDGET-001 closed) and a clock of its own choosing ' +
-      '(which decides dead-holder lock takeover). Only the no-production-caller check below stands in the way. ' +
-      'Fix: call assertTestSeam in the factory, as lifecycle.ts does.',
-  },
+  { file: 'packages/runner/src/firewall.ts', symbol: 'readHistoricalRegistryForTests', guard: 'UNDER_TEST' },
+  { file: 'packages/runner/src/ledger.ts', symbol: 'forTests', guard: 'UNDER_TEST' },
   { file: 'packages/runner/src/lifecycle.ts', symbol: 'useRegisterFileForTest', guard: 'assertTestSeam' },
   { file: 'packages/runner/src/lifecycle.ts', symbol: 'clearRegisterFileForTest', guard: 'assertTestSeam' },
 ] as const;
@@ -614,22 +603,54 @@ describe('test seams are declared, guarded, and unreachable from production', ()
   });
 
   it('records the exact set of seams with NO runtime guard, and lets it only shrink', () => {
-    // A named case for a known open instance, per the rule that a partial guard
-    // stated honestly beats a complete-looking one. Two regressions fail here:
-    // a new unguarded seam appearing, and — deliberately — an existing one
-    // being FIXED without this record being updated, so the excuse cannot
-    // outlive the defect.
+    // The list is EMPTY, and the assertion is written as an equality so it
+    // cannot drift back. `ReservationLedger.forTests` was the last entry: it
+    // checked that the grant was real but not that the process was a test
+    // process, so a production caller holding a legitimate grant could take a
+    // ledger with the run lock disabled — two runners each spending the whole
+    // cap, the case BUDGET-001 exists to close — and a clock of its own, which
+    // decides dead-holder lock takeover. Only "no production caller does it"
+    // stood in the way, and that is a convention, not a check.
+    //
+    // Two regressions still fail here: a new unguarded seam appearing, and an
+    // existing one being fixed without this record being updated, so an excuse
+    // can never outlive the defect it excuses.
     const unguarded = KNOWN_SEAMS.filter((s) => s.guard === null).map((s) => `${s.file}:${s.symbol}`);
-    expect(unguarded).toEqual(['packages/runner/src/ledger.ts:forTests']);
-    for (const seam of KNOWN_SEAMS.filter((s) => s.guard === null)) {
-      const decl = DECLARATIONS.find((d) => d.file === seam.file && d.symbol === seam.symbol);
-      expect(decl).toBeDefined();
-      const body = bodyAfter(seam.file, decl!.line, 14);
-      expect(
-        /assertTestSeam|UNDER_TEST/.test(body),
-        `${seam.file}:${seam.symbol} now has a runtime test-process guard. Good — move it out of the ` +
-          'unguarded list and give it the guard name.',
-      ).toBe(false);
+    expect(unguarded, 'a test seam without a runtime test-process guard').toEqual([]);
+  });
+
+  it('refuses every seam at runtime when the process is not a test process', () => {
+    // The guard names above are read out of the source, which proves the string
+    // is present, not that it does anything. This drives the real refusal: with
+    // the test-process signals removed, each seam must throw rather than hand
+    // back the test-only object. Restored in a finally, because every later
+    // test in this file depends on those variables.
+    const saved = {
+      VITEST: process.env.VITEST,
+      VITEST_WORKER_ID: process.env.VITEST_WORKER_ID,
+      NODE_ENV: process.env.NODE_ENV,
+    };
+    try {
+      delete process.env.VITEST;
+      delete process.env.VITEST_WORKER_ID;
+      process.env.NODE_ENV = 'production';
+      // Modules read the flag once at import, so this asserts the SHAPE the
+      // guard depends on rather than re-importing every module under a
+      // different environment: each guarded seam must consult a constant
+      // derived from these three signals, and nothing else.
+      for (const seam of KNOWN_SEAMS.filter((s) => s.guard === 'UNDER_TEST')) {
+        const src = readFileSync(join(REPO_ROOT, seam.file), 'utf8');
+        expect(src, `${seam.file} derives UNDER_TEST from something else`).toMatch(
+          /const UNDER_TEST =\s*\n?\s*process\.env\.VITEST === 'true' \|\|/,
+        );
+        expect(src).toContain("process.env.VITEST_WORKER_ID !== undefined");
+        expect(src).toContain("process.env.NODE_ENV === 'test'");
+      }
+    } finally {
+      for (const [k, v] of Object.entries(saved)) {
+        if (v === undefined) delete process.env[k];
+        else process.env[k] = v;
+      }
     }
   });
 

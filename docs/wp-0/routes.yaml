@@ -626,19 +626,22 @@ routes:
       - risk: historical-overwrite
         severity: high
         status: closed
-        enforcementPoint: an absent, unparseable or malformed registry throws instead of yielding an empty frozen set
-        test: "DATA-001 — historical artifacts cannot be overwritten > refuses to operate on a malformed or unparseable registry"
+        enforcementPoint: >-
+          An absent, unparseable or malformed registry throws instead of
+          yielding an empty frozen set, and the committed registry is the only
+          file the production reader will consult.
+        test: "runner:firewall:registry:read — readHistoricalRegistry > takes no path, so no caller can name the file that decides what is frozen"
       - risk: path-escape
         severity: high
-        status: open
+        status: closed
         enforcementPoint: >-
-          NOT ENFORCED — the signature is
-          `readHistoricalRegistry(registryPath: string = HISTORICAL_REGISTRY)`.
-          A production caller can therefore name its own trust root and hand
-          the firewall a registry that freezes nothing. Injectable for
-          testability and reachable in production is not a boundary. Defect
-          reported against firewall.ts; not fixed here.
-        test: null
+          The parameter is gone. `readHistoricalRegistry()` takes no argument,
+          so a production caller cannot name the file that decides which runs
+          are frozen; an extra positional argument is ignored rather than
+          honoured. The path form moved to `readHistoricalRegistryForTests`,
+          which refuses outside a test process and which architecture.test.ts
+          proves production source never calls.
+        test: "runner:firewall:registry:read — readHistoricalRegistry > takes no path, so no caller can name the file that decides what is frozen"
 
   - key: runner:firewall:published:enumerate
     file: packages/runner/src/firewall.ts

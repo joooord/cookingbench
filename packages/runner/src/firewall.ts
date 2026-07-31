@@ -58,7 +58,8 @@ export type FirewallErrorCode =
   | 'SYMLINK_ESCAPE'
   | 'SYMLINK_COMPONENT'
   | 'INVALID_PATH_COMPONENT'
-  | 'MISSING_RUN_FILE';
+  | 'MISSING_RUN_FILE'
+  | 'SEAM_CLOSED';
 
 export class FirewallError extends Error {
   constructor(
@@ -153,17 +154,61 @@ function everyRunDirectory(): string[] {
 }
 
 /**
- * Read the declared frozen set from a registry file.
+ * Is this a test process? Same test as permit.ts, for the same reason.
+ */
+const UNDER_TEST =
+  process.env.VITEST === 'true' ||
+  process.env.VITEST_WORKER_ID !== undefined ||
+  process.env.NODE_ENV === 'test';
+
+/**
+ * Read the declared frozen set from the COMMITTED registry.
  *
  * Fail-closed in every direction: an absent file freezes every run directory,
  * and an unparseable or malformed one throws rather than defaulting to "nothing
  * is frozen" — which is what an earlier `parsed.runIds ?? []` actually did.
  *
- * Exported with an explicit path parameter so the failure modes are testable
- * against fixtures. There is deliberately no setter and no accessor returning
- * mutable internal state.
+ * NO PARAMETER, and this is the point of the function.
+ *
+ * The signature used to be `readHistoricalRegistry(registryPath =
+ * HISTORICAL_REGISTRY)` — "exported with an explicit path parameter so the
+ * failure modes are testable against fixtures". Injectable for testability AND
+ * reachable by every caller is not a boundary: `{"runIds": []}` is a
+ * structurally valid registry, so any caller could hand this function a file
+ * naming nothing and make every published run writable. Verified: a planted
+ * empty registry returned an empty frozen set, and the run this repository
+ * exists to protect stopped being frozen.
+ *
+ * This is the third instance of one defect — the permit keyring and the
+ * revocation list were the first two — and it is the reason the rule is stated
+ * as a rule: a guard must not let the thing it guards choose the guard's
+ * inputs. Tests reach `readHistoricalRegistryForTests`, which production source
+ * never calls and which refuses to run outside a test process.
  */
-export function readHistoricalRegistry(registryPath: string = HISTORICAL_REGISTRY): ReadonlySet<string> {
+export function readHistoricalRegistry(): ReadonlySet<string> {
+  return readRegistryAt(HISTORICAL_REGISTRY);
+}
+
+/**
+ * TEST SEAM. Do not call from `packages/runner/src` — architecture.test.ts
+ * greps for that and fails if production code ever does.
+ *
+ * A separate entry point rather than an optional parameter, because an optional
+ * parameter on the production function is reachable by production callers no
+ * matter what the doc comment says.
+ */
+export function readHistoricalRegistryForTests(registryPath: string): ReadonlySet<string> {
+  if (!UNDER_TEST) {
+    throw new FirewallError(
+      `readHistoricalRegistryForTests is a test seam and this is not a test process. The frozen set ` +
+        `comes from ${HISTORICAL_REGISTRY} and cannot be supplied by a caller.`,
+      'SEAM_CLOSED',
+    );
+  }
+  return readRegistryAt(registryPath);
+}
+
+function readRegistryAt(registryPath: string): ReadonlySet<string> {
   if (!existsSync(registryPath)) return new Set(everyRunDirectory());
   let parsed: unknown;
   try {

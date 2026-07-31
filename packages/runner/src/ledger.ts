@@ -108,6 +108,7 @@ export class CapBreachedError extends Error {
 
 export type LedgerErrorCode =
   | 'LEDGER_LOCKED'
+  | 'LEDGER_SEAM_CLOSED'
   | 'LEDGER_CORRUPT'
   | 'LEDGER_CLOSED'
   | 'RESERVATION_UNKNOWN'
@@ -173,6 +174,12 @@ interface JournalEntry {
   /** Why, in words, for the audit trail. */
   reason?: string;
 }
+
+/** Is this a test process? Same test as permit.ts, for the same reason. */
+const UNDER_TEST =
+  process.env.VITEST === 'true' ||
+  process.env.VITEST_WORKER_ID !== undefined ||
+  process.env.NODE_ENV === 'test';
 
 const JOURNAL_FILE = 'spend.ndjson';
 const LOCK_FILE = 'spend.lock';
@@ -304,6 +311,19 @@ export class ReservationLedger {
    * are the two things a caller must not be able to choose.
    */
   static forTests(grant: VerifiedGrant, runId: string, opts: TestSeamOptions = {}): ReservationLedger {
+    // The GRANT being real was never the whole check. TestSeamOptions carry
+    // `lock` and `now`: a production caller holding a legitimate grant could
+    // take a ledger with the run lock disabled — two runners each spending the
+    // whole cap, the case BUDGET-001 exists to close — and a clock of its own
+    // choosing, which decides dead-holder lock takeover. "Only tests call it"
+    // was the only thing in the way, and that is a convention, not a check.
+    if (!UNDER_TEST) {
+      throw new LedgerError(
+        `ReservationLedger.forTests is a test seam and this is not a test process. Production ledgers come ` +
+          `from forGrant, which takes neither a lock flag nor a clock.`,
+        'LEDGER_SEAM_CLOSED',
+      );
+    }
     assertVerifiedGrant(grant, 'ReservationLedger.forTests');
     return new ReservationLedger(grant, runId, opts);
   }

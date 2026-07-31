@@ -32,6 +32,7 @@ import {
   nonScoringBanner,
   outputRoot,
   readHistoricalRegistry,
+  readHistoricalRegistryForTests,
   resolveOutputPath,
   resolveRunDir,
   resolveRunFile,
@@ -126,9 +127,13 @@ describe('DATA-001 — historical artifacts cannot be overwritten', () => {
   it('fails closed when the registry is absent', () => {
     // A fresh checkout without data/historical-runs.json must not silently
     // permit overwrites; every existing run directory is treated as frozen.
-    const frozen = readHistoricalRegistry(join(RUNS_DIR, '..', 'no-such-registry.json'));
+    // Reached through the SEAM, because the production entry point takes no
+    // path — the frozen set is not a caller's to choose.
+    const frozen = readHistoricalRegistryForTests(join(RUNS_DIR, '..', 'no-such-registry.json'));
     expect(frozen.has('2026-07-v2.1')).toBe(true);
     expect(frozen.has('2026-06-v2')).toBe(true);
+    expect(readHistoricalRegistry.length, 'the production reader grew a path parameter again').toBe(0);
+    expect(readHistoricalRegistry().has('2026-07-v2.1')).toBe(true);
   });
 
   it('refuses to operate on a malformed or unparseable registry', () => {
@@ -139,11 +144,11 @@ describe('DATA-001 — historical artifacts cannot be overwritten', () => {
     const bad = join(RUNS_DIR, SCRATCH, 'registry.json');
     for (const contents of ['{ not json', '{}', '{"runIds": "2026-07-v2.1"}', '[]', 'null', '{"runIds": [""]}']) {
       writeFileSync(bad, contents);
-      expect(() => readHistoricalRegistry(bad)).toThrow(FirewallError);
+      expect(() => readHistoricalRegistryForTests(bad)).toThrow(FirewallError);
     }
     // Only a well-formed registry is accepted.
     writeFileSync(bad, JSON.stringify({ runIds: ['a-run'] }));
-    expect(readHistoricalRegistry(bad)).toEqual(new Set(['a-run']));
+    expect(readHistoricalRegistryForTests(bad)).toEqual(new Set(['a-run']));
   });
 
   it('has no exported switch that can disable the guard', () => {
