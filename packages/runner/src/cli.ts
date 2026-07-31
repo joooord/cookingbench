@@ -43,6 +43,9 @@ import { MOCK_MODELS, MockClient, mockJudgeScore } from './mock.js';
 import { OpenRouterClient, fetchCatalog, type CompletionClient } from './openrouter.js';
 import { buildLeaderboard } from './report.js';
 import {
+  beginAttempt,
+  settleAttempt,
+  type AttemptCause,
   hasResponse,
   listRuns,
   mergeRunConfig,
@@ -804,6 +807,26 @@ async function cmdRun() {
       // The reservation and the settlement both happen inside the client now,
       // in one atomic step around the call — the old check-then-record pair let
       // four concurrent calls each pass a check none of them had yet debited.
+      // RUN-002. Every billable attempt gets a durable, derived record before
+      // the money is spent, so a charge can always be attributed to the exact
+      // coordinate and cause that incurred it.
+      //
+      // What this does and does not promise, stated because the word
+      // "idempotent" is doing less work here than it appears to: the STORED
+      // answer is idempotent (writeResponse refuses a second, different answer
+      // or price for a settled cell). An INTERMEDIATE attempt cannot be, because
+      // if a process died between the provider charge and writeResponse the cell
+      // has no answer and the only way to make progress is to call again. What
+      // the record buys is that the re-charge is VISIBLE — beginAttempt reports
+      // the replay — rather than silently doubling the run's true cost.
+      const attempt = (cause: AttemptCause) => ({ runId, modelId, questionId: question.id, cause });
+      const opened = beginAttempt(attempt('initial'));
+      if (opened.replay) {
+        console.warn(
+          `  ⚠ ${modelId} × ${question.id}: re-running an attempt a previous process already ` +
+            `paid for (${opened.retryId}). The earlier charge stands; this one is additional.`,
+        );
+      }
       let result = await client.complete(modelId, buildMessages(question), {
         temperature: manifest.generationSettings.temperature,
         maxTokens,
@@ -811,10 +834,15 @@ async function cmdRun() {
         cell: { modelId, questionId: question.id },
         estimateUsd: worstCase,
       });
+      settleAttempt(attempt('initial'), { costUsd: result.costUsd });
       let totalCost = result.costUsd;
       // Empty/filtered completions are transport noise — retry before storing,
       // with extra token headroom on the second retry.
       for (let retry = 0; retry < 2 && isTransportFailure(result) && !mock; retry++) {
+        // The two retries are DIFFERENT causes, so they derive different ids and
+        // one cannot be mistaken for a replay of the other.
+        const cause: AttemptCause = retry === 0 ? 'empty-response' : 'empty-response-headroom';
+        beginAttempt(attempt(cause));
         result = await client.complete(modelId, buildMessages(question), {
           temperature: manifest.generationSettings.temperature,
           maxTokens: retry === 0 ? maxTokens : maxTokens * 2,
@@ -822,6 +850,7 @@ async function cmdRun() {
           cell: { modelId, questionId: question.id },
           estimateUsd: worstCase,
         });
+        settleAttempt(attempt(cause), { costUsd: result.costUsd });
         totalCost += result.costUsd;
       }
       const stored: StoredResponse = {
