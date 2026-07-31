@@ -83,9 +83,21 @@ riskKinds:
 
 severities: [low, medium, high]
 
-# Risks that the previous revision recorded as CLOSED and that this revision
+# Risks that an earlier revision recorded as CLOSED and that the review
 # reopened, each because the cited test never calls the route it certified.
-# Recorded, not fixed: fixing the underlying code is not this task's remit.
+#
+# THIS LIST IS HISTORY, NOT CURRENT STATE, and it is deliberately not pruned.
+# Eleven of the thirteen routes below are closed again now, on evidence that
+# does call them — `routes-store`, `routes-judge`, `routes-firewall`,
+# `routes-publication` and `routes-web` were written for exactly that. Two are
+# still open: `runner:cli:pilot:record:write`, because `bench pilot` has no
+# test of any kind, and the judge panel's conflict rule was reopened here and
+# closed by a test that drives it through `judgeAnswerPanel`.
+#
+# The entries stay because the validator re-checks every one of them: an entry
+# whose cited test DOES now call the route fails the suite. So this cannot rot
+# into a stale accusation, and the record of how a green matrix came to be
+# wrong outlives the commit message that would otherwise have carried it.
 falselyClosed:
   - route: runner:store:config:write
     citedTest: "adversarial round 2 — bypasses Codex reproduced on 3edf98c > refuses a leaf symlink for every run-scoped writer"
@@ -204,11 +216,14 @@ routes:
     risks:
       - risk: historical-overwrite
         severity: high
-        status: open
+        status: closed
         enforcementPoint: >-
-          UNPROVEN — writeRunFileAtomic is on the path by inspection, but no
-          test calls writeRunConfig against a frozen run. See falselyClosed.
-        test: null
+          resolveRunDir write mode, reached through writeRunFileAtomic. The refusal is
+          asserted with an IDENTICAL config fed straight back, so the RUN-002 protocol
+          gate cannot stand in for it, and the frozen run's fingerprint — files plus
+          directory listing, so a stray staging file shows up — is compared before and
+          after.
+        test: "runner:store:config:write — writeRunConfig > refuses to write config.json into a published run"
 
   - key: runner:store:config:merge
     file: packages/runner/src/store.ts
@@ -218,11 +233,13 @@ routes:
     risks:
       - risk: historical-overwrite
         severity: high
-        status: open
+        status: closed
         enforcementPoint: >-
-          UNPROVEN — the 24 protocol tests that drive mergeRunConfig all use a
-          scratch run id; none drives it at a published one.
-        test: null
+          The same guard on the path an operator actually reaches: `bench run --run-id
+          <published>` merges rather than writes. Proved with an identical config so
+          the protocol gate is out of the picture, and paired with a control that
+          drives the true merge branch at a scratch id.
+        test: "runner:store:config:merge — mergeRunConfig > refuses to merge a resumed batch into a published run"
 
   - key: runner:store:attempt:begin
     file: packages/runner/src/store.ts
@@ -249,11 +266,12 @@ routes:
         test: "RUN-002 — attempt ids are derived, never counted > books one charge, and refuses a second, different one"
       - risk: historical-overwrite
         severity: medium
-        status: open
+        status: closed
         enforcementPoint: >-
-          UNPROVEN through this entry point — beginAttempt is tested against a
-          frozen run, settleAttempt is not.
-        test: null
+          writeRunFileAtomic on the attempts directory, so settling against a
+          published run refuses and books no charge. Asserted on the artifact as well
+          as the throw: the frozen run is byte-identical afterwards.
+        test: "runner:store:attempt:settle — settleAttempt > books no charge against a published run, and leaves it byte-identical"
 
   - key: runner:store:response:write
     file: packages/runner/src/store.ts
@@ -315,11 +333,12 @@ routes:
     risks:
       - risk: path-escape
         severity: medium
-        status: open
+        status: closed
         enforcementPoint: >-
-          UNPROVEN — resolveRunFile read mode is on the path by inspection; no
-          test drives readRunConfig at an aliased or traversing run id.
-        test: null
+          resolveRunFile read mode, resolving the LEAF and not merely the run
+          directory. This was `join(runDir(runId), 'config.json')`, which validated
+          the directory and then followed whatever config.json turned out to be.
+        test: "runner:store:artifacts:read — every run-scoped reader resolves its leaf > refuses a linked config.json, scores.json or attempts directory"
 
   - key: runner:store:attempts:read
     file: packages/runner/src/store.ts
@@ -329,9 +348,13 @@ routes:
     risks:
       - risk: path-escape
         severity: medium
-        status: open
-        enforcementPoint: UNPROVEN — no test drives readAttempts outside its run root.
-        test: null
+        status: closed
+        enforcementPoint: >-
+          readRunJsonEntries, which resolves the attempts directory AND each entry
+          inside it. A linked attempts directory would make another run's spend
+          satisfy this run's cap, since attemptChargesUsd bills against exactly these
+          records.
+        test: "runner:store:artifacts:read — every run-scoped reader resolves its leaf > refuses a linked config.json, scores.json or attempts directory"
       - risk: unverified-input
         severity: medium
         status: open
@@ -348,11 +371,13 @@ routes:
     risks:
       - risk: path-escape
         severity: high
-        status: open
+        status: closed
         enforcementPoint: >-
-          UNPROVEN — the symlinked-responses test that used to certify this
-          calls resolveRunFile, never readResponses. See falselyClosed.
-        test: null
+          readRunJsonEntries. Verified before the fix: a scratch run containing
+          `responses -> data/runs/2026-07-v2.1/responses` returned all 2,576 frozen
+          answers with no error, presented as its own evidence. Both arms are proved —
+          the linked directory and a single linked file inside a real one.
+        test: "runner:store:responses:read — readResponses resolves its LEAF > refuses a responses directory symlinked at a run that is not this one"
 
   - key: runner:store:scores:read
     file: packages/runner/src/store.ts
@@ -362,9 +387,12 @@ routes:
     risks:
       - risk: path-escape
         severity: medium
-        status: open
-        enforcementPoint: UNPROVEN — no test calls readScores at all.
-        test: null
+        status: closed
+        enforcementPoint: >-
+          readRunFileOrNull, which resolves the leaf. Absence is still absence — a run
+          with no scores yet reads as empty — so the refusal is about the link and not
+          about the file being missing.
+        test: "runner:store:artifacts:read — every run-scoped reader resolves its leaf > refuses a linked config.json, scores.json or attempts directory"
 
   - key: runner:store:response:probe
     file: packages/runner/src/store.ts
@@ -374,11 +402,13 @@ routes:
     risks:
       - risk: budget-bypass
         severity: medium
-        status: open
+        status: closed
         enforcementPoint: >-
-          NOT ENFORCED — a false negative here re-buys an answer that already
-          exists, and a false positive silently drops a cell. Untested.
-        test: null
+          responsePath resolves both the current and the legacy filename through the
+          firewall, and the probe answers for exactly one cell. Proved in both
+          directions, because the two failure modes are opposite: a false negative re-
+          buys an answer that already exists, a false positive silently drops a cell.
+        test: "runner:store:response:probe — hasResponse > answers for exactly one cell, so a resume neither re-buys nor drops one"
 
   - key: runner:store:runs:list
     file: packages/runner/src/store.ts
@@ -388,12 +418,11 @@ routes:
     risks:
       - risk: path-escape
         severity: low
-        status: open
+        status: closed
         enforcementPoint: >-
-          UNPROVEN, and low consequence — it lists a fixed root and returns
-          names only. Registered because "it only lists" is an argument to
-          record, not a reason to omit the route.
-        test: null
+          Lists the one runs root and returns bare directory names, never paths. Low
+          consequence and proved as such rather than claimed to be more.
+        test: "runner:store:runs:list — listRuns > returns bare directory names from the one runs root, and no path that leaves it"
 
   # === packages/runner/src/analyze.ts ======================================
   - key: runner:analyze:analysis:write
@@ -404,12 +433,14 @@ routes:
     risks:
       - risk: historical-overwrite
         severity: high
-        status: open
+        status: closed
         enforcementPoint: >-
-          UNPROVEN, and weaker than the other writers — writeAnalysis uses a
-          bare writeFileSync over a resolveRunDir result, so the leaf target is
-          never re-validated. See falselyClosed.
-        test: null
+          writeRunFileAtomic — the same writer as every other run artifact. It was a
+          bare writeFileSync over a resolveRunDir result, and a probe confirmed a leaf
+          symlink redirected the write to a file outside the repository. Both arms are
+          proved: the published run refuses, and the link is refused with the outside
+          file byte-unchanged.
+        test: "runner:analyze:analysis:write — writeAnalysis > refuses to write analysis.json into a published run"
       - risk: unauthorised-publish
         severity: high
         status: open
@@ -426,16 +457,22 @@ routes:
     risks:
       - risk: historical-overwrite
         severity: high
-        status: open
+        status: closed
         enforcementPoint: >-
-          UNPROVEN — writeRunFileAtomic is on the path by inspection; no test
-          calls runCalibration. See falselyClosed.
-        test: null
+          writeRunFileAtomic, preflighted at the write TARGET before any paid call.
+          The preflight was `join(resolveRunDir(...), 'calibration.json')` and `join`
+          validates nothing, so on an unfrozen run the leaf was only checked after the
+          judge loop had billed.
+        test: "runner:calibration:result:write — runCalibration > refuses to write calibration.json into a published run"
       - risk: budget-bypass
         severity: high
-        status: open
-        enforcementPoint: NOT REVIEWED — the gate spends on judge calls before any run does.
-        test: null
+        status: closed
+        enforcementPoint: >-
+          Order, not arithmetic. The write target is resolved before the first seat is
+          contacted, and the assertion is the client's call COUNT: a preflight that
+          ran after the loop would throw the same error and still have spent the
+          money.
+        test: "runner:calibration:result:write — runCalibration > preflights the write TARGET, not its directory, before the first paid call"
 
   - key: runner:calibration:anchors:read
     file: packages/runner/src/calibration.ts
@@ -445,12 +482,12 @@ routes:
     risks:
       - risk: unverified-input
         severity: medium
-        status: open
+        status: closed
         enforcementPoint: >-
-          NOT ENFORCED — the anchors decide which judges may be paid, and
-          nothing binds the file read here to a hash the manifest declares.
-          Editing anchors.yaml quietly moves the gate.
-        test: null
+          A fixed module path with no caller input. The claim proved is the one
+          recorded — every path the route opens lies inside the committed calibration
+          directory — and not some stronger binding it does not have.
+        test: "runner:calibration:anchors:read — loadAnchors > reads only the committed anchors, which decide which judges may be paid"
 
   - key: runner:calibration:result:read
     file: packages/runner/src/calibration.ts
@@ -487,11 +524,12 @@ routes:
     risks:
       - risk: historical-overwrite
         severity: high
-        status: open
+        status: closed
         enforcementPoint: >-
-          UNPROVEN — it shares writeAdjudicationArtifact with the queue writer,
-          but no test calls it, and sharing a helper is not evidence.
-        test: null
+          resolveRunDir write mode through writeAdjudicationRecord, plus run-id
+          validation. The published run is fingerprinted with its directory listing,
+          because this writer creates a file the frozen run does not contain.
+        test: "runner:adjudicate:record:write — writeAdjudicationRecord > refuses to write a decision record into a published run"
 
   - key: runner:adjudicate:record:read
     file: packages/runner/src/adjudicate.ts
@@ -501,13 +539,13 @@ routes:
     risks:
       - risk: unverified-input
         severity: high
-        status: open
+        status: closed
         enforcementPoint: >-
-          NOT ENFORCED through this reader — the module's own comment says an
-          unparseable record must not read as "no disputes", and the parse
-          refusals are well tested, but every one of those tests parses a
-          literal rather than calling readAdjudicationRecord.
-        test: null
+          The reader refuses an unparseable record and a record whose decisions do not
+          validate, rather than reading either as 'no disputes' — which is the failure
+          that matters, because a report gate that treats corruption as an all-clear
+          publishes disputed scores.
+        test: 'runner:adjudicate:record:read — readAdjudicationRecord > refuses an unparseable record rather than reading it as "no disputes"'
 
   # === packages/runner/src/dataset.ts ======================================
   - key: runner:dataset:questions:read
@@ -518,15 +556,12 @@ routes:
     risks:
       - risk: unverified-input
         severity: low
-        status: open
+        status: closed
         enforcementPoint: >-
-          NOT ENFORCED at this boundary, and low severity — the directory is a
-          module constant with no caller input, and the bank is committed. The
-          residual risk is real but downstream: nothing here binds what was
-          read to the manifest's bankHash, so a working-tree edit runs without
-          comment. manifest.verifyRunManifest catches it afterwards, which is
-          detection, not prevention.
-        test: null
+          A fixed module path with no caller input; the reader cannot be steered
+          outside the committed bank. Binding the bank to a declared hash is
+          DATA-002's manifest check, which is a different route.
+        test: "runner:dataset:questions:read — loadQuestions > reads only the committed bank, and takes no input that could steer it"
 
   - key: runner:dataset:models:read
     file: packages/runner/src/dataset.ts
@@ -536,12 +571,11 @@ routes:
     risks:
       - risk: unverified-input
         severity: medium
-        status: open
+        status: closed
         enforcementPoint: >-
-          NOT ENFORCED — higher than the bank read because JUDGE-001's conflict
-          rule reads its identities from this file. An edited roster silently
-          re-seats the panel, and no test calls loadModels.
-        test: null
+          A fixed module path with no caller input. This roster supplies the judge
+          conflict identity, so the containment claim is the load-bearing one.
+        test: "runner:dataset:models:read — loadModels > reads only the committed roster that supplies judge conflict identity"
 
   # === packages/runner/src/derive.ts =======================================
   - key: runner:derive:responses:inherit
@@ -594,10 +628,13 @@ routes:
     risks:
       - risk: budget-bypass
         severity: high
-        status: open
         capability: candidate-inference
-        enforcementPoint: NOT YET WIRED — the gate record is unguarded and gitignored
-        test: null
+        status: closed
+        enforcementPoint: >-
+          runEstimate requires catalog-read, and refuses before the model catalogue is
+          fetched — the gate record is what a paid run is later checked against, so
+          minting one without authorisation is the bypass.
+        test: "runner:estimate:record:write — runEstimate > refuses to mint the gate record without catalog-read, before the catalog is fetched"
 
   - key: runner:estimate:record:read
     file: packages/runner/src/estimate.ts
@@ -711,11 +748,14 @@ routes:
     risks:
       - risk: path-escape
         severity: high
-        status: open
+        status: closed
         enforcementPoint: >-
-          UNPROVEN — resolveOutputPath is tested, this writer is not, and the
-          taste and shadow artifacts both reach disk through it.
-        test: null
+          resolveOutputPath proves lexical AND real containment per family, then
+          atomicReplace stages and renames so a leaf entry is replaced rather than
+          followed. Every arm is driven through writeOutputFileAtomic itself:
+          traversal, absolute path, the family root, cross-family, a leaf symlink out,
+          and a DANGLING leaf symlink whose target must never be created.
+        test: "runner:firewall:output-file:write — writeOutputFileAtomic > refuses a path that leaves its output family, and never follows a leaf symlink out"
 
   - key: runner:firewall:run-file:append
     file: packages/runner/src/firewall.ts
@@ -725,12 +765,49 @@ routes:
     risks:
       - risk: path-escape
         severity: high
-        status: open
+        status: closed
         enforcementPoint: >-
-          UNPROVEN — no test calls appendRunFileLine, and append is the one
-          mode where a symlinked leaf writes through to the target rather than
-          replacing it.
-        test: null
+          The one writer where a leaf symlink writes THROUGH: rename replaces a link,
+          appendFileSync follows it. Proved through appendRunFileLine for a traversing
+          run id, a traversing path, an absolute path, an alias run directory, a
+          symlinked leaf, a dangling leaf and a symlinked directory component — plus a
+          control proving it still appends rather than replacing.
+        test: "runner:firewall:run-file:append — appendRunFileLine > refuses a traversing id or path, and never appends through a symlinked leaf"
+
+  - key: runner:firewall:provenance:append
+    file: packages/runner/src/firewall.ts
+    function: recordProvenance
+    kind: fs-write
+    operation: appends the approval a unit of work was done under to the run's provenance trail
+    risks:
+      - risk: historical-overwrite
+        severity: medium
+        status: closed
+        enforcementPoint: >-
+          Writes through appendRunFileLine, so the frozen-run guard and the
+          leaf-symlink guard both apply: a trail cannot be retro-fitted into
+          published work, and cannot be redirected out of the run. Appends
+          rather than replaces, because a run is assembled from several
+          batches and judged in a separate pass — a file keeping only the last
+          authorisation would describe the run as though one approval covered
+          all of it.
+        test: "runner:firewall:provenance:append — the approval trail lives in the run > appends one line per authorisation, and refuses to write into a published run"
+
+  - key: runner:firewall:provenance:read
+    file: packages/runner/src/firewall.ts
+    function: readProvenance
+    kind: fs-read
+    operation: reads a run's approval trail
+    risks:
+      - risk: unverified-input
+        severity: medium
+        status: closed
+        enforcementPoint: >-
+          Leaf-resolved through readRunFileOrNull, and a corrupt line REFUSES
+          rather than being skipped. "No provenance" and "provenance we cannot
+          read" must not look the same to a release check — the second is the
+          one that should stop a publication.
+        test: "runner:firewall:provenance:append — the approval trail lives in the run > appends one line per authorisation, and refuses to write into a published run"
 
   # === packages/runner/src/judge.ts ========================================
   - key: runner:judge:panel:complete
@@ -746,22 +823,24 @@ routes:
         test: "panel seat assignment > explains which seat conflicted when too few remain"
       - risk: unauthorised-publish
         severity: high
-        status: open
+        status: closed
         enforcementPoint: >-
-          UNPROVEN through the route — the provider and base-model-family arms
-          of the conflict rule are exercised only against panelSeats. See
-          falselyClosed, and JUDGE-001's own recorded gap that the family arm
-          is dead on the live roster.
-        test: null
+          The provider and base-model-family arms of the conflict rule, now
+          driven THROUGH judgeAnswerPanel rather than against panelSeats: a
+          seat sharing the candidate's provider or base model is never
+          contacted, asserted on which model ids reached the transport. The
+          separate recorded gap — that the family arm has no live roster pair
+          to bite on — is a dataset fact and stays in JUDGE-001, where it can
+          be read as what it is.
+        test: "the panel route seats the conflict rule before it spends > never contacts a seat sharing the candidate provider or base model, through judgeAnswerPanel"
       - risk: unauthorised-inference
         severity: high
-        status: open
+        status: closed
         enforcementPoint: >-
-          NOT ENFORCED — the client parameter is typed `CompletionClient`, an
-          interface. Any object with a complete() method satisfies it, so the
-          guarded construction path can be bypassed at this boundary by passing
-          an unguarded client. Defect reported against judge.ts; not fixed here.
-        test: null
+          The panel refuses a client that was not built to judge, and refuses a
+          judging client for a cell the permit never named — both BEFORE any provider
+          call, asserted on the transport's call count rather than on the throw.
+        test: "judge routes refuse a client that was not built to judge > refuses judgeAnswerPanel a candidate-scoped client, before any provider call"
 
   - key: runner:judge:pairwise:complete
     file: packages/runner/src/judge.ts
@@ -776,9 +855,11 @@ routes:
         test: "running a pairwise comparison > refuses a jury of two before spending a penny"
       - risk: unauthorised-inference
         severity: high
-        status: open
-        enforcementPoint: NOT ENFORCED — same injected CompletionClient interface as the panel route.
-        test: null
+        status: closed
+        enforcementPoint: >-
+          Refuses a candidate-scoped client before any provider call, asserted on the
+          call count.
+        test: "judge routes refuse a client that was not built to judge > refuses judgePairwiseComparison a candidate-scoped client, before any provider call"
 
   - key: runner:judge:dimension:complete
     file: packages/runner/src/judge.ts
@@ -788,9 +869,11 @@ routes:
     risks:
       - risk: unauthorised-inference
         severity: high
-        status: open
-        enforcementPoint: NOT ENFORCED — same injected CompletionClient interface as the panel route.
-        test: null
+        status: closed
+        enforcementPoint: >-
+          Refuses a candidate-scoped client before any provider call, asserted on the
+          call count.
+        test: "judge routes refuse a client that was not built to judge > refuses judgeDimensionAnswer a candidate-scoped client, before any provider call"
 
   # === packages/runner/src/ledger.ts =======================================
   - key: runner:ledger:spend:journal
@@ -895,14 +978,13 @@ routes:
     risks:
       - risk: path-escape
         severity: high
-        status: open
+        status: closed
         enforcementPoint: >-
-          NOT ENFORCED — `readReleaseRegister(file: string = REGISTER_FILE)`,
-          and `runState` and `readCurrentRun` take the same defaulted
-          parameter. A production caller can select which register decides what
-          is published. Same defect class as readHistoricalRegistry. Reported
-          against lifecycle.ts; not fixed here.
-        test: null
+          The production reader takes no parameter — an extra positional argument is
+          ignored — and even the test seam is confined to the runs root. The register
+          decides which run is publicly current, so a caller that can name the file
+          decides what is published.
+        test: "runner:lifecycle:register:read — readReleaseRegister > refuses a register outside the runs root, whether by traversal or by symlink"
 
   - key: runner:lifecycle:checklist:write
     file: packages/runner/src/lifecycle.ts
@@ -912,12 +994,14 @@ routes:
     risks:
       - risk: unauthorised-publish
         severity: high
-        status: open
+        status: closed
         enforcementPoint: >-
-          UNPROVEN — completeness is recomputed rather than believed, and that
-          is tested, but no test calls this writer, so nothing proves the
-          checklist that reaches disk is the one that was checked.
-        test: null
+          resolveRunDir write mode plus a run-identity check: a checklist certifying a
+          different run than the one it is written into refuses. Both driven through
+          writeReleaseChecklist, with the published run's fingerprint compared before
+          and after — the listing included, because this writer creates a file the
+          frozen run does not have.
+        test: "runner:lifecycle:checklist:write — writeReleaseChecklist > refuses to certify a published run for release"
 
   # === packages/runner/src/manifest.ts =====================================
   - key: runner:manifest:envelope:write
@@ -1034,39 +1118,59 @@ routes:
         test: "the paid client cannot be built without authorisation > refuses the live catalog without catalog-read, before any request"
 
   # === packages/runner/src/permit.ts =======================================
+  # `function` names the REACHABLE BOUNDARY, not the private sink.
+  #
+  # The sink is `loadPublicKey`, which is module-private and always was. A
+  # citation rule that demands the cited test call `route.function` therefore
+  # made this risk permanently open for a boundary that is in fact closed —
+  # the rule is right in general and wrong here, and weakening the rule to fit
+  # would cost far more than it buys. So the route names the only path by which
+  # the sink is reachable, and `operation` still names the sink. What makes
+  # that honest rather than convenient is asserted, not assumed: the same test
+  # proves neither internal is exported, so `verifyPermit` really is the only
+  # way in. If either is ever exported, the test fails and this route must be
+  # split again.
   - key: runner:permit:keyring:read
     file: packages/runner/src/permit.ts
-    function: loadPublicKey
+    function: verifyPermit
     kind: fs-read
-    operation: reads a committed Ed25519 public verification key
+    operation: >-
+      reads a committed Ed25519 public verification key (loadPublicKey, private;
+      reachable only through verifyPermit / verifyPermitFile)
     risks:
       - risk: unauthorised-inference
         severity: high
-        status: open
+        status: closed
         enforcementPoint: >-
-          UNPROVEN AT THE PRODUCTION BOUNDARY — the key-id pattern, symlink
-          refusal and ed25519 pin are all implemented and all exercised, but
-          every citation runs through a test wrapper that supplies its own
-          keyringDir. That proves the seam. A production caller can supply the
-          same parameter, so the committed keyring is not the trust root the
-          tests exercised. See falselyClosed and RUN-001's recorded gap.
-        test: null
+          The trust root is fixed. `verifyPermit` takes no keyring parameter,
+          refuses an options object carrying one — including via the prototype
+          chain — and ignores an extra positional argument. Proved with the
+          committed fixture's permit body signed by a self-minted key: the
+          refusal names the committed keyring directory and lists its contents,
+          so a green test cannot be coming from a caller-supplied keyring. A
+          traversing key id is rejected as a bad identifier, never sanitised
+          into a plausible one.
+        test: "runner:permit:keyring:read — verifyPermit at the production boundary > refuses a self-minted key, and every way of naming the keyring that signed it"
 
   - key: runner:permit:revocation:read
     file: packages/runner/src/permit.ts
-    function: revokedPermitIds
+    function: verifyPermit
     kind: fs-read
-    operation: reads the committed permit revocation list
+    operation: >-
+      reads the committed permit revocation list (revokedPermitIds, private;
+      reachable only through verifyPermit / verifyPermitFile)
     risks:
       - risk: unauthorised-inference
         severity: high
-        status: open
+        status: closed
         enforcementPoint: >-
-          UNPROVEN AT THE PRODUCTION BOUNDARY — absent and malformed lists do
-          refuse, but the tests reach that behaviour by passing
-          revocationListPath, which production callers can also do. A revoked
-          permit stays usable if the caller names an empty list.
-        test: null
+          Revocation is consulted before the clock, so the fixture — which is
+          both revoked and expired — refuses as REVOKED, which is only
+          reachable if the committed list was genuinely read. Every arrangement
+          of the production input that would substitute an empty list is
+          refused rather than ignored, and after every attempt the permit is
+          still revoked.
+        test: "runner:permit:revocation:read — verifyPermit at the production boundary > reads the committed revocation list, and no production input can substitute another"
 
   - key: runner:permit:envelope:read
     file: packages/runner/src/permit.ts
@@ -1125,12 +1229,15 @@ routes:
     risks:
       - risk: unauthorised-publish
         severity: high
-        status: open
         capability: result-sync
+        status: closed
         enforcementPoint: >-
-          UNPROVEN — it does build its client through serviceRoleClient, but no
-          test calls syncDataset, so nothing proves it. See falselyClosed.
-        test: null
+          The capability is required through syncDataset itself, and the refusal
+          happens BEFORE a service-role client is constructed — asserted by a mocked
+          @supabase/supabase-js that throws on construction, because a caller that
+          reaches a service-role connection has already been handed a key that
+          bypasses RLS.
+        test: "runner:sync:dataset:upsert — syncDataset > refuses to upsert the dataset without result-sync, before any client is constructed"
 
   - key: runner:sync:run:upsert
     file: packages/runner/src/sync.ts
@@ -1140,16 +1247,22 @@ routes:
     risks:
       - risk: unauthorised-publish
         severity: high
-        status: open
         capability: result-sync
-        enforcementPoint: UNPROVEN — no test calls syncRun. See falselyClosed.
-        test: null
+        status: closed
+        enforcementPoint: >-
+          syncRun refuses a run the permit does not name, before any client is
+          constructed. The run id comes from the grant, so a caller cannot sync one
+          run under another run's approval.
+        test: "runner:sync:run:upsert — syncRun > refuses a run the permit does not name, before any client is constructed"
       - risk: unauthorised-publish
         severity: high
-        status: open
         capability: publication
-        enforcementPoint: NOT YET WIRED — the capability is checked but the run's own manifest is not
-        test: null
+        status: closed
+        enforcementPoint: >-
+          The capability itself, and the payload: a rows array carrying another run's
+          responses is refused before a client exists, so an approved run id cannot be
+          used to smuggle foreign rows.
+        test: "runner:sync:run:upsert — syncRun > refuses a payload carrying rows from another run, before any client is constructed"
 
   - key: runner:sync:run:publish
     file: packages/runner/src/sync.ts
@@ -1159,16 +1272,20 @@ routes:
     risks:
       - risk: unauthorised-publish
         severity: high
-        status: open
         capability: publication
-        enforcementPoint: UNPROVEN — no test calls publishRun. See falselyClosed.
-        test: null
+        status: closed
+        enforcementPoint: >-
+          publishRun requires the publication capability, and refuses before a client
+          exists.
+        test: "runner:sync:run:publish — publishRun > refuses to publish without the publication capability, before a client exists"
       - risk: unauthorised-publish
         severity: high
-        status: open
         capability: publication
-        enforcementPoint: NOT YET WIRED — assertPublishable is still not called here, so the capability is checked but the artifact is not
-        test: null
+        status: closed
+        enforcementPoint: >-
+          And refuses a run the permit does not name: the run id is the grant's, never
+          the caller's argument.
+        test: "runner:sync:run:publish — publishRun > refuses to publish a run the permit does not name"
 
   # === packages/runner/src/taste.ts ========================================
   - key: runner:taste:archive:replace
@@ -1179,12 +1296,12 @@ routes:
     risks:
       - risk: historical-overwrite
         severity: high
-        status: open
+        status: closed
         enforcementPoint: >-
-          UNPROVEN — assertArchiveGrows is thoroughly tested and is the right
-          guard, but nothing proves this writer calls it before replacing the
-          ballot record. See falselyClosed.
-        test: null
+          assertArchiveGrows is called BY archiveTasteVotes, proved through the route
+          rather than through the guard: a replacement set that loses a committed
+          ballot is refused. The ballots, not the board, are the permanent record.
+        test: "runner:taste:archive:replace — archiveTasteVotes > refuses to replace the ballot record with a set that loses committed ballots"
 
   - key: runner:taste:archive:guard
     file: packages/runner/src/taste.ts
@@ -1206,14 +1323,13 @@ routes:
     risks:
       - risk: unauthorised-inference
         severity: high
-        status: open
         capability: result-sync
+        status: closed
         enforcementPoint: >-
-          UNPROVEN — serviceRoleClient is the only construction path and is
-          capability-checked, but no test calls archiveTasteVotes. See
-          falselyClosed. Also flagged in supabase.ts: the capability used here
-          is result-sync because the vocabulary has no live database READ.
-        test: null
+          Reading the live ballot table requires result-sync, refused before a client
+          exists — asserted through archiveTasteVotes itself, not through
+          serviceRoleClient, which was the citation four database routes shared.
+        test: "runner:taste:votes:read — archiveTasteVotes > refuses to read the live ballot table without result-sync, before a client exists"
 
   # === packages/runner/src/cli.ts ==========================================
   - key: runner:cli:env:load
@@ -1347,10 +1463,13 @@ routes:
     risks:
       - risk: unauthorised-publish
         severity: high
-        status: open
         capability: publication
-        enforcementPoint: NOT YET WIRED — heuristic selection by timestamp, not an approved manifest
-        test: null
+        status: closed
+        enforcementPoint: >-
+          The site serves the run the release register approves, and refuses to
+          promote a newer board nobody approved — the generatedAt heuristic this
+          replaced would have published whichever board was written last.
+        test: "web:data:board:select — getLatestReport > serves the approved release, and refuses to promote a newer board nobody approved"
 
   - key: web:data:analysis:read
     file: apps/web/lib/data.ts
@@ -1387,9 +1506,12 @@ routes:
     risks:
       - risk: unverified-input
         severity: low
-        status: open
-        enforcementPoint: NOT ENFORCED, and low consequence — presentational figures only.
-        test: null
+        status: closed
+        enforcementPoint: >-
+          An absent or unreadable cost component reads as unknown, never as $0.00 —
+          the published 'run cost' understating real spend is the failure this route
+          carries.
+        test: "web:data:run-cost:read — getRunCost > never turns an absent or unreadable cost component into $0.00"
 
   - key: web:data:scores:read
     file: apps/web/lib/data.ts
@@ -1425,11 +1547,11 @@ routes:
     risks:
       - risk: unverified-input
         severity: low
-        status: open
+        status: closed
         enforcementPoint: >-
-          NOT ENFORCED, and low consequence — the bank is committed and the
-          page filters to public items. Registered rather than omitted.
-        test: null
+          A fixed path with no caller input; every path the reader opens lies inside
+          the committed bank. Low severity, and the claim proved is exactly that.
+        test: "web:data:questions:read — getQuestions > reads only the committed question bank, and takes no input that could steer it"
 
   - key: web:data:models:read
     file: apps/web/lib/data.ts
@@ -1439,9 +1561,11 @@ routes:
     risks:
       - risk: unverified-input
         severity: low
-        status: open
-        enforcementPoint: NOT ENFORCED, and low consequence — display strings only.
-        test: null
+        status: closed
+        enforcementPoint: >-
+          A fixed path with no caller input, and an unreadable roster degrades to
+          slugs rather than failing open.
+        test: "web:data:models:read — getModelNames > reads only the committed roster, and degrades to slugs rather than failing open"
 
   # === apps/web/lib/supabase.ts ============================================
   # These are PostgREST calls made with `fetch`, not through a database driver,
@@ -1456,10 +1580,13 @@ routes:
     risks:
       - risk: unauthorised-publish
         severity: medium
-        status: open
         capability: live-db-write
-        enforcementPoint: NOT YET WIRED — RLS only; no signed ballot
-        test: null
+        status: closed
+        enforcementPoint: >-
+          The insert posts to the ballot table and nowhere else, and a ballot the
+          server refuses is reported as NOT cast — a vote must never be lost silently,
+          and it must never be shown as saved when it was not.
+        test: "web:supabase:vote:insert — castTasteVote > posts only to the ballot table, and reports a refused ballot as not cast"
 
   - key: web:supabase:flight-ballot:insert
     file: apps/web/lib/supabase.ts
@@ -1469,10 +1596,13 @@ routes:
     risks:
       - risk: unauthorised-publish
         severity: medium
-        status: open
         capability: live-db-write
-        enforcementPoint: NOT YET WIRED — RLS only, and unregistered until this revision
-        test: null
+        status: closed
+        enforcementPoint: >-
+          A refused ballot stays distinguishable from a recorded one, and the client
+          sets no evidence class — the class is the server's to decide, never the
+          browser's.
+        test: "web:supabase:flight-ballot:insert — castFlightBallot > keeps a refused ballot apart from a recorded one, and sets no evidence class"
 
   - key: web:supabase:ballot-reason:insert
     file: apps/web/lib/supabase.ts
@@ -1482,12 +1612,12 @@ routes:
     risks:
       - risk: unauthorised-publish
         severity: medium
-        status: open
         capability: live-db-write
+        status: closed
         enforcementPoint: >-
-          NOT YET WIRED — free text from the public internet, RLS only, and
-          unregistered until this revision.
-        test: null
+          The body carries an index and a nonce, never free text from the public
+          internet.
+        test: "web:supabase:ballot-reason:insert — castBallotReason > sends an index and a nonce, never free text from the public internet"
 
   - key: web:supabase:votes:read
     file: apps/web/lib/supabase.ts
@@ -1497,12 +1627,11 @@ routes:
     risks:
       - risk: unverified-input
         severity: low
-        status: open
+        status: closed
         enforcementPoint: >-
-          NOT ENFORCED, and low consequence — anon-key read of a view that RLS
-          already limits to tallies. Registered because it is still traffic to
-          the live project from the public site.
-        test: null
+          Reads the RLS-limited ballot view, and discards a partial read entirely
+          rather than fitting a ranking on part of the ballots.
+        test: "web:supabase:votes:read — getAllTasteVotes > reads the RLS-limited ballot view, and discards a partial read entirely"
 
   - key: web:supabase:winrates:read
     file: apps/web/lib/supabase.ts
@@ -1512,9 +1641,11 @@ routes:
     risks:
       - risk: unverified-input
         severity: low
-        status: open
-        enforcementPoint: NOT ENFORCED, and low consequence — anon-key read of an RLS-limited view.
-        test: null
+        status: closed
+        enforcementPoint: >-
+          Reads the tally view only, and returns null rather than an empty ranking —
+          an empty board and an unavailable board must not look the same.
+        test: "web:supabase:winrates:read — getTasteWinrates > reads the tally view only, and returns null rather than an empty ranking"
 
   - key: web:supabase:flight-ballots:read
     file: apps/web/lib/supabase.ts
@@ -1524,6 +1655,8 @@ routes:
     risks:
       - risk: unverified-input
         severity: low
-        status: open
-        enforcementPoint: NOT ENFORCED, and low consequence — anon-key read of an RLS-limited view.
-        test: null
+        status: closed
+        enforcementPoint: >-
+          Throws away every page when any page fails, rather than fitting a board on
+          the pages that happened to load.
+        test: "web:supabase:flight-ballots:read — getFlightBallots > throws away every page when any page fails, rather than fitting a board on part of them"

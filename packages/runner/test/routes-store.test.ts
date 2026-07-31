@@ -17,7 +17,12 @@ import type { RunAnalysis } from '../src/analyze.js';
 import { writeAnalysis } from '../src/analyze.js';
 import { runCalibration } from '../src/calibration.js';
 import { RUNS_DIR } from '../src/dataset.js';
-import { FirewallError, type FirewallErrorCode } from '../src/firewall.js';
+import {
+  FirewallError,
+  readProvenance,
+  recordProvenance,
+  type FirewallErrorCode,
+} from '../src/firewall.js';
 import { ReservationLedger } from '../src/ledger.js';
 import type { ChatMessage, CompletionClient, CompletionResult } from '../src/openrouter.js';
 import {
@@ -493,6 +498,62 @@ describe('runner:calibration:result:write — runCalibration', () => {
     // A dangling link is the sharper case: following it would have CREATED the
     // outside file, so its absence is the proof the bytes never left the tree.
     expect(existsSync(join(outsideDir, 'calibration-target.json'))).toBe(false);
+  });
+});
+
+describe('runner:firewall:provenance:append — the approval trail lives in the run', () => {
+  const TRAIL_RUN = '__test-routes-store-trail';
+  afterEach(() => rmSync(join(RUNS_DIR, TRAIL_RUN), { recursive: true, force: true }));
+
+  it('appends one line per authorisation, and refuses to write into a published run', () => {
+    // TRACE-001 asks that every ARTIFACT can be traced to the approval that
+    // authorised it. `Firewall.provenance()` had existed since the permit layer
+    // landed and nothing that writes ever called it: the only durable trail was
+    // the redemption record, which lives in data/permits beside the PERMIT.
+    // That is traceable only by someone who already knows to look there.
+    const grant = mintTestGrant({
+      kind: 'development-probe',
+      capabilities: ['candidate-inference', 'judge-inference'],
+      cells: [{ modelId: 'a/one', questionId: 'q' }],
+      runId: TRAIL_RUN,
+    });
+
+    const first = recordProvenance(TRAIL_RUN, grant, 'bench run');
+    expect(first).toMatchObject({ permitId: 'permit-test-0001', runId: TRAIL_RUN, command: 'bench run' });
+
+    // APPEND, not replace. A run is assembled from several batches and judged
+    // in a separate pass; a file keeping only the last authorisation would
+    // describe the run as though one approval covered all of it.
+    recordProvenance(TRAIL_RUN, grant, 'bench judge');
+    const trail = readProvenance(TRAIL_RUN);
+    expect(trail.map((e) => e.command)).toEqual(['bench run', 'bench judge']);
+    expect(trail.every((e) => e.manifestHash === first.manifestHash)).toBe(true);
+
+    // A corrupt trail refuses rather than reporting an unknown approval as
+    // none — "no provenance" and "provenance we cannot read" must not look the
+    // same to a release check.
+    writeFileSync(join(RUNS_DIR, TRAIL_RUN, 'provenance.ndjson'), '{ truncated\n');
+    expectFirewallRefusal(() => readProvenance(TRAIL_RUN), 'REGISTRY_INVALID', /trail for run .* is corrupt/);
+
+    // And the trail cannot be retro-fitted into published work: appendRunFileLine
+    // is the writer, so the frozen-run guard applies to it like every other.
+    const before = frozenFingerprint();
+    const frozenGrant = mintTestGrant({
+      kind: 'development-probe',
+      capabilities: ['candidate-inference'],
+      cells: [{ modelId: 'a/one', questionId: 'q' }],
+      runId: FROZEN,
+    });
+    expectFirewallRefusal(
+      () => recordProvenance(FROZEN, frozenGrant, 'bench run'),
+      'HISTORICAL_WRITE',
+      /historical and immutable \(DATA-001\)/,
+    );
+    expect(frozenFingerprint()).toBe(before);
+
+    // A run nothing has authorised reports an empty trail, not a missing file
+    // error — the pipeline reads this before anything has written it.
+    expect(readProvenance(SCRATCH)).toEqual([]);
   });
 });
 

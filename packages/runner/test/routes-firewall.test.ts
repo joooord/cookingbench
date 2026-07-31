@@ -399,7 +399,7 @@ describe('runner:lifecycle:register:read — readReleaseRegister', () => {
 // ---------------------------------------------------------------------------
 
 describe('runner:permit:keyring:read — verifyPermit at the production boundary', () => {
-  it('refuses a self-minted key, and every way of naming the keyring that signed it', () => {
+  it('refuses a self-minted key, and every way of naming the keyring that signed it', async () => {
     // The attack the risk names, run for real. The permit BODY is the committed
     // fixture's, byte for byte, so the only variable is which keyring decides
     // whether the signature over it counts. If the caller could name that
@@ -512,6 +512,20 @@ describe('runner:permit:keyring:read — verifyPermit at the production boundary
       /not a valid key identifier/,
       'traversing key id',
     );
+
+    // The two filesystem sinks this route is really about — `loadPublicKey`
+    // and `revokedPermitIds` — are module-private, and `docs/wp-0/routes.yaml`
+    // now names `verifyPermit` as the route's function on exactly that
+    // argument. That is only honest while the sinks stay unreachable, so it is
+    // asserted rather than assumed: export either one and this fails, and the
+    // route must be split again.
+    const permitModule = await import('../src/permit.js');
+    for (const internal of ['loadPublicKey', 'revokedPermitIds']) {
+      expect(
+        Object.keys(permitModule),
+        `${internal} is exported; the keyring/revocation sinks are no longer reachable only through verifyPermit`,
+      ).not.toContain(internal);
+    }
 
     rmSync(attackerRoot, { recursive: true, force: true });
   });

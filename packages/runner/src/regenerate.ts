@@ -239,6 +239,8 @@ export interface Registry {
   severities: string[];
   routes: RegistryRoute[];
   falselyClosed: number;
+  /** Of those, the ones whose route still carries an open risk. Only these block. */
+  falselyClosedStillOpen: number;
 }
 
 /** Exported for the same reason as `parseTraceabilityMatrix`, and on the same terms. */
@@ -291,7 +293,21 @@ export function parseRouteRegistry(raw: string): Registry {
     });
     return { key, file: r.file, kind: r.kind, risks };
   });
-  const falselyClosed = Array.isArray(doc.falselyClosed) ? doc.falselyClosed.length : 0;
+  // `falselyClosed` is HISTORY: the risks a review reopened, kept so the record
+  // of how a green matrix came to be wrong outlives the commit message. Most of
+  // them are legitimately closed again. Counting the whole list as a blocker
+  // therefore made the summary report a permanent failure for work that was
+  // done — so the blocker counts only the entries whose ROUTE still has an open
+  // risk, while the full list is still reported for the record.
+  const falselyClosedEntries = Array.isArray(doc.falselyClosed) ? doc.falselyClosed : [];
+  const openRouteKeys = new Set(
+    parsed.filter((r) => r.risks.some((k) => k.status === 'open')).map((r) => r.key),
+  );
+  const falselyClosed = falselyClosedEntries.length;
+  const falselyClosedStillOpen = falselyClosedEntries.filter((e) => {
+    const route = (e as Record<string, unknown>).route;
+    return typeof route === 'string' && openRouteKeys.has(route);
+  }).length;
   return {
     scanRoots: stringList(doc.scanRoots, 'routes.yaml scanRoots'),
     routeKinds,
@@ -299,6 +315,7 @@ export function parseRouteRegistry(raw: string): Registry {
     severities,
     routes: parsed,
     falselyClosed,
+    falselyClosedStillOpen,
   };
 }
 
@@ -368,8 +385,11 @@ export function buildAcceptanceSummary(): string {
     if (req.status !== 'closed') blockers.push(`${req.id} is ${req.status} with ${req.gaps.length} recorded gap(s)`);
   }
   if (openRisks.length > 0) blockers.push(`${openRisks.length} registered route risk(s) are open`);
-  if (registry.falselyClosed > 0) {
-    blockers.push(`${registry.falselyClosed} risk(s) are recorded as falsely closed`);
+  if (registry.falselyClosedStillOpen > 0) {
+    blockers.push(
+      `${registry.falselyClosedStillOpen} reopened risk(s) are still open ` +
+        `(of ${registry.falselyClosed} recorded)`,
+    );
   }
   blockers.sort();
 
@@ -427,6 +447,7 @@ export function buildAcceptanceSummary(): string {
         openRisks: openRisks.length,
         closedRisks: allRisks.length - openRisks.length,
         falselyClosed: registry.falselyClosed,
+        falselyClosedStillOpen: registry.falselyClosedStillOpen,
       },
       routesByKind: tally(registry.routeKinds, registry.routes.map((r) => r.kind)),
       openRisksByKind: tally(registry.riskKinds, openRisks.map((r) => r.risk)),

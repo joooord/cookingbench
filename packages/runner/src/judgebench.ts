@@ -1453,12 +1453,12 @@ export function assertHarnessComplete(
   raters: readonly string[],
 ): void {
   if (raters.length === 0) throw new JudgeBenchError('no raters declared for the harness', 'INVALID_PLAN');
-  const seen = new Set(results.map((r) => `${r.taskId} ${r.rater}`));
+  const seen = new Set(results.map((r) => `${r.taskId}\0${r.rater}`));
   const planned = new Set(plan.tasks.map((t) => t.taskId));
   const missing: string[] = [];
   for (const task of plan.tasks) {
     for (const rater of raters) {
-      if (!seen.has(`${task.taskId} ${rater}`)) missing.push(`${task.taskId} / ${rater}`);
+      if (!seen.has(`${task.taskId}\0${rater}`)) missing.push(`${task.taskId} / ${rater}`);
     }
   }
   const uncaptured = results.filter((r) => !r.captured).map((r) => `${r.taskId} / ${r.rater}`);

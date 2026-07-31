@@ -4,10 +4,43 @@
 # named test cases prove it, and — importantly — what is still missing.
 #
 # Validated by packages/runner/test/traceability.test.ts, on the same principle
-# as the route registry: every cited test must EXIST by exact name, a
-# requirement marked `closed` may not carry gaps, and a requirement carrying
-# gaps may not be marked closed. A matrix that can drift from the code reads as
-# coverage while providing none, which is worse than no matrix.
+# as the route registry: every cited test must EXIST by exact name, every named
+# enforcement file must exist, a requirement marked `closed` may not carry
+# gaps, and a requirement carrying gaps may not be marked closed. A matrix that
+# can drift from the code reads as coverage while providing none, which is
+# worse than no matrix.
+#
+# ---------------------------------------------------------------------------
+# GAPS vs LIMITATIONS — a distinction this revision introduces
+# ---------------------------------------------------------------------------
+#
+# A `gap` is work not done: something that can be closed, by someone, with a
+# commit. A `limitation` is a boundary of the mechanism itself, which no amount
+# of work inside this repository will move — the ledger cannot un-spend money
+# the provider has already taken, and no test can prove that it can.
+#
+# They were the same field, and that was wrong in both directions. A permanent
+# limitation sitting in the gap list is noise that trains readers to skim the
+# list; and burying it makes a requirement look more closed than it is. So a
+# `closed` requirement MAY carry limitations, must carry no gaps, and the
+# validator enforces both.
+#
+# ---------------------------------------------------------------------------
+# What changed in this revision
+# ---------------------------------------------------------------------------
+#
+# The previous state was 2 closed / 7 partial / 1 open with 19 gaps, and it
+# described the repository as it stood roughly twenty-five commits ago. Most of
+# those gaps had been closed by work that never came back to update this file —
+# which is its own lesson, and the reason `bench regenerate` now derives the
+# acceptance summary from this file rather than from anyone's memory.
+#
+# Every status below was re-derived by reading the source and running the
+# cited test, not by trusting the previous entry. Six gaps survived that pass;
+# fourteen did not. Two entries changed in the other direction: DATA-001 was
+# marked `closed` while `writeAnalysis` could still follow a leaf symlink out
+# of the repository, and TRACE-001's provenance gap was real and is now fixed
+# rather than re-worded.
 
 requirements:
   - id: RUN-001
@@ -15,18 +48,21 @@ requirements:
       Execution is deny-by-default. Dangerous capabilities are exercised only
       under a cryptographically signed permit that cannot be replaced by a local
       boolean, and the permit's kind bounds what its capabilities may be.
-    status: partial
+    status: closed
     enforcementPoints:
       - packages/runner/src/permit.ts — Ed25519 verification over the raw signed body, before any field is acted on
       - packages/runner/src/permit.ts — grant authority is WeakSet membership, checked at runtime, not a TypeScript brand
+      - packages/runner/src/permit.ts — verifyPermit/verifyPermitFile take NO trust inputs and refuse an options object carrying one, including via the prototype chain
+      - packages/runner/src/permit.ts — verifyPermitForTests is the only path that names a trust root, and refuses outside a test process
       - packages/core/src/evidence.ts — CAPABILITIES_FOR_PERMIT_KIND and EVIDENCE_CLASSES_FOR_PERMIT_KIND
       - packages/runner/src/firewall.ts — Firewall.denyAll is the default posture; the constructor re-checks the grant
       - packages/runner/src/openrouter.ts — private constructor plus forCandidates/forJudging factories
       - packages/runner/src/openrouter.ts — cell and estimate are REQUIRED on a guarded call and re-checked at runtime, so no call can opt out of the cell check by omitting a field
       - packages/runner/src/firewall.ts — requireCell takes an explicit cell kind, mapped to the capability that authorises it, and refuses an unknown kind
-      - packages/runner/src/supabase.ts — the single capability-checked path to a service-role client
+      - packages/runner/src/supabase.ts — fixed per-capability operation sets, each bound to the GRANT's run id; the privileged client never escapes
       - packages/runner/src/redemption.ts — executionLimit enforced by an atomic on-disk redemption record
       - packages/runner/src/cli.ts — every paid or live-data command requires --permit and --manifest
+      - data/permits/fixtures — three committed permits signed off-machine, so the production loader is exercised against committed material rather than an ephemeral keypair
     tests:
       - "permit verification mints a grant > accepts a correctly signed, correctly bound permit"
       - "a grant is identity, not shape > refuses a hand-built object with the right shape"
@@ -45,24 +81,36 @@ requirements:
       - "the permit chain works end to end > carries a signed file through verify, redeem, ledger, client and a call"
       - "the permit chain works end to end > breaks the chain at the first link when the permit file is tampered with"
       - "the permit chain works end to end > refuses the second redemption of a single-use permit, after the first has spent"
+      - "runner:permit:keyring:read — verifyPermit at the production boundary > refuses a self-minted key, and every way of naming the keyring that signed it"
+      - "runner:permit:revocation:read — verifyPermit at the production boundary > reads the committed revocation list, and no production input can substitute another"
+      - "the live-data chain refuses authority meant for another run > refuses to sync a run the permit was not issued for, before opening a connection"
+      - "runner:sync:run:upsert — syncRun > refuses a run the permit does not name, before any client is constructed"
+      - "runner:sync:run:publish — publishRun > refuses to publish a run the permit does not name"
+      - "trust inputs are not caller parameters > flags every exported production function that names one"
+      - "test seams are declared, guarded, and unreachable from production > is never called from production source"
     status_note: >-
-      Downgraded from closed after external review. The machinery is real and
-      tested; the BOUNDARY is not yet trustworthy, and a requirement is only as
-      closed as its weakest reachable input.
-    gaps:
+      Closed on the third pass. It was downgraded from closed after external
+      review — correctly: the machinery was real and tested while the BOUNDARY
+      was not, because `verifyPermit` accepted a caller-supplied keyringDir,
+      revocationListPath and clock, and production code could reach all three.
+      Injectable for testability and reachable in production is not a boundary.
+      All three parameters are gone; the seam that replaced them refuses outside
+      a test process, and a test greps production source to prove it is never
+      called there. The committed fixtures close the second half: the production
+      loader now runs against material signed off-machine, which is the only way
+      to prove the committed keyring is the trust root rather than the one a
+      test happened to build.
+    gaps: []
+    limitations:
       - >-
-        verifyPermit accepts caller-supplied keyringDir, revocationListPath and
-        now, and production code reaches those parameters. Unattended code can
-        therefore select its own trust inputs — point its own keyring at a key it
-        made, or move its own clock past an expiry. Injectable for testability,
-        reachable in production, which is not a boundary.
-      - >-
-        No committed verification key, permit or manifest exists. Every
-        end-to-end test mints an ephemeral keypair, so the chain has never run
-        against real committed authority.
-      - >-
-        Neither sync nor publish compares the permit's runId with the run being
-        published, so an approval for one run can act on another.
+        No APPROVER key is committed, and none should be: the private half must
+        not be reachable by Claude, Codex, the runner or CI, or the system that
+        enforces approval could approve itself. So no capability can currently
+        be exercised at all — verification fails closed with PERMIT_UNKNOWN_KEY
+        and `Firewall.denyAll()` is the only reachable posture. That is the
+        correct state for a repository under code preparation, and it means the
+        end-to-end chain has been proved against fixtures rather than against a
+        live approval. See data/permits/keys/README.md.
 
   - id: RUN-001A
     statement: >-
@@ -71,50 +119,110 @@ requirements:
       enumeration is checked against the source in both directions.
     status: partial
     enforcementPoints:
-      - docs/wp-0/routes.yaml — curated semantic route registry
-      - packages/runner/test/route-inventory.test.ts — bidirectional completeness and exact test-name checking
+      - docs/wp-0/routes.yaml — curated semantic route registry, 91 routes over 112 risks
+      - packages/runner/test/route-inventory.test.ts — bidirectional completeness, exact test-name checking, and the rule that a closed risk must cite a test which CALLS the route
     tests:
+      - "route registry is acceptance-grade > passes every rule it declares, in both directions"
       - "route registry is acceptance-grade > covers every filesystem, network and database sink under every scan root"
       - "route registry is acceptance-grade > cites an EXACT named test case for every closed risk"
+      - "route registry is acceptance-grade > requires every closed risk to cite a test that CALLS the route"
       - "route registry is acceptance-grade > never claims an open risk is enforced"
+      - "route registry is acceptance-grade > treats filesystem reads as routes, not as exempt"
+      - "route registry is acceptance-grade > scans apps/web, not only the runner"
+      - "route registry is acceptance-grade > records every route it reopened, against a real route and a real test"
+      - "the registry validator cannot be talked round > rejects a closed risk whose test only exercises a helper"
+      - "the registry validator cannot be talked round > rejects a citation that merely MENTIONS the route in a string"
+      - "the registry validator cannot be talked round > rejects a registry that drops a file the scanner found"
+      - "the registry validator cannot be talked round > has a scanner that is not vacuous"
+      - "the registry validator cannot be talked round > harvests a test name that contains a quote, rather than truncating it"
+    status_note: >-
+      The ENUMERATION is complete and checked both ways; the two gaps recorded
+      against it — reads not scanned, apps/web not scanned — are closed, and the
+      sweep more than doubled the registry. What keeps this partial is the other
+      half of the statement: "and proof". Seventeen registered risks still have
+      none, down from sixty-three.
     gaps:
-      - The sink scanner covers writes, network and database calls but not filesystem READS, so a new reader is not forced into the registry.
-      - Coverage is scanned in packages/runner/src only. apps/web routes are registered by hand and not checked against the source.
+      - >-
+        Seventeen route risks are still open. Eight are `bench pilot` and the
+        CLI's own readers, which have no test of any kind — `cmdRun`,
+        `cmdPilot`, `requireGrant`, `checkCanaries`, `cmdValidate`, `writePilot`,
+        `envPath`, `frozenMethodologyHash`. RUN-001 records separately that
+        `bench pilot` is meant to be DISABLED for v3, which no test asserts
+        either.
+      - >-
+        Six are recorded DEFECTS with a test that proves the risk is LIVE rather
+        than closed: `web:data:analysis:read`, `web:data:scores:read`,
+        `web:data:responses:read` and `web:data:run-config:read` serve run
+        artifacts with no binding to the manifest that produced them;
+        `runner:store:attempts:read` trusts an attempt record bound to no
+        manifest; `runner:calibration:result:read` reads a hand-written
+        calibration.json as a passed gate; `runner:estimate:record:read` accepts
+        a hand-written estimate record.
+      - >-
+        Two are the unauthorised-publish risk on `writeLeaderboard` and
+        `writeAnalysis` — see RELEASE-002, which owns the decision.
 
   - id: RUN-002
     statement: >-
       A resumed run preserves every rank-affecting setting and hash. Mixed
       routes, prompts, banks, settings or methodology versions FAIL rather than
       warn. Retry ids are deterministic and idempotent.
-    status: open
+    status: closed
+    enforcementPoints:
+      - packages/runner/src/store.ts — ProtocolViolationError on any rank-affecting change, replacing a console warning that merged the new config anyway
+      - packages/runner/src/store.ts — RANK_AFFECTING_FIELDS is derived by EXCLUSION from OPERATIONAL_FIELDS, so a field this build has never seen is rank-affecting by default
+      - packages/runner/src/store.ts — every batch carries its own ProtocolBinding, and a binding that had to be inferred is marked `reconstructed` rather than presented as measured
+      - packages/runner/src/store.ts — retryIdFor derives an attempt id by SHA-256 over (runId, modelId, questionId, cause), so a replay across processes recognises itself
+      - packages/runner/src/store.ts — writeResponse refuses to replace a stored answer with a different one, and refuses a replay carrying a different cost
+    tests:
+      # `it.each` — cited in TEMPLATE form, because that is what the source
+      # says; vitest expands %s per case at run time, and the template is the
+      # only stable identifier the case has.
+      - "RUN-002 — a changed rank-affecting setting fails rather than warns > refuses a resumed batch that changes %s"
+      - "RUN-002 — a changed content hash fails rather than warns > refuses a resumed batch whose %s has moved"
+      - "RUN-002 — a changed rank-affecting setting fails rather than warns > refuses a model route table that changes, and one that appears"
+      - "RUN-002 — a changed rank-affecting setting fails rather than warns > treats a field this build has never seen as rank-affecting"
+      - "RUN-002 — a changed rank-affecting setting fails rather than warns > refuses a rank-affecting field that disappears on resume"
+      - "RUN-002 — a changed rank-affecting setting fails rather than warns > refuses through the judge writer as well as the run writer"
+      - "RUN-002 — a changed content hash fails rather than warns > refuses a run whose manifest changed or vanished"
+      - "RUN-002 — a changed content hash fails rather than warns > accepts a manifest appearing on a previously unmanifested run"
+      - "RUN-002 — an identical protocol resumes cleanly > accepts a second batch under the same protocol and unions the models"
+      - "RUN-002 — an identical protocol resumes cleanly > does not mistake a reordered judge panel for a different panel"
+      - "RUN-002 — an identical protocol resumes cleanly > lets operational fields move, and never lets a per-model cap rise"
+      - "RUN-002 — every batch is bound to what it ran under > writes a binding per batch that survives a round trip"
+      - "RUN-002 — every batch is bound to what it ran under > does not append a second record for a replayed batch"
+      - "RUN-002 — every batch is bound to what it ran under > ignores a binding the caller attached to its own batch"
+      - "RUN-002 — every batch is bound to what it ran under > marks a binding it had to infer as inference, not as evidence"
+      - "RUN-002 — attempt ids are derived, never counted > recognises a replay of the same attempt across processes"
+      - "RUN-002 — attempt ids are derived, never counted > books one charge, and refuses a second, different one"
+      - "RUN-002 — attempt ids are derived, never counted > refuses a corrupt or mis-filed attempt record rather than reopening it"
+      - "RUN-002 — a replayed retry stores one answer and books one charge > stores one answer and one charge when the same retry lands twice"
+      - "RUN-002 — a replayed retry stores one answer and books one charge > refuses to overwrite a stored answer with a different one"
+      - "RUN-002 — a replayed retry stores one answer and books one charge > keeps distinct cells distinct"
+      - "4 — a changed rank-affecting setting refuses > refuses a temperature or token-cap change on resume, rather than warning"
+      - "13 — a duplicate retry execution stores one answer and books one charge > recognises the replay instead of paying for it twice"
     status_note: >-
       This requirement was MISSING from this matrix entirely, and from the
       validator's hand-typed list of "every WP-0 requirement", so the suite
       reported full coverage of nine requirements while the brief specified ten.
       Found by external review, not by the machinery built to find exactly this.
-      The list is now derived from the brief.
-    enforcementPoints:
-      - "NOT ENFORCED — packages/runner/src/store.ts mergeRunConfig WARNS on a changed temperature, token cap or methodology version and merges the new config into the existing run, which is the opposite of what the requirement asks for"
-    tests: []
-    gaps:
-      - >-
-        Changed rank-affecting settings warn and merge instead of failing, so one
-        run can silently contain two protocols.
-      - >-
-        A run's batches are not individually bound to bank, prompt and scoring
-        hashes, so a mid-run bank change leaves no trace in the artifact.
-      - >-
-        Retry idempotency is not established by any test.
+      The list is now DERIVED from the brief, so a requirement added there fails
+      the suite until it is answered here. All three of its gaps are closed.
+    gaps: []
+    limitations: []
 
   - id: DATA-001
     statement: Historical run artifacts are immutable inputs and can never be overwritten.
     status: closed
     enforcementPoints:
       - packages/runner/src/firewall.ts — resolveRunDir derives identity from the RESOLVED path, so an alias cannot launder a write
-      - packages/runner/src/firewall.ts — readHistoricalRegistry fails closed on absent, unparseable or malformed policy
+      - packages/runner/src/firewall.ts — readHistoricalRegistry takes no path parameter and fails closed on absent, unparseable or malformed policy
       - packages/runner/src/firewall.ts — isReleasedOnDisk freezes a run with a RELEASED marker, a released config, or a board and no policy metadata
       - packages/runner/src/firewall.ts — assertNoSymlinkComponent walks root-down including the leaf, on reads and writes
-      - packages/runner/src/ledger.ts — write-mode preflight in the constructor, before any spend is authorised
+      - packages/runner/src/firewall.ts — readRunFileOrNull and readRunJsonEntries resolve the LEAF on every run-scoped read, per file inside a directory
+      - packages/runner/src/analyze.ts — writeAnalysis goes through writeRunFileAtomic like every other writer
+      - packages/runner/src/calibration.ts — the write target, not merely its directory, is resolved before any paid judge call
+      - packages/runner/src/ledger.ts — write-mode preflight of the journal TARGET in the constructor, before any spend is authorised
     tests:
       - "DATA-001 — historical artifacts cannot be overwritten > blocks the real writers, not just the resolver"
       - "DATA-001 — historical artifacts cannot be overwritten > leaves the published artifact byte-identical after a refused write"
@@ -126,24 +234,78 @@ requirements:
       - "the release-state guard says what it does > freezes on a release state it has never heard of, and on unusable metadata"
       - "the release-state guard says what it does > still lets an in-progress run be resumed across batches"
       - "the release-state guard says what it does > decides on a membership test rather than a disjunction that is always true"
+      - "runner:firewall:registry:read — readHistoricalRegistry > takes no path, so no caller can name the file that decides what is frozen"
+      - "runner:store:config:write — writeRunConfig > refuses to write config.json into a published run"
+      - "runner:store:config:merge — mergeRunConfig > refuses to merge a resumed batch into a published run"
+      - "runner:analyze:analysis:write — writeAnalysis > refuses to write analysis.json into a published run"
+      - "runner:analyze:analysis:write — writeAnalysis > refuses an analysis.json leaf symlink out of the runs tree"
+      - "runner:calibration:result:write — runCalibration > refuses to write calibration.json into a published run"
+      - "runner:store:responses:read — readResponses resolves its LEAF > refuses a responses directory symlinked at a run that is not this one"
+      - "runner:store:responses:read — readResponses resolves its LEAF > refuses a single response file symlinked into another run"
+      - "runner:store:artifacts:read — every run-scoped reader resolves its leaf > refuses a linked config.json, scores.json or attempts directory"
+      - "runner:store:attempt:settle — settleAttempt > books no charge against a published run, and leaves it byte-identical"
+      - "runner:adjudicate:record:write — writeAdjudicationRecord > refuses to write a decision record into a published run"
+      - "runner:lifecycle:checklist:write — writeReleaseChecklist > refuses to certify a published run for release"
+      - "17 — modifying the frozen historical corpus refuses > refuses every writer that could reach a published run"
+    status_note: >-
+      This was marked `closed` while it was not, and the reason is worth
+      keeping. `writeAnalysis` was a bare `writeFileSync(join(resolveRunDir(...),
+      'analysis.json'), …)`: the guard was applied to the DIRECTORY, and the
+      write then followed whatever the leaf turned out to be. Probed with the
+      leaf linked outside the repository, the write succeeded and overwrote the
+      outside file. Five more instances of the same shape were found by sweeping
+      for the pattern rather than fixing only the reported one, including two
+      readers by which a scratch run could present another run's corpus as its
+      own evidence. Every run-scoped path now resolves its leaf, and the
+      registry's immutability risks are closed on tests that call the real
+      writers rather than the resolver they happen to share.
     gaps: []
+    limitations: []
 
   - id: DATA-002
     statement: >-
       Every run executes under an immutable manifest naming its evidence class,
       lineage, content hashes, routes and budget, with coherence bound at parse
       rather than checked by a separate call a caller could forget.
-    status: partial
+    status: closed
     enforcementPoints:
       - packages/core/src/evidence.ts — validatedRunManifestSchema, with rankEligible and outputRoot derived rather than asserted
       - packages/runner/src/permit.ts — the manifest is re-parsed at the permit boundary and bound by hash
+      - packages/runner/src/manifest.ts — `bench manifest` computes the content hashes from the items that will actually run, and refuses a declared hash that does not describe them
+      - packages/runner/src/manifest.ts — the manifest digest is persisted beside the manifest and re-checked, so a run that lost or edited its envelope refuses
+      - packages/runner/src/manifest.ts — verification takes the bank from the committed dataset, not from its caller
     tests:
       - "a permit authorises one exact envelope > refuses a manifest that is not the one the permit names"
       - "a permit authorises one exact envelope > refuses a manifest that does not validate"
       - "the canonical forms a signature covers are frozen > is sensitive to every field it claims to cover"
-    gaps:
-      - No command writes a manifest. Runs are still described by RunConfig, and the manifest is supplied by the operator alongside the permit.
-      - Nothing yet verifies that a run's stored artifacts match the bankHash, promptHash, judgePromptHash or validatorHash its manifest declares.
+      - "M4.1 — content hashes describe what actually runs > is stable under item order and unstable under item content"
+      - "M4.1 — content hashes describe what actually runs > separates a scoring-key change from a prompt change"
+      - "M4.1 — content hashes describe what actually runs > makes an edited reference answer invalidate the judge prompt"
+      - "M4.1 — content hashes describe what actually runs > changes the token cap and sees it, because the cap is not provider-neutral"
+      - "DATA-002 — a command writes the manifest, and it must be true > fills the content hashes and produces a manifest that parses"
+      - "DATA-002 — a command writes the manifest, and it must be true > checks a declared hash instead of correcting it"
+      - "DATA-002 — a command writes the manifest, and it must be true > refuses a manifest whose declared hashes do not describe the supplied items"
+      - "DATA-002 — a command writes the manifest, and it must be true > is idempotent for the same envelope and immutable for a different one"
+      - "DATA-002 — a command writes the manifest, and it must be true > cannot be written into a published run"
+      - "DATA-002 — a changed bank cannot masquerade as the manifested one > reports drift, and names the items that moved"
+      - "DATA-002 — a changed bank cannot masquerade as the manifested one > refuses when a manifested item has left the dataset, rather than passing"
+      - "DATA-002 — a changed bank cannot masquerade as the manifested one > never reports ok when it could not check"
+      - "DATA-002 — the manifest digest is persisted, and checked > writes the digest beside the manifest and refuses a run that lost it"
+      - "DATA-002 — the manifest digest is persisted, and checked > refuses a digest that no longer matches the manifest it sits beside"
+      - "DATA-002 — validatorHash covers every module that can change a score > covers the judge, the adjudicator, the statistics and the analysis, not just the graders"
+      - "the verification boundary does not take its inputs from its caller > ignores a bank substituted through the production entry point"
+      - "RELEASE-002 — publication validation is applied, and the run does not choose it > refuses an artifact write when the stored artifacts do not match the manifest"
+      - "2 — a changed question bank refuses > cannot be swapped under a run id, and drops the scores it produced"
+      - "5 — a changed code/validator hash refuses > invalidates every score, and breaks the permit binding"
+    status_note: >-
+      Both recorded gaps are closed. `bench manifest` writes the envelope and
+      refuses to correct a declared hash rather than silently agreeing with it,
+      and the release path checks a run's STORED artifacts against the hashes its
+      manifest declares. The verification boundary takes the bank from the
+      committed dataset rather than from its caller, which is the same rule
+      RUN-001 applies to the keyring.
+    gaps: []
+    limitations: []
 
   - id: RELEASE-001
     statement: >-
@@ -158,6 +320,7 @@ requirements:
       - "RELEASE-001 — origin never upgrades eligibility > rejects a rank-eligible manifest built from synthetic or mock material"
       - "RELEASE-001 — origin never upgrades eligibility > rejects a manifest that asserts rank eligibility its class does not carry"
     gaps: []
+    limitations: []
 
   - id: RELEASE-002
     statement: Only an approved public-release manifest in the released state may create a public result.
@@ -165,16 +328,66 @@ requirements:
     enforcementPoints:
       - packages/core/src/evidence.ts — canPublish
       - packages/runner/src/firewall.ts — assertPublishable takes unknown and PARSES, rather than trusting an erasable type
-      - packages/runner/src/supabase.ts — publishRun requires the publication capability, distinct from result-sync
+      - packages/runner/src/lifecycle.ts — the release checklist scope is fixed and derived from the run, with no parameter that removes a check
+      - packages/runner/src/lifecycle.ts — the release register decides which run is publicly current, and its reader takes no caller-supplied path
+      - packages/runner/src/sync.ts — publishRun requires the publication capability, distinct from result-sync, and acts only on the grant's run
+      - apps/web/lib/data.ts — the site serves the run the register approves, rather than the newest generatedAt
     tests:
       - "RELEASE-002 — publication eligibility > permits publication only from an approved public-release manifest"
       - "RELEASE-002 — publication eligibility > fails closed with a clear error for every ineligible class"
       - "adversarial round 2 — bypasses Codex reproduced on 3edf98c > rejects hand-built objects at the publication boundary at RUNTIME"
       - "RELEASE-002 — publication eligibility > marks shadow and probe surfaces non-scoring"
-      - "the paid client cannot be built without authorisation > refuses a service-role database client without the capability"
+      - "RELEASE-002 — the checklist scope is fixed, not chosen by the caller > runs every enumerated check from the run itself, with no parameter that removes one"
+      - "RELEASE-002 — the checklist scope is fixed, not chosen by the caller > refuses a checklist that omits a single check, or repeats one to pad the list"
+      - "RELEASE-002 — a release cannot be bought with a supplied verdict > refuses to release even when handed a complete-looking checklist through the real call"
+      - "RELEASE-002 — a release cannot be bought with a supplied verdict > ignores a caller-supplied register file on the production path"
+      - "RELEASE-002 — publication validation is applied, and the run does not choose it > refuses a development artifact at every public path"
+      - "runner:sync:run:publish — publishRun > refuses to publish without the publication capability, before a client exists"
+      - "runner:lifecycle:register:read — readReleaseRegister > refuses a register outside the runs root, whether by traversal or by symlink"
+      - "web:data:board:select — getLatestReport > serves the approved release, and refuses to promote a newer board nobody approved"
+      - "a panel verdict from a non-rank-eligible class cannot reach a published surface > refuses to publish the run judgeAnswerPanel bought its verdict under"
+      - "15 — unapproved publication refuses > refuses an unregistered run, an unreleased run, and a permit without the capability"
+      - "16 — partial publication refuses: no reader sees a mixed version > refuses a changed, missing or unpinned artifact under a live pointer"
+    status_note: >-
+      The second recorded gap — the site choosing a board by newest
+      generatedAt, which is a heuristic and not an approval — is closed: the
+      release register decides, and its reader takes no caller-supplied path.
+      The first is narrowed but real, and it needs a decision rather than a
+      commit. See the gap and the proposed decision below.
     gaps:
-      - assertPublishable is not called by writeLeaderboard, writeAnalysis, syncRun or publishRun. The capability is checked; the artifact is not.
-      - apps/web selects a board by newest generatedAt, which is a heuristic, not an approval.
+      - >-
+        `writeLeaderboard` and `writeAnalysis` still call no authorisation check
+        at all. `syncRun` and `publishRun` do, so the DATABASE path is covered;
+        these two write the FILES that the site reads. The registry keeps both
+        risks open.
+    proposedDecisions:
+      - id: RELEASE-002-D1
+        question: >-
+          Does writing leaderboard.json or analysis.json into a draft run
+          "create a public result" within the meaning of RELEASE-002?
+        argument: >-
+          There is a defensible reading in which it does not. Those files are
+          inert until the release register points at them, and the pointer IS
+          approval-gated — `getLatestReport` serves the approved release, not the
+          newest board, and `16 — partial publication refuses` proves a changed
+          or unpinned artifact under a live pointer is refused. On that reading
+          the requirement is met and these two writers need no permit, which
+          matters practically because `bench analyze` and `bench report` are
+          offline derivations from committed artifacts and requiring an approval
+          to run them would put a human in the loop of every re-derivation.
+          The opposite reading is also defensible: a file named leaderboard.json
+          inside a run is a result, and the register is a second gate rather
+          than the only one.
+        recommendation: >-
+          Require a grant for both writers, and accept the friction. The whole
+          argument of this work package is that a guard whose scope is chosen by
+          the thing it guards is not a guard, and "these files are only public if
+          something else points at them" makes publication depend on a property
+          of a DIFFERENT artifact. But this is a scope question, not an
+          implementation detail, so it is recorded here rather than decided in
+          an implementation commit — which is the rule the brief sets.
+        status: awaiting-decision
+    limitations: []
 
   - id: JUDGE-001
     statement: >-
@@ -185,6 +398,7 @@ requirements:
       - packages/core/src/evidence.ts — hasJudgeConflict, failing closed on unknown identity, with canonicalId folding case and whitespace
       - packages/runner/src/judge.ts — panelSeats seats from the declared roster, not the OpenRouter slug prefix
       - packages/runner/src/judge.ts — the too-few-seats error names which seat conflicted and why
+      - packages/runner/src/judge.ts — the seating decision is made before any transport, so a conflicted seat is never contacted
     tests:
       - "panel seat assignment > never lets a judge score its own provider"
       - "panel seat assignment > never lets a judge score its own base model under another vendor prefix"
@@ -192,6 +406,12 @@ requirements:
       - "panel seat assignment > compares identity case- and whitespace-insensitively"
       - "panel seat assignment > explains which seat conflicted when too few remain"
       - "JUDGE-001 is only half proved on the real roster > declares the base-model-family arm as a gap until the registry can express it"
+      - "the panel route seats the conflict rule before it spends > never contacts a seat sharing the candidate provider or base model, through judgeAnswerPanel"
+      - "judge routes refuse a client that was not built to judge > refuses judgeAnswerPanel a judging client for an item the permit never named"
+    status_note: >-
+      The RULE is enforced and now proved through the route rather than only
+      against `panelSeats`. What is still open is not the code but the DATA the
+      code reads, and no amount of test-writing closes it.
     gaps:
       - >-
         The base-model-family arm of the conflict rule changes NOTHING on the
@@ -208,53 +428,63 @@ requirements:
         rule reads as `baseModelFamily` does not mean base-model family. The
         registry needs a real base-model identity (evidence.ts says as much next
         to canonicalId) before this arm can be claimed as enforced.
+    limitations: []
 
   - id: BUDGET-001
     statement: >-
       Spend is reserved atomically before a call and settled after, so no
       concurrent set of calls can pass a check none of them has yet debited.
-    status: partial
+    status: closed
     enforcementPoints:
       - packages/runner/src/ledger.ts — reserve() checks and debits in one synchronous step, with no await inside
-      - packages/runner/src/ledger.ts — settle/release close a reservation exactly once
+      - packages/runner/src/ledger.ts — three explicit terminal states; only `released-uncharged` records zero, and only when the request provably never reached the provider
       - packages/runner/src/ledger.ts — settle validates, then journals, then moves the books, so a failed write over-counts rather than losing spend
-      - packages/runner/src/ledger.ts — journal replay on construction, so a resumed run inherits prior spend
+      - packages/runner/src/ledger.ts — journal replay on construction, leaf-resolved, so a resumed run inherits ITS OWN prior spend
       - packages/runner/src/ledger.ts — exclusive run lock via open(wx), with dead-holder takeover
-      - packages/runner/src/openrouter.ts — every completion reserves before the request and settles at actual cost
+      - packages/runner/src/ledger.ts — forTests refuses outside a test process, so the lock and the clock cannot be chosen by a production caller
+      - packages/runner/src/openrouter.ts — every billable ATTEMPT takes its own reservation, priced from the request that attempt will actually send
       - packages/runner/src/openrouter.ts — an unpriced call is refused rather than reserving zero
+      - packages/runner/src/calibration.ts — the write target is proved writable before the first paid judge call
     tests:
       - "the check-then-record race is closed > never authorises more concurrent calls than the cap allows"
       - "the check-then-record race is closed > counts an in-flight reservation against the cap before it settles"
       - "the check-then-record race is closed > refuses to settle or release the same reservation twice"
+      - "the check-then-record race is closed > books spend against the reserved model, not against the handle it is given"
       - "spend survives the process > replays prior spend so a resumed run does not spend its cap twice"
       - "spend survives the process > refuses to run against a corrupt journal rather than assuming zero"
+      - "spend survives the process > keeps the money on the books when the journal write fails"
+      - "spend survives the process > writes no journal line for a settle it is going to refuse"
       - "two runners cannot each spend the whole cap > refuses a second ledger while the first holds the lock"
       - "the cap comes from the permit > lets an operator sub-cap lower the ceiling but never raise it"
       - "every completion is authorised and accounted for > stops at the cap instead of spending past it"
       - "every completion is authorised and accounted for > releases the reservation when the call fails, rather than stranding the cap"
       - "every completion is authorised and accounted for > refuses an unpriced call instead of reserving zero against the cap"
-      - "spend survives the process > keeps the money on the books when the journal write fails"
-      - "spend survives the process > writes no journal line for a settle it is going to refuse"
-      - "the check-then-record race is closed > books spend against the reserved model, not against the handle it is given"
       - "the permit chain works end to end > stops the chain at the permit budget even though the manifest allows more"
+      - "runner:calibration:result:write — runCalibration > preflights the write TARGET, not its directory, before the first paid call"
+      - "runner:ledger:journal — the spend record is this run's own > refuses a symlinked spend journal at construction, before any call is authorised"
+      - "runner:estimate:record:write — runEstimate > refuses to mint the gate record without catalog-read, before the catalog is fetched"
+      - "11 — a retry that would exceed the remaining budget refuses > reserves per billable attempt, and stops the retry before the socket"
     status_note: >-
-      Downgraded from closed after external review. BUDGET-001 says in terms that
-      concurrent requests AND RETRIES cannot exceed the manifest cap. Retries do.
-      The concurrency race really is closed; the requirement is wider than that.
-    gaps:
+      Downgraded from closed after external review, and now closed again on the
+      wider reading that review was right to insist on. BUDGET-001 says in terms
+      that concurrent requests AND RETRIES cannot exceed the manifest cap. The
+      concurrency race was closed; retries were not, because one reserve()
+      covered up to five billable POSTs. Every attempt now takes its own
+      reservation, priced from the request it is about to send, so a retry that
+      raises the token budget reserves for the larger request. The refund
+      question is closed by making it three states instead of two: a socket that
+      died after the body was written is `retained-unreconciled`, not refunded,
+      because that completion may have been generated and billed.
+    gaps: []
+    limitations:
       - >-
-        One reserve() covers up to MAX_ATTEMPTS = 5 billable POSTs
-        (openrouter.ts:82 and :185), so a single reservation can fund five
-        requests. The cap binds reservations, not spend.
-      - >-
-        release() refunds the whole reservation when a call fails, but failed and
-        unreadable responses may already have cost money, and absent provider
-        cost data is recorded as zero. Both under-count real spend.
-      - >-
-        A retry with a larger token budget reuses the original estimate, and the
-        settled cost may exceed both the reservation and the ledger cap. The
-        provider-side key limit is the real financial boundary today; this one
-        must not be described as hard.
+        The ledger is an in-process accounting boundary. It can refuse to
+        authorise the next call and it can refuse to keep running once it
+        discovers an overspend, but it cannot un-spend money that has already
+        left the account, and it cannot see spend made by another process or
+        another key holder. The provider-side spend limit on the OpenRouter key
+        is the only control enforced by the party actually taking the money, and
+        this cap must never be described as hard without saying so.
 
   - id: TRACE-001
     statement: >-
@@ -267,7 +497,9 @@ requirements:
       - packages/runner/src/permit.ts — manifestHash parses before hashing, so equivalent serialisations agree
       - packages/runner/test/golden-hashes.test.ts — frozen digests with a per-field mutation pass
       - packages/runner/src/redemption.ts — the redemption record links permit, key, manifest, capabilities, command and time
-      - packages/runner/src/firewall.ts — Firewall.provenance for the run artifact
+      - packages/runner/src/firewall.ts — recordProvenance appends the authorising approval to the RUN's own artifacts, once per authorisation
+      - packages/runner/src/cli.ts — `bench run`, `bench judge` and `bench sync` each record their own provenance line after redeeming
+      - packages/runner/src/regenerate.ts — the acceptance summary is regenerated from the committed artifacts and checked byte-for-byte
     tests:
       - "the canonical forms a signature covers are frozen > hashes the golden manifest to its recorded digest"
       - "the canonical forms a signature covers are frozen > hashes the golden permit body to its recorded digest"
@@ -276,6 +508,24 @@ requirements:
       - "single use means single use > records what was redeemed, for the audit trail"
       - "the firewall enforces exactly what the grant carries > records provenance for the run artifact"
       - "the permit chain works end to end > carries a signed file through verify, redeem, ledger, client and a call"
+      - "runner:firewall:provenance:append — the approval trail lives in the run > appends one line per authorisation, and refuses to write into a published run"
+      - "the acceptance summary regenerates byte-identically > produces identical bytes from a different process, timezone, locale and directory"
+      - "the regeneration check can actually fail > fails, with the offending line, when the committed artifact is stale"
+    status_note: >-
+      Both recorded gaps are closed. `Firewall.provenance()` had existed since
+      the permit layer landed and nothing that writes ever called it, so the only
+      durable trail was the redemption record — which lives in data/permits,
+      beside the PERMIT rather than beside the run, and is therefore traceable
+      only by someone who already knows to look. The trail is now appended to the
+      run itself, once per authorisation, and a corrupt trail refuses rather than
+      reading as "nothing authorised this". What keeps this partial is that
+      nothing yet REQUIRES the trail to be present.
     gaps:
-      - Firewall.provenance is not yet written into any run artifact; the redemption record is currently the only durable trail.
-      - No CI job proves that the committed acceptance artifacts regenerate byte-identically.
+      - >-
+        No release check reads provenance.ndjson. A run can still be registered,
+        released and served with an empty or absent trail, so the record is
+        written but not yet load-bearing. The natural home is the release
+        checklist, whose scope is fixed and derived from the run — adding
+        "every artifact in this run is covered by a recorded approval" there
+        would make the trail a gate rather than a note.
+    limitations: []

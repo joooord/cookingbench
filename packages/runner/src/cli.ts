@@ -38,6 +38,7 @@ import {
 } from './lifecycle.js';
 import { DATA_DIR, REPO_ROOT, RUNS_DIR, buildMessages, loadModels, loadQuestions, maxTokensFor, runnableQuestions } from './dataset.js';
 import { assertFreshEstimate, runEstimate } from './estimate.js';
+import { recordProvenance } from './firewall.js';
 import { JUDGE_PROMPT_VERSION, identityIndex, judgeAnswerPanel } from './judge.js';
 import { MOCK_MODELS, MockClient, mockJudgeScore } from './mock.js';
 import { OpenRouterClient, fetchCatalog, type CompletionClient } from './openrouter.js';
@@ -740,6 +741,10 @@ async function cmdRun() {
     // run-id check above, so a mistyped flag does not burn an approval.
     const redemption = redeemPermit(grant, 'bench run');
     console.log(`Permit redemption ${redemption.sequence}/${grant.executionLimit}.`);
+    // TRACE-001: the approval goes into the RUN, not only into the redemption
+    // record beside the permit. An artifact whose trail lives in another
+    // directory is traceable only by someone who already knows to look.
+    recordProvenance(runId, grant, 'bench run');
     // The permit's cap is the approved ceiling; --budget may only lower it.
     ledger = ReservationLedger.forGrant(grant, runId, {
       totalCapUsd: totalBudget,
@@ -1056,6 +1061,9 @@ async function cmdJudge() {
   if (judgeGrant) {
     const redemption = redeemPermit(judgeGrant, 'bench judge');
     console.log(`Permit redemption ${redemption.sequence}/${judgeGrant.executionLimit}.`);
+    // A judging pass is a separate authorisation from the candidate run, so it
+    // appends its own line rather than replacing the run's.
+    recordProvenance(runId, judgeGrant, 'bench judge');
   }
   const judgeLedger = judgeGrant
     ? ReservationLedger.forGrant(judgeGrant, runId, { totalCapUsd: judgeBudget })
@@ -1409,6 +1417,7 @@ async function cmdSync() {
   // including that the permit, the manifest and the request name one run.
   if (runId) requirePublicationVerdict('public', runId, 'sync', grant.runId);
   redeemPermit(grant, 'bench sync');
+  if (runId) recordProvenance(runId, grant, 'bench sync');
   const { syncDataset, syncRun } = await import('./sync.js');
   await syncDataset(grant, loadModels(), loadQuestions());
   console.log('✓ models + questions synced to Supabase');

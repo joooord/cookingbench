@@ -12,6 +12,7 @@ import {
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import {
   NON_SCORING_LABEL,
+  canonicalJson,
   canPublish,
   parseHistoricalRegistry,
   runIdSchema,
@@ -860,4 +861,86 @@ export function nonScoringBanner(evidenceClass: EvidenceClass): string | null {
   return evidenceClass === 'legacy-shadow' || evidenceClass === 'development-probe'
     ? NON_SCORING_LABEL
     : null;
+}
+
+// ---------------------------------------------------------------------------
+// TRACE-001 — the approval trail, written into the run
+// ---------------------------------------------------------------------------
+
+/** One unit of authorised work, as recorded in the run's own artifacts. */
+export interface ProvenanceEntry {
+  permitId: string;
+  kind: string;
+  keyId: string;
+  manifestHash: string;
+  runId: string;
+  capabilities: readonly Capability[];
+  verifiedAtIso: string;
+  /** The command that exercised the authority, e.g. `bench run`. */
+  command: string;
+  recordedAtIso: string;
+}
+
+const PROVENANCE_FILE = 'provenance.ndjson';
+
+/**
+ * Record, IN THE RUN'S OWN ARTIFACTS, the approval a unit of work was done
+ * under.
+ *
+ * `Firewall.provenance()` has existed since the permit layer landed and was
+ * never called by anything that writes: the redemption record — which lives in
+ * `data/permits/`, beside the permit rather than beside the run — was the only
+ * durable trail. That is the wrong place for it. TRACE-001 asks that every
+ * ARTIFACT can be traced to the approval that authorised it, and an artifact
+ * whose trail lives in another directory is traceable only by someone who
+ * already knows to look.
+ *
+ * APPEND, not replace, for the same reason the spend journal appends: a run is
+ * assembled from several batches, judged in a separate pass, and may be resumed
+ * days later under a second permit. Each of those is a distinct authorisation,
+ * and a file that kept only the last one would describe the run as though one
+ * approval covered all of it. `appendRunFileLine` refuses a leaf symlink and
+ * refuses a published run, so the trail cannot be redirected or retro-fitted
+ * into frozen work.
+ *
+ * Canonical JSON per line so two records of the same authorisation are
+ * byte-identical regardless of field order.
+ */
+export function recordProvenance(runId: string, grant: VerifiedGrant, command: string): ProvenanceEntry {
+  assertVerifiedGrant(grant, `recordProvenance(${command})`);
+  const base = Firewall.fromVerifiedPermit(grant).provenance();
+  if (!base) {
+    // Unreachable: fromVerifiedPermit on a minted grant always carries one.
+    // Stated rather than assumed, because a silent null here would write an
+    // empty trail that reads as "no authority was used".
+    throw new FirewallError(
+      `recordProvenance(${command}): a verified grant carried no provenance.`,
+      'NO_PERMIT',
+    );
+  }
+  const entry: ProvenanceEntry = { ...base, command, recordedAtIso: new Date().toISOString() };
+  appendRunFileLine(runId, PROVENANCE_FILE, canonicalJson(entry));
+  return entry;
+}
+
+/** The run's approval trail, oldest first. Empty when nothing has authorised work on it. */
+export function readProvenance(runId: string): ProvenanceEntry[] {
+  const text = readRunFileOrNull(runId, PROVENANCE_FILE);
+  if (text === null) return [];
+  return text
+    .split('\n')
+    .filter((l) => l.trim() !== '')
+    .map((line, i) => {
+      try {
+        return JSON.parse(line) as ProvenanceEntry;
+      } catch {
+        // Refusing is the only safe reading: an unparseable trail means we do
+        // not know what authorised this run, and "assume nothing did" is how an
+        // unapproved artifact passes a provenance check.
+        throw new FirewallError(
+          `Provenance trail for run ${runId} is corrupt at line ${i + 1}. Refusing to report an unknown approval as none.`,
+          'REGISTRY_INVALID',
+        );
+      }
+    });
 }

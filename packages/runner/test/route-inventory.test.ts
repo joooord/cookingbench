@@ -283,6 +283,57 @@ function helperBodies(lines: string[]): Map<string, string> {
  * calls `verifyPermit` while supplying its own keyringDir, and never calls
  * `loadPublicKey` at all.
  */
+
+/**
+ * Read the title out of a `describe(...)` or `it(...)` line.
+ *
+ * Two bugs lived in the one-line regex this replaces, and both made an HONEST
+ * citation look like a fabricated one — the worst direction for a completeness
+ * checker to fail in, because the cheapest way to make the suite pass is to
+ * weaken the citation.
+ *
+ *   1. `['"`](.+?)['"`]` ends a lazy match at the first quote of ANY kind, so
+ *      `it('… reading it as "no disputes"')` indexed as `… reading it as `.
+ *   2. It did not understand escapes, so `describe('… this run\'s own')`
+ *      indexed as `… this run\`.
+ *
+ * The quote character is captured and back-referenced, escaped characters are
+ * consumed as a unit, and the result is unescaped — so the harvested name is
+ * the string the runtime sees.
+ *
+ * `it.each` titles are harvested in TEMPLATE form (`… changes %s`), because
+ * that is what the source says; vitest expands the placeholder per case at run
+ * time. A citation therefore names the template, which is the only stable
+ * identifier the case has.
+ */
+const TITLE = {
+  describe: (line: string): string | null => title(/^\s*describe(?:\.\w+)?\(\s*/, line),
+  it: (line: string): string | null => title(/^\s*it(?:\.each\([^)]*\))?(?:\.\w+)?\(\s*/, line),
+};
+
+function title(prefix: RegExp, line: string): string | null {
+  const head = prefix.exec(line);
+  if (!head) return null;
+  const rest = line.slice(head[0].length);
+  const quote = rest[0];
+  if (quote !== "'" && quote !== '"' && quote !== '`') return null;
+  let out = '';
+  for (let i = 1; i < rest.length; i++) {
+    const ch = rest[i]!;
+    if (ch === '\\') {
+      // Consume the escape as a unit and keep what it denotes, so the harvested
+      // name matches the string the runtime builds.
+      const next = rest[++i];
+      if (next === undefined) return null;
+      out += next === 'n' ? '\n' : next === 't' ? '\t' : next;
+      continue;
+    }
+    if (ch === quote) return out;
+    out += ch;
+  }
+  return null;
+}
+
 function testCases(): TestCase[] {
   const cases: TestCase[] = [];
   for (const file of readdirSync(TEST_DIR).filter((f) => f.endsWith('.ts'))) {
@@ -299,16 +350,16 @@ function testCases(): TestCase[] {
       current = null;
     };
     for (let i = 0; i < lines.length; i++) {
-      const d = /^\s*describe\(\s*['"`](.+?)['"`]/.exec(lines[i]!);
-      if (d) {
+      const d = TITLE.describe(lines[i]!);
+      if (d !== null) {
         flush(i);
-        describeName = d[1]!;
+        describeName = d;
         continue;
       }
-      const t = /^\s*it(?:\.each\([^)]*\))?\(\s*['"`](.+?)['"`]/.exec(lines[i]!);
-      if (t) {
+      const t = TITLE.it(lines[i]!);
+      if (t !== null) {
         flush(i);
-        current = { name: t[1]!, from: i };
+        current = { name: t, from: i };
       }
     }
     flush(lines.length);
@@ -754,5 +805,32 @@ describe('the registry validator cannot be talked round', () => {
     expect(declaresSymbol('  static forCandidates(g, l) {', 'forCandidates')).toBe(true);
     expect(declaresSymbol('const envPath = join(REPO_ROOT, ".env");', 'envPath')).toBe(true);
     expect(declaresSymbol('// mentions writeAnalysis in prose', 'writeAnalysis')).toBe(false);
+  });
+
+  it('harvests a title through quotes, escapes and each-templates', () => {
+    // Three ways the one-line regex this replaces got a title wrong, each of
+    // which made an HONEST citation look fabricated — the worst direction for a
+    // completeness checker to fail in, because the cheapest way to make the
+    // suite pass is to weaken the citation.
+    expect(TITLE.it(`  it('reading it as \"no disputes\"', () => {`)).toBe('reading it as "no disputes"');
+    expect(TITLE.describe(`describe('this run\\'s own', () => {`)).toBe("this run's own");
+    expect(TITLE.it(`  it.each([1, 2])('changes %s', (x) => {`)).toBe('changes %s');
+    expect(TITLE.describe('  const notADescribe = 1;')).toBeNull();
+  });
+
+  it('harvests a test name that contains a quote, rather than truncating it', () => {
+    // The harvester used `['"`](.+?)['"`]`, which ends a lazy match at the
+    // first quote of ANY kind. `it('… reading it as "no disputes"')` therefore
+    // entered the index under a truncated name, and the registry's citation of
+    // the real name could never match — reported as "no test named …" for a
+    // test that exists and passes. Silent truncation inside a completeness
+    // checker is worse than an obvious failure: it makes an honest citation
+    // look dishonest, and the fix is to weaken the citation.
+    const real = CASES.find((c) => c.name.includes('reading it as "no disputes"'));
+    expect(real, 'a quoted test name was truncated out of the index again').toBeDefined();
+    expect(real!.name).toBe(
+      'runner:adjudicate:record:read — readAdjudicationRecord > ' +
+        'refuses an unparseable record rather than reading it as "no disputes"',
+    );
   });
 });
