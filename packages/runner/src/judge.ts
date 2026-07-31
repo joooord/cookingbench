@@ -48,6 +48,14 @@ export const SEVERITY_POINTS = { critical: 40, major: 15, minor: 5 } as const;
  * 2026-07-v2.1 cost $14.19, about $0.011 each; this is a deliberate ceiling
  * over that, since a reservation that undershoots lets the cap be passed.
  */
+/**
+ * Calibration judges a hand-scored ANCHOR, not any candidate's answer, so there
+ * is no candidate to name. The sentinel keeps the cell shape honest rather than
+ * exempting the gate: calibration is paid judge work and a permit must
+ * authorise it explicitly, listing this model against each anchor's questionId.
+ */
+export const CALIBRATION_ANCHOR_MODEL = '__calibration-anchor__';
+
 export const JUDGE_WORST_CASE_PER_CALL_USD = 0.05;
 export type Severity = keyof typeof SEVERITY_POINTS;
 
@@ -2046,6 +2054,13 @@ export interface JudgeSpend {
 async function askJudge<T>(
   client: CompletionClient,
   judgeModel: string,
+  /**
+   * The CANDIDATE whose answer is being scored — never the seat scoring it.
+   * A permit authorises which answers may be judged, which is what an approver
+   * actually decides; keying on the seat would force a signed permit to
+   * enumerate seat x question and to reproduce the panel's seat hash by hand.
+   */
+  candidateModelId: string,
   question: Question,
   messages: ChatMessage[],
   parse: (text: string) => T,
@@ -2061,7 +2076,7 @@ async function askJudge<T>(
       reasoning: { effort: 'low' },
       // Carried through so the permit's cell list and the reservation ledger
       // apply to judge calls too. A judging pass is paid work like any other.
-      questionId: question.id,
+      cell: { modelId: candidateModelId, questionId: question.id },
       estimateUsd: JUDGE_WORST_CASE_PER_CALL_USD,
     });
     spend.costUsd += result.costUsd;
@@ -2077,6 +2092,7 @@ async function askJudge<T>(
 async function singleVerdict(
   client: CompletionClient,
   judgeModel: string,
+  candidateModelId: string,
   question: Question,
   answerText: string,
   spend: JudgeSpend,
@@ -2085,6 +2101,7 @@ async function singleVerdict(
   return askJudge(
     client,
     judgeModel,
+    candidateModelId,
     question,
     buildJudgeMessages(question, answerText, lexicon),
     (text) => parseJudgeResponse(question, text),
@@ -2134,7 +2151,7 @@ export async function judgeAnswerPanel(
   const verdicts = await Promise.all(
     seats.map(async (judgeModel) => ({
       judgeModel,
-      ...(await singleVerdict(client, judgeModel, question, answerText, spend, lexicon)),
+      ...(await singleVerdict(client, judgeModel, candidateModelId, question, answerText, spend, lexicon)),
     })),
   );
   const [a, b] = verdicts as [PanelVerdict['verdicts'][number], PanelVerdict['verdicts'][number]];
@@ -2162,6 +2179,7 @@ export async function judgeAnswerPanel(
 export async function judgeAnswer(
   client: CompletionClient,
   judgeModel: string,
+  candidateModelId: string,
   question: Question,
   answerText: string,
   spend: JudgeSpend = { costUsd: 0 },
@@ -2172,7 +2190,7 @@ export async function judgeAnswer(
   const before = spend.costUsd;
   const verdicts: JudgeVerdict[] = [];
   for (let i = 0; i < 2; i++) {
-    verdicts.push(await singleVerdict(client, judgeModel, question, answerText, spend, lexicon));
+    verdicts.push(await singleVerdict(client, judgeModel, candidateModelId, question, answerText, spend, lexicon));
   }
   const [a, b] = verdicts as [JudgeVerdict, JudgeVerdict];
   const disagreement = Math.abs(a.score - b.score);
@@ -2222,6 +2240,7 @@ function assertJurySeating(seating: JurySeatContext, questionId: string): void {
 export async function judgeDimensionAnswer(
   client: CompletionClient,
   seating: JurySeatContext,
+  candidateModelId: string,
   question: Question,
   answerText: string,
   options: {
@@ -2241,6 +2260,7 @@ export async function judgeDimensionAnswer(
       ballot: await askJudge(
         client,
         judgeModel,
+        candidateModelId,
         question,
         messages,
         (text) => parseDimensionBallot(question, text),
@@ -2300,6 +2320,11 @@ export async function judgePairwiseComparison(
           askJudge(
             client,
             judgeModel,
+            // A pairwise ballot is about BOTH candidates, but a call consumes
+            // one cell. Keyed on A; a permit that authorises A and not B would
+            // currently buy a comparison naming B. Recorded rather than hidden
+            // — closing it needs requireCell to accept a pair.
+            candidateA.modelId,
             question,
             messages,
             (text) => parsePairwiseBallot(question, text, order),

@@ -985,7 +985,7 @@ describe('running a dimension ballot', () => {
         summary: 'sound',
       }),
     );
-    const result = await judgeDimensionAnswer(client, SEATING, dimensionQuestion, ALPHA);
+    const result = await judgeDimensionAnswer(client, SEATING, 'openai/gpt-5.5', dimensionQuestion, ALPHA);
     expect(client.calls).toHaveLength(3);
     expect(result.primary.dimensions[0]!.majorityBand).toBe(3);
     expect(result.ballots.map((b) => b.judgeFamily)).toEqual(['grok', 'gemini', 'qwen']);
@@ -998,7 +998,7 @@ describe('running a dimension ballot', () => {
       attempts++;
       return 'no json here';
     });
-    await expect(judgeDimensionAnswer(client, SEATING, dimensionQuestion, ALPHA)).rejects.toThrow(
+    await expect(judgeDimensionAnswer(client, SEATING, 'openai/gpt-5.5', dimensionQuestion, ALPHA)).rejects.toThrow(
       /no JSON/,
     );
     // Three attempts per seat, and the cost of all of them is still recorded.

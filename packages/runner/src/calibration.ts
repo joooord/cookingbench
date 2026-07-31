@@ -4,7 +4,7 @@ import { parse } from 'yaml';
 import type { Question } from '@cookingbench/core';
 import { DATA_DIR } from './dataset.js';
 import { resolveRunDir, writeRunFileAtomic } from './firewall.js';
-import { judgeAnswer } from './judge.js';
+import { CALIBRATION_ANCHOR_MODEL, judgeAnswer } from './judge.js';
 import type { CompletionClient } from './openrouter.js';
 
 const ANCHORS_PATH = join(DATA_DIR, 'calibration', 'anchors.yaml');
@@ -81,7 +81,7 @@ async function calibrateOne(
   for (const anchor of anchors) {
     const question = questionsById.get(anchor.questionId);
     if (!question) throw new Error(`Calibration anchor references unknown question ${anchor.questionId}`);
-    const verdict = await judgeAnswer(client, judgeModel, question, anchor.answerText, spend);
+    const verdict = await judgeAnswer(client, judgeModel, CALIBRATION_ANCHOR_MODEL, question, anchor.answerText, spend);
     const tolerance = anchor.toleranceAbs ?? DEFAULT_TOLERANCE;
     results.push({
       questionId: anchor.questionId,

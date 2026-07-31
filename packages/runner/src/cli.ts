@@ -637,7 +637,7 @@ async function cmdRun() {
         temperature: DEFAULTS.temperature,
         maxTokens,
         reasoning: { effort: 'medium' },
-        questionId: question.id,
+        cell: { modelId, questionId: question.id },
         estimateUsd: worstCase,
       });
       let totalCost = result.costUsd;
@@ -648,7 +648,7 @@ async function cmdRun() {
           temperature: DEFAULTS.temperature,
           maxTokens: retry === 0 ? maxTokens : maxTokens * 2,
           reasoning: { effort: 'medium' },
-          questionId: question.id,
+          cell: { modelId, questionId: question.id },
           estimateUsd: worstCase,
         });
         totalCost += result.costUsd;
@@ -1267,7 +1267,7 @@ async function cmdPilot() {
         temperature: DEFAULTS.temperature,
         maxTokens,
         reasoning: { effort: 'medium' },
-        questionId: q.id,
+        cell: { modelId, questionId: q.id },
         estimateUsd: (promptChars / 4) * 0.00001 + maxTokens * 0.00005,
       });
       const deterministic = gradeDeterministic(q, result.text);

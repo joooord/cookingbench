@@ -773,7 +773,10 @@ function verifyStoredResponses(
   findings: VerificationFinding[],
 ): void {
   const dir = resolveRunFile(runId, 'responses', { write: false });
-  if (!existsSync(dir)) return;
+  // An ABSENT responses directory is zero responses, not "nothing to check".
+  // Returning early here made a run with no answers at all pass `expectComplete`
+  // — the one state where the completeness check matters most.
+  const stored = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.json')).sort() : [];
 
   const declaredModels = new Set(manifest.candidateRoutes.map((r) => r.modelId));
   const declaredItems = digest ? new Set(digest.itemIds) : null;
@@ -785,10 +788,10 @@ function verifyStoredResponses(
   // than by a blanket exemption.
   const acceptableRunIds = new Set<string>([runId, ...inheritedSourceRuns(runId)]);
 
-  for (const file of readdirSync(dir).filter((f) => f.endsWith('.json')).sort()) {
-    let stored: { runId?: unknown; modelId?: unknown; questionId?: unknown };
+  for (const file of stored) {
+    let response: { runId?: unknown; modelId?: unknown; questionId?: unknown };
     try {
-      stored = JSON.parse(readFileSync(join(dir, file), 'utf8'));
+      response = JSON.parse(readFileSync(join(dir, file), 'utf8'));
     } catch (e) {
       findings.push({
         code: 'RESPONSE_UNREADABLE',
@@ -797,8 +800,8 @@ function verifyStoredResponses(
       });
       continue;
     }
-    const modelId = typeof stored.modelId === 'string' ? stored.modelId : null;
-    const questionId = typeof stored.questionId === 'string' ? stored.questionId : null;
+    const modelId = typeof response.modelId === 'string' ? response.modelId : null;
+    const questionId = typeof response.questionId === 'string' ? response.questionId : null;
     if (!modelId || !questionId) {
       findings.push({
         code: 'RESPONSE_UNREADABLE',
@@ -807,14 +810,14 @@ function verifyStoredResponses(
       });
       continue;
     }
-    if (typeof stored.runId !== 'string' || !acceptableRunIds.has(stored.runId)) {
+    if (typeof response.runId !== 'string' || !acceptableRunIds.has(response.runId)) {
       // A response stamped with an id this run neither owns nor inherits is how
       // copied evidence would enter a run unnoticed.
       findings.push({
         code: 'RESPONSE_WRONG_RUN',
         severity: 'error',
         detail:
-          `responses/${file} is stamped runId ${JSON.stringify(stored.runId)} but stored under '${runId}', ` +
+          `responses/${file} is stamped runId ${JSON.stringify(response.runId)} but stored under '${runId}', ` +
           `which inherits from [${[...acceptableRunIds].filter((r) => r !== runId).join(', ') || 'nothing'}].`,
       });
     }

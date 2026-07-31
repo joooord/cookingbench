@@ -51,6 +51,7 @@ export type FirewallErrorCode =
   | 'NO_PERMIT'
   | 'CAPABILITY_DENIED'
   | 'CELL_NOT_AUTHORISED'
+  | 'UNPRICED_CALL'
   | 'INELIGIBLE_EVIDENCE'
   | 'INVALID_RUN_ID'
   | 'REGISTRY_INVALID'
@@ -202,9 +203,28 @@ function declaredFrozen(): ReadonlySet<string> {
  *   - a published board (leaderboard.json) on a run whose config predates
  *     releaseState → frozen, conservatively, because legacy runs cannot state
  *     their own status and a published board is evidence of release
- *   - anything else                  → resumable
+ *   - a releaseState this build recognises as in-progress → resumable
+ *   - anything else, including a state this build has never heard of → frozen
  */
-const FROZEN_RELEASE_STATES = new Set(['released', 'retired', 'quarantined']);
+
+/**
+ * The complete list of release states that keep a run WRITABLE.
+ *
+ * Stated as the resumable set rather than the frozen set on purpose. An earlier
+ * version of this file listed the frozen states — 'released', 'retired',
+ * 'quarantined' — and then returned `FROZEN.has(state) || true`, which is
+ * unconditionally true and made the set dead code. The behaviour was right and
+ * the code was a lie: it read as a membership test that decided nothing, so a
+ * later reader adding a sixth release state would have "added" it to a set that
+ * no longer had any effect, and could not tell from the line whether their new
+ * state froze or not.
+ *
+ * Enumerating the permissive side is also the fail-closed direction. A new
+ * release state added to the core vocabulary freezes here until somebody
+ * deliberately declares it resumable, rather than silently unlocking published
+ * evidence because nobody remembered to extend a list of things to forbid.
+ */
+const RESUMABLE_RELEASE_STATES: ReadonlySet<string> = new Set(['draft', 'audited']);
 
 function isReleasedOnDisk(realRunDir: string): boolean {
   if (existsSync(join(realRunDir, RELEASED_MARKER))) return true;
@@ -220,10 +240,11 @@ function isReleasedOnDisk(realRunDir: string): boolean {
   try {
     const config = JSON.parse(readFileSync(configPath, 'utf8')) as { releaseState?: string };
     if (config.releaseState === undefined) return hasBoard;
-    // Only an explicit in-progress state keeps a run writable. Anything else —
-    // released, retired, quarantined, or a value we do not recognise — freezes.
-    if (config.releaseState === 'draft' || config.releaseState === 'audited') return false;
-    return FROZEN_RELEASE_STATES.has(config.releaseState) || true;
+    // Only an explicit in-progress state keeps a run writable. Everything else
+    // — released, retired, quarantined, or a value this build does not
+    // recognise — freezes. `has` is called on the RESUMABLE set precisely so
+    // this line is a real decision and not a tautology.
+    return !RESUMABLE_RELEASE_STATES.has(config.releaseState);
   } catch {
     // Corrupt policy metadata on a run we are about to write to is not
     // something to shrug at.
@@ -500,6 +521,64 @@ export function assertSafePathComponent(value: string, label: string): string {
 // RUN-001 — capabilities
 // ---------------------------------------------------------------------------
 
+/**
+ * What KIND of paid work a cell authorises.
+ *
+ * The plan names two, and they are genuinely different authorisations:
+ * "exact model–item or judge–answer cells where inference is allowed".
+ *
+ *   candidate — this model may be ASKED this item.
+ *   judge     — this model's ANSWER to this item may be SCORED.
+ */
+export type CellKind = 'candidate' | 'judge';
+
+export interface InferenceCell {
+  readonly kind: CellKind;
+  /**
+   * Always the CANDIDATE — the model whose answer the call is about.
+   *
+   * For a judge cell this is emphatically NOT the seat doing the scoring. The
+   * earlier code passed the seat here, which meant a judging permit had to
+   * enumerate seat × question: with a three-seat panel choosing two seats per
+   * answer by FNV-1a hash, authorising 184 items across a roster meant
+   * precomputing several hundred pairs whose membership depended on
+   * reproducing the panel's hash by hand. That is not an approval anybody can
+   * read, and it binds the permit to the seat-selection algorithm, so changing
+   * the hash would silently invalidate a signed approval.
+   *
+   * Naming the candidate instead makes the permit say the thing an approver
+   * actually decides — which answers may be bought and which may be scored —
+   * and leaves seat conflict to JUDGE-001 in the panel, where it belongs.
+   */
+  readonly modelId: string;
+  readonly questionId: string;
+}
+
+/**
+ * Kind → the capability that authorises it.
+ *
+ * This pairing is why the two kinds stay distinct without the permit carrying a
+ * per-cell literal. A cell list is a set of (candidate, item) coordinates; the
+ * permit's CAPABILITIES say what may be done at those coordinates, and the
+ * signature covers both. So:
+ *
+ *   - a legacy-shadow permit (judge-inference only) authorises scoring the
+ *     archived answers it lists and cannot buy a single fresh candidate call,
+ *     even at the same coordinates;
+ *   - a development-probe permit granting both authorises generating those
+ *     answers AND judging them, which is what "fixes every model–item contact"
+ *     means when the probe is judged;
+ *   - neither kind is ever authorised by silence.
+ *
+ * A per-cell `kind` field in the permit schema would let one permit generate a
+ * cell and not judge it. Nothing needs that yet, and the field would have to be
+ * added to `permitSchema` in packages/core — see docs/wp-0/INTEGRATION-NOTES.md.
+ */
+const CAPABILITY_FOR_CELL_KIND: Readonly<Record<CellKind, Capability>> = Object.freeze({
+  candidate: 'candidate-inference',
+  judge: 'judge-inference',
+});
+
 /** JSON-encoded tuple: injective, unlike concatenation or a single separator. */
 function cellKey(modelId: string, questionId: string): string {
   return JSON.stringify([modelId, questionId]);
@@ -596,14 +675,44 @@ export class Firewall {
     }
   }
 
-  /** Inference is authorised per cell. An empty cell list authorises nothing. */
-  requireCell(modelId: string, questionId: string, context: string): void {
+  /**
+   * Inference is authorised per cell. An empty cell list authorises nothing.
+   *
+   * The caller must STATE the kind of work it is doing. It is not inferred from
+   * the client, the model id or anything else the caller could get wrong
+   * quietly: a candidate call and a judge call at the same coordinates need
+   * different capabilities, and the check is only worth anything if the two
+   * cannot be confused.
+   */
+  requireCell(cell: InferenceCell, context: string): void {
     if (!this.#grant) {
       throw new FirewallError(`${context} requires an authorised cell but no permit is active.`, 'NO_PERMIT');
     }
-    if (!this.#cellIndex.has(cellKey(modelId, questionId))) {
+    // Validated rather than trusted: this boundary is reachable from JavaScript
+    // and from a future kind this build has never heard of, and an unrecognised
+    // kind must refuse rather than fall through to an undefined capability
+    // lookup (`requireCapability(undefined)` would compare against nothing).
+    const capability = Object.hasOwn(CAPABILITY_FOR_CELL_KIND, (cell as { kind: string }).kind)
+      ? CAPABILITY_FOR_CELL_KIND[cell.kind]
+      : undefined;
+    if (capability === undefined) {
       throw new FirewallError(
-        `Permit ${this.#grant.permitId} does not authorise ${modelId} × ${questionId}.`,
+        `${context} named cell kind ${JSON.stringify((cell as { kind: unknown }).kind)}, which is not one of [${Object.keys(CAPABILITY_FOR_CELL_KIND).join(', ')}].`,
+        'CELL_NOT_AUTHORISED',
+      );
+    }
+    if (typeof cell.modelId !== 'string' || cell.modelId === '' || typeof cell.questionId !== 'string' || cell.questionId === '') {
+      throw new FirewallError(
+        `${context} named an incomplete ${cell.kind} cell (${JSON.stringify(cell.modelId)} × ${JSON.stringify(cell.questionId)}). A cell with a missing coordinate authorises nothing.`,
+        'CELL_NOT_AUTHORISED',
+      );
+    }
+    // Kind first. A judge-only permit that happens to list a coordinate must
+    // not buy a candidate call at it, and the capability is what says so.
+    this.requireCapability(capability, `${cell.kind} cell for ${context}`);
+    if (!this.#cellIndex.has(cellKey(cell.modelId, cell.questionId))) {
+      throw new FirewallError(
+        `Permit ${this.#grant.permitId} does not authorise the ${cell.kind} cell ${cell.modelId} × ${cell.questionId}.`,
         'CELL_NOT_AUTHORISED',
       );
     }

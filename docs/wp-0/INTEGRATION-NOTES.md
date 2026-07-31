@@ -469,3 +469,456 @@ Both modules import `fnv1a32`, `seededUniform`, `clusterBootstrapMean`,
 `../../core/src/stats.js` by relative path, for the reason `analyze.ts` already
 documents: core's `exports` map does not expose stats.ts. Three one-line changes
 when `index.ts` gains `export * from './stats.js'`.
+
+## packages/runner — M4.1/M4.7/M4.8 manifest, derivation and run lifecycle
+
+New: `packages/runner/src/manifest.ts`, `src/derive.ts`, `src/lifecycle.ts`,
+`test/manifest.test.ts` (58 tests, passing). Nothing existing changed shape;
+`cli.ts` was not touched. Every write goes through `writeRunFileAtomic`,
+`writeOutputFileAtomic`, `appendRunFileLine` or a `resolveRunFile`-guarded path,
+so the DATA-001 refusal on published runs holds unchanged (there is a test that
+`writeRunManifest('canary', …)` throws `FirewallError`).
+
+`manifestHash` and `canonicalJson` are imported and used verbatim. The golden
+digests in `test/golden-hashes.test.ts` are untouched and must stay that way — a
+second canonicalisation would invalidate every issued permit.
+
+### Commands the integration pass should add
+
+    pnpm bench manifest --run <id> [--tier all|active] [--limit N] \
+        --evidence-class <c> --origin <o,…> --methodology <v> --git-commit <sha> \
+        --candidate-models a,b --judge-models c,d --budget <usd> [--dry-run]
+      → buildRunManifest(draft, questions) then writeRunManifest(runId, manifest, questions)
+      The item set passed to BOTH calls must be the exact set the run executes
+      (`runnableQuestions(tier)` sliced by `--limit`), not the whole dataset:
+      the manifest declares what actually runs, and the verifier reconciles
+      against that set.
+
+    pnpm bench verify --run <id> [--complete] [--no-recompute]
+      → verifyRunManifest(runId, { expectComplete, recompute }); non-zero exit
+      when `ok` is false. Print `findings[]`. Use `--no-recompute` only to audit
+      a frozen run whose bank has legitimately moved on.
+
+    pnpm bench derive --from <src> --run <new> --reason "<why>" [--hardlink]
+      → deriveRun({ sourceRunId, targetRunId, reason, mode })
+      Refuses an uncommitted source, a same-id derivation, an occupied target.
+      Copy is the default; `--hardlink` shares inodes with a published run, which
+      is safe only because every writer here replaces by rename.
+
+    pnpm bench release --run <id> --actor <who> --evidence "<link>"
+      → buildReleaseChecklist(...) → writeReleaseChecklist(...) →
+        transitionRun({ to: 'audited' | 'released', checklist })
+    pnpm bench current-run --run <id> --reviewed-by <who> --evidence "<link>"
+      → setCurrentRun({ runId, reviewedBy, reviewEvidence, checklist })
+
+### The two behavioural changes that matter
+
+1. **`cmdGrade` must stop preserving judge results unconditionally.** Route the
+   prior `scores.json` through
+
+       const verdict = staleScoresForRun(runId, { manifest, digest });
+       const { retained, dropped } = retainableScores(priorScores, verdict);
+
+   and write back only `retained`. There is deliberately no override flag. A
+   validator change drops judged rows too — the graders module owns blending and
+   cascade routing, and the 2026-07 audit's grader fix moved six of thirteen
+   positions.
+
+2. **`apps/web` should stop selecting a board by newest `generatedAt`.** The
+   reviewed pointer lives in `data/runs/REGISTER.json` (`currentRun`), written
+   only by `setCurrentRun` against a released entry and a complete checklist, and
+   cleared automatically when that run is quarantined or retired. `readCurrentRun`
+   THROWS when no pointer exists — that is the fail-closed reading, and the site
+   should render "no current result" rather than falling back to the heuristic.
+   The register is a plain JSON file in `data/runs/`; nothing else in the repo
+   treats a non-directory entry there as a run.
+
+### Wiring for M4.8 (cheap, and worth doing at the same time)
+
+- `cmdRun`: after `writeResponse`, call `appendRawAnswer(response)`. The id is
+  `responseIdentity`, which is also `candidateRetryKey`, so a retried or resumed
+  batch appends nothing the second time.
+- `cmdJudge`: after each ballot, `appendBallot(key, ballot)` with
+  `promptVersion: JUDGE_PROMPT_VERSIONS[mode]`.
+- Both journals are hash-chained. `verifyJournal` catches edits, reordering and
+  interior deletion; it CANNOT catch suffix truncation — pin `journalHead` or
+  rely on the checklist's `artifacts-committed` item, which compares against git.
+
+### Not done, and why
+
+- **`traceability.yaml` is not updated.** It belongs to another workstream. Its
+  DATA-002 gaps are now closed in code; the entry should gain
+  `packages/runner/src/manifest.ts — computeContentDigest / writeRunManifest /
+  verifyRunManifest` as enforcement points and cite these exact test names:
+  - `DATA-002 — a command writes the manifest, and it must be true > refuses a manifest whose declared hashes do not describe the supplied items`
+  - `DATA-002 — a changed bank cannot masquerade as the manifested one > reports drift, and names the items that moved`
+  - `DATA-002 — a changed bank cannot masquerade as the manifested one > never reports ok when it could not check`
+  RELEASE-002's second gap (`apps/web` selects by newest generatedAt) closes only
+  once the site reads the pointer.
+- **`RunConfig` gained no field.** A derived run's `config.json` carries
+  `derivedFrom` and `releaseState: 'draft'` as additive JSON via a local
+  `DerivedRunConfig` interface in derive.ts, because `packages/core/src/types.ts`
+  is owned elsewhere. Fold them into `RunConfig` if that is tidier; `readRunConfig`
+  already casts, so nothing breaks either way.
+- **`RELEASED` is written by `transitionRun`, last.** It is what `isReleasedOnDisk`
+  reads to freeze a run, so writing it any earlier would lock the run out of
+  recording its own release in `lifecycle.ndjson`. Do not reorder that.
+
+## packages/runner — M2.6 adjudication and M2.7 Culinary JudgeBench
+
+New: `src/adjudicate.ts` and `src/judgebench.ts`, with
+`test/adjudicate.test.ts` (72) and `test/judgebench.test.ts` (75). Both modules
+are pure apart from four firewall-guarded I/O helpers at the bottom of
+`adjudicate.ts`; neither calls a model, reads a clock or uses unseeded
+randomness, so a queue and an adjudication verdict are reproducible from
+artifacts.
+
+**No zod in these files, and not by preference.** `packages/runner` does not
+depend on zod — only `packages/core` does, and under pnpm's strict layout
+`import { z } from 'zod'` does not resolve inside the runner at all. Both
+modules validate by hand in the style of `firewall.ts`'s registry reader,
+collecting every fault and throwing once. If the integration pass adds zod to
+`packages/runner/package.json`, these parsers can be replaced one for one; the
+exported function names (`parseAdjudicationRecord`, `readDevelopmentBank`,
+`readSealedBank`, `parseSealedCommitment`, `parseSealedHistory`) are the seam.
+
+### The report gate — the one thing that MUST be wired
+
+`cmdReport` currently generates a leaderboard with no reference to the 73
+disputes `2026-07-v2.1` flagged. M2.6 forbids that. The wiring is:
+
+```ts
+const queue = buildAdjudicationQueue({ runId, observations, policy });   // or read the persisted one
+const record = readAdjudicationRecord(runId, family);                    // null when absent
+assertReportPermitted({ queue, record });                                // throws AdjudicationError('REPORT_BLOCKED')
+```
+
+`reportPermitted` is the non-throwing form and returns publishable reason
+strings. **It refuses on `queue: null`.** A report path that skips the queue has
+not shown there is nothing to review, and the whole module exists because
+absence read as permission once already.
+
+Suggested commands (this workstream adds none):
+
+- `pnpm bench adjudicate open --run <id> [--family runs|shadow]` →
+  `buildAdjudicationQueue` + `writeAdjudicationQueue`, then
+  `writeAdjudicationRecord(blankRecordFor(queue))` as the worksheet, and print
+  `formatAdjudicationQueue(queue)`.
+- `pnpm bench adjudicate show --run <id> --case <caseId> [--reveal]` →
+  `presentCase(c, { identity: 'blind', anonymise })`. `identity` has **no
+  default**; blind mode **requires** an anonymiser, so pass
+  `(t) => anonymizeAnswer(t, blindingLexicon(loadModels()))` from `judge.ts`.
+  Candidate ids, seat ids and judge families are all hidden when blind, and
+  `presentCase` is tested for not leaking them.
+- `pnpm bench adjudicate status --run <id>` → `adjudicationStatus` +
+  `formatAdjudicationStatus`.
+- `pnpm bench judgebench plan --bank <path> --seed <s> --repeat-fraction <f>` →
+  `buildHarnessPlan`.
+- `pnpm bench judgebench open --commitment <path> --bank <path> --history <path>`
+  → `openSealedBank`, writing the appended history back. This is the ONLY way
+  to obtain a runnable sealed bank.
+
+**`--family`**: `runs` writes into the run directory, which the firewall refuses
+for a published run — correct, and there is a test asserting it for
+`2026-07-v2.1`. Retro-adjudicating a frozen run writes to `shadow/<runId>/`.
+
+### The number the queue will produce, so it is not a surprise
+
+`UNVALIDATED_COVERAGE` is the honest state of this repository: no sealed
+JudgeBench holdout has been opened, so **no stratum is inside validated
+automation coverage**, so every case whose panel confidence was never recorded
+is mandatory review. The legacy two-seat panel records no per-seat confidence at
+all, so on `2026-07-v2.1` the queue is **all 630 judged answers, not the 73
+flagged ones**. That is the size of the automatic acceptance nobody has
+validated, not a bug in the module. The escape is the designed one: a passing
+holdout that names the strata it powered.
+
+Related: `observationsFromStoredScores` takes `stratumOf` as a required
+callback and refuses an empty return. It deliberately does not default to
+`question.category` — the audit sample and the coverage claim would then rest on
+a field nobody chose as a stratum.
+
+### Storage shapes
+
+`AdjudicationQueue.queueHash` is sha256 over the whole queue minus the hash, and
+`AdjudicationRecord.queueHash` binds to it. A re-judged answer or a re-authored
+item changes the hash and reopens the gate; decisions taken against a different
+queue never clear the current one. `resolveAdjudicatedScore` maps a decision to
+a number — and `item-defective` **excludes, it does not score zero**, because
+scoring zero charges the model for the benchmark's own fault (`subs-020`, twelve
+of thirteen models).
+
+### JudgeBench: what is deliberately absent
+
+There is **no fixture data in the repository, and no gold label anywhere**.
+Every case declares `label: null` (required, and the case object refuses unknown
+keys, so an answer smuggled in as `expected` or `goldLabel` fails to load).
+Labels are a separate human input joined by `caseId` through
+`judgeBenchLabelSetSchema` in `packages/core/src/agreement.ts`, which refuses
+`provenance: 'model'`. Authoring the banks and commissioning the labels is Gate 2
+work for qualified humans; this workstream built the format and the harness.
+
+`DevelopmentBank`, `SealedBank` and `OpenedSealedBank` are distinct branded
+types. `buildHarnessPlan` and `harnessRatings` accept only
+`DevelopmentBank | OpenedSealedBank`, so sealed material cannot reach a ballot
+without passing `openSealedBank` — which verifies the pre-run hash commitment,
+the declared composition, that the commitment predates the open, single-open by
+commitment id AND by bank bytes, that no other tranche is open, and that the
+protocol is not terminal. `assertFreshHoldoutPermitted` encodes M2.7's
+fresh-tranche conditions: a different protocol hash (an identical one means the
+change was cosmetic), fresh material, a new preregistration, full disclosure of
+every prior attempt by id, and a re-freeze by somebody not involved in the last
+one.
+
+`harnessRatings` returns `AgreementRating[]` for non-pairwise cases and raw
+`AuditBallot[]` for pairwise ones — it does NOT fold the two presentations into
+a rater unit, because `pairwiseRatingsForAgreement` in `agreement.ts` already
+does and a second copy would drift. Both types are imported type-only from
+`../../core/src/agreement.js` by relative path, for the reason `analyze.ts`
+documents; two one-line changes when `index.ts` gains
+`export * from './agreement.js'`.
+
+### Defect noticed elsewhere (not fixed — not this workstream's files)
+
+**The pairwise vocabulary exists twice with different spellings.**
+`packages/core/src/graders/pairwise.ts` uses `PAIRWISE_OUTCOMES = ['a','b',
+'equal','both_unacceptable','abstain']` with `presentation: 'ab' | 'ba'`, while
+`packages/runner/src/judge.ts` exports its own `PAIRWISE_OUTCOMES = ['A','B',
+'equal','both_unacceptable','abstain']` with `PresentationOrder = 'AB' | 'BA'`.
+Two spellings of one enum across the modules that hand ballots to each other is
+one `===` away from silently dropping every ballot, or from canonicalising an
+order twice. `judgebench.ts` follows the core/agreement spelling because that is
+its consumer. They should be reconciled to one vocabulary before pairwise
+ballots are persisted in any run artifact.
+
+## packages/runner — WP-0 evidence firewall, six self-review defects
+
+No new CLI command and no new entry function. Everything here is a repair to
+modules `cli.ts` already imports (`ledger.ts`, `firewall.ts`, `openrouter.ts`),
+so the integration pass has call sites to update rather than wiring to add.
+
+### 1. `client.complete` now REQUIRES a cell and an estimate — four call sites
+
+`questionId` and `estimateUsd` were optional on `CompletionOpts`, which meant a
+caller that omitted `questionId` skipped `requireCell` entirely and a caller
+that omitted `estimateUsd` reserved `?? 0` against the budget. Both are now
+required, on a new `GuardedCompletionOpts`, and both are re-checked at runtime
+because the type is erased. `CompletionOpts` still exists and still holds only
+the transport knobs (`temperature`, `maxTokens`, `reasoning`).
+
+The cell names the **candidate**, never the judge seat. Replace
+
+```ts
+questionId: question.id,
+estimateUsd: worstCase,
+```
+
+with
+
+```ts
+cell: { modelId, questionId: question.id },
+estimateUsd: worstCase,
+```
+
+- `src/cli.ts:640` and `src/cli.ts:651` (cmdRun, first attempt and retry) —
+  `modelId` is the candidate being called, so `cell.modelId` is that same
+  `modelId`. A candidate call whose cell names a different model is now refused.
+- `src/cli.ts:1270` (cmdPilot) — same shape, `cell: { modelId, questionId: q.id }`.
+- `src/judge.ts:2064` (`askJudge`) — **this one needs a new argument.** The first
+  argument to `complete` is the SEAT; the cell must name the candidate whose
+  answer is being scored, which `askJudge` does not currently receive. Thread the
+  candidate model id down (`judgeAnswer` and friends already know it — it is the
+  `modelId` on the stored response) and pass
+  `cell: { modelId: candidateModelId, questionId: question.id }`.
+
+That last change is the point of defect 4, not an incidental. Passing the seat
+meant a judging permit had to enumerate seat × question — roughly 552 pairs for
+a three-seat panel over 184 items — each precomputed by reproducing the panel's
+FNV-1a seat hash by hand, and a change to that hash would have silently voided a
+signed approval. A permit now authorises **which answers may be scored**, which
+is what an approver actually decides.
+
+`MockClient` needs no change: its `_opts` parameter is a supertype of the new
+options, so it still satisfies `CompletionClient`.
+
+### 2. `Firewall.requireCell` changed shape — `packages/runner/test/firewall.test.ts`
+
+`requireCell(modelId, questionId, context)` is now
+`requireCell({ kind, modelId, questionId }, context)`, where `kind` is
+`'candidate' | 'judge'` and maps to the capability that authorises it. Three
+lines in a file this workstream does not own need the new call shape (the
+`.toThrow` assertions still hold; the `.not.toThrow` ones do not):
+
+- `firewall.test.ts:240` → `fw.requireCell({ kind: 'candidate', modelId: 'openai/gpt-5.5', questionId: 'conv-001' }, 'probe')`
+- `firewall.test.ts:264` → `fw.requireCell({ kind: 'candidate', modelId: 'ab', questionId: 'c' }, 'probe')`
+- `firewall.test.ts:241`, `:242`, `:251`, `:265` still throw and only need the
+  object form for consistency.
+
+### 3. Follow-up owed by whoever owns the permit contract
+
+`packages/core/src/evidence.ts` `permitSchema.cells` is
+`{ modelId, questionId }` with no kind, so today a permit's **capabilities**
+decide which kinds its cells authorise: `judge-inference` alone authorises judge
+cells only, `candidate-inference` alone authorises candidate cells only, and a
+development-probe granting both authorises both at the coordinates it lists.
+That is coherent and fail-closed, and it is what the plan's "exact model–item or
+judge–answer cells" describes.
+
+It cannot express one thing: *generate this cell but do not judge it*. If that
+is ever needed, add an optional `kind` to the cell object in `permitSchema`,
+carry it through `permit.ts`'s grant construction (which currently rebuilds each
+cell as `{ modelId, questionId }` and would otherwise drop it), and index it in
+`Firewall`'s `#cellIndex`. Note that `permitSchema` is a plain `z.object`, so a
+`kind` added to a permit file today is silently STRIPPED — it would be signed and
+then discarded, which is worse than not having it.
+
+### 4. Ledger settle ordering — no call-site change, but do not "tidy" it back
+
+`settle()` now validates the reservation, then journals, then moves the books.
+The comment above it used to claim it journalled first while the code closed the
+reservation first, so a throwing append (symlinked journal, full disk, a run
+frozen mid-batch) deleted the hold and never recorded the settlement — money
+that had genuinely been spent vanished from the accounting and its headroom
+became spendable again. Journalling first over-counts on failure, which is the
+only safe direction. Validation has to stay ahead of the append or a refused
+double settle leaves a phantom charge in the journal for the next resume.
+
+### 5. Defect noticed elsewhere (not fixed — reported only)
+
+`packages/runner/src/openrouter.ts` calls `apiKey()` inside `post`, which is
+inside `#request`'s try/catch, so a **missing `OPENROUTER_API_KEY` is retried as
+a network error**: five attempts with exponential backoff before the operator is
+told their configuration is wrong. It cost this workstream a 5-second test
+timeout to notice. Hoisting `apiKey()` to the top of `complete` would fail fast,
+but it changes retry behaviour on a paid path, so it is left for a deliberate
+decision rather than folded into a defect-fix pass.
+
+---
+
+## Stage 5 — Taste Test redesign (Tasting Flight)
+
+Owner of: `apps/web/app/tastetest/**`, `apps/web/app/taste/**`,
+`apps/web/lib/supabase.ts`, the taste components, `packages/core/src/taste.ts`,
+`packages/core/test/taste.test.ts`, `supabase/migrations/0008_*.sql`.
+
+### Required deployment configuration — the site now reads one env var
+
+`TASTE_BALLOT_SECRET`, at least 32 characters, set on the Vercel project.
+
+CLAUDE.md records "the web app reads zero env vars" as a deliberate property.
+M5.4 requires signed, single-use, expiring ballots with model ids held
+server-side, and a sealed ballot needs a key. There is **no development
+fallback**: a hardcoded default would be committed, every deployment would share
+it, and the blinding would be decorative. Without the variable `/tastetest`
+refuses to serve a flight and says so; nothing is recorded. Update the CLAUDE.md
+sentence when this lands.
+
+### No CLI command is needed, but two analyses have no runner yet
+
+`packages/core/src/taste.ts` exports `analyseTaste(ballots, { cohort })`, which
+is the M5.6 analysis: per-axis Davidson fits (delegated to `stats.ts`), the
+position/length/control diagnostics, and the publication gate. **Nothing calls
+it yet.** It needs a `bench` command because the public read view deliberately
+cannot supply its inputs:
+
+    pnpm bench taste-analyse [--cohort public|professional] [--exclude-suspect]
+      → read taste_flight_ballots with SUPABASE_SERVICE_ROLE_KEY (NOT the
+        publishable key — the view withholds dwell_ms and session_id)
+      → map rows to TasteFlightBallot (camelCase; the web's `toBallot` in
+        apps/web/app/taste/page.tsx is the same mapping minus those two fields)
+      → analyseTaste(ballots, { cohort, seed: 'taste:<cohort>' })
+      → write data/taste/analysis-<date>.json, print the blockers
+
+`SUPABASE_SERVICE_ROLE_KEY` is still not in `.env` — the same gap that blocks
+`bench taste-archive`. Until it is, the admissibility gate and the abuse screen
+cannot run at all, and `/taste` says so on the page rather than reporting
+"0 admissible ballots" as if it were a finding about voters.
+
+A second, smaller command would be worth having:
+
+    pnpm bench taste-fixtures --check
+      → apps/web/app/tastetest/flight.ts `trackAvailability()`
+      → fails if any authored track has <5 admissible items, if any proposal
+        leaves the 120–160 word budget, if a flavour item lacks a matched
+        sensory card, or if an item carries no recorded safety review.
+      All of those already refuse at serve time; a CI check would catch an
+      edit to the fixture bank before it silently disables a track.
+
+### Migration 0008 is WRITTEN, NOT APPLIED
+
+`supabase/migrations/0008_taste_flight_ballots.sql`. Creates `taste_sources`,
+`taste_flight_ballots`, `taste_ballot_reasons`, and the two read-only views
+`taste_flight_reads` / `taste_flight_reason_reads`. It carries its own
+verification checklist at the foot — **run it**, including
+`information_schema.views.is_updatable`, before believing it is safe. 0006
+exists because a migration that looked obviously correct was not checked.
+
+Three things in it that a reviewer should look at specifically:
+
+1. Anonymous inserts are pinned to `evidence_class = 'development'` and
+   `cohort = 'public'` by the RLS policy. Nothing a visitor can insert is ever
+   rank-bearing or ever claims professional status. Promoting to `public-taste`
+   is a later, reviewed migration once a permitted Taste response bank exists.
+2. The post-vote reason is an `smallint` INDEX in a separate append-only table,
+   not free text and not an UPDATE on the ballot. Granting anon UPDATE to carry
+   a reason code would hand back exactly the write surface 0006 removed.
+3. Every policy predicate uses `IN (subquery)`. The correlated-`EXISTS` form
+   silently rejects everything (0007's lesson); do not tidy them.
+
+### `packages/core/src/index.ts` does not export `stats.ts`
+
+`taste.ts` imports `fitDavidson`, `comparisonGraph`, `davidsonClusterBootstrap`,
+`fnv1a32` and `seededUniform` from `./stats.js` and does **not** re-export them,
+because `export * from './stats.js'` in index.ts would then collide. The web app
+therefore reaches Davidson types structurally, through the `TasteAnalysis`
+return type, rather than by naming them. If stats.ts is added to index.ts, check
+for duplicate-export errors first — `taste.ts` exports `tasteComparisonGraph`
+(a Taste-vocabulary wrapper) rather than `comparisonGraph` for this reason.
+
+### `apps/web/components/TasteDuel.tsx` is deleted
+
+Replaced by `TastingFlight.tsx` + `ProposalCard.tsx`. The two hard-won
+behaviours are carried forward: the whole card is the tap target, and a vote is
+unconfirmed until the insert succeeds. The retry loop now distinguishes three
+outcomes rather than a boolean (`saved` / `duplicate` / `rejected` /
+`unreachable` in `castFlightBallot`) — a duplicate means the vote IS recorded
+and must not be retried, and a rejected ballot will be rejected identically
+forever. Only `unreachable` offers "Try again".
+
+`apps/web/components/BriefLabel.tsx` is now unused (its only consumer was the
+old duel page). Left in place rather than deleted so as not to remove a file
+another workstream might be about to reference; delete it at integration if
+nothing picks it up.
+
+### What is deliberately NOT built
+
+- **`service` and `surprise` tracks have no authored fixture items.** They are
+  declared, shown disabled with a reason, and `buildFlight` refuses them. A
+  four-round "five-round flight" would be a protocol change without a label
+  change. `flavour` and `rescue` are fully authored (5 items × 3 voices each).
+- **M5.5 usability sessions.** They need human participants; the fixture bank
+  and the flight exist so they can be run.
+- **Cohort verification.** `professional` exists in the schema and in the
+  analysis and is unreachable from the public path by construction.
+
+### Defect found in another workstream (NOT fixed)
+
+`packages/core/src/stats.ts` — `fitDavidson` needs iterations roughly
+**proportional to the observation count** when one model is undefeated, against
+a fixed 10,000-iteration cap, so the cap behaves as a data-size limit rather
+than a convergence guard. Measured on a clean 3-model ladder with a tie in one
+round of five and the favourite never losing:
+
+    150 observations →  2,724 iterations
+    300 observations →  5,360
+    450 observations →  8,761
+    675 observations →  REFUSED, "no convergence in 10000 iterations"
+    900 observations →  REFUSED
+
+The same data shape with the favourite losing one round in five converges in
+6,490 iterations at 3,000 observations, so it is the undefeated case that
+degrades. The stopping rule looks like an absolute tolerance on a quantity that
+grows with the counts. A real Taste bank will exceed 400 ballots per axis by
+design, so this will bite. `fitAxis` in `taste.ts` catches the refusal and
+reports it as a publication blocker rather than throwing, so the site degrades
+correctly — but the refusal is spurious.

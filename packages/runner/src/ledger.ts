@@ -238,28 +238,50 @@ export class ReservationLedger {
     return reservation;
   }
 
-  /** The call happened and cost this much. Journalled before the books move. */
+  /**
+   * The call happened and cost this much.
+   *
+   * Three steps, in this order, and the order is the whole point:
+   *
+   *   1. VALIDATE the reservation without touching the books. A double settle
+   *      must be refused before anything durable is written, or the refusal
+   *      leaves a spurious journal line behind and the next resume inherits a
+   *      charge that never happened.
+   *   2. JOURNAL, while the reservation is still outstanding.
+   *   3. Move the books — release the hold, add the settled amount.
+   *
+   * The failure this ordering exists for: the first version closed the
+   * reservation FIRST and journalled second, under a comment claiming it did
+   * the opposite. A throw from the append (a symlinked journal, a full disk, a
+   * frozen run) therefore removed the hold and never added the settlement, so
+   * money that had genuinely left the account vanished from the accounting
+   * entirely and the freed headroom could be spent a second time. Journalling
+   * first inverts that: a failure leaves the reservation held, which
+   * OVER-counts committed spend. Over-counting stops early and is visible;
+   * under-counting overspends the cap silently. There is only one safe
+   * direction for an accounting error involving real money.
+   */
   settle(reservation: Reservation, actualUsd: number): void {
-    this.#take(reservation);
+    // Attribution comes from the ledger's own record of the reservation, not
+    // from the handle the caller passed back — a handle is just an object, and
+    // spend must be booked against the model that was actually reserved.
+    const open = this.#requireOpen(reservation);
     const amount = Number.isFinite(actualUsd) && actualUsd > 0 ? actualUsd : 0;
-    // Journal FIRST. A crash between the write and the in-memory update
-    // over-counts on resume, which is the safe direction; the reverse loses the
-    // record of money that has already left the account.
     appendRunFileLine(
       this.#runId,
       JOURNAL_FILE,
       JSON.stringify({
         atIso: this.#now().toISOString(),
         permitId: this.#grant.permitId,
-        modelId: reservation.modelId,
+        modelId: open.modelId,
         actualUsd: amount,
       } satisfies JournalEntry),
     );
+    // Nothing between here and the end of the method may throw: `#take` was
+    // pre-validated above and both map updates are total.
+    this.#take(reservation);
     this.#settledTotal += amount;
-    this.#settledByModel.set(
-      reservation.modelId,
-      (this.#settledByModel.get(reservation.modelId) ?? 0) + amount,
-    );
+    this.#settledByModel.set(open.modelId, (this.#settledByModel.get(open.modelId) ?? 0) + amount);
   }
 
   /** The call never happened (network failure, refusal). No spend recorded. */
@@ -267,8 +289,13 @@ export class ReservationLedger {
     this.#take(reservation);
   }
 
-  /** Remove a reservation from the outstanding books exactly once. */
-  #take(reservation: Reservation): void {
+  /**
+   * Prove a reservation is open, WITHOUT mutating anything.
+   *
+   * Split out of `#take` so `settle` can refuse a double settle before it
+   * writes to the journal. Combining the two is what forced the wrong ordering.
+   */
+  #requireOpen(reservation: Reservation): Reservation {
     const open = this.#open.get(reservation.id);
     if (!open) {
       throw new LedgerError(
@@ -276,6 +303,12 @@ export class ReservationLedger {
         'RESERVATION_SETTLED',
       );
     }
+    return open;
+  }
+
+  /** Remove a reservation from the outstanding books exactly once. */
+  #take(reservation: Reservation): void {
+    const open = this.#requireOpen(reservation);
     this.#open.delete(reservation.id);
     this.#outstandingTotal -= open.reservedUsd;
     this.#outstandingByModel.set(

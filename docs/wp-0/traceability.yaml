@@ -22,6 +22,8 @@ requirements:
       - packages/core/src/evidence.ts — CAPABILITIES_FOR_PERMIT_KIND and EVIDENCE_CLASSES_FOR_PERMIT_KIND
       - packages/runner/src/firewall.ts — Firewall.denyAll is the default posture; the constructor re-checks the grant
       - packages/runner/src/openrouter.ts — private constructor plus forCandidates/forJudging factories
+      - packages/runner/src/openrouter.ts — cell and estimate are REQUIRED on a guarded call and re-checked at runtime, so no call can opt out of the cell check by omitting a field
+      - packages/runner/src/firewall.ts — requireCell takes an explicit cell kind, mapped to the capability that authorises it, and refuses an unknown kind
       - packages/runner/src/supabase.ts — the single capability-checked path to a service-role client
       - packages/runner/src/redemption.ts — executionLimit enforced by an atomic on-disk redemption record
       - packages/runner/src/cli.ts — every paid or live-data command requires --permit and --manifest
@@ -36,6 +38,13 @@ requirements:
       - "the paid client cannot be built without authorisation > refuses a candidate client to a judge-only permit"
       - "single use means single use > refuses a second redemption of a single-use permit"
       - "RUN-001 — deny by default > grants nothing without a permit"
+      - "cells name the candidate and carry a kind > keeps the two kinds distinct at the same coordinate"
+      - "cells name the candidate and carry a kind > refuses a cell kind it does not recognise, including an inherited one"
+      - "cells name the candidate and carry a kind > authorises a judge call by the answer it scores, not by the seat scoring it"
+      - "every completion is authorised and accounted for > refuses a call that names no cell, instead of skipping the check"
+      - "the permit chain works end to end > carries a signed file through verify, redeem, ledger, client and a call"
+      - "the permit chain works end to end > breaks the chain at the first link when the permit file is tampered with"
+      - "the permit chain works end to end > refuses the second redemption of a single-use permit, after the first has spent"
     gaps: []
 
   - id: RUN-001A
@@ -71,6 +80,10 @@ requirements:
       - "DATA-001 — historical artifacts cannot be overwritten > has no exported switch that can disable the guard"
       - "path confinement — the traversal that WP-0 closed > guards files inside a frozen run, and validates the final target"
       - "the cap comes from the permit > refuses to spend against a published run"
+      - "the release-state guard says what it does > freezes every release state except the ones explicitly declared resumable"
+      - "the release-state guard says what it does > freezes on a release state it has never heard of, and on unusable metadata"
+      - "the release-state guard says what it does > still lets an in-progress run be resumed across batches"
+      - "the release-state guard says what it does > decides on a membership test rather than a disjunction that is always true"
     gaps: []
 
   - id: DATA-002
@@ -125,7 +138,7 @@ requirements:
     statement: >-
       A judge never scores a model sharing its provider or its base-model
       family, and a missing identity is treated as a conflict.
-    status: closed
+    status: partial
     enforcementPoints:
       - packages/core/src/evidence.ts — hasJudgeConflict, failing closed on unknown identity, with canonicalId folding case and whitespace
       - packages/runner/src/judge.ts — panelSeats seats from the declared roster, not the OpenRouter slug prefix
@@ -136,7 +149,23 @@ requirements:
       - "panel seat assignment > treats an undeclared identity as conflicted rather than as distinct"
       - "panel seat assignment > compares identity case- and whitespace-insensitively"
       - "panel seat assignment > explains which seat conflicted when too few remain"
-    gaps: []
+      - "JUDGE-001 is only half proved on the real roster > declares the base-model-family arm as a gap until the registry can express it"
+    gaps:
+      - >-
+        The base-model-family arm of the conflict rule changes NOTHING on the
+        real roster, so it is proved only against a fabricated fixture. Every
+        `family` in data/models.yaml sits inside exactly one provider, so the
+        family test never excludes a seat the provider test had not already
+        excluded. It is dead on the live registry and would only wake up for a
+        rebadged model — the case it exists for — which the registry currently
+        has no way to express.
+      - >-
+        `family` in data/models.yaml is a MARKETING TIER, not a base model.
+        `claude-frontier` spans claude-fable-5, claude-opus-4.8 and
+        claude-opus-5, which are three different base models, so the field the
+        rule reads as `baseModelFamily` does not mean base-model family. The
+        registry needs a real base-model identity (evidence.ts says as much next
+        to canonicalId) before this arm can be claimed as enforced.
 
   - id: BUDGET-001
     statement: >-
@@ -146,9 +175,11 @@ requirements:
     enforcementPoints:
       - packages/runner/src/ledger.ts — reserve() checks and debits in one synchronous step, with no await inside
       - packages/runner/src/ledger.ts — settle/release close a reservation exactly once
+      - packages/runner/src/ledger.ts — settle validates, then journals, then moves the books, so a failed write over-counts rather than losing spend
       - packages/runner/src/ledger.ts — journal replay on construction, so a resumed run inherits prior spend
       - packages/runner/src/ledger.ts — exclusive run lock via open(wx), with dead-holder takeover
       - packages/runner/src/openrouter.ts — every completion reserves before the request and settles at actual cost
+      - packages/runner/src/openrouter.ts — an unpriced call is refused rather than reserving zero
     tests:
       - "the check-then-record race is closed > never authorises more concurrent calls than the cap allows"
       - "the check-then-record race is closed > counts an in-flight reservation against the cap before it settles"
@@ -159,6 +190,11 @@ requirements:
       - "the cap comes from the permit > lets an operator sub-cap lower the ceiling but never raise it"
       - "every completion is authorised and accounted for > stops at the cap instead of spending past it"
       - "every completion is authorised and accounted for > releases the reservation when the call fails, rather than stranding the cap"
+      - "every completion is authorised and accounted for > refuses an unpriced call instead of reserving zero against the cap"
+      - "spend survives the process > keeps the money on the books when the journal write fails"
+      - "spend survives the process > writes no journal line for a settle it is going to refuse"
+      - "the check-then-record race is closed > books spend against the reserved model, not against the handle it is given"
+      - "the permit chain works end to end > stops the chain at the permit budget even though the manifest allows more"
     gaps: []
 
   - id: TRACE-001
@@ -180,6 +216,7 @@ requirements:
       - "the canonical forms a signature covers are frozen > is sensitive to every field it claims to cover"
       - "single use means single use > records what was redeemed, for the audit trail"
       - "the firewall enforces exactly what the grant carries > records provenance for the run artifact"
+      - "the permit chain works end to end > carries a signed file through verify, redeem, ledger, client and a call"
     gaps:
       - Firewall.provenance is not yet written into any run artifact; the redemption record is currently the only durable trail.
       - No CI job proves that the committed acceptance artifacts regenerate byte-identically.

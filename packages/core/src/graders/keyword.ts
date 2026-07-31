@@ -199,7 +199,12 @@ function isUnderExclusionLabel(haystack: string, index: number): boolean {
   LABEL_PATTERN.lastIndex = 0;
   const labels = [...window.matchAll(LABEL_PATTERN)];
   const nearest = labels[labels.length - 1];
-  return nearest !== undefined && EXCLUSION_LABEL_CUE.test(nearest[1]);
+  // The capture group is optional at the type level, and an absent one means we
+  // have no label text to judge. Fail closed: no text, no exclusion label, so
+  // the forbidden term stands. Coercing to '' would be the same answer by
+  // accident rather than on purpose.
+  const labelText = nearest?.[1];
+  return labelText !== undefined && EXCLUSION_LABEL_CUE.test(labelText);
 }
 
 /**

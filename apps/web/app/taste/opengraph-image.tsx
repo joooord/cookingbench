@@ -3,7 +3,10 @@ import { computeTasteRatings } from '@cookingbench/core';
 import { getLatestReport } from '@/lib/data';
 import { getAllTasteVotes } from '@/lib/supabase';
 
-export const alt = 'CookingBench Taste Board — AI chefs ranked by blind human votes';
+// "Ranked" is a claim the board does not currently make: no Taste ordering is
+// published while the M5.6 thresholds are unsimulated.
+export const alt =
+  'CookingBench Taste Board — what blind readers preferred, and what that is allowed to claim';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 export const revalidate = 300;
@@ -85,7 +88,7 @@ export default async function OpenGraphImage() {
             </span>
           </div>
           <div style={{ marginTop: 'auto', fontSize: 26, color: '#57534e' }}>
-            cookingbench.com/taste — Bradley-Terry ratings, never blended with precision
+            cookingbench.com/taste — human preference, never blended with precision
           </div>
         </div>
         {rows.length > 0 && (

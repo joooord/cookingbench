@@ -1,6 +1,6 @@
 import type { Capability, ModelPricing } from '@cookingbench/core';
-import { Firewall } from './firewall.js';
-import { BudgetExceededError, type Reservation, type ReservationLedger } from './ledger.js';
+import { Firewall, FirewallError, type CellKind } from './firewall.js';
+import { type Reservation, type ReservationLedger } from './ledger.js';
 import { assertVerifiedGrant, type VerifiedGrant } from './permit.js';
 
 const API_BASE = 'https://openrouter.ai/api/v1';
@@ -20,25 +20,55 @@ export interface CompletionResult {
   finishReason?: string;
 }
 
+/** Transport knobs. Nothing here authorises anything or costs anything. */
 export interface CompletionOpts {
   temperature: number;
   maxTokens: number;
   /** OpenRouter unified reasoning control (e.g. { effort: 'low' }). */
   reasoning?: { effort?: 'low' | 'medium' | 'high'; enabled?: boolean; max_tokens?: number };
-  /**
-   * The item this call is for. When present the permit's cell list is enforced,
-   * so a permit for 30 questions cannot quietly answer 184.
-   */
-  questionId?: string;
-  /** Expected cost, reserved against the budget before the call is made. */
-  estimateUsd?: number;
 }
 
+/**
+ * What a call has to declare before anyone will make it for money.
+ *
+ * Both fields were OPTIONAL, and the consequences were worse than untidy: with
+ * `questionId` absent the cell check was SKIPPED entirely, and with
+ * `estimateUsd` absent the ledger reserved `?? 0`, so a caller that forgot
+ * either one got an unauthorised call charged against a cap it never touched.
+ * That is opt-in enforcement, which firewall.ts's own header warns against — a
+ * firewall you have to remember to call is not a firewall — and it is the exact
+ * shape of the bug it warns about, sitting inside the module that warns.
+ *
+ * Required, therefore, and re-checked at runtime because the type is erased.
+ */
+export interface GuardedCompletionOpts extends CompletionOpts {
+  /**
+   * Which authorised cell this call consumes.
+   *
+   * `modelId` names the CANDIDATE, never the judge seat — see `InferenceCell`
+   * in firewall.ts. For a candidate call it must equal the model being called;
+   * for a judge call it is the model whose answer is being scored, and the seat
+   * is the first argument to `complete`.
+   */
+  cell: { modelId: string; questionId: string };
+  /** Expected cost, reserved against the budget before the call is made. */
+  estimateUsd: number;
+}
+
+/**
+ * The shared client contract, mock and paid alike.
+ *
+ * It takes the GUARDED options deliberately. A caller holding a
+ * `CompletionClient` does not know whether it is holding a mock or a paid
+ * client, so the contract has to be the strict one — otherwise the enforcement
+ * disappears at exactly the call sites that switch between the two, which is
+ * every call site in the pipeline.
+ */
 export interface CompletionClient {
   complete(
     modelId: string,
     messages: ChatMessage[],
-    opts: CompletionOpts,
+    opts: GuardedCompletionOpts,
   ): Promise<CompletionResult>;
 }
 
@@ -68,8 +98,14 @@ export class OpenRouterClient implements CompletionClient {
   readonly #firewall: Firewall;
   readonly #ledger: ReservationLedger;
   readonly #capability: Capability;
+  readonly #cellKind: CellKind;
 
-  private constructor(grant: VerifiedGrant, ledger: ReservationLedger, capability: Capability) {
+  private constructor(
+    grant: VerifiedGrant,
+    ledger: ReservationLedger,
+    capability: Capability,
+    cellKind: CellKind,
+  ) {
     // Re-checked here because `private constructor` is erased at runtime —
     // `Reflect.construct` reaches it directly.
     assertVerifiedGrant(grant, 'OpenRouterClient construction');
@@ -77,16 +113,19 @@ export class OpenRouterClient implements CompletionClient {
     this.#firewall.requireCapability(capability, `OpenRouterClient(${capability})`);
     this.#ledger = ledger;
     this.#capability = capability;
+    // Fixed at construction, never taken from the call. A client built for
+    // judging cannot be talked into spending a candidate cell by an argument.
+    this.#cellKind = cellKind;
   }
 
   /** Paid candidate inference. Requires `candidate-inference`. */
   static forCandidates(grant: VerifiedGrant, ledger: ReservationLedger): OpenRouterClient {
-    return new OpenRouterClient(grant, ledger, 'candidate-inference');
+    return new OpenRouterClient(grant, ledger, 'candidate-inference', 'candidate');
   }
 
   /** Paid judge inference. Requires `judge-inference`. */
   static forJudging(grant: VerifiedGrant, ledger: ReservationLedger): OpenRouterClient {
-    return new OpenRouterClient(grant, ledger, 'judge-inference');
+    return new OpenRouterClient(grant, ledger, 'judge-inference', 'judge');
   }
 
   /**
@@ -100,15 +139,50 @@ export class OpenRouterClient implements CompletionClient {
   async complete(
     modelId: string,
     messages: ChatMessage[],
-    opts: CompletionOpts,
+    opts: GuardedCompletionOpts,
   ): Promise<CompletionResult> {
-    this.#firewall.requireCapability(this.#capability, `completion for ${modelId}`);
-    if (opts.questionId !== undefined) {
-      this.#firewall.requireCell(modelId, opts.questionId, `completion for ${modelId}`);
+    const context = `completion for ${modelId}`;
+    this.#firewall.requireCapability(this.#capability, context);
+
+    // The two fields are typed as required; the type is erased, so they are
+    // also CHECKED. Absent means refuse — never "assume no cell" and never
+    // "reserve zero", which is how the optional version let an unauthorised,
+    // unbudgeted call through while looking guarded.
+    const cell = (opts as { cell?: { modelId?: unknown; questionId?: unknown } }).cell;
+    if (typeof cell !== 'object' || cell === null) {
+      throw new FirewallError(
+        `${context} did not name the cell it consumes. Every paid call states its (candidate, item) cell — an unnamed call cannot be checked against the permit (RUN-001).`,
+        'CELL_NOT_AUTHORISED',
+      );
     }
+    // For a candidate call the subject IS the model being called, so a cell
+    // naming a different one is either a swapped argument or an attempt to
+    // spend one model's authorisation on another. Judge calls are the case
+    // where the two legitimately differ: the seat is `modelId`, the subject is
+    // the candidate whose answer is being scored.
+    if (this.#cellKind === 'candidate' && cell.modelId !== modelId) {
+      throw new FirewallError(
+        `${context} names candidate cell ${JSON.stringify(cell.modelId)}, which is not the model being called. A candidate call answers for itself.`,
+        'CELL_NOT_AUTHORISED',
+      );
+    }
+    this.#firewall.requireCell(
+      { kind: this.#cellKind, modelId: cell.modelId as string, questionId: cell.questionId as string },
+      context,
+    );
+
+    const estimateUsd = (opts as { estimateUsd?: unknown }).estimateUsd;
+    if (typeof estimateUsd !== 'number' || !Number.isFinite(estimateUsd) || estimateUsd < 0) {
+      throw new FirewallError(
+        `${context} carries no usable cost estimate (${JSON.stringify(estimateUsd)}). Reserving zero for an unpriced call makes the budget cap advisory (BUDGET-001).`,
+        'UNPRICED_CALL',
+      );
+    }
+
     // Reserve before the call, not after: a check that has not yet been debited
-    // is the race BUDGET-001 exists to close.
-    const reservation: Reservation = this.#ledger.reserve(modelId, opts.estimateUsd ?? 0);
+    // is the race BUDGET-001 exists to close. The reservation is against the
+    // model actually being BILLED, which for a judge call is the seat.
+    const reservation: Reservation = this.#ledger.reserve(modelId, estimateUsd);
     try {
       const result = await this.#request(modelId, messages, opts);
       this.#ledger.settle(reservation, result.costUsd);

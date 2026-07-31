@@ -594,8 +594,8 @@ describe('the firewall enforces exactly what the grant carries', () => {
     expect(() => firewall.requireCapability('candidate-inference', 'running')).toThrow(
       /does not grant 'candidate-inference'/,
     );
-    expect(() => firewall.requireCell(JUDGE_MODEL, 'flav-002', 'judging')).not.toThrow();
-    expect(() => firewall.requireCell(JUDGE_MODEL, 'flav-003', 'judging')).toThrow(
+    expect(() => firewall.requireCell({ kind: 'judge', modelId: JUDGE_MODEL, questionId: 'flav-002' }, 'judging')).not.toThrow();
+    expect(() => firewall.requireCell({ kind: 'judge', modelId: JUDGE_MODEL, questionId: 'flav-003' }, 'judging')).toThrow(
       /does not authorise/,
     );
     expect(firewall.budgetCapUsd).toBe(30);
@@ -622,6 +622,6 @@ describe('the firewall enforces exactly what the grant carries', () => {
     expect(() => firewall.requireCapability('judge-inference', 'judging')).toThrow(
       /deny-by-default/,
     );
-    expect(() => firewall.requireCell(JUDGE_MODEL, 'flav-002', 'judging')).toThrow(/no permit/);
+    expect(() => firewall.requireCell({ kind: 'judge', modelId: JUDGE_MODEL, questionId: 'flav-002' }, 'judging')).toThrow(/no permit/);
   });
 });

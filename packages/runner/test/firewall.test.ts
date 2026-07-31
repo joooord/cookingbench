@@ -237,9 +237,9 @@ describe('RUN-001 — deny by default', () => {
         budgetCapUsd: 5,
       }),
     );
-    expect(() => fw.requireCell('openai/gpt-5.5', 'conv-001', 'probe')).not.toThrow();
-    expect(() => fw.requireCell('openai/gpt-5.5', 'conv-002', 'probe')).toThrow(FirewallError);
-    expect(() => fw.requireCell('anthropic/claude-opus-5', 'conv-001', 'probe')).toThrow(FirewallError);
+    expect(() => fw.requireCell({ kind: 'candidate', modelId: 'openai/gpt-5.5', questionId: 'conv-001' }, 'probe')).not.toThrow();
+    expect(() => fw.requireCell({ kind: 'candidate', modelId: 'openai/gpt-5.5', questionId: 'conv-002' }, 'probe')).toThrow(FirewallError);
+    expect(() => fw.requireCell({ kind: 'candidate', modelId: 'anthropic/claude-opus-5', questionId: 'conv-001' }, 'probe')).toThrow(FirewallError);
 
     // A permit with no cells authorises no cell at all. (An INFERENCE permit
     // with no cells is now refused outright at verification — see
@@ -248,7 +248,7 @@ describe('RUN-001 — deny by default', () => {
     const empty = Firewall.fromVerifiedPermit(
       mintTestGrant({ permitId: 'permit-p-3', kind: 'publication', capabilities: ['publication'] }),
     );
-    expect(() => empty.requireCell('openai/gpt-5.5', 'conv-001', 'probe')).toThrow(FirewallError);
+    expect(() => empty.requireCell({ kind: 'candidate', modelId: 'openai/gpt-5.5', questionId: 'conv-001' }, 'probe')).toThrow(FirewallError);
   });
 
   it('does not confuse cells whose concatenation collides', () => {
@@ -261,8 +261,8 @@ describe('RUN-001 — deny by default', () => {
         budgetCapUsd: 1,
       }),
     );
-    expect(() => fw.requireCell('ab', 'c', 'probe')).not.toThrow();
-    expect(() => fw.requireCell('a', 'bc', 'probe')).toThrow(FirewallError);
+    expect(() => fw.requireCell({ kind: 'candidate', modelId: 'ab', questionId: 'c' }, 'probe')).not.toThrow();
+    expect(() => fw.requireCell({ kind: 'candidate', modelId: 'a', questionId: 'bc' }, 'probe')).toThrow(FirewallError);
   });
 });
 

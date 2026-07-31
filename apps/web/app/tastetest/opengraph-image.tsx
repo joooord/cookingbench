@@ -1,6 +1,11 @@
 import { ImageResponse } from 'next/og';
 
-export const alt = 'CookingBench Taste Test — two AI chefs, one brief, you pick the better dish';
+// The card cannot promise more than the measurement claim does. A share image
+// reading "two AI chefs" would be wrong twice over: the Tasting Flight runs on
+// authored fixture proposals, and what it measures is which one a reader would
+// rather cook — not which tastes better.
+export const alt =
+  'CookingBench Tasting Flight — five blind rounds, two proposals each, you pick the one you would rather cook';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -33,7 +38,7 @@ function DishCard({ label, color }: { label: string; color: string }) {
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
         <Toque color={color} size={42} />
-        <div style={{ display: 'flex', fontSize: 34, fontWeight: 700 }}>{label}</div>
+        <div style={{ display: 'flex', fontSize: 28, fontWeight: 700 }}>{label}</div>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {[210, 160, 185].map((w, i) => (
@@ -85,8 +90,8 @@ export default function OpenGraphImage() {
               flexDirection: 'column',
             }}
           >
-            <span>Two AI chefs.</span>
-            <span>One brief.</span>
+            <span>Five rounds.</span>
+            <span>No names.</span>
             <span
               style={{
                 color: '#c8401a',
@@ -95,11 +100,11 @@ export default function OpenGraphImage() {
                 alignSelf: 'flex-start',
               }}
             >
-              You be the judge.
+              Which would you cook?
             </span>
           </div>
           <div style={{ marginTop: 'auto', fontSize: 26, color: '#57534e' }}>
-            cookingbench.com/tastetest — blind votes, arena-style
+            cookingbench.com/tastetest — blind, about three minutes
           </div>
         </div>
         <div
@@ -112,7 +117,7 @@ export default function OpenGraphImage() {
           }}
         >
           <div style={{ display: 'flex', transform: 'rotate(-3deg)' }}>
-            <DishCard label="Dish A" color="#4a6b8a" />
+            <DishCard label="Proposal A" color="#4a6b8a" />
           </div>
           <div
             style={{
@@ -135,7 +140,7 @@ export default function OpenGraphImage() {
             VS
           </div>
           <div style={{ display: 'flex', transform: 'rotate(3deg)' }}>
-            <DishCard label="Dish B" color="#7a8b3f" />
+            <DishCard label="Proposal B" color="#7a8b3f" />
           </div>
         </div>
       </div>
