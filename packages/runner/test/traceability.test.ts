@@ -47,27 +47,41 @@ function declaredTestNames(): Set<string> {
   return names;
 }
 
-const REQUIRED_IDS = [
-  'RUN-001',
-  'RUN-001A',
-  'DATA-001',
-  'DATA-002',
-  'RELEASE-001',
-  'RELEASE-002',
-  'JUDGE-001',
-  'BUDGET-001',
-  'TRACE-001',
-];
+/**
+ * The requirement list is DERIVED from the brief, never hand-typed.
+ *
+ * It was hand-typed, and RUN-002 (protocol consistency) was omitted — so the
+ * matrix contained nine requirements, the brief contained ten, and the test
+ * named "covers every WP-0 requirement exactly once" passed. A validator whose
+ * definition of "every" comes from the same author as the thing it validates
+ * checks nothing; it launders an omission into a green tick. Reading the brief
+ * means a requirement added there fails this suite until it is answered.
+ */
+function requirementIdsFromBrief(): string[] {
+  const brief = readFileSync(join(REPO_ROOT, 'docs/methodology/WP-0-start-brief.md'), 'utf8');
+  const ids = [...brief.matchAll(/^###\s+`([A-Z]+-\d+[A-Z]?)`/gm)].map((m) => m[1]!);
+  if (ids.length === 0) throw new Error('No requirement headings found in the WP-0 brief.');
+  return ids;
+}
+
+const REQUIRED_IDS = requirementIdsFromBrief();
 
 describe('WP-0 traceability matrix is acceptance-grade', () => {
   it('covers every WP-0 requirement exactly once', () => {
-    expect(matrix.requirements.map((r) => r.id)).toEqual(REQUIRED_IDS);
+    // Compared as sorted sets: the brief's presentation order is not a contract,
+    // but its CONTENTS are. A requirement in the brief and absent here fails.
+    expect([...matrix.requirements.map((r) => r.id)].sort()).toEqual([...REQUIRED_IDS].sort());
   });
 
   it('cites an EXACT named test case for every requirement', () => {
     const known = declaredTestNames();
     for (const req of matrix.requirements) {
-      expect(req.tests.length, `${req.id} cites no tests`).toBeGreaterThan(0);
+      // An `open` requirement legitimately has no tests — there is nothing to
+      // cite yet. Demanding one would push an author to cite a loosely-related
+      // test, which is how a matrix starts overstating.
+      if (req.status !== 'open') {
+        expect(req.tests.length, `${req.id} cites no tests`).toBeGreaterThan(0);
+      }
       for (const name of req.tests) {
         expect(known.has(name), `${req.id}: no test named "${name}"`).toBe(true);
       }
@@ -78,6 +92,7 @@ describe('WP-0 traceability matrix is acceptance-grade', () => {
     for (const req of matrix.requirements) {
       expect(req.enforcementPoints.length, `${req.id} names no enforcement`).toBeGreaterThan(0);
       for (const point of req.enforcementPoints) {
+        if (point.startsWith('NOT ENFORCED')) continue; // an honest absence, not a path
         const path = point.split(/\s+—\s+/)[0]!.trim();
         expect(existsSync(join(REPO_ROOT, path)), `${req.id}: ${path} does not exist`).toBe(true);
       }

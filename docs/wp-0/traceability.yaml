@@ -15,7 +15,7 @@ requirements:
       Execution is deny-by-default. Dangerous capabilities are exercised only
       under a cryptographically signed permit that cannot be replaced by a local
       boolean, and the permit's kind bounds what its capabilities may be.
-    status: closed
+    status: partial
     enforcementPoints:
       - packages/runner/src/permit.ts — Ed25519 verification over the raw signed body, before any field is acted on
       - packages/runner/src/permit.ts — grant authority is WeakSet membership, checked at runtime, not a TypeScript brand
@@ -45,7 +45,24 @@ requirements:
       - "the permit chain works end to end > carries a signed file through verify, redeem, ledger, client and a call"
       - "the permit chain works end to end > breaks the chain at the first link when the permit file is tampered with"
       - "the permit chain works end to end > refuses the second redemption of a single-use permit, after the first has spent"
-    gaps: []
+    status_note: >-
+      Downgraded from closed after external review. The machinery is real and
+      tested; the BOUNDARY is not yet trustworthy, and a requirement is only as
+      closed as its weakest reachable input.
+    gaps:
+      - >-
+        verifyPermit accepts caller-supplied keyringDir, revocationListPath and
+        now, and production code reaches those parameters. Unattended code can
+        therefore select its own trust inputs — point its own keyring at a key it
+        made, or move its own clock past an expiry. Injectable for testability,
+        reachable in production, which is not a boundary.
+      - >-
+        No committed verification key, permit or manifest exists. Every
+        end-to-end test mints an ephemeral keypair, so the chain has never run
+        against real committed authority.
+      - >-
+        Neither sync nor publish compares the permit's runId with the run being
+        published, so an approval for one run can act on another.
 
   - id: RUN-001A
     statement: >-
@@ -63,6 +80,31 @@ requirements:
     gaps:
       - The sink scanner covers writes, network and database calls but not filesystem READS, so a new reader is not forced into the registry.
       - Coverage is scanned in packages/runner/src only. apps/web routes are registered by hand and not checked against the source.
+
+  - id: RUN-002
+    statement: >-
+      A resumed run preserves every rank-affecting setting and hash. Mixed
+      routes, prompts, banks, settings or methodology versions FAIL rather than
+      warn. Retry ids are deterministic and idempotent.
+    status: open
+    status_note: >-
+      This requirement was MISSING from this matrix entirely, and from the
+      validator's hand-typed list of "every WP-0 requirement", so the suite
+      reported full coverage of nine requirements while the brief specified ten.
+      Found by external review, not by the machinery built to find exactly this.
+      The list is now derived from the brief.
+    enforcementPoints:
+      - "NOT ENFORCED — packages/runner/src/store.ts mergeRunConfig WARNS on a changed temperature, token cap or methodology version and merges the new config into the existing run, which is the opposite of what the requirement asks for"
+    tests: []
+    gaps:
+      - >-
+        Changed rank-affecting settings warn and merge instead of failing, so one
+        run can silently contain two protocols.
+      - >-
+        A run's batches are not individually bound to bank, prompt and scoring
+        hashes, so a mid-run bank change leaves no trace in the artifact.
+      - >-
+        Retry idempotency is not established by any test.
 
   - id: DATA-001
     statement: Historical run artifacts are immutable inputs and can never be overwritten.
@@ -171,7 +213,7 @@ requirements:
     statement: >-
       Spend is reserved atomically before a call and settled after, so no
       concurrent set of calls can pass a check none of them has yet debited.
-    status: closed
+    status: partial
     enforcementPoints:
       - packages/runner/src/ledger.ts — reserve() checks and debits in one synchronous step, with no await inside
       - packages/runner/src/ledger.ts — settle/release close a reservation exactly once
@@ -195,7 +237,24 @@ requirements:
       - "spend survives the process > writes no journal line for a settle it is going to refuse"
       - "the check-then-record race is closed > books spend against the reserved model, not against the handle it is given"
       - "the permit chain works end to end > stops the chain at the permit budget even though the manifest allows more"
-    gaps: []
+    status_note: >-
+      Downgraded from closed after external review. BUDGET-001 says in terms that
+      concurrent requests AND RETRIES cannot exceed the manifest cap. Retries do.
+      The concurrency race really is closed; the requirement is wider than that.
+    gaps:
+      - >-
+        One reserve() covers up to MAX_ATTEMPTS = 5 billable POSTs
+        (openrouter.ts:82 and :185), so a single reservation can fund five
+        requests. The cap binds reservations, not spend.
+      - >-
+        release() refunds the whole reservation when a call fails, but failed and
+        unreadable responses may already have cost money, and absent provider
+        cost data is recorded as zero. Both under-count real spend.
+      - >-
+        A retry with a larger token budget reuses the original estimate, and the
+        settled cost may exceed both the reservation and the ledger cap. The
+        provider-side key limit is the real financial boundary today; this one
+        must not be described as hard.
 
   - id: TRACE-001
     statement: >-
