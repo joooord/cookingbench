@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import type { Question } from '@cookingbench/core';
+import {
+  baseModelIdSchema,
+  hasJudgeConflict,
+  modelEntrySchema,
+  modelsFileSchema,
+  UNKNOWN_BASE_MODEL,
+  type Question,
+} from '@cookingbench/core';
 import { loadModels, loadQuestions } from '../src/dataset.js';
 import {
   anonymizeAnswer,
@@ -223,10 +230,13 @@ describe('grading mode routing', () => {
         'c/three',
         dimensionQuestion,
         'answer',
+        // Three fully identified, mutually conflict-free models, so the refusal
+        // this asserts is the MODE check and not seating quietly failing closed
+        // first — which is what happens if these rows carry only a tier.
         identityIndex([
-          { id: 'a/one', provider: 'A', family: 'fa' },
-          { id: 'b/two', provider: 'B', family: 'fb' },
-          { id: 'c/three', provider: 'C', family: 'fc' },
+          { id: 'a/one', provider: 'A', family: 'fa', baseModel: 'a:one' },
+          { id: 'b/two', provider: 'B', family: 'fb', baseModel: 'b:two' },
+          { id: 'c/three', provider: 'C', family: 'fc', baseModel: 'c:three' },
         ]),
       ),
     ).rejects.toThrow(/cannot grade it/);
@@ -636,25 +646,61 @@ describe('no judge prompt can name a model, at any point in the dataset', () => 
 describe('panel seat assignment', () => {
   const PANEL = ['anthropic/claude-opus-4.8', 'qwen/qwen3.5-plus-20260420', 'openai/gpt-5.5'];
 
-  // JUDGE-001: identity is the DECLARED provider and base-model family, not the
-  // OpenRouter slug prefix. The roster is the source of truth, and a model it
-  // does not declare has no identity at all.
+  // JUDGE-001: identity is the DECLARED provider and base-model identity, not
+  // the OpenRouter slug prefix and not the marketing tier. The roster is the
+  // source of truth, and a model it does not declare has no identity at all.
+  //
+  // Every row here is parsed through the ROSTER'S OWN SCHEMA. That is the point
+  // of the fixture and not decoration: the rebadge below used to be expressed by
+  // putting `family: 'gpt-frontier'` on a reseller, a shape data/models.yaml
+  // could never legitimately carry, so the base-model arm was proved only
+  // against something the registry could not mean. If `modelEntrySchema` cannot
+  // express these rows, this file stops compiling rather than quietly going back
+  // to testing a fiction.
+  const registry = (entry: {
+    id: string;
+    provider: string;
+    baseModel: string;
+    family?: string;
+    displayName?: string;
+  }) =>
+    modelEntrySchema.parse({
+      displayName: entry.id,
+      active: false,
+      ...entry,
+    });
+
   const ROSTER = [
-    { id: 'anthropic/claude-opus-4.8', provider: 'Anthropic', family: 'claude-frontier' },
-    { id: 'anthropic/claude-fable-5', provider: 'Anthropic', family: 'claude-frontier' },
-    { id: 'qwen/qwen3.5-plus-20260420', provider: 'Alibaba', family: 'qwen-frontier' },
-    { id: 'openai/gpt-5.5', provider: 'OpenAI', family: 'gpt-frontier' },
-    { id: 'openai/gpt-5.4-mini', provider: 'OpenAI', family: 'gpt-mini' },
-    { id: 'moonshotai/kimi-k2.6', provider: 'Moonshot', family: 'kimi-frontier' },
-    // A rebadged model: a different vendor prefix over someone else's base
-    // model. Slug-prefix comparison calls this distinct; it is not.
-    { id: 'reseller/private-gpt-5.5', provider: 'Reseller', family: 'gpt-frontier' },
-    // Declared with no family, so it has no identity.
-    { id: 'unknown/mystery-model', provider: 'Unknown' },
+    registry({ id: 'anthropic/claude-opus-4.8', provider: 'Anthropic', family: 'claude-frontier', baseModel: 'anthropic:claude-opus-4.8' }),
+    registry({ id: 'anthropic/claude-fable-5', provider: 'Anthropic', family: 'claude-frontier', baseModel: 'anthropic:claude-fable-5' }),
+    registry({ id: 'qwen/qwen3.5-plus-20260420', provider: 'Alibaba', family: 'qwen', baseModel: 'qwen:qwen3.5-plus-20260420' }),
+    registry({ id: 'openai/gpt-5.5', provider: 'OpenAI', family: 'gpt-frontier', baseModel: 'openai:gpt-5.5' }),
+    registry({ id: 'openai/gpt-5.4-mini', provider: 'OpenAI', family: 'gpt-mid', baseModel: 'openai:gpt-5.4-mini' }),
+    registry({ id: 'moonshotai/kimi-k2.6', provider: 'Moonshot', family: 'kimi', baseModel: 'moonshotai:kimi-k2.6' }),
+    // A rebadged model: a different vendor prefix, a different provider and a
+    // different tier over someone else's base model. Slug-prefix comparison
+    // calls this distinct, and so does the tier; it is not.
+    registry({ id: 'reseller/private-gpt-5.5', provider: 'Reseller', family: 'reseller-frontier', baseModel: 'openai:gpt-5.5' }),
+    // An honest unknown, spelled out. It is in the roster, it has a provider and
+    // a tier, and it still has NO identity.
+    registry({ id: 'unknown/mystery-model', provider: 'Unknown', family: 'mystery', baseModel: UNKNOWN_BASE_MODEL }),
   ];
   const identify = identityIndex(ROSTER);
 
   it('never lets a judge score its own provider', () => {
+    // The PROVIDER arm, isolated: every pair below shares a provider and
+    // differs on base model, so nothing here can be the base-model arm firing.
+    // Asserted rather than assumed — a fixture that accidentally shared a base
+    // model would make this test pass for the wrong reason and leave the
+    // provider arm unproved.
+    for (const [a, b] of [
+      ['anthropic/claude-fable-5', 'anthropic/claude-opus-4.8'],
+      ['openai/gpt-5.4-mini', 'openai/gpt-5.5'],
+    ] as const) {
+      expect(identify(a)!.provider).toBe(identify(b)!.provider);
+      expect(identify(a)!.baseModelFamily).not.toBe(identify(b)!.baseModelFamily);
+    }
+
     expect(panelSeats(PANEL, 'anthropic/claude-fable-5', 'tech-001', identify)).toEqual([
       'qwen/qwen3.5-plus-20260420',
       'openai/gpt-5.5',
@@ -670,12 +716,35 @@ describe('panel seat assignment', () => {
   });
 
   it('never lets a judge score its own base model under another vendor prefix', () => {
-    // The case slug comparison misses entirely, and the reason JUDGE-001 checks
-    // two axes: 'reseller/…' and 'openai/…' share no prefix and no provider,
-    // but gpt-5.5 would be grading itself.
+    // The BASE-MODEL arm, isolated: the case slug comparison misses entirely,
+    // and the reason JUDGE-001 checks two axes. 'reseller/…' and 'openai/…'
+    // share no prefix, no provider and no tier, but gpt-5.5 would be grading
+    // itself. The three inequalities are asserted so this cannot silently
+    // degrade into a second provider-arm test.
+    const rebadge = identify('reseller/private-gpt-5.5')!;
+    const original = identify('openai/gpt-5.5')!;
+    expect(rebadge.provider).not.toBe(original.provider);
+    expect(ROSTER.find((m) => m.id === 'reseller/private-gpt-5.5')!.family).not.toBe(
+      ROSTER.find((m) => m.id === 'openai/gpt-5.5')!.family,
+    );
+    expect(rebadge.baseModelFamily).toBe(original.baseModelFamily);
+
     const seats = panelSeats(PANEL, 'reseller/private-gpt-5.5', 'tech-001', identify);
     expect(seats).not.toContain('openai/gpt-5.5');
     expect(seats).toEqual(['anthropic/claude-opus-4.8', 'qwen/qwen3.5-plus-20260420']);
+  });
+
+  it('seats a model that shares neither axis, so the arms are not just refusing everything', () => {
+    // The control. Two tests above prove seats are REMOVED; without this one,
+    // an identityIndex that returned undefined for everything would pass both.
+    const seats = panelSeats(PANEL, 'moonshotai/kimi-k2.6', 'tech-001', identify);
+    expect(seats).toHaveLength(2);
+    for (const seat of seats) {
+      expect(identify(seat)!.provider).not.toBe(identify('moonshotai/kimi-k2.6')!.provider);
+      expect(identify(seat)!.baseModelFamily).not.toBe(
+        identify('moonshotai/kimi-k2.6')!.baseModelFamily,
+      );
+    }
   });
 
   it('treats an undeclared identity as conflicted rather than as distinct', () => {
@@ -683,6 +752,84 @@ describe('panel seat assignment', () => {
     // hide, so "we do not know" must not resolve to "no conflict".
     expect(panelSeats(PANEL, 'unknown/mystery-model', 'tech-001', identify)).toEqual([]);
     expect(panelSeats(PANEL, 'not-in-the-roster-at-all', 'tech-001', identify)).toEqual([]);
+  });
+
+  it('gives the unknown sentinel no identity, so two unknowns do not share a lineage', () => {
+    // The fail-OPEN shape this is guarding against: if `unknown` were carried
+    // through as an ordinary string, two unidentified entries would match each
+    // other and differ from every real base model — conflict-free against
+    // precisely the models a rebadge would want to grade.
+    const bothUnknown = identityIndex([
+      ...ROSTER,
+      registry({ id: 'other/mystery', provider: 'Somebody Else', baseModel: UNKNOWN_BASE_MODEL }),
+    ]);
+    expect(bothUnknown('unknown/mystery-model')).toBeUndefined();
+    expect(bothUnknown('other/mystery')).toBeUndefined();
+    expect(
+      panelSeats([...PANEL, 'unknown/mystery-model'], 'other/mystery', 'tech-001', bothUnknown),
+    ).toEqual([]);
+    // And the sentinel is not admissible as a base-model id in the first place:
+    // the two namespaces are disjoint by construction, because an id needs a
+    // colon and the sentinel has none. That disjointness is what makes the
+    // sentinel safe; the explicit check in identityIndex is belt and braces
+    // over it, and the half-declaration below is the case where the braces are
+    // the only thing holding.
+    expect(() => baseModelIdSchema.parse(UNKNOWN_BASE_MODEL)).toThrow();
+
+    // `openai:unknown` — "an OpenAI model, nobody checked which". It is
+    // id-SHAPED, so the shape rule admits it; it is still not an identity, and
+    // two of them are certainly not the same model.
+    const halfDeclared = identityIndex([
+      { id: 'lab/one', provider: 'Lab One', baseModel: 'openai:unknown' },
+      { id: 'lab/two', provider: 'Lab Two', baseModel: 'openai:unknown' },
+    ]);
+    expect(halfDeclared('lab/one')).toBeUndefined();
+    expect(halfDeclared('lab/two')).toBeUndefined();
+    expect(() => baseModelIdSchema.parse('openai:unknown')).toThrow();
+  });
+
+  it('refuses to read the marketing tier as an identity, however it is smuggled in', () => {
+    // The original defect, in both of the shapes it can come back as. Rows that
+    // never went through the schema are the realistic route — mocks, fixtures,
+    // and a half-finished migration that copied `family` across.
+    const tierOnly = identityIndex([
+      { id: 'lab/one', provider: 'Lab', family: 'lab-frontier' },
+      { id: 'reseller/two', provider: 'Reseller', family: 'lab-frontier' },
+    ]);
+    expect(tierOnly('lab/one')).toBeUndefined();
+    expect(tierOnly('reseller/two')).toBeUndefined();
+
+    // A tier pasted into the new field is not a base-model id: no colon, so it
+    // buys no identity rather than reinstating the tier comparison under a new
+    // name. Same answer, reached deliberately.
+    const pasted = identityIndex([
+      { id: 'lab/one', provider: 'Lab', baseModel: 'lab-frontier' },
+      { id: 'reseller/two', provider: 'Reseller', baseModel: 'lab-frontier' },
+    ]);
+    expect(pasted('lab/one')).toBeUndefined();
+    expect(pasted('reseller/two')).toBeUndefined();
+  });
+
+  it('cannot be written into the roster file without an identity at all', () => {
+    // The registry boundary, not the seating boundary: a row with no `baseModel`
+    // is refused at parse, so `loadModels()` can never hand seating a model
+    // whose identity nobody decided. Optionality is what let the old field be
+    // skipped, and "not stated" is the state a rebadge would choose.
+    const row = {
+      id: 'reseller/private-gpt-5.5',
+      displayName: 'Private 5.5',
+      provider: 'Reseller',
+      family: 'reseller-frontier',
+      active: true,
+    };
+    expect(() => modelEntrySchema.parse(row)).toThrow();
+    expect(() => modelsFileSchema.parse([row])).toThrow();
+    // Nor with an identity the conflict rule cannot read.
+    for (const baseModel of ['', 'gpt-frontier', 'OpenAI:GPT-5.5', 'openai:', ':gpt-5.5', 'unknown-ish']) {
+      expect(() => modelEntrySchema.parse({ ...row, baseModel }), baseModel).toThrow();
+    }
+    expect(() => modelEntrySchema.parse({ ...row, baseModel: 'openai:gpt-5.5' })).not.toThrow();
+    expect(() => modelEntrySchema.parse({ ...row, baseModel: UNKNOWN_BASE_MODEL })).not.toThrow();
   });
 
   it('explains which seat conflicted when too few remain', async () => {
@@ -710,12 +857,132 @@ describe('panel seat assignment', () => {
   });
 
   it('compares identity case- and whitespace-insensitively', () => {
-    // These fields are free text from data/models.yaml. "OpenAI" and " openai "
-    // must not read as two independent identities.
+    // `provider` is free text from data/models.yaml, and `baseModel` reaches
+    // identityIndex from callers that never went through the schema, so neither
+    // may depend on display casing. Both arms are exercised, one per row.
+    //
+    // Asserted as an EXACT seat list, not with `not.toContain`: a row that
+    // folded to no identity at all would seat nobody, and "does not contain
+    // gpt-5.5" is trivially true of an empty panel. That is how a fail-closed
+    // regression hides inside a passing conflict test.
     const sloppy = identityIndex([
       ...ROSTER,
-      { id: 'openai/gpt-5.6', provider: ' openai ', family: 'GPT-Frontier' },
+      { id: 'openai/gpt-5.6', provider: ' OpenAI ', baseModel: 'openai:gpt-5.6' },
+      { id: 'reseller/loud-gpt', provider: 'Reseller', baseModel: ' OpenAI:GPT-5.5 ' },
     ]);
-    expect(panelSeats(PANEL, 'openai/gpt-5.6', 'tech-001', sloppy)).not.toContain('openai/gpt-5.5');
+    expect(panelSeats(PANEL, 'openai/gpt-5.6', 'tech-001', sloppy)).toEqual([
+      'anthropic/claude-opus-4.8',
+      'qwen/qwen3.5-plus-20260420',
+    ]);
+    expect(panelSeats(PANEL, 'reseller/loud-gpt', 'tech-001', sloppy)).toEqual([
+      'anthropic/claude-opus-4.8',
+      'qwen/qwen3.5-plus-20260420',
+    ]);
+  });
+});
+
+/* -------------------------------------------------------------------------- */
+/* JUDGE-001 — the live roster, not a fixture                                 */
+/* -------------------------------------------------------------------------- */
+
+describe('base-model identity on the real roster', () => {
+  // The recorded gap this closes: `family` is a marketing tier, so seating was
+  // reading a tier and calling it a base model, and the cross-provider arm of
+  // the rule was unexercised on anything the registry could actually express.
+  // These tests are about data/models.yaml itself — the fixtures above prove the
+  // rule, this proves the roster feeds it something real.
+  const roster = loadModels() as Array<{
+    id: string;
+    provider: string;
+    family?: string;
+    baseModel?: string;
+    active: boolean;
+  }>;
+  const identify = identityIndex(roster);
+
+  it('declares a base model for every entry, and only says unknown out loud', () => {
+    expect(roster.length).toBeGreaterThan(20); // vacuity guard
+    for (const m of roster) {
+      expect(typeof m.baseModel, `${m.id} has no baseModel`).toBe('string');
+      if (m.baseModel === UNKNOWN_BASE_MODEL) continue;
+      expect(() => baseModelIdSchema.parse(m.baseModel), m.id).not.toThrow();
+    }
+  });
+
+  it('carries a base model for every model that can actually run', () => {
+    // An ACTIVE model with an unknown base model is unjudgeable and unable to
+    // judge — every seat conflicts with it — so it would produce a run of
+    // silently unjudged rows rather than an error. Establishing the identity is
+    // part of flipping `active: true`, and this is the thing that says so.
+    const activeUnknown = roster
+      .filter((m) => m.active && m.baseModel === UNKNOWN_BASE_MODEL)
+      .map((m) => m.id);
+    expect(activeUnknown).toEqual([]);
+    for (const m of roster.filter((x) => x.active)) {
+      expect(identify(m.id), `${m.id} has no usable identity`).toBeDefined();
+    }
+  });
+
+  it('separates models that the marketing tier merges', () => {
+    // The concrete reason the two fields exist. `claude-frontier` covers three
+    // different models; if `baseModel` collapsed the same way it would be a tier
+    // with a new name, and the rule would be back where it started.
+    const byTier = new Map<string, Set<string>>();
+    for (const m of roster) {
+      if (!m.family || m.baseModel === UNKNOWN_BASE_MODEL) continue;
+      byTier.set(m.family, (byTier.get(m.family) ?? new Set()).add(m.baseModel!));
+    }
+    expect(byTier.get('claude-frontier')?.size).toBeGreaterThan(2);
+    const merged = [...byTier].filter(([, bases]) => bases.size === 1).map(([tier]) => tier);
+    // Some tiers legitimately hold one model; what must not happen is a tier
+    // whose several members all report one base model.
+    for (const tier of merged) {
+      const members = roster.filter((m) => m.family === tier && m.baseModel !== UNKNOWN_BASE_MODEL);
+      expect(members.length, `tier ${tier} merges ${members.length} models into one base`).toBe(1);
+    }
+  });
+
+  it('shares a base model only where the provider is shared too', () => {
+    // A measured statement about today's roster, not an assumption: no entry is
+    // a rebadge, so the base-model arm currently excludes no seat the provider
+    // arm had not already excluded. That is the honest position — the arm is
+    // correct and dormant, and the day a reseller entry lands here this test
+    // fails and has to be re-read rather than the rule being relaxed.
+    const crossProvider: string[] = [];
+    for (const a of roster) {
+      for (const b of roster) {
+        if (a.id >= b.id) continue;
+        if (a.baseModel === UNKNOWN_BASE_MODEL || b.baseModel === UNKNOWN_BASE_MODEL) continue;
+        if (a.baseModel !== b.baseModel) continue;
+        if (a.provider.trim().toLowerCase() !== b.provider.trim().toLowerCase()) {
+          crossProvider.push(`${a.id} + ${b.id} → ${a.baseModel}`);
+        }
+      }
+    }
+    expect(crossProvider).toEqual([]);
+  });
+
+  it('would let the registry express a rebadge, which is what the old field could not', () => {
+    // The gap said the arm "would only wake up for a rebadged model — the case
+    // it exists for — which the registry currently has no way to express". This
+    // is that claim, retired: the row parses against the roster's own schema and
+    // the arm fires on it.
+    const rebadge = modelEntrySchema.parse({
+      id: 'reseller/private-frontier',
+      displayName: 'Private Frontier',
+      provider: 'Some Reseller',
+      family: 'reseller-frontier',
+      baseModel: 'openai:gpt-5.5',
+      active: false,
+    });
+    const withRebadge = identityIndex([...roster, rebadge]);
+    expect(withRebadge('reseller/private-frontier')).toBeDefined();
+    expect(hasJudgeConflict(withRebadge('reseller/private-frontier')!, withRebadge('openai/gpt-5.5')!)).toBe(
+      true,
+    );
+    // And it is genuinely the base-model arm doing it.
+    expect(withRebadge('reseller/private-frontier')!.provider).not.toBe(
+      withRebadge('openai/gpt-5.5')!.provider,
+    );
   });
 });

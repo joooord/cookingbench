@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { Question } from '@cookingbench/core';
+import { modelEntrySchema, UNKNOWN_BASE_MODEL, type Question } from '@cookingbench/core';
 import {
   aggregateDimension,
   aggregatePairwise,
@@ -31,21 +31,25 @@ import type { ChatMessage, CompletionClient } from '../src/openrouter.js';
 /* Fixtures                                                                   */
 /* -------------------------------------------------------------------------- */
 
+// JUDGE-001: `family` is the marketing TIER and `baseModel` is the identity the
+// conflict rule reads. They are populated separately here on purpose — a
+// fixture that let one stand in for the other would prove nothing about a rule
+// whose whole job is telling them apart.
 const POOL_MODELS = [
-  { id: 'anthropic/opus', provider: 'Anthropic', family: 'claude' },
-  { id: 'openai/gpt', provider: 'OpenAI', family: 'gpt' },
-  { id: 'x-ai/grok', provider: 'xAI', family: 'grok' },
-  { id: 'google/gemini', provider: 'Google', family: 'gemini' },
-  { id: 'alibaba/qwen', provider: 'Alibaba', family: 'qwen' },
-  { id: 'deepseek/ds', provider: 'DeepSeek', family: 'deepseek' },
+  { id: 'anthropic/opus', provider: 'Anthropic', family: 'claude', baseModel: 'anthropic:opus' },
+  { id: 'openai/gpt', provider: 'OpenAI', family: 'gpt', baseModel: 'openai:gpt' },
+  { id: 'x-ai/grok', provider: 'xAI', family: 'grok', baseModel: 'x-ai:grok' },
+  { id: 'google/gemini', provider: 'Google', family: 'gemini', baseModel: 'google:gemini' },
+  { id: 'alibaba/qwen', provider: 'Alibaba', family: 'qwen', baseModel: 'alibaba:qwen' },
+  { id: 'deepseek/ds', provider: 'DeepSeek', family: 'deepseek', baseModel: 'deepseek:ds' },
 ];
 
 const CANDIDATE_MODELS = [
-  { id: 'anthropic/sonnet', displayName: 'Claude Sonnet 9', provider: 'Anthropic', family: 'claude-mid' },
-  { id: 'openai/gpt-mini', displayName: 'GPT-9 Mini', provider: 'OpenAI', family: 'gpt-mini' },
-  { id: 'meta/llama', displayName: 'Llama 4 Maverick', provider: 'Meta', family: 'llama' },
-  { id: 'mistral/large', displayName: 'Mistral Large 3', provider: 'Mistral', family: 'mistral' },
-  { id: 'moonshot/kimi', displayName: 'Kimi K3', provider: 'Moonshot AI', family: 'kimi' },
+  { id: 'anthropic/sonnet', displayName: 'Claude Sonnet 9', provider: 'Anthropic', family: 'claude-mid', baseModel: 'anthropic:sonnet' },
+  { id: 'openai/gpt-mini', displayName: 'GPT-9 Mini', provider: 'OpenAI', family: 'gpt-mini', baseModel: 'openai:gpt-mini' },
+  { id: 'meta/llama', displayName: 'Llama 4 Maverick', provider: 'Meta', family: 'llama', baseModel: 'meta-llama:llama' },
+  { id: 'mistral/large', displayName: 'Mistral Large 3', provider: 'Mistral', family: 'mistral', baseModel: 'mistralai:large' },
+  { id: 'moonshot/kimi', displayName: 'Kimi K3', provider: 'Moonshot AI', family: 'kimi', baseModel: 'moonshotai:kimi' },
 ];
 
 const identify = identityIndex([...POOL_MODELS, ...CANDIDATE_MODELS]);
@@ -179,7 +183,9 @@ describe('the judge pool has to be wide enough before anything is seated', () =>
     // lab holding two of three votes.
     const models = [
       ...POOL_MODELS.slice(0, 5),
-      { id: 'anthropic/haiku', provider: 'Anthropic', family: 'claude-small' },
+      // A different base model, same lab. It is the PROVIDER arm that merges
+      // these two, which is the point: seat count is not family count.
+      { id: 'anthropic/haiku', provider: 'Anthropic', family: 'claude-small', baseModel: 'anthropic:haiku' },
     ];
     const lookup = identityIndex(models);
     const groups = judgeFamilyGroups(models.map((m) => m.id), lookup);
@@ -190,10 +196,12 @@ describe('the judge pool has to be wide enough before anything is seated', () =>
   it('groups a rebadge chain transitively', () => {
     // A shares a provider with B, B shares a base model with C. None of the
     // three may sit together, and a pairwise-only grouping would miss A vs C.
+    // Note the tiers: `reseller/three` sits in a DIFFERENT tier from the model
+    // it actually is, which is exactly why the tier cannot carry this.
     const models = [
-      { id: 'lab/one', provider: 'Lab', family: 'alpha' },
-      { id: 'lab/two', provider: 'Lab', family: 'beta' },
-      { id: 'reseller/three', provider: 'Reseller', family: 'beta' },
+      { id: 'lab/one', provider: 'Lab', family: 'alpha', baseModel: 'lab:one' },
+      { id: 'lab/two', provider: 'Lab', family: 'beta', baseModel: 'lab:two' },
+      { id: 'reseller/three', provider: 'Reseller', family: 'reseller-tier', baseModel: 'lab:two' },
     ];
     const groups = judgeFamilyGroups(
       models.map((m) => m.id),
@@ -206,6 +214,10 @@ describe('the judge pool has to be wide enough before anything is seated', () =>
     // hasJudgeConflict treats unknown identity as conflicting with everything,
     // so an unidentified seat would silently collapse the pool into one family
     // and read as "not enough families" for the wrong reason.
+    //
+    // The row has no `baseModel` at all — the shape the roster schema now
+    // refuses, but which still reaches identityIndex from mocks, fixtures and
+    // any caller that did not go through the file.
     const models = [...POOL_MODELS, { id: 'mystery/model', provider: 'Nobody' }];
     expect(() =>
       judgeFamilyGroups(models.map((m) => m.id), identityIndex(models)),
@@ -222,6 +234,62 @@ describe('the judge pool has to be wide enough before anything is seated', () =>
     expect(free).not.toContain('anthropic/opus');
     expect(free).not.toContain('openai/gpt');
     expect(free).toHaveLength(4);
+  });
+
+  it('excludes a seat on the provider arm alone, with the base models different', () => {
+    // Arm one, isolated at the seating boundary. `anthropic/sonnet` and
+    // `anthropic/opus` are two different models from one lab: only the provider
+    // can exclude this seat, and exactly one seat goes.
+    expect(identify('anthropic/sonnet')!.baseModelFamily).not.toBe(
+      identify('anthropic/opus')!.baseModelFamily,
+    );
+    const free = conflictFreeSeats(POOL.seats, ['anthropic/sonnet'], identify);
+    expect(free).not.toContain('anthropic/opus');
+    expect(free).toHaveLength(POOL.seats.length - 1);
+  });
+
+  it('excludes a seat on the base-model arm alone, with the providers different', () => {
+    // Arm two, isolated, and the reason the arm exists. The candidate is sold by
+    // a reseller in its own tier and is xAI's model underneath: nothing about
+    // the slug, the provider or the tier says so, and seating it against
+    // `x-ai/grok` would be grok grading grok.
+    //
+    // The row is parsed through the ROSTER'S OWN SCHEMA rather than hand-built,
+    // so this stops being a fixture the registry could never mean — which is the
+    // recorded gap. A schema that cannot express a rebadge fails here.
+    const rebadge = modelEntrySchema.parse({
+      id: 'reseller/private-frontier',
+      displayName: 'Private Frontier',
+      provider: 'Some Reseller',
+      family: 'reseller-frontier',
+      baseModel: 'x-ai:grok',
+      active: false,
+    });
+    const withRebadge = identityIndex([...POOL_MODELS, ...CANDIDATE_MODELS, rebadge]);
+    expect(withRebadge('reseller/private-frontier')!.provider).not.toBe(
+      withRebadge('x-ai/grok')!.provider,
+    );
+    const free = conflictFreeSeats(POOL.seats, ['reseller/private-frontier'], withRebadge);
+    expect(free).not.toContain('x-ai/grok');
+    expect(free).toHaveLength(POOL.seats.length - 1);
+  });
+
+  it('seats nobody against a candidate whose base model is an honest unknown', () => {
+    // Fail closed at the seating boundary, not merely inside identityIndex. An
+    // unknown identity is the state a rebadge would choose, so it costs the
+    // whole pool rather than buying a free pass.
+    const withUnknown = identityIndex([
+      ...POOL_MODELS,
+      modelEntrySchema.parse({
+        id: 'somebody/unplaced',
+        displayName: 'Unplaced',
+        provider: 'Somebody',
+        family: 'mystery',
+        baseModel: UNKNOWN_BASE_MODEL,
+        active: false,
+      }),
+    ]);
+    expect(conflictFreeSeats(POOL.seats, ['somebody/unplaced'], withUnknown)).toEqual([]);
   });
 });
 
@@ -251,9 +319,12 @@ describe('jury assignment refuses to shrink the panel', () => {
     const narrow: JuryPool = { version: 'narrow', seats: POOL.seats.slice(0, 5) };
     const pairIdentify = identityIndex([
       ...POOL_MODELS,
-      { id: 'a/one', provider: 'Anthropic', family: 'claude-mid' },
-      { id: 'b/two', provider: 'OpenAI', family: 'grok' },
-      { id: 'c/three', provider: 'Mistral', family: 'mistral' },
+      { id: 'a/one', provider: 'Anthropic', family: 'claude-mid', baseModel: 'anthropic:one' },
+      // The rebadge, and note the tier says `gpt-frontier` — it is sold as an
+      // OpenAI-tier product and it is xAI's model underneath. Only `baseModel`
+      // sees that.
+      { id: 'b/two', provider: 'OpenAI', family: 'gpt-frontier', baseModel: 'x-ai:grok' },
+      { id: 'c/three', provider: 'Mistral', family: 'mistral', baseModel: 'mistralai:three' },
     ]);
     const design = buildJuryDesign({
       pool: narrow,
@@ -269,7 +340,7 @@ describe('jury assignment refuses to shrink the panel', () => {
     expect(selection.routeTo).toBe('human');
     expect(selection.reason).toMatch(/may not be reduced/);
     expect(selection.diagnostics.join('\n')).toMatch(/same provider \(Anthropic\)/);
-    expect(selection.diagnostics.join('\n')).toMatch(/same base-model family \(grok\)/);
+    expect(selection.diagnostics.join('\n')).toMatch(/same base-model family \(x-ai:grok\)/);
     // Refusal is per comparison, not a blanket stop: duel-2 still has three.
     expect(design.balance.routedToHuman).toEqual(['duel-1']);
     expect(juryFor(design, 'duel-2').ok).toBe(true);

@@ -1,9 +1,9 @@
-import { rmSync } from 'node:fs';
+import { existsSync, readFileSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { RUNS_DIR } from '../src/dataset.js';
 import { Firewall, FirewallError } from '../src/firewall.js';
-import { ReservationLedger } from '../src/ledger.js';
+import { BudgetExceededError, CapBreachedError, ReservationLedger } from '../src/ledger.js';
 import { OpenRouterClient, fetchCatalog, type GuardedCompletionOpts } from '../src/openrouter.js';
 import { serviceRoleClient } from '../src/supabase.js';
 import { mintTestGrant } from './support/grant.js';
@@ -30,6 +30,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  vi.useRealTimers(); // a leaked fake clock would hang the next file's backoffs
   vi.unstubAllGlobals();
   rmSync(join(RUNS_DIR, RUN), { recursive: true, force: true });
 });
@@ -63,8 +64,12 @@ function judgeGrant() {
   });
 }
 
+/**
+ * The ledger test seam: no lock file, because these tests are about the client.
+ * `forGrant` — the production entry — cannot turn the lock off at all.
+ */
 function ledgerFor(grant: ReturnType<typeof candidateGrant>) {
-  return ReservationLedger.forGrant(grant, RUN, { lock: false });
+  return ReservationLedger.forTests(grant, RUN, { lock: false });
 }
 
 /** A complete, well-formed call. Individual tests break exactly one field. */
@@ -349,5 +354,311 @@ describe('every completion is authorised and accounted for', () => {
     await call();
     await expect(call()).rejects.toThrow(/Budget cap reached/);
     expect(ledger.settledUsd).toBe(8);
+  });
+
+  it('refuses a call that does not say how big a request it will send', async () => {
+    // maxTokens is half of what an attempt costs, so it is priced, and
+    // therefore validated. Absent, it produced a NaN reservation.
+    const fetchSpy = vi.fn();
+    vi.stubGlobal('fetch', fetchSpy);
+    const grant = candidateGrant();
+    const ledger = ledgerFor(grant);
+    const client = OpenRouterClient.forCandidates(grant, ledger);
+    for (const bad of [undefined, null, 0, -1, Number.NaN, '100']) {
+      await expect(
+        client.complete('openai/gpt-5.5', [{ role: 'user', content: 'hi' }], {
+          temperature: 0,
+          cell: { ...CELL },
+          estimateUsd: 1,
+          maxTokens: bad,
+        } as never),
+        `maxTokens ${String(bad)} was accepted`,
+      ).rejects.toThrow(/no usable max_tokens/);
+    }
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(ledger.committedUsd).toBe(0);
+  });
+
+  it('holds concurrent calls to the cap, through the real client', async () => {
+    // The ledger proves the arithmetic; this proves the production call path
+    // actually reserves inside the window, with four calls in flight at once.
+    stubResponse(0.4);
+    const grant = candidateGrant(1);
+    const ledger = ledgerFor(grant);
+    const client = OpenRouterClient.forCandidates(grant, ledger);
+    const results = await Promise.allSettled(
+      Array.from({ length: 4 }, () =>
+        client.complete('openai/gpt-5.5', [{ role: 'user', content: 'hi' }], opts({ estimateUsd: 0.4 })),
+      ),
+    );
+    expect(results.filter((r) => r.status === 'fulfilled')).toHaveLength(2);
+    for (const r of results.filter((x) => x.status === 'rejected')) {
+      expect((r as PromiseRejectedResult).reason).toBeInstanceOf(BudgetExceededError);
+    }
+    expect(ledger.settledUsd).toBeCloseTo(0.8, 10);
+    expect(ledger.committedUsd).toBeLessThanOrEqual(ledger.capUsd);
+  });
+});
+
+/**
+ * BUDGET-001, the half that was falsely closed.
+ *
+ * One `reserve()` used to sit OUTSIDE the retry loop, so a single reservation
+ * funded up to MAX_ATTEMPTS = 5 billable POSTs: the cap bound reservations, not
+ * requests, and a run could spend five times its ceiling with every individual
+ * check passing. And every failure was `release()`d in full, so a completion
+ * that was generated, billed and lost in transit was recorded as free.
+ *
+ * These tests stub `globalThis.fetch`, so no socket is opened, and drive the
+ * backoffs with fake timers rather than waiting out 225 seconds of them.
+ */
+describe('every billable attempt is reserved on its own', () => {
+  /** Run `fn` to completion, advancing past every retry backoff. */
+  async function withBackoffsSkipped<T>(fn: () => Promise<T>): Promise<T> {
+    vi.useFakeTimers();
+    try {
+      const settled = fn().then(
+        (value) => () => value,
+        (error) => () => {
+          throw error;
+        },
+      );
+      // 5 attempts of 15s x 2^n plus jitter never exceeds 500s of fake time.
+      await vi.advanceTimersByTimeAsync(600_000);
+      return (await settled)();
+    } finally {
+      vi.useRealTimers();
+    }
+  }
+
+  function stubSequence(...responses: Array<() => unknown>) {
+    let i = 0;
+    const spy = vi.fn(async () => {
+      const next = responses[Math.min(i++, responses.length - 1)]!;
+      return next() as Response;
+    });
+    vi.stubGlobal('fetch', spy);
+    return spy;
+  }
+
+  const ok = (costUsd: number | undefined) => () =>
+    new Response(
+      JSON.stringify({
+        choices: [{ message: { content: 'an answer' }, finish_reason: 'stop' }],
+        usage: { prompt_tokens: 10, completion_tokens: 20, ...(costUsd === undefined ? {} : { cost: costUsd }) },
+      }),
+      { status: 200, headers: { 'content-type': 'application/json' } },
+    );
+  const status = (code: number) => () => new Response('provider says no', { status: code });
+  /** A 200 whose body dies mid-transfer: generated, billed, and lost. */
+  const truncated = () => new Response('{"choices": [{"message"', { status: 200 });
+  const networkError = (code?: string) => () => {
+    const error = new TypeError('fetch failed');
+    if (code) (error as { cause?: unknown }).cause = { code };
+    throw error;
+  };
+
+  function journal(): Array<Record<string, unknown>> {
+    const path = join(RUNS_DIR, RUN, 'spend.ndjson');
+    if (!existsSync(path)) return [];
+    return readFileSync(path, 'utf8').trim().split('\n').filter(Boolean).map((l) => JSON.parse(l));
+  }
+
+  it('reserves again for every retry, so five attempts cannot ride one reservation', async () => {
+    const fetchSpy = stubSequence(status(429), status(500), ok(0.02));
+    const grant = candidateGrant(10);
+    const ledger = ledgerFor(grant);
+    const client = OpenRouterClient.forCandidates(grant, ledger);
+
+    const result = await withBackoffsSkipped(() =>
+      client.complete('openai/gpt-5.5', [{ role: 'user', content: 'hi' }], opts({ estimateUsd: 1 })),
+    );
+
+    expect(fetchSpy).toHaveBeenCalledTimes(3);
+    expect(result.costUsd).toBe(0.02);
+    // Three attempts, three reservations, three terminal states — not one
+    // reservation stretched over three chargeable requests.
+    expect(journal().map((l) => l.state)).toEqual([
+      'released-uncharged', // 429: rate limited before any inference
+      'retained-unreconciled', // 500: may have followed generation
+      'settled',
+    ]);
+    expect(ledger.openReservations).toBe(0);
+    expect(ledger.settledUsd).toBeCloseTo(0.02, 10);
+    expect(ledger.unreconciledUsd).toBeCloseTo(1, 10); // the 500 is still charged
+  });
+
+  it('stops a retry that no longer fits under the cap, before it is sent', async () => {
+    // The whole point of reserving per attempt: the SECOND request has to pass
+    // the cap on its own, and a run that has already burned its ceiling on a
+    // first attempt must not be able to send a second.
+    const fetchSpy = stubSequence(status(500), ok(0.02));
+    const grant = candidateGrant(1.5);
+    const ledger = ledgerFor(grant);
+    const client = OpenRouterClient.forCandidates(grant, ledger);
+
+    await expect(
+      withBackoffsSkipped(() =>
+        client.complete('openai/gpt-5.5', [{ role: 'user', content: 'hi' }], opts({ estimateUsd: 1 })),
+      ),
+    ).rejects.toBeInstanceOf(BudgetExceededError);
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1); // the retry was never sent
+    expect(ledger.chargedUsd).toBeCloseTo(1, 10);
+    expect(ledger.committedUsd).toBeLessThanOrEqual(ledger.capUsd);
+  });
+
+  it('charges an unreadable 200 instead of refunding a completion that was billed', async () => {
+    // run 2026-07-v2.1 lost four responses this way. The completion existed and
+    // was billed; only the body died. `release()` gave the money back.
+    const fetchSpy = stubSequence(truncated, ok(0.02));
+    const grant = candidateGrant(10);
+    const ledger = ledgerFor(grant);
+    const client = OpenRouterClient.forCandidates(grant, ledger);
+
+    const result = await withBackoffsSkipped(() =>
+      client.complete('openai/gpt-5.5', [{ role: 'user', content: 'hi' }], opts({ estimateUsd: 0.3 })),
+    );
+
+    expect(fetchSpy).toHaveBeenCalledTimes(2);
+    expect(result.costUsd).toBe(0.02); // the retry's real cost
+    expect(ledger.unreconciledUsd).toBeCloseTo(0.3, 10); // the lost one, still charged
+    expect(ledger.settledUsd).toBeCloseTo(0.02, 10);
+    expect(String(journal()[0]!.reason)).toMatch(/unreadable body/);
+  });
+
+  it('never records a missing provider cost as zero', async () => {
+    // `costUsd: json.usage?.cost ?? 0` made an unpriced call a free call, in
+    // the artifact AND in the ledger.
+    stubSequence(ok(undefined));
+    const grant = candidateGrant(10);
+    const ledger = ledgerFor(grant);
+    const client = OpenRouterClient.forCandidates(grant, ledger);
+
+    const result = await client.complete(
+      'openai/gpt-5.5',
+      [{ role: 'user', content: 'hi' }],
+      opts({ estimateUsd: 0.25 }),
+    );
+
+    expect(result.costUsd).toBeCloseTo(0.25, 10); // the reservation, not zero
+    expect(result.costBasis).toBe('reserved-unreconciled'); // and it says so
+    expect(ledger.settledUsd).toBe(0);
+    expect(ledger.unreconciledUsd).toBeCloseTo(0.25, 10);
+    expect(journal()[0]).toMatchObject({ state: 'retained-unreconciled', actualUsd: 0.25 });
+  });
+
+  it('prices an attempt from the token budget it actually sends', async () => {
+    // cmdRun retries an empty completion with `maxTokens * 2` while passing the
+    // estimate it computed for the ORIGINAL maxTokens, and judge.ts escalates
+    // `2000 * (attempt + 1)` against one flat per-call estimate. Both reserved
+    // for a smaller request than the one they sent.
+    stubSequence(ok(0.01));
+    const grant = candidateGrant(1);
+    const ledger = ledgerFor(grant);
+    const client = OpenRouterClient.forCandidates(grant, ledger);
+
+    await client.complete(
+      'openai/gpt-5.5',
+      [{ role: 'user', content: 'hi' }],
+      opts({ estimateUsd: 0.001, maxTokens: 10_000 }),
+    );
+    // 10k tokens at the $50/Mtok worst case is $0.50, not the $0.001 declared.
+    expect(Number(journal()[0]!.reservedUsd)).toBeCloseTo(0.5, 2);
+
+    // The retry doubles the token budget, so it must reserve double — and there
+    // is no longer room for it. Before the fix it reserved $0.001 and went.
+    await expect(
+      client.complete(
+        'openai/gpt-5.5',
+        [{ role: 'user', content: 'hi' }],
+        opts({ estimateUsd: 0.001, maxTokens: 20_000 }),
+      ),
+    ).rejects.toBeInstanceOf(BudgetExceededError);
+  });
+
+  it('gives the money back only when the provider provably never saw the request', async () => {
+    const grant = candidateGrant(10);
+
+    // A refused connection cannot have been billed: DNS and TCP both failed
+    // before a byte of the body was written.
+    const refused = ledgerFor(grant);
+    stubSequence(networkError('ECONNREFUSED'));
+    await expect(
+      withBackoffsSkipped(() =>
+        OpenRouterClient.forCandidates(grant, refused).complete(
+          'openai/gpt-5.5',
+          [{ role: 'user', content: 'hi' }],
+          opts({ estimateUsd: 0.1 }),
+        ),
+      ),
+    ).rejects.toThrow(/network error/);
+    expect(refused.chargedUsd).toBe(0);
+    expect(refused.openReservations).toBe(0);
+
+    rmSync(join(RUNS_DIR, RUN), { recursive: true, force: true });
+
+    // A socket that died with no errno is undici's `terminated`, and it happens
+    // AFTER the request is written just as often as before. Five attempts, five
+    // reservations, all retained: the conservative reading is the default.
+    const dropped = ledgerFor(grant);
+    stubSequence(networkError());
+    await expect(
+      withBackoffsSkipped(() =>
+        OpenRouterClient.forCandidates(grant, dropped).complete(
+          'openai/gpt-5.5',
+          [{ role: 'user', content: 'hi' }],
+          opts({ estimateUsd: 0.1 }),
+        ),
+      ),
+    ).rejects.toThrow(/network error/);
+    expect(dropped.chargedUsd).toBeCloseTo(0.5, 10); // 5 attempts x $0.10
+    expect(dropped.openReservations).toBe(0);
+  });
+
+  it('stops the run when the provider bills more than the attempt reserved', async () => {
+    // Reserving is a promise about the future; the provider decides the past.
+    // Requirement 4 — settlement must never leave total AUTHORISED spend over
+    // the cap — is not "refuse the settlement" (the money is already gone) but
+    // "authorise nothing further, loudly", and it is exercised here through the
+    // production call path rather than by poking the ledger directly.
+    const fetchSpy = stubSequence(ok(5));
+    const grant = candidateGrant(1);
+    const ledger = ledgerFor(grant);
+    const client = OpenRouterClient.forCandidates(grant, ledger);
+    const call = () =>
+      client.complete('openai/gpt-5.5', [{ role: 'user', content: 'hi' }], opts({ estimateUsd: 0.5 }));
+
+    await expect(call()).rejects.toBeInstanceOf(CapBreachedError);
+    expect(ledger.capBreached).toBe(true);
+    expect(ledger.chargedUsd).toBeCloseTo(5, 10); // recorded, not discarded
+    await expect(call()).rejects.toBeInstanceOf(CapBreachedError);
+    expect(fetchSpy).toHaveBeenCalledTimes(1); // the second call never reached the socket
+  });
+
+  it('resolves every reservation even when the error body cannot be read', async () => {
+    // `await res.text()` on the failure path used to sit outside any try: a
+    // throw there escaped the loop with the reservation still open and
+    // unjournalled, so the money was neither charged nor released.
+    const grant = candidateGrant(10);
+    const ledger = ledgerFor(grant);
+    stubSequence(() => ({
+      ok: false,
+      status: 503,
+      text: async () => {
+        throw new Error('socket hang up');
+      },
+    }));
+    await expect(
+      withBackoffsSkipped(() =>
+        OpenRouterClient.forCandidates(grant, ledger).complete(
+          'openai/gpt-5.5',
+          [{ role: 'user', content: 'hi' }],
+          opts({ estimateUsd: 0.1 }),
+        ),
+      ),
+    ).rejects.toThrow(/OpenRouter 503/);
+    expect(ledger.openReservations).toBe(0);
+    expect(ledger.chargedUsd).toBeCloseTo(0.5, 10); // 503 may follow generation
   });
 });

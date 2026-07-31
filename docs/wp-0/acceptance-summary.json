@@ -1,0 +1,232 @@
+{
+  "acceptance": {
+    "blockers": [
+      "13 risk(s) are recorded as falsely closed",
+      "63 registered route risk(s) are open",
+      "BUDGET-001 is partial with 3 recorded gap(s)",
+      "DATA-002 is partial with 2 recorded gap(s)",
+      "JUDGE-001 is partial with 2 recorded gap(s)",
+      "RELEASE-002 is partial with 2 recorded gap(s)",
+      "RUN-001 is partial with 3 recorded gap(s)",
+      "RUN-001A is partial with 2 recorded gap(s)",
+      "RUN-002 is open with 3 recorded gap(s)",
+      "TRACE-001 is partial with 2 recorded gap(s)"
+    ],
+    "wp0Complete": false
+  },
+  "generatedBy": "packages/runner/src/regenerate.ts",
+  "inputs": [
+    {
+      "path": "docs/methodology/CookingBench-methodology-first-master-plan.sha256",
+      "sha256": "88f817e43b989455235d5b80523f1920f243391750a6d81b336ae4477cc78eee"
+    },
+    {
+      "path": "docs/methodology/WP-0-start-brief.md",
+      "sha256": "e890388347723420b3be7606d234f70c328b05d9858537ca638975044bd84e46"
+    },
+    {
+      "path": "docs/wp-0/routes.yaml",
+      "sha256": "d530ce52032ab3e47fc14208d07b7ee019d3ddcca929136a42d966e1318fd7a1"
+    },
+    {
+      "path": "docs/wp-0/traceability.yaml",
+      "sha256": "cde06fec379de32f97327717238c1d37ef867bea7d383cc1c208c577af79b49e"
+    }
+  ],
+  "mandatoryTests": {
+    "declaredInBrief": 12
+  },
+  "methodologyHash": "2f9e63a1ce08cadb2ddfbd64696a5d6b2f31e69fc1886bb3944007052d8a727d",
+  "note": "Generated. Do not hand-edit: run `pnpm --filter @cookingbench/runner exec tsx src/regenerate.ts --write` and commit the result alongside the change that moved these numbers. No timestamp by design.",
+  "requirements": {
+    "byId": [
+      {
+        "digest": "cb2d060f4804d835",
+        "enforcementPoints": 7,
+        "gaps": 3,
+        "id": "BUDGET-001",
+        "status": "partial",
+        "tests": 14
+      },
+      {
+        "digest": "829b363d2d9e7538",
+        "enforcementPoints": 5,
+        "gaps": 0,
+        "id": "DATA-001",
+        "status": "closed",
+        "tests": 10
+      },
+      {
+        "digest": "88ef2d74e26f1193",
+        "enforcementPoints": 2,
+        "gaps": 2,
+        "id": "DATA-002",
+        "status": "partial",
+        "tests": 3
+      },
+      {
+        "digest": "a330c40406175599",
+        "enforcementPoints": 3,
+        "gaps": 2,
+        "id": "JUDGE-001",
+        "status": "partial",
+        "tests": 6
+      },
+      {
+        "digest": "0c506d72ec851538",
+        "enforcementPoints": 2,
+        "gaps": 0,
+        "id": "RELEASE-001",
+        "status": "closed",
+        "tests": 3
+      },
+      {
+        "digest": "50a126d186536c29",
+        "enforcementPoints": 3,
+        "gaps": 2,
+        "id": "RELEASE-002",
+        "status": "partial",
+        "tests": 5
+      },
+      {
+        "digest": "f03b84e55a30895d",
+        "enforcementPoints": 10,
+        "gaps": 3,
+        "id": "RUN-001",
+        "status": "partial",
+        "tests": 17
+      },
+      {
+        "digest": "d92727539b91095b",
+        "enforcementPoints": 2,
+        "gaps": 2,
+        "id": "RUN-001A",
+        "status": "partial",
+        "tests": 3
+      },
+      {
+        "digest": "ca28a1f74833e628",
+        "enforcementPoints": 1,
+        "gaps": 3,
+        "id": "RUN-002",
+        "status": "open",
+        "tests": 0
+      },
+      {
+        "digest": "f6cf21a50f55cc4a",
+        "enforcementPoints": 5,
+        "gaps": 2,
+        "id": "TRACE-001",
+        "status": "partial",
+        "tests": 7
+      }
+    ],
+    "declaredInBrief": [
+      "BUDGET-001",
+      "DATA-001",
+      "DATA-002",
+      "JUDGE-001",
+      "RELEASE-001",
+      "RELEASE-002",
+      "RUN-001",
+      "RUN-001A",
+      "RUN-002",
+      "TRACE-001"
+    ],
+    "documentedInMatrix": [
+      "BUDGET-001",
+      "DATA-001",
+      "DATA-002",
+      "JUDGE-001",
+      "RELEASE-001",
+      "RELEASE-002",
+      "RUN-001",
+      "RUN-001A",
+      "RUN-002",
+      "TRACE-001"
+    ],
+    "totals": {
+      "citedTests": 66,
+      "closed": 2,
+      "declared": 10,
+      "documented": 10,
+      "enforcementPoints": 40,
+      "gaps": 19,
+      "open": 1,
+      "partial": 7
+    }
+  },
+  "routes": {
+    "openRisksByKind": {
+      "budget-bypass": 4,
+      "historical-overwrite": 7,
+      "path-escape": 10,
+      "secret-exposure": 1,
+      "unauthorised-inference": 9,
+      "unauthorised-publish": 14,
+      "unverified-input": 18
+    },
+    "openRisksBySeverity": {
+      "high": 37,
+      "low": 10,
+      "medium": 16
+    },
+    "routesByKind": {
+      "db-read": 1,
+      "db-write": 4,
+      "fs-delete": 1,
+      "fs-read": 42,
+      "fs-write": 25,
+      "network-out": 15,
+      "process-exec": 1
+    },
+    "routesWithOpenHighSeverityRisk": [
+      "runner:adjudicate:record:read",
+      "runner:adjudicate:record:write",
+      "runner:analyze:analysis:write",
+      "runner:calibration:result:write",
+      "runner:cli:methodology:read",
+      "runner:cli:permit:require",
+      "runner:cli:pilot:complete",
+      "runner:cli:run:complete",
+      "runner:estimate:record:read",
+      "runner:estimate:record:write",
+      "runner:firewall:output-file:write",
+      "runner:firewall:registry:read",
+      "runner:firewall:run-file:append",
+      "runner:judge:dimension:complete",
+      "runner:judge:pairwise:complete",
+      "runner:judge:panel:complete",
+      "runner:lifecycle:checklist:write",
+      "runner:lifecycle:register:read",
+      "runner:permit:keyring:read",
+      "runner:permit:revocation:read",
+      "runner:store:config:merge",
+      "runner:store:config:write",
+      "runner:store:leaderboard:write",
+      "runner:store:responses:read",
+      "runner:sync:dataset:upsert",
+      "runner:sync:run:publish",
+      "runner:sync:run:upsert",
+      "runner:taste:archive:replace",
+      "runner:taste:votes:read",
+      "web:data:analysis:read",
+      "web:data:board:select",
+      "web:data:scores:read"
+    ],
+    "scanRoots": [
+      "apps/web",
+      "packages/core/src",
+      "packages/runner/src"
+    ],
+    "totals": {
+      "closedRisks": 47,
+      "falselyClosed": 13,
+      "files": 22,
+      "openRisks": 63,
+      "risks": 110,
+      "routes": 89
+    }
+  },
+  "summaryVersion": 1
+}

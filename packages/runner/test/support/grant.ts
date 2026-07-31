@@ -3,7 +3,7 @@ import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { canonicalJson, type Capability, type PermitKind } from '@cookingbench/core';
-import { manifestHash, sha256Hex, verifyPermit, type VerifiedGrant } from '../../src/permit.js';
+import { manifestHash, sha256Hex, verifyPermitForTests, type VerifiedGrant } from '../../src/permit.js';
 
 /**
  * Mint a REAL verified grant for tests.
@@ -112,18 +112,23 @@ export function mintTestGrant(opts: MintOptions): VerifiedGrant {
     executionLimit: opts.executionLimit ?? 1,
   };
 
-  const { grant } = verifyPermit({
-    signedPermit: {
-      permit,
-      signature: signBytes(null, Buffer.from(canonicalJson(permit), 'utf8'), pair.privateKey).toString(
-        'base64',
-      ),
-      keyId: KEY_ID,
+  // The TEST SEAM, not the production entry point. `verifyPermit` no longer
+  // accepts a keyring or a revocation list from any caller — that parameter was
+  // the RUN-001 bypass — so an ephemeral-key helper has to say out loud that it
+  // is a test.
+  const { grant } = verifyPermitForTests(
+    { keyringDir, revocationListPath },
+    {
+      signedPermit: {
+        permit,
+        signature: signBytes(null, Buffer.from(canonicalJson(permit), 'utf8'), pair.privateKey).toString(
+          'base64',
+        ),
+        keyId: KEY_ID,
+      },
+      manifest,
+      expectedMethodologyHash: TEST_METHODOLOGY_HASH,
     },
-    manifest,
-    expectedMethodologyHash: TEST_METHODOLOGY_HASH,
-    keyringDir,
-    revocationListPath,
-  });
+  );
   return grant;
 }

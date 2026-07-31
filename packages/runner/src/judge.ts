@@ -3,6 +3,7 @@ import {
   criterionAttentionHint,
   hasJudgeConflict,
   isAtomicCriterion,
+  UNKNOWN_BASE_MODEL,
   type AtomicCriterion,
   type BehaviouralAnchorSet,
   type JudgeMode,
@@ -935,6 +936,13 @@ export function parsePairwiseBallot(
  * shipped under different prefixes. `hasJudgeConflict` compares the declared
  * provider AND the base-model family, and treats a MISSING identity as a
  * conflict rather than as conflict-free.
+ *
+ * `baseModelFamily` is the manifest's name for the field the roster spells
+ * `baseModel` (DATA-002 carries it on candidateRoutes/judgeRoutes under that
+ * name, so a run's envelope and its seating are talking about one thing). It is
+ * NOT the roster's `family`, which is a marketing tier — reading the tier as an
+ * identity was the JUDGE-001 defect, and it is why `claude-frontier`, spanning
+ * three different base models, once counted as one lineage.
  */
 export interface JudgeIdentity {
   provider: string;
@@ -943,18 +951,73 @@ export interface JudgeIdentity {
 export type IdentityOf = (modelId: string) => JudgeIdentity | undefined;
 
 /**
+ * A roster row as this module is willing to look at it.
+ *
+ * Everything is optional except the id: the rows arrive from a hand-edited YAML
+ * file, from mocks, and from tests, and the declared TypeScript shape of a row
+ * is not evidence about the row. `identityIndex` parses; it does not trust.
+ */
+export interface RosterIdentityRow {
+  id: string;
+  provider?: string;
+  /** Marketing tier. Present so it can be ignored ON PURPOSE — see below. */
+  family?: string;
+  /** JUDGE-001 base-model identity, or the `unknown` sentinel. */
+  baseModel?: string;
+}
+
+/**
+ * The base-model id shape, re-stated here rather than imported from the zod
+ * schema because this is a runtime check on untrusted rows, not a parse of the
+ * roster file. Kept deliberately loose about the originator token and strict
+ * about the colon: the colon is what separates the identity namespace from the
+ * tier namespace, and from the `unknown` sentinel.
+ */
+const BASE_MODEL_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*:[a-z0-9]+(?:[.\-_][a-z0-9]+)*$/;
+
+/**
  * Build a lookup from the roster. Structural on purpose so this module does not
  * need the dataset loader — judge.ts stays free of filesystem imports.
+ *
+ * Every way an identity can be missing collapses to the SAME answer: no entry in
+ * the index, so `identify(id)` is undefined, so `hasJudgeConflict` conflicts it
+ * with everything. Three ways in particular:
+ *
+ *  - no `baseModel` at all. There is deliberately NO fallback to `family`. The
+ *    fallback is the original defect, and a migration that half-lands — some
+ *    rows converted, some not — would silently resume comparing tiers on the
+ *    rows nobody got to;
+ *  - `baseModel: unknown`, the honest sentinel, or a half-declaration such as
+ *    `openai:unknown`. It must never behave like a shared lineage between the
+ *    entries nobody has checked, which is what would happen if it were carried
+ *    through as an ordinary string: two unknowns would match each other and
+ *    differ from everything real — conflict-free against exactly the models
+ *    that matter;
+ *  - a `baseModel` that is not a base-model id. The schema enforces the
+ *    `<originator>:<model>` shape on data/models.yaml, but this function also
+ *    accepts rows that never went through the schema, and the shape is the one
+ *    check that catches a "migration" performed by copying `family` across —
+ *    `claude-frontier` has no colon, so it buys no identity rather than
+ *    reinstating the tier comparison under a new field name.
  */
-export function identityIndex(
-  models: ReadonlyArray<{ id: string; provider: string; family?: string }>,
-): IdentityOf {
+export function identityIndex(models: ReadonlyArray<RosterIdentityRow>): IdentityOf {
   const index = new Map<string, JudgeIdentity>();
   for (const m of models) {
-    // A model with no declared family has no identity, and no identity means
-    // conflict everywhere. Recorded as undefined rather than defaulted to the
-    // slug, which would manufacture a distinctness that was never declared.
-    if (m.family) index.set(m.id, { provider: m.provider, baseModelFamily: m.family });
+    const provider = canonicalId(m.provider);
+    const baseModel = canonicalId(m.baseModel);
+    if (!provider || !baseModel) continue;
+    // The sentinel, whole or on either side of the colon. A half-declaration —
+    // "it is an OpenAI model, I do not know which" — is still an unknown base
+    // model, and `openai:unknown` is id-SHAPED, so without this it would be
+    // admitted as a lineage and shared with the next person who wrote it.
+    if (baseModel.split(':').some((part) => part === UNKNOWN_BASE_MODEL)) continue;
+    // Checked on the CANONICAL form, so " OpenAI:GPT-5.5 " is admitted and
+    // "claude-frontier" is not, whatever the row's casing.
+    if (!BASE_MODEL_ID.test(baseModel)) continue;
+    // The raw values are stored, not the folded ones: every comparison
+    // canonicalises anyway, and a diagnostic naming " Anthropic " as the
+    // conflicting provider is how you find the row that needs tidying.
+    index.set(m.id, { provider: m.provider!, baseModelFamily: m.baseModel! });
   }
   return (modelId) => index.get(modelId);
 }
@@ -994,8 +1057,14 @@ export function panelSeats(
 function conflictReason(seatId: string, candidateId: string, identify: IdentityOf): string {
   const seat = identify(seatId);
   const candidate = identify(candidateId);
-  if (!seat) return `${seatId}: no declared identity in the roster`;
-  if (!candidate) return `${candidateId}: no declared identity in the roster`;
+  // "no declared identity" rather than "not in the roster": a row that IS in the
+  // roster and declares `baseModel: unknown` lands here too, and telling the
+  // reader to go and add the model they can already see is how a diagnostic
+  // gets ignored. The three routes into this state are listed on identityIndex.
+  if (!seat) return `${seatId}: no declared identity in the roster (absent, or baseModel unknown)`;
+  if (!candidate) {
+    return `${candidateId}: no declared identity in the roster (absent, or baseModel unknown)`;
+  }
   if (canonicalId(seat.provider) === canonicalId(candidate.provider)) {
     return `${seatId}: same provider (${seat.provider})`;
   }

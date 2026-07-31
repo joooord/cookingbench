@@ -1,0 +1,40 @@
+{
+  "manifestVersion": 1,
+  "runId": "wp0-fixture-expired",
+  "methodologyVersion": "v3.0",
+  "schemaVersion": "1",
+  "gitCommit": "980dfcb5e3ff920fe1a3231121a6115e3fa48dcb",
+  "parentArtifacts": [],
+  "evidenceClass": "development-probe",
+  "artifactOrigin": [
+    "mock"
+  ],
+  "releaseState": "draft",
+  "rankEligible": false,
+  "bankHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "promptHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "judgePromptHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "validatorHash": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "candidateRoutes": [
+    {
+      "modelId": "mock/fixture-candidate",
+      "provider": "mock",
+      "baseModelFamily": "fixture"
+    }
+  ],
+  "judgeRoutes": [],
+  "generationSettings": {
+    "temperature": 0,
+    "maxTokens": 16000,
+    "maxTokensRecipe": 32000,
+    "repeats": 1,
+    "repeatPolicy": "single"
+  },
+  "callPlan": {
+    "concurrency": 1,
+    "maxAttempts": 1,
+    "abortOn": []
+  },
+  "budgetCapUsd": 0,
+  "outputRoot": "data/runs/wp0-fixture-expired"
+}

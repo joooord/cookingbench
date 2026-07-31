@@ -14,6 +14,28 @@ import { analyzeRun, tiedRanks, writeAnalysis } from './analyze.js';
 import { BudgetExceededError, ReservationLedger } from './ledger.js';
 import { PermitError, verifyPermitFile, type VerifiedGrant } from './permit.js';
 import { redeemPermit } from './redemption.js';
+import {
+  ManifestError,
+  assertRunArtifactsMatchManifest,
+  assertRunIdentity,
+  buildRunManifest,
+  readRunDigest,
+  readRunManifest,
+  writeRunManifest,
+} from './manifest.js';
+import {
+  appendBallot,
+  appendRawAnswer,
+  assertPublicationAllowed,
+  buildReleaseChecklist,
+  checklistShortfall,
+  readReleaseRegister,
+  registerRun,
+  safeReadCurrentRun,
+  setCurrentRun,
+  transitionRun,
+  writeReleaseChecklist,
+} from './lifecycle.js';
 import { DATA_DIR, REPO_ROOT, RUNS_DIR, buildMessages, loadModels, loadQuestions, maxTokensFor, runnableQuestions } from './dataset.js';
 import { assertFreshEstimate, runEstimate } from './estimate.js';
 import { JUDGE_PROMPT_VERSION, identityIndex, judgeAnswerPanel } from './judge.js';
@@ -498,27 +520,165 @@ async function cmdModelsCheck() {
   if (!ok) process.exit(1);
 }
 
-async function cmdRun() {
-  const mock = arg('mock') === 'true';
+/**
+ * DATA-002 — the immutable envelope a run executes under.
+ *
+ * `bench manifest` writes it, and it is written BEFORE anything is executed.
+ * Every other command then reads it. The old shape assembled a `RunConfig` from
+ * CLI flags and module defaults at the moment of execution, which meant the
+ * thing that decided what the run was — models, items, token caps, budget,
+ * whether it was a mock — was the command line, and nothing recorded it in a
+ * form a permit could be signed against or a verifier could check afterwards.
+ */
+function cmdManifest() {
+  const runId = arg('run-id') ?? fail('manifest requires --run-id <id>');
+  const draftPath = arg('draft');
+  const mockDraft = flag('mock');
+  if (!draftPath && !mockDraft) {
+    fail(
+      'manifest requires --draft <file.json> (the envelope to freeze), or --mock to synthesise a development envelope for the offline loop.',
+    );
+  }
+  if (draftPath && mockDraft) fail('Pass either --draft or --mock, not both.');
+
   const questionsAll = selectQuestions();
   const limit = arg('limit') ? Number(arg('limit')) : undefined;
   const questions = limit ? questionsAll.slice(0, limit) : questionsAll;
-  const questionsById = new Map(questions.map((q) => [q.id, q]));
 
-  let modelIds: string[];
+  let draft: unknown;
+  if (mockDraft) {
+    // A mock run is DEVELOPMENT evidence with MOCK origin, and both are stated
+    // in the envelope rather than inferred from a flag at execution time. That
+    // is what stops a mock board being mistaken for a result: the class travels
+    // with the artifact instead of living in the operator's memory.
+    draft = mockDraftManifest(runId, questions);
+  } else {
+    const resolved = isAbsolute(draftPath!) ? draftPath! : join(process.cwd(), draftPath!);
+    if (!existsSync(resolved)) fail(`No manifest draft at ${resolved}.`);
+    try {
+      draft = JSON.parse(readFileSync(resolved, 'utf8'));
+    } catch (e) {
+      fail(`${resolved} is not valid JSON (${(e as Error).message}).`);
+    }
+  }
+
+  try {
+    const built = buildRunManifest(draft, questions);
+    if (built.manifest.runId !== runId) {
+      fail(`Draft names run '${built.manifest.runId}' but --run-id says '${runId}'.`);
+    }
+    const written = writeRunManifest(runId, built.manifest, questions);
+    console.log(
+      `${written.written ? '✓ Manifest written' : '✓ Manifest already present and identical'} for ${runId}: ` +
+        `${written.manifestHash.slice(0, 16)}… (${questions.length} items, class '${built.manifest.evidenceClass}').`,
+    );
+    console.log(`  bank ${built.digest.bankHash.slice(0, 12)}…  prompt ${built.digest.promptHash.slice(0, 12)}…`);
+    console.log(
+      `  judge ${built.digest.judgePromptHash.slice(0, 12)}…  validator ${built.digest.validatorHash.slice(0, 12)}… ` +
+        `(${built.digest.validatorFiles.length} result-changing sources)`,
+    );
+    console.log(`Next: pnpm bench run --run-id ${runId}`);
+  } catch (e) {
+    if (e instanceof ManifestError) fail(`${e.code}: ${e.message}`);
+    throw e;
+  }
+}
+
+/** The offline development envelope. Never rank-eligible, never publishable. */
+function mockDraftManifest(runId: string, questions: Question[]): Record<string, unknown> {
+  return {
+    manifestVersion: 1,
+    runId,
+    methodologyVersion: DEFAULTS.methodologyVersion,
+    schemaVersion: '1',
+    gitCommit: 'ffffff0',
+    parentArtifacts: [],
+    evidenceClass: 'development',
+    artifactOrigin: ['mock'],
+    releaseState: 'draft',
+    rankEligible: false,
+    candidateRoutes: MOCK_MODELS.map((m) => ({
+      modelId: m.id,
+      provider: m.provider,
+      // The mock roster declares no family. JUDGE-001 treats a missing identity
+      // as conflicted, so the id stands in — distinct per persona, and never
+      // silently shared.
+      baseModelFamily: m.id,
+    })),
+    judgeRoutes: [{ modelId: 'mock-judge', provider: 'mock', baseModelFamily: 'mock' }],
+    generationSettings: {
+      temperature: DEFAULTS.temperature,
+      maxTokens: DEFAULTS.maxTokens,
+      maxTokensRecipe: DEFAULTS.maxTokensRecipe,
+      repeats: 1,
+      repeatPolicy: 'single',
+    },
+    callPlan: { concurrency: DEFAULTS.concurrency, maxAttempts: 3, abortOn: [] },
+    budgetCapUsd: 0,
+    itemCount: questions.length,
+  };
+}
+
+async function cmdRun() {
+  const runId =
+    arg('run-id') ??
+    fail(
+      'run requires --run-id <id>, and that run must already carry a manifest.\n' +
+        '  Create one first: pnpm bench manifest --run-id <id> --draft <file.json> (or --mock).\n' +
+        '  A run assembled from flags at execution time is not an execution envelope (DATA-002).',
+    );
+
+  // The envelope, read before anything else. Absence is a refusal: there is no
+  // path from "no manifest" to "run it anyway".
+  let manifest: ReturnType<typeof readRunManifest>;
+  let itemIds: string[];
+  try {
+    manifest = readRunManifest(runId);
+    itemIds = readRunDigest(runId).itemIds;
+    // Whatever is already in the directory has to be the manifested run before
+    // more of it is bought. Completeness is not required — this is mid-run.
+    assertRunArtifactsMatchManifest(runId);
+  } catch (e) {
+    if (e instanceof ManifestError) {
+      fail(`${e.code}: ${e.message}`);
+    }
+    throw e;
+  }
+
+  const byId = new Map(loadQuestions().map((q) => [q.id, q]));
+  const missing = itemIds.filter((id) => !byId.has(id));
+  if (missing.length > 0) {
+    fail(`${missing.length} manifested item(s) are no longer in the dataset: ${missing.slice(0, 5).join(', ')}.`);
+  }
+  const questions = itemIds.map((id) => byId.get(id)!);
+  const questionsById = new Map(questions.map((q) => [q.id, q]));
+  const settings = {
+    maxTokens: manifest.generationSettings.maxTokens,
+    maxTokensRecipe: manifest.generationSettings.maxTokensRecipe,
+  };
+  const concurrency = manifest.callPlan.concurrency;
+  // Mock-ness is a property of the ENVELOPE, not of the invocation. A flag on
+  // the command line could turn a paid run into a free one after the fact and
+  // leave no trace; the manifest's declared origin cannot.
+  const mock = manifest.artifactOrigin.includes('mock');
+  const modelIds = manifest.candidateRoutes.map((r) => r.modelId);
+
   let client: CompletionClient;
   let spend: SpendReport = NO_SPEND;
   let ledger: ReservationLedger | null = null;
-  let runId = arg('run-id') ?? (mock ? 'mock-run' : `${new Date().toISOString().slice(0, 10)}-v1`);
 
   if (mock) {
-    modelIds = MOCK_MODELS.map((m) => m.id);
     client = new MockClient(questionsById);
   } else {
-    const models = loadModels();
-    modelIds = resolveModelIds(models);
-    const totalBudget = Number(arg('budget') ?? NaN);
-    if (!Number.isFinite(totalBudget)) fail('A paid run requires --budget <usd> (hard cap).');
+    const requested = Number(arg('budget') ?? manifest.budgetCapUsd);
+    if (!Number.isFinite(requested)) fail('--budget must be a number.');
+    if (requested > manifest.budgetCapUsd) {
+      fail(
+        `--budget $${requested.toFixed(2)} exceeds the manifest's approved cap of $${manifest.budgetCapUsd.toFixed(2)}. ` +
+          `An operator may lower the ceiling, never raise it.`,
+      );
+    }
+    const totalBudget = requested;
     const perModelBudget = Number(arg('per-model-budget') ?? (totalBudget / modelIds.length) * 2);
     // The guard checks a per-call worst case before every call, so a per-model
     // cap below that worst case refuses every call — and the run then reports
@@ -528,7 +688,7 @@ async function cmdRun() {
     const perCallCeiling =
       (Math.max(...questions.map((q) => buildMessages(q).reduce((n, m) => n + m.content.length, 0))) / 4) *
         0.00001 +
-      Math.max(DEFAULTS.maxTokens, DEFAULTS.maxTokensRecipe) * 0.00005;
+      Math.max(settings.maxTokens, settings.maxTokensRecipe) * 0.00005;
     if (perModelBudget < perCallCeiling) {
       fail(
         `Per-model budget $${perModelBudget.toFixed(2)} is below the worst case for a single call ` +
@@ -537,7 +697,9 @@ async function cmdRun() {
           `or set --per-model-budget explicitly.`,
       );
     }
-    const estimate = assertFreshEstimate(modelIds, questions, DEFAULTS);
+    // Estimated against the MANIFEST's caps and item set, so the gate covers the
+    // work that will actually be done rather than the flags that were typed.
+    const estimate = assertFreshEstimate(modelIds, questions, settings);
     console.log(
       `Estimate on file: expected $${estimate.totalExpectedUsd.toFixed(2)} | worst case $${estimate.totalWorstCaseUsd.toFixed(2)} | hard cap $${totalBudget.toFixed(2)}`,
     );
@@ -560,11 +722,16 @@ async function cmdRun() {
       );
     }
     const grant = requireGrant('run');
-    if (grant.runId !== runId) {
-      fail(
-        `Permit ${grant.permitId} authorises run '${grant.runId}', not '${runId}'. ` +
-          `A permit binds one execution envelope; use --run-id ${grant.runId}.`,
+    // RELEASE-002 point 6: requested, permit, manifest and artifact ids must be
+    // the same id. Checked before the permit is redeemed, so a mistyped flag
+    // does not burn an approval.
+    try {
+      assertRunIdentity(
+        { requested: runId, permit: grant.runId, manifest: manifest.runId, artifact: runId },
+        `bench run (permit ${grant.permitId})`,
       );
+    } catch (e) {
+      fail((e as Error).message);
     }
     // Point of no return: consume a use of the permit. Deliberately after the
     // run-id check above, so a mistyped flag does not burn an approval.
@@ -582,27 +749,31 @@ async function cmdRun() {
     }
   }
 
-  const batchBudget = mock ? 0 : Number(arg('budget'));
+  const batchBudget = mock ? 0 : Math.min(Number(arg('budget') ?? manifest.budgetCapUsd), manifest.budgetCapUsd);
+  // config.json is now a PROJECTION of the manifest, not a source of truth. It
+  // stays because store.ts, the site and the published artifacts all read it;
+  // every rank-affecting field in it is copied from the envelope rather than
+  // from a flag, so the two can never disagree about what was run.
   const config: RunConfig = {
     runId,
     models: modelIds,
-    temperature: DEFAULTS.temperature,
-    maxTokens: DEFAULTS.maxTokens,
-    maxTokensRecipe: DEFAULTS.maxTokensRecipe,
+    temperature: manifest.generationSettings.temperature,
+    maxTokens: settings.maxTokens,
+    maxTokensRecipe: settings.maxTokensRecipe,
     budgetUsdTotal: batchBudget,
     budgetUsdPerModel: mock ? 0 : Number(arg('per-model-budget') ?? 0),
-    concurrency: DEFAULTS.concurrency,
+    concurrency,
     judgeModel: DEFAULTS.judgeModel,
-    judgePanel: DEFAULTS.judgePanel,
+    judgePanel: manifest.judgeRoutes.map((r) => r.modelId),
     judgePromptVersion: JUDGE_PROMPT_VERSION,
-    methodologyVersion: DEFAULTS.methodologyVersion,
+    methodologyVersion: manifest.methodologyVersion,
     mock,
     batches: [
       {
         startedAt: new Date().toISOString(),
         models: modelIds,
-        maxTokens: DEFAULTS.maxTokens,
-        maxTokensRecipe: DEFAULTS.maxTokensRecipe,
+        maxTokens: settings.maxTokens,
+        maxTokensRecipe: settings.maxTokensRecipe,
         budgetUsdTotal: batchBudget,
       },
     ],
@@ -623,9 +794,9 @@ async function cmdRun() {
   let done = 0;
   const failures: string[] = [];
   const haltedModels = new Set<string>();
-  await pool(tasks, DEFAULTS.concurrency, async ({ modelId, question }) => {
+  await pool(tasks, concurrency, async ({ modelId, question }) => {
     if (haltedModels.has(modelId)) return;
-    const maxTokens = maxTokensFor(question, DEFAULTS);
+    const maxTokens = maxTokensFor(question, settings);
     try {
       // Worst-case for the next call at flagship pricing ($10/$50 per Mtok upper bound).
       const promptChars = buildMessages(question).reduce((n, m) => n + m.content.length, 0);
@@ -634,7 +805,7 @@ async function cmdRun() {
       // in one atomic step around the call — the old check-then-record pair let
       // four concurrent calls each pass a check none of them had yet debited.
       let result = await client.complete(modelId, buildMessages(question), {
-        temperature: DEFAULTS.temperature,
+        temperature: manifest.generationSettings.temperature,
         maxTokens,
         reasoning: { effort: 'medium' },
         cell: { modelId, questionId: question.id },
@@ -645,7 +816,7 @@ async function cmdRun() {
       // with extra token headroom on the second retry.
       for (let retry = 0; retry < 2 && isTransportFailure(result) && !mock; retry++) {
         result = await client.complete(modelId, buildMessages(question), {
-          temperature: DEFAULTS.temperature,
+          temperature: manifest.generationSettings.temperature,
           maxTokens: retry === 0 ? maxTokens : maxTokens * 2,
           reasoning: { effort: 'medium' },
           cell: { modelId, questionId: question.id },
@@ -667,6 +838,11 @@ async function cmdRun() {
         ...(isTransportFailure(result) ? { transportFailure: true } : {}),
       };
       writeResponse(stored);
+      // The append-only record, alongside the response file rather than instead
+      // of it. Idempotent on the response identity, so a resumed or retried run
+      // adds nothing; without this write the run has no tamper-evident record of
+      // its own evidence and can never satisfy the release checklist.
+      appendRawAnswer(stored);
       done++;
       if (done % 20 === 0) {
         console.log(`  ${done}/${tasks.length} done — spent $${spend.settledUsd.toFixed(4)}`);
@@ -706,8 +882,60 @@ async function cmdRun() {
   console.log(`Next: pnpm bench grade --run ${runId}`);
 }
 
+/**
+ * DATA-002 point 2 — nothing downstream of a run reads it without first
+ * checking that what is stored is what the manifest declares.
+ *
+ * `grade`, `judge`, `report` and `analyze` all previously read `responses/` and
+ * `scores.json` straight off disk. A bank edited after the answers were bought,
+ * a grader changed underneath the scores, a response copied in from another
+ * run: none of it was visible, and all of it changes the published numbers.
+ *
+ * `expectComplete` is false here on purpose. These commands run mid-pipeline;
+ * requiring every cell would make `grade` impossible to run on a partial batch.
+ * The release gate is where completeness is demanded, and it does not take the
+ * question from a caller.
+ */
+function requireManifestedRun(runId: string, command: string): ReturnType<typeof readRunManifest> {
+  try {
+    const manifest = readRunManifest(runId);
+    assertRunArtifactsMatchManifest(runId);
+    assertRunIdentity(
+      { requested: runId, permit: runId, manifest: manifest.runId, artifact: runId },
+      `bench ${command}`,
+    );
+    return manifest;
+  } catch (e) {
+    if (e instanceof ManifestError) {
+      fail(`${command} refused — ${e.code}: ${e.message}`);
+    }
+    throw e;
+  }
+}
+
+/**
+ * The single call site shape for RELEASE-002's runtime publication validation.
+ *
+ * A thin wrapper so every command reports a refusal the same way — the gate
+ * itself lives in lifecycle.ts, takes no options that could weaken it, and
+ * re-reads and re-parses the manifest rather than accepting one.
+ */
+function requirePublicationVerdict(
+  stage: 'artifact' | 'public',
+  runId: string,
+  command: string,
+  permitRunId?: string,
+): ReturnType<typeof assertPublicationAllowed> {
+  try {
+    return assertPublicationAllowed(stage, { requestedRunId: runId, permitRunId });
+  } catch (e) {
+    fail(`${command} refused — ${(e as Error).message}`);
+  }
+}
+
 function cmdGrade() {
   const runId = arg('run') ?? fail('grade requires --run <id>');
+  requireManifestedRun(runId, 'grade');
   const questions = loadQuestions();
   const questionsById = new Map(questions.map((q) => [q.id, q]));
   const responses = readResponses(runId);
@@ -762,7 +990,8 @@ function cmdGrade() {
 
 async function cmdJudge() {
   const runId = arg('run') ?? fail('judge requires --run <id>');
-  const config = readRunConfig(runId);
+  const runManifest = requireManifestedRun(runId, 'judge');
+  const config = requireRunConfig(runId, 'judge');
   const questions = loadQuestions();
   const questionsById = new Map(questions.map((q) => [q.id, q]));
   const responses = readResponses(runId);
@@ -815,7 +1044,16 @@ async function cmdJudge() {
   // calibration. A panel that failed the gate therefore stayed recorded as the
   // panel of record while a different one did the judging — canary3 was
   // stamped opus-5/gpt-5.6-sol-pro/grok-4.5 after that panel was rejected.
-  const judgePanel = DEFAULTS.judgePanel;
+  // The panel comes from the MANIFEST, not from a module default. `DEFAULTS`
+  // is what a new manifest is drafted from; once an envelope is frozen, the
+  // seats it declares are the seats that judge it, or the run refuses. A
+  // default that drifted after the manifest was signed would re-seat the panel
+  // silently, and a re-seated panel measured 96.20 against 88.16 on the same
+  // answers.
+  const judgePanel = runManifest.judgeRoutes.map((r) => r.modelId);
+  if (judgePanel.length === 0) {
+    fail(`Run ${runId}'s manifest declares no judge routes, so there is no panel to judge with.`);
+  }
 
   // Judge calibration gate: every panel seat must independently reproduce the
   // hand-scored anchors before any paid judging is accepted for this run.
@@ -933,6 +1171,22 @@ async function cmdJudge() {
         judgeCostUsd: verdict.costUsd,
       };
       if (verdict.flagged) flagged++;
+      // One ballot per seat, append-only and idempotent on the seat's identity.
+      // The mean is what reaches scores.json; the individual verdicts are the
+      // evidence behind it, and until now they existed only inside a detail blob
+      // that a re-judge would overwrite.
+      for (const seat of verdict.verdicts) {
+        appendBallot(
+          {
+            runId,
+            modelId: s.modelId,
+            questionId: s.questionId,
+            judgeModelId: seat.judgeModel,
+            promptVersion: JUDGE_PROMPT_VERSION,
+          },
+          seat,
+        );
+      }
     }
     s.score = blendJudgeScore(question, judgeScore, detail.constraintScore);
     s.judgeModel = config.mock
@@ -973,9 +1227,24 @@ async function cmdJudge() {
   console.log(`Next: pnpm bench report --run ${runId}`);
 }
 
+/** A run's config, with a refusal rather than a raw ENOENT when it has none. */
+function requireRunConfig(runId: string, command: string): ReturnType<typeof readRunConfig> {
+  if (!existsSync(join(RUNS_DIR, runId, 'config.json'))) {
+    fail(`${command} needs data/runs/${runId}/config.json, which does not exist — has the run been executed?`);
+  }
+  return readRunConfig(runId);
+}
+
 function cmdReport() {
   const runId = arg('run') ?? fail('report requires --run <id>');
-  const config = readRunConfig(runId);
+  // RELEASE-002 point 5. Writing a board is an artifact write, not a
+  // publication — a draft has to be able to produce the board its own review
+  // reads — but it goes through the same gate, and the class it returns is
+  // STAMPED on the board so no reader can mistake a development artifact for a
+  // result. Nothing called this before; the capability was checked and the
+  // artifact never was.
+  const verdict = requirePublicationVerdict('artifact', runId, 'report');
+  const config = requireRunConfig(runId, 'report');
   const questions = loadQuestions();
   const responses = readResponses(runId);
   const scores = readScores(runId);
@@ -993,6 +1262,13 @@ function cmdReport() {
     responses,
     scores,
     config.methodologyVersion ?? 'v2',
+    {
+      evidenceClass: verdict.manifest.evidenceClass,
+      releaseState: verdict.manifest.releaseState,
+      rankEligible: verdict.manifest.rankEligible,
+      manifestHash: verdict.manifestHash,
+      nonScoringBanner: verdict.nonScoringBanner,
+    },
   );
   // A row averaged over fewer active items than its peers is not comparable to
   // them, and nothing downstream renders questionsGraded — so refuse to write
@@ -1013,7 +1289,11 @@ function cmdReport() {
     );
   }
   writeLeaderboard(runId, leaderboard);
-  console.log(`\nCookingBench — run ${runId} (methodology ${leaderboard.methodologyVersion})\n`);
+  if (verdict.nonScoringBanner) console.log(`\n${verdict.nonScoringBanner}`);
+  console.log(
+    `\nCookingBench — run ${runId} (methodology ${leaderboard.methodologyVersion}, ` +
+      `${verdict.manifest.evidenceClass}/${verdict.manifest.releaseState})\n`,
+  );
   const header = `${'#'.padEnd(3)} ${'model'.padEnd(28)} ${'overall'.padStart(7)} ${'95% CI'.padStart(13)} ${'frontier'.padStart(8)} ${'basics'.padStart(7)} ${'inc'.padStart(4)} ${'cost'.padStart(9)}`;
   console.log(header);
   console.log('─'.repeat(header.length));
@@ -1032,6 +1312,9 @@ function cmdRuns() {
 
 function cmdAnalyze() {
   const runId = arg('run') ?? fail('analyze requires --run <id>');
+  // analysis.json feeds the site's separation table and its tied ranks, so it
+  // is a public-result path and takes the same gate as the board.
+  requirePublicationVerdict('artifact', runId, 'analyze');
   const questions = loadQuestions();
   const responses = readResponses(runId);
   const scores = readScores(runId);
@@ -1090,11 +1373,16 @@ function cmdAnalyze() {
 
 async function cmdSync() {
   const grant = requireGrant('sync');
+  const runId = arg('run');
+  // The gate runs BEFORE the permit is redeemed and before any row leaves the
+  // machine. Syncing a run pushes its scores into the database the site reads,
+  // so it is a public-result path and takes the full RELEASE-002 test —
+  // including that the permit, the manifest and the request name one run.
+  if (runId) requirePublicationVerdict('public', runId, 'sync', grant.runId);
   redeemPermit(grant, 'bench sync');
   const { syncDataset, syncRun } = await import('./sync.js');
   await syncDataset(grant, loadModels(), loadQuestions());
   console.log('✓ models + questions synced to Supabase');
-  const runId = arg('run');
   if (runId) {
     await syncRun(grant, readRunConfig(runId), readResponses(runId), readScores(runId));
     console.log(`✓ run ${runId} synced (unpublished — use \`bench publish --run ${runId}\`)`);
@@ -1104,10 +1392,84 @@ async function cmdSync() {
 async function cmdPublish() {
   const runId = arg('run') ?? fail('publish requires --run <id>');
   const grant = requireGrant('publish');
+  const verdict = requirePublicationVerdict('public', runId, 'publish', grant.runId);
   redeemPermit(grant, 'bench publish');
   const { publishRun } = await import('./sync.js');
   await publishRun(grant, runId);
-  console.log(`✓ run ${runId} is now publicly readable`);
+  console.log(`✓ run ${runId} (${verdict.manifest.evidenceClass}) is now publicly readable`);
+}
+
+/**
+ * Move a run through the reviewed lifecycle (RELEASE-002 points 7 and 8).
+ *
+ * There is no `--checklist`. The checklist is built from the run's own evidence
+ * inside `transitionRun`, against a fixed enumerated list of checks, and a
+ * release refuses on any shortfall. An operator supplies who is signing and
+ * why; an operator does not supply the result.
+ */
+function cmdLifecycle() {
+  const runId = arg('run') ?? fail('lifecycle requires --run <id>');
+  const actor = arg('actor') ?? fail('lifecycle requires --actor <name>');
+  const evidence = arg('evidence') ?? fail('lifecycle requires --evidence <where the review is recorded>');
+  const to = arg('to');
+  try {
+    if (to === undefined) {
+      // No target state: report the checklist without moving anything.
+      const checklist = buildReleaseChecklist(runId);
+      writeReleaseChecklist(runId, checklist);
+      for (const item of checklist.items) {
+        const mark = item.verdict === 'pass' ? '✓' : item.verdict === 'fail' ? '✗' : '?';
+        console.log(`  ${mark} ${item.id.padEnd(26)} ${item.detail}`);
+      }
+      const shortfall = checklistShortfall(checklist);
+      console.log(
+        shortfall.length === 0
+          ? `\n✓ Release checklist complete for ${runId}.`
+          : `\n✗ ${shortfall.length} outstanding for ${runId}.`,
+      );
+      return;
+    }
+    if (arg('register') === 'true') {
+      registerRun({ runId, manifest: readRunManifest(runId), actor, evidence });
+    }
+    const result = transitionRun({ runId, to: to as never, actor, evidence });
+    console.log(`✓ ${runId} → '${result.entry.state}' (signed ${actor}: ${evidence}).`);
+  } catch (e) {
+    fail((e as Error).message);
+  }
+}
+
+/**
+ * Point the site at a reviewed, released run — the explicit approved-release
+ * pointer that replaces "newest generatedAt".
+ */
+function cmdCurrent() {
+  const runId = arg('run');
+  if (!runId) {
+    const current = safeReadCurrentRun();
+    console.log(
+      current.ok
+        ? `Current release: ${current.pointer.runId} (manifest ${current.pointer.manifestHash.slice(0, 12)}…, ` +
+            `reviewed by ${current.pointer.reviewedBy} at ${current.pointer.reviewedAt})`
+        : `No approved release: ${current.error}`,
+    );
+    const register = readReleaseRegister();
+    for (const [id, entry] of Object.entries(register.entries).sort()) {
+      console.log(`  ${id.padEnd(20)} ${entry.state}`);
+    }
+    return;
+  }
+  const reviewer = arg('reviewer') ?? fail('current --run <id> requires --reviewer <name>');
+  const evidence = arg('evidence') ?? fail('current --run <id> requires --evidence <where the review is recorded>');
+  try {
+    const pointer = setCurrentRun({ runId, reviewedBy: reviewer, reviewEvidence: evidence });
+    console.log(
+      `✓ ${runId} is the approved release (checklist ${pointer.checklistDigest.slice(0, 12)}…, ` +
+        `${pointer.artifacts.length} artifacts pinned).`,
+    );
+  } catch (e) {
+    fail((e as Error).message);
+  }
 }
 
 async function cmdTasteArchive() {
@@ -1324,6 +1686,7 @@ async function cmdPilot() {
 
 const COMMANDS: Record<string, () => void | Promise<void>> = {
   validate: cmdValidate,
+  manifest: cmdManifest,
   estimate: cmdEstimate,
   run: cmdRun,
   grade: cmdGrade,
@@ -1336,6 +1699,8 @@ const COMMANDS: Record<string, () => void | Promise<void>> = {
   publish: cmdPublish,
   'taste-archive': cmdTasteArchive,
   pilot: cmdPilot,
+  lifecycle: cmdLifecycle,
+  current: cmdCurrent,
 };
 
 const command = process.argv[2];
@@ -1346,11 +1711,14 @@ Usage: pnpm bench <command> [options]
 
 Commands:
   validate                       Validate the dataset (questions + models)
+  manifest --run-id <id> --draft <file.json> | --mock [--limit N] [--questions a,b]
+                                 Freeze the immutable execution envelope. Required before a run.
   models --check                 Check roster slugs against the live OpenRouter catalog
   estimate [--models all|a,b] [--limit N] [--tier all|active] [--questions a,b]
                                  Worst-case cost table; required before any paid run
-  run --budget <usd> [--models all|a,b] [--limit N] [--tier all|active] [--questions a,b] [--run-id id] [--mock]
-                                 --tier active skips the basics regression gate (82 of 184 items)
+  run --run-id <id> [--budget <usd>] [--per-model-budget <usd>]
+                                 Executes the manifest for <id>: its models, items, caps and cap.
+                                 --budget may only LOWER the manifest's approved ceiling.
   grade --run <id>               Deterministic grading
   judge --run <id>               LLM-judge grading for subjective questions
   report --run <id>              Build the leaderboard JSON + print the table
@@ -1360,8 +1728,20 @@ Commands:
   taste-archive                  Snapshot all taste votes into data/taste/ (commit to preserve)
   pilot --file <yaml> --budget <usd> [--mock] [--ceiling id] [--mid id]
                                  Admission gate for candidate questions
+  lifecycle --run <id> --actor <who> --evidence <where> [--to <state>] [--register true]
+                                 Build the release checklist; with --to, move the run's lifecycle
+  current [--run <id> --reviewer <who> --evidence <where>]
+                                 Show, or set, the approved-release pointer the site reads
   runs                           List stored runs`);
   process.exit(command ? 1 : 0);
 }
 
-Promise.resolve(COMMANDS[command]!()).catch((error) => fail((error as Error).message));
+// A SYNCHRONOUS throw never reached this handler: `Promise.resolve(f())`
+// evaluates `f()` first, so anything a synchronous command threw escaped as a
+// raw Node stack trace with the guard's message buried in it. Every command's
+// refusal is meant to be readable — that is most of what the guards are for.
+try {
+  Promise.resolve(COMMANDS[command]!()).catch((error) => fail((error as Error).message));
+} catch (error) {
+  fail((error as Error).message);
+}

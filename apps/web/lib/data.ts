@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { parse } from 'yaml';
@@ -40,11 +41,23 @@ export interface LeaderboardRow {
   judgeCostUsd?: number;
 }
 
+/** What the runner stamps on a board about its own standing. */
+export interface BoardProvenance {
+  evidenceClass: string;
+  releaseState: string;
+  rankEligible: boolean;
+  manifestHash: string;
+  /** Set for legacy-shadow and development-probe. Any surface must show it. */
+  nonScoringBanner: string | null;
+}
+
 export interface LeaderboardReport {
   runId: string;
   generatedAt: string;
   /** Missing on v1 artifacts. */
   methodologyVersion?: string;
+  /** Missing on every artifact written before the evidence firewall. */
+  provenance?: BoardProvenance;
   rows: LeaderboardRow[];
 }
 
@@ -53,58 +66,176 @@ function readJson<T>(path: string): T {
 }
 
 /**
- * A run built with `--mock` must never reach the site. The site picks the
- * newest run by generatedAt, `bench report` restamps that on every rebuild,
- * and the README's own $0 dev loop targets run id `mock-run` — whose files are
- * tracked, so a rebuild shows up as modified files that `git add -A` sweeps
- * up. One commit after that and the homepage ranks mock personas.
+ * RELEASE-002 — which board the site serves is an APPROVAL, not a heuristic.
  *
- * The discriminator is already in the artifact: config.json carries mock:true.
+ * What this replaces: the site read every `data/runs/*​/leaderboard.json`,
+ * discarded the obviously wrong ones and served whichever had the newest
+ * `generatedAt`. Three things were wrong with that, and two of them had already
+ * been patched around rather than fixed:
+ *
+ *  - `bench report` restamps `generatedAt` on every rebuild, so regenerating any
+ *    board — including a mock one, whose files are tracked — moved the homepage.
+ *    The patch was "skip config.mock".
+ *  - A ten-question canary is a real, non-mock run whose timestamp is by
+ *    definition the newest. The patch was a 50% coverage floor.
+ *  - Neither patch addresses the actual defect, which is that NOTHING in the
+ *    selection expressed a human decision. A run became the public result by
+ *    being written most recently.
+ *
+ * Now: `data/runs/REGISTER.json` carries a `currentRun` pointer, written by
+ * `bench current` only for a run that is registered, released, and passing the
+ * full fixed release checklist. The pointer pins every published artifact by
+ * digest, so a file replaced underneath a live pointer is refused rather than
+ * served beside the ones that were not replaced — the reader half of atomic
+ * publication.
  */
-/**
- * Smallest share of the current question set a run must cover before its
- * leaderboard is allowed to be the published one.
- *
- * A canary is a real (non-mock) run over `--limit 10`, so the mock flag does
- * not catch it, and its `generatedAt` is by definition newer than anything
- * already published. A board built from ten questions is not comparable to one
- * built from all of them and must never outrank it.
- *
- * Deliberately a share rather than an exact match: the dataset grows, and a
- * genuine past run measured over slightly fewer questions than exist today is
- * still a real board. Only a fraction of the set is disqualifying.
- */
-const MIN_COVERAGE = 0.5;
+export interface ApprovedRelease {
+  report: LeaderboardReport;
+  runId: string;
+  /** How this run came to be the public result. */
+  approval:
+    | { kind: 'register'; reviewedBy: string; reviewedAt: string; checklistDigest: string }
+    | { kind: 'pinned-historical'; note: string };
+}
 
-function isPublishable(dir: string): boolean {
-  const configPath = join(RUNS_DIR, dir, 'config.json');
-  if (!existsSync(configPath)) return false;
+interface RegisterPointer {
+  runId?: unknown;
+  manifestHash?: unknown;
+  reviewedBy?: unknown;
+  reviewedAt?: unknown;
+  checklistDigest?: unknown;
+  artifacts?: Array<{ file?: unknown; sha256?: unknown }>;
+}
+
+interface RegisterShape {
+  registerVersion?: unknown;
+  entries?: Record<string, { state?: unknown; manifestHash?: unknown }>;
+  currentRun?: RegisterPointer | null;
+}
+
+export const REGISTER_FILE = 'REGISTER.json';
+
+/**
+ * The one release approved before the register existed.
+ *
+ * `2026-07-v2.1` is published, `evidenceClass: historical`, `releaseState:
+ * released`, and RELEASE-002 says in terms that it may remain publicly visible.
+ * It predates the manifest and the register, so there is no pointer to read for
+ * it and there never will be — its directory is immutable.
+ *
+ * This is a PIN, not a fallback rule: it names one run id and one digest of one
+ * file. It cannot promote a newer board, a rebuilt board, or a board that has
+ * been edited, because any of those changes the digest. The register overrides
+ * it in both directions — a `currentRun` pointer wins, and an entry putting
+ * this run in any state other than `released` withdraws it.
+ */
+const PINNED_HISTORICAL_RELEASE = {
+  runId: '2026-07-v2.1',
+  boardSha256: 'bf1ec6536daa12cf5d741e77c9e47ea04e1395df644ddef3709a32bd3bc39dde',
+  note:
+    'Released before the evidence register existed; pinned by content digest and reviewed in the ' +
+    'published methodology. Any new release must go through data/runs/REGISTER.json.',
+} as const;
+
+const sha256Of = (path: string): string =>
+  createHash('sha256').update(readFileSync(path, 'utf8')).digest('hex');
+
+function readRegister(runsDir: string): RegisterShape | null {
+  const path = join(runsDir, REGISTER_FILE);
+  if (!existsSync(path)) return null;
   try {
-    if (readJson<{ mock?: boolean }>(configPath).mock === true) return false;
-    const boardPath = join(RUNS_DIR, dir, 'leaderboard.json');
-    if (!existsSync(boardPath)) return false;
-    const rows = readJson<LeaderboardReport>(boardPath).rows;
-    if (rows.length === 0) return false;
-    const covered = Math.max(...rows.map((r) => r.questionsGraded));
-    return covered >= getQuestions().length * MIN_COVERAGE;
+    const parsed = readJson<RegisterShape>(path);
+    // An unreadable or unversioned register is not an absent one. Falling back
+    // to the pin on a MALFORMED register would let a corrupted file silently
+    // restore a withdrawn board, so the caller is told nothing is approved.
+    return parsed && parsed.registerVersion === 1 ? parsed : { registerVersion: 0 };
   } catch {
-    return false;
+    return { registerVersion: 0 };
   }
 }
 
+/**
+ * Resolve the approved release under `runsDir`. Root-parameterised so the
+ * mechanism can be exercised offline against a scratch tree.
+ */
+export function resolveApprovedRelease(runsDir: string): ApprovedRelease | null {
+  const register = readRegister(runsDir);
+  if (register && register.registerVersion !== 1) return null;
+
+  const pointer = register?.currentRun ?? null;
+  if (pointer && typeof pointer.runId === 'string') {
+    const entry = register?.entries?.[pointer.runId];
+    // The pointer and the entry must agree. A pointer naming a run the register
+    // does not show released is a register that has been half-edited.
+    if (!entry || entry.state !== 'released' || entry.manifestHash !== pointer.manifestHash) return null;
+    // The board this function is about to serve must itself be pinned. Without
+    // this, a pointer carrying no `artifacts` array would skip the loop below
+    // entirely and the digest check would be decorative.
+    const pins = Array.isArray(pointer.artifacts) ? pointer.artifacts : [];
+    if (!pins.some((a) => a?.file === 'leaderboard.json')) return null;
+    for (const pinned of pins) {
+      if (typeof pinned?.file !== 'string' || typeof pinned?.sha256 !== 'string') return null;
+      const path = join(runsDir, pointer.runId, pinned.file);
+      if (!existsSync(path) || sha256Of(path) !== pinned.sha256) return null;
+    }
+    const report = readBoard(runsDir, pointer.runId);
+    if (!report) return null;
+    return {
+      report,
+      runId: pointer.runId,
+      approval: {
+        kind: 'register',
+        reviewedBy: String(pointer.reviewedBy ?? ''),
+        reviewedAt: String(pointer.reviewedAt ?? ''),
+        checklistDigest: String(pointer.checklistDigest ?? ''),
+      },
+    };
+  }
+
+  // No pointer. The pin applies unless the register has withdrawn it.
+  const withdrawn =
+    register?.entries?.[PINNED_HISTORICAL_RELEASE.runId] !== undefined &&
+    register.entries[PINNED_HISTORICAL_RELEASE.runId]!.state !== 'released';
+  if (withdrawn) return null;
+  const boardPath = join(runsDir, PINNED_HISTORICAL_RELEASE.runId, 'leaderboard.json');
+  if (!existsSync(boardPath) || sha256Of(boardPath) !== PINNED_HISTORICAL_RELEASE.boardSha256) return null;
+  const report = readBoard(runsDir, PINNED_HISTORICAL_RELEASE.runId);
+  if (!report) return null;
+  return {
+    report,
+    runId: PINNED_HISTORICAL_RELEASE.runId,
+    approval: { kind: 'pinned-historical', note: PINNED_HISTORICAL_RELEASE.note },
+  };
+}
+
+function readBoard(runsDir: string, runId: string): LeaderboardReport | null {
+  const path = join(runsDir, runId, 'leaderboard.json');
+  if (!existsSync(path)) return null;
+  try {
+    const report = readJson<LeaderboardReport>(path);
+    // The board must name the run it was approved as. A file copied in from
+    // another run would otherwise be served under this run's approval.
+    if (report.runId !== runId || !Array.isArray(report.rows) || report.rows.length === 0) return null;
+    return report;
+  } catch {
+    return null;
+  }
+}
+
+/** The approved release, with its approval. Null means nothing is approved. */
+export function getApprovedRelease(): ApprovedRelease | null {
+  return existsSync(RUNS_DIR) ? resolveApprovedRelease(RUNS_DIR) : null;
+}
+
+/**
+ * The board every page renders.
+ *
+ * Kept under its old name so the pages do not each have to learn the new
+ * vocabulary at once, but it is no longer "the latest report": it is the
+ * approved one, and when nothing is approved it is null.
+ */
 export function getLatestReport(): LeaderboardReport | null {
-  if (!existsSync(RUNS_DIR)) return null;
-  const reports = readdirSync(RUNS_DIR)
-    .filter(isPublishable)
-    .map((dir) => join(RUNS_DIR, dir, 'leaderboard.json'))
-    .filter((p) => existsSync(p))
-    .map((p) => readJson<LeaderboardReport>(p))
-    // A malformed or missing timestamp sorts as NaN and would win or lose at
-    // random, so drop those rather than let one decide the homepage.
-    .filter((r) => Number.isFinite(Date.parse(r.generatedAt)));
-  if (reports.length === 0) return null;
-  reports.sort((a, b) => Date.parse(b.generatedAt) - Date.parse(a.generatedAt));
-  return reports[0]!;
+  return getApprovedRelease()?.report ?? null;
 }
 
 /** The slice of analysis.json the site reads. Mirrors RunAnalysis in the runner. */

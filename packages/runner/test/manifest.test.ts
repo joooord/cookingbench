@@ -22,6 +22,7 @@ import {
   readRunManifest,
   validatorDigest,
   verifyRunManifest,
+  verifyRunManifestWithOverrides,
   writeRunManifest,
 } from '../src/manifest.js';
 import {
@@ -32,25 +33,15 @@ import {
   appendJournalEntry,
   appendRawAnswer,
   ballotIdentity,
-  buildReleaseChecklist,
   candidateRetryKey,
-  checklistComplete,
   detectStaleScores,
   itemIdentity,
   journalHead,
-  readCurrentRun,
   readJournal,
-  readReleaseRegister,
-  registerRun,
   responseIdentity,
   retainableScores,
-  runState,
-  safeReadCurrentRun,
   scoreStatusReport,
-  setCurrentRun,
-  transitionRun,
   verifyJournal,
-  type ReleaseChecklist,
 } from '../src/lifecycle.js';
 
 /**
@@ -68,12 +59,10 @@ import {
 
 const SCRATCH = '__test-manifest-scratch';
 const DERIVED = '__test-manifest-derived';
-const REGISTER = '__test-manifest-register.json';
 
 afterEach(() => {
   rmSync(join(RUNS_DIR, SCRATCH), { recursive: true, force: true });
   rmSync(join(RUNS_DIR, DERIVED), { recursive: true, force: true });
-  rmSync(join(RUNS_DIR, REGISTER), { force: true });
 });
 
 const SETTINGS = { maxTokens: 16000, maxTokensRecipe: 32000 };
@@ -320,7 +309,7 @@ describe('DATA-002 — a changed bank cannot masquerade as the manifested one', 
     const items = seed();
     const first = items[0] as Question;
     const mutated = [{ ...first, referenceAnswer: 'something else entirely' } as Question, ...items.slice(1)];
-    const report = verifyRunManifest(SCRATCH, { dataset: mutated });
+    const report = verifyRunManifestWithOverrides(SCRATCH, {}, { dataset: mutated });
     expect(report.ok).toBe(false);
     const bank = report.findings.find((f) => f.code === 'BANK_DRIFT');
     expect(bank?.items).toEqual([first.id]);
@@ -330,7 +319,7 @@ describe('DATA-002 — a changed bank cannot masquerade as the manifested one', 
 
   it('refuses when a manifested item has left the dataset, rather than passing', () => {
     seed();
-    const report = verifyRunManifest(SCRATCH, { dataset: slice(CANARY_ITEMS.slice(1)) });
+    const report = verifyRunManifestWithOverrides(SCRATCH, {}, { dataset: slice(CANARY_ITEMS.slice(1)) });
     expect(report.ok).toBe(false);
     expect(report.findings.map((f) => f.code)).toContain('ITEM_MISSING_FROM_DATASET');
   });
@@ -339,7 +328,7 @@ describe('DATA-002 — a changed bank cannot masquerade as the manifested one', 
     const items = seed();
     const tampered = { ...readRunManifest(SCRATCH), bankHash: 'f'.repeat(64) };
     writeRunFileAtomic(SCRATCH, 'manifest.json', JSON.stringify(tampered));
-    const report = verifyRunManifest(SCRATCH, { dataset: items });
+    const report = verifyRunManifestWithOverrides(SCRATCH, {}, { dataset: items });
     expect(report.findings.map((f) => f.code)).toContain('DIGEST_DOES_NOT_BACK_MANIFEST');
     expect(report.ok).toBe(false);
   });
@@ -760,174 +749,9 @@ describe('M4.7 — score and adjudication status is complete, not just what is o
 
 // ---------------------------------------------------------------------------
 
-describe('M4.7 — the release checklist certifies nothing it did not check', () => {
-  function seeded(): void {
-    const items = slice(CANARY_ITEMS);
-    const { manifest } = buildRunManifest(draftManifest(SCRATCH), items);
-    writeRunManifest(SCRATCH, manifest, items);
-  }
-
-  it('marks an unsupplied check not-checked, and not-checked is not complete', () => {
-    seeded();
-    const checklist = buildReleaseChecklist({ runId: SCRATCH });
-    const unchecked = checklist.items.filter((i) => i.verdict === 'not-checked').map((i) => i.id);
-    expect(unchecked).toContain('lifecycle-audited');
-    expect(unchecked).toContain('coverage-complete');
-    expect(unchecked).toContain('no-stale-scores');
-    expect(checklist.complete).toBe(false);
-    expect(checklistComplete(checklist)).toBe(false);
-  });
-
-  it('recomputes completeness rather than believing the flag', () => {
-    // A checklist that asserts its own completeness is a checklist that can lie.
-    const lying = {
-      checklistVersion: 1,
-      runId: SCRATCH,
-      generatedAt: 'now',
-      manifestHash: null,
-      complete: true,
-      items: [{ id: 'x', statement: 'y', verdict: 'fail', detail: '' }],
-    } as unknown as ReleaseChecklist;
-    expect(checklistComplete(lying)).toBe(false);
-    expect(checklistComplete({ ...lying, items: [] })).toBe(false);
-  });
-
-  it('fails the evidence-class item for a development artifact', () => {
-    seeded();
-    const checklist = buildReleaseChecklist({ runId: SCRATCH });
-    expect(checklist.items.find((i) => i.id === 'evidence-class-publishable')?.verdict).toBe('fail');
-  });
-});
-
-// ---------------------------------------------------------------------------
-
-describe('M4.7 — an explicit reviewed pointer, not the newest timestamp', () => {
-  function pass(runId: string, hash: string): ReleaseChecklist {
-    return {
-      checklistVersion: 1,
-      runId,
-      generatedAt: new Date().toISOString(),
-      manifestHash: hash,
-      items: [{ id: 'stub', statement: 'every gate passed', verdict: 'pass', detail: '' }],
-      complete: true,
-    };
-  }
-
-  function registered(): string {
-    const items = slice(CANARY_ITEMS);
-    const { manifest } = buildRunManifest(draftManifest(SCRATCH), items);
-    writeRunManifest(SCRATCH, manifest, items);
-    const hash = manifestHash(manifest);
-    registerRun({ runId: SCRATCH, manifestHash: hash, actor: 'test', evidence: 'unit test', file: REGISTER });
-    return hash;
-  }
-
-  it('refuses to read a current run that nobody set', () => {
-    expect(() => readCurrentRun(REGISTER)).toThrow(LifecycleError);
-    expect(safeReadCurrentRun(REGISTER).ok).toBe(false);
-  });
-
-  it('refuses a lifecycle move nobody signed', () => {
-    registered();
-    expect(() =>
-      transitionRun({ runId: SCRATCH, to: 'audited', actor: '', evidence: 'x', file: REGISTER }),
-    ).toThrow(LifecycleError);
-  });
-
-  it('refuses to skip audit, and refuses to reopen a released run', () => {
-    const hash = registered();
-    expect(() =>
-      transitionRun({ runId: SCRATCH, to: 'released', actor: 'jordan', evidence: 'ship it', file: REGISTER, checklist: pass(SCRATCH, hash) }),
-    ).toThrow(/cannot go 'draft' → 'released'/);
-
-    transitionRun({ runId: SCRATCH, to: 'audited', actor: 'jordan', evidence: 'audited', file: REGISTER });
-    transitionRun({ runId: SCRATCH, to: 'released', actor: 'jordan', evidence: 'approved', file: REGISTER, checklist: pass(SCRATCH, hash) });
-    expect(runState(SCRATCH, REGISTER)).toBe('released');
-    expect(existsSync(join(RUNS_DIR, SCRATCH, 'RELEASED'))).toBe(true);
-    expect(() =>
-      transitionRun({ runId: SCRATCH, to: 'draft', actor: 'jordan', evidence: 'oops', file: REGISTER }),
-    ).toThrow(LifecycleError);
-  });
-
-  it('refuses to release on a checklist that is incomplete, foreign or bound to another manifest', () => {
-    const hash = registered();
-    transitionRun({ runId: SCRATCH, to: 'audited', actor: 'jordan', evidence: 'audited', file: REGISTER });
-    const release = (checklist?: ReleaseChecklist) =>
-      transitionRun({ runId: SCRATCH, to: 'released', actor: 'jordan', evidence: 'go', file: REGISTER, checklist });
-
-    expect(() => release(undefined)).toThrow(/requires a release checklist/);
-    expect(() => release({ ...pass(SCRATCH, hash), items: [{ id: 'x', statement: 'y', verdict: 'fail', detail: 'd' }] })).toThrow(
-      /not complete/,
-    );
-    expect(() => release(pass('another-run', hash))).toThrow(/names run/);
-    expect(() => release(pass(SCRATCH, 'a'.repeat(64)))).toThrow(/built against manifest/);
-    expect(runState(SCRATCH, REGISTER)).toBe('audited');
-  });
-
-  it('only points at a released run, and stops pointing when it is withdrawn', () => {
-    const hash = registered();
-    const checklist = pass(SCRATCH, hash);
-    expect(() =>
-      setCurrentRun({ runId: SCRATCH, reviewedBy: 'jordan', reviewEvidence: 'reviewed', checklist, file: REGISTER }),
-    ).toThrow(/not 'released'/);
-
-    transitionRun({ runId: SCRATCH, to: 'audited', actor: 'jordan', evidence: 'audited', file: REGISTER });
-    transitionRun({ runId: SCRATCH, to: 'released', actor: 'jordan', evidence: 'approved', file: REGISTER, checklist });
-    const pointer = setCurrentRun({
-      runId: SCRATCH,
-      reviewedBy: 'jordan',
-      reviewEvidence: 'read the board and the analysis',
-      checklist,
-      file: REGISTER,
-    });
-    expect(pointer.checklistDigest).toBe(sha256Hex(canonicalJson(checklist)));
-    expect(readCurrentRun(REGISTER).runId).toBe(SCRATCH);
-
-    // A withdrawn board must stop being current the moment it is quarantined.
-    transitionRun({ runId: SCRATCH, to: 'quarantined', actor: 'jordan', evidence: 'bad grader found', file: REGISTER });
-    expect(readReleaseRegister(REGISTER).currentRun).toBeNull();
-    expect(safeReadCurrentRun(REGISTER).ok).toBe(false);
-    // And it can never be un-quarantined in place.
-    expect(() =>
-      transitionRun({ runId: SCRATCH, to: 'released', actor: 'jordan', evidence: 'false alarm', file: REGISTER, checklist }),
-    ).toThrow(LifecycleError);
-  });
-
-  it('refuses to re-register a run against a different envelope', () => {
-    registered();
-    expect(() =>
-      registerRun({ runId: SCRATCH, manifestHash: 'b'.repeat(64), actor: 'test', evidence: 'x', file: REGISTER }),
-    ).toThrow(LifecycleError);
-    // And a run cannot be entered straight into a later state.
-    expect(() =>
-      registerRun({ runId: '__test-other', manifestHash: 'c'.repeat(64), actor: 't', evidence: 'x', initialState: 'released', file: REGISTER }),
-    ).toThrow(LifecycleError);
-  });
-
-  it('refuses an unregistered run and an unparseable or unknown-state register', () => {
-    expect(() =>
-      transitionRun({ runId: SCRATCH, to: 'audited', actor: 'jordan', evidence: 'x', file: REGISTER }),
-    ).toThrow(/not in the release register/);
-
-    writeFileSync(join(RUNS_DIR, REGISTER), '{ not json');
-    expect(() => readReleaseRegister(REGISTER)).toThrow(LifecycleError);
-
-    writeFileSync(
-      join(RUNS_DIR, REGISTER),
-      JSON.stringify({ registerVersion: 1, entries: { r: { runId: 'r', state: 'shipped', manifestHash: 'x', updatedAt: '', history: [] } }, currentRun: null }),
-    );
-    expect(() => readReleaseRegister(REGISTER)).toThrow(/not a known release state/);
-  });
-
-  it('treats an absent register as "nothing is released", not as "anything goes"', () => {
-    const register = readReleaseRegister(REGISTER);
-    expect(register.entries).toEqual({});
-    expect(register.currentRun).toBeNull();
-    expect(runState('canary', REGISTER)).toBeNull();
-  });
-});
-
-// ---------------------------------------------------------------------------
+// The release checklist, the register and the approved-release pointer moved to
+// release.test.ts when they stopped being caller-parameterised: they are now
+// one story about RELEASE-002 rather than an appendix to DATA-002.
 
 describe('the hashing this module reuses is the hashing permits are signed over', () => {
   it('takes manifestHash from permit.ts rather than re-deriving it', () => {

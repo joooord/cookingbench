@@ -1420,11 +1420,82 @@ export const questionSchema = questionObjectSchema.superRefine((q, ctx) => {
 
 export const questionFileSchema = z.array(questionSchema).min(1);
 
+/* -------------------------------------------------------------------------- */
+/* JUDGE-001 — base-model identity in the roster                              */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The sentinel for a base model the repository cannot establish.
+ *
+ * Deliberately OUTSIDE the identifier space below — a base-model id must carry
+ * a colon and this does not — so an honest unknown can never be mistaken for an
+ * identity, and, more importantly, two unknowns can never compare EQUAL to each
+ * other while comparing distinct from everything known. That is the fail-open
+ * shape this constant exists to make unrepresentable: a plain string sentinel
+ * sitting in the same namespace as real ids would make "we do not know" behave
+ * like a shared lineage between the very entries nobody has checked.
+ *
+ * It is a value somebody has to write, not an absent field, because "we did not
+ * establish this" must be a statement, not an omission. Readers must treat it as
+ * NO identity, which `hasJudgeConflict` then reads as conflicting with
+ * everything — see identityIndex in packages/runner/src/judge.ts.
+ */
+export const UNKNOWN_BASE_MODEL = 'unknown';
+
+/**
+ * `<originator>:<model>` — WHAT ANSWERS, as opposed to the OpenRouter slug,
+ * which only says WHERE THE REQUEST IS ROUTED.
+ *
+ * The two coincide while a model is served by the lab that trained it, and
+ * diverge the moment one vendor serves another vendor's weights — which is
+ * precisely the case JUDGE-001 exists for and the case a slug prefix, or a
+ * marketing tier, cannot see. A rebadge declares the originator's identity here
+ * while keeping its own reseller slug in `id`.
+ *
+ * Lowercase is required. `canonicalId` folds case when comparing, so mixed case
+ * would still be *correct*; it would not be *reviewable*, and this file is
+ * hand-edited — two spellings of one identity sitting a few lines apart is how a
+ * reviewer comes to believe there are two models.
+ */
+export const baseModelIdSchema = z
+  .string()
+  .regex(
+    /^[a-z0-9]+(?:-[a-z0-9]+)*:[a-z0-9]+(?:[.\-_][a-z0-9]+)*$/,
+    `expected a lowercase "<originator>:<model>" base-model id such as "openai:gpt-5.5", or the literal "${UNKNOWN_BASE_MODEL}"`,
+  )
+  // A half-declaration — `openai:unknown`, "it is an OpenAI model, I do not know
+  // which" — is id-SHAPED and would otherwise be admitted as a lineage, then
+  // shared with the next entry somebody could not place. An unknown is an
+  // unknown on either side of the colon, and says so with the whole sentinel.
+  .refine((id) => !id.split(':').some((part) => part === UNKNOWN_BASE_MODEL), {
+    message: `a partly-unknown base model is unknown: write "${UNKNOWN_BASE_MODEL}", not "vendor:${UNKNOWN_BASE_MODEL}"`,
+  });
+
 export const modelEntrySchema = z.object({
   id: z.string().regex(/^[\w.-]+\/[\w.:-]+$/, 'expected an OpenRouter slug like "anthropic/claude-fable-5"'),
   displayName: z.string().min(1),
   provider: z.string().min(1),
+  /**
+   * MARKETING TIER — `claude-frontier`, `gpt-mid`, `gemini-flash`. It groups
+   * entries by where a lab positions them, which is what the leaderboard's
+   * version-regression pairs are drawn from.
+   *
+   * It is NOT a base-model identity and must never be read as one:
+   * `claude-frontier` spans Fable 5, Opus 4.8 and Opus 5, three different
+   * models. Seating read this field as `baseModelFamily` until WP-0, which
+   * meant the conflict rule was comparing tiers. Use `baseModel`.
+   */
   family: z.string().optional(),
+  /**
+   * JUDGE-001 identity: the underlying trained model this entry serves. Two
+   * entries carry the same value only when they are the same model underneath.
+   *
+   * Required, and required to be explicit: an entry may say `unknown`, but it
+   * may not say nothing. A roster that can omit the field would let a new model
+   * arrive with no identity at all, and "no identity" is exactly the state a
+   * rebadge would like to be in.
+   */
+  baseModel: z.union([z.literal(UNKNOWN_BASE_MODEL), baseModelIdSchema]),
   releaseDate: z.string().optional(),
   active: z.boolean(),
 });

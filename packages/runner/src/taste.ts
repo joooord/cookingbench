@@ -69,15 +69,12 @@ export async function archiveTasteVotes(grant: VerifiedGrant): Promise<void> {
   const votes: TasteVoteRecord[] = [];
   const pageSize = 1000;
   for (let from = 0; ; from += pageSize) {
-    const { data, error } = await db
-      .from('taste_votes')
-      .select('*')
-      .order('created_at', { ascending: true })
-      .order('id', { ascending: true })
-      .range(from, from + pageSize - 1);
-    if (error) throw new Error(`taste_votes fetch failed: ${error.message}`);
+    // A fixed operation, not a raw client. serviceRoleClient no longer hands
+    // back something that can reach any table — the whole point of RUN-001's
+    // narrowed surface is that an archive read cannot become a write.
+    const data = await db.readTasteVotes({ from, to: from + pageSize - 1 });
     votes.push(...(data as TasteVoteRecord[]));
-    if (!data || data.length < pageSize) break;
+    if (data.length < pageSize) break;
   }
 
   const dir = outputRoot('taste');

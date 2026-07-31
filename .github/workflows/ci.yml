@@ -1,0 +1,222 @@
+# CookingBench CI — the offline acceptance gate.
+#
+# WHAT THIS JOB IS FOR
+#
+# WP-0's twelfth mandatory test is "continuous integration runs without secrets
+# or network access". That is not a convenience property. The entire evidence
+# firewall rests on execution being deny-by-default, and the cheapest way to
+# discover that a guard has quietly become optional is to run the whole suite
+# somewhere that holds no key, no database credential and no permit. If anything
+# here needed one, the guard it belongs to was decorative.
+#
+# NETWORK
+#
+# One step reaches the network: `pnpm install`. Everything after it is assumed to
+# run with no network at all, and is written so that assumption holds:
+#
+#   - no step contacts OpenRouter, Supabase, Vercel or any other service;
+#   - the test suite injects mocks and its paid clients refuse to construct
+#     without a verified permit, of which none is committed (the only committed
+#     permits are expired or revoked fixtures — see data/permits/fixtures);
+#   - `bench validate` and the regeneration check read committed files only.
+#
+# The egress is NOT physically removed. A GitHub-hosted runner talks to the
+# Actions service over the same interface, so dropping outbound traffic would
+# kill the job rather than harden it. What is enforced instead is the thing that
+# makes egress useless: no credential is present, and the "no secrets" step
+# below fails the build if one ever is. If this ever moves to a self-hosted
+# runner, run the post-install steps in a `--network none` container and delete
+# this paragraph.
+#
+# NO DEPLOYMENT, NO PUBLICATION
+#
+# This workflow builds nothing, deploys nothing and writes nothing back to the
+# repository. `permissions: contents: read` is the whole grant, and
+# `persist-credentials: false` means no usable token is left in the checkout's
+# git config for a later step to pick up. Vercel deployment is not driven from
+# here and must not be.
+#
+# ACTION PINNING
+#
+# Actions are pinned to major-version tags, not to commit digests. A digest is
+# the stronger pin and is what this should eventually use; it is not applied
+# here because the correct digests cannot be verified from this environment, and
+# a guessed digest is a build that fails for a reason nobody can debug. Recorded
+# as a follow-up rather than left implied.
+
+name: CI
+
+on:
+  pull_request:
+  push:
+    # Integration branches only. The production branch is deployed by Vercel and
+    # is deliberately not something this workflow interacts with.
+    branches:
+      - 'v3/**'
+      - 'claude/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  offline-acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Check out the commit under review
+        uses: actions/checkout@v4
+        with:
+          # No credential left behind for a later step, deliberate or otherwise.
+          persist-credentials: false
+
+      # ---------------------------------------------------------------------
+      # Prove the environment is as unprivileged as it claims to be. This runs
+      # BEFORE the install, so a build that should never have started stops
+      # before it has done anything at all.
+      # ---------------------------------------------------------------------
+      - name: Refuse to run with secrets in the environment
+        run: |
+          set -euo pipefail
+          fail=0
+          for name in OPENROUTER_API_KEY SUPABASE_SERVICE_ROLE_KEY SUPABASE_ACCESS_TOKEN VERCEL_TOKEN NPM_TOKEN; do
+            if [ -n "${!name:-}" ]; then
+              echo "✗ $name is set. CI must prove the suite passes with no credential of any kind."
+              fail=1
+            fi
+          done
+          # The CLI loads a repo-root .env if one exists. It is gitignored, so
+          # its presence here would mean something added it during the job.
+          if [ -f .env ]; then
+            echo "✗ A .env file exists in the checkout."
+            fail=1
+          fi
+          # Self-enforcing: no workflow in this repository may reference a
+          # secret. The pattern is written so it does not match its own line.
+          if grep -RIn 'secrets[.]' .github/workflows; then
+            echo "✗ A workflow references a repository secret. This build is supposed to have none."
+            fail=1
+          fi
+          exit $fail
+
+      - name: Refuse to run with private key material committed
+        run: |
+          set -euo pipefail
+          # The permit system's whole value is that the signing key is offline
+          # with a human. A private key in the repository would mean the system
+          # enforcing approval could approve itself.
+          if git ls-files | grep -E '\.(key|pem|p12|pfx)$'; then
+            echo "✗ Key-shaped file committed."
+            exit 1
+          fi
+          if git grep -I -l -e 'BEGIN [A-Z ]*PRIVATE KEY' -- . ':!*.md'; then
+            echo "✗ A PEM private key block is committed."
+            exit 1
+          fi
+          echo "✓ No private key material in the tree."
+
+      # ---------------------------------------------------------------------
+      # The preserved corpus. 2,576 responses and the old scores are read-only
+      # inputs (DATA-001): they are evidence, and evidence that can be edited by
+      # the pipeline that produced it is not evidence. Git tree hashes are the
+      # cheapest possible proof, and they catch a rewrite that a file-by-file
+      # check would miss.
+      #
+      # These two constants are updated ONLY by a deliberate, reviewed decision
+      # to change the historical record — which for the preserved corpus means
+      # essentially never.
+      # ---------------------------------------------------------------------
+      - name: Verify the historical corpus is byte-for-byte unchanged
+        run: |
+          set -euo pipefail
+          expected_runs=b9fd00163e3dadbe840ebed7dc368c250a227fe5
+          expected_taste=ad159d0d09e16e341994a7ec905cd5ef6a682d34
+          actual_runs=$(git rev-parse HEAD:data/runs)
+          actual_taste=$(git rev-parse HEAD:data/taste)
+          if [ "$actual_runs" != "$expected_runs" ]; then
+            echo "✗ data/runs tree is $actual_runs, expected $expected_runs."
+            echo "  Historical run artifacts are immutable inputs. Derive a new run id instead."
+            exit 1
+          fi
+          if [ "$actual_taste" != "$expected_taste" ]; then
+            echo "✗ data/taste tree is $actual_taste, expected $expected_taste."
+            echo "  The ballots, not the board, are the permanent record."
+            exit 1
+          fi
+          echo "✓ data/runs and data/taste are unchanged."
+
+      - name: Set up pnpm
+        # Version comes from `packageManager` in package.json, so the toolchain
+        # is pinned by the repository rather than by this file.
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          # Must satisfy `engines.node` (>=20). Pinned to a major rather than
+          # `latest` so a Node release cannot change the meaning of a green run.
+          node-version: '22'
+          cache: pnpm
+
+      # THE ONLY STEP THAT USES THE NETWORK.
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --prefer-offline
+
+      # ---------------------------------------------------------------------
+      # From here on: no network, no secrets, no database, no model calls.
+      # ---------------------------------------------------------------------
+
+      - name: Typecheck every package
+        run: |
+          set -euo pipefail
+          # Named individually rather than `pnpm -r typecheck`, so a package
+          # without a typecheck script cannot be skipped in silence. The count
+          # check is what forces a NEW package to be added here.
+          count=$(ls -d apps/* packages/* | wc -l)
+          if [ "$count" -ne 3 ]; then
+            echo "✗ The workspace has $count packages; this job typechecks 3 by name."
+            echo "  Add the new package to this step rather than switching to a recursive command."
+            exit 1
+          fi
+          pnpm --filter @cookingbench/core typecheck
+          pnpm --filter @cookingbench/runner typecheck
+          pnpm --filter web typecheck
+
+      - name: Run the test suite
+        # Injected mocks throughout; every paid or live-data path is deny-by-
+        # default and there is no permit here to lift it.
+        run: |
+          set -euo pipefail
+          pnpm --filter @cookingbench/core test
+          pnpm --filter @cookingbench/runner test
+
+      - name: Validate the dataset
+        # Free, offline, and the gate that makes a broken grader uncommittable:
+        # every referenceAnswer must score 100 against its own grader.
+        run: pnpm bench validate
+
+      - name: Check the acceptance artifacts regenerate byte-identically
+        # TRACE-001. docs/wp-0/acceptance-summary.json is derived from the route
+        # registry, the traceability matrix and the WP-0 brief. If one of them
+        # moved without the summary being regenerated, the committed acceptance
+        # numbers describe a repository that no longer exists — so this fails
+        # the build and names the line that drifted.
+        run: pnpm --filter @cookingbench/runner exec tsx src/regenerate.ts --check
+
+      - name: Fail if the build modified the working tree
+        # Nothing above is allowed to write to the repository. A test that
+        # leaves a file behind is a test that can pass because of the previous
+        # run, and a generator that rewrites its own input is not a check.
+        run: |
+          set -euo pipefail
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "✗ The working tree was modified during the build:"
+            git status --porcelain
+            git diff
+            exit 1
+          fi
+          echo "✓ Working tree clean."

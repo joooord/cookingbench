@@ -56,11 +56,12 @@ import { manifestHash, sha256Hex } from './permit.js';
  *                   attention hints, because both are pasted into the judge
  *                   prompt: editing a reference answer changes how every
  *                   candidate was graded, and that must invalidate judge scores.
- *   validatorHash   Grader SOURCE. A grader has no rendered form, so source is
- *                   the only honest level. The 2026-07 grader audit is the case
- *                   for it: a fixed keyword grader moved six of thirteen
- *                   positions, and nothing in the artifacts recorded that the
- *                   scoring code had changed underneath them.
+ *   validatorHash   SOURCE of every result-changing module. A grader has no
+ *                   rendered form, so source is the only honest level. The
+ *                   2026-07 grader audit is the case for it: a fixed keyword
+ *                   grader moved six of thirteen positions, and nothing in the
+ *                   artifacts recorded that the scoring code had changed
+ *                   underneath them.
  *
  * Source hashing normalises CRLF to LF. A Windows checkout must not produce a
  * different validatorHash for identical code — that is a reproducibility bug
@@ -78,6 +79,8 @@ export type ManifestErrorCode =
   | 'DATASET_INVALID'
   | 'JUDGE_PROMPT_UNRENDERABLE'
   | 'VALIDATOR_SOURCE_MISSING'
+  | 'RUN_IDENTITY_MISMATCH'
+  | 'TEST_SEAM_IN_PRODUCTION'
   | 'ARTIFACTS_DO_NOT_MATCH';
 
 export class ManifestError extends Error {
@@ -104,7 +107,48 @@ export const MANIFEST_FILE = 'manifest.json';
  */
 export const MANIFEST_DIGEST_FILE = 'manifest-digest.json';
 
-export const DIGEST_VERSION = 1;
+/**
+ * The manifest's own digest, persisted beside it (DATA-002: "persist the exact
+ * manifest AND its digest with the run").
+ *
+ * Not decoration. `manifestHash` is what a permit signs and what the release
+ * register binds a lifecycle to, and until now it existed only in memory: the
+ * run recorded the envelope but not the identity everything else refers to it
+ * by. Written as a separate one-line file rather than a field inside
+ * manifest.json, because a manifest that contains its own hash cannot be hashed
+ * without a fixed-point rule, and every such rule is a place to hide a
+ * mismatch.
+ */
+export const MANIFEST_HASH_FILE = 'manifest.sha256';
+
+export const DIGEST_VERSION = 2;
+
+/**
+ * Refuse a test-only seam outside a test process.
+ *
+ * The rule this enforces: a safeguard is meaningless when the thing it guards
+ * can choose the safeguard's inputs. Every function in this codebase that lets
+ * a caller substitute a trust input — the dataset a hash is recomputed from,
+ * the register file a lifecycle is read out of — is reachable from production
+ * the moment it is exported, and "only tests call it" is a convention, not a
+ * boundary. Production entry points therefore take FIXED inputs, the injectable
+ * form is named so a production call site is obvious in review, and this check
+ * makes the call fail closed if one ever lands.
+ *
+ * `VITEST` is set by the runner in every worker; `NODE_ENV=test` covers a
+ * non-vitest harness. Neither is a security control against an operator who
+ * controls the environment — that operator can edit the source anyway — and the
+ * threat this addresses is unattended code quietly selecting its own inputs.
+ */
+export function assertTestSeam(name: string): void {
+  if (process.env.VITEST === undefined && process.env.NODE_ENV !== 'test') {
+    throw new ManifestError(
+      `${name} is a test-only seam and was called outside a test process. ` +
+        `It exists so tests can substitute a trust input; production must use the fixed entry point, which takes none.`,
+      'TEST_SEAM_IN_PRODUCTION',
+    );
+  }
+}
 
 /**
  * The fixed candidate answer used to render judge prompts for hashing.
@@ -120,23 +164,52 @@ const JUDGE_PROBE_ANSWER_B =
   'PROBE ANSWER TWO: a second fixed placeholder used only to render this prompt for hashing.';
 
 /**
- * Grader source that `validatorHash` covers.
+ * Source trees that `validatorHash` covers.
  *
- * The graders directory is LISTED rather than enumerated by hand. A hard-coded
- * list is fail-open by construction: adding `graders/newthing.ts` would leave it
+ * LISTED rather than enumerated by hand, and the default is INCLUSION. A
+ * hand-written include list is fail-open by construction: adding
+ * `graders/newthing.ts`, or a whole new statistics module, would leave it
  * outside the hash, and the one thing this digest exists to catch is scoring
  * code changing without the artifacts noticing.
+ *
+ * The previous version of this covered `packages/core/src/graders` plus one
+ * named file. That was the defect: the judge, the adjudicator, the statistics
+ * and the analysis all change scores and all sat outside the hash, so a
+ * re-seated deduction map or a changed bootstrap could move the board without
+ * invalidating a single artifact.
  */
-const VALIDATOR_DIR = join('packages', 'core', 'src', 'graders');
+const VALIDATOR_ROOTS = [join('packages', 'core', 'src'), join('packages', 'runner', 'src')];
 
 /**
- * Validators outside the graders directory, named individually because they are
- * not discoverable by listing. Each is recorded with `present: true|false`, so
- * an absent file is a stated fact inside the digest rather than a silently
- * shorter list — deletion changes the hash either way, but the reader can see
- * which happened.
+ * The only files inside those trees that are NOT result-changing, each with the
+ * reason it is out.
+ *
+ * Exclusion is explicit, auditable and INSIDE the hashed payload, so quietly
+ * adding `judge.ts` to this list to stop a digest moving changes the digest.
+ * The test for the property is the important one: a new module is covered
+ * without anyone remembering to add it, and removing coverage is visible.
+ *
+ * The line drawn is "can this module change what a given answer scores?", not
+ * "is this module important". Transport, authorisation, budget and path code
+ * can refuse work or move bytes; none of them can turn a 40 into a 90.
  */
-const NAMED_VALIDATOR_FILES = [join('packages', 'core', 'src', 'kitchenplan.ts')];
+const NOT_RESULT_CHANGING: ReadonlyMap<string, string> = new Map([
+  [join('packages', 'runner', 'src', 'openrouter.ts'), 'transport: issues the call, never scores it'],
+  [join('packages', 'runner', 'src', 'ledger.ts'), 'budget accounting: can stop a call, cannot change a score'],
+  [join('packages', 'runner', 'src', 'permit.ts'), 'authorisation: admits or refuses work'],
+  [join('packages', 'runner', 'src', 'firewall.ts'), 'path and capability enforcement'],
+  [join('packages', 'runner', 'src', 'redemption.ts'), 'permit accounting'],
+  [join('packages', 'runner', 'src', 'supabase.ts'), 'transport: database client construction'],
+  [join('packages', 'runner', 'src', 'sync.ts'), 'transport: copies finished artifacts outwards'],
+  [join('packages', 'runner', 'src', 'taste.ts'), 'transport: archives ballots, computes no benchmark score'],
+  [join('packages', 'runner', 'src', 'estimate.ts'), 'cost projection only'],
+  [join('packages', 'runner', 'src', 'derive.ts'), 'copies bytes and records lineage'],
+  [join('packages', 'runner', 'src', 'lifecycle.ts'), 'gating and lifecycle state; scores nothing'],
+  [
+    join('packages', 'runner', 'src', 'manifest.ts'),
+    'computes this very digest; including it would make every comment in this file a scoring change',
+  ],
+]);
 
 /**
  * Written by derive.ts, read here by name.
@@ -155,6 +228,12 @@ export interface ValidatorFileDigest {
   path: string;
   present: boolean;
   sha256: string | null;
+}
+
+/** A source file deliberately left outside the hash, and why. */
+export interface ValidatorExclusion {
+  path: string;
+  reason: string;
 }
 
 export interface ItemDigest {
@@ -178,6 +257,8 @@ export interface ContentDigest {
   validatorHash: string;
   items: Record<string, ItemDigest>;
   validatorFiles: ValidatorFileDigest[];
+  /** Stated, not silent: what was left out of validatorHash and on what grounds. */
+  validatorExclusions: ValidatorExclusion[];
 }
 
 export interface PromptSettings {
@@ -251,29 +332,72 @@ function readSourceHash(relativePath: string): string | null {
   return sha256Hex(readFileSync(absolute, 'utf8').replace(/\r\n/g, '\n'));
 }
 
-/** Grader source, discovered rather than enumerated. */
-export function validatorDigest(): { validatorHash: string; files: ValidatorFileDigest[] } {
-  const graderDir = join(REPO_ROOT, VALIDATOR_DIR);
-  if (!existsSync(graderDir)) {
+/** Every `.ts` under `root`, repository-relative and depth-first, sorted. */
+function listSources(root: string): string[] {
+  const absolute = join(REPO_ROOT, root);
+  if (!existsSync(absolute)) {
     throw new ManifestError(
-      `Grader source directory ${VALIDATOR_DIR} is missing. Refusing to hash a validator set that cannot be read.`,
+      `Source directory ${root} is missing. Refusing to hash a validator set that cannot be read.`,
       'VALIDATOR_SOURCE_MISSING',
     );
   }
-  const discovered = readdirSync(graderDir)
-    .filter((f) => f.endsWith('.ts'))
-    .sort()
-    .map((f) => join(VALIDATOR_DIR, f));
-  const files: ValidatorFileDigest[] = [...discovered, ...NAMED_VALIDATOR_FILES]
+  const found: string[] = [];
+  for (const entry of readdirSync(absolute, { withFileTypes: true }).sort((a, b) => (a.name < b.name ? -1 : 1))) {
+    const relative = join(root, entry.name);
+    // Symlinks are neither followed nor hashed: a link could point the digest
+    // at source outside the repository, which is drift the hash would report as
+    // stability. Directories are walked; anything else is ignored.
+    if (entry.isSymbolicLink()) continue;
+    if (entry.isDirectory()) found.push(...listSources(relative));
+    else if (entry.isFile() && entry.name.endsWith('.ts')) found.push(relative);
+  }
+  return found;
+}
+
+/**
+ * Result-changing source, discovered rather than enumerated.
+ *
+ * Fails closed twice over: an unreadable root throws, and an empty discovered
+ * set throws, because an empty validator set hashes to a perfectly stable value
+ * that binds no code at all — the most dangerous kind of green.
+ */
+export function validatorDigest(): {
+  validatorHash: string;
+  files: ValidatorFileDigest[];
+  exclusions: ValidatorExclusion[];
+} {
+  const discovered = VALIDATOR_ROOTS.flatMap((root) => listSources(root));
+  const exclusions: ValidatorExclusion[] = [];
+  const included: string[] = [];
+  for (const path of discovered) {
+    const reason = NOT_RESULT_CHANGING.get(path);
+    if (reason === undefined) included.push(path);
+    else exclusions.push({ path, reason });
+  }
+  // An exclusion naming a file that no longer exists is a stale licence to omit
+  // something: the next file to take that path would be silently uncovered.
+  for (const [path, reason] of NOT_RESULT_CHANGING) {
+    if (!discovered.includes(path)) {
+      throw new ManifestError(
+        `${path} is excluded from validatorHash ("${reason}") but is not in [${VALIDATOR_ROOTS.join(', ')}]. ` +
+          `A stale exclusion is a hole waiting for a file to fall into it.`,
+        'VALIDATOR_SOURCE_MISSING',
+      );
+    }
+  }
+  if (included.length === 0) {
+    throw new ManifestError(
+      `No result-changing sources found in [${VALIDATOR_ROOTS.join(', ')}]. An empty validator set hashes to a stable value that binds nothing.`,
+      'VALIDATOR_SOURCE_MISSING',
+    );
+  }
+  const files: ValidatorFileDigest[] = included
     .map((path) => ({ path, present: existsSync(join(REPO_ROOT, path)), sha256: readSourceHash(path) }))
     .sort((a, b) => (a.path < b.path ? -1 : a.path > b.path ? 1 : 0));
-  if (discovered.length === 0) {
-    throw new ManifestError(
-      `No grader sources found in ${VALIDATOR_DIR}. An empty validator set hashes to a stable value that binds nothing.`,
-      'VALIDATOR_SOURCE_MISSING',
-    );
-  }
-  return { validatorHash: digest('cookingbench/validator', files), files };
+  exclusions.sort((a, b) => (a.path < b.path ? -1 : 1));
+  // Exclusions are hashed alongside the files, so moving a module out of
+  // coverage moves the digest instead of quietly shrinking it.
+  return { validatorHash: digest('cookingbench/validator', { files, exclusions }), files, exclusions };
 }
 
 /**
@@ -333,6 +457,7 @@ export function computeContentDigest(questions: Question[], settings: PromptSett
     validatorHash: validator.validatorHash,
     items,
     validatorFiles: validator.files,
+    validatorExclusions: validator.exclusions,
   };
 }
 
@@ -480,7 +605,34 @@ export function writeRunManifest(
 
   writeRunFileAtomic(runId, MANIFEST_FILE, `${JSON.stringify(manifest, null, 2)}\n`);
   writeRunFileAtomic(runId, MANIFEST_DIGEST_FILE, `${JSON.stringify(computed, null, 2)}\n`);
+  // Written LAST. The sidecar is what every later gate compares against, so a
+  // crash between the three writes leaves a run with no recorded identity —
+  // which verification refuses — rather than an identity for a manifest that
+  // was never finished.
+  writeRunFileAtomic(runId, MANIFEST_HASH_FILE, `${hash}\n`);
   return { manifest, manifestHash: hash, digest: computed, written: true };
+}
+
+/**
+ * The manifest identity recorded with the run.
+ *
+ * Three outcomes, kept distinct: no sidecar, an unreadable one, and a digest.
+ * Collapsing the first two into null would let a truncated sidecar read as "a
+ * pre-sidecar run", which is exactly the direction that turns an incident into
+ * a shrug. Reported rather than thrown so verification can gather findings.
+ */
+export type RecordedManifestHash =
+  | { state: 'absent' }
+  | { state: 'malformed'; raw: string }
+  | { state: 'present'; hash: string };
+
+export function readRunManifestHash(runId: string): RecordedManifestHash {
+  const path = resolveRunFile(runId, MANIFEST_HASH_FILE, { write: false });
+  if (!existsSync(path)) return { state: 'absent' };
+  const recorded = readFileSync(path, 'utf8').trim();
+  return /^[a-f0-9]{64}$/.test(recorded)
+    ? { state: 'present', hash: recorded }
+    : { state: 'malformed', raw: recorded.slice(0, 64) };
 }
 
 function readJson(path: string, code: ManifestErrorCode): unknown {
@@ -542,6 +694,8 @@ export function readRunDigest(runId: string): ContentDigest {
 export type VerificationCode =
   | 'MANIFEST_ABSENT'
   | 'MANIFEST_INVALID'
+  | 'MANIFEST_HASH_ABSENT'
+  | 'MANIFEST_HASH_MISMATCH'
   | 'DIGEST_ABSENT'
   | 'DIGEST_INVALID'
   | 'DIGEST_DOES_NOT_BACK_MANIFEST'
@@ -571,16 +725,33 @@ export interface VerificationReport {
   findings: VerificationFinding[];
 }
 
+/**
+ * What a PRODUCTION caller may ask for.
+ *
+ * Exactly one switch, and it can only ever make the check stricter. Everything
+ * that decides what "correct" means — which dataset the hashes are recomputed
+ * from, whether they are recomputed at all — used to live here too, and that was
+ * the defect: the run being verified could choose the verifier's inputs. Those
+ * moved to `verifyRunManifestWithOverrides`, which refuses outside a test
+ * process.
+ */
 export interface VerifyOptions {
-  /**
-   * Recompute the four hashes from the current working tree and compare.
-   * Default true. Set false to audit a frozen run whose bank has legitimately
-   * moved on, in which case only the run's own internal consistency is checked.
-   */
-  recompute?: boolean;
   /** Require a stored response for every declared (model, item) cell. */
   expectComplete?: boolean;
-  /** Override the dataset used for recomputation. Defaults to the repository's. */
+}
+
+/**
+ * Trust inputs a TEST may substitute. Unreachable from the production entry
+ * point, by construction rather than by convention.
+ */
+export interface VerifyOverrides {
+  /**
+   * Recompute the four hashes from the current working tree and compare.
+   * Default true. False audits a frozen run whose bank has legitimately moved
+   * on, checking only the run's own internal consistency.
+   */
+  recompute?: boolean;
+  /** Substitute the dataset used for recomputation, to simulate drift. */
   dataset?: Question[];
 }
 
@@ -603,8 +774,26 @@ export interface VerifyOptions {
  * unverifiable component is an error finding, not a silent pass.
  */
 export function verifyRunManifest(runId: string, opts: VerifyOptions = {}): VerificationReport {
+  return verify(runId, opts, {});
+}
+
+/**
+ * The injectable form. Test-only: it lets the caller choose the bank the hashes
+ * are recomputed against, which is precisely the authority a production caller
+ * must not have.
+ */
+export function verifyRunManifestWithOverrides(
+  runId: string,
+  opts: VerifyOptions,
+  overrides: VerifyOverrides,
+): VerificationReport {
+  assertTestSeam('verifyRunManifestWithOverrides');
+  return verify(runId, opts, overrides);
+}
+
+function verify(runId: string, opts: VerifyOptions, overrides: VerifyOverrides): VerificationReport {
   const findings: VerificationFinding[] = [];
-  const recompute = opts.recompute ?? true;
+  const recompute = overrides.recompute ?? true;
 
   let manifest: ValidatedRunManifest;
   try {
@@ -623,6 +812,28 @@ export function verifyRunManifest(runId: string, opts: VerifyOptions = {}): Veri
         },
       ],
     };
+  }
+
+  // DATA-002: the run must carry the identity everything else refers to it by.
+  // An absent sidecar is a refusal, not a "pre-sidecar run" — there is no such
+  // thing under this methodology, and treating absence as legacy is how a
+  // hand-assembled run directory would pass.
+  const declaredHash = manifestHash(manifest);
+  const recorded = readRunManifestHash(runId);
+  if (recorded.state === 'absent') {
+    findings.push({
+      code: 'MANIFEST_HASH_ABSENT',
+      severity: 'error',
+      detail: `Run ${runId} has no ${MANIFEST_HASH_FILE}. The manifest's own digest is what a permit signs and what the release register binds; a run that does not record it cannot be tied to any approval.`,
+    });
+  } else if (recorded.state === 'malformed' || recorded.hash !== declaredHash) {
+    findings.push({
+      code: 'MANIFEST_HASH_MISMATCH',
+      severity: 'error',
+      detail:
+        `${MANIFEST_HASH_FILE} records ${recorded.state === 'malformed' ? JSON.stringify(recorded.raw) : `${recorded.hash.slice(0, 12)}…`} ` +
+        `but ${MANIFEST_FILE} hashes to ${declaredHash.slice(0, 12)}…. One of the two was edited after the fact.`,
+    });
   }
 
   let digest: ContentDigest | null = null;
@@ -651,7 +862,7 @@ export function verifyRunManifest(runId: string, opts: VerifyOptions = {}): Veri
     }
 
     if (recompute) {
-      const dataset = new Map((opts.dataset ?? loadDatasetSafely(findings)).map((q) => [q.id, q]));
+      const dataset = new Map((overrides.dataset ?? loadDatasetSafely(findings)).map((q) => [q.id, q]));
       const missing = digest.itemIds.filter((id) => !dataset.has(id));
       if (missing.length > 0) {
         findings.push({
@@ -712,7 +923,7 @@ export function verifyRunManifest(runId: string, opts: VerifyOptions = {}): Veri
 
   return {
     runId,
-    manifestHash: manifestHash(manifest),
+    manifestHash: declaredHash,
     ok: !findings.some((f) => f.severity === 'error'),
     findings,
   };
@@ -854,6 +1065,52 @@ function verifyStoredResponses(
       });
     }
   }
+}
+
+/**
+ * Every name for "this run" must be the same name (RELEASE-002).
+ *
+ * Four independent strings claim to identify one run: the id the operator asked
+ * for, the id the permit authorises, the id inside the manifest the permit was
+ * signed against, and the id stamped on the artifacts. Any one of them differing
+ * means an approval for one run is being spent on another, and each of the four
+ * was previously checked in a different place, or not at all — `publish` never
+ * compared the permit's run id with the run it published.
+ *
+ * Undefined is not "agrees". A caller that cannot supply one of these has not
+ * established it, so it must not be passed; the fields are required.
+ */
+export interface RunIdentityClaims {
+  /** What the operator asked for on the command line. */
+  requested: string;
+  /** `grant.runId` — the run the signature authorises. */
+  permit: string;
+  /** `manifest.runId` from the manifest the permit is bound to by hash. */
+  manifest: string;
+  /** The id stamped inside the run's own artifacts (config, board, responses). */
+  artifact: string;
+}
+
+export function assertRunIdentity(claims: RunIdentityClaims, context: string): string {
+  const entries = Object.entries(claims) as Array<[keyof RunIdentityClaims, string]>;
+  for (const [source, value] of entries) {
+    if (typeof value !== 'string' || value.trim() === '') {
+      throw new ManifestError(
+        `${context}: the ${source} run id is ${JSON.stringify(value)}. An unestablished identity is not a matching one.`,
+        'RUN_IDENTITY_MISMATCH',
+      );
+    }
+  }
+  const distinct = [...new Set(entries.map(([, value]) => value))];
+  if (distinct.length > 1) {
+    throw new ManifestError(
+      `${context}: run identity disagrees — ` +
+        entries.map(([source, value]) => `${source}='${value}'`).join(', ') +
+        `. An approval binds one run; spending it on another is the whole failure mode.`,
+      'RUN_IDENTITY_MISMATCH',
+    );
+  }
+  return distinct[0]!;
 }
 
 /** Throwing form, for gates that should refuse rather than branch. */

@@ -14,6 +14,7 @@ import {
   type EvidenceClass,
   type Permit,
   type PermitKind,
+  type ReleaseState,
   type ValidatedRunManifest,
 } from '@cookingbench/core';
 import { DATA_DIR } from './dataset.js';
@@ -21,22 +22,53 @@ import { DATA_DIR } from './dataset.js';
 /**
  * RUN-001 — permit verification, and the grant that verification mints.
  *
- * The point of this module is that authority is a RUNTIME fact.
+ * WHAT SIGNING IS HERE, AND WHAT IT IS NOT.
+ *
+ * A permit is APPROVAL and PROVENANCE. It records that a named human approved
+ * one exact execution envelope, and it makes unattended, accidental or
+ * over-reaching action fail closed instead of proceeding. That is the whole
+ * claim.
+ *
+ * It is NOT a defence against an operator who controls this machine. Anyone who
+ * can write to the repository can commit their own verification key, edit this
+ * module, or replace the caller. Saying otherwise would be worse than saying
+ * nothing, because it would stop people looking. The threat this closes is the
+ * one that actually occurs: an agent or a script doing something expensive,
+ * irreversible or public that nobody approved.
+ *
+ * THE POINT OF THE MODULE: authority is a RUNTIME fact.
  *
  * The previous attempt at an unforgeable value used `declare const brand: unique
  * symbol` and an intersection type. TypeScript erases that entirely, so a
  * hand-written object literal walked straight through the boundary at runtime —
- * and the code around it read as if it were guarded, which is worse than an
- * unguarded boundary because it stops people looking. A type-level brand is a
+ * and the code around it read as if it were guarded. A type-level brand is a
  * lint.
  *
  * So a `VerifiedGrant` here is not a shape. It is MEMBERSHIP of a module-private
- * WeakSet that only `verifyPermit` writes to. There is no exported way to add to
- * it, the set is never returned, and structural equality buys nothing: a copy of
- * a real grant — spread, `structuredClone`, `JSON.parse(JSON.stringify(...))` —
- * is a different object identity and therefore carries no authority. That check
- * behaves the same from TypeScript, from plain JavaScript, from a test using
- * `as any`, and across a package boundary, which is the actual requirement.
+ * WeakSet that only the verification core writes to. There is no exported way to
+ * add to it, the set is never returned, and structural equality buys nothing: a
+ * copy of a real grant — spread, `structuredClone`, `JSON.parse(JSON.stringify(
+ * ...))` — is a different object identity and therefore carries no authority.
+ *
+ * THE TRUST ROOT IS NOT AN ARGUMENT.
+ *
+ * The earlier version of this module took `keyringDir`, `revocationListPath` and
+ * `now` as optional parameters, defaulted to the committed ones, and let
+ * production callers pass their own. That is not a boundary: unattended code
+ * could point the keyring at a key it had just minted, or move the clock past an
+ * expiry, and every downstream check would pass honestly against inputs the
+ * caller chose. A safeguard is meaningless when the thing it guards picks the
+ * safeguard's definition.
+ *
+ * The seam is therefore SPLIT, on the same pattern as `ReservationLedger`:
+ *
+ *   - `verifyPermit` / `verifyPermitFile` are the PRODUCTION entry points. They
+ *     take no trust inputs at all, and they REFUSE an options object carrying
+ *     any — refusing rather than ignoring, because a silently-dropped
+ *     `keyringDir` reads to the author as if it worked.
+ *   - `verifyPermitForTests` is the test seam. Production source never calls it
+ *     (there is a test that greps for that), and it additionally refuses to run
+ *     outside a test process.
  *
  * Verification order matters and is deliberate: NOTHING in the permit body is
  * acted on before the signature over it is checked. Every field — kind,
@@ -47,12 +79,16 @@ import { DATA_DIR } from './dataset.js';
 export type PermitErrorCode =
   | 'PERMIT_MALFORMED'
   | 'GRANT_NOT_MINTED'
+  | 'PERMIT_TRUST_INPUT_REJECTED'
+  | 'PERMIT_SEAM_CLOSED'
   | 'PERMIT_KEYRING_UNAVAILABLE'
   | 'PERMIT_UNKNOWN_KEY'
   | 'PERMIT_BAD_KEY'
   | 'PERMIT_BAD_SIGNATURE'
+  | 'PERMIT_CHOOSES_OWN_TRUST'
   | 'PERMIT_MANIFEST_MISMATCH'
   | 'PERMIT_METHODOLOGY_MISMATCH'
+  | 'PERMIT_RUN_MISMATCH'
   | 'PERMIT_NOT_YET_VALID'
   | 'PERMIT_EXPIRED'
   | 'PERMIT_KIND_FORBIDS_CAPABILITY'
@@ -78,7 +114,7 @@ export class PermitError extends Error {
 // ---------------------------------------------------------------------------
 
 /**
- * Proof that a permit was verified. Obtainable only from `verifyPermit`.
+ * Proof that a permit was verified. Obtainable only from the verification core.
  *
  * The fields are readable because callers need them for enforcement and for the
  * traceability record; the fields are not what makes it a grant.
@@ -92,10 +128,14 @@ export interface VerifiedGrant {
   readonly executionLimit: number;
   /** The one manifest this grant is bound to. */
   readonly manifestHash: string;
+  /** The ONE run this authority is for. Everything downstream binds to it. */
   readonly runId: string;
   readonly evidenceClass: EvidenceClass;
+  /** Carried so publication can check the artifact, not only the capability. */
+  readonly releaseState: ReleaseState;
   /** Which committed public key verified the signature. */
   readonly keyId: string;
+  readonly notBeforeIso: string;
   readonly notAfterIso: string;
   readonly verifiedAtIso: string;
 }
@@ -108,6 +148,17 @@ export interface VerifiedGrant {
  * same mistake the frozen-run cache made in an earlier draft of the firewall.
  */
 const MINTED = new WeakSet<object>();
+
+/**
+ * Which trust root minted each grant.
+ *
+ * Re-validation at exercise time (`assertGrantStillValid`) must consult the
+ * SAME revocation source and the SAME clock that the grant was minted against,
+ * or a test grant would be re-checked against the repository's list and a
+ * production grant could be re-checked against a temp file. Module-private and
+ * weak, for the same reasons as MINTED.
+ */
+const TRUST_ROOT_FOR_GRANT = new WeakMap<object, TrustRoot>();
 
 /**
  * The runtime authority check. Everything that consumes a grant must call this
@@ -130,19 +181,52 @@ export function assertVerifiedGrant(value: unknown, context: string): VerifiedGr
 }
 
 // ---------------------------------------------------------------------------
-// Keyring
+// The trust root
 // ---------------------------------------------------------------------------
 
 export const PERMITS_DIR = join(DATA_DIR, 'permits');
 export const KEYRING_DIR = join(PERMITS_DIR, 'keys');
 export const REVOCATION_LIST = join(PERMITS_DIR, 'revoked.json');
+/** Committed, deliberately unusable permits that prove the production loader. */
+export const PERMIT_FIXTURES_DIR = join(PERMITS_DIR, 'fixtures');
 
 /**
- * Key ids are a filename component. Constrained rather than sanitised, so a
- * permit naming `../../../etc/something` is rejected as a bad id rather than
- * cleaned into a plausible one.
+ * Where verification gets its answers from. Never a parameter of the production
+ * API; see the module header.
  */
-const KEY_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
+interface TrustRoot {
+  readonly keyringDir: string;
+  readonly revocationListPath: string;
+  readonly clock: () => Date;
+  /** Named in errors, so a refusal says which world it was judged against. */
+  readonly label: string;
+}
+
+/**
+ * The only trust root production ever uses: the committed keyring, the
+ * committed revocation list, and the machine's real clock.
+ */
+const PRODUCTION_TRUST_ROOT: TrustRoot = Object.freeze({
+  keyringDir: KEYRING_DIR,
+  revocationListPath: REVOCATION_LIST,
+  clock: () => new Date(),
+  label: 'the committed repository trust root',
+});
+
+/**
+ * Whether this process is a test runner, decided ONCE at module load.
+ *
+ * Read once on purpose: a value re-read per call could be flipped part-way
+ * through a long-running production process. This is defence in depth around
+ * the test seam, not a security boundary — an operator who controls the
+ * environment controls this too, which is exactly what the module header says
+ * signing does not defend against. The boundary that matters is that the
+ * production API has no trust parameters to reach.
+ */
+const UNDER_TEST =
+  process.env.VITEST === 'true' ||
+  process.env.VITEST_WORKER_ID !== undefined ||
+  process.env.NODE_ENV === 'test';
 
 /**
  * Load a committed Ed25519 public key.
@@ -153,7 +237,10 @@ const KEY_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
  * be decoration.
  */
 function loadPublicKey(keyId: string, keyringDir: string): KeyObject {
-  if (!KEY_ID_PATTERN.test(keyId)) {
+  // Key ids are a filename component. Constrained rather than sanitised, so a
+  // permit naming `../../../etc/something` is rejected as a bad id rather than
+  // cleaned into a plausible one.
+  if (!/^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/.test(keyId)) {
     throw new PermitError(
       `Permit names key id ${JSON.stringify(keyId)}, which is not a valid key identifier.`,
       'PERMIT_UNKNOWN_KEY',
@@ -203,6 +290,10 @@ function loadPublicKey(keyId: string, keyringDir: string): KeyObject {
  * refused rather than treated as "nothing is revoked". An empty list is a
  * statement someone committed; a missing file is an unknown, and an unknown
  * revocation state is not a basis for spending money or publishing.
+ *
+ * Re-read on every call rather than cached, because revocation has to bite
+ * while a long-running process is still exercising its authority — a list read
+ * once at start-up cannot revoke anything after start-up.
  */
 function revokedPermitIds(listPath: string): ReadonlySet<string> {
   if (!existsSync(listPath)) {
@@ -267,9 +358,14 @@ export function manifestHash(manifest: unknown): string {
 }
 
 // ---------------------------------------------------------------------------
-// Verification
+// The production boundary
 // ---------------------------------------------------------------------------
 
+/**
+ * What a production caller may say. Nothing here selects a trust input: the
+ * keyring, the revocation list and the clock are fixed, and `expectedRunId` can
+ * only ever NARROW what an already-signed permit authorises.
+ */
 export interface VerifyPermitInput {
   /** The signed permit envelope, as read from disk. Treated as untrusted. */
   signedPermit: unknown;
@@ -277,9 +373,15 @@ export interface VerifyPermitInput {
   manifest: unknown;
   /** Hash of the frozen methodology revision the permit must name. */
   expectedMethodologyHash: string;
-  now?: Date;
-  keyringDir?: string;
-  revocationListPath?: string;
+  /**
+   * The run the invoking command is acting on, when it knows it.
+   *
+   * Optional because not every command has a run id in hand at verification
+   * time, and because it cannot widen anything: a permit still authorises
+   * exactly one manifest, and therefore exactly one run. `assertGrantForRun` is
+   * the mandatory check at the point of use.
+   */
+  expectedRunId?: string;
 }
 
 export interface VerifiedPermit {
@@ -288,16 +390,170 @@ export interface VerifiedPermit {
   manifest: ValidatedRunManifest;
 }
 
+/** Exactly the keys a production caller may pass. Anything else is refused. */
+const PRODUCTION_INPUT_KEYS: ReadonlySet<string> = new Set([
+  'signedPermit',
+  'manifest',
+  'expectedMethodologyHash',
+  'expectedRunId',
+]);
+
 /**
- * Verify a signed permit against a manifest and mint a grant.
+ * Trust inputs, named individually so the refusal can explain itself. These are
+ * the parameters the previous version accepted from production callers.
+ */
+const TRUST_INPUT_KEYS: ReadonlySet<string> = new Set([
+  'keyringDir',
+  'revocationListPath',
+  'revocationList',
+  'now',
+  'clock',
+  'trustRoot',
+  'keyring',
+  'publicKey',
+]);
+
+/**
+ * PARSE the options object rather than destructuring it.
+ *
+ * TypeScript is not present at runtime: `verifyPermit({ ...opts, keyringDir } as
+ * any)` and a plain JavaScript caller are the same call. Ignoring the extra key
+ * would be quieter but worse — the author would believe the injection worked.
+ * Refusing names the architectural rule at the exact moment someone tries to
+ * break it.
+ */
+function parseProductionInput(input: unknown, entry: string): VerifyPermitInput {
+  if (typeof input !== 'object' || input === null) {
+    throw new PermitError(`${entry} requires an options object.`, 'PERMIT_MALFORMED');
+  }
+  // Own keys AND inherited ones: `Object.create({ keyringDir })` is an own-key
+  // check away from passing, and `for...in` over a prototype chain is how this
+  // would be smuggled in.
+  const keys = new Set<string>();
+  for (const key in input as Record<string, unknown>) keys.add(key);
+  for (const key of Object.getOwnPropertyNames(input)) keys.add(key);
+
+  const trustKeys = [...keys].filter((k) => TRUST_INPUT_KEYS.has(k));
+  if (trustKeys.length > 0) {
+    throw new PermitError(
+      `${entry} was given trust input(s) [${trustKeys.join(', ')}]. The production boundary does not accept a keyring, ` +
+        `a revocation source or a clock: a caller that can choose where trust comes from can point it at a key it minted ` +
+        `or move it past an expiry, and every later check would pass honestly against inputs the caller chose. ` +
+        `Verification always uses ${PRODUCTION_TRUST_ROOT.label} (RUN-001).`,
+      'PERMIT_TRUST_INPUT_REJECTED',
+    );
+  }
+  const unknown = [...keys].filter((k) => !PRODUCTION_INPUT_KEYS.has(k));
+  if (unknown.length > 0) {
+    throw new PermitError(
+      `${entry} was given unknown option(s) [${unknown.join(', ')}]. Refusing rather than ignoring them, ` +
+        `because a silently-dropped option reads to its author as if it took effect.`,
+      'PERMIT_MALFORMED',
+    );
+  }
+
+  const o = input as Record<string, unknown>;
+  if (typeof o.expectedMethodologyHash !== 'string' || o.expectedMethodologyHash.length === 0) {
+    throw new PermitError(`${entry} requires expectedMethodologyHash.`, 'PERMIT_MALFORMED');
+  }
+  if (o.expectedRunId !== undefined && typeof o.expectedRunId !== 'string') {
+    throw new PermitError(`${entry} was given a non-string expectedRunId.`, 'PERMIT_MALFORMED');
+  }
+  return {
+    signedPermit: o.signedPermit,
+    manifest: o.manifest,
+    expectedMethodologyHash: o.expectedMethodologyHash,
+    expectedRunId: o.expectedRunId as string | undefined,
+  };
+}
+
+/**
+ * Verify a signed permit against a manifest and mint a grant. THE production
+ * entry point.
  *
  * Every failure is a throw, never a falsy return: a verification function whose
  * failure can be ignored by not reading the result is not a gate.
  */
 export function verifyPermit(input: VerifyPermitInput): VerifiedPermit {
-  const keyringDir = input.keyringDir ?? KEYRING_DIR;
-  const revocationListPath = input.revocationListPath ?? REVOCATION_LIST;
-  const now = input.now ?? new Date();
+  return verifyAgainst(PRODUCTION_TRUST_ROOT, parseProductionInput(input, 'verifyPermit'));
+}
+
+/** Convenience for the CLI: read the envelope from disk, then verify it. */
+export function verifyPermitFile(
+  permitPath: string,
+  rest: Omit<VerifyPermitInput, 'signedPermit'>,
+): VerifiedPermit {
+  const parsed = parseProductionInput({ ...rest, signedPermit: null }, 'verifyPermitFile');
+  return verifyAgainst(PRODUCTION_TRUST_ROOT, {
+    ...parsed,
+    signedPermit: readPermitEnvelope(permitPath),
+  });
+}
+
+function readPermitEnvelope(permitPath: string): unknown {
+  if (!existsSync(permitPath)) {
+    throw new PermitError(`No permit at ${permitPath}.`, 'PERMIT_MALFORMED');
+  }
+  try {
+    return JSON.parse(readFileSync(permitPath, 'utf8'));
+  } catch (e) {
+    throw new PermitError(
+      `Permit ${permitPath} is not valid JSON (${(e as Error).message}).`,
+      'PERMIT_MALFORMED',
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// The test seam
+// ---------------------------------------------------------------------------
+
+/** Trust inputs a test may choose. Deliberately not part of any production type. */
+export interface TestTrustRoot {
+  keyringDir: string;
+  revocationListPath: string;
+  /** A clock the test owns, so expiry is reachable without waiting for it. */
+  clock?: () => Date;
+}
+
+/**
+ * TEST SEAM. Do not call from `packages/runner/src` — there is a test that
+ * greps for it and fails if production code ever does.
+ *
+ * Kept as a separate entry point rather than as optional fields on
+ * `VerifyPermitInput`, because a test parameter reachable through the production
+ * boundary is a production parameter with a comment on it. That is precisely
+ * the defect this replaces: `keyringDir`, `revocationListPath` and `now` were
+ * "injectable for testability" and reachable by every caller.
+ */
+export function verifyPermitForTests(
+  trustRoot: TestTrustRoot,
+  input: VerifyPermitInput,
+): VerifiedPermit {
+  if (!UNDER_TEST) {
+    throw new PermitError(
+      `verifyPermitForTests is a test seam and this is not a test process. Production verification uses ` +
+        `${PRODUCTION_TRUST_ROOT.label} and cannot be given a keyring, a revocation list or a clock.`,
+      'PERMIT_SEAM_CLOSED',
+    );
+  }
+  return verifyAgainst(
+    {
+      keyringDir: trustRoot.keyringDir,
+      revocationListPath: trustRoot.revocationListPath,
+      clock: trustRoot.clock ?? (() => new Date()),
+      label: 'a test-supplied trust root',
+    },
+    input,
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Verification core — reached only through one of the two entry points above
+// ---------------------------------------------------------------------------
+
+function verifyAgainst(trustRoot: TrustRoot, input: VerifyPermitInput): VerifiedPermit {
+  const now = trustRoot.clock();
 
   // 1. Enough envelope structure to find the signature. Deliberately NOT the
   // full zod parse — see step 2 for why the order matters.
@@ -324,7 +580,7 @@ export function verifyPermit(input: VerifyPermitInput): VerifiedPermit {
   //
   // Until this passes, `kind`, `capabilities` and `budgetCapUsd` are just
   // strings and numbers someone sent us, and nothing may be acted on.
-  const key = loadPublicKey(keyId, keyringDir);
+  const key = loadPublicKey(keyId, trustRoot.keyringDir);
   // Buffer.from(_, 'base64') is lenient — it ignores invalid characters rather
   // than throwing — so the length check, not a try/catch, is what rejects junk.
   const signatureBytes = Buffer.from(raw.signature, 'base64');
@@ -349,12 +605,26 @@ export function verifyPermit(input: VerifyPermitInput): VerifiedPermit {
   }
   const { permit } = envelope.data;
 
-  // 4. Revocation. A validly signed permit can still have been withdrawn.
-  if (revokedPermitIds(revocationListPath).has(permit.permitId)) {
+  // 4. A permit may not nominate its own trust sources.
+  //
+  // `revocationListUrl` is an optional field of the permit schema, and honouring
+  // it would hand the revocation decision to the document being revoked — the
+  // same defect as a caller-supplied keyring, one indirection further out. It is
+  // refused rather than ignored so nobody signs one believing it does something.
+  if (permit.revocationListUrl !== undefined) {
+    throw new PermitError(
+      `Permit ${permit.permitId} names its own revocation source (${permit.revocationListUrl}). ` +
+        `Revocation is read from ${trustRoot.label}; a permit that chooses where its own revocation is checked cannot be revoked.`,
+      'PERMIT_CHOOSES_OWN_TRUST',
+    );
+  }
+
+  // 5. Revocation. A validly signed permit can still have been withdrawn.
+  if (revokedPermitIds(trustRoot.revocationListPath).has(permit.permitId)) {
     throw new PermitError(`Permit ${permit.permitId} has been revoked.`, 'PERMIT_REVOKED');
   }
 
-  // 5. Manifest binding. The manifest is re-parsed here rather than trusted from
+  // 6. Manifest binding. The manifest is re-parsed here rather than trusted from
   // the caller — assertPublishable learned this lesson the hard way.
   const parsedManifest = safeParseRunManifest(input.manifest);
   if (!parsedManifest.ok) {
@@ -380,7 +650,19 @@ export function verifyPermit(input: VerifyPermitInput): VerifiedPermit {
     );
   }
 
-  // 6. Validity window.
+  // 7. One run id, everywhere. The permit binds a manifest, the manifest names
+  // exactly one run, and a command that already knows which run it is acting on
+  // says so here. An approval for run A acting on run B is the whole point of
+  // binding, and it was previously checked nowhere.
+  if (input.expectedRunId !== undefined && input.expectedRunId !== manifest.runId) {
+    throw new PermitError(
+      `Permit ${permit.permitId} authorises run '${manifest.runId}', but the command is acting on run '${input.expectedRunId}'. ` +
+        `Authority issued for one run is not authority for another.`,
+      'PERMIT_RUN_MISMATCH',
+    );
+  }
+
+  // 8. Validity window.
   const notBefore = new Date(permit.notBefore);
   const notAfter = new Date(permit.notAfter);
   if (now < notBefore) {
@@ -396,7 +678,7 @@ export function verifyPermit(input: VerifyPermitInput): VerifiedPermit {
     );
   }
 
-  // 7. Kind × capability. This is the check a valid signature must not buy past:
+  // 9. Kind × capability. This is the check a valid signature must not buy past:
   // the approver signed a KIND of work, and the capability list has to stay
   // inside what that kind means.
   for (const capability of permit.capabilities) {
@@ -410,7 +692,7 @@ export function verifyPermit(input: VerifyPermitInput): VerifiedPermit {
     }
   }
 
-  // 8. Kind × evidence class, so a permit cannot launder a non-ranking
+  // 10. Kind × evidence class, so a permit cannot launder a non-ranking
   // re-analysis into rank-bearing evidence by binding a different manifest.
   if (!permitKindAllowsEvidenceClass(permit.kind, manifest.evidenceClass)) {
     throw new PermitError(
@@ -420,10 +702,10 @@ export function verifyPermit(input: VerifyPermitInput): VerifiedPermit {
     );
   }
 
-  // 9. Cells. Deny-by-default means an empty cell list authorises nothing, so an
-  // inference permit with no cells is an authoring mistake that would otherwise
-  // fail confusingly at the first call. And a cell naming a model the manifest
-  // does not declare is a permit reaching outside its own envelope.
+  // 11. Cells. Deny-by-default means an empty cell list authorises nothing, so
+  // an inference permit with no cells is an authoring mistake that would
+  // otherwise fail confusingly at the first call. And a cell naming a model the
+  // manifest does not declare is a permit reaching outside its own envelope.
   const grantsInference = permit.capabilities.some((c) => INFERENCE_CAPABILITIES.includes(c));
   if (grantsInference && permit.cells.length === 0) {
     throw new PermitError(
@@ -449,9 +731,9 @@ export function verifyPermit(input: VerifyPermitInput): VerifiedPermit {
     }
   }
 
-  // 10. Budget. The manifest is the envelope; a permit may spend less than it,
+  // 12. Budget. The manifest is the envelope; a permit may spend less than it,
   // never more. Both are still ceilings on ESTIMATES — the reservation ledger
-  // (BUDGET-001) is what enforces actual spend, and it is not built yet.
+  // (BUDGET-001) is what enforces actual spend.
   if (permit.budgetCapUsd > manifest.budgetCapUsd) {
     throw new PermitError(
       `Permit ${permit.permitId} caps spend at $${permit.budgetCapUsd} but run ${manifest.runId} declares $${manifest.budgetCapUsd}. A permit cannot raise the manifest's budget.`,
@@ -471,27 +753,89 @@ export function verifyPermit(input: VerifyPermitInput): VerifiedPermit {
     manifestHash: actualManifestHash,
     runId: manifest.runId,
     evidenceClass: manifest.evidenceClass,
+    releaseState: manifest.releaseState,
     keyId,
+    notBeforeIso: permit.notBefore,
     notAfterIso: permit.notAfter,
     verifiedAtIso: now.toISOString(),
   });
   MINTED.add(grant);
+  TRUST_ROOT_FOR_GRANT.set(grant, trustRoot);
   return { grant, permit, manifest };
 }
 
-/** Convenience for the CLI: read the envelope from disk, then verify it. */
-export function verifyPermitFile(
-  permitPath: string,
-  rest: Omit<VerifyPermitInput, 'signedPermit'>,
-): VerifiedPermit {
-  if (!existsSync(permitPath)) {
-    throw new PermitError(`No permit at ${permitPath}.`, 'PERMIT_MALFORMED');
+// ---------------------------------------------------------------------------
+// Authority at the moment it is EXERCISED
+// ---------------------------------------------------------------------------
+
+/**
+ * Re-check expiry and revocation now, not at load time.
+ *
+ * A run takes hours. Verifying once at start-up and then trusting the resulting
+ * object for the rest of the process means a permit that expires mid-run keeps
+ * spending, and a permit revoked because something went wrong keeps going until
+ * someone notices. Validity is a property of the MOMENT OF USE, so every
+ * boundary that spends money, writes to the live database or publishes calls
+ * this immediately before acting.
+ *
+ * It re-reads the revocation list from the same trust root that minted the
+ * grant. That is a file read per exercised capability, which is nothing next to
+ * a provider round trip, and caching it would reintroduce exactly the staleness
+ * this exists to remove.
+ */
+export function assertGrantStillValid(grant: VerifiedGrant, context: string): VerifiedGrant {
+  assertVerifiedGrant(grant, context);
+  const trustRoot = TRUST_ROOT_FOR_GRANT.get(grant);
+  if (!trustRoot) {
+    // Unreachable unless someone mints a grant without recording its root.
+    // Fail closed rather than silently falling back to the production root.
+    throw new PermitError(
+      `${context}: grant ${grant.permitId} has no recorded trust root, so its revocation state cannot be re-checked.`,
+      'GRANT_NOT_MINTED',
+    );
   }
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(readFileSync(permitPath, 'utf8'));
-  } catch (e) {
-    throw new PermitError(`Permit ${permitPath} is not valid JSON (${(e as Error).message}).`, 'PERMIT_MALFORMED');
+  if (revokedPermitIds(trustRoot.revocationListPath).has(grant.permitId)) {
+    throw new PermitError(
+      `${context} refused: permit ${grant.permitId} has been revoked since it was verified. ` +
+        `Revocation is checked at the moment authority is exercised, not only when it was loaded.`,
+      'PERMIT_REVOKED',
+    );
   }
-  return verifyPermit({ ...rest, signedPermit: parsed });
+  const now = trustRoot.clock();
+  if (now > new Date(grant.notAfterIso)) {
+    throw new PermitError(
+      `${context} refused: permit ${grant.permitId} expired at ${grant.notAfterIso} (now ${now.toISOString()}). ` +
+        `A process may not outlive its permit.`,
+      'PERMIT_EXPIRED',
+    );
+  }
+  if (now < new Date(grant.notBeforeIso)) {
+    // Reachable if the clock is corrected backwards mid-process. Refusing is
+    // the only reading that stays inside the approved window.
+    throw new PermitError(
+      `${context} refused: permit ${grant.permitId} is not valid until ${grant.notBeforeIso} (now ${now.toISOString()}).`,
+      'PERMIT_NOT_YET_VALID',
+    );
+  }
+  return grant;
+}
+
+/**
+ * The one-run-id binder. Use at every boundary that names a run: sync,
+ * publication, and any command that takes `--run`.
+ *
+ * Also re-validates, so a caller cannot get the run check without the freshness
+ * check — the two failures they prevent (wrong run, stale authority) are both
+ * failures of "is this authority good for what I am about to do".
+ */
+export function assertGrantForRun(grant: VerifiedGrant, runId: string, context: string): VerifiedGrant {
+  assertGrantStillValid(grant, context);
+  if (grant.runId !== runId) {
+    throw new PermitError(
+      `${context} refused: permit ${grant.permitId} authorises run '${grant.runId}', not '${runId}'. ` +
+        `Authority is issued for one run; it does not carry across to another.`,
+      'PERMIT_RUN_MISMATCH',
+    );
+  }
+  return grant;
 }

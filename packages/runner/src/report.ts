@@ -41,11 +41,38 @@ export interface LeaderboardRow {
   judgeCostUsd?: number;
 }
 
+/**
+ * What the board says about its own standing.
+ *
+ * A leaderboard file used to carry a run id, a timestamp and rows, and nothing
+ * that said whether it was a result. The site then chose the newest timestamp,
+ * which meant a development board, a ten-question canary or a regenerated mock
+ * run could take the homepage by being written most recently. Every board now
+ * declares the evidence class and release state it was produced under and the
+ * manifest that governed it, so a reader can refuse it — and a NON-SCORING
+ * class carries the banner RELEASE-002 requires on its surfaces.
+ */
+export interface BoardProvenance {
+  evidenceClass: string;
+  releaseState: string;
+  rankEligible: boolean;
+  manifestHash: string;
+  /** Set for legacy-shadow and development-probe. Renderers must show it. */
+  nonScoringBanner: string | null;
+}
+
 export interface LeaderboardReport {
   runId: string;
   generatedAt: string;
   /** Absent on pre-v2 artifacts — readers treat missing as 'v1'. */
   methodologyVersion?: string;
+  /**
+   * Absent on every artifact written before WP-0. A reader that finds no
+   * provenance must treat the board as unapproved rather than as approved —
+   * see `apps/web/lib/data.ts`, where the only board without one is a single
+   * pinned historical release, named explicitly.
+   */
+  provenance?: BoardProvenance;
   rows: LeaderboardRow[];
 }
 
@@ -90,6 +117,12 @@ export function buildLeaderboard(
   responses: StoredResponse[],
   scores: Score[],
   methodologyVersion = 'v2',
+  /**
+   * Optional so the pre-WP-0 call sites and their tests keep compiling; the CLI
+   * always supplies it, because `cmdReport` cannot write a board without first
+   * passing the publication gate that produces it.
+   */
+  provenance?: BoardProvenance,
 ): LeaderboardReport {
   const questionsById = new Map(questions.map((q) => [q.id, q]));
 
@@ -179,5 +212,11 @@ export function buildLeaderboard(
     });
   }
   rows.sort((a, b) => b.overall - a.overall);
-  return { runId, generatedAt: new Date().toISOString(), methodologyVersion, rows };
+  return {
+    runId,
+    generatedAt: new Date().toISOString(),
+    methodologyVersion,
+    ...(provenance ? { provenance } : {}),
+    rows,
+  };
 }

@@ -922,3 +922,135 @@ grows with the counts. A real Taste bank will exceed 400 ballots per axis by
 design, so this will bite. `fitAxis` in `taste.ts` catches the refusal and
 reports it as a publication blocker rather than throwing, so the site degrades
 correctly — but the refusal is spurious.
+
+---
+
+## RUN-001 closure — permit trust root, run binding, database operations
+
+Owner of this section: the agent that rewrote `permit.ts`, `supabase.ts`,
+`sync.ts`, `data/permits/**` and the two permit test files. Everything below is
+work in files that agent does NOT own.
+
+### 1. `taste.ts` MUST be migrated — it currently does not compile
+
+`serviceRoleClient` no longer returns a Supabase client. Returning one meant a
+capability check whose reward was unrestricted power: a `result-sync` permit
+received an object that could delete the ballot table. It now returns a fixed,
+capability-specific set of operations bound to the grant's run id.
+
+`packages/runner/src/taste.ts:73` is the only remaining caller that uses the old
+shape (`tsc` reports exactly one error: `Property 'from' does not exist on type
+'ServiceRoleOperations'`). The replacement is a drop-in:
+
+```ts
+  const db = serviceRoleClient(grant, TASTE_ARCHIVE_CAPABILITY, 'archiveTasteVotes');
+  const votes: TasteVoteRecord[] = [];
+  const pageSize = 1000;
+  for (let from = 0; ; from += pageSize) {
+    const page = (await db.readTasteVotes({ from, to: from + pageSize - 1 })) as TasteVoteRecord[];
+    votes.push(...page);
+    if (page.length < pageSize) break;
+  }
+```
+
+`readTasteVotes` keeps the same ordering (`created_at`, then `id`) that made the
+archive diffs append-only, so the committed `votes.ndjson` is unaffected.
+
+### 2. `cli.ts` — three small wirings, none of them optional
+
+- `requireGrant(context)` should pass `expectedRunId` when the command has a run
+  in hand (`--run` / `--run-id`), i.e. `verifyPermitFile(resolvedPermit, {
+  manifest, expectedMethodologyHash: frozenMethodologyHash(), expectedRunId })`.
+  Without it the run binding is enforced only at `syncRun`/`publishRun`; with it
+  the mismatch is caught before anything opens.
+- `verifyPermitFile` now REFUSES unknown options (`PERMIT_MALFORMED`) and trust
+  options (`PERMIT_TRUST_INPUT_REJECTED`). The current call site passes exactly
+  the two allowed keys, so it is already correct — do not "helpfully" add a
+  `now` for testing.
+- Long-running commands should call `assertGrantStillValid(grant, context)` at
+  each batch boundary. `bench run` over 14 models is hours; a permit that
+  expires or is revoked mid-run currently keeps spending until the next
+  capability check happens to run through `supabase.ts` (which does re-check).
+
+### 3. `openrouter.ts`, `ledger.ts`, `firewall.ts` — the exercise-time check
+
+Expiry and revocation are now re-checked where authority is EXERCISED, not only
+where it was loaded (`assertGrantStillValid`, exported from `permit.ts`). It is
+wired into every database operation. It is NOT wired into:
+
+- `OpenRouterClient.complete` — the natural place is immediately before the
+  reservation, so a revoked permit cannot buy one more call.
+- `ReservationLedger.reserve` — same reasoning for spend.
+- `Firewall.requireCapability` / `requireCell` — cheapest place to put it, but
+  it makes the firewall do file I/O, which is a design call for that file's
+  owner rather than something to impose from here.
+
+Also: `ReservationLedger.forGrant(grant, runId)` does not compare `runId` with
+`grant.runId`. `assertGrantForRun(grant, runId, 'ReservationLedger.forGrant')`
+is a one-line fix and completes the "one run id everywhere" binding (permit →
+manifest → grant → ledger → command). Today the ledger will happily open a
+journal for a run the permit does not authorise.
+
+### 4. `docs/wp-0/routes.yaml` — two routes can now close, one entry can update
+
+- `runner:permit:keyring:read` (`loadPublicKey`) and
+  `runner:permit:revocation:read` (`revokedPermitIds`) are open with the reason
+  "UNPROVEN AT THE PRODUCTION BOUNDARY — every citation runs through a test
+  wrapper that supplies its own keyringDir". That is fixed: the production API
+  has no such parameter, and the committed fixtures exercise the real loader.
+  The tests that call these routes through the production entry point are:
+  - `"the committed keyring and revocation list are the production trust root > verifies a signature made off this machine, then refuses it for being expired"`
+  - `"the committed keyring and revocation list are the production trust root > reads the committed revocation list, before it looks at the clock"`
+
+  Note the registry's own rule (a closed risk must cite a test that CALLS the
+  route's function): both tests reach `loadPublicKey`/`revokedPermitIds` only
+  through `verifyPermitFile`, so under the current `callsSymbol` rule they still
+  do not "call" the route by name. Either the routes are re-keyed onto
+  `verifyPermitFile`, or the rule needs an explicit note for private helpers
+  that have no other entry point. This is a registry decision, not an
+  implementation one — flagged, not decided.
+- `runner:sync:run:upsert` and `runner:sync:run:publish` now have tests that
+  CALL `syncRun` and `publishRun` directly, against a mock PostgREST:
+  - `"the live-data chain refuses authority meant for another run > syncs a run through fixed operations, and never hands out a client"`
+  - `"the live-data chain refuses authority meant for another run > refuses to sync a run the permit was not issued for, before opening a connection"`
+  - `"the live-data chain refuses authority meant for another run > refuses a payload carrying rows from another run under an approved run id"`
+  - `"the live-data chain refuses authority meant for another run > refuses to publish another run, and refuses to publish an unreleased one"`
+  - `"the live-data chain refuses authority meant for another run > stops mid-sync when the permit is revoked while it is being used"`
+
+  `syncDataset` still has no test that calls it; its risk stays open.
+- `runner:supabase:service-client:construct` keeps its symbol
+  (`serviceRoleClient` is still declared and still exported) but its
+  `operation:` text is now wrong — it does not construct a client that escapes.
+
+### 5. Proposed rename, deliberately not done here
+
+`serviceRoleClient` should be `serviceRoleOperations`. It was left alone because
+`routes.yaml` and `guarded-clients.test.ts` both cite the name, and renaming it
+in the same change that narrows it would have broken the registry's ability to
+see the route while the route was changing. Rename it and the registry entry
+together, in one commit, with no behaviour change.
+
+### 6. `packages/core/src/evidence.ts` — remove `revocationListUrl`
+
+`permitSchema` has an optional `revocationListUrl`. A permit that names where its
+own revocation is checked cannot be revoked. `permit.ts` now REFUSES any permit
+carrying the field (`PERMIT_CHOOSES_OWN_TRUST`) rather than ignoring it, but the
+field should come out of the schema so nobody signs one believing it works.
+
+### 7. `test/support/grant.ts` was edited by this workstream
+
+One call changed: `verifyPermit({..., keyringDir, revocationListPath})` →
+`verifyPermitForTests({keyringDir, revocationListPath}, {...})`. Behaviour is
+identical. It had to change because the production entry point no longer accepts
+trust inputs from anyone, and `mintTestGrant` is the shared helper eight suites
+use. Suites re-run and green after the change: `guarded-clients`, `redemption`,
+`firewall`, `golden-hashes`, `permit`, `permit-e2e`.
+
+### 8. `data/permits/` now holds committed material
+
+A fixture verification key (`keys/wp0-fixture-2026-07.pub`) and three expired
+permits under `fixtures/`. No private key — the private half was generated in an
+ephemeral sandbox, used once, and destroyed. `revoked.json` gained one entry
+(`wp0-fixture-revoked-0001`) so the revocation path is proved against the real
+committed list. See `data/permits/fixtures/README.md`, including the instruction
+to delete the fixture key once a real approver key exists.

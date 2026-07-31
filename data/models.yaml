@@ -4,36 +4,92 @@
 # flags newly released flagship-class models worth adding.
 # Same-family pairs (e.g. Fable 5 vs Opus 4.8) are deliberate: version-regression
 # comparison is a headline feature of this benchmark.
+#
+# ---------------------------------------------------------------------------
+# Two identity fields, and they are NOT the same thing (JUDGE-001)
+# ---------------------------------------------------------------------------
+#
+# `family` is a MARKETING TIER — where the lab positions the model. It is what
+# the version-regression pairs are drawn from. `claude-frontier` covers Fable 5,
+# Opus 4.8 and Opus 5: three different models. Seating read this field as a
+# base-model identity until WP-0, which meant the judge-conflict rule was
+# comparing tiers and its cross-provider arm could never fire.
+#
+# `baseModel` is the UNDERLYING TRAINED MODEL — what actually answers, as
+# opposed to `id`, which only says where the request is routed. Two entries
+# carry the same `baseModel` only when they are the same model underneath. A
+# rebadge — one vendor serving another's weights — keeps its own reseller slug
+# in `id` and names the originator here; that divergence is the entire reason
+# the field exists, because neither the slug prefix nor the tier can see it.
+#
+# How the values below were established, and the bar for adding one:
+#
+#   1. The entry names a real served model. Evidence: the id appears as a
+#      candidate or judge route in a preserved run artifact under data/runs/.
+#      Slugs rot and v1 shipped six wrong guesses, so an unexecuted slug is a
+#      hypothesis about a model, not a model.
+#   2. It is served by the lab that trained it. Evidence: the OpenRouter vendor
+#      prefix matches the declared provider, so there is no reseller in the
+#      chain that could be hiding a different base.
+#
+# Both hold → the base model is that model's own published identity. Either
+# fails → `unknown`, which every reader must treat as NO identity, so the
+# conflict rule refuses to seat it in either direction. Failing closed on an
+# honest unknown is correct. Inventing a lineage is not: do not derive this
+# field from a name that looks similar.
+#
+# Nothing in this repository establishes that any two entries below share a
+# base model, so none of them do. That split is safe here and would not be
+# everywhere: an over-fine split is fail-OPEN in general (two entries that
+# really are one model would be seated against each other), and it is harmless
+# only because every entry below is first-party, so any pair that could
+# plausibly share weights also shares a provider — and the provider arm of the
+# rule conflicts them regardless. The day a reseller entry appears, its
+# `baseModel` is the only thing standing between it and grading itself.
+#
+# `unknown` on an ACTIVE model means that model cannot be judged and cannot
+# judge — every seat conflicts with it. Establish the identity before flipping
+# `active: true`; there is a test that says so.
 
 # Frontier flagships
 - id: anthropic/claude-fable-5
   displayName: Claude Fable 5
   provider: Anthropic
   family: claude-frontier
+  baseModel: anthropic:claude-fable-5
   releaseDate: '2026-06-09'
   active: true
 - id: anthropic/claude-opus-4.8
   displayName: Claude Opus 4.8
   provider: Anthropic
   family: claude-frontier
+  baseModel: anthropic:claude-opus-4.8
   releaseDate: '2026-05-28'
   active: false
 - id: openai/gpt-5.5
   displayName: GPT-5.5
   provider: OpenAI
   family: gpt-frontier
+  baseModel: openai:gpt-5.5
   releaseDate: '2026-04-15'
   active: false
 - id: google/gemini-3.1-pro-preview
   displayName: Gemini 3.1 Pro Preview
   provider: Google
   family: gemini-pro
+  # The `-preview` channel is kept in the identity rather than folded into a
+  # hypothetical GA `gemini-3.1-pro`: nothing here establishes that a preview
+  # and a GA release are the same weights, and merging them would be a guess.
+  baseModel: google:gemini-3.1-pro-preview
   releaseDate: '2026-02-19'
   active: true
 - id: x-ai/grok-4.3
   displayName: Grok 4.3
   provider: xAI
   family: grok-frontier
+  # Never executed in any preserved run. The slug is unverified, so there is no
+  # evidence of what it serves.
+  baseModel: unknown
   releaseDate: '2026-04-20'
   active: false
 
@@ -42,16 +98,21 @@
   displayName: Claude Sonnet 4.6
   provider: Anthropic
   family: claude-mid
+  # Never executed; no release date recorded either.
+  baseModel: unknown
   active: false
 - id: openai/gpt-5.4-mini
   displayName: GPT-5.4 Mini
   provider: OpenAI
   family: gpt-mid
+  baseModel: openai:gpt-5.4-mini
   active: true
 - id: google/gemini-3.5-flash
   displayName: Gemini 3.5 Flash
   provider: Google
   family: gemini-flash
+  # Never executed; no release date recorded either.
+  baseModel: unknown
   active: false
 
 # Open-weights / other
@@ -59,26 +120,33 @@
   displayName: DeepSeek V4 Pro
   provider: DeepSeek
   family: deepseek
+  baseModel: deepseek:deepseek-v4-pro
   active: true
 - id: moonshotai/kimi-k2.6
   displayName: Kimi K2.6
   provider: Moonshot AI
   family: kimi
+  baseModel: moonshotai:kimi-k2.6
   active: false
 - id: meta-llama/llama-4-maverick
   displayName: Llama 4 Maverick
   provider: Meta
   family: llama
+  baseModel: meta-llama:llama-4-maverick
   active: true
 - id: mistralai/mistral-large-2512
   displayName: Mistral Large 3
   provider: Mistral
   family: mistral
+  baseModel: mistralai:mistral-large-2512
   active: true
 - id: qwen/qwen3.5-plus-20260420
   displayName: Qwen 3.5 Plus
   provider: Alibaba
   family: qwen
+  # Vendor prefix `qwen` against provider `Alibaba` is not a rebadge: Qwen is
+  # Alibaba's own brand, so the route is still first-party.
+  baseModel: qwen:qwen3.5-plus-20260420
   active: false
 
 # Awaiting GA — flip active when they hit OpenRouter
@@ -86,11 +154,19 @@
   displayName: Gemini 3.5 Pro
   provider: Google
   family: gemini-pro
+  # A placeholder for a model that has not shipped. What it will serve is not
+  # knowable from here, and guessing `google:gemini-3.5-pro` would be asserting
+  # a lineage from a name.
+  baseModel: unknown
   active: false
 - id: openai/gpt-5.6
   displayName: GPT-5.6
   provider: OpenAI
   family: gpt-frontier
+  # Same: unshipped placeholder. It also shares its version designation with
+  # gpt-5.6-sol-pro and gpt-5.6-terra-pro, and nothing here says whether it is
+  # one of them, so it is not given an identity that would answer that.
+  baseModel: unknown
   active: false
 
 # --- Added 2026-07-29: current frontier. `models --check` flagged the roster as
@@ -100,47 +176,55 @@
   displayName: Claude Opus 5
   provider: Anthropic
   family: claude-frontier
+  baseModel: anthropic:claude-opus-5
   releaseDate: '2026-07-24'
   active: true
 - id: anthropic/claude-sonnet-5
   displayName: Claude Sonnet 5
   provider: Anthropic
   family: claude-mid
+  baseModel: anthropic:claude-sonnet-5
   releaseDate: '2026-06-30'
   active: true
 - id: openai/gpt-5.6-sol-pro
   displayName: GPT-5.6 Sol Pro
   provider: OpenAI
   family: gpt-frontier
+  baseModel: openai:gpt-5.6-sol-pro
   releaseDate: '2026-07-09'
   active: true
 - id: openai/gpt-5.6-terra-pro
   displayName: GPT-5.6 Terra Pro
   provider: OpenAI
   family: gpt-mid
+  baseModel: openai:gpt-5.6-terra-pro
   releaseDate: '2026-07-09'
   active: true
 - id: x-ai/grok-4.5
   displayName: Grok 4.5
   provider: xAI
   family: grok-frontier
+  baseModel: x-ai:grok-4.5
   releaseDate: '2026-07-08'
   active: true
 - id: moonshotai/kimi-k3
   displayName: Kimi K3
   provider: Moonshot AI
   family: kimi
+  baseModel: moonshotai:kimi-k3
   releaseDate: '2026-07-16'
   active: true
 - id: google/gemini-3.6-flash
   displayName: Gemini 3.6 Flash
   provider: Google
   family: gemini-flash
+  baseModel: google:gemini-3.6-flash
   releaseDate: '2026-07-21'
   active: true
 - id: qwen/qwen3.7-max
   displayName: Qwen 3.7 Max
   provider: Alibaba
   family: qwen
+  baseModel: qwen:qwen3.7-max
   releaseDate: '2026-05-21'
   active: true

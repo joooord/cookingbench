@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import {
   RELEASE_STATES,
+  canPublish,
   canonicalJson,
   safeParseRunManifest,
   type ReleaseState,
@@ -9,8 +10,17 @@ import {
   type ValidatedRunManifest,
 } from '@cookingbench/core';
 import {
+  ADJUDICATION_QUEUE_FILE,
+  adjudicationStatus,
+  readAdjudicationRecord,
+  type AdjudicationQueue,
+} from './adjudicate.js';
+import { loadQuestions } from './dataset.js';
+import {
   appendRunFileLine,
+  assertPublishable,
   isHistoricalRun,
+  nonScoringBanner,
   resolveOutputPath,
   resolveRunFile,
   writeOutputFileAtomic,
@@ -18,13 +28,22 @@ import {
 } from './firewall.js';
 import { assertSourceCommitted } from './derive.js';
 import {
+  MANIFEST_FILE,
+  MANIFEST_HASH_FILE,
+  ManifestError,
+  assertRunIdentity,
+  assertTestSeam,
+  computeContentDigest,
   readRunDigest,
   readRunManifest,
+  readRunManifestHash,
   verifyRunManifest,
   type ContentDigest,
-  type VerifyOptions,
+  type RecordedManifestHash,
+  type VerificationReport,
 } from './manifest.js';
 import { manifestHash, sha256Hex } from './permit.js';
+import { readResponses, readScores } from './store.js';
 
 /**
  * M4.7 and M4.8 — run lifecycle, stale-score invalidation, and the durable
@@ -63,7 +82,10 @@ export type LifecycleErrorCode =
   | 'NOT_RELEASED'
   | 'NO_CURRENT_RUN'
   | 'JOURNAL_CORRUPT'
-  | 'JOURNAL_ID_REQUIRED';
+  | 'JOURNAL_ID_REQUIRED'
+  | 'ARTIFACT_MISSING'
+  | 'ARTIFACT_CHANGED'
+  | 'NOT_PUBLISHABLE';
 
 export class LifecycleError extends Error {
   constructor(
@@ -193,9 +215,16 @@ export interface JournalEntry {
 }
 
 export interface JournalVerification {
+  /** The hash chain is unbroken. TRUE for an absent journal — see `present`. */
   ok: boolean;
+  /** The journal file exists at all. */
+  present: boolean;
   entries: JournalEntry[];
   problems: string[];
+}
+
+function journalExists(runId: string, journal: string): boolean {
+  return existsSync(resolveRunFile(runId, journal, { write: false }));
 }
 
 function journalLines(runId: string, journal: string): string[] {
@@ -252,7 +281,29 @@ export function verifyJournal(runId: string, journal: string): JournalVerificati
     entries.push(entry);
   });
 
-  return { ok: problems.length === 0, entries, problems };
+  return { ok: problems.length === 0, present: journalExists(runId, journal), entries, problems };
+}
+
+/**
+ * The release-grade reading of a journal: present, non-empty AND unbroken.
+ *
+ * `verifyJournal` deliberately calls an absent journal's chain intact, because
+ * `appendJournalEntry` has to be able to write the first line. For a RELEASE
+ * that reading is wrong in the most dangerous direction: a run that journalled
+ * nothing at all — because the writer was never wired up, or because the file
+ * was deleted — produced an empty problem list and read as "journals intact".
+ * An empty journal is not an intact journal; it is an absent record of the
+ * evidence the run is supposed to be made of.
+ */
+export function journalProblemsForRelease(runId: string, journal: string): string[] {
+  const result = verifyJournal(runId, journal);
+  if (!result.present) {
+    return [`${journal} does not exist; the run has no append-only record of this evidence`];
+  }
+  if (result.entries.length === 0 && result.problems.length === 0) {
+    return [`${journal} exists but holds no entries; an empty journal is not an intact journal`];
+  }
+  return result.problems.map((p) => `${journal}: ${p}`);
 }
 
 /**
@@ -774,6 +825,82 @@ function statusOf(ctx: {
 
 export type ChecklistVerdict = 'pass' | 'fail' | 'not-checked';
 
+/**
+ * THE release checklist. Fixed, enumerated, and not negotiable by a caller.
+ *
+ * The defect this replaces: `buildReleaseChecklist` took the status report, the
+ * stale-score verdict, the lifecycle state, the journal list and the
+ * verification options FROM ITS CALLER, and `checklistComplete` accepted any
+ * non-empty list of passing items. A caller could therefore omit every check it
+ * expected to fail, or hand `transitionRun` a one-item checklist reading
+ * `[{ id: 'stub', verdict: 'pass' }]` and release on it. That is the
+ * architectural failure this whole work package exists to close: the thing
+ * being guarded chose the guard's scope.
+ *
+ * So the scope lives here, as a constant, and the evidence for every item is
+ * read from the run's own artifacts. There is no parameter that removes a check
+ * and no parameter that decides what a check means.
+ */
+export const RELEASE_CHECKS = Object.freeze([
+  {
+    id: 'manifest-present',
+    statement: 'The run carries a valid, coherent manifest naming its evidence class and content hashes.',
+  },
+  {
+    id: 'manifest-digest-persisted',
+    statement: "The manifest's own digest is recorded with the run and matches the manifest on disk.",
+  },
+  {
+    id: 'artifacts-match-manifest',
+    statement:
+      'Stored artifacts reproduce the bank, prompt, judge-prompt and validator hashes the manifest declares, with no missing cell.',
+  },
+  {
+    id: 'run-identity-consistent',
+    statement: 'The manifest, config, board, analysis and stored scores all name this same run.',
+  },
+  {
+    id: 'evidence-class-publishable',
+    statement: "Only a 'public-release' artifact in 'released' may become a public result (RELEASE-002).",
+  },
+  {
+    id: 'lifecycle-audited',
+    statement: 'Release happens from the audited state, never straight from draft.',
+  },
+  {
+    id: 'coverage-complete',
+    statement: 'Every declared model × item cell is in a terminal score/adjudication state.',
+  },
+  {
+    id: 'no-unadjudicated-flags',
+    statement: 'No cross-judge disagreement is still waiting for human review.',
+  },
+  {
+    id: 'adjudications-resolved',
+    statement: 'An adjudication queue was built and every case in it has an admissible decision.',
+  },
+  {
+    id: 'no-stale-scores',
+    statement: 'No score was produced under a prompt, item, panel or grader that has since changed.',
+  },
+  {
+    id: 'journals-intact',
+    statement: 'The append-only answer and ballot journals exist, hold entries, and verify end to end.',
+  },
+  { id: 'board-present', statement: 'A leaderboard exists for this run and names it.' },
+  { id: 'analysis-present', statement: 'An analysis exists for this run and names it.' },
+  {
+    id: 'artifacts-committed',
+    statement: 'The run directory is committed, so the released artifacts are the ones in git.',
+  },
+] as const);
+
+export type ReleaseCheckId = (typeof RELEASE_CHECKS)[number]['id'];
+
+export const REQUIRED_RELEASE_CHECK_IDS: readonly ReleaseCheckId[] = Object.freeze(
+  RELEASE_CHECKS.map((c) => c.id),
+);
+
 export interface ChecklistItem {
   id: string;
   statement: string;
@@ -793,135 +920,205 @@ export interface ReleaseChecklist {
 
 export const RELEASE_CHECKLIST_FILE = 'release-checklist.json';
 
-export interface ChecklistInput {
-  runId: string;
-  now?: Date;
-  status?: StatusReport;
-  /** Verdict comparing the manifest that produced the scores to the current one. */
-  stale?: StaleScoreVerdict;
-  /** The lifecycle state the run is transitioning FROM. */
-  state?: ReleaseState;
-  journals?: readonly string[];
-  verify?: VerifyOptions;
-}
-
 /**
- * The release gate, expressed as data so it can be committed and rendered.
+ * Build the checklist for a run, from the run.
  *
- * `not-checked` is a FAILURE for release purposes, never a pass. Every check
- * that could not run is a check that did not run, and a checklist whose unknown
- * items read as green is a checklist that certifies its own blind spots.
+ * `now` is the only parameter beyond the run id, and it is a timestamp rather
+ * than a gate input — it cannot make a failing check pass. Everything else is
+ * read: the manifest, its persisted digest, the register, the stored responses
+ * and scores, the journals, the adjudication queue and record, the board, the
+ * analysis and git.
+ *
+ * `not-checked` remains a FAILURE. Every check that could not run is a check
+ * that did not run, and a checklist whose unknown items read as green is a
+ * checklist that certifies its own blind spots.
  */
-export function buildReleaseChecklist(input: ChecklistInput): ReleaseChecklist {
-  const now = input.now ?? new Date();
-  const items: ChecklistItem[] = [];
-  let hash: string | null = null;
-  let manifest: ValidatedRunManifest | null = null;
-
-  try {
-    manifest = readRunManifest(input.runId);
-    hash = manifestHash(manifest);
-    items.push({
-      id: 'manifest-present',
-      statement: 'The run carries a valid, coherent manifest naming its evidence class and content hashes.',
-      verdict: 'pass',
-      detail: `manifest ${hash.slice(0, 12)}…, evidenceClass '${manifest.evidenceClass}'.`,
-    });
-  } catch (e) {
-    items.push({
-      id: 'manifest-present',
-      statement: 'The run carries a valid, coherent manifest naming its evidence class and content hashes.',
-      verdict: 'fail',
-      detail: (e as Error).message,
-    });
-  }
-
-  // `expectComplete` is applied last so a caller's options cannot weaken the
-  // release gate into an in-progress audit.
-  const verification = verifyRunManifest(input.runId, { ...input.verify, expectComplete: true });
-  items.push({
-    id: 'artifacts-match-manifest',
-    statement: 'Stored artifacts reproduce the bank, prompt, judge-prompt and validator hashes the manifest declares.',
-    verdict: verification.ok ? 'pass' : 'fail',
-    detail: verification.ok
-      ? 'No drift and no undeclared artifacts.'
-      : verification.findings
-          .filter((f) => f.severity === 'error')
-          .map((f) => `[${f.code}] ${f.detail}`)
-          .join(' '),
-  });
-
-  items.push({
-    id: 'evidence-class-publishable',
-    statement: "Only a 'public-release' artifact may become a public result (RELEASE-002).",
-    verdict: manifest === null ? 'not-checked' : manifest.evidenceClass === 'public-release' ? 'pass' : 'fail',
-    detail:
-      manifest === null
-        ? 'No readable manifest, so the evidence class is unknown.'
-        : `evidenceClass '${manifest.evidenceClass}', rankEligible ${manifest.rankEligible}.`,
-  });
-
-  items.push({
-    id: 'lifecycle-audited',
-    statement: 'Release happens from the audited state, never straight from draft.',
-    verdict: input.state === undefined ? 'not-checked' : input.state === 'audited' ? 'pass' : 'fail',
-    detail: input.state === undefined ? 'No lifecycle state supplied.' : `state '${input.state}'.`,
-  });
-
-  items.push({
-    id: 'coverage-complete',
-    statement: 'Every declared model × item cell is in a terminal score/adjudication state.',
-    verdict: input.status === undefined ? 'not-checked' : input.status.complete ? 'pass' : 'fail',
-    detail:
-      input.status === undefined
-        ? 'No status report supplied.'
-        : `${input.status.total - input.status.incomplete.length}/${input.status.total} terminal; ` +
-          `outstanding: ${summariseCounts(input.status)}.`,
-  });
-
-  items.push({
-    id: 'no-unadjudicated-flags',
-    statement: 'No cross-judge disagreement is still waiting for human review.',
-    verdict: input.status === undefined ? 'not-checked' : input.status.counts.flagged === 0 ? 'pass' : 'fail',
-    detail:
-      input.status === undefined
-        ? 'No status report supplied.'
-        : `${input.status.counts.flagged} flagged cell(s) unadjudicated.`,
-  });
-
-  items.push({
-    id: 'no-stale-scores',
-    statement: 'No score was produced under a prompt, item, panel or grader that has since changed.',
-    verdict: input.stale === undefined ? 'not-checked' : input.stale.reasons.length === 0 ? 'pass' : 'fail',
-    detail:
-      input.stale === undefined
-        ? 'No stale-score verdict supplied; supply one comparing the manifest the scores were produced under.'
-        : input.stale.reasons.map((r) => `[${r.code}] ${r.detail}`).join(' ') || 'No invalidating change.',
-  });
-
-  const journals = input.journals ?? [ANSWER_JOURNAL, BALLOT_JOURNAL];
-  const journalProblems = journals.flatMap((journal) => {
-    const result = verifyJournal(input.runId, journal);
-    return result.problems.map((p) => `${journal}: ${p}`);
-  });
-  items.push({
-    id: 'journals-intact',
-    statement: 'The append-only answer and ballot journals verify end to end.',
-    verdict: journalProblems.length === 0 ? 'pass' : 'fail',
-    detail: journalProblems.length === 0 ? `${journals.join(', ')} intact.` : journalProblems.join(' '),
-  });
-
-  items.push(committedCheck(input.runId));
-
-  const checklist: ReleaseChecklist = {
+export function buildReleaseChecklist(runId: string, now: Date = new Date()): ReleaseChecklist {
+  const evidence = gatherReleaseEvidence(runId);
+  const items: ChecklistItem[] = RELEASE_CHECKS.map((check) => ({
+    ...check,
+    ...judgeCheck(check.id, evidence),
+  }));
+  return {
     checklistVersion: 1,
-    runId: input.runId,
+    runId,
     generatedAt: now.toISOString(),
-    manifestHash: hash,
+    manifestHash: evidence.manifestHash,
     items,
     complete: items.every((i) => i.verdict === 'pass'),
   };
-  return checklist;
+}
+
+interface ReleaseEvidence {
+  runId: string;
+  manifest: ValidatedRunManifest | null;
+  manifestProblem: string | null;
+  manifestHash: string | null;
+  recordedHash: RecordedManifestHash;
+  verification: VerificationReport;
+  digest: ContentDigest | null;
+  registerState: ReleaseState | null;
+  identity: { ok: boolean; detail: string };
+  status: StatusReport | null;
+  statusProblem: string | null;
+  stale: StaleScoreVerdict | null;
+  staleProblem: string | null;
+  journalProblems: string[];
+  adjudication: AdjudicationEvidence;
+  board: { ok: boolean; detail: string };
+  analysis: { ok: boolean; detail: string };
+  committed: { ok: boolean; detail: string };
+}
+
+/** Read once; every check is then a pure function of this. */
+function gatherReleaseEvidence(runId: string): ReleaseEvidence {
+  let manifest: ValidatedRunManifest | null = null;
+  let manifestProblem: string | null = null;
+  try {
+    manifest = readRunManifest(runId);
+  } catch (e) {
+    manifestProblem = (e as Error).message;
+  }
+
+  let digest: ContentDigest | null = null;
+  try {
+    digest = readRunDigest(runId);
+  } catch {
+    // Reported through `artifacts-match-manifest`, which reads the same file
+    // and says so in its own finding; duplicating the message here would make
+    // one absence look like two independent failures.
+    digest = null;
+  }
+
+  const adjudication = readAdjudicationEvidence(runId);
+  const scores = readScoresSafely(runId);
+  const status = deriveStatusReport(runId, manifest, digest, scores, adjudication);
+  const stale = workingTreeStaleVerdict(runId, manifest, digest);
+
+  return {
+    runId,
+    manifest,
+    manifestProblem,
+    manifestHash: manifest === null ? null : manifestHash(manifest),
+    recordedHash: readRunManifestHash(runId),
+    // `expectComplete` is forced, not defaulted: the release reading of
+    // "complete" is the only one that matters here, and a caller must not be
+    // able to soften it into an in-progress audit.
+    verification: verifyRunManifest(runId, { expectComplete: true }),
+    digest,
+    registerState: registerEntry(runId)?.state ?? null,
+    identity: checkArtifactIdentity(runId, manifest, scores.scores),
+    status: status.report,
+    statusProblem: status.problem,
+    stale: stale.verdict,
+    staleProblem: stale.problem,
+    // The journal list is FIXED. It used to be a parameter, so a caller could
+    // pass `journals: []` and collect a green "journals intact" over nothing.
+    journalProblems: [ANSWER_JOURNAL, BALLOT_JOURNAL].flatMap((j) => journalProblemsForRelease(runId, j)),
+    adjudication,
+    board: checkArtifactNamesRun(runId, 'leaderboard.json', 'rows'),
+    analysis: checkArtifactNamesRun(runId, 'analysis.json', null),
+    committed: committedEvidence(runId),
+  };
+}
+
+function verdict(pass: boolean, detail: string): { verdict: ChecklistVerdict; detail: string } {
+  return { verdict: pass ? 'pass' : 'fail', detail };
+}
+
+const NOT_CHECKED = (detail: string): { verdict: ChecklistVerdict; detail: string } => ({
+  verdict: 'not-checked',
+  detail,
+});
+
+function judgeCheck(id: ReleaseCheckId, e: ReleaseEvidence): { verdict: ChecklistVerdict; detail: string } {
+  switch (id) {
+    case 'manifest-present':
+      return e.manifest === null
+        ? verdict(false, e.manifestProblem ?? 'No readable manifest.')
+        : verdict(true, `manifest ${e.manifestHash!.slice(0, 12)}…, evidenceClass '${e.manifest.evidenceClass}'.`);
+
+    case 'manifest-digest-persisted':
+      if (e.manifestHash === null) return NOT_CHECKED('No readable manifest to compare a digest against.');
+      if (e.recordedHash.state === 'absent') {
+        return verdict(false, `Run carries no ${MANIFEST_HASH_FILE}; nothing records which envelope it ran under.`);
+      }
+      if (e.recordedHash.state === 'malformed') {
+        return verdict(false, `${MANIFEST_HASH_FILE} does not hold a sha256 digest.`);
+      }
+      return verdict(
+        e.recordedHash.hash === e.manifestHash,
+        `recorded ${e.recordedHash.hash.slice(0, 12)}… vs manifest ${e.manifestHash.slice(0, 12)}….`,
+      );
+
+    case 'artifacts-match-manifest':
+      return verdict(
+        e.verification.ok,
+        e.verification.ok
+          ? 'No drift, no undeclared artifacts, no missing cell.'
+          : e.verification.findings
+              .filter((f) => f.severity === 'error')
+              .map((f) => `[${f.code}] ${f.detail}`)
+              .join(' '),
+      );
+
+    case 'run-identity-consistent':
+      return verdict(e.identity.ok, e.identity.detail);
+
+    case 'evidence-class-publishable':
+      if (e.manifest === null) return NOT_CHECKED('No readable manifest, so the evidence class is unknown.');
+      return verdict(
+        canPublish(e.manifest),
+        `evidenceClass '${e.manifest.evidenceClass}', releaseState '${e.manifest.releaseState}', rankEligible ${e.manifest.rankEligible}.`,
+      );
+
+    case 'lifecycle-audited':
+      if (e.registerState === null) {
+        return verdict(false, 'The run is not in the release register, so no review has been recorded for it.');
+      }
+      return verdict(e.registerState === 'audited', `register state '${e.registerState}'.`);
+
+    case 'coverage-complete':
+      if (e.status === null) return NOT_CHECKED(e.statusProblem ?? 'Coverage could not be established.');
+      return verdict(
+        e.status.complete,
+        `${e.status.total - e.status.incomplete.length}/${e.status.total} terminal; outstanding: ${summariseCounts(e.status)}.`,
+      );
+
+    case 'no-unadjudicated-flags':
+      if (e.status === null) return NOT_CHECKED(e.statusProblem ?? 'Coverage could not be established.');
+      return verdict(
+        e.status.counts.flagged === 0,
+        `${e.status.counts.flagged} flagged cell(s) with no admissible adjudication.`,
+      );
+
+    case 'adjudications-resolved':
+      return verdict(e.adjudication.complete, e.adjudication.detail);
+
+    case 'no-stale-scores':
+      if (e.stale === null) return NOT_CHECKED(e.staleProblem ?? 'Staleness could not be established.');
+      return verdict(
+        e.stale.reasons.length === 0,
+        e.stale.reasons.map((r) => `[${r.code}] ${r.detail}`).join(' ') || 'No invalidating change.',
+      );
+
+    case 'journals-intact':
+      return verdict(
+        e.journalProblems.length === 0,
+        e.journalProblems.length === 0
+          ? `${ANSWER_JOURNAL}, ${BALLOT_JOURNAL} present and intact.`
+          : e.journalProblems.join(' '),
+      );
+
+    case 'board-present':
+      return verdict(e.board.ok, e.board.detail);
+
+    case 'analysis-present':
+      return verdict(e.analysis.ok, e.analysis.detail);
+
+    case 'artifacts-committed':
+      return verdict(e.committed.ok, e.committed.detail);
+  }
 }
 
 function summariseCounts(status: StatusReport): string {
@@ -931,23 +1128,322 @@ function summariseCounts(status: StatusReport): string {
   return outstanding.length === 0 ? 'none' : outstanding.join(', ');
 }
 
-function committedCheck(runId: string): ChecklistItem {
-  const statement = 'The run directory is committed, so the released artifacts are the ones in git.';
+function committedEvidence(runId: string): { ok: boolean; detail: string } {
   try {
-    const treeHash = assertSourceCommitted(runId);
-    return { id: 'artifacts-committed', statement, verdict: 'pass', detail: `tree ${treeHash.slice(0, 12)}….` };
+    return { ok: true, detail: `tree ${assertSourceCommitted(runId).slice(0, 12)}….` };
   } catch (e) {
-    return { id: 'artifacts-committed', statement, verdict: 'fail', detail: (e as Error).message };
+    return { ok: false, detail: (e as Error).message };
   }
 }
 
-/** Recomputed from the items. The stored `complete` flag is never trusted. */
-export function checklistComplete(checklist: ReleaseChecklist): boolean {
-  return (
-    Array.isArray(checklist.items) &&
-    checklist.items.length > 0 &&
-    checklist.items.every((i) => i.verdict === 'pass')
+/** A run-scoped JSON artifact that must exist, parse, and name this run. */
+function checkArtifactNamesRun(
+  runId: string,
+  file: string,
+  requiredArrayField: string | null,
+): { ok: boolean; detail: string } {
+  const path = resolveRunFile(runId, file, { write: false });
+  if (!existsSync(path)) return { ok: false, detail: `${file} does not exist.` };
+  let parsed: { runId?: unknown } & Record<string, unknown>;
+  try {
+    parsed = JSON.parse(readFileSync(path, 'utf8')) as Record<string, unknown>;
+  } catch (e) {
+    return { ok: false, detail: `${file} is not valid JSON (${(e as Error).message}).` };
+  }
+  if (parsed?.runId !== runId) {
+    return { ok: false, detail: `${file} names run ${JSON.stringify(parsed?.runId)}, not '${runId}'.` };
+  }
+  if (requiredArrayField !== null) {
+    const rows = parsed[requiredArrayField];
+    if (!Array.isArray(rows) || rows.length === 0) {
+      return { ok: false, detail: `${file} has no ${requiredArrayField}; an empty board is not a result.` };
+    }
+  }
+  return { ok: true, detail: `${file} present and names '${runId}'.` };
+}
+
+interface LoadedScores {
+  scores: Score[];
+  problem: string | null;
+}
+
+function readScoresSafely(runId: string): LoadedScores {
+  try {
+    return { scores: readScores(runId), problem: null };
+  } catch (e) {
+    // Unreadable is not empty. An empty score list would make every cell
+    // 'answered' and the coverage check would fail anyway, but it would fail
+    // with the wrong reason, and the wrong reason is what gets waved through.
+    return { scores: [], problem: `scores.json could not be read (${(e as Error).message}).` };
+  }
+}
+
+/**
+ * Every id inside the run's own artifacts must be this run's id (RELEASE-002).
+ *
+ * Cheap, and it catches the case a copied artifact creates: a board or a score
+ * set lifted from another run sitting inside this directory, carrying that
+ * run's numbers under this run's approval. `verifyRunManifest` already checks
+ * the responses; this covers the derived artifacts it does not read.
+ */
+function checkArtifactIdentity(
+  runId: string,
+  manifest: ValidatedRunManifest | null,
+  scores: readonly Score[],
+): { ok: boolean; detail: string } {
+  const problems: string[] = [];
+  if (manifest !== null && manifest.runId !== runId) {
+    problems.push(`manifest names '${manifest.runId}'`);
+  }
+  const configPath = resolveRunFile(runId, 'config.json', { write: false });
+  if (!existsSync(configPath)) {
+    problems.push('config.json is absent');
+  } else {
+    try {
+      const config = JSON.parse(readFileSync(configPath, 'utf8')) as { runId?: unknown };
+      if (config.runId !== runId) problems.push(`config.json names ${JSON.stringify(config.runId)}`);
+    } catch (e) {
+      problems.push(`config.json is unreadable (${(e as Error).message})`);
+    }
+  }
+  const foreign = [...new Set(scores.map((s) => s.runId).filter((id) => id !== runId))];
+  if (foreign.length > 0) problems.push(`scores stamped [${foreign.slice(0, 3).join(', ')}]`);
+  return problems.length === 0
+    ? { ok: true, detail: `manifest, config, scores and artifacts all name '${runId}'.` }
+    : { ok: false, detail: problems.join('; ') };
+}
+
+interface AdjudicationEvidence {
+  complete: boolean;
+  detail: string;
+  /** Question ids whose disputes carry an admissible decision. */
+  resolvedQuestionIds: ReadonlySet<string>;
+}
+
+/**
+ * Read the adjudication queue and record, and ask M2.6's own gate about them.
+ *
+ * `adjudicate.ts` owns the semantics — a queue that was never built is not an
+ * empty queue, and a critical safety case signed off by someone who did not
+ * declare independence is not decided — so its `adjudicationStatus` is called
+ * rather than reimplemented. What is done here is the reading, because that
+ * module exports a writer for the queue but no reader.
+ *
+ * The queue is shape-checked before it is passed on. A blind cast would let a
+ * hand-written `{"cases": []}` clear every dispute in the run, which is the
+ * cheapest possible forgery of a review.
+ */
+function readAdjudicationEvidence(runId: string): AdjudicationEvidence {
+  const queuePath = resolveRunFile(runId, ADJUDICATION_QUEUE_FILE, { write: false });
+  if (!existsSync(queuePath)) {
+    return {
+      complete: false,
+      detail: `${ADJUDICATION_QUEUE_FILE} was never built for this run; an unbuilt queue is not an empty one.`,
+      resolvedQuestionIds: new Set(),
+    };
+  }
+  let queue: AdjudicationQueue;
+  try {
+    const parsed = JSON.parse(readFileSync(queuePath, 'utf8')) as Partial<AdjudicationQueue>;
+    if (
+      parsed?.runId !== runId ||
+      !Array.isArray(parsed.cases) ||
+      parsed.cases.some((c) => typeof c?.caseId !== 'string' || typeof c?.questionId !== 'string')
+    ) {
+      return {
+        complete: false,
+        detail: `${ADJUDICATION_QUEUE_FILE} is malformed or names another run.`,
+        resolvedQuestionIds: new Set(),
+      };
+    }
+    queue = parsed as AdjudicationQueue;
+  } catch (e) {
+    return {
+      complete: false,
+      detail: `${ADJUDICATION_QUEUE_FILE} is not valid JSON (${(e as Error).message}).`,
+      resolvedQuestionIds: new Set(),
+    };
+  }
+
+  let status: ReturnType<typeof adjudicationStatus>;
+  try {
+    status = adjudicationStatus(queue, readAdjudicationRecord(runId));
+  } catch (e) {
+    return { complete: false, detail: (e as Error).message, resolvedQuestionIds: new Set() };
+  }
+  const pendingIds = new Set(status.pending.map((p) => p.questionId));
+  const resolvedQuestionIds = new Set(
+    queue.cases.map((c) => c.questionId).filter((id) => !pendingIds.has(id)),
   );
+  return {
+    complete: status.complete,
+    detail: status.complete
+      ? `${status.decided}/${status.total} case(s) decided.`
+      : `${status.pending.length} of ${status.total} case(s) unresolved` +
+        (status.queueMismatch ? ' (the record binds to a different queue)' : '') +
+        (status.pending.length > 0 ? `: ${status.pending.slice(0, 3).map((p) => `${p.questionId} — ${p.why}`).join('; ')}` : '') +
+        '.',
+    resolvedQuestionIds,
+  };
+}
+
+/**
+ * The status of every declared cell, built from the run's own evidence.
+ *
+ * Previously the caller passed this in, which meant the caller decided how many
+ * cells there were — and a caller that under-reports the grid gets a complete
+ * coverage check for free. The grid comes from the manifest's candidate routes
+ * crossed with the digest's item ids, both of which are frozen at manifest time.
+ */
+function deriveStatusReport(
+  runId: string,
+  manifest: ValidatedRunManifest | null,
+  digest: ContentDigest | null,
+  scores: LoadedScores,
+  adjudication: AdjudicationEvidence,
+): { report: StatusReport | null; problem: string | null } {
+  if (manifest === null) return { report: null, problem: 'No readable manifest, so the cell grid is unknown.' };
+  if (digest === null) return { report: null, problem: 'No readable digest, so the item set is unknown.' };
+  if (scores.problem !== null) return { report: null, problem: scores.problem };
+
+  let responses: StoredResponse[];
+  try {
+    responses = readResponses(runId);
+  } catch (e) {
+    return { report: null, problem: `responses/ could not be read (${(e as Error).message}).` };
+  }
+
+  let judgedItemIds: string[];
+  try {
+    const byId = new Map(loadQuestions().map((q) => [q.id, q]));
+    const missing = digest.itemIds.filter((id) => !byId.has(id));
+    if (missing.length > 0) {
+      return {
+        report: null,
+        problem: `${missing.length} manifested item(s) are no longer in the dataset, so which cells need a judge cannot be established.`,
+      };
+    }
+    judgedItemIds = digest.itemIds.filter((id) => byId.get(id)!.grader.type === 'llm-judge');
+  } catch (e) {
+    return { report: null, problem: `The dataset does not load (${(e as Error).message}).` };
+  }
+
+  // A flag is cleared by an admissible adjudication decision, never by the run
+  // deciding it does not matter. Everything still flagged is unfinished work.
+  const flaggedCells = scores.scores
+    .filter((s) => (s.detail as { flagged?: unknown }).flagged === true)
+    .map((s) => ({ modelId: s.modelId, questionId: s.questionId }));
+  const adjudicated = flaggedCells.filter((c) => adjudication.resolvedQuestionIds.has(c.questionId));
+  const stillFlagged = flaggedCells.filter((c) => !adjudication.resolvedQuestionIds.has(c.questionId));
+
+  return {
+    report: scoreStatusReport({
+      runId,
+      models: manifest.candidateRoutes.map((r) => r.modelId),
+      questionIds: digest.itemIds,
+      responses,
+      scores: scores.scores,
+      judgedItemIds,
+      flagged: stillFlagged,
+      adjudicated,
+    }),
+    problem: null,
+  };
+}
+
+/**
+ * Is anything that produced these scores different in the working tree now?
+ *
+ * The comparison is the run's stored manifest against the same manifest with
+ * its four content hashes recomputed from the current dataset and code. Both
+ * sides are derived here; neither is supplied. `staleScoresForRun` takes the
+ * "current" side from its caller, which is right for `grade`/`judge` (the
+ * caller genuinely holds the new envelope) and wrong for a release gate, where
+ * the caller would be choosing what counts as unchanged.
+ */
+function workingTreeStaleVerdict(
+  runId: string,
+  manifest: ValidatedRunManifest | null,
+  digest: ContentDigest | null,
+): { verdict: StaleScoreVerdict | null; problem: string | null } {
+  if (manifest === null || digest === null) {
+    return { verdict: null, problem: 'No readable manifest or digest to compare the working tree against.' };
+  }
+  try {
+    const byId = new Map(loadQuestions().map((q) => [q.id, q]));
+    const missing = digest.itemIds.filter((id) => !byId.has(id));
+    if (missing.length > 0) {
+      return {
+        verdict: null,
+        problem: `${missing.length} manifested item(s) have left the dataset, so the scores cannot be shown to be current.`,
+      };
+    }
+    const current = computeContentDigest(
+      digest.itemIds.map((id) => byId.get(id)!),
+      {
+        maxTokens: manifest.generationSettings.maxTokens,
+        maxTokensRecipe: manifest.generationSettings.maxTokensRecipe,
+      },
+    );
+    return {
+      verdict: detectStaleScores(
+        { manifest, digest },
+        {
+          manifest: {
+            ...manifest,
+            bankHash: current.bankHash,
+            promptHash: current.promptHash,
+            judgePromptHash: current.judgePromptHash,
+            validatorHash: current.validatorHash,
+          },
+          digest: current,
+        },
+      ),
+      problem: null,
+    };
+  } catch (e) {
+    return { verdict: null, problem: `The working tree could not be re-hashed (${(e as Error).message}).` };
+  }
+}
+
+/**
+ * Recomputed from the items, and from the FIXED list of required checks.
+ *
+ * Two separate lies this refuses. The stored `complete` flag is never trusted —
+ * a checklist can assert its own completeness. And a checklist that simply does
+ * not contain a check cannot pass on the ones it does contain: the old version
+ * accepted any non-empty list of passing items, so `[{ verdict: 'pass' }]`
+ * released a run. Membership is checked against `REQUIRED_RELEASE_CHECK_IDS`,
+ * in both directions, so neither omitting a check nor inventing one works.
+ */
+export function checklistComplete(checklist: ReleaseChecklist): boolean {
+  return checklistShortfall(checklist).length === 0;
+}
+
+/** Why a checklist is not complete, in publishable form. Empty iff complete. */
+export function checklistShortfall(checklist: ReleaseChecklist): string[] {
+  if (!checklist || !Array.isArray(checklist.items)) return ['the checklist has no items array'];
+  const problems: string[] = [];
+  const seen = new Map<string, ChecklistItem>();
+  for (const item of checklist.items) {
+    if (!item || typeof item.id !== 'string') {
+      problems.push('an item has no id');
+      continue;
+    }
+    if (seen.has(item.id)) problems.push(`check '${item.id}' appears twice`);
+    seen.set(item.id, item);
+  }
+  for (const id of REQUIRED_RELEASE_CHECK_IDS) {
+    const item = seen.get(id);
+    if (!item) problems.push(`required check '${id}' is missing`);
+    else if (item.verdict !== 'pass') problems.push(`${id}: [${item.verdict}] ${item.detail}`);
+  }
+  for (const id of seen.keys()) {
+    if (!(REQUIRED_RELEASE_CHECK_IDS as readonly string[]).includes(id)) {
+      problems.push(`check '${id}' is not one of the required checks and cannot stand in for one`);
+    }
+  }
+  return problems;
 }
 
 export function writeReleaseChecklist(runId: string, checklist: ReleaseChecklist): string {
@@ -973,6 +1469,35 @@ export function writeReleaseChecklist(runId: string, checklist: ReleaseChecklist
  * what makes an erratum possible without editing the thing the erratum is about.
  */
 export const REGISTER_FILE = 'REGISTER.json';
+
+/**
+ * The register file every production path uses. Not a parameter.
+ *
+ * It was one, on every function below, which meant a caller could point the
+ * lifecycle at a register it had written itself — its own approvals, its own
+ * released states, its own current-run pointer. That is the same class of
+ * defect as a permit verifier accepting a caller-supplied keyring: injectable
+ * for testability, reachable in production, therefore not a boundary. Tests
+ * substitute one through `useRegisterFileForTest`, which refuses outside a test
+ * process.
+ */
+let registerFileOverride: string | null = null;
+
+function registerFile(): string {
+  return registerFileOverride ?? REGISTER_FILE;
+}
+
+/** Test-only. Redirects the register so a test never touches the real one. */
+export function useRegisterFileForTest(file: string): void {
+  assertTestSeam('useRegisterFileForTest');
+  registerFileOverride = file;
+}
+
+/** Test-only. Restores the production register. */
+export function clearRegisterFileForTest(): void {
+  assertTestSeam('clearRegisterFileForTest');
+  registerFileOverride = null;
+}
 
 /**
  * Legal transitions.
@@ -1010,6 +1535,12 @@ export interface RegisterEntry {
   history: LifecycleTransitionRecord[];
 }
 
+/** One published artifact, pinned by content at the moment of approval. */
+export interface PinnedArtifact {
+  file: string;
+  sha256: string;
+}
+
 export interface CurrentRunPointer {
   runId: string;
   manifestHash: string;
@@ -1018,6 +1549,46 @@ export interface CurrentRunPointer {
   reviewEvidence: string;
   /** sha256 of the canonical checklist that backed the decision. */
   checklistDigest: string;
+  /**
+   * The exact bytes this approval covers.
+   *
+   * This is what makes publication ATOMIC for a reader. The artifacts
+   * themselves live in a per-run directory and are written one file at a time,
+   * so a reader that walked the directory could catch a board from one version
+   * beside an analysis from another. Here the pointer is swapped by a single
+   * atomic rename, it names one run, and it pins every file's digest — so a
+   * reader either resolves the whole previous release or the whole new one, and
+   * a mixed set fails the digest check rather than rendering.
+   */
+  artifacts: PinnedArtifact[];
+}
+
+/**
+ * The artifacts a public release consists of. Fixed, and required.
+ *
+ * A shorter list would mean an unpinned file could change under a live pointer;
+ * a caller-supplied list would mean the run being published chose which of its
+ * own files were covered.
+ */
+export const PUBLISHED_ARTIFACTS: readonly string[] = Object.freeze([
+  'leaderboard.json',
+  'analysis.json',
+  'scores.json',
+  MANIFEST_FILE,
+  RELEASE_CHECKLIST_FILE,
+]);
+
+function pinArtifacts(runId: string): PinnedArtifact[] {
+  return PUBLISHED_ARTIFACTS.map((file) => {
+    const path = resolveRunFile(runId, file, { write: false });
+    if (!existsSync(path)) {
+      throw new LifecycleError(
+        `Run ${runId} has no ${file}. A release pins every published artifact by digest; one that does not exist cannot be pinned, and an unpinned file can change under a live pointer.`,
+        'ARTIFACT_MISSING',
+      );
+    }
+    return { file, sha256: sha256Hex(readFileSync(path, 'utf8')) };
+  });
 }
 
 export interface ReleaseRegister {
@@ -1040,7 +1611,8 @@ const EMPTY_REGISTER: ReleaseRegister = { registerVersion: 1, entries: {}, curre
  * unregistered run — whereas a MALFORMED register throws, because an unknown
  * lifecycle policy is not something to guess at.
  */
-export function readReleaseRegister(file: string = REGISTER_FILE): ReleaseRegister {
+export function readReleaseRegister(): ReleaseRegister {
+  const file = registerFile();
   const path = resolveOutputPath('runs', file, { write: false });
   if (!existsSync(path)) return { ...EMPTY_REGISTER, entries: {} };
   let parsed: unknown;
@@ -1078,8 +1650,18 @@ export function readReleaseRegister(file: string = REGISTER_FILE): ReleaseRegist
   };
 }
 
-function writeRegister(register: ReleaseRegister, file: string): string {
-  return writeOutputFileAtomic('runs', file, `${JSON.stringify(register, null, 2)}\n`);
+/**
+ * One atomic rename. The register is the publication transaction: every reader
+ * sees the pointer and the states as they were before the write, or as they are
+ * after, and never a half-applied release.
+ */
+function writeRegister(register: ReleaseRegister): string {
+  return writeOutputFileAtomic('runs', registerFile(), `${JSON.stringify(register, null, 2)}\n`);
+}
+
+/** The register entry for a run, or null when it has never been registered. */
+export function registerEntry(runId: string): RegisterEntry | null {
+  return readReleaseRegister().entries[runId] ?? null;
 }
 
 export interface RegisterRunInput {
@@ -1091,7 +1673,6 @@ export interface RegisterRunInput {
   evidence: string;
   initialState?: ReleaseState;
   now?: Date;
-  file?: string;
 }
 
 /**
@@ -1103,7 +1684,6 @@ export interface RegisterRunInput {
  * would inherit that lifecycle's approvals.
  */
 export function registerRun(input: RegisterRunInput): RegisterEntry {
-  const file = input.file ?? REGISTER_FILE;
   const now = input.now ?? new Date();
   const hash = input.manifestHash ?? (input.manifest !== undefined ? manifestHash(input.manifest) : undefined);
   if (hash === undefined) {
@@ -1127,7 +1707,7 @@ export function registerRun(input: RegisterRunInput): RegisterEntry {
     );
   }
 
-  const register = readReleaseRegister(file);
+  const register = readReleaseRegister();
   const existing = register.entries[input.runId];
   if (existing) {
     if (existing.manifestHash !== hash) {
@@ -1161,7 +1741,7 @@ export function registerRun(input: RegisterRunInput): RegisterEntry {
     ],
   };
   register.entries[input.runId] = entry;
-  writeRegister(register, file);
+  writeRegister(register);
   return entry;
 }
 
@@ -1198,29 +1778,37 @@ export interface TransitionInput {
   to: ReleaseState;
   actor: string;
   evidence: string;
-  /** Required for a transition to `released`. */
-  checklist?: ReleaseChecklist;
   now?: Date;
-  file?: string;
+}
+
+export interface TransitionResult {
+  entry: RegisterEntry;
+  /** Built and written for a release; null for every other transition. */
+  checklist: ReleaseChecklist | null;
 }
 
 /**
  * Move a run through the lifecycle.
  *
- * Preconditions, not conventions: releasing requires a COMPLETE checklist bound
- * to this run and this manifest hash, and the pointer is cleared automatically
- * when the run it names is quarantined or retired — a current-run pointer that
- * survives its own run's quarantine would keep serving the withdrawn board.
+ * Preconditions, not conventions. Releasing BUILDS the checklist from the run's
+ * evidence and requires it to be complete — it no longer accepts one. The
+ * caller-supplied form was the bypass: `transitionRun` verified that the object
+ * it was handed named the right run and the right manifest hash, and then
+ * trusted its verdicts, so a one-item list reading `pass` released the run.
+ * A caller can now supply an approver and a reason; it cannot supply a result.
+ *
+ * The pointer is cleared automatically when the run it names is quarantined or
+ * retired — a current-run pointer that survives its own run's quarantine would
+ * keep serving the withdrawn board.
  */
-export function transitionRun(input: TransitionInput): RegisterEntry {
-  const file = input.file ?? REGISTER_FILE;
+export function transitionRun(input: TransitionInput): TransitionResult {
   const now = input.now ?? new Date();
   requireEvidence(input.actor, input.evidence, `transitioning ${input.runId} to '${input.to}'`);
   if (!isReleaseState(input.to)) {
     throw new LifecycleError(`Unknown target state ${JSON.stringify(input.to)}.`, 'UNKNOWN_STATE');
   }
 
-  const register = readReleaseRegister(file);
+  const register = readReleaseRegister();
   const entry = register.entries[input.runId];
   if (!entry) {
     throw new LifecycleError(
@@ -1236,34 +1824,30 @@ export function transitionRun(input: TransitionInput): RegisterEntry {
     );
   }
 
+  let checklist: ReleaseChecklist | null = null;
   if (input.to === 'released') {
-    const checklist = input.checklist;
-    if (!checklist) {
-      throw new LifecycleError(
-        `Releasing ${input.runId} requires a release checklist. Build one with buildReleaseChecklist.`,
-        'CHECKLIST_INCOMPLETE',
-      );
-    }
-    if (checklist.runId !== input.runId) {
-      throw new LifecycleError(
-        `Checklist names run '${checklist.runId}', not '${input.runId}'.`,
-        'CHECKLIST_MISMATCH',
-      );
-    }
+    checklist = buildReleaseChecklist(input.runId, now);
+    // The register's binding is the authority on which envelope this lifecycle
+    // belongs to. A checklist built against a different manifest describes a
+    // different run, whatever its runId field says.
     if (checklist.manifestHash !== entry.manifestHash) {
       throw new LifecycleError(
-        `Checklist was built against manifest ${String(checklist.manifestHash).slice(0, 12)}… but the register binds ${entry.manifestHash.slice(0, 12)}….`,
+        `Run ${input.runId} now carries manifest ${String(checklist.manifestHash).slice(0, 12)}… but the register binds ${entry.manifestHash.slice(0, 12)}…. ` +
+          `Re-register, or derive a new run — an approval does not follow a swapped envelope.`,
         'CHECKLIST_MISMATCH',
       );
     }
-    if (!checklistComplete(checklist)) {
-      const failing = checklist.items.filter((i) => i.verdict !== 'pass');
+    const shortfall = checklistShortfall(checklist);
+    if (shortfall.length > 0) {
       throw new LifecycleError(
         `Release checklist for ${input.runId} is not complete:\n` +
-          failing.map((i) => `  - [${i.verdict}] ${i.id}: ${i.detail}`).join('\n'),
+          shortfall.map((p) => `  - ${p}`).join('\n'),
         'CHECKLIST_INCOMPLETE',
       );
     }
+    // Written before the state moves, so the evidence for the decision is on
+    // disk even if the register write fails.
+    writeReleaseChecklist(input.runId, checklist);
   }
 
   const journalled = appendLifecycle(
@@ -1287,7 +1871,7 @@ export function transitionRun(input: TransitionInput): RegisterEntry {
     register.currentRun = null;
   }
 
-  writeRegister(register, file);
+  writeRegister(register);
 
   if (input.to === 'released') {
     // Written LAST, and only after the register says released: this marker is
@@ -1300,20 +1884,18 @@ export function transitionRun(input: TransitionInput): RegisterEntry {
     );
   }
 
-  return entry;
+  return { entry, checklist };
 }
 
-export function runState(runId: string, file: string = REGISTER_FILE): ReleaseState | null {
-  return readReleaseRegister(file).entries[runId]?.state ?? null;
+export function runState(runId: string): ReleaseState | null {
+  return readReleaseRegister().entries[runId]?.state ?? null;
 }
 
 export interface SetCurrentRunInput {
   runId: string;
   reviewedBy: string;
   reviewEvidence: string;
-  checklist: ReleaseChecklist;
   now?: Date;
-  file?: string;
 }
 
 /**
@@ -1325,13 +1907,17 @@ export interface SetCurrentRunInput {
  * moment its timestamp led. Here a board becomes current because a named human
  * reviewed a complete checklist against a released artifact, and the digest of
  * that checklist is recorded next to the decision.
+ *
+ * The checklist is REBUILT here rather than accepted, for the same reason
+ * `transitionRun` rebuilds it: a supplied checklist is a claim about a run made
+ * by whatever is publishing that run. Rebuilding also means the pointer cannot
+ * be set from a checklist that was true an hour ago and is not true now.
  */
 export function setCurrentRun(input: SetCurrentRunInput): CurrentRunPointer {
-  const file = input.file ?? REGISTER_FILE;
   const now = input.now ?? new Date();
   requireEvidence(input.reviewedBy, input.reviewEvidence, `setting the current run to ${input.runId}`);
 
-  const register = readReleaseRegister(file);
+  const register = readReleaseRegister();
   const entry = register.entries[input.runId];
   if (!entry) {
     throw new LifecycleError(`Run ${input.runId} is not in the release register.`, 'RUN_NOT_REGISTERED');
@@ -1342,18 +1928,26 @@ export function setCurrentRun(input: SetCurrentRunInput): CurrentRunPointer {
       'NOT_RELEASED',
     );
   }
-  if (input.checklist.runId !== input.runId || input.checklist.manifestHash !== entry.manifestHash) {
+  const checklist = buildReleaseChecklist(input.runId, now);
+  if (checklist.manifestHash !== entry.manifestHash) {
     throw new LifecycleError(
-      `The checklist supplied does not belong to run ${input.runId} at manifest ${entry.manifestHash.slice(0, 12)}….`,
+      `Run ${input.runId} now carries manifest ${String(checklist.manifestHash).slice(0, 12)}… but the register binds ${entry.manifestHash.slice(0, 12)}….`,
       'CHECKLIST_MISMATCH',
     );
   }
-  if (!checklistComplete(input.checklist)) {
+  const shortfall = checklistShortfall(checklist);
+  if (shortfall.length > 0) {
     throw new LifecycleError(
-      `Refusing to make ${input.runId} current: its release checklist is not complete.`,
+      `Refusing to make ${input.runId} current — its release checklist is not complete:\n` +
+        shortfall.map((p) => `  - ${p}`).join('\n'),
       'CHECKLIST_INCOMPLETE',
     );
   }
+  // Only a manifest that is itself publishable may be pointed at. The register
+  // state and the manifest are two different assertions and both must hold: a
+  // 'released' entry over a 'development' manifest is a register that has been
+  // edited, not a run that was approved.
+  assertPublishable(readRunManifest(input.runId), `setCurrentRun(${input.runId})`);
 
   const pointer: CurrentRunPointer = {
     runId: input.runId,
@@ -1361,20 +1955,23 @@ export function setCurrentRun(input: SetCurrentRunInput): CurrentRunPointer {
     reviewedBy: input.reviewedBy,
     reviewedAt: now.toISOString(),
     reviewEvidence: input.reviewEvidence,
-    checklistDigest: sha256Hex(canonicalJson(input.checklist)),
+    checklistDigest: sha256Hex(canonicalJson(checklist)),
+    artifacts: pinArtifacts(input.runId),
   };
   register.currentRun = pointer;
-  writeRegister(register, file);
+  // The single atomic act of publication: one rename, after which every reader
+  // resolves the new release in full or the old one in full.
+  writeRegister(register);
   return pointer;
 }
 
 /** Throws when no run has been reviewed as current. Absence is a refusal. */
-export function readCurrentRun(file: string = REGISTER_FILE): CurrentRunPointer {
-  const register = readReleaseRegister(file);
+export function readCurrentRun(): CurrentRunPointer {
+  const register = readReleaseRegister();
   const pointer = register.currentRun;
   if (!pointer) {
     throw new LifecycleError(
-      `No reviewed current run is recorded in ${file}. A board becomes current by review, not by having the newest timestamp.`,
+      `No reviewed current run is recorded in ${registerFile()}. A board becomes current by review, not by having the newest timestamp.`,
       'NO_CURRENT_RUN',
     );
   }
@@ -1385,17 +1982,160 @@ export function readCurrentRun(file: string = REGISTER_FILE): CurrentRunPointer 
       'NOT_RELEASED',
     );
   }
+  // A pointer that pins nothing covers nothing. `?? []` here would have made an
+  // absent or emptied `artifacts` array the easiest possible bypass of the
+  // check below — the loop simply would not run — so the pin set is required to
+  // name every published artifact before any of them is compared.
+  const pinnedFiles = new Set((pointer.artifacts ?? []).map((a) => a?.file));
+  const unpinned = PUBLISHED_ARTIFACTS.filter((f) => !pinnedFiles.has(f));
+  if (unpinned.length > 0) {
+    throw new LifecycleError(
+      `The current-run pointer for ${pointer.runId} pins no digest for [${unpinned.join(', ')}]. ` +
+        `An unpinned artifact can change under a live pointer without any reader noticing.`,
+      'ARTIFACT_MISSING',
+    );
+  }
+  // Every pinned artifact must still hash to what was approved. This is the
+  // reader half of atomicity: a file replaced under a live pointer is refused
+  // rather than served beside the ones that were not replaced.
+  for (const pinned of pointer.artifacts) {
+    const path = resolveRunFile(pointer.runId, pinned.file, { write: false });
+    if (!existsSync(path)) {
+      throw new LifecycleError(
+        `The approved release names ${pinned.file}, which is no longer present in ${pointer.runId}.`,
+        'ARTIFACT_MISSING',
+      );
+    }
+    const actual = sha256Hex(readFileSync(path, 'utf8'));
+    if (actual !== pinned.sha256) {
+      throw new LifecycleError(
+        `${pointer.runId}/${pinned.file} has changed since it was approved (${pinned.sha256.slice(0, 12)}… → ${actual.slice(0, 12)}…). ` +
+          `Serving it would show a mixture of two releases.`,
+        'ARTIFACT_CHANGED',
+      );
+    }
+  }
   return pointer;
 }
 
-export function safeReadCurrentRun(
-  file: string = REGISTER_FILE,
-): { ok: true; pointer: CurrentRunPointer } | { ok: false; error: string } {
+export function safeReadCurrentRun():
+  | { ok: true; pointer: CurrentRunPointer }
+  | { ok: false; error: string } {
   try {
-    return { ok: true, pointer: readCurrentRun(file) };
+    return { ok: true, pointer: readCurrentRun() };
   } catch (e) {
     return { ok: false, error: (e as Error).message };
   }
+}
+
+/**
+ * THE publication gate (RELEASE-002 point 5).
+ *
+ * Every path that creates or updates a public result calls this: writing a
+ * board, writing an analysis, syncing a run outwards, publishing it. Previously
+ * `assertPublishable` existed and none of them called it, so the capability was
+ * checked and the artifact never was.
+ *
+ * `stage` separates the two honest readings of "publication":
+ *
+ *   'artifact'  — writing a board or an analysis INTO a run directory. A draft
+ *                 must be able to do this; that is how the artifacts the review
+ *                 reads come to exist. What is enforced is that the run has a
+ *                 manifest, that its artifacts match it, and that the run is
+ *                 not frozen. The evidence class is not required to be
+ *                 public-release, but it is returned so the caller can STAMP
+ *                 it — an unstamped development board is the thing that gets
+ *                 mistaken for a result.
+ *   'public'    — sync, publish, or pointing the site at a run. Here the full
+ *                 RELEASE-002 test applies: an approved public-release manifest
+ *                 in 'released', registered as released, with a complete
+ *                 checklist.
+ */
+export interface PublicationClaims {
+  /** The run id the caller was asked to act on. */
+  requestedRunId: string;
+  /** `grant.runId`, where a permit is in play. Required for stage 'public'. */
+  permitRunId?: string;
+}
+
+export interface PublicationVerdict {
+  runId: string;
+  manifest: ValidatedRunManifest;
+  manifestHash: string;
+  /** Non-null for a class that must be labelled NON-SCORING on any surface. */
+  nonScoringBanner: string | null;
+}
+
+export function assertPublicationAllowed(
+  stage: 'artifact' | 'public',
+  claims: PublicationClaims,
+): PublicationVerdict {
+  const runId = claims.requestedRunId;
+  const context = `${stage === 'public' ? 'publication' : 'artifact write'} for run ${runId}`;
+  // PARSE, never trust: the manifest is read off disk and re-validated here
+  // rather than taken from a caller, so no branded object and no `as any` can
+  // reach this decision.
+  const manifest = readRunManifest(runId);
+  const hash = manifestHash(manifest);
+  assertRunIdentity(
+    {
+      requested: runId,
+      permit: claims.permitRunId ?? runId,
+      manifest: manifest.runId,
+      artifact: runId,
+    },
+    context,
+  );
+  if (stage === 'public' && claims.permitRunId === undefined) {
+    throw new LifecycleError(
+      `${context} refused: no permit run id was established. Publication is authorised for one run, and "no permit" is not "any run".`,
+      'NOT_PUBLISHABLE',
+    );
+  }
+
+  const verification = verifyRunManifest(runId, { expectComplete: stage === 'public' });
+  if (!verification.ok) {
+    throw new LifecycleError(
+      `${context} refused: the run's artifacts do not match its manifest:\n` +
+        verification.findings
+          .filter((f) => f.severity === 'error')
+          .map((f) => `  - [${f.code}] ${f.detail}`)
+          .join('\n'),
+      'NOT_PUBLISHABLE',
+    );
+  }
+
+  if (stage === 'public') {
+    assertPublishable(manifest, context);
+    const entry = registerEntry(runId);
+    if (!entry) {
+      throw new LifecycleError(
+        `${context} refused: run ${runId} is not in the release register, so no review has been recorded for it.`,
+        'RUN_NOT_REGISTERED',
+      );
+    }
+    if (entry.state !== 'released') {
+      throw new LifecycleError(
+        `${context} refused: run ${runId} is '${entry.state}', not 'released'.`,
+        'NOT_RELEASED',
+      );
+    }
+    if (entry.manifestHash !== hash) {
+      throw new LifecycleError(
+        `${context} refused: the register binds manifest ${entry.manifestHash.slice(0, 12)}… but the run now carries ${hash.slice(0, 12)}….`,
+        'CHECKLIST_MISMATCH',
+      );
+    }
+    const shortfall = checklistShortfall(buildReleaseChecklist(runId));
+    if (shortfall.length > 0) {
+      throw new LifecycleError(
+        `${context} refused: the release checklist does not hold:\n` + shortfall.map((p) => `  - ${p}`).join('\n'),
+        'CHECKLIST_INCOMPLETE',
+      );
+    }
+  }
+
+  return { runId, manifest, manifestHash: hash, nonScoringBanner: nonScoringBanner(manifest.evidenceClass) };
 }
 
 /**

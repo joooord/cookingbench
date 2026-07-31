@@ -74,7 +74,7 @@ requirements:
       - docs/wp-0/routes.yaml — curated semantic route registry
       - packages/runner/test/route-inventory.test.ts — bidirectional completeness and exact test-name checking
     tests:
-      - "route registry is acceptance-grade > covers every filesystem, network and database sink in the runner"
+      - "route registry is acceptance-grade > covers every filesystem, network and database sink under every scan root"
       - "route registry is acceptance-grade > cites an EXACT named test case for every closed risk"
       - "route registry is acceptance-grade > never claims an open risk is enforced"
     gaps:

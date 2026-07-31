@@ -1,36 +1,53 @@
 import { generateKeyPairSync, sign as signBytes, type KeyObject } from 'node:crypto';
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { afterEach, beforeAll, describe, expect, it } from 'vitest';
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { canonicalJson, type Capability } from '@cookingbench/core';
+import { REPO_ROOT } from '../src/dataset.js';
 import { Firewall } from '../src/firewall.js';
 import {
+  PERMIT_FIXTURES_DIR,
   PermitError,
+  assertGrantForRun,
+  assertGrantStillValid,
   assertVerifiedGrant,
   isVerifiedGrant,
   manifestHash,
   sha256Hex,
   verifyPermit,
   verifyPermitFile,
+  verifyPermitForTests,
   type VerifiedGrant,
 } from '../src/permit.js';
 
 /**
  * RUN-001 permit verification.
  *
- * Offline by construction: the keypair is generated in a temp directory for the
- * duration of the suite, no repository key is read, and nothing here opens a
- * socket or calls a model.
+ * Offline by construction: the ephemeral keypair is generated in a temp
+ * directory for the duration of the suite, the committed material that IS read
+ * is three expired fixtures, and nothing here opens a socket or calls a model.
  *
  * The tests are written as bypass attempts rather than as feature checks,
  * because every defect found in WP-0 so far was a bypass that the feature tests
- * were happy with.
+ * were happy with. The newest of those: `verifyPermit` used to accept
+ * `keyringDir`, `revocationListPath` and `now` FROM PRODUCTION CALLERS, so the
+ * thing being guarded could choose the guard's inputs. Everything below the
+ * fixtures section exercises the seam; the fixtures section exercises the
+ * production entry point, which now has no seam to reach.
  */
 
 const KEY_ID = 'test-permit-key';
 const METHODOLOGY_HASH = sha256Hex('methodology-revision-3');
 const NOW = new Date('2026-07-15T12:00:00Z');
+
+/** The frozen methodology digest a real permit must name. */
+const FROZEN_METHODOLOGY_HASH = /^[a-f0-9]{64}/.exec(
+  readFileSync(
+    join(REPO_ROOT, 'docs/methodology/CookingBench-methodology-first-master-plan.sha256'),
+    'utf8',
+  ).trim(),
+)![0];
 
 let privateKey: KeyObject;
 let scratch: string;
@@ -128,16 +145,35 @@ function envelope(permit: unknown, opts: { keyId?: string; signature?: string } 
   };
 }
 
-function verify(signedPermit: unknown, manifest: unknown, extra: Record<string, unknown> = {}) {
-  return verifyPermit({
-    signedPermit,
-    manifest,
-    expectedMethodologyHash: METHODOLOGY_HASH,
-    now: NOW,
-    keyringDir,
-    revocationListPath: revocationPath,
-    ...extra,
-  });
+/**
+ * Every negative below needs a key the repository does not hold and a clock the
+ * suite controls, so it goes through the TEST SEAM. That is the whole point of
+ * splitting it: the production entry point cannot be handed any of this.
+ */
+function verify(
+  signedPermit: unknown,
+  manifest: unknown,
+  extra: {
+    now?: Date;
+    keyringDir?: string;
+    revocationListPath?: string;
+    expectedMethodologyHash?: string;
+    expectedRunId?: string;
+  } = {},
+) {
+  return verifyPermitForTests(
+    {
+      keyringDir: extra.keyringDir ?? keyringDir,
+      revocationListPath: extra.revocationListPath ?? revocationPath,
+      clock: () => extra.now ?? NOW,
+    },
+    {
+      signedPermit,
+      manifest,
+      expectedMethodologyHash: extra.expectedMethodologyHash ?? METHODOLOGY_HASH,
+      expectedRunId: extra.expectedRunId,
+    },
+  );
 }
 
 function codeOf(fn: () => unknown): string {
@@ -148,6 +184,18 @@ function codeOf(fn: () => unknown): string {
     return `${(e as Error).name}: ${(e as Error).message}`;
   }
   return 'DID NOT THROW';
+}
+
+// --- the committed fixtures ------------------------------------------------
+
+const fixture = (name: string) => join(PERMIT_FIXTURES_DIR, name);
+
+/** What a production caller is allowed to say: a manifest and a methodology. */
+function fixtureBinding() {
+  return {
+    manifest: JSON.parse(readFileSync(fixture('expired-probe.manifest.json'), 'utf8')),
+    expectedMethodologyHash: FROZEN_METHODOLOGY_HASH,
+  };
 }
 
 // --- the happy path, so the negatives mean something -----------------------
@@ -187,17 +235,363 @@ describe('permit verification mints a grant', () => {
   });
 
   it('reads an envelope from disk', () => {
+    // Through the PRODUCTION entry point, against COMMITTED material: the
+    // committed keyring, the committed revocation list and the real clock.
+    // Nothing here is supplied by the test but the paths of the fixture files.
+    //
+    // The assertion is `PERMIT_EXPIRED`, and that is the strongest one
+    // available: reaching the validity window means the file parsed, the key id
+    // resolved to a committed `.pub`, an Ed25519 signature made off this machine
+    // verified against it, the revocation list was read, and both the manifest
+    // hash and the frozen methodology hash matched. An expired fixture proves
+    // the loader without authorising anything.
+    expect(codeOf(() => verifyPermitFile(fixture('expired-probe.permit.json'), fixtureBinding()))).toBe(
+      'PERMIT_EXPIRED',
+    );
+  });
+});
+
+// --- the bypass this whole revision exists to close -------------------------
+
+describe('the production boundary does not let a caller choose the trust root', () => {
+  /**
+   * The recorded RUN-001 gap, reproduced as an attack.
+   *
+   * A caller that can name the keyring can point it at a key it just generated
+   * and mint itself any permit it likes; a caller that can name the clock can
+   * step past an expiry; a caller that can name the revocation list can
+   * un-revoke itself. Each of those was a plain optional parameter of
+   * `verifyPermit`, defaulted to the committed values and reachable by every
+   * production call site.
+   *
+   * The attack is written through the REAL production API, in the shape a
+   * JavaScript caller would use it — `as never` here is not a cheat, it is the
+   * point: TypeScript is not present at runtime, so the type is not the guard.
+   */
+  it('refuses a keyring, a revocation list or a clock supplied through the production API', () => {
     const manifest = manifestFixture();
-    const path = join(scratch, 'permit.json');
-    writeFileSync(path, JSON.stringify(envelope(permitFixture(manifest))));
-    const { grant } = verifyPermitFile(path, {
-      manifest,
-      expectedMethodologyHash: METHODOLOGY_HASH,
-      now: NOW,
-      keyringDir,
-      revocationListPath: revocationPath,
+    const signed = envelope(permitFixture(manifest));
+    const attacker = mkdtempSync(join(tmpdir(), 'cb-attacker-'));
+    mkdirSync(join(attacker, 'keys'), { recursive: true });
+    const own = generateKeyPairSync('ed25519');
+    writeFileSync(
+      join(attacker, 'keys', `${KEY_ID}.pub`),
+      own.publicKey.export({ type: 'spki', format: 'pem' }) as string,
+    );
+    writeFileSync(join(attacker, 'revoked.json'), JSON.stringify({ permitIds: [] }));
+
+    for (const injection of [
+      { keyringDir: join(attacker, 'keys') },
+      { revocationListPath: join(attacker, 'revoked.json') },
+      { now: new Date('2026-07-15T12:00:00Z') },
+      { clock: () => new Date() },
+      { trustRoot: { keyringDir: join(attacker, 'keys') } },
+      // All three at once, which is what an attacker would actually pass.
+      {
+        keyringDir: join(attacker, 'keys'),
+        revocationListPath: join(attacker, 'revoked.json'),
+        now: new Date('2026-07-15T12:00:00Z'),
+      },
+    ]) {
+      expect(
+        codeOf(() =>
+          verifyPermit({
+            signedPermit: signed,
+            manifest,
+            expectedMethodologyHash: METHODOLOGY_HASH,
+            ...injection,
+          } as never),
+        ),
+        `injection ${JSON.stringify(Object.keys(injection))} was not refused`,
+      ).toBe('PERMIT_TRUST_INPUT_REJECTED');
+    }
+    rmSync(attacker, { recursive: true, force: true });
+  });
+
+  it('refuses trust inputs on the file entry point too, before it reads anything', () => {
+    // verifyPermitFile is what the CLI actually calls, so a boundary that only
+    // held on verifyPermit would hold nowhere that matters.
+    expect(
+      codeOf(() =>
+        verifyPermitFile(fixture('expired-probe.permit.json'), {
+          ...fixtureBinding(),
+          keyringDir: '/tmp/nope',
+        } as never),
+      ),
+    ).toBe('PERMIT_TRUST_INPUT_REJECTED');
+    // A path that does not exist: the refusal must come from the options, not
+    // from the missing file, i.e. the check happens before any read.
+    expect(
+      codeOf(() =>
+        verifyPermitFile('/nonexistent/permit.json', { ...fixtureBinding(), now: NOW } as never),
+      ),
+    ).toBe('PERMIT_TRUST_INPUT_REJECTED');
+  });
+
+  it('refuses a trust input smuggled through a prototype', () => {
+    // `Object.create({ keyringDir })` has no OWN keyringDir, so an own-key
+    // check would miss it while a destructure would still read it.
+    const manifest = manifestFixture();
+    const hostile = Object.create({ keyringDir: '/tmp/attacker/keys' }) as Record<string, unknown>;
+    hostile.signedPermit = envelope(permitFixture(manifest));
+    hostile.manifest = manifest;
+    hostile.expectedMethodologyHash = METHODOLOGY_HASH;
+    expect(codeOf(() => verifyPermit(hostile as never))).toBe('PERMIT_TRUST_INPUT_REJECTED');
+  });
+
+  it('refuses unknown options rather than ignoring them', () => {
+    const manifest = manifestFixture();
+    expect(
+      codeOf(() =>
+        verifyPermit({
+          signedPermit: envelope(permitFixture(manifest)),
+          manifest,
+          expectedMethodologyHash: METHODOLOGY_HASH,
+          skipRevocationCheck: true,
+        } as never),
+      ),
+    ).toBe('PERMIT_MALFORMED');
+  });
+
+  it('keeps the test seam out of every production call path', () => {
+    // The same guard ledger.test.ts keeps over `forTests`. A seam production
+    // code can reach is not a seam, it is a parameter.
+    const srcDir = join(REPO_ROOT, 'packages/runner/src');
+    const callers = readdirSync(srcDir)
+      .filter((f) => f.endsWith('.ts'))
+      .filter((f) =>
+        readFileSync(join(srcDir, f), 'utf8')
+          .split('\n')
+          // The declaration in permit.ts is not a call, and neither is prose in
+          // a comment. Anything else naming the seam with an open paren is.
+          .some(
+            (line) =>
+              /verifyPermitForTests\s*\(/.test(line) &&
+              !/\bfunction\s+verifyPermitForTests/.test(line) &&
+              !/^\s*(\*|\/\/)/.test(line),
+          ),
+      );
+    expect(callers, 'production source calls the permit test seam').toEqual([]);
+  });
+
+  it('closes the seam outside a test process', () => {
+    // Defence in depth, not a boundary — an operator who controls the
+    // environment controls this too, which the module header says plainly. It
+    // exists so that a seam call left in a script fails loudly in production
+    // instead of quietly verifying against whatever it was pointed at.
+    // `undefined` DELETES the variable. Setting it to '' would leave
+    // `VITEST_WORKER_ID !== undefined` true and the seam open, which is exactly
+    // the sort of near-miss this test exists to catch.
+    vi.stubEnv('VITEST', undefined);
+    vi.stubEnv('VITEST_WORKER_ID', undefined);
+    vi.stubEnv('NODE_ENV', 'production');
+    vi.resetModules();
+    return import('../src/permit.js').then((fresh) => {
+      vi.unstubAllEnvs();
+      vi.resetModules();
+      let code = 'DID NOT THROW';
+      try {
+        (fresh as typeof import('../src/permit.js')).verifyPermitForTests(
+          { keyringDir, revocationListPath: revocationPath },
+          { signedPermit: {}, manifest: {}, expectedMethodologyHash: METHODOLOGY_HASH },
+        );
+      } catch (e) {
+        // Not `instanceof PermitError`: a re-imported module has its own class
+        // identity, so the code on the error is what can be compared.
+        code = (e as { code?: string }).code ?? (e as Error).message;
+      }
+      expect(code).toBe('PERMIT_SEAM_CLOSED');
     });
-    expect(grant.permitId).toBe('permit-2026-07-a');
+  });
+});
+
+// --- the committed material -------------------------------------------------
+
+describe('the committed keyring and revocation list are the production trust root', () => {
+  /**
+   * Before this, no verification key, permit or manifest existed in the
+   * repository at all: every end-to-end test minted an ephemeral keypair, so the
+   * chain had never once run against committed authority. These fixtures are
+   * expired by construction, so they prove the loader without authorising
+   * anything — see data/permits/fixtures/README.md.
+   */
+  it('verifies a signature made off this machine, then refuses it for being expired', () => {
+    expect(codeOf(() => verifyPermitFile(fixture('expired-probe.permit.json'), fixtureBinding()))).toBe(
+      'PERMIT_EXPIRED',
+    );
+  });
+
+  it('reads the committed revocation list, before it looks at the clock', () => {
+    // The revoked fixture is ALSO expired. It reports REVOKED, which is only
+    // possible if data/permits/revoked.json was genuinely consulted.
+    expect(codeOf(() => verifyPermitFile(fixture('revoked-probe.permit.json'), fixtureBinding()))).toBe(
+      'PERMIT_REVOKED',
+    );
+  });
+
+  it('catches a committed permit whose body was edited after signing', () => {
+    expect(codeOf(() => verifyPermitFile(fixture('tampered-probe.permit.json'), fixtureBinding()))).toBe(
+      'PERMIT_BAD_SIGNATURE',
+    );
+  });
+
+  it('binds the committed permit to its own manifest and methodology', () => {
+    const binding = fixtureBinding();
+    const otherManifest = { ...(binding.manifest as Record<string, unknown>), budgetCapUsd: 999 };
+    expect(
+      codeOf(() =>
+        verifyPermitFile(fixture('expired-probe.permit.json'), { ...binding, manifest: otherManifest }),
+      ),
+    ).toBe('PERMIT_MANIFEST_MISMATCH');
+    expect(
+      codeOf(() =>
+        verifyPermitFile(fixture('expired-probe.permit.json'), {
+          ...binding,
+          expectedMethodologyHash: sha256Hex('some other plan'),
+        }),
+      ),
+    ).toBe('PERMIT_METHODOLOGY_MISMATCH');
+  });
+
+  it('resolves key ids against the committed keyring, and says so when it cannot', () => {
+    // Proof of WHICH directory the production entry point reads: the refusal
+    // names the committed keyring and lists what is actually in it. A test that
+    // only asserted "it threw" would pass just as happily against a keyring the
+    // caller had chosen, which is the bypass this replaces.
+    const envelope = JSON.parse(readFileSync(fixture('expired-probe.permit.json'), 'utf8'));
+    envelope.keyId = 'never-committed';
+    const path = join(scratch, 'unknown-key.permit.json');
+    writeFileSync(path, JSON.stringify(envelope));
+    try {
+      verifyPermitFile(path, fixtureBinding());
+      throw new Error('DID NOT THROW');
+    } catch (e) {
+      expect((e as PermitError).code).toBe('PERMIT_UNKNOWN_KEY');
+      expect((e as Error).message).toContain(join('data', 'permits', 'keys'));
+      expect((e as Error).message).toContain('wp0-fixture-2026-07');
+    }
+  });
+
+  it('uses the same committed trust root from both production entry points', () => {
+    // verifyPermit and verifyPermitFile must not be able to drift apart: the
+    // CLI calls one, everything else would reach for the other.
+    const envelope = JSON.parse(readFileSync(fixture('expired-probe.permit.json'), 'utf8'));
+    expect(codeOf(() => verifyPermit({ ...fixtureBinding(), signedPermit: envelope }))).toBe(
+      'PERMIT_EXPIRED',
+    );
+  });
+
+  it('holds no private key anywhere in the committed permit material', () => {
+    // The one thing that must never be committed. A signing key in the repo
+    // would mean the system that enforces approval can approve itself.
+    const walk = (dir: string): string[] =>
+      readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
+        e.isDirectory() ? walk(join(dir, e.name)) : [join(dir, e.name)],
+      );
+    for (const file of walk(join(REPO_ROOT, 'data/permits'))) {
+      const text = readFileSync(file, 'utf8');
+      expect(/-----BEGIN [A-Z ]*PRIVATE KEY-----/.test(text), `${file} contains a private key`).toBe(
+        false,
+      );
+    }
+  });
+});
+
+// --- validity at the moment of use ------------------------------------------
+
+describe('authority is re-checked when it is exercised', () => {
+  /**
+   * A run takes hours. Verifying once at start-up and trusting the resulting
+   * object afterwards means a permit that expires mid-run keeps spending, and a
+   * permit revoked because something has gone wrong keeps going until a human
+   * notices. Validity is a property of the moment of USE.
+   */
+  it('stops honouring a permit that expires while the process is still running', () => {
+    const manifest = manifestFixture();
+    let clock = new Date('2026-07-15T12:00:00Z');
+    const { grant } = verifyPermitForTests(
+      { keyringDir, revocationListPath: revocationPath, clock: () => clock },
+      { signedPermit: envelope(permitFixture(manifest)), manifest, expectedMethodologyHash: METHODOLOGY_HASH },
+    );
+    expect(() => assertGrantStillValid(grant, 'spend')).not.toThrow();
+
+    clock = new Date('2026-08-02T00:00:00Z'); // one day past notAfter
+    expect(codeOf(() => assertGrantStillValid(grant, 'spend'))).toBe('PERMIT_EXPIRED');
+    // And a backwards clock correction is refused too, rather than read as
+    // "before the window, so probably fine".
+    clock = new Date('2026-06-01T00:00:00Z');
+    expect(codeOf(() => assertGrantStillValid(grant, 'spend'))).toBe('PERMIT_NOT_YET_VALID');
+  });
+
+  it('honours a revocation published after the permit was loaded', () => {
+    const manifest = manifestFixture();
+    const { grant } = verify(envelope(permitFixture(manifest)), manifest);
+    expect(() => assertGrantStillValid(grant, 'publish')).not.toThrow();
+
+    writeFileSync(revocationPath, JSON.stringify({ permitIds: ['permit-2026-07-a'] }));
+    expect(codeOf(() => assertGrantStillValid(grant, 'publish'))).toBe('PERMIT_REVOKED');
+  });
+
+  it('re-checks against the trust root that minted the grant, not a convenient one', () => {
+    // If re-validation silently fell back to the committed list, a grant minted
+    // under a test root would be re-checked against a file that has never heard
+    // of it — and would pass, always. The WeakMap that records the root is what
+    // keeps the two halves of the check honest.
+    const manifest = manifestFixture();
+    const { grant } = verify(envelope(permitFixture(manifest)), manifest);
+    rmSync(revocationPath);
+    expect(codeOf(() => assertGrantStillValid(grant, 'spend'))).toBe('PERMIT_REVOCATION_UNAVAILABLE');
+    writeFileSync(revocationPath, JSON.stringify({ permitIds: [] }));
+  });
+
+  it('refuses a hand-built grant at the re-check, not just at minting', () => {
+    const forged = { permitId: 'x', runId: 'shadow-1', notAfterIso: '2099-01-01T00:00:00Z' };
+    expect(codeOf(() => assertGrantStillValid(forged as never, 'spend'))).toBe('GRANT_NOT_MINTED');
+    expect(codeOf(() => assertGrantForRun(forged as never, 'shadow-1', 'sync'))).toBe('GRANT_NOT_MINTED');
+  });
+});
+
+// --- one run id -------------------------------------------------------------
+
+describe('authority is issued for exactly one run', () => {
+  it('refuses a permit whose manifest names a different run than the command', () => {
+    const manifest = manifestFixture();
+    const signed = envelope(permitFixture(manifest));
+    expect(codeOf(() => verify(signed, manifest, { expectedRunId: 'some-other-run' }))).toBe(
+      'PERMIT_RUN_MISMATCH',
+    );
+    expect(() => verify(signed, manifest, { expectedRunId: 'shadow-1' })).not.toThrow();
+  });
+
+  it('refuses to act on another run at the point of use', () => {
+    const manifest = manifestFixture();
+    const { grant } = verify(envelope(permitFixture(manifest)), manifest);
+    expect(grant.runId).toBe('shadow-1');
+    expect(codeOf(() => assertGrantForRun(grant, '2026-07-v2.1', 'publishRun'))).toBe(
+      'PERMIT_RUN_MISMATCH',
+    );
+    expect(() => assertGrantForRun(grant, 'shadow-1', 'publishRun')).not.toThrow();
+  });
+
+  it('will not let a stale permit through the run check either', () => {
+    // assertGrantForRun re-validates, so a caller cannot get the cheap check
+    // without the fresh one.
+    const manifest = manifestFixture();
+    const { grant } = verify(envelope(permitFixture(manifest)), manifest);
+    writeFileSync(revocationPath, JSON.stringify({ permitIds: ['permit-2026-07-a'] }));
+    expect(codeOf(() => assertGrantForRun(grant, 'shadow-1', 'syncRun'))).toBe('PERMIT_REVOKED');
+  });
+});
+
+// --- a permit may not nominate its own trust sources -------------------------
+
+describe('a permit cannot choose where it is checked', () => {
+  it('refuses a permit that names its own revocation source', () => {
+    // `revocationListUrl` is an optional field of the permit schema. Honouring
+    // it would hand the revocation decision to the document being revoked.
+    const manifest = manifestFixture();
+    const permit = permitFixture(manifest, { revocationListUrl: 'https://example.invalid/never-revoked.json' });
+    expect(codeOf(() => verify(envelope(permit), manifest))).toBe('PERMIT_CHOOSES_OWN_TRUST');
   });
 });
 

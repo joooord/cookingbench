@@ -38,16 +38,36 @@ on disk is:
 
 ## Verification is not just the signature
 
-`verifyPermit()` also enforces, after the signature passes: revocation,
-manifest-hash binding, methodology-hash binding, the validity window, the
-permit-kind × capability matrix, the permit-kind × evidence-class matrix, cell
-coherence against the manifest's declared routes, and that the permit's budget
-does not exceed the manifest's. A valid signature proves *who* approved the
-work — not that the work was allowed to be that.
+`verifyPermit()` also enforces, after the signature passes: that the permit does
+not name its own revocation source, revocation, manifest-hash binding,
+methodology-hash binding, the run id the command is acting on, the validity
+window, the permit-kind × capability matrix, the permit-kind × evidence-class
+matrix, cell coherence against the manifest's declared routes, and that the
+permit's budget does not exceed the manifest's. A valid signature proves *who*
+approved the work — not that the work was allowed to be that.
+
+Expiry and revocation are re-checked every time authority is EXERCISED
+(`assertGrantStillValid`), not only when the permit was loaded. A run takes
+hours; a permit that expires or is withdrawn mid-run stops working mid-run.
+
+## This directory is the trust root, and callers cannot change it
+
+`verifyPermit` and `verifyPermitFile` take **no** keyring, revocation or clock
+parameter. They previously did — "injectable for testability" — which meant any
+caller could point verification at a key it had just minted, or move the clock
+past an expiry. Tests reach a separate seam (`verifyPermitForTests`) that
+production source never calls and that refuses to run outside a test process.
 
 ## Status
 
-Empty. No permit has been minted, so no capability can currently be exercised:
-verification fails closed with `PERMIT_KEYRING_UNAVAILABLE` or
-`PERMIT_UNKNOWN_KEY`, and `Firewall.denyAll()` remains the only reachable
-posture. That is the correct state for a repository under code preparation.
+One key: `wp0-fixture-2026-07.pub`. It is a **fixture** key, not an approver key
+— see `../fixtures/README.md`. Its private half was generated in an ephemeral
+sandbox, used once to sign three already-expired permits, and destroyed. It can
+authorise nothing, and it should be deleted when a real approver key is
+committed.
+
+No approver key has been committed and no usable permit has been minted, so no
+capability can currently be exercised: verification fails closed with
+`PERMIT_UNKNOWN_KEY` for anything else, and `Firewall.denyAll()` remains the only
+reachable posture. That is the correct state for a repository under code
+preparation.

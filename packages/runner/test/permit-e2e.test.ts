@@ -2,14 +2,16 @@ import { generateKeyPairSync, sign as signBytes } from 'node:crypto';
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { canonicalJson } from '@cookingbench/core';
+import { canonicalJson, type RunConfig, type Score, type StoredResponse } from '@cookingbench/core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { RUNS_DIR } from '../src/dataset.js';
 import { FirewallError } from '../src/firewall.js';
 import { BudgetExceededError, ReservationLedger } from '../src/ledger.js';
 import { OpenRouterClient } from '../src/openrouter.js';
-import { PermitError, manifestHash, sha256Hex, verifyPermitFile } from '../src/permit.js';
+import { PermitError, manifestHash, sha256Hex, verifyPermitForTests } from '../src/permit.js';
 import { redeemPermit } from '../src/redemption.js';
+import { serviceRoleClient } from '../src/supabase.js';
+import { publishRun, syncRun } from '../src/sync.js';
 
 /**
  * The permit chain, end to end, for the first time.
@@ -20,9 +22,18 @@ import { redeemPermit } from '../src/redemption.js';
  * call through — which is the only sequence that will ever run for real. The
  * pieces fitting individually is not the same claim.
  *
- * Offline, and provably so: `globalThis.fetch` is stubbed with a spy, the key
- * is generated into a temp directory, and the assertions include that no
- * request is made on any refused path. No socket is opened.
+ * Offline, and provably so: `globalThis.fetch` is stubbed with a spy — both for
+ * the model provider and, in the database section, for PostgREST, so sync and
+ * publish run against a mock provider — the key is generated into a temp
+ * directory, and the assertions include that no request is made on any refused
+ * path. No socket is opened.
+ *
+ * The permit FILE is read here and verified through the TEST SEAM, because the
+ * production loader takes no keyring and this suite signs with an ephemeral one.
+ * `verifyPermitFile` itself is exercised against committed, already-expired
+ * fixtures in permit.test.ts. That is the split the RUN-001 bypass forced, and
+ * it is the right way round: the entry point production uses is proved against
+ * material production would actually see.
  */
 
 const RUN = '__test-permit-e2e-scratch';
@@ -94,10 +105,26 @@ function manifest(budgetCapUsd = 5) {
   };
 }
 
+/**
+ * The other kind of manifest a permit can bind: an already-released public
+ * artifact, which is the only class `publication` may act on.
+ */
+function publicationManifest(releaseState = 'released', runId = RUN) {
+  return {
+    ...manifest(),
+    runId,
+    outputRoot: `data/runs/${runId}`,
+    evidenceClass: 'public-release',
+    releaseState,
+    rankEligible: true,
+    artifactOrigin: ['live-provider'],
+  };
+}
+
 /** Write a real signed permit file, exactly as an approver would hand it over. */
 function writePermit(
   overrides: Record<string, unknown> = {},
-  boundManifest: ReturnType<typeof manifest> = manifest(),
+  boundManifest: { budgetCapUsd: number } & Record<string, unknown> = manifest(),
 ): string {
   const permit = {
     permitVersion: 1,
@@ -134,13 +161,16 @@ function writePermit(
   return path;
 }
 
-function verify(permitPath: string, boundManifest: ReturnType<typeof manifest> = manifest()) {
-  return verifyPermitFile(permitPath, {
-    manifest: boundManifest,
-    expectedMethodologyHash: METHODOLOGY_HASH,
-    keyringDir,
-    revocationListPath,
-  });
+function verify(permitPath: string, boundManifest: unknown = manifest()) {
+  if (!existsSync(permitPath)) throw new Error(`no permit at ${permitPath}`);
+  return verifyPermitForTests(
+    { keyringDir, revocationListPath },
+    {
+      signedPermit: JSON.parse(readFileSync(permitPath, 'utf8')),
+      manifest: boundManifest,
+      expectedMethodologyHash: METHODOLOGY_HASH,
+    },
+  );
 }
 
 function stubOk(costUsd: number) {
@@ -297,5 +327,183 @@ describe('the permit chain works end to end', () => {
 
     expect(fetchSpy).not.toHaveBeenCalled();
     expect(existsSync(RUN_DIR)).toBe(false); // nothing was written for a refused permit
+  });
+});
+
+// ---------------------------------------------------------------------------
+// The live-data half of the chain, against a mock provider
+// ---------------------------------------------------------------------------
+
+/**
+ * A mock PostgREST. Records every request and answers plausibly, so the sync
+ * and publish path can be exercised without a database — and so the tests can
+ * assert what was NOT sent, which is the more important half.
+ */
+function stubPostgrest(idRows: Array<{ id: number; model_id: string; question_id: string }> = []) {
+  const seen: Array<{ url: string; method: string; body: string | null }> = [];
+  const spy = vi.fn(async (input: unknown, init?: { method?: string; body?: unknown }) => {
+    const url = String(input);
+    const method = init?.method ?? 'GET';
+    seen.push({ url, method, body: init?.body === undefined ? null : String(init.body) });
+    const payload = method === 'GET' && url.includes('/responses') ? idRows : [];
+    return new Response(JSON.stringify(payload), {
+      status: 200,
+      headers: { 'content-type': 'application/json' },
+    });
+  });
+  vi.stubGlobal('fetch', spy);
+  return { seen, spy };
+}
+
+function syncPermit(runId = RUN, releaseState = 'released') {
+  const boundManifest = publicationManifest(releaseState, runId);
+  const path = writePermit(
+    {
+      permitId: 'permit-e2e-sync01',
+      kind: 'publication',
+      capabilities: ['publication', 'result-sync', 'live-db-write'],
+      cells: [],
+    },
+    boundManifest,
+  );
+  return verify(path, boundManifest).grant;
+}
+
+function runConfig(runId: string): RunConfig {
+  return {
+    runId,
+    models: [CANDIDATE],
+    temperature: 0,
+    maxTokens: 16000,
+    maxTokensRecipe: 32000,
+    budgetUsdTotal: 5,
+    budgetUsdPerModel: 5,
+    concurrency: 1,
+    judgeModel: SEAT,
+    judgePromptVersion: 'v3',
+    methodologyVersion: 'v3.0',
+  } as RunConfig;
+}
+
+function storedResponse(runId: string): StoredResponse {
+  return {
+    runId,
+    modelId: CANDIDATE,
+    questionId: 'conv-001',
+    answerText: 'braise it',
+    raw: {},
+    tokensIn: 1,
+    tokensOut: 2,
+    costUsd: 0.01,
+    latencyMs: 10,
+  };
+}
+
+function score(runId: string): Score {
+  return {
+    runId,
+    modelId: CANDIDATE,
+    questionId: 'conv-001',
+    score: 100,
+    graderType: 'keyword',
+    detail: {},
+  };
+}
+
+describe('the live-data chain refuses authority meant for another run', () => {
+  beforeEach(() => {
+    // Not a real project. Every request is answered by the stub above.
+    process.env.SUPABASE_URL = 'https://mock.invalid';
+    process.env.SUPABASE_SERVICE_ROLE_KEY = 'mock-service-role-key';
+  });
+  afterEach(() => {
+    delete process.env.SUPABASE_URL;
+    delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+  });
+
+  it('syncs a run through fixed operations, and never hands out a client', async () => {
+    const { seen } = stubPostgrest([{ id: 7, model_id: CANDIDATE, question_id: 'conv-001' }]);
+    const grant = syncPermit();
+
+    // The capability check no longer buys an unrestricted service-role client.
+    // If it did, every check above it would be a turnstile in front of an open
+    // door: `.from('taste_votes').delete()` was reachable from a result-sync
+    // permit for the whole of the previous revision.
+    const ops = serviceRoleClient(grant, 'result-sync', 'assert') as unknown as Record<string, unknown>;
+    for (const escape of ['from', 'rpc', 'auth', 'storage', 'schema', 'realtime', 'functions']) {
+      expect(ops[escape], `operations expose ${escape}`).toBeUndefined();
+    }
+    expect(Object.keys(ops).sort()).toEqual([
+      'readResponseIds',
+      'readTasteVotes',
+      'runId',
+      'upsertModels',
+      'upsertQuestions',
+      'upsertResponses',
+      'upsertRun',
+      'upsertScores',
+    ]);
+
+    await syncRun(grant, runConfig(RUN), [storedResponse(RUN)], [score(RUN)]);
+    const tables = seen.map((r) => `${r.method} ${new URL(r.url).pathname}`);
+    expect(tables).toContain('POST /rest/v1/runs');
+    expect(tables).toContain('POST /rest/v1/responses');
+    expect(tables).toContain('GET /rest/v1/responses');
+    expect(tables).toContain('POST /rest/v1/scores');
+    // Every row went out under the GRANT's run id, not the caller's string.
+    for (const body of seen.map((r) => r.body).filter(Boolean)) {
+      expect(body).not.toContain('some-other-run');
+    }
+  });
+
+  it('refuses to sync a run the permit was not issued for, before opening a connection', async () => {
+    const { spy } = stubPostgrest();
+    const grant = syncPermit(RUN);
+    // The approval is for RUN; the command is acting on another run. This is
+    // the gap RUN-001 recorded: neither sync nor publish compared them.
+    await expect(
+      syncRun(grant, runConfig('some-other-run'), [storedResponse('some-other-run')], []),
+    ).rejects.toThrow(/authorises run/);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('refuses a payload carrying rows from another run under an approved run id', async () => {
+    const { spy } = stubPostgrest();
+    const grant = syncPermit(RUN);
+    // The config says the approved run, the rows say something else — and the
+    // rows are what reaches the table, because run_id is rewritten on the way
+    // out. Checking only the config would launder them.
+    await expect(
+      syncRun(grant, runConfig(RUN), [storedResponse('another-run')], [score(RUN)]),
+    ).rejects.toThrow(PermitError);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('refuses to publish another run, and refuses to publish an unreleased one', async () => {
+    const { spy } = stubPostgrest();
+    await expect(publishRun(syncPermit(RUN), '2026-07-v2.1')).rejects.toThrow(/authorises run/);
+
+    // RELEASE-002 at the live boundary: a public-release manifest that is still
+    // a draft carries the publication capability but is not publishable.
+    await expect(publishRun(syncPermit(RUN, 'draft'), RUN)).rejects.toThrow(/release state/);
+    expect(spy).not.toHaveBeenCalled();
+
+    await expect(publishRun(syncPermit(RUN), RUN)).resolves.toBeUndefined();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('stops mid-sync when the permit is revoked while it is being used', async () => {
+    const { seen } = stubPostgrest();
+    const grant = syncPermit();
+    const ops = serviceRoleClient(grant, 'result-sync', 'archive');
+    await ops.upsertModels([]);
+    expect(seen).toHaveLength(1);
+
+    // Revocation while the operations object is still in hand. A check that ran
+    // only when the permit was loaded would never see this.
+    writeFileSync(revocationListPath, JSON.stringify({ permitIds: ['permit-e2e-sync01'] }));
+    await expect(ops.upsertQuestions([])).rejects.toThrow(/revoked/);
+    await expect(ops.readTasteVotes({ from: 0, to: 999 })).rejects.toThrow(/revoked/);
+    expect(seen, 'a revoked permit still reached the database').toHaveLength(1);
   });
 });
