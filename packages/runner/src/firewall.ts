@@ -57,7 +57,8 @@ export type FirewallErrorCode =
   | 'REGISTRY_INVALID'
   | 'SYMLINK_ESCAPE'
   | 'SYMLINK_COMPONENT'
-  | 'INVALID_PATH_COMPONENT';
+  | 'INVALID_PATH_COMPONENT'
+  | 'MISSING_RUN_FILE';
 
 export class FirewallError extends Error {
   constructor(
@@ -490,6 +491,64 @@ export function resolveRunFile(runId: string, relativePath: string, opts: { writ
   }
   assertNoSymlinkComponent(RUNS_DIR, target);
   return target;
+}
+
+/**
+ * Read a guarded file inside a run, or null when it is absent.
+ *
+ * Reads went through `join(resolveRunDir(runId, { write: false }), leaf)`, which
+ * validates the DIRECTORY and then follows whatever the leaf turns out to be.
+ * That is the write-side leaf defect with the arrow reversed: a run whose
+ * `scores.json` links to another run's reads the other run's scores and
+ * presents them as its own evidence. Provenance is the entire point of the
+ * firewall, so a read that crosses a link is refused, not resolved.
+ */
+export function readRunFileOrNull(runId: string, relativePath: string): string | null {
+  const target = resolveRunFile(runId, relativePath, { write: false });
+  return existsSync(target) ? readFileSync(target, 'utf8') : null;
+}
+
+/** Same guard, but a missing file is an error rather than an absence. */
+export function readRunFile(runId: string, relativePath: string): string {
+  const text = readRunFileOrNull(runId, relativePath);
+  if (text === null) {
+    throw new FirewallError(
+      `Run ${runId} has no ${relativePath}.`,
+      'MISSING_RUN_FILE',
+    );
+  }
+  return text;
+}
+
+/**
+ * Read every `.json` file directly inside a run's subdirectory, in sorted order,
+ * refusing any entry that is a symlink.
+ *
+ * `readdirSync` then `readFileSync(join(dir, name))` follows links at BOTH
+ * levels. Verified on a scratch run containing `responses -> the frozen run's
+ * responses`: it returned 2,576 archived answers with no error, attributed to
+ * the scratch run. Resolving the directory catches that one; a single linked
+ * file inside an otherwise real directory needs the per-entry check below.
+ */
+export function readRunJsonEntries(
+  runId: string,
+  relativeDir: string,
+): Array<{ name: string; text: string }> {
+  const dir = resolveRunFile(runId, relativeDir, { write: false });
+  if (!existsSync(dir)) return [];
+  const entries: Array<{ name: string; text: string }> = [];
+  for (const name of readdirSync(dir).filter((f) => f.endsWith('.json')).sort()) {
+    const target = join(dir, name);
+    if (isLink(target)) {
+      throw new FirewallError(
+        `Refusing to read ${relativeDir}/${name} in run ${runId} through a symlink. ` +
+          `A run's artifacts must be its own; derive a run rather than linking to one.`,
+        'SYMLINK_COMPONENT',
+      );
+    }
+    entries.push({ name, text: readFileSync(target, 'utf8') });
+  }
+  return entries;
 }
 
 /**

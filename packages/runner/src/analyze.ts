@@ -1,5 +1,3 @@
-import { writeFileSync } from 'node:fs';
-import { join } from 'node:path';
 import type { Question, Score, StoredResponse } from '@cookingbench/core';
 // Relative rather than `@cookingbench/core` on purpose, for now: the package's
 // `exports` map exposes only `.`, and `packages/core/src/index.ts` — which does
@@ -21,7 +19,7 @@ import {
   type RankFragilityResult,
   type SupportedTier,
 } from '../../core/src/stats.js';
-import { resolveRunDir } from './firewall.js';
+import { writeRunFileAtomic } from './firewall.js';
 
 export interface QuestionAnalysis {
   questionId: string;
@@ -912,5 +910,13 @@ export function formatConfirmatory(analysis: RunAnalysis, scope: 'active' | 'fro
 export function writeAnalysis(runId: string, analysis: RunAnalysis): void {
   // Firewall-resolved: analysis.json feeds the site (apps/web reads it for the
   // separation table), so a mistargeted run id here is a publish route.
-  writeFileSync(join(resolveRunDir(runId, { write: true }), 'analysis.json'), JSON.stringify(analysis, null, 2));
+  //
+  // `join(resolveRunDir(...), 'analysis.json')` guarded the DIRECTORY and then
+  // let `writeFileSync` follow the leaf. Probed: with `analysis.json` linked to
+  // a file outside the repository, the write succeeded and overwrote it. Every
+  // other writer in this codebase already goes through `writeRunFileAtomic`,
+  // which resolves the leaf and stages-then-renames so the entry is REPLACED
+  // rather than followed; this one did not, which is why DATA-001 was recorded
+  // as closed while a write route out of the runs root was still open.
+  writeRunFileAtomic(runId, 'analysis.json', JSON.stringify(analysis, null, 2));
 }

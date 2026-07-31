@@ -19,6 +19,9 @@ import { RUNS_DIR, loadQuestions } from './dataset.js';
 import {
   FirewallError,
   assertSafePathComponent,
+  readRunFile,
+  readRunFileOrNull,
+  readRunJsonEntries,
   resolveRunDir,
   resolveRunFile,
   writeRunFileAtomic,
@@ -630,7 +633,7 @@ function persistRunConfig(config: BoundRunConfig): BoundRunConfig {
 export function writeRunConfig(config: RunConfig): BoundRunConfig {
   const incoming = config as unknown as Record<string, unknown>;
   const content = contentHashesNow(config.runId, settingsOf(incoming));
-  const path = join(runDir(config.runId), 'config.json');
+  const path = resolveRunFile(config.runId, 'config.json', { write: false });
   const prior = existsSync(path) ? readRunConfig(config.runId) : undefined;
   const binding = prior
     ? assertProtocolPreserved(prior, incoming, content)
@@ -660,7 +663,7 @@ export function writeRunConfig(config: RunConfig): BoundRunConfig {
  * carried through untouched — re-running a candidate batch must not erase it.
  */
 export function mergeRunConfig(config: RunConfig): BoundRunConfig {
-  const path = join(runDir(config.runId), 'config.json');
+  const path = resolveRunFile(config.runId, 'config.json', { write: false });
   if (!existsSync(path)) return writeRunConfig(config);
 
   const prior = readRunConfig(config.runId);
@@ -737,7 +740,7 @@ function lowerCap(prior: number, next: number): number {
 }
 
 export function readRunConfig(runId: string): BoundRunConfig {
-  return JSON.parse(readFileSync(join(runDir(runId), 'config.json'), 'utf8')) as BoundRunConfig;
+  return JSON.parse(readRunFile(runId, 'config.json')) as BoundRunConfig;
 }
 
 /** The protocol a run is committed to, or null if it has never been bound. */
@@ -977,12 +980,10 @@ export function settleAttempt(
 }
 
 export function readAttempts(runId: string): AttemptRecord[] {
-  const dir = join(runDir(runId), ATTEMPT_DIR);
-  if (!existsSync(dir)) return [];
-  return readdirSync(dir)
-    .filter((f) => f.endsWith('.json'))
-    .sort()
-    .map((f) => JSON.parse(readFileSync(join(dir, f), 'utf8')) as AttemptRecord);
+  // Same guard as `readResponses`: attempt records are what `attemptChargesUsd`
+  // bills against, so a linked attempt directory would import another run's
+  // spend and satisfy this run's budget with it.
+  return readRunJsonEntries(runId, ATTEMPT_DIR).map((e) => JSON.parse(e.text) as AttemptRecord);
 }
 
 /** Total booked against this run's attempts. One charge per settled attempt. */
@@ -1010,10 +1011,15 @@ function answerHashOf(response: StoredResponse): string {
  * readable.
  */
 export function responsePath(runId: string, modelId: string, questionId: string): string {
-  const dir = join(runDir(runId), 'responses');
-  const current = join(dir, responseFileName(modelId, questionId));
+  const current = resolveRunFile(runId, join('responses', responseFileName(modelId, questionId)), {
+    write: false,
+  });
   if (existsSync(current)) return current;
-  const legacy = join(dir, `${legacySafeName(modelId)}__${questionId}.json`);
+  const legacy = resolveRunFile(
+    runId,
+    join('responses', `${legacySafeName(modelId)}__${questionId}.json`),
+    { write: false },
+  );
   return existsSync(legacy) ? legacy : current;
 }
 
@@ -1074,12 +1080,10 @@ export function writeResponse(response: StoredResponse): void {
 }
 
 export function readResponses(runId: string): StoredResponse[] {
-  const dir = join(runDir(runId), 'responses');
-  if (!existsSync(dir)) return [];
-  return readdirSync(dir)
-    .filter((f) => f.endsWith('.json'))
-    .sort()
-    .map((f) => JSON.parse(readFileSync(join(dir, f), 'utf8')) as StoredResponse);
+  // Guarded per entry, not per directory: this is the function that decides what
+  // a run's answers ARE, so a linked `responses/` or a linked single file lets a
+  // scratch run claim another run's corpus. See `readRunJsonEntries`.
+  return readRunJsonEntries(runId, 'responses').map((e) => JSON.parse(e.text) as StoredResponse);
 }
 
 export function writeScores(runId: string, scores: Score[]): void {
@@ -1087,9 +1091,8 @@ export function writeScores(runId: string, scores: Score[]): void {
 }
 
 export function readScores(runId: string): Score[] {
-  const path = join(runDir(runId), 'scores.json');
-  if (!existsSync(path)) return [];
-  return JSON.parse(readFileSync(path, 'utf8')) as Score[];
+  const text = readRunFileOrNull(runId, 'scores.json');
+  return text === null ? [] : (JSON.parse(text) as Score[]);
 }
 
 export function writeLeaderboard(runId: string, leaderboard: unknown): void {

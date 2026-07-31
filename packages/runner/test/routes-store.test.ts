@@ -18,8 +18,17 @@ import { writeAnalysis } from '../src/analyze.js';
 import { runCalibration } from '../src/calibration.js';
 import { RUNS_DIR } from '../src/dataset.js';
 import { FirewallError, type FirewallErrorCode } from '../src/firewall.js';
+import { ReservationLedger } from '../src/ledger.js';
 import type { ChatMessage, CompletionClient, CompletionResult } from '../src/openrouter.js';
-import { mergeRunConfig, readResponses, readRunConfig, writeRunConfig } from '../src/store.js';
+import {
+  mergeRunConfig,
+  readAttempts,
+  readResponses,
+  readRunConfig,
+  readScores,
+  writeRunConfig,
+} from '../src/store.js';
+import { mintTestGrant } from './support/grant.js';
 
 /**
  * Route-level proof for the store, analyze and calibration writers.
@@ -289,6 +298,102 @@ describe('runner:store:responses:read — readResponses', () => {
   });
 });
 
+describe('runner:store:responses:read — readResponses resolves its LEAF', () => {
+  // The defect these two cover, verified before it was fixed: `readResponses`
+  // was `readdirSync(join(runDir(runId), 'responses'))` — the DIRECTORY was
+  // firewall-resolved and the leaf was not. A scratch run containing
+  // `responses -> data/runs/2026-07-v2.1/responses` returned all 2,576 frozen
+  // answers with no error, attributed to the scratch run. That is provenance
+  // laundering: a run with no manifest, no permit and no candidate spend can
+  // present another run's corpus as its own evidence and be scored on it.
+
+  it('refuses a responses directory symlinked at a run that is not this one', () => {
+    mkdirSync(join(RUNS_DIR, SCRATCH), { recursive: true });
+    symlinkSync(join(RUNS_DIR, FROZEN, 'responses'), join(RUNS_DIR, SCRATCH, 'responses'));
+
+    // Everything about this path is contained: the run directory is real and
+    // unfrozen, the link stays inside data/runs, and the target is a directory
+    // full of perfectly valid StoredResponse JSON. Only leaf resolution sees it.
+    expectFirewallRefusal(
+      () => readResponses(SCRATCH),
+      'SYMLINK_COMPONENT',
+      /Refusing to traverse symlink component/,
+    );
+
+    // The claim is that the frozen corpus did not come back, not merely that
+    // something threw: before the fix this returned the full 2,576.
+    let borrowed = -1;
+    try {
+      borrowed = readResponses(SCRATCH).length;
+    } catch {
+      borrowed = -1;
+    }
+    expect(borrowed, 'the scratch run served the frozen corpus as its own').toBe(-1);
+    // …and the frozen run itself still reads, so the guard refuses the link
+    // rather than the corpus.
+    expect(readResponses(FROZEN).length).toBeGreaterThan(2000);
+  });
+
+  it('refuses a single response file symlinked into another run', () => {
+    // Resolving only the directory would pass this: `responses/` is a real
+    // directory this run owns, and exactly one answer inside it is borrowed.
+    // One substituted cell is the cheaper attack and the harder one to notice.
+    const dir = join(RUNS_DIR, SCRATCH, 'responses');
+    mkdirSync(dir, { recursive: true });
+    const own = join(dir, 'a__q.json');
+    writeFileSync(
+      own,
+      JSON.stringify({ runId: SCRATCH, modelId: 'a/one', questionId: 'q', answerText: 'mine' }),
+    );
+    const borrowed = readdirSync(join(RUNS_DIR, FROZEN, 'responses'))[0]!;
+    symlinkSync(join(RUNS_DIR, FROZEN, 'responses', borrowed), join(dir, 'zz__borrowed.json'));
+
+    expectFirewallRefusal(
+      () => readResponses(SCRATCH),
+      'SYMLINK_COMPONENT',
+      /Refusing to read responses\/zz__borrowed\.json/,
+    );
+
+    // Control, and it is what makes the refusal above meaningful: with the
+    // borrowed entry removed the route reads the run's own answer happily, so
+    // the refusal is about the link and not about the fixture.
+    rmSync(join(dir, 'zz__borrowed.json'), { force: true });
+    expect(readResponses(SCRATCH).map((r) => r.answerText)).toEqual(['mine']);
+    expect(readFileSync(own, 'utf8')).toContain('mine');
+  });
+});
+
+describe('runner:store:artifacts:read — every run-scoped reader resolves its leaf', () => {
+  it('refuses a linked config.json, scores.json or attempts directory', () => {
+    // Same defect class as the two above, at the three other readers that decide
+    // what a run IS. config.json carries the protocol binding a resumed batch is
+    // checked against, scores.json is what `report` ranks, and attempts/ is what
+    // `attemptChargesUsd` bills the budget cap against — a borrowed attempt
+    // ledger makes another run's spend satisfy this run's cap.
+    const dir = join(RUNS_DIR, SCRATCH);
+    mkdirSync(dir, { recursive: true });
+    symlinkSync(join(RUNS_DIR, FROZEN, 'config.json'), join(dir, 'config.json'));
+    symlinkSync(join(RUNS_DIR, FROZEN, 'scores.json'), join(dir, 'scores.json'));
+    symlinkSync(join(RUNS_DIR, FROZEN), join(dir, 'attempts'));
+
+    for (const [label, call] of [
+      ['config', () => readRunConfig(SCRATCH)],
+      ['scores', () => readScores(SCRATCH)],
+      ['attempts', () => readAttempts(SCRATCH)],
+    ] as const) {
+      expectFirewallRefusal(call, 'SYMLINK_COMPONENT', /Refusing to traverse symlink component/);
+      expect(label).toBeTruthy();
+    }
+
+    // Absence is still absence, not a refusal: a run with no scores yet reads as
+    // empty, which is the behaviour the pipeline depends on before grading.
+    rmSync(join(dir, 'scores.json'), { force: true });
+    rmSync(join(dir, 'attempts'), { force: true });
+    expect(readScores(SCRATCH)).toEqual([]);
+    expect(readAttempts(SCRATCH)).toEqual([]);
+  });
+});
+
 describe('runner:analyze:analysis:write — writeAnalysis', () => {
   it('refuses to write analysis.json into a published run', () => {
     const before = frozenFingerprint();
@@ -305,6 +410,29 @@ describe('runner:analyze:analysis:write — writeAnalysis', () => {
     mkdirSync(join(RUNS_DIR, SCRATCH), { recursive: true });
     writeAnalysis(SCRATCH, { runId: SCRATCH } as unknown as RunAnalysis);
     expect(existsSync(join(RUNS_DIR, SCRATCH, 'analysis.json'))).toBe(true);
+  });
+
+  it('refuses an analysis.json leaf symlink out of the runs tree', () => {
+    // The verified defect. `writeAnalysis` was a bare `writeFileSync(join(
+    // resolveRunDir(runId, { write: true }), 'analysis.json'), …)`: the
+    // directory check passed, and `writeFileSync` FOLLOWED the leaf. Probed
+    // against a target outside the repository, the write succeeded and
+    // overwrote it. Every other writer here already went through
+    // `writeRunFileAtomic`, which stages and renames so the entry is replaced
+    // rather than followed — this one route did not, and DATA-001 was recorded
+    // as closed while it was open.
+    const dir = join(RUNS_DIR, SCRATCH);
+    mkdirSync(dir, { recursive: true });
+    const decoy = join(outsideDir, 'analysis-target.json');
+    writeFileSync(decoy, 'untouched');
+    symlinkSync(decoy, join(dir, 'analysis.json'));
+
+    expectFirewallRefusal(
+      () => writeAnalysis(SCRATCH, { runId: SCRATCH } as unknown as RunAnalysis),
+      'SYMLINK_COMPONENT',
+      /Refusing to traverse symlink component/,
+    );
+    expect(readFileSync(decoy, 'utf8'), 'the write followed the link out of the tree').toBe('untouched');
   });
 });
 
@@ -342,5 +470,68 @@ describe('runner:calibration:result:write — runCalibration', () => {
       /historical and immutable \(DATA-001\)/,
     );
     expect(client.calls, 'a judge seat was called before the write target was checked').toBe(0);
+  });
+
+  it('preflights the write TARGET, not its directory, before the first paid call', async () => {
+    // The verified defect, and the reason the preceding test was not enough: the
+    // preflight was `join(resolveRunDir(runId, { write: true }),
+    // 'calibration.json')`, and `join` validates nothing. On an UNFROZEN run the
+    // directory check passed, so the preflight cleared a target that only the
+    // final `writeRunFileAtomic` would reject. Probed: the judge loop started —
+    // the client was called — and the refusal arrived after the spend.
+    const dir = join(RUNS_DIR, SCRATCH);
+    mkdirSync(dir, { recursive: true });
+    symlinkSync(join(outsideDir, 'calibration-target.json'), join(dir, 'calibration.json'));
+
+    const client = new RecordingClient();
+    await expectAsyncFirewallRefusal(
+      () => runCalibration(client, 'panel-v1', ['anthropic/claude-opus-4.8'], 'judge-v2', SCRATCH, new Map()),
+      'SYMLINK_COMPONENT',
+      /Refusing to traverse symlink component/,
+    );
+    expect(client.calls, 'the judge loop ran against a target that was never writable').toBe(0);
+    // A dangling link is the sharper case: following it would have CREATED the
+    // outside file, so its absence is the proof the bytes never left the tree.
+    expect(existsSync(join(outsideDir, 'calibration-target.json'))).toBe(false);
+  });
+});
+
+describe('runner:ledger:journal — the spend record is this run\'s own', () => {
+  const LEDGER_RUN = '__test-routes-store-ledger';
+  afterEach(() => rmSync(join(RUNS_DIR, LEDGER_RUN), { recursive: true, force: true }));
+
+  it('refuses a symlinked spend journal at construction, before any call is authorised', () => {
+    // Two leaf defects in one route. The constructor preflighted
+    // `resolveRunDir(runId, { write: true })` while the journal is written by
+    // `appendRunFileLine`, which refuses a linked leaf — so a linked journal
+    // cleared the preflight and failed at the first settlement, i.e. after the
+    // money had left. And `#replayJournal` read through the link, so a resumed
+    // run would inherit ANOTHER run's spend as its prior: the number the entire
+    // cap is computed from.
+    const dir = join(RUNS_DIR, LEDGER_RUN);
+    mkdirSync(dir, { recursive: true });
+    const decoy = join(outsideDir, 'foreign-spend.ndjson');
+    writeFileSync(decoy, `${JSON.stringify({ atIso: '2026-07-30T00:00:00Z', permitId: 'p', modelId: 'a/one', actualUsd: 0 })}\n`);
+    symlinkSync(decoy, join(dir, 'spend.ndjson'));
+
+    const grant = mintTestGrant({
+      kind: 'development-probe',
+      capabilities: ['candidate-inference'],
+      cells: [{ modelId: 'a/one', questionId: 'q' }],
+      runId: LEDGER_RUN,
+      budgetCapUsd: 5,
+    });
+    expectFirewallRefusal(
+      () => ReservationLedger.forGrant(grant, LEDGER_RUN),
+      'SYMLINK_COMPONENT',
+      /Refusing to traverse symlink component/,
+    );
+
+    // Control: with the link removed the same grant opens a ledger normally, so
+    // the refusal is the leaf guard and not the grant, the cap or the lock.
+    rmSync(join(dir, 'spend.ndjson'), { force: true });
+    const ledger = ReservationLedger.forGrant(grant, LEDGER_RUN);
+    expect(ledger.committedUsd).toBe(0);
+    ledger.close();
   });
 });

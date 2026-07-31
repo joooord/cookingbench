@@ -1,9 +1,9 @@
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { parse } from 'yaml';
 import type { Question } from '@cookingbench/core';
 import { DATA_DIR } from './dataset.js';
-import { resolveRunDir, writeRunFileAtomic } from './firewall.js';
+import { resolveRunFile, writeRunFileAtomic } from './firewall.js';
 import { CALIBRATION_ANCHOR_MODEL, judgeAnswer } from './judge.js';
 import type { CompletionClient } from './openrouter.js';
 
@@ -57,11 +57,21 @@ export function loadAnchors(): CalibrationAnchor[] {
  * whether the gate has already passed.
  */
 function calibrationReadPath(runId: string): string {
-  return join(resolveRunDir(runId, { write: false }), 'calibration.json');
+  return resolveRunFile(runId, 'calibration.json', { write: false });
 }
 
+/**
+ * Resolve the WRITE TARGET, not merely the directory containing it.
+ *
+ * The previous form was `join(resolveRunDir(runId, { write: true }),
+ * 'calibration.json')`: `join` validates nothing, so the leaf check happened
+ * only inside the final `writeRunFileAtomic` — AFTER the judge loop below had
+ * billed anchors x seats x two calls. Probed: with the target linked outside the
+ * run, the client was called and the refusal arrived afterwards. A preflight
+ * that does not check the thing that can refuse is not a preflight.
+ */
 function calibrationWritePath(runId: string): string {
-  return join(resolveRunDir(runId, { write: true }), 'calibration.json');
+  return resolveRunFile(runId, 'calibration.json', { write: true });
 }
 
 export function readCalibration(runId: string): CalibrationResult | null {

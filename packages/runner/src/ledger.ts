@@ -12,7 +12,7 @@ import {
 import { hostname } from 'node:os';
 import { dirname, join } from 'node:path';
 import { randomUUID } from 'node:crypto';
-import { appendRunFileLine, resolveRunDir, resolveRunFile } from './firewall.js';
+import { appendRunFileLine, resolveRunFile } from './firewall.js';
 import { assertVerifiedGrant, type VerifiedGrant } from './permit.js';
 
 /**
@@ -269,7 +269,11 @@ export class ReservationLedger {
     // this, a ledger for a frozen run constructs happily, authorises spend, and
     // only discovers the refusal when it tries to journal the first settlement
     // — i.e. after the money has left. Same lesson as the calibration gate.
-    resolveRunDir(runId, { write: true });
+    //
+    // The TARGET, not its directory: `appendRunFileLine` refuses a leaf symlink,
+    // so a preflight that stops at the directory clears a path the write will
+    // reject, which is the failure mode this preflight exists to prevent.
+    resolveRunFile(runId, JOURNAL_FILE, { write: true });
     this.#replayJournal();
     if (opts.lock !== false) this.#acquireLock();
   }
@@ -307,7 +311,10 @@ export class ReservationLedger {
   // --- durability ----------------------------------------------------------
 
   #replayJournal(): void {
-    const path = join(resolveRunDir(this.#runId, { write: false }), JOURNAL_FILE);
+    // Leaf-resolved: replaying a LINKED journal would read another run's spend
+    // as this run's prior, and "what has this run already spent" is the number
+    // the whole cap rests on.
+    const path = resolveRunFile(this.#runId, JOURNAL_FILE, { write: false });
     if (!existsSync(path)) return;
     let lineNo = 0;
     for (const line of readFileSync(path, 'utf8').split('\n')) {
