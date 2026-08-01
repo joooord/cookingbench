@@ -56,7 +56,7 @@ verified against tip `309f43f` on 2026-08-01; each verification records how.
 | KI-017 | Test support (`test/support/production-trust.ts`) writes ephemeral keys into the committed keyring and rewrites `revoked.json` in place during test runs; a hard-killed worker leaves residue that silently widens the local trust root (CI catches it; local runs do not) | Open |
 | KI-018 | The absent-revocation-list fail-closed branch (`PERMIT_REVOCATION_UNAVAILABLE`) became untestable when the injectable seam was removed — no test can exercise it, so a refactor to "absent = nothing revoked" would pass the suite | Open |
 | KI-019 | `dd91382` (codex round 3) was pushed with CI red — committed `node_modules` symlink, unfilled golden-hash placeholders, a traceability citation naming a nonexistent test; all repaired by `309f43f`, which is the true acceptance point. Recorded so the audit trail dates the 10/10-closed claim to the commit where it became verifiable | Recorded (historical) |
-| KI-020 | RELEASE-002-D1 was flipped from `awaiting-decision` to accepted inside the same unverified implementation commit, against the handoff's stated intent that the owner decide; the implementation itself is sound (verified) | Open — owner should countersign the decision record |
+| KI-020 | RELEASE-002-D1 was flipped from `awaiting-decision` to accepted inside the same unverified implementation commit, against the handoff's stated intent that the owner decide; the implementation itself is sound (verified) | **Resolved 2026-08-01** — owner countersigned the stricter reading (`docs/controls/decision-log.md` entry 4) |
 
 ## How to use this file
 
