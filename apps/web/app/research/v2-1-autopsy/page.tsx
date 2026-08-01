@@ -68,7 +68,11 @@ export default function AutopsyPage() {
       />
 
       <div className="grid gap-12 pt-12 lg:grid-cols-[minmax(0,1fr)_17rem]">
-        <div className="max-w-[46rem]">
+        {/* min-w-0: a grid item defaults to min-width:auto, which refuses to
+            shrink below the intrinsic width of its widest child (the min-w-[44rem]
+            tables) and blows past max-width on a phone. min-w-0 lets the column
+            shrink to the track so the tables' own overflow-x-auto scrolls them. */}
+        <div className="min-w-0 max-w-[46rem]">
           <section id="abstract" className="scroll-mt-8">
             <p className="font-mono text-xs uppercase tracking-[0.14em] text-paprika">Abstract</p>
             <p className="mt-4 font-display text-2xl leading-relaxed sm:text-3xl">
@@ -264,8 +268,11 @@ export default function AutopsyPage() {
                 ['Version rule', 'The archived run is never silently regraded. Corrections are separate, versioned records.'],
               ].map(([term, value]) => (
                 <div key={term} className="grid border-b border-hairline py-4 sm:grid-cols-[10rem_1fr] sm:gap-6">
-                  <dt className="font-mono text-[0.68rem] uppercase tracking-wider text-ink-soft">{term}</dt>
-                  <dd className="mt-2 break-words leading-relaxed sm:mt-0">{value}</dd>
+                  <dt className="min-w-0 font-mono text-[0.68rem] uppercase tracking-wider text-ink-soft">{term}</dt>
+                  {/* min-w-0 + break-all: a grid item defaults to min-width:auto and
+                      overflow-wrap alone can't shrink an unbreakable 64-char digest
+                      below its own width; break-all lets it wrap on a phone. */}
+                  <dd className="mt-2 min-w-0 break-all leading-relaxed sm:mt-0 sm:break-words">{value}</dd>
                 </div>
               ))}
             </dl>

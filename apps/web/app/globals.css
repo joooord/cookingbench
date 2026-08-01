@@ -75,6 +75,25 @@
 html {
   background: var(--color-paper);
   color: var(--color-ink);
+  /*
+   * Root guard against horizontal overflow. On a phone, a single element wider
+   * than the viewport (a wide data table, an unbreakable digest) makes mobile
+   * browsers widen the whole layout viewport, and then every column renders
+   * clipped off the right edge. `clip` — not `hidden` — prevents that without
+   * establishing a scroll container, so `position: sticky` (the desktop paper
+   * TOC) still works and the tables' own `overflow-x-auto` wrappers still
+   * scroll horizontally inside their boxes. Real fixes still belong at the
+   * offending element (see the min-w-0 / break-all notes on the autopsy page);
+   * this is the belt-and-braces so one missed case never breaks the page again.
+   * Applied to BOTH html and body: on the root alone, a residual overflow can
+   * still propagate to the body box and leave the page programmatically
+   * scrollable sideways (measured on /results). Clipping both closes that.
+   */
+  overflow-x: clip;
+}
+
+body {
+  overflow-x: clip;
 }
 
 * {
