@@ -19,7 +19,9 @@ import {
   type RankFragilityResult,
   type SupportedTier,
 } from '../../core/src/stats.js';
-import { writeRunFileAtomic } from './firewall.js';
+import { recordProvenance, writeRunFileAtomic } from './firewall.js';
+import { ManifestError, assertArtifactWriteAllowed } from './manifest.js';
+import { sha256Hex } from './permit.js';
 
 export interface QuestionAnalysis {
   questionId: string;
@@ -907,7 +909,7 @@ export function formatConfirmatory(analysis: RunAnalysis, scope: 'active' | 'fro
   return lines;
 }
 
-export function writeAnalysis(runId: string, analysis: RunAnalysis): void {
+export function writeAnalysis(runId: string, analysis: RunAnalysis, grant?: unknown): void {
   // Firewall-resolved: analysis.json feeds the site (apps/web reads it for the
   // separation table), so a mistargeted run id here is a publish route.
   //
@@ -918,5 +920,29 @@ export function writeAnalysis(runId: string, analysis: RunAnalysis): void {
   // which resolves the leaf and stages-then-renames so the entry is REPLACED
   // rather than followed; this one did not, which is why DATA-001 was recorded
   // as closed while a write route out of the runs root was still open.
-  writeRunFileAtomic(runId, 'analysis.json', JSON.stringify(analysis, null, 2));
+  const verdict = assertArtifactWriteAllowed(runId, 'analysis.json', grant);
+  if (analysis.runId !== runId) {
+    throw new ManifestError(
+      `analysis.json names run ${JSON.stringify(analysis.runId)}, not '${runId}'.`,
+      'RUN_IDENTITY_MISMATCH',
+    );
+  }
+  const stamped = {
+    ...analysis,
+    evidenceClass: verdict.manifest.evidenceClass,
+    releaseState: verdict.manifest.releaseState,
+    rankEligible: verdict.manifest.rankEligible,
+    manifestHash: verdict.manifestHash,
+    nonScoringBanner: verdict.nonScoringBanner,
+  };
+  const bytes = JSON.stringify(stamped, null, 2);
+  writeRunFileAtomic(runId, 'analysis.json', bytes);
+  // Receipt LAST: approval evidence describes bytes that were successfully
+  // committed, never an attempted write that failed before the rename.
+  if (verdict.grant) {
+    recordProvenance(runId, verdict.grant, 'bench analyze', {
+      file: 'analysis.json',
+      sha256: sha256Hex(bytes),
+    });
+  }
 }

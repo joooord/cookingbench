@@ -1,17 +1,18 @@
-import { generateKeyPairSync, sign as signBytes } from 'node:crypto';
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { generateKeyPairSync, randomUUID, sign as signBytes } from 'node:crypto';
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { canonicalJson, type RunConfig, type Score, type StoredResponse } from '@cookingbench/core';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { RUNS_DIR } from '../src/dataset.js';
 import { FirewallError } from '../src/firewall.js';
 import { BudgetExceededError, ReservationLedger } from '../src/ledger.js';
 import { OpenRouterClient } from '../src/openrouter.js';
-import { PermitError, manifestHash, sha256Hex, verifyPermitForTests } from '../src/permit.js';
+import { PermitError, frozenMethodologyHash, manifestHash } from '../src/permit.js';
 import { redeemPermit } from '../src/redemption.js';
 import { serviceRoleClient } from '../src/supabase.js';
 import { publishRun, syncRun } from '../src/sync.js';
+import { verifyWithInstalledPublicKey, withTemporarilyRevokedPermit } from './support/production-trust.js';
 
 /**
  * The permit chain, end to end, for the first time.
@@ -28,42 +29,35 @@ import { publishRun, syncRun } from '../src/sync.js';
  * directory, and the assertions include that no request is made on any refused
  * path. No socket is opened.
  *
- * The permit FILE is read here and verified through the TEST SEAM, because the
- * production loader takes no keyring and this suite signs with an ephemeral one.
- * `verifyPermitFile` itself is exercised against committed, already-expired
- * fixtures in permit.test.ts. That is the split the RUN-001 bypass forced, and
- * it is the right way round: the entry point production uses is proved against
- * material production would actually see.
+ * The permit FILE is read here and its envelope is passed through the production
+ * verifier. Its ephemeral public key is installed in the fixed keyring for that
+ * synchronous verification only; no runtime test verifier or selectable trust
+ * root exists.
  */
 
 const RUN = '__test-permit-e2e-scratch';
 const RUN_DIR = join(RUNS_DIR, RUN);
-const KEY_ID = 'e2e-ephemeral';
+const KEY_ID = `e2e-ephemeral-${process.pid}-${randomUUID().slice(0, 12)}`;
 const CANDIDATE = 'openai/gpt-5.5';
 const SEAT = 'anthropic/claude-opus-4.8';
-const METHODOLOGY_HASH = sha256Hex('e2e-frozen-methodology');
+const METHODOLOGY_HASH = frozenMethodologyHash();
 
 let scratch: string;
-let keyringDir: string;
-let revocationListPath: string;
 let signingKey: ReturnType<typeof generateKeyPairSync<'ed25519'>>['privateKey'];
+let publicKeyPem: string;
 
-beforeEach(() => {
-  process.env.OPENROUTER_API_KEY ??= 'test-key-not-used-offline';
-  scratch = mkdtempSync(join(tmpdir(), 'cb-permit-e2e-'));
-  keyringDir = join(scratch, 'keys');
-  mkdirSync(keyringDir, { recursive: true });
+beforeAll(() => {
   // The signing key exists only for the lifetime of this test and is never
   // written into the repository. Production has no signing key on disk at all:
   // a system that can mint its own permits approves itself.
   const pair = generateKeyPairSync('ed25519');
   signingKey = pair.privateKey;
-  writeFileSync(
-    join(keyringDir, `${KEY_ID}.pub`),
-    pair.publicKey.export({ type: 'spki', format: 'pem' }) as string,
-  );
-  revocationListPath = join(scratch, 'revoked.json');
-  writeFileSync(revocationListPath, JSON.stringify({ permitIds: [] }));
+  publicKeyPem = pair.publicKey.export({ type: 'spki', format: 'pem' }) as string;
+});
+
+beforeEach(() => {
+  process.env.OPENROUTER_API_KEY ??= 'test-key-not-used-offline';
+  scratch = mkdtempSync(join(tmpdir(), 'cb-permit-e2e-'));
 });
 
 afterEach(() => {
@@ -78,7 +72,7 @@ function manifest(budgetCapUsd = 5) {
     runId: RUN,
     methodologyVersion: 'v3.0',
     schemaVersion: '1',
-    gitCommit: '980dfcb',
+    gitCommit: '980dfcb5e3ff920fe1a3231121a6115e3fa48dcb',
     parentArtifacts: [],
     evidenceClass: 'development-probe',
     artifactOrigin: ['live-provider'],
@@ -163,12 +157,12 @@ function writePermit(
 
 function verify(permitPath: string, boundManifest: unknown = manifest()) {
   if (!existsSync(permitPath)) throw new Error(`no permit at ${permitPath}`);
-  return verifyPermitForTests(
-    { keyringDir, revocationListPath },
+  return verifyWithInstalledPublicKey(
+    KEY_ID,
+    publicKeyPem,
     {
       signedPermit: JSON.parse(readFileSync(permitPath, 'utf8')),
       manifest: boundManifest,
-      expectedMethodologyHash: METHODOLOGY_HASH,
     },
   );
 }
@@ -501,9 +495,10 @@ describe('the live-data chain refuses authority meant for another run', () => {
 
     // Revocation while the operations object is still in hand. A check that ran
     // only when the permit was loaded would never see this.
-    writeFileSync(revocationListPath, JSON.stringify({ permitIds: ['permit-e2e-sync01'] }));
-    await expect(ops.upsertQuestions([])).rejects.toThrow(/revoked/);
-    await expect(ops.readTasteVotes({ from: 0, to: 999 })).rejects.toThrow(/revoked/);
+    await withTemporarilyRevokedPermit(grant.permitId, async () => {
+      await expect(ops.upsertQuestions([])).rejects.toThrow(/revoked/);
+      await expect(ops.readTasteVotes({ from: 0, to: 999 })).rejects.toThrow(/revoked/);
+    });
     expect(seen, 'a revoked permit still reached the database').toHaveLength(1);
   });
 });

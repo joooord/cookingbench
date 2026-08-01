@@ -1,4 +1,5 @@
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
@@ -70,6 +71,19 @@ function runCli(args: string[], env: NodeJS.ProcessEnv = {}, cwd = REPO_ROOT): C
 }
 
 describe('the acceptance summary regenerates byte-identically', () => {
+  it('binds the methodology hash to the plan bytes, not only its sidecar', () => {
+    const summary = JSON.parse(buildAcceptanceSummary()) as {
+      methodologyHash: string;
+      inputs: Array<{ path: string; sha256: string }>;
+    };
+    const planPath = 'docs/methodology/CookingBench-methodology-first-master-plan.md';
+    const plan = readFileSync(join(REPO_ROOT, planPath), 'utf8');
+    const actual = createHash('sha256').update(plan, 'utf8').digest('hex');
+
+    expect(summary.methodologyHash).toBe(actual);
+    expect(summary.inputs).toContainEqual({ path: planPath, sha256: actual });
+  });
+
   it('produces identical bytes on repeated generation', () => {
     const first = buildAcceptanceSummary();
     const second = buildAcceptanceSummary();

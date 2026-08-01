@@ -1,30 +1,43 @@
-import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, linkSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, symlinkSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
-import { canonicalJson, type Question, type Score } from '@cookingbench/core';
-import { RUNS_DIR, loadQuestions } from '../src/dataset.js';
+import {
+  canonicalJson,
+  canonicalResponseSet,
+  type Question,
+  type Score,
+} from '@cookingbench/core';
+import { REPO_ROOT, RUNS_DIR, loadModels, loadQuestions } from '../src/dataset.js';
 import { FirewallError, writeRunFileAtomic } from '../src/firewall.js';
-import { manifestHash, sha256Hex } from '../src/permit.js';
+import { frozenMethodologyHash, manifestHash, sha256Hex } from '../src/permit.js';
 import {
   DeriveError,
   assertSourceCommitted,
   deriveRun,
+  type DerivationRecord,
   verifyDerivation,
 } from '../src/derive.js';
 import {
   ManifestError,
+  MANIFEST_FILE,
+  MANIFEST_HASH_FILE,
+  assertGrantMatchesStoredManifest,
+  assertManifestRouteIdentityMatchesRoster,
   assertRunArtifactsMatchManifest,
   buildRunManifest,
+  currentSourceCommit,
   computeContentDigest,
   itemHash,
   judgePromptHashFor,
   promptHashFor,
   readRunManifest,
+  resolveStoredManifestClaim,
   validatorDigest,
   verifyRunManifest,
   verifyRunManifestWithOverrides,
   writeRunManifest,
 } from '../src/manifest.js';
+import { mintTestGrantWithManifest } from './support/grant.js';
 import {
   ANSWER_JOURNAL,
   GENESIS_LINK,
@@ -96,7 +109,6 @@ function draftManifest(runId: string, models: string[] = ['meta-llama/llama-4-ma
     runId,
     methodologyVersion: 'v3.0',
     schemaVersion: '1',
-    gitCommit: '980dfcb',
     parentArtifacts: [],
     evidenceClass: 'development',
     artifactOrigin: ['archived'],
@@ -122,9 +134,154 @@ function draftManifest(runId: string, models: string[] = ['meta-llama/llama-4-ma
   } as Record<string, unknown>;
 }
 
+function storeManifestIdentity(manifest: unknown, recordedHash = manifestHash(manifest)): void {
+  writeRunFileAtomic(SCRATCH, MANIFEST_FILE, `${JSON.stringify(manifest, null, 2)}\n`);
+  writeRunFileAtomic(SCRATCH, MANIFEST_HASH_FILE, `${recordedHash}\n`);
+}
+
+describe('manifest route identity is the committed conflict identity', () => {
+  function manifestedRoute(model: ReturnType<typeof loadModels>[number]) {
+    return {
+      modelId: model.id,
+      provider: model.provider,
+      baseModelFamily: model.baseModel,
+    };
+  }
+
+  it('accepts exact roster declarations and refuses invented provider or base-model identity', () => {
+    const roster = loadModels();
+    const candidate = roster[0]!;
+    const judge = roster.find((model) => model.id !== candidate.id)!;
+    const manifest = {
+      candidateRoutes: [manifestedRoute(candidate)],
+      judgeRoutes: [manifestedRoute(judge)],
+    };
+
+    expect(() => assertManifestRouteIdentityMatchesRoster(manifest as never)).not.toThrow();
+    for (const changed of [
+      {
+        ...manifest,
+        candidateRoutes: [{ ...manifest.candidateRoutes[0]!, provider: 'invented-provider' }],
+      },
+      {
+        ...manifest,
+        judgeRoutes: [{ ...manifest.judgeRoutes[0]!, baseModelFamily: 'invented:lineage' }],
+      },
+      {
+        ...manifest,
+        candidateRoutes: [{ ...manifest.candidateRoutes[0]!, modelId: 'missing/model' }],
+      },
+    ]) {
+      expect(() => assertManifestRouteIdentityMatchesRoster(changed as never)).toThrowError(
+        expect.objectContaining({ code: 'MANIFEST_ROUTE_IDENTITY_MISMATCH' }),
+      );
+    }
+  });
+});
+
+describe('a verified permit is bound to the stored envelope commands execute', () => {
+  function approved() {
+    return mintTestGrantWithManifest({
+      permitId: 'permit-envelope-binding',
+      kind: 'development-probe',
+      capabilities: ['catalog-read'],
+      runId: SCRATCH,
+    });
+  }
+
+  it('accepts the legitimate path when permit, stored manifest and sidecar are identical', () => {
+    const { grant, manifest } = approved();
+    storeManifestIdentity(manifest);
+
+    expect(resolveStoredManifestClaim(manifest, 'bench models --check')).toEqual(manifest);
+    expect(assertGrantMatchesStoredManifest(grant, 'bench models --check', manifest)).toEqual(manifest);
+  });
+
+  it.each([
+    [
+      'generation settings',
+      (manifest: ReturnType<typeof approved>['manifest']) => ({
+        ...manifest,
+        generationSettings: {
+          ...manifest.generationSettings,
+          maxTokens: manifest.generationSettings.maxTokens + 1,
+        },
+      }),
+    ],
+    [
+      'content hashes',
+      (manifest: ReturnType<typeof approved>['manifest']) => ({
+        ...manifest,
+        bankHash: 'f'.repeat(64),
+      }),
+    ],
+  ])('refuses a same-run-id envelope with different %s', (_label, alter) => {
+    const { grant, manifest: permitted } = approved();
+    const stored = alter(permitted);
+    storeManifestIdentity(stored);
+    let reachedExercise = false;
+
+    expect(() => resolveStoredManifestClaim(permitted, 'bench run')).toThrow(
+      /parallel envelope cannot select what a permit is verified against/,
+    );
+    expect(() => {
+      assertGrantMatchesStoredManifest(grant, 'bench run', permitted);
+      reachedExercise = true;
+    }).toThrow(/caller-supplied parallel manifest/);
+    expect(reachedExercise).toBe(false);
+  });
+
+  it('refuses an editable hash sidecar as a substitute for the stored manifest identity', () => {
+    const { grant, manifest } = approved();
+    storeManifestIdentity(manifest, 'f'.repeat(64));
+
+    expect(() => assertGrantMatchesStoredManifest(grant, 'bench run')).toThrow(
+      /stored envelope and its recorded identity must agree/i,
+    );
+  });
+
+  it('refuses when the in-memory envelope a command will execute differs from the verified stored one', () => {
+    const { grant, manifest } = approved();
+    storeManifestIdentity(manifest);
+    const executing = {
+      ...manifest,
+      callPlan: { ...manifest.callPlan, concurrency: manifest.callPlan.concurrency + 1 },
+    };
+
+    expect(() => assertGrantMatchesStoredManifest(grant, 'bench run', executing)).toThrow(
+      /exact object the command will execute/,
+    );
+  });
+
+  it('refuses when the stored run has no recorded manifest identity', () => {
+    const { grant, manifest } = approved();
+    writeRunFileAtomic(SCRATCH, MANIFEST_FILE, `${JSON.stringify(manifest, null, 2)}\n`);
+
+    expect(() => assertGrantMatchesStoredManifest(grant, 'bench run')).toThrow(/identity is absent/);
+  });
+});
+
 // ---------------------------------------------------------------------------
 
 describe('M4.1 — content hashes describe what actually runs', () => {
+  it('derives the full source commit and refuses abbreviated or different revisions', () => {
+    const items = slice(['conv-001']);
+    const actual = currentSourceCommit();
+    const derived = buildRunManifest(draftManifest(SCRATCH), items).manifest;
+    expect(derived.gitCommit).toBe(actual);
+
+    const exact = buildRunManifest({ ...draftManifest(SCRATCH), gitCommit: actual }, items).manifest;
+    expect(exact.gitCommit).toBe(actual);
+
+    expect(() =>
+      buildRunManifest({ ...draftManifest(SCRATCH), gitCommit: actual.slice(0, 12) }, items),
+    ).toThrow(/full 40-character commit id/);
+
+    expect(() =>
+      buildRunManifest({ ...draftManifest(SCRATCH), gitCommit: 'f'.repeat(40) }, items),
+    ).toThrow(/source being frozen/);
+  });
+
   it('is stable under item order and unstable under item content', () => {
     const items = slice(CANARY_ITEMS);
     const a = computeContentDigest(items, SETTINGS);
@@ -225,12 +382,41 @@ describe('M4.1 — content hashes describe what actually runs', () => {
 // ---------------------------------------------------------------------------
 
 describe('DATA-002 — a command writes the manifest, and it must be true', () => {
-  it('fills the content hashes and produces a manifest that parses', () => {
+  it('builds v2 and binds the exact fixed methodology and traceability documents', () => {
     const items = slice(CANARY_ITEMS);
     const { manifest, digest } = buildRunManifest(draftManifest(SCRATCH), items);
+    expect(manifest.manifestVersion).toBe(2);
+    expect(manifest.methodologyHash).toBe(frozenMethodologyHash());
+    expect(manifest.traceabilityVersion).toBe(
+      sha256Hex(readFileSync(join(REPO_ROOT, 'docs', 'wp-0', 'traceability.yaml'), 'utf8')),
+    );
     expect(manifest.bankHash).toBe(digest.bankHash);
     expect(manifest.outputRoot).toBe(`data/runs/${SCRATCH}`);
     expect(manifestHash(manifest)).toMatch(/^[a-f0-9]{64}$/);
+  });
+
+  it.each(['methodologyHash', 'traceabilityVersion'] as const)(
+    'checks a draft-supplied %s instead of silently correcting it',
+    (field) => {
+      const draft = { ...draftManifest(SCRATCH), [field]: 'f'.repeat(64) };
+      expect(() => buildRunManifest(draft, slice(CANARY_ITEMS))).toThrowError(
+        expect.objectContaining({ code: 'MANIFEST_HASH_MISMATCH' }),
+      );
+    },
+  );
+
+  it('keeps committed v1 envelopes readable but refuses to write one as new output', () => {
+    const items = slice(CANARY_ITEMS);
+    const current = buildRunManifest(draftManifest(SCRATCH), items).manifest;
+    const { methodologyHash: _methodologyHash, traceabilityVersion: _traceabilityVersion, ...shared } =
+      current;
+    const historical = { ...shared, manifestVersion: 1 as const };
+
+    writeRunFileAtomic(SCRATCH, MANIFEST_FILE, `${JSON.stringify(historical, null, 2)}\n`);
+    expect(readRunManifest(SCRATCH)).toEqual(historical);
+    expect(() => writeRunManifest(SCRATCH, historical, items)).toThrowError(
+      expect.objectContaining({ code: 'MANIFEST_INVALID' }),
+    );
   });
 
   it('checks a declared hash instead of correcting it', () => {
@@ -364,6 +550,27 @@ describe('DATA-002 — a changed bank cannot masquerade as the manifested one', 
     expect(codes).toContain('RESPONSE_UNREADABLE');
   });
 
+  it('refuses duplicate cells and unchecked entries in the response evidence set', () => {
+    seed();
+    const response = {
+      runId: SCRATCH,
+      modelId: 'meta-llama/llama-4-maverick',
+      questionId: 'conv-001',
+    };
+    writeRunFileAtomic(SCRATCH, join('responses', 'first.json'), JSON.stringify(response));
+    writeRunFileAtomic(SCRATCH, join('responses', 'second.json'), JSON.stringify(response));
+    writeFileSync(join(RUNS_DIR, SCRATCH, 'responses', 'unchecked.txt'), 'not evidence');
+    symlinkSync(
+      join(RUNS_DIR, SCRATCH, 'responses', 'first.json'),
+      join(RUNS_DIR, SCRATCH, 'responses', 'linked.json'),
+    );
+
+    const report = verifyRunManifest(SCRATCH);
+    expect(report.ok).toBe(false);
+    expect(report.findings.map((finding) => finding.code)).toContain('RESPONSE_DUPLICATE_CELL');
+    expect(report.findings.filter((finding) => finding.code === 'RESPONSE_UNREADABLE')).toHaveLength(2);
+  });
+
   it('reports missing cells only when completeness was asked for', () => {
     seed();
     expect(verifyRunManifest(SCRATCH).ok).toBe(true);
@@ -376,6 +583,25 @@ describe('DATA-002 — a changed bank cannot masquerade as the manifested one', 
 // ---------------------------------------------------------------------------
 
 describe('DATA-001 — a re-scoring run inherits answers instead of overwriting them', () => {
+  function readDerivationRecord(): DerivationRecord {
+    return JSON.parse(
+      readFileSync(join(RUNS_DIR, DERIVED, 'derivation.json'), 'utf8'),
+    ) as DerivationRecord;
+  }
+
+  function writeDerivationRecord(record: DerivationRecord): void {
+    writeRunFileAtomic(DERIVED, 'derivation.json', `${JSON.stringify(record, null, 2)}\n`);
+  }
+
+  function writeDerivedManifest(parentArtifacts: string[]): void {
+    const items = slice(CANARY_ITEMS);
+    const { manifest } = buildRunManifest(
+      { ...draftManifest(DERIVED), parentArtifacts },
+      items,
+    );
+    writeRunManifest(DERIVED, manifest, items);
+  }
+
   it('refuses the shortcuts that would break immutability', () => {
     expect(() => deriveRun({ sourceRunId: 'canary', targetRunId: 'canary', reason: 'x' })).toThrow(DeriveError);
     expect(() => deriveRun({ sourceRunId: 'canary', targetRunId: DERIVED, reason: '  ' })).toThrow(DeriveError);
@@ -405,6 +631,7 @@ describe('DATA-001 — a re-scoring run inherits answers instead of overwriting 
     });
     expect(result.record.responses).toHaveLength(10);
     expect(result.record.derivedFrom.treeHash).toMatch(/^[a-f0-9]{40}$/);
+    expect(result.record.derivedFrom.copyMode).toBe('copy');
     expect(result.config.derivedFrom.runId).toBe('canary');
     expect(result.config.releaseState).toBe('draft');
     // Scores, boards and analyses are NOT inherited: reusing them would carry
@@ -415,23 +642,32 @@ describe('DATA-001 — a re-scoring run inherits answers instead of overwriting 
     // And the spend does not come with them.
     expect(result.config.budgetUsdTotal).toBe(0);
 
+    // Byte equality is not enough: a hard link has equal bytes because it is
+    // the SAME file. Every inherited response must have its own inode.
+    for (const response of result.record.responses) {
+      const source = statSync(join(RUNS_DIR, 'canary', 'responses', response.file));
+      const derived = statSync(join(RUNS_DIR, DERIVED, 'responses', response.file));
+      expect([derived.dev, derived.ino]).not.toEqual([source.dev, source.ino]);
+    }
+
     expect(verifyDerivation(DERIVED)).toEqual({ ok: true, problems: [] });
   });
 
   it('notices when an inherited answer is altered afterwards', () => {
     deriveRun({ sourceRunId: 'canary', targetRunId: DERIVED, reason: 'regrade' });
     const dir = join(RUNS_DIR, DERIVED, 'responses');
-    const victim = join(dir, readdirSync(dir)[0] as string);
-    // Rewrite through the copy, NOT through a hard link: with mode 'copy' the
-    // derived file has its own inode, so this cannot reach the published run.
+    const name = readdirSync(dir)[0] as string;
+    const victim = join(dir, name);
+    const source = join(RUNS_DIR, 'canary', 'responses', name);
+    const sourceBefore = readFileSync(source);
+    // Rewrite through the derived pathname. Distinct inodes make this incapable
+    // of changing the historical source.
     writeFileSync(victim, JSON.stringify({ tampered: true }));
     const result = verifyDerivation(DERIVED);
     expect(result.ok).toBe(false);
     expect(result.problems[0]).toMatch(/has changed/);
     // The published source is untouched.
-    expect(readFileSync(join(RUNS_DIR, 'canary', 'responses', readdirSync(dir)[0] as string), 'utf8')).not.toContain(
-      'tampered',
-    );
+    expect(readFileSync(source)).toEqual(sourceBefore);
   });
 
   it('lets a derived run verify against its own manifest despite the inherited stamp', () => {
@@ -449,15 +685,126 @@ describe('DATA-001 — a re-scoring run inherits answers instead of overwriting 
     expect(report.findings.map((f) => f.code)).toEqual([]);
   });
 
-  it('hard-links on request, and the link is byte-identical', () => {
-    const result = deriveRun({
-      sourceRunId: 'canary',
-      targetRunId: DERIVED,
-      reason: 'space-constrained regrade',
-      mode: 'hardlink',
-    });
-    expect(result.record.derivedFrom.copyMode).toBe('hardlink');
-    expect(verifyDerivation(DERIVED).ok).toBe(true);
+  it('rejects a self-consistent derivation record that forges its source run', () => {
+    deriveRun({ sourceRunId: 'canary', targetRunId: DERIVED, reason: 'regrade' });
+    const record = readDerivationRecord();
+    const forgedSource = '__forged-source-run';
+
+    record.derivedFrom.runId = forgedSource;
+    for (const inherited of record.responses) {
+      const path = join(RUNS_DIR, DERIVED, 'responses', inherited.file);
+      const response = JSON.parse(readFileSync(path, 'utf8')) as Record<string, unknown>;
+      response.runId = forgedSource;
+      const bytes = `${JSON.stringify(response, null, 2)}\n`;
+      writeFileSync(path, bytes);
+      inherited.sha256 = sha256Hex(bytes);
+    }
+    record.derivedFrom.responseSetHash = sha256Hex(
+      canonicalResponseSet(forgedSource, record.responses),
+    );
+    writeDerivationRecord(record);
+    writeDerivedManifest([forgedSource]);
+
+    const report = verifyRunManifest(DERIVED, { expectComplete: true });
+    expect(report.ok).toBe(false);
+    expect(report.findings).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: 'DERIVATION_INVALID',
+          detail: expect.stringMatching(/source run __forged-source-run does not exist/),
+        }),
+      ]),
+    );
+  });
+
+  it('rejects lineage whose source is not the manifest exact parent artifact', () => {
+    deriveRun({ sourceRunId: 'canary', targetRunId: DERIVED, reason: 'regrade' });
+    writeDerivedManifest([]);
+
+    const report = verifyRunManifest(DERIVED, { expectComplete: true });
+    expect(report.ok).toBe(false);
+    expect(report.findings).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: 'DERIVATION_INVALID',
+          detail: expect.stringMatching(
+            /parentArtifacts \[none\] do not exactly name derivation source canary/,
+          ),
+        }),
+      ]),
+    );
+  });
+
+  it('rejects a parent-stamped response whose bytes were never inherited from that parent', () => {
+    deriveRun({ sourceRunId: 'canary', targetRunId: DERIVED, reason: 'regrade' });
+    const record = readDerivationRecord();
+    const inherited = record.responses[0] as DerivationRecord['responses'][number];
+    const path = join(RUNS_DIR, DERIVED, 'responses', inherited.file);
+    const response = JSON.parse(readFileSync(path, 'utf8')) as Record<string, unknown>;
+
+    // Keep the legitimate parent's runId stamp, then make both the response and
+    // lineage record self-consistent around bytes the parent never produced.
+    response.answerText = 'forged answer carrying a legitimate parent stamp';
+    const bytes = `${JSON.stringify(response, null, 2)}\n`;
+    writeFileSync(path, bytes);
+    inherited.sha256 = sha256Hex(bytes);
+    record.derivedFrom.responseSetHash = sha256Hex(
+      canonicalResponseSet('canary', record.responses),
+    );
+    writeDerivationRecord(record);
+    writeDerivedManifest(['canary']);
+
+    const report = verifyRunManifest(DERIVED, { expectComplete: true });
+    expect(report.ok).toBe(false);
+    expect(report.findings).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: 'DERIVATION_INVALID',
+          detail: expect.stringMatching(/source response .* does not match the inherited hash/),
+        }),
+      ]),
+    );
+  });
+
+  it('refuses the removed hard-link mode even when a caller bypasses the TypeScript type', () => {
+    try {
+      deriveRun({
+        sourceRunId: 'canary',
+        targetRunId: DERIVED,
+        reason: 'space-constrained regrade',
+        mode: 'hardlink',
+      } as never);
+      throw new Error('expected hard-link derivation to be refused');
+    } catch (e) {
+      expect(e).toBeInstanceOf(DeriveError);
+      expect((e as DeriveError).code).toBe('UNSAFE_COPY_MODE');
+    }
+    expect(existsSync(join(RUNS_DIR, DERIVED, 'responses'))).toBe(false);
+  });
+
+  it('fails verification for an old hard-link record or a forged shared inode', () => {
+    deriveRun({ sourceRunId: 'canary', targetRunId: DERIVED, reason: 'regrade' });
+
+    const recordPath = join(RUNS_DIR, DERIVED, 'derivation.json');
+    const record = JSON.parse(readFileSync(recordPath, 'utf8')) as {
+      derivedFrom: { copyMode: string };
+    };
+    record.derivedFrom.copyMode = 'hardlink';
+    writeRunFileAtomic(DERIVED, 'derivation.json', `${JSON.stringify(record, null, 2)}\n`);
+    expect(verifyDerivation(DERIVED).problems).toEqual(
+      expect.arrayContaining([expect.stringMatching(/unsupported copyMode "hardlink"/)]),
+    );
+
+    record.derivedFrom.copyMode = 'copy';
+    writeRunFileAtomic(DERIVED, 'derivation.json', `${JSON.stringify(record, null, 2)}\n`);
+    const name = readdirSync(join(RUNS_DIR, DERIVED, 'responses'))[0] as string;
+    const source = join(RUNS_DIR, 'canary', 'responses', name);
+    const derived = join(RUNS_DIR, DERIVED, 'responses', name);
+    rmSync(derived);
+    linkSync(source, derived);
+    expect(verifyDerivation(DERIVED).problems).toEqual(
+      expect.arrayContaining([expect.stringMatching(/shares inode .* with source run canary/)]),
+    );
   });
 });
 

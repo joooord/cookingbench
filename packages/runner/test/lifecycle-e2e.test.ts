@@ -1,8 +1,19 @@
-import { generateKeyPairSync, sign as signBytes } from 'node:crypto';
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { generateKeyPairSync, randomUUID, sign as signBytes } from 'node:crypto';
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  readdirSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   NON_SCORING_LABEL,
   canonicalJson,
@@ -23,6 +34,7 @@ import {
   PUBLISHED_ARTIFACTS,
   REQUIRED_RELEASE_CHECK_IDS,
   appendBallot,
+  appendJournalEntry,
   appendRawAnswer,
   assertPublicationAllowed,
   buildReleaseChecklist,
@@ -31,6 +43,7 @@ import {
   readCurrentRun,
   readJournal,
   registerRun,
+  responseIdentity,
   retainableScores,
   runState,
   setCurrentRun,
@@ -41,6 +54,7 @@ import {
   writeReleaseChecklist,
   type ReleaseChecklist,
 } from '../src/lifecycle.js';
+import { deriveRun } from '../src/derive.js';
 import {
   buildRunManifest,
   readRunManifest,
@@ -53,11 +67,11 @@ import {
   PERMIT_FIXTURES_DIR,
   assertGrantForRun,
   assertGrantStillValid,
+  frozenMethodologyHash,
   manifestHash,
   sha256Hex,
   verifyPermit,
   verifyPermitFile,
-  verifyPermitForTests,
   type VerifiedGrant,
 } from '../src/permit.js';
 import { redeemPermit } from '../src/redemption.js';
@@ -72,6 +86,7 @@ import {
   writeScores,
 } from '../src/store.js';
 import { mintTestGrant } from './support/grant.js';
+import { verifyWithInstalledPublicKey, withTemporarilyRevokedPermit } from './support/production-trust.js';
 import { resolveApprovedRelease } from '../../../apps/web/lib/data.js';
 
 /**
@@ -104,24 +119,16 @@ import { resolveApprovedRelease } from '../../../apps/web/lib/data.js';
  * public-release and grants no inference at all. In production the bytes cross
  * that boundary through `derive.ts`, which requires the source run to be
  * COMMITTED. So the executed run and the published run are two artifacts here
- * exactly as they would be in production, and the derivation edge between them
- * is one of the two things this test cannot exercise offline (see the
- * `artifacts-committed` note below and the summary at the end of the file).
+ * exactly as they would be in production. The published artifact is committed
+ * into an isolated local git object database before release, so the production
+ * committed-tree check runs for real without changing this checkout's history.
  *
  * WHAT THIS TEST CANNOT DO, STATED RATHER THAN FAKED.
  *
- *  1. `transitionRun(to: 'released')` cannot succeed for a scratch run. The
- *     fixed checklist includes `artifacts-committed`, which resolves the run
- *     directory in `HEAD`; a run created by a test is untracked, by design, and
- *     this session may not commit. So the release WRITER is proved only up to
- *     its refusal — 13 of 14 checks green and the 14th failing for exactly the
- *     right reason — and the released-artifact, pointer and read-path stages
- *     are proved against a register fixture in the shape the writer produces,
- *     driven through the REAL readers (`readCurrentRun`, `resolveApprovedRelease`).
- *     Mocking git to make the check pass would make the claim false, which is
- *     worse than an honestly incomplete lifecycle test.
- *  2. `deriveRun` (the executed → published edge) is blocked by the same git
- *     requirement and is therefore not exercised.
+ * The executed -> published edge is exercised through `deriveRun` after the
+ * source is committed to the same isolated git history. This keeps the public
+ * response lineage real too: the website receives copied source-stamped bytes,
+ * not a public fixture that merely claims they were derived.
  *
  * Everything else below runs through the production entry points. Where a
  * refusal can be reached with COMMITTED material it is, via `verifyPermitFile`
@@ -129,8 +136,9 @@ import { resolveApprovedRelease } from '../../../apps/web/lib/data.js';
  * nothing. `test/support/grant.ts` was read first: `mintTestGrant` mints against
  * a placeholder manifest of its own, which cannot bind the real envelope under
  * test, so the chain signs its own permit over the manifest on disk using the
- * same seam (`verifyPermitForTests`) that helper uses. `mintTestGrant` is used
- * where only the grant's budget and cells matter.
+ * production verifier after temporarily installing its public half in the
+ * fixed repository keyring. `mintTestGrant` is used where only the grant's
+ * budget and cells matter.
  */
 
 // ---------------------------------------------------------------------------
@@ -147,7 +155,7 @@ const REGISTER = '__test-e2e-scratch-register.json';
 
 const CANDIDATE = 'mock/e2e-candidate';
 const SEAT = 'mock/e2e-seat';
-const KEY_ID = 'e2e-lifecycle-ephemeral';
+const KEY_ID = `e2e-lifecycle-${process.pid}-${randomUUID().slice(0, 12)}`;
 
 /** Two deterministic items and one judge-graded item, so both routes are real. */
 const ITEMS = ['conv-001', 'conv-002', 'tech-001'];
@@ -156,16 +164,9 @@ const JUDGED_ITEM = 'tech-001';
 /** A run that is frozen forever (DATA-001). Read-only here, and asserted so. */
 const HISTORICAL = '2026-07-v2.1';
 
-const E2E_METHODOLOGY_HASH = sha256Hex('e2e-frozen-methodology');
+const E2E_METHODOLOGY_HASH = frozenMethodologyHash();
 
 /** The digest a permit against the REAL committed fixtures must name. */
-const FROZEN_METHODOLOGY_HASH = /^[a-f0-9]{64}/.exec(
-  readFileSync(
-    join(REPO_ROOT, 'docs/methodology/CookingBench-methodology-first-master-plan.sha256'),
-    'utf8',
-  ).trim(),
-)![0]!;
-
 const fixture = (name: string): string => join(PERMIT_FIXTURES_DIR, name);
 
 /** Exactly what a production caller may say: a manifest and a methodology. */
@@ -175,37 +176,40 @@ function fixtureBinding(manifestOverrides: Record<string, unknown> = {}) {
   ) as Record<string, unknown>;
   return {
     manifest: { ...manifest, ...manifestOverrides },
-    expectedMethodologyHash: FROZEN_METHODOLOGY_HASH,
   };
 }
 
 let scratch: string;
-let keyringDir: string;
-let revocationListPath: string;
 let signingKey: ReturnType<typeof generateKeyPairSync<'ed25519'>>['privateKey'];
+let publicKeyPem: string;
 const openLedgers: ReservationLedger[] = [];
 const tempTrees: string[] = [];
+let originalGitEnvironment: { gitDir: string | undefined; gitWorkTree: string | undefined } | null = null;
+
+beforeAll(() => {
+  const pair = generateKeyPairSync('ed25519');
+  signingKey = pair.privateKey;
+  publicKeyPem = pair.publicKey.export({ type: 'spki', format: 'pem' }) as string;
+});
 
 beforeEach(() => {
   process.env.OPENROUTER_API_KEY ??= 'test-key-not-used-offline';
   useRegisterFileForTest(REGISTER);
   scratch = mkdtempSync(join(tmpdir(), 'cb-lifecycle-e2e-'));
-  keyringDir = join(scratch, 'keys');
-  mkdirSync(keyringDir, { recursive: true });
-  const pair = generateKeyPairSync('ed25519');
-  signingKey = pair.privateKey;
-  writeFileSync(
-    join(keyringDir, `${KEY_ID}.pub`),
-    pair.publicKey.export({ type: 'spki', format: 'pem' }) as string,
-  );
-  revocationListPath = join(scratch, 'revoked.json');
-  writeFileSync(revocationListPath, JSON.stringify({ permitIds: [] }));
 });
 
 afterEach(() => {
   vi.unstubAllGlobals();
+  vi.useRealTimers();
   for (const ledger of openLedgers.splice(0)) ledger.close();
   clearRegisterFileForTest();
+  if (originalGitEnvironment !== null) {
+    if (originalGitEnvironment.gitDir === undefined) delete process.env.GIT_DIR;
+    else process.env.GIT_DIR = originalGitEnvironment.gitDir;
+    if (originalGitEnvironment.gitWorkTree === undefined) delete process.env.GIT_WORK_TREE;
+    else process.env.GIT_WORK_TREE = originalGitEnvironment.gitWorkTree;
+    originalGitEnvironment = null;
+  }
   for (const runId of [RUN, PUBLISHED, OTHER]) {
     rmSync(join(RUNS_DIR, runId), { recursive: true, force: true });
   }
@@ -227,13 +231,44 @@ function items(): Question[] {
   });
 }
 
+/**
+ * Give the production committed-tree check a real HEAD without touching the
+ * repository under test. Git still reads the actual scratch-run bytes from the
+ * real work tree; only its object database and index live under this test's
+ * temporary directory.
+ */
+function useIsolatedGitForRelease(): void {
+  if (originalGitEnvironment !== null) throw new Error('isolated git is already active');
+  originalGitEnvironment = {
+    gitDir: process.env.GIT_DIR,
+    gitWorkTree: process.env.GIT_WORK_TREE,
+  };
+  const isolatedWorktree = join(scratch, 'release-git');
+  const initEnvironment = { ...process.env };
+  delete initEnvironment.GIT_DIR;
+  delete initEnvironment.GIT_WORK_TREE;
+  execFileSync('git', ['init', '--quiet', isolatedWorktree], {
+    cwd: REPO_ROOT,
+    env: initEnvironment,
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+  process.env.GIT_DIR = join(isolatedWorktree, '.git');
+  process.env.GIT_WORK_TREE = REPO_ROOT;
+  execFileSync('git', ['config', 'user.name', 'CookingBench lifecycle test'], { cwd: REPO_ROOT });
+  execFileSync('git', ['config', 'user.email', 'lifecycle-test@invalid.local'], { cwd: REPO_ROOT });
+}
+
+function commitScratchRun(runId: string, message: string): void {
+  execFileSync('git', ['add', '-f', '--', `data/runs/${runId}`], { cwd: REPO_ROOT });
+  execFileSync('git', ['commit', '--quiet', '-m', message], { cwd: REPO_ROOT });
+}
+
 function draft(runId: string, overrides: Record<string, unknown> = {}): Record<string, unknown> {
   return {
     manifestVersion: 1,
     runId,
     methodologyVersion: 'v3.0',
     schemaVersion: '1',
-    gitCommit: '980dfcb',
     parentArtifacts: [],
     // A probe, produced from a stubbed provider: `mock` is the truthful origin
     // and it is what keeps the artifact out of any ranking.
@@ -306,14 +341,13 @@ function signedPermit(
 function grantFor(
   manifest: unknown,
   overrides: Record<string, unknown> = {},
-  clock?: () => Date,
 ): VerifiedGrant {
-  return verifyPermitForTests(
-    { keyringDir, revocationListPath, ...(clock ? { clock } : {}) },
+  return verifyWithInstalledPublicKey(
+    KEY_ID,
+    publicKeyPem,
     {
       signedPermit: signedPermit(manifest, overrides),
       manifest,
-      expectedMethodologyHash: E2E_METHODOLOGY_HASH,
     },
   ).grant;
 }
@@ -416,13 +450,51 @@ function scoreFor(runId: string, question: Question, judged: boolean): Score {
  * it does not take them as arguments. What is supplied here is evidence; what
  * is under test is what the gate concludes from it.
  */
-function assembleArtifacts(runId: string): void {
+function assembleArtifacts(runId: string, inheritedResponses = false, derivedFrom?: unknown): void {
   const qs = items();
-  mergeRunConfig(runConfig(runId));
-  for (const q of qs) {
-    const response = storedResponse(runId, q.id);
-    writeResponse(response);
-    appendRawAnswer(response);
+  const storedManifest = readRunManifest(runId);
+  const publicationGrant =
+    storedManifest.evidenceClass === 'public-release'
+      ? mintTestGrant({
+          permitId: `permit-publish-${runId}`,
+          kind: 'publication',
+          capabilities: ['publication'],
+          runId,
+          manifest: storedManifest,
+        })
+      : undefined;
+  mergeRunConfig(runConfig(runId, derivedFrom === undefined ? {} : { derivedFrom }));
+  writeRunFileAtomic(
+    runId,
+    'calibration.json',
+    `${JSON.stringify({
+      judgeModel: SEAT,
+      judgePanel: [SEAT],
+      judgePromptVersion: JUDGE_PROMPT_VERSIONS.fault,
+      atIso: '2026-07-31T00:00:00.000Z',
+      mae: 0,
+      passed: true,
+      costUsd: 0,
+      judges: [],
+    }, null, 2)}\n`,
+  );
+  if (inheritedResponses) {
+    for (const response of readResponses(runId)) {
+      const id = responseIdentity(response);
+      appendJournalEntry(
+        runId,
+        ANSWER_JOURNAL,
+        id,
+        { ...response, responseId: id, inheritedFrom: response.runId },
+        new Date('2026-07-31T00:00:00Z'),
+      );
+    }
+  } else {
+    for (const q of qs) {
+      const response = storedResponse(runId, q.id);
+      writeResponse(response);
+      appendRawAnswer(response);
+    }
   }
   appendBallot(
     { runId, modelId: CANDIDATE, questionId: JUDGED_ITEM, judgeModelId: SEAT, promptVersion: JUDGE_PROMPT_VERSIONS.fault },
@@ -439,7 +511,11 @@ function assembleArtifacts(runId: string): void {
     ADJUDICATION_QUEUE_FILE,
     `${JSON.stringify({ version: 1, runId, policy: {}, cases: [], population: [], queueHash: '' }, null, 2)}\n`,
   );
-  const verdict = assertPublicationAllowed('artifact', { requestedRunId: runId });
+  const verdict = assertPublicationAllowed('artifact', {
+    requestedRunId: runId,
+    grant: publicationGrant,
+  });
+  writeAnalysis(runId, analyzeRun(runId, qs, responses, scores), publicationGrant);
   writeLeaderboard(
     runId,
     buildLeaderboard(
@@ -457,8 +533,72 @@ function assembleArtifacts(runId: string): void {
         nonScoringBanner: verdict.nonScoringBanner,
       },
     ),
+    publicationGrant,
   );
-  writeAnalysis(runId, analyzeRun(runId, qs, responses, scores));
+}
+
+/**
+ * Build the baseline used by reader atomicity tests through the production
+ * derivation, lifecycle and publication writers.
+ *
+ * The negative test mutates this one valid release after `setCurrentRun` has
+ * produced the exact full artifact pin set. That keeps a missing companion
+ * from being mistaken for the behavior under test.
+ */
+function buildProductionReleaseFixture(): ReturnType<typeof setCurrentRun> {
+  seedManifest(RUN);
+  assembleArtifacts(RUN);
+
+  useIsolatedGitForRelease();
+  commitScratchRun(RUN, 'reader fixture source');
+  const derivation = deriveRun({
+    sourceRunId: RUN,
+    targetRunId: PUBLISHED,
+    reason: 'reader atomicity fixture',
+    now: new Date('2026-07-31T00:00:00Z'),
+  });
+
+  const manifest = seedManifest(PUBLISHED, {
+    ...PUBLIC_RELEASE,
+    parentArtifacts: [RUN],
+  });
+  assembleArtifacts(PUBLISHED, true, derivation.record.derivedFrom);
+  registerRun({
+    runId: PUBLISHED,
+    manifest,
+    actor: 'jordan',
+    evidence: 'reader fixture registered',
+  });
+  transitionRun({
+    runId: PUBLISHED,
+    to: 'audited',
+    actor: 'jordan',
+    evidence: 'reader fixture audited',
+  });
+
+  commitScratchRun(PUBLISHED, 'audited reader fixture');
+  const preRelease = buildReleaseChecklist(PUBLISHED);
+  expect(preRelease.items.filter((item) => item.verdict !== 'pass')).toEqual([]);
+  transitionRun({
+    runId: PUBLISHED,
+    to: 'released',
+    actor: 'jordan',
+    evidence: 'reader fixture released',
+    now: new Date('2026-07-31T00:00:00Z'),
+  });
+  commitScratchRun(PUBLISHED, 'released reader fixture');
+
+  const pointer = setCurrentRun({
+    runId: PUBLISHED,
+    reviewedBy: 'jordan',
+    reviewEvidence: 'reviewed the complete reader fixture',
+    now: new Date('2026-07-31T00:00:00Z'),
+  });
+  expect(pointer.artifacts.map((artifact) => artifact.file).sort()).toEqual(
+    [...PUBLISHED_ARTIFACTS].sort(),
+  );
+  expect(readCurrentRun().runId).toBe(PUBLISHED);
+  return pointer;
 }
 
 /** The thrown refusal, or a loud failure. Never `expect(...).toThrow()` alone. */
@@ -683,70 +823,83 @@ describe('WP-0 lifecycle, end to end and offline', () => {
     // -- 12. THE RELEASE ARTIFACT ------------------------------------------
     //
     // A separate run, because no permit kind may both buy inference and bind a
-    // public-release manifest (see the header). In production these bytes
-    // arrive by derivation from a rank-eligible pilot.
-    const published = seedManifest(PUBLISHED, PUBLIC_RELEASE);
+    // public-release manifest (see the header). Commit the executed source to a
+    // real isolated HEAD, then cross that boundary through the production
+    // derivation writer. Its copied responses retain RUN as their origin.
+    useIsolatedGitForRelease();
+    commitScratchRun(RUN, 'executed source for public derivation');
+    const derivation = deriveRun({
+      sourceRunId: RUN,
+      targetRunId: PUBLISHED,
+      reason: 'offline lifecycle acceptance release',
+      now: new Date('2026-07-31T00:00:00Z'),
+    });
+    expect(derivation.record.derivedFrom.runId).toBe(RUN);
+    expect(derivation.record.responses).toHaveLength(ITEMS.length);
+
+    const published = seedManifest(PUBLISHED, { ...PUBLIC_RELEASE, parentArtifacts: [RUN] });
     const publishedHash = manifestHash(published);
-    assembleArtifacts(PUBLISHED);
+    assembleArtifacts(PUBLISHED, true, derivation.record.derivedFrom);
     registerRun({ runId: PUBLISHED, manifest: published, actor: 'jordan', evidence: 'acceptance test' });
     transitionRun({ runId: PUBLISHED, to: 'audited', actor: 'jordan', evidence: 'audited the board' });
 
+    // The production gate resolves this exact directory in git's HEAD. Use a
+    // real, isolated git database over the real work-tree bytes: no mock, no
+    // hand-written committed verdict, and no mutation of this checkout's HEAD.
+    commitScratchRun(PUBLISHED, 'audited public-release candidate');
     const checklist = buildReleaseChecklist(PUBLISHED);
     const failures = checklist.items.filter((i) => i.verdict !== 'pass');
-    // THE HONEST BOUNDARY OF THIS TEST. Thirteen of the fourteen checks pass on
-    // evidence this test actually produced. The fourteenth resolves the run
-    // directory in git's HEAD, and a scratch run is untracked by design — so
-    // the release WRITER stops here, correctly, and the stages below are proved
-    // through the readers against the register the writer would have produced.
-    expect(failures.map((f) => f.id)).toEqual(['artifacts-committed']);
-    expect(failures[0]!.detail).toMatch(/uncommitted change|committed tree/);
-    const releaseAttempt = refusal(() =>
-      transitionRun({ runId: PUBLISHED, to: 'released', actor: 'jordan', evidence: 'ship it' }),
-    );
-    expect(releaseAttempt.code).toBe('CHECKLIST_INCOMPLETE');
-    expect(releaseAttempt.message).toMatch(/artifacts-committed/);
+    expect(failures).toEqual([]);
+    const releaseInput = {
+      runId: PUBLISHED,
+      to: 'released',
+      actor: 'jordan',
+      evidence: 'all fixed checks reviewed; ship it',
+      now: new Date('2026-07-31T00:00:00Z'),
+    } as const;
+
+    // The immutable marker must land before the register says released. A
+    // planted leaf link makes that final run-scoped write fail; the register
+    // must remain audited, never released-but-writable.
+    const markerPath = join(RUNS_DIR, PUBLISHED, 'RELEASED');
+    const outsideMarker = join(scratch, 'outside-release-marker');
+    writeFileSync(outsideMarker, 'must stay untouched');
+    symlinkSync(outsideMarker, markerPath);
+    commitScratchRun(PUBLISHED, 'plant failing release-marker leaf');
+    expect(() => transitionRun(releaseInput)).toThrow(/historical|symlink/i);
     expect(runState(PUBLISHED)).toBe('audited');
-    expect(existsSync(join(RUNS_DIR, PUBLISHED, 'RELEASED'))).toBe(false);
-    // The check is not unsatisfiable in principle, only here: on a committed
-    // run directory the same evidence gatherer passes it.
-    const committed = buildReleaseChecklist(HISTORICAL).items.find((i) => i.id === 'artifacts-committed');
-    expect(committed?.verdict).toBe('pass');
+    expect(readFileSync(outsideMarker, 'utf8')).toBe('must stay untouched');
+    rmSync(markerPath);
+    commitScratchRun(PUBLISHED, 'remove failing release-marker leaf');
+
+    const release = transitionRun(releaseInput);
+    expect(release.checklist?.complete).toBe(true);
+    expect(runState(PUBLISHED)).toBe('released');
+    expect(existsSync(join(RUNS_DIR, PUBLISHED, 'RELEASED'))).toBe(true);
+
+    // Releasing records the decision, lifecycle transition and immutable marker
+    // in the run. Commit that final envelope before asking the current-pointer
+    // writer to re-evaluate the evidence it is about to expose publicly.
+    commitScratchRun(PUBLISHED, 'released public artifact');
+    const releasedChecklist = buildReleaseChecklist(PUBLISHED);
+    expect(releasedChecklist.complete).toBe(true);
+    expect(releasedChecklist.items.find((i) => i.id === 'lifecycle-audited')).toMatchObject({
+      verdict: 'pass',
+    });
 
     // -- 13. THE EXPLICIT PUBLIC-RELEASE POINTER ---------------------------
     //
-    // Written as a fixture in exactly the shape `setCurrentRun` produces,
-    // because `setCurrentRun` rebuilds the same checklist and refuses for the
-    // same git reason. What is under test from here down is the READER, which
-    // is the half that atomicity depends on.
-    writeReleaseChecklist(PUBLISHED, checklist);
-    const pointer = {
+    // This is the production writer. Its inputs identify the reviewer and the
+    // evidence; they do not supply a lifecycle state, checklist or artifact
+    // digest. Those are rebuilt and pinned from the released run.
+    const pointer = setCurrentRun({
       runId: PUBLISHED,
-      manifestHash: publishedHash,
       reviewedBy: 'jordan',
-      reviewedAt: '2026-07-31T00:00:00Z',
       reviewEvidence: 'read the board, the analysis and the checklist',
-      checklistDigest: sha256Hex(canonicalJson(checklist)),
-      artifacts: PUBLISHED_ARTIFACTS.map((file) => ({
-        file,
-        sha256: sha256Hex(readFileSync(join(RUNS_DIR, PUBLISHED, file), 'utf8')),
-      })),
-    };
-    writeFileSync(
-      join(RUNS_DIR, REGISTER),
-      JSON.stringify({
-        registerVersion: 1,
-        entries: {
-          [PUBLISHED]: {
-            runId: PUBLISHED,
-            state: 'released',
-            manifestHash: publishedHash,
-            updatedAt: '2026-07-31T00:00:00Z',
-            history: [],
-          },
-        },
-        currentRun: pointer,
-      }),
-    );
+      now: new Date('2026-07-31T00:00:00Z'),
+    });
+    expect(pointer.manifestHash).toBe(publishedHash);
+    expect(pointer.reviewedBy).toBe('jordan');
 
     // -- 14. THE READ PATH SERVES IT ---------------------------------------
     const current = readCurrentRun();
@@ -760,7 +913,11 @@ describe('WP-0 lifecycle, end to end and offline', () => {
     tempTrees.push(tree);
     mkdirSync(join(tree, PUBLISHED), { recursive: true });
     for (const file of PUBLISHED_ARTIFACTS) {
-      writeFileSync(join(tree, PUBLISHED, file), readFileSync(join(RUNS_DIR, PUBLISHED, file)));
+      if (file === 'responses') {
+        cpSync(join(RUNS_DIR, PUBLISHED, file), join(tree, PUBLISHED, file), { recursive: true });
+      } else {
+        writeFileSync(join(tree, PUBLISHED, file), readFileSync(join(RUNS_DIR, PUBLISHED, file)));
+      }
     }
     writeFileSync(
       join(tree, 'REGISTER.json'),
@@ -934,11 +1091,9 @@ describe('6 — a changed methodology version refuses', () => {
 
     // Approval was given against a specific protocol revision, and the permit
     // names its digest. A different frozen methodology is a different approval.
+    const methodologyManifest = seedManifest(OTHER);
     const wrongMethodology = refusal(() =>
-      verifyPermitFile(fixture('expired-probe.permit.json'), {
-        manifest: fixtureBinding().manifest,
-        expectedMethodologyHash: sha256Hex('some other methodology'),
-      }),
+      grantFor(methodologyManifest, { methodologyHash: sha256Hex('some other methodology') }),
     );
     expect(wrongMethodology.code).toBe('PERMIT_METHODOLOGY_MISMATCH');
   });
@@ -965,9 +1120,16 @@ describe('7 — a permit issued for another run refuses', () => {
 
     // Publication compared these nowhere before RELEASE-002: an approval for
     // one run was spendable on another.
-    seedManifest(OTHER, PUBLIC_RELEASE);
+    const otherManifest = seedManifest(OTHER, PUBLIC_RELEASE);
+    const otherPublicationGrant = mintTestGrant({
+      permitId: 'permit-publish-other-run',
+      kind: 'publication',
+      capabilities: ['publication'],
+      runId: OTHER,
+      manifest: otherManifest,
+    });
     const published = refusal(() =>
-      assertPublicationAllowed('public', { requestedRunId: OTHER, permitRunId: RUN }),
+      assertPublicationAllowed('public', { requestedRunId: RUN, grant: otherPublicationGrant }),
     );
     expect(published.code).toBe('RUN_IDENTITY_MISMATCH');
     expect(published.message).toMatch(/run identity disagrees/);
@@ -988,14 +1150,14 @@ describe('8 — expired authority refuses', () => {
 
     // Mid-run expiry. A run takes hours; verifying once at start-up and then
     // trusting the object means a permit that expires keeps spending.
-    let now = new Date('2026-07-31T00:00:00Z');
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-07-31T00:00:00Z'));
     const grant = grantFor(
       seedManifest(RUN),
       { notAfter: '2026-08-01T00:00:00Z' },
-      () => now,
     );
     expect(assertGrantStillValid(grant, 'before expiry')).toBe(grant);
-    now = new Date('2026-08-02T00:00:00Z');
+    vi.setSystemTime(new Date('2026-08-02T00:00:00Z'));
     const expired = refusal(() => assertGrantStillValid(grant, 'after expiry'));
     expect(expired.code).toBe('PERMIT_EXPIRED');
     expect(expired.message).toMatch(/may not outlive its permit/);
@@ -1026,10 +1188,11 @@ describe('9 — revoked authority refuses', () => {
 
     // Withdrawn while the grant is still in hand. A check that ran only at load
     // time would never see this.
-    writeFileSync(revocationListPath, JSON.stringify({ permitIds: [grant.permitId] }));
-    const revoked = refusal(() => assertGrantStillValid(grant, 'next call'));
-    expect(revoked.code).toBe('PERMIT_REVOKED');
-    expect(revoked.message).toMatch(/at the moment authority is exercised/);
+    await withTemporarilyRevokedPermit(grant.permitId, () => {
+      const revoked = refusal(() => assertGrantStillValid(grant, 'next call'));
+      expect(revoked.code).toBe('PERMIT_REVOKED');
+      expect(revoked.message).toMatch(/at the moment authority is exercised/);
+    });
   });
 });
 
@@ -1037,17 +1200,18 @@ describe('10 — a missing trust input, and a caller choosing its own, refuse', 
   it('refuses an injected keyring, clock or revocation source rather than ignoring it', () => {
     const manifest = seedManifest(RUN);
     const envelope = signedPermit(manifest);
-    const base = { signedPermit: envelope, manifest, expectedMethodologyHash: E2E_METHODOLOGY_HASH };
+    const base = { signedPermit: envelope, manifest };
 
     // THE recorded RUN-001 bypass. A caller that can name the keyring can point
     // it at a key it just minted; every later check then passes honestly
     // against inputs the caller chose.
     for (const injected of [
-      { keyringDir },
-      { revocationListPath },
+      { keyringDir: join(scratch, 'attacker-keys') },
+      { revocationListPath: join(scratch, 'attacker-revoked.json') },
+      { expectedMethodologyHash: E2E_METHODOLOGY_HASH },
       { now: new Date('2020-01-01T00:00:00Z') },
       { clock: () => new Date() },
-      { trustRoot: { keyringDir } },
+      { trustRoot: { keyringDir: join(scratch, 'attacker-keys') } },
     ]) {
       const refused = refusal(() => verifyPermit({ ...base, ...injected } as never));
       expect(refused.code).toBe('PERMIT_TRUST_INPUT_REJECTED');
@@ -1058,24 +1222,16 @@ describe('10 — a missing trust input, and a caller choosing its own, refuse', 
 
     // Own keys are not the only way in. `Object.create` hides the property on
     // the prototype chain, where a plain own-key check would miss it.
-    const smuggled = Object.create({ keyringDir }) as Record<string, unknown>;
+    const smuggled = Object.create({ keyringDir: join(scratch, 'attacker-keys') }) as Record<string, unknown>;
     Object.assign(smuggled, base);
     expect(refusal(() => verifyPermit(smuggled as never)).code).toBe('PERMIT_TRUST_INPUT_REJECTED');
 
-    // A MISSING trust input is also a refusal: the frozen methodology digest is
-    // not optional, and an unstated one is not a matching one.
-    const missing = refusal(() =>
-      verifyPermitFile(fixture('expired-probe.permit.json'), {
-        manifest: fixtureBinding().manifest,
-      } as never),
+    // No methodology input is accepted or required: production derives it
+    // from the fixed plan and checksum, then reaches this fixture's expiry.
+    expect(refusal(() => verifyPermitFile(fixture('expired-probe.permit.json'), fixtureBinding())).code).toBe(
+      'PERMIT_EXPIRED',
     );
-    expect(missing.code).toBe('PERMIT_MALFORMED');
-    expect(missing.message).toMatch(/requires expectedMethodologyHash/);
 
-    // An absent revocation list is an UNKNOWN revocation state, which is not
-    // "nothing is revoked".
-    rmSync(revocationListPath);
-    expect(refusal(() => grantFor(manifest)).code).toBe('PERMIT_REVOCATION_UNAVAILABLE');
   });
 
   it('closes the substitution seams outside a test process', () => {
@@ -1271,16 +1427,23 @@ describe('15 — unapproved publication refuses', () => {
   it('refuses an unregistered run, an unreleased run, and a permit without the capability', () => {
     const manifest = seedManifest(PUBLISHED, PUBLIC_RELEASE);
     assembleArtifacts(PUBLISHED);
+    const publicGrant = mintTestGrant({
+      permitId: 'permit-publish-unapproved',
+      kind: 'publication',
+      capabilities: ['publication'],
+      runId: PUBLISHED,
+      manifest,
+    });
 
     // A publishable CLASS is not an approval. Nothing has been reviewed.
     const unregistered = refusal(() =>
-      assertPublicationAllowed('public', { requestedRunId: PUBLISHED, permitRunId: PUBLISHED }),
+      assertPublicationAllowed('public', { requestedRunId: PUBLISHED, grant: publicGrant }),
     );
     expect(unregistered.code).toBe('RUN_NOT_REGISTERED');
 
     registerRun({ runId: PUBLISHED, manifest, actor: 'jordan', evidence: 'acceptance test' });
     const draftState = refusal(() =>
-      assertPublicationAllowed('public', { requestedRunId: PUBLISHED, permitRunId: PUBLISHED }),
+      assertPublicationAllowed('public', { requestedRunId: PUBLISHED, grant: publicGrant }),
     );
     expect(draftState.code).toBe('NOT_RELEASED');
 
@@ -1319,45 +1482,24 @@ describe('15 — unapproved publication refuses', () => {
 
 describe('16 — partial publication refuses: no reader sees a mixed version', () => {
   it('refuses a changed, missing or unpinned artifact under a live pointer', () => {
-    const manifest = seedManifest(PUBLISHED, PUBLIC_RELEASE);
-    assembleArtifacts(PUBLISHED);
-    const checklist = buildReleaseChecklist(PUBLISHED);
-    writeReleaseChecklist(PUBLISHED, checklist);
-    const hash = manifestHash(manifest);
+    const pointer = buildProductionReleaseFixture();
+    const registerPath = join(RUNS_DIR, REGISTER);
+    const baselineRegister = JSON.parse(readFileSync(registerPath, 'utf8')) as {
+      currentRun: typeof pointer;
+      [key: string]: unknown;
+    };
 
     const registerWith = (artifacts: Array<{ file: string; sha256: string }>): void => {
       writeFileSync(
-        join(RUNS_DIR, REGISTER),
+        registerPath,
         JSON.stringify({
-          registerVersion: 1,
-          entries: {
-            [PUBLISHED]: {
-              runId: PUBLISHED,
-              state: 'released',
-              manifestHash: hash,
-              updatedAt: '2026-07-31T00:00:00Z',
-              history: [],
-            },
-          },
-          currentRun: {
-            runId: PUBLISHED,
-            manifestHash: hash,
-            reviewedBy: 'jordan',
-            reviewedAt: '2026-07-31T00:00:00Z',
-            reviewEvidence: 'read the board and the analysis',
-            checklistDigest: sha256Hex(canonicalJson(checklist)),
-            artifacts,
-          },
+          ...baselineRegister,
+          currentRun: { ...pointer, artifacts },
         }),
       );
     };
-    const pin = (file: string) => ({
-      file,
-      sha256: sha256Hex(readFileSync(join(RUNS_DIR, PUBLISHED, file), 'utf8')),
-    });
 
-    // The whole set pinned: the reader resolves it.
-    registerWith(PUBLISHED_ARTIFACTS.map(pin));
+    // The production writer pinned the whole set and the reader resolves it.
     expect(readCurrentRun().runId).toBe(PUBLISHED);
 
     // Half a release: one approved artifact has gone. Serving the rest would be
@@ -1369,6 +1511,27 @@ describe('16 — partial publication refuses: no reader sees a mixed version', (
     expect(missing.code).toBe('ARTIFACT_MISSING');
     expect(missing.message).toMatch(/no longer present/);
     writeFileSync(analysisPath, analysisBytes);
+    expect(readCurrentRun().runId).toBe(PUBLISHED);
+
+    // The response directory is one pinned set, not an unbounded collection of
+    // individually trusted filenames. Changing one answer, removing one, or
+    // adding a copied answer all change the set commitment.
+    const responseDir = join(RUNS_DIR, PUBLISHED, 'responses');
+    const responseName = readdirSync(responseDir).sort()[0]!;
+    const responsePath = join(responseDir, responseName);
+    const responseBytes = readFileSync(responsePath);
+    writeFileSync(responsePath, Buffer.concat([responseBytes, Buffer.from('\n')]));
+    expect(refusal(() => readCurrentRun()).code).toBe('ARTIFACT_CHANGED');
+    writeFileSync(responsePath, responseBytes);
+
+    rmSync(responsePath);
+    expect(refusal(() => readCurrentRun()).code).toBe('ARTIFACT_CHANGED');
+    writeFileSync(responsePath, responseBytes);
+
+    const copied = join(responseDir, 'copied-extra.json');
+    writeFileSync(copied, responseBytes);
+    expect(refusal(() => readCurrentRun()).code).toBe('ARTIFACT_CHANGED');
+    rmSync(copied);
     expect(readCurrentRun().runId).toBe(PUBLISHED);
 
     // One file REPLACED under a live pointer. The artifacts are written one at
@@ -1448,27 +1611,10 @@ describe('17 — modifying the frozen historical corpus refuses', () => {
 // Recorded here rather than left for a reader to discover, because a lifecycle
 // test that LOOKS complete is worth less than one that says where it stops.
 //
-//  1. `transitionRun(to: 'released')` never succeeds anywhere in this file. The
-//     fixed checklist's `artifacts-committed` item resolves the run directory in
-//     git's HEAD, and a scratch run is untracked by construction. Thirteen of
-//     the fourteen checks are proved green on evidence this file produced, the
-//     fourteenth is proved to fail for exactly that reason, and the same check
-//     is proved to PASS on a committed run — so the gap is the test's, not the
-//     gate's. Stubbing git to get past it would turn a true refusal into a false
-//     release, which is the one outcome worth less than an incomplete test.
-//  2. Consequently the RELEASED marker, `setCurrentRun` as a writer, and the
-//     register entry moving to 'released' are exercised only as refusals. The
-//     released-artifact, pointer and read-path stages are proved through the
-//     real readers (`readCurrentRun`, `resolveApprovedRelease`) against a
-//     register fixture written in the exact shape `setCurrentRun` produces.
-//  3. `deriveRun` — the lineage edge by which an executed pilot's answers
-//     legitimately become a public-release artifact — requires the source run to
-//     be committed for the same reason, and is not exercised. That is why the
-//     executed run and the published run are two runs here.
-//  4. Nothing in this file proves the pipeline COMMANDS (`bench run`,
+//  1. Nothing in this file proves the pipeline COMMANDS (`bench run`,
 //     `bench judge`, `bench report`) call these boundaries. It proves the
 //     boundaries hold when they are called. `cli.ts` wiring is a separate claim
 //     and needs its own test.
-//  5. No real provider, database or key is contacted, so provider-side
+//  2. No real provider, database or key is contacted, so provider-side
 //     behaviour — the actual billing of a retained 502, a genuine content
 //     filter — is modelled, not observed.

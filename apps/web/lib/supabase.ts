@@ -1,18 +1,15 @@
 import type { TasteVoteRecord } from '@cookingbench/core';
 
-// Anonymous, RLS-protected Supabase access for the taste test. These values
-// are public by design (publishable key + RLS policies allow only voting and
-// reading tallies); env vars override for other deployments.
-const SUPABASE_URL =
-  process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'https://nvdkhatenkjmbyudwbgm.supabase.co';
-const SUPABASE_KEY =
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? 'sb_publishable_oM34s0Y3Lxysr5oDF0fx7g_ODj-49o3';
-
-const HEADERS = {
-  apikey: SUPABASE_KEY,
-  Authorization: `Bearer ${SUPABASE_KEY}`,
-  'Content-Type': 'application/json',
-};
+/**
+ * WP-0 compatibility boundary for the former anonymous Supabase routes.
+ *
+ * This no-live-data branch has no shared permit or authority boundary for
+ * browser reads or writes. Keeping anonymous transport here would therefore
+ * describe an operation as authorised when only its destination was fixed.
+ * The public functions remain so existing UI callers fail honestly, but every
+ * one returns its existing unavailable/refused sentinel before any transport
+ * can be constructed.
+ */
 
 export interface TasteVote {
   run_id: string;
@@ -27,17 +24,8 @@ export interface TasteVote {
 }
 
 export async function castTasteVote(vote: TasteVote): Promise<boolean> {
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/taste_votes`, {
-      method: 'POST',
-      headers: HEADERS,
-      body: JSON.stringify(vote),
-      cache: 'no-store',
-    });
-    return res.ok;
-  } catch {
-    return false;
-  }
+  void vote;
+  return false;
 }
 
 export interface TasteWinrate {
@@ -47,49 +35,17 @@ export interface TasteWinrate {
 }
 
 /**
- * Every vote ever cast, oldest first, for the Bradley-Terry taste board.
- * Paginated because PostgREST caps responses at 1000 rows.
+ * Compatibility refusal for the former live ballot reader.
  *
- * Reads `taste_ballots` (migration 0005), which exposes only the columns the
- * fit needs — session_id and vote_ms stay server-side rather than being
- * world-readable through the publishable key.
+ * `null` means live ballot evidence is unavailable. It must not be confused
+ * with an empty, successfully read ballot set.
  */
 export async function getAllTasteVotes(): Promise<TasteVoteRecord[] | null> {
-  const pageSize = 1000;
-  const votes: TasteVoteRecord[] = [];
-  try {
-    for (let page = 0; ; page++) {
-      const from = page * pageSize;
-      const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/taste_ballots?select=*&order=created_at.asc,id.asc`,
-        {
-          headers: { ...HEADERS, Range: `${from}-${from + pageSize - 1}` },
-          next: { revalidate: 60 },
-        },
-      );
-      if (!res.ok) return null;
-      const rows = (await res.json()) as TasteVoteRecord[];
-      votes.push(...rows);
-      if (rows.length < pageSize) break;
-    }
-    return votes;
-  } catch {
-    return null;
-  }
+  return null;
 }
 
 export async function getTasteWinrates(): Promise<TasteWinrate[] | null> {
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/taste_winrates?select=*`, {
-      headers: HEADERS,
-      next: { revalidate: 60 },
-    });
-    if (!res.ok) return null;
-    const rows = (await res.json()) as TasteWinrate[];
-    return rows.length > 0 ? rows : null;
-  } catch {
-    return null;
-  }
+  return null;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -97,14 +53,11 @@ export async function getTasteWinrates(): Promise<TasteWinrate[] | null> {
 /* -------------------------------------------------------------------------- */
 
 /**
- * The wire shape of a v3 ballot: snake_case, exactly the columns of
- * `taste_flight_ballots`, with no client-settable `evidence_class` or `cohort`.
+ * Retained v3 ballot shape for callers of the compatibility refusal.
  *
- * Both are omitted ON PURPOSE. The table defaults them to `development` and
- * `public`, and the RLS policy rejects any anonymous insert that sets them to
- * anything else. Leaving them out of the type means a future caller cannot
- * even express the attempt — the firewall is enforced in three places because
- * two of them are code and code gets edited.
+ * It deliberately cannot express evidence_class or cohort. That preserves the
+ * old call contract, but it is not presented as an authority boundary: this
+ * module transmits no ballot on the WP-0 no-live-data branch.
  */
 export interface FlightBallotInsert {
   flight_id: string;
@@ -126,61 +79,26 @@ export interface FlightBallotInsert {
 export type CastOutcome = 'saved' | 'duplicate' | 'rejected' | 'unreachable';
 
 /**
- * Record one ballot.
+ * Compatibility refusal for the former live flight-ballot writer.
  *
- * The three failure modes are kept apart because the UI must treat them
- * differently. `duplicate` means the nonce or the (flight, round) pair is
- * already on the books — the vote IS recorded, so retrying would be wrong and
- * the flight should move on. `rejected` means the database refused the row and
- * a retry will refuse it identically. Only `unreachable` is worth retrying, and
- * that is the one the duel's original pending/error/retry loop was built for.
- * Collapsing them into a boolean is how a recorded vote comes to look lost, and
- * a permanently-refused vote comes to look retryable.
+ * `unreachable` preserves the caller contract without implying that a ballot
+ * was saved, duplicated or inspected by a live service.
  */
 export async function castFlightBallot(ballot: FlightBallotInsert): Promise<CastOutcome> {
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/taste_flight_ballots`, {
-      method: 'POST',
-      headers: { ...HEADERS, Prefer: 'return=minimal' },
-      body: JSON.stringify(ballot),
-      cache: 'no-store',
-    });
-    if (res.ok) return 'saved';
-    // 409 is the unique index on ballot_nonce or on (flight_id, round).
-    if (res.status === 409) return 'duplicate';
-    if (res.status >= 400 && res.status < 500) return 'rejected';
-    return 'unreachable';
-  } catch {
-    return 'unreachable';
-  }
+  void ballot;
+  return 'unreachable';
 }
 
 /**
- * Attach the bounded post-vote reason to an already-recorded ballot.
- *
- * A separate append-only row rather than an update, so the ballot record itself
- * stays immutable to anon. `reason_index` — not text — because a public,
- * writable string column on a page that renders it is how forged model ids
- * reached the v2 taste board.
+ * Compatibility refusal for the former live ballot-reason writer.
  */
 export async function castBallotReason(
   ballotNonce: string,
   reasonIndex: number,
 ): Promise<CastOutcome> {
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/taste_ballot_reasons`, {
-      method: 'POST',
-      headers: { ...HEADERS, Prefer: 'return=minimal' },
-      body: JSON.stringify({ ballot_nonce: ballotNonce, reason_index: reasonIndex }),
-      cache: 'no-store',
-    });
-    if (res.ok) return 'saved';
-    if (res.status === 409) return 'duplicate';
-    if (res.status >= 400 && res.status < 500) return 'rejected';
-    return 'unreachable';
-  } catch {
-    return 'unreachable';
-  }
+  void ballotNonce;
+  void reasonIndex;
+  return 'unreachable';
 }
 
 /** A row of `taste_flight_reads` — the view, so no session_id and no dwell. */
@@ -203,36 +121,8 @@ export interface FlightBallotRead {
 }
 
 /**
- * Every v3 ballot, oldest first. Paginated because PostgREST caps at 1000.
- *
- * Returns null on ANY failure, including a partial read. A truncated ballot set
- * silently produces a different Bradley-Terry fit rather than an error, and the
- * board would render it without a word — so a page that cannot get all of it
- * gets none of it.
+ * Compatibility refusal for the former live flight-ballot reader.
  */
 export async function getFlightBallots(): Promise<FlightBallotRead[] | null> {
-  const pageSize = 1000;
-  const rows: FlightBallotRead[] = [];
-  try {
-    for (let page = 0; ; page++) {
-      const from = page * pageSize;
-      const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/taste_flight_reads?select=*&order=created_at.asc,id.asc`,
-        {
-          headers: { ...HEADERS, Range: `${from}-${from + pageSize - 1}` },
-          next: { revalidate: 60 },
-        },
-      );
-      if (!res.ok) return null;
-      const batch = (await res.json()) as FlightBallotRead[];
-      rows.push(...batch);
-      if (batch.length < pageSize) break;
-      // A bank large enough to hit this is a different problem; refusing beats
-      // looping forever against a misbehaving endpoint.
-      if (page > 200) return null;
-    }
-    return rows;
-  } catch {
-    return null;
-  }
+  return null;
 }

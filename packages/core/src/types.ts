@@ -281,6 +281,8 @@ export interface ModelEntry {
   provider: string;
   /** Model family for same-family version comparisons, e.g. "gemini-pro". */
   family?: string;
+  /** Underlying trained-model identity used for judge conflict exclusion. */
+  baseModel: string;
   releaseDate?: string;
   active: boolean;
 }

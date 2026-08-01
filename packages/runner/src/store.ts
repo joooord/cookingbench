@@ -22,11 +22,21 @@ import {
   readRunFile,
   readRunFileOrNull,
   readRunJsonEntries,
+  recordProvenance,
   resolveRunDir,
   resolveRunFile,
   writeRunFileAtomic,
 } from './firewall.js';
-import { ManifestError, computeContentDigest, readRunManifest, type PromptSettings } from './manifest.js';
+import {
+  DIGEST_VERSION,
+  ManifestError,
+  assertArtifactWriteAllowed,
+  computeContentDigest,
+  readRunDigest,
+  readRunManifest,
+  readRunManifestHash,
+  type PromptSettings,
+} from './manifest.js';
 import { manifestHash, sha256Hex } from './permit.js';
 
 /**
@@ -161,7 +171,9 @@ export type ProtocolErrorCode =
   | 'PROTOCOL_UNCOMPUTABLE'
   | 'ANSWER_ALREADY_STORED'
   | 'ATTEMPT_ALREADY_SETTLED'
+  | 'ATTEMPT_COORDINATE_MISMATCH'
   | 'ATTEMPT_UNREADABLE'
+  | 'ATTEMPT_MANIFEST_MISMATCH'
   | 'UNKNOWN_ATTEMPT_CAUSE';
 
 export class ProtocolViolationError extends Error {
@@ -805,6 +817,10 @@ export interface AttemptCoordinate {
 }
 
 export interface AttemptRecord extends AttemptCoordinate {
+  /** Schema identity. A new shape is never interpreted as the old one. */
+  recordVersion: 1;
+  /** Exact identity of the stored run manifest when this record was opened. */
+  manifestHash: string;
   retryId: string;
   openedAtIso: string;
   settledAtIso: string | null;
@@ -812,9 +828,303 @@ export interface AttemptRecord extends AttemptCoordinate {
   costUsd: number | null;
   /** Content identity of the answer this attempt produced, when it produced one. */
   answerHash: string | null;
+  /** Detects accidental or partial edits to any field above. */
+  recordHash: string;
 }
 
 const ATTEMPT_DIR = 'attempts';
+const ATTEMPT_RECORD_VERSION = 1 as const;
+const SHA256_RE = /^[a-f0-9]{64}$/;
+const ATTEMPT_RECORD_KEYS = [
+  'recordVersion',
+  'manifestHash',
+  'runId',
+  'modelId',
+  'questionId',
+  'cause',
+  'retryId',
+  'openedAtIso',
+  'settledAtIso',
+  'costUsd',
+  'answerHash',
+  'recordHash',
+] as const;
+
+type UnsealedAttemptRecord = Omit<AttemptRecord, 'recordHash'>;
+
+function attemptRecordHash(record: UnsealedAttemptRecord): string {
+  return digest('cookingbench/attempt-record', ATTEMPT_RECORD_VERSION, record);
+}
+
+function sealAttemptRecord(record: UnsealedAttemptRecord): AttemptRecord {
+  return { ...record, recordHash: attemptRecordHash(record) };
+}
+
+interface AttemptManifestContext {
+  hash: string;
+  candidateModels: ReadonlySet<string>;
+  itemIds: ReadonlySet<string>;
+}
+
+function manifestSetDigest(kind: string, digestVersion: number, payload: unknown): string {
+  return sha256Hex(canonicalJson({ kind, digestVersion, payload }));
+}
+
+function assertAttemptDigestBacksManifest(
+  runId: string,
+  stored: ReturnType<typeof readRunManifest>,
+  content: ReturnType<typeof readRunDigest>,
+): void {
+  const ids = content.itemIds;
+  const sortedIds = [...ids].sort();
+  const itemKeys = Object.keys(content.items).sort();
+  if (
+    content.digestVersion !== DIGEST_VERSION ||
+    ids.length === 0 ||
+    new Set(ids).size !== ids.length ||
+    canonicalJson(ids) !== canonicalJson(sortedIds) ||
+    canonicalJson(ids) !== canonicalJson(itemKeys)
+  ) {
+    throw new ProtocolViolationError(
+      `Attempt journal for run ${runId} cannot use manifest-digest.json: its version/item index is empty, duplicated, unsorted or disagrees with items.`,
+      'ATTEMPT_MANIFEST_MISMATCH',
+    );
+  }
+  const bankPairs: Array<[string, string]> = [];
+  const promptPairs: Array<[string, string]> = [];
+  const judgePairs: Array<[string, string | null]> = [];
+  for (const id of ids) {
+    const item = (content.items as Record<string, unknown>)[id];
+    if (
+      !isPlainRecord(item) ||
+      typeof item.item !== 'string' ||
+      !SHA256_RE.test(item.item) ||
+      typeof item.prompt !== 'string' ||
+      !SHA256_RE.test(item.prompt) ||
+      (item.judgePrompt !== null &&
+        (typeof item.judgePrompt !== 'string' || !SHA256_RE.test(item.judgePrompt))) ||
+      (item.judgeMode !== null && typeof item.judgeMode !== 'string')
+    ) {
+      throw new ProtocolViolationError(
+        `Attempt journal for run ${runId} cannot use malformed digest entry ${id}.`,
+        'ATTEMPT_MANIFEST_MISMATCH',
+      );
+    }
+    bankPairs.push([id, item.item as string]);
+    promptPairs.push([id, item.prompt as string]);
+    judgePairs.push([id, item.judgePrompt as string | null]);
+  }
+  const recomputed = {
+    bankHash: manifestSetDigest('cookingbench/bank', content.digestVersion, bankPairs),
+    promptHash: manifestSetDigest('cookingbench/prompt-set', content.digestVersion, promptPairs),
+    judgePromptHash: manifestSetDigest('cookingbench/judge-prompt-set', content.digestVersion, judgePairs),
+  };
+  for (const field of ['bankHash', 'promptHash', 'judgePromptHash'] as const) {
+    if (content[field] !== recomputed[field] || content[field] !== stored[field]) {
+      throw new ProtocolViolationError(
+        `Attempt journal for run ${runId} cannot use ${field}: digest records ${content[field]}, recomputes ${recomputed[field]}, and manifest records ${stored[field]}.`,
+        'ATTEMPT_MANIFEST_MISMATCH',
+      );
+    }
+  }
+  if (content.validatorHash !== stored.validatorHash) {
+    throw new ProtocolViolationError(
+      `Attempt journal for run ${runId} cannot use validatorHash ${content.validatorHash}; manifest records ${stored.validatorHash}.`,
+      'ATTEMPT_MANIFEST_MISMATCH',
+    );
+  }
+}
+
+function currentAttemptManifestContext(runId: string): AttemptManifestContext {
+  try {
+    const stored = readRunManifest(runId);
+    const computed = manifestHash(stored);
+    const recorded = readRunManifestHash(runId);
+    if (recorded.state !== 'present' || recorded.hash !== computed) {
+      const identity =
+        recorded.state === 'absent'
+          ? 'absent'
+          : recorded.state === 'malformed'
+            ? `malformed (${JSON.stringify(recorded.raw)})`
+            : `${recorded.hash.slice(0, 12)}...`;
+      throw new ProtocolViolationError(
+        `Attempt journal for run ${runId} is bound to stored manifest ${computed.slice(0, 12)}... but its recorded manifest identity is ${identity}. Refusing to read or write spend evidence.`,
+        'ATTEMPT_MANIFEST_MISMATCH',
+      );
+    }
+    const digest = readRunDigest(runId);
+    assertAttemptDigestBacksManifest(runId, stored, digest);
+    return {
+      hash: computed,
+      candidateModels: new Set(stored.candidateRoutes.map((route) => route.modelId)),
+      itemIds: new Set(digest.itemIds),
+    };
+  } catch (e) {
+    if (e instanceof ProtocolViolationError) throw e;
+    if (e instanceof ManifestError) {
+      throw new ProtocolViolationError(
+        `Attempt journal for run ${runId} has no verifiable stored manifest (${e.code}: ${e.message}). Refusing to treat unbound records as spend evidence.`,
+        'ATTEMPT_MANIFEST_MISMATCH',
+      );
+    }
+    throw e;
+  }
+}
+
+function isPlainRecord(value: unknown): value is Record<string, unknown> {
+  if (typeof value !== 'object' || value === null || Array.isArray(value)) return false;
+  const prototype = Object.getPrototypeOf(value);
+  return prototype === Object.prototype || prototype === null;
+}
+
+function validIso(value: unknown): value is string {
+  return (
+    typeof value === 'string' &&
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(value) &&
+    Number.isFinite(Date.parse(value))
+  );
+}
+
+function unreadableAttempt(runId: string, filename: string, detail: string): never {
+  throw new ProtocolViolationError(
+    `Attempt record ${filename} in run ${runId} is not valid evidence (${detail}). Refusing the whole journal rather than treating it as absent or counting its spend.`,
+    'ATTEMPT_UNREADABLE',
+  );
+}
+
+function assertAttemptCoordinateBound(
+  coordinate: AttemptCoordinate,
+  context: AttemptManifestContext,
+  recordLabel: string,
+): void {
+  if (!context.candidateModels.has(coordinate.modelId) || !context.itemIds.has(coordinate.questionId)) {
+    throw new ProtocolViolationError(
+      `${recordLabel} names ${coordinate.modelId} x ${coordinate.questionId}, which is not a candidate cell in run ${coordinate.runId}'s stored manifest/digest. A copied or invented coordinate cannot suppress work or count spend.`,
+      'ATTEMPT_COORDINATE_MISMATCH',
+    );
+  }
+}
+
+/**
+ * Parse one durable attempt record at the production read boundary.
+ *
+ * This deliberately validates more than JSON shape. The filename, coordinate,
+ * deterministic retry id, run identity, stored manifest identity, state
+ * transition and content checksum must all tell the same story. A copied or
+ * partially edited record therefore poisons the read instead of either
+ * suppressing a purchase or manufacturing spend.
+ */
+function parseAttemptRecord(
+  runId: string,
+  filename: string,
+  value: unknown,
+  context: AttemptManifestContext,
+): AttemptRecord {
+  if (!isPlainRecord(value)) unreadableAttempt(runId, filename, 'record is not an object');
+  const keys = Object.keys(value).sort();
+  const expectedKeys = [...ATTEMPT_RECORD_KEYS].sort();
+  if (canonicalJson(keys) !== canonicalJson(expectedKeys)) {
+    unreadableAttempt(
+      runId,
+      filename,
+      `fields are [${keys.join(', ')}], expected exactly [${expectedKeys.join(', ')}]`,
+    );
+  }
+
+  if (value.recordVersion !== ATTEMPT_RECORD_VERSION) {
+    unreadableAttempt(runId, filename, `recordVersion is ${JSON.stringify(value.recordVersion)}`);
+  }
+  if (value.runId !== runId) {
+    unreadableAttempt(
+      runId,
+      filename,
+      `record claims run ${JSON.stringify(value.runId)} instead of ${JSON.stringify(runId)}`,
+    );
+  }
+  if (
+    typeof value.modelId !== 'string' ||
+    value.modelId === '' ||
+    value.modelId.length > 160 ||
+    value.modelId.includes('\0') ||
+    typeof value.questionId !== 'string' ||
+    value.questionId === '' ||
+    value.questionId.length > 160 ||
+    value.questionId.includes('/') ||
+    value.questionId.includes('\\') ||
+    value.questionId.includes('\0')
+  ) {
+    unreadableAttempt(runId, filename, 'model/question coordinate is malformed');
+  }
+  if (!(ATTEMPT_CAUSES as readonly unknown[]).includes(value.cause)) {
+    unreadableAttempt(runId, filename, `cause is ${JSON.stringify(value.cause)}`);
+  }
+  const coordinate: AttemptCoordinate = {
+    runId,
+    modelId: value.modelId,
+    questionId: value.questionId,
+    cause: value.cause as AttemptCause,
+  };
+  assertAttemptCoordinateBound(coordinate, context, `Attempt record ${filename}`);
+  const derivedRetryId = retryIdFor(coordinate);
+  if (value.retryId !== derivedRetryId) {
+    unreadableAttempt(
+      runId,
+      filename,
+      `retryId is ${JSON.stringify(value.retryId)}, but its coordinate derives ${derivedRetryId}`,
+    );
+  }
+  if (filename !== `${derivedRetryId}.json`) {
+    unreadableAttempt(
+      runId,
+      filename,
+      `filename does not match deterministic retry id ${derivedRetryId}`,
+    );
+  }
+  if (value.manifestHash !== context.hash || !SHA256_RE.test(String(value.manifestHash))) {
+    throw new ProtocolViolationError(
+      `Attempt ${derivedRetryId} in run ${runId} names manifest ${JSON.stringify(value.manifestHash)}, but the run currently stores ${context.hash}. A copied or stale record cannot count as this run's spend evidence.`,
+      'ATTEMPT_MANIFEST_MISMATCH',
+    );
+  }
+  if (!validIso(value.openedAtIso)) {
+    unreadableAttempt(runId, filename, `openedAtIso is ${JSON.stringify(value.openedAtIso)}`);
+  }
+  if (value.settledAtIso !== null && !validIso(value.settledAtIso)) {
+    unreadableAttempt(runId, filename, `settledAtIso is ${JSON.stringify(value.settledAtIso)}`);
+  }
+  if (
+    value.costUsd !== null &&
+    (typeof value.costUsd !== 'number' || !Number.isFinite(value.costUsd) || value.costUsd < 0)
+  ) {
+    unreadableAttempt(runId, filename, `costUsd is ${JSON.stringify(value.costUsd)}`);
+  }
+  if (value.answerHash !== null && (typeof value.answerHash !== 'string' || !SHA256_RE.test(value.answerHash))) {
+    unreadableAttempt(runId, filename, `answerHash is ${JSON.stringify(value.answerHash)}`);
+  }
+  if (value.settledAtIso === null) {
+    if (value.costUsd !== null || value.answerHash !== null) {
+      unreadableAttempt(runId, filename, 'an open record carries a cost or answer hash');
+    }
+  } else {
+    if (value.costUsd === null) unreadableAttempt(runId, filename, 'a settled record carries no cost');
+    if (Date.parse(value.settledAtIso) < Date.parse(value.openedAtIso)) {
+      unreadableAttempt(runId, filename, 'settlement predates opening');
+    }
+  }
+  if (typeof value.recordHash !== 'string' || !SHA256_RE.test(value.recordHash)) {
+    unreadableAttempt(runId, filename, `recordHash is ${JSON.stringify(value.recordHash)}`);
+  }
+  const { recordHash, ...unsealed } = value as unknown as AttemptRecord;
+  const recomputed = attemptRecordHash(unsealed);
+  if (recordHash !== recomputed) {
+    unreadableAttempt(
+      runId,
+      filename,
+      `recordHash ${recordHash.slice(0, 12)}... does not match recomputed ${recomputed.slice(0, 12)}...`,
+    );
+  }
+  return value as unknown as AttemptRecord;
+}
 
 /**
  * Deterministic attempt id.
@@ -858,6 +1168,19 @@ function attemptPath(runId: string, retryId: string): string {
   return resolveRunFile(runId, join(ATTEMPT_DIR, `${retryId}.json`), { write: true });
 }
 
+function assertAttemptDirectoryShape(runId: string): void {
+  const dir = resolveRunFile(runId, ATTEMPT_DIR, { write: false });
+  if (!existsSync(dir)) return;
+  const unexpected = readdirSync(dir).filter((name) => !name.endsWith('.json'));
+  if (unexpected.length > 0) {
+    unreadableAttempt(
+      runId,
+      unexpected[0]!,
+      `unexpected non-record entr${unexpected.length === 1 ? 'y' : 'ies'} [${unexpected.join(', ')}]`,
+    );
+  }
+}
+
 /**
  * Read one attempt record. Null means ABSENT; anything else that goes wrong
  * throws.
@@ -866,25 +1189,28 @@ function attemptPath(runId: string, retryId: string): string {
  * the one interpretation that licences a second charge for work already done,
  * and it is reachable by corrupting a single file.
  */
-function readAttempt(runId: string, retryId: string): AttemptRecord | null {
+function readAttempt(
+  runId: string,
+  retryId: string,
+  context?: AttemptManifestContext,
+): AttemptRecord | null {
   const path = resolveRunFile(runId, join(ATTEMPT_DIR, `${retryId}.json`), { write: false });
   if (!existsSync(path)) return null;
-  let parsed: AttemptRecord;
+  let parsed: unknown;
   try {
-    parsed = JSON.parse(readFileSync(path, 'utf8')) as AttemptRecord;
+    parsed = JSON.parse(readFileSync(path, 'utf8'));
   } catch (e) {
     throw new ProtocolViolationError(
       `Attempt record ${retryId} in run ${runId} is unreadable (${(e as Error).message}). Refusing to treat it as absent.`,
       'ATTEMPT_UNREADABLE',
     );
   }
-  if (parsed?.retryId !== retryId) {
-    throw new ProtocolViolationError(
-      `Attempt record filed as ${retryId} in run ${runId} claims to be ${JSON.stringify(parsed?.retryId)}. A record under the wrong id is a copy, not evidence.`,
-      'ATTEMPT_UNREADABLE',
-    );
-  }
-  return parsed;
+  return parseAttemptRecord(
+    runId,
+    `${retryId}.json`,
+    parsed,
+    context ?? currentAttemptManifestContext(runId),
+  );
 }
 
 /**
@@ -902,15 +1228,28 @@ export function beginAttempt(coord: AttemptCoordinate): {
 } {
   const retryId = retryIdFor(coord);
   const target = attemptPath(coord.runId, retryId);
-  const record: AttemptRecord = {
+  assertAttemptDirectoryShape(coord.runId);
+  // Resolve the final write target first. On a frozen run, immutability is the
+  // refusal and no missing legacy manifest is allowed to obscure it.
+  const manifestContext = currentAttemptManifestContext(coord.runId);
+  assertAttemptCoordinateBound(coord, manifestContext, 'Attempt');
+  const record = sealAttemptRecord({
+    recordVersion: ATTEMPT_RECORD_VERSION,
+    manifestHash: manifestContext.hash,
     ...coord,
     retryId,
     openedAtIso: new Date().toISOString(),
     settledAtIso: null,
     costUsd: null,
     answerHash: null,
-  };
+  });
   mkdirSync(join(runDirForWrite(coord.runId), ATTEMPT_DIR), { recursive: true });
+  if (currentAttemptManifestContext(coord.runId).hash !== manifestContext.hash) {
+    throw new ProtocolViolationError(
+      `Run ${coord.runId}'s manifest changed while attempt ${retryId} was opening. Refusing to bind the record to two envelopes.`,
+      'ATTEMPT_MANIFEST_MISMATCH',
+    );
+  }
   try {
     const fd = openSync(target, 'wx');
     writeSync(fd, JSON.stringify(record, null, 2));
@@ -919,7 +1258,7 @@ export function beginAttempt(coord: AttemptCoordinate): {
   } catch (e) {
     if ((e as NodeJS.ErrnoException).code !== 'EEXIST') throw e;
   }
-  const existing = readAttempt(coord.runId, retryId);
+  const existing = readAttempt(coord.runId, retryId, manifestContext);
   if (!existing) {
     // It existed a moment ago and does not now. Something else is deleting
     // attempt records underneath us, which is not a state to carry on from:
@@ -951,8 +1290,27 @@ export function settleAttempt(
   outcome: { costUsd: number; answerHash?: string | null },
 ): AttemptRecord {
   const retryId = retryIdFor(coord);
-  const existing = readAttempt(coord.runId, retryId);
+  // Validate the real write target before consulting evidence. This preserves
+  // the stronger immutable-run refusal for historical runs with no v3
+  // manifest, and ensures no verification work licenses a forbidden write.
+  attemptPath(coord.runId, retryId);
+  assertAttemptDirectoryShape(coord.runId);
+  const manifestContext = currentAttemptManifestContext(coord.runId);
+  assertAttemptCoordinateBound(coord, manifestContext, 'Attempt');
+  const existing = readAttempt(coord.runId, retryId, manifestContext);
   const answerHash = outcome.answerHash ?? null;
+  if (!Number.isFinite(outcome.costUsd) || outcome.costUsd < 0) {
+    throw new ProtocolViolationError(
+      `Attempt ${retryId} cannot settle at invalid cost ${JSON.stringify(outcome.costUsd)}.`,
+      'ATTEMPT_UNREADABLE',
+    );
+  }
+  if (answerHash !== null && !SHA256_RE.test(answerHash)) {
+    throw new ProtocolViolationError(
+      `Attempt ${retryId} cannot settle with malformed answer hash ${JSON.stringify(answerHash)}.`,
+      'ATTEMPT_UNREADABLE',
+    );
+  }
   if (existing?.settledAtIso) {
     if (
       Math.abs((existing.costUsd ?? 0) - outcome.costUsd) > COST_EPSILON ||
@@ -967,14 +1325,33 @@ export function settleAttempt(
     }
     return existing;
   }
-  const record: AttemptRecord = {
-    ...(existing ?? { ...coord, retryId, openedAtIso: new Date().toISOString() }),
+  const record = sealAttemptRecord({
+    ...(existing
+      ? (({ recordHash: _recordHash, ...rest }) => rest)(existing)
+      : {
+          recordVersion: ATTEMPT_RECORD_VERSION,
+          manifestHash: manifestContext.hash,
+          ...coord,
+          retryId,
+          openedAtIso: new Date().toISOString(),
+          settledAtIso: null,
+          costUsd: null,
+          answerHash: null,
+        }),
     ...coord,
+    recordVersion: ATTEMPT_RECORD_VERSION,
+    manifestHash: manifestContext.hash,
     retryId,
     settledAtIso: new Date().toISOString(),
     costUsd: outcome.costUsd,
     answerHash,
-  };
+  });
+  if (currentAttemptManifestContext(coord.runId).hash !== manifestContext.hash) {
+    throw new ProtocolViolationError(
+      `Run ${coord.runId}'s manifest changed while attempt ${retryId} was settling. Refusing to bind the charge to two envelopes.`,
+      'ATTEMPT_MANIFEST_MISMATCH',
+    );
+  }
   writeRunFileAtomic(coord.runId, join(ATTEMPT_DIR, `${retryId}.json`), JSON.stringify(record, null, 2));
   return record;
 }
@@ -983,7 +1360,22 @@ export function readAttempts(runId: string): AttemptRecord[] {
   // Same guard as `readResponses`: attempt records are what `attemptChargesUsd`
   // bills against, so a linked attempt directory would import another run's
   // spend and satisfy this run's budget with it.
-  return readRunJsonEntries(runId, ATTEMPT_DIR).map((e) => JSON.parse(e.text) as AttemptRecord);
+  assertAttemptDirectoryShape(runId);
+  const entries = readRunJsonEntries(runId, ATTEMPT_DIR);
+  // An absent journal is genuinely empty and stays readable for scratch and
+  // historical runs. The moment a record exists, however, every byte is spend
+  // evidence and requires a stored manifest identity.
+  if (entries.length === 0) return [];
+  const manifestContext = currentAttemptManifestContext(runId);
+  return entries.map((entry) => {
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(entry.text);
+    } catch (e) {
+      unreadableAttempt(runId, entry.name, `invalid JSON: ${(e as Error).message}`);
+    }
+    return parseAttemptRecord(runId, entry.name, parsed, manifestContext);
+  });
 }
 
 /** Total booked against this run's attempts. One charge per settled attempt. */
@@ -1095,8 +1487,37 @@ export function readScores(runId: string): Score[] {
   return text === null ? [] : (JSON.parse(text) as Score[]);
 }
 
-export function writeLeaderboard(runId: string, leaderboard: unknown): void {
-  writeRunFileAtomic(runId, 'leaderboard.json', JSON.stringify(leaderboard, null, 2));
+export function writeLeaderboard(runId: string, leaderboard: unknown, grant?: unknown): void {
+  const verdict = assertArtifactWriteAllowed(runId, 'leaderboard.json', grant);
+  if (typeof leaderboard !== 'object' || leaderboard === null || Array.isArray(leaderboard)) {
+    throw new ManifestError('leaderboard.json must be an object that names its run.', 'ARTIFACTS_DO_NOT_MATCH');
+  }
+  const suppliedRunId = (leaderboard as { runId?: unknown }).runId;
+  if (suppliedRunId !== undefined && suppliedRunId !== runId) {
+    throw new ManifestError(
+      `leaderboard.json names run ${JSON.stringify(suppliedRunId)}, not '${runId}'.`,
+      'RUN_IDENTITY_MISMATCH',
+    );
+  }
+  const stamped = {
+    ...(leaderboard as Record<string, unknown>),
+    runId,
+    evidenceClass: verdict.manifest.evidenceClass,
+    releaseState: verdict.manifest.releaseState,
+    rankEligible: verdict.manifest.rankEligible,
+    manifestHash: verdict.manifestHash,
+    nonScoringBanner: verdict.nonScoringBanner,
+  };
+  const bytes = JSON.stringify(stamped, null, 2);
+  writeRunFileAtomic(runId, 'leaderboard.json', bytes);
+  // Receipt LAST: a failed artifact write must never leave evidence claiming
+  // that bytes which do not exist were approved.
+  if (verdict.grant) {
+    recordProvenance(runId, verdict.grant, 'bench report', {
+      file: 'leaderboard.json',
+      sha256: sha256Hex(bytes),
+    });
+  }
 }
 
 export function listRuns(): string[] {

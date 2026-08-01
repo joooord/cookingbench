@@ -17,6 +17,8 @@ import { DATA_DIR, REPO_ROOT, RUNS_DIR } from '../src/dataset.js';
 import {
   FirewallError,
   appendRunFileLine,
+  readRunFile,
+  readRunJsonEntries,
   writeOutputFileAtomic,
   type FirewallErrorCode,
 } from '../src/firewall.js';
@@ -66,19 +68,10 @@ const SCRATCH_REGISTER = '__test-routes-firewall-register.json';
 
 const fixture = (name: string) => join(PERMIT_FIXTURES_DIR, name);
 
-/** The frozen methodology digest every real permit must name. */
-const FROZEN_METHODOLOGY_HASH = /^[a-f0-9]{64}/.exec(
-  readFileSync(
-    join(REPO_ROOT, 'docs/methodology/CookingBench-methodology-first-master-plan.sha256'),
-    'utf8',
-  ).trim(),
-)![0];
-
 /** What a production caller of the permit boundary is allowed to say. */
 function fixtureBinding() {
   return {
     manifest: JSON.parse(readFileSync(fixture('expired-probe.manifest.json'), 'utf8')),
-    expectedMethodologyHash: FROZEN_METHODOLOGY_HASH,
   };
 }
 
@@ -325,6 +318,61 @@ describe('runner:firewall:run-file:append — appendRunFileLine', () => {
     const path = appendRunFileLine(SCRATCH_RUN, 'ledger.ndjson', '{"second":2}\n');
     expect(path).toBe(join(scratch, 'ledger.ndjson'));
     expect(readFileSync(path, 'utf8')).toBe('{"first":1}\n{"second":2}\n');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// runner:firewall:run-file:read / run-json:read — path-escape
+// ---------------------------------------------------------------------------
+
+describe('runner:firewall:run-file:read — readRunFile', () => {
+  it('reads only the required file inside the named run and refuses a linked leaf', () => {
+    const scratch = join(RUNS_DIR, SCRATCH_RUN);
+    mkdirSync(scratch, { recursive: true });
+    writeFileSync(join(scratch, 'config.json'), '{"runId":"scratch"}\n');
+
+    expect(readRunFile(SCRATCH_RUN, 'config.json')).toBe('{"runId":"scratch"}\n');
+    expectFirewallRefusal(
+      () => readRunFile(SCRATCH_RUN, 'missing.json'),
+      'MISSING_RUN_FILE',
+      /has no missing\.json/,
+      'missing required file',
+    );
+
+    const decoy = join(outside, 'foreign-config.json');
+    writeFileSync(decoy, '{"runId":"foreign"}\n');
+    symlinkSync(decoy, join(scratch, 'linked.json'));
+    expectFirewallRefusal(
+      () => readRunFile(SCRATCH_RUN, 'linked.json'),
+      'SYMLINK_COMPONENT',
+      /symlink/,
+      'linked required file',
+    );
+  });
+});
+
+describe('runner:firewall:run-json:read — readRunJsonEntries', () => {
+  it('returns sorted owned JSON entries and refuses one linked entry', () => {
+    const responses = join(RUNS_DIR, SCRATCH_RUN, 'responses');
+    mkdirSync(responses, { recursive: true });
+    writeFileSync(join(responses, 'b.json'), '{"id":"b"}\n');
+    writeFileSync(join(responses, 'a.json'), '{"id":"a"}\n');
+    writeFileSync(join(responses, 'ignored.txt'), 'not an artifact');
+
+    expect(readRunJsonEntries(SCRATCH_RUN, 'responses')).toEqual([
+      { name: 'a.json', text: '{"id":"a"}\n' },
+      { name: 'b.json', text: '{"id":"b"}\n' },
+    ]);
+
+    const decoy = join(outside, 'foreign-response.json');
+    writeFileSync(decoy, '{"id":"foreign"}\n');
+    symlinkSync(decoy, join(responses, 'linked.json'));
+    expectFirewallRefusal(
+      () => readRunJsonEntries(SCRATCH_RUN, 'responses'),
+      'SYMLINK_COMPONENT',
+      /Refusing to read responses\/linked\.json.*symlink/,
+      'linked JSON entry',
+    );
   });
 });
 

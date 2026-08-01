@@ -1,10 +1,9 @@
 import { execFileSync } from 'node:child_process';
-import { copyFileSync, existsSync, linkSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
-import { canonicalJson, type RunConfig } from '@cookingbench/core';
+import { canonicalResponseSet, type RunConfig } from '@cookingbench/core';
 import { REPO_ROOT, RUNS_DIR } from './dataset.js';
 import { resolveRunDir, resolveRunFile, writeRunFileAtomic } from './firewall.js';
-import { MANIFEST_FILE } from './manifest.js';
 import { sha256Hex } from './permit.js';
 
 /**
@@ -27,13 +26,12 @@ import { sha256Hex } from './permit.js';
  *      hash. If the source directory has uncommitted or untracked content, that
  *      hash describes something other than what was actually copied, and the
  *      whole trail becomes a plausible-looking fiction.
- *   3. **Copy is the default, not hard-link.** A hard link makes the derived
- *      run's response file the SAME INODE as a published artifact. Every writer
- *      in this repo replaces by rename (which is safe), but any future writer
- *      that opens a response for in-place modification would edit the published
- *      run through the alias — a DATA-001 breach with no write to the published
- *      path to detect it. Hard-linking is available (`mode: 'hardlink'`) because
- *      2,576 files per run is real disk, but it is opted into, not defaulted.
+ *   3. **Responses are copied, never hard-linked.** A hard link makes the
+ *      derived run's response file the SAME INODE as a published artifact. An
+ *      append or in-place edit through the derived pathname would then edit the
+ *      historical evidence without touching its pathname. Copying is the only
+ *      supported mode, and derivation verifies that source and destination have
+ *      distinct inode identities before recording the lineage.
  */
 
 export type DeriveErrorCode =
@@ -44,6 +42,8 @@ export type DeriveErrorCode =
   | 'TARGET_OCCUPIED'
   | 'SAME_RUN'
   | 'COPY_CORRUPT'
+  | 'COPY_SHARED_INODE'
+  | 'UNSAFE_COPY_MODE'
   | 'REASON_REQUIRED';
 
 export class DeriveError extends Error {
@@ -57,8 +57,12 @@ export class DeriveError extends Error {
 }
 
 export const DERIVATION_FILE = 'derivation.json';
+// Kept local so manifest.ts can invoke lineage verification without creating a
+// derive -> manifest -> derive import cycle for a filename constant.
+const MANIFEST_FILE = 'manifest.json';
 
-export type CopyMode = 'copy' | 'hardlink';
+/** DATA-001: a derived response must own its inode. */
+export type CopyMode = 'copy';
 
 export interface InheritedResponse {
   file: string;
@@ -178,7 +182,18 @@ export function assertSourceCommitted(sourceRunId: string): string {
 
 export function deriveRun(input: DeriveRunInput): DeriveResult {
   const { sourceRunId, targetRunId } = input;
-  const mode: CopyMode = input.mode ?? 'copy';
+  // Checked at runtime because callers from JavaScript, old compiled clients or
+  // forged JSON are not constrained by the TypeScript union. The former
+  // `hardlink` mode shared an inode with historical evidence, so silently
+  // treating an unknown value as `copy` would hide an unsafe request.
+  const requestedMode = (input as { mode?: unknown }).mode;
+  if (requestedMode !== undefined && requestedMode !== 'copy') {
+    throw new DeriveError(
+      `Derivation mode ${JSON.stringify(requestedMode)} is not supported. Responses are copied into an independent inode; hard links would make historical evidence writable through the derived path.`,
+      'UNSAFE_COPY_MODE',
+    );
+  }
+  const mode: CopyMode = 'copy';
   const now = input.now ?? new Date();
 
   if (input.reason.trim() === '') {
@@ -238,17 +253,19 @@ export function deriveRun(input: DeriveRunInput): DeriveResult {
     const sourceHash = sha256Hex(bytes.toString('utf8'));
 
     mkdirSync(dirname(to), { recursive: true });
-    if (mode === 'hardlink') {
-      // linkSync refuses an existing destination, which is the fail-closed
-      // behaviour we want: a half-derived target is never silently completed.
-      linkSync(from, to);
-    } else {
-      copyFileSync(from, to);
+    copyFileSync(from, to);
+
+    const sourceIdentity = statSync(from);
+    const copyIdentity = statSync(to);
+    if (sourceIdentity.dev === copyIdentity.dev && sourceIdentity.ino === copyIdentity.ino) {
+      throw new DeriveError(
+        `Inherited response ${file} shares inode ${copyIdentity.ino} with ${sourceRunId}. A derived pathname must never alias historical evidence.`,
+        'COPY_SHARED_INODE',
+      );
     }
 
-    // Re-read and re-hash the destination. A copy that silently truncated, or a
-    // link that landed somewhere unexpected, must not produce a lineage record
-    // asserting the bytes match.
+    // Re-read and re-hash the destination. A copy that silently truncated must
+    // not produce a lineage record asserting the bytes match.
     const copiedHash = sha256Hex(readFileSync(to, 'utf8'));
     if (copiedHash !== sourceHash) {
       throw new DeriveError(
@@ -266,13 +283,7 @@ export function deriveRun(input: DeriveRunInput): DeriveResult {
     });
   }
 
-  const responseSetHash = sha256Hex(
-    canonicalJson({
-      kind: 'cookingbench/response-set',
-      sourceRunId,
-      responses: responses.map((r) => [r.file, r.sha256]),
-    }),
-  );
+  const responseSetHash = sha256Hex(canonicalResponseSet(sourceRunId, responses));
 
   const derivedFrom: DerivationRecord['derivedFrom'] = {
     runId: sourceRunId,
@@ -351,46 +362,308 @@ function deriveConfig(
  * Cheap, and the only thing that makes the record worth keeping: without it,
  * `derivation.json` is a claim about bytes rather than a check on them.
  */
+export interface ManifestDerivationVerification {
+  ok: boolean;
+  problems: string[];
+  /** Usable only when `ok`: the one source whose response stamps are inherited. */
+  sourceRunId: string | null;
+}
+
+/**
+ * Verify lineage against the manifest that claims it.
+ *
+ * A bare `derivedFrom.runId` is not authority to accept foreign-stamped
+ * responses. The source must be the manifest's exact parent, its committed
+ * tree and complete response set must still match the record, and every copied
+ * response must match the source bytes and source stamp.
+ */
+export function verifyDerivationForManifest(
+  runId: string,
+  parentArtifacts: readonly string[],
+): ManifestDerivationVerification {
+  return inspectDerivation(runId, parentArtifacts);
+}
+
 export function verifyDerivation(runId: string): { ok: boolean; problems: string[] } {
+  const result = inspectDerivation(runId);
+  return { ok: result.ok, problems: result.problems };
+}
+
+function inspectDerivation(
+  runId: string,
+  parentArtifacts?: readonly string[],
+): ManifestDerivationVerification {
   const path = resolveRunFile(runId, DERIVATION_FILE, { write: false });
   if (!existsSync(path)) {
-    return { ok: false, problems: [`Run ${runId} has no ${DERIVATION_FILE}.`] };
+    return {
+      ok: false,
+      problems: [`Run ${runId} has no ${DERIVATION_FILE}.`],
+      sourceRunId: null,
+    };
   }
-  let record: DerivationRecord;
+  let raw: unknown;
   try {
-    record = JSON.parse(readFileSync(path, 'utf8')) as DerivationRecord;
+    raw = JSON.parse(readFileSync(path, 'utf8'));
   } catch (e) {
-    return { ok: false, problems: [`${DERIVATION_FILE} is not valid JSON (${(e as Error).message}).`] };
+    return {
+      ok: false,
+      problems: [`${DERIVATION_FILE} is not valid JSON (${(e as Error).message}).`],
+      sourceRunId: null,
+    };
   }
-  if (!Array.isArray(record.responses) || record.derivedFrom === undefined) {
-    return { ok: false, problems: [`${DERIVATION_FILE} is malformed.`] };
+
+  const record = parseDerivationRecord(raw);
+  if (record === null) {
+    return {
+      ok: false,
+      problems: [`${DERIVATION_FILE} is malformed.`],
+      sourceRunId: null,
+    };
   }
 
   const problems: string[] = [];
+  const sourceRunId = record.derivedFrom.runId;
+  if (record.runId !== runId) {
+    problems.push(`${DERIVATION_FILE} names target ${JSON.stringify(record.runId)}, not ${runId}`);
+  }
+  if (sourceRunId === runId) {
+    problems.push(`${DERIVATION_FILE} derives ${runId} from itself`);
+  }
+  if (
+    parentArtifacts !== undefined &&
+    (parentArtifacts.length !== 1 || parentArtifacts[0] !== sourceRunId)
+  ) {
+    problems.push(
+      `manifest parentArtifacts [${parentArtifacts.join(', ') || 'none'}] do not exactly name derivation source ${sourceRunId}`,
+    );
+  }
+  if (record.derivedFrom.copyMode !== 'copy') {
+    problems.push(
+      `${DERIVATION_FILE} declares unsupported copyMode ${JSON.stringify(record.derivedFrom.copyMode)}; derived responses must own independent inodes`,
+    );
+  }
+
+  if (record.derivedFrom.responseCount !== record.responses.length) {
+    problems.push(
+      `${DERIVATION_FILE} declares ${record.derivedFrom.responseCount} responses but lists ${record.responses.length}`,
+    );
+  }
+  const recordedNames = record.responses.map((entry) => entry.file).sort();
+  if (new Set(recordedNames).size !== recordedNames.length) {
+    problems.push(`${DERIVATION_FILE} lists a response filename more than once`);
+  }
+
+  let sourceDir: string | null = null;
+  try {
+    sourceDir = resolveRunDir(sourceRunId, { write: false });
+  } catch (error) {
+    problems.push(`derivation source run id ${JSON.stringify(sourceRunId)} is invalid (${(error as Error).message})`);
+  }
+  let sourceExists = false;
+  if (sourceDir === null) {
+    // The invalid id finding above is sufficient and, unlike a guessed path,
+    // accurately explains why no source could be inspected.
+  } else if (!existsSync(sourceDir)) {
+    problems.push(`derivation source run ${sourceRunId} does not exist`);
+  } else {
+    sourceExists = true;
+    try {
+      const currentTree = assertSourceCommitted(sourceRunId);
+      if (currentTree !== record.derivedFrom.treeHash) {
+        problems.push(
+          `derivation source tree changed (${record.derivedFrom.treeHash.slice(0, 12)}… → ${currentTree.slice(0, 12)}…)`,
+        );
+      }
+    } catch (error) {
+      problems.push(`derivation source ${sourceRunId} is not an exact committed tree (${(error as Error).message})`);
+    }
+    const sourceHasManifest = existsSync(join(sourceDir, MANIFEST_FILE));
+    const expectedManifestFile = sourceHasManifest ? MANIFEST_FILE : null;
+    if (record.derivedFrom.manifestFile !== expectedManifestFile) {
+      problems.push(
+        `${DERIVATION_FILE} records source manifest ${JSON.stringify(record.derivedFrom.manifestFile)} but ${sourceRunId} ${sourceHasManifest ? 'has manifest.json' : 'has no manifest.json'}`,
+      );
+    }
+  }
+
+  const targetEntries = responseDirectoryEntries(runId, 'derived', problems);
+  const sourceEntries = sourceExists
+    ? responseDirectoryEntries(sourceRunId, 'source', problems)
+    : [];
+  if (!sameStrings(targetEntries, recordedNames)) {
+    problems.push(
+      `derived response set [${targetEntries.join(', ')}] does not exactly match ${DERIVATION_FILE} [${recordedNames.join(', ')}]`,
+    );
+  }
+  if (sourceExists && !sameStrings(sourceEntries, recordedNames)) {
+    problems.push(
+      `source response set [${sourceEntries.join(', ')}] does not exactly match ${DERIVATION_FILE} [${recordedNames.join(', ')}]`,
+    );
+  }
+
+  const sourceMembers: Array<{ file: string; sha256: string }> = [];
+  const targetMembers: Array<{ file: string; sha256: string }> = [];
   for (const entry of record.responses) {
     const file = resolveRunFile(runId, join('responses', entry.file), { write: false });
     if (!existsSync(file)) {
       problems.push(`inherited response ${entry.file} is missing`);
       continue;
     }
-    const actual = sha256Hex(readFileSync(file, 'utf8'));
-    if (actual !== entry.sha256) {
+    const targetBytes = readFileSync(file, 'utf8');
+    const targetHash = sha256Hex(targetBytes);
+    targetMembers.push({ file: entry.file, sha256: targetHash });
+    if (targetHash !== entry.sha256) {
       problems.push(
-        `inherited response ${entry.file} has changed (${entry.sha256.slice(0, 12)}… → ${actual.slice(0, 12)}…)`,
+        `inherited response ${entry.file} has changed (${entry.sha256.slice(0, 12)}… → ${targetHash.slice(0, 12)}…)`,
       );
     }
+    verifyResponseIdentity(targetBytes, entry, sourceRunId, 'derived', problems);
+
+    if (sourceExists) {
+      const source = resolveRunFile(sourceRunId, join('responses', entry.file), { write: false });
+      if (!existsSync(source)) continue;
+      const sourceBytes = readFileSync(source, 'utf8');
+      const sourceHash = sha256Hex(sourceBytes);
+      sourceMembers.push({ file: entry.file, sha256: sourceHash });
+      if (sourceHash !== entry.sha256) {
+        problems.push(
+          `source response ${entry.file} does not match the inherited hash (${sourceHash.slice(0, 12)}… vs ${entry.sha256.slice(0, 12)}…)`,
+        );
+      }
+      verifyResponseIdentity(sourceBytes, entry, sourceRunId, 'source', problems);
+      const sourceIdentity = statSync(source);
+      const derivedIdentity = statSync(file);
+      if (sourceIdentity.dev === derivedIdentity.dev && sourceIdentity.ino === derivedIdentity.ino) {
+        problems.push(
+          `inherited response ${entry.file} shares inode ${derivedIdentity.ino} with source run ${record.derivedFrom.runId}`,
+        );
+      }
+    }
   }
-  const recomputed = sha256Hex(
-    canonicalJson({
-      kind: 'cookingbench/response-set',
-      sourceRunId: record.derivedFrom.runId,
-      responses: record.responses.map((r) => [r.file, r.sha256]),
-    }),
-  );
-  if (recomputed !== record.derivedFrom.responseSetHash) {
+
+  const recordedSetHash = sha256Hex(canonicalResponseSet(sourceRunId, record.responses));
+  if (recordedSetHash !== record.derivedFrom.responseSetHash) {
     problems.push(
-      `responseSetHash does not summarise the recorded response list (${record.derivedFrom.responseSetHash.slice(0, 12)}… vs ${recomputed.slice(0, 12)}…)`,
+      `responseSetHash does not summarise the recorded response list (${record.derivedFrom.responseSetHash.slice(0, 12)}… vs ${recordedSetHash.slice(0, 12)}…)`,
     );
   }
-  return { ok: problems.length === 0, problems };
+  if (
+    sourceMembers.length === record.responses.length &&
+    sha256Hex(canonicalResponseSet(sourceRunId, sourceMembers)) !== record.derivedFrom.responseSetHash
+  ) {
+    problems.push(`responseSetHash does not match the exact source response set`);
+  }
+  if (
+    targetMembers.length === record.responses.length &&
+    sha256Hex(canonicalResponseSet(sourceRunId, targetMembers)) !== record.derivedFrom.responseSetHash
+  ) {
+    problems.push(`responseSetHash does not match the exact derived response set`);
+  }
+
+  return {
+    ok: problems.length === 0,
+    problems,
+    sourceRunId: problems.length === 0 ? sourceRunId : null,
+  };
+}
+
+function parseDerivationRecord(value: unknown): DerivationRecord | null {
+  if (typeof value !== 'object' || value === null || Array.isArray(value)) return null;
+  const candidate = value as Partial<DerivationRecord>;
+  const from = candidate.derivedFrom as Partial<DerivationRecord['derivedFrom']> | undefined;
+  if (
+    candidate.derivationVersion !== 1 ||
+    typeof candidate.runId !== 'string' ||
+    candidate.runId === '' ||
+    typeof from !== 'object' ||
+    from === null ||
+    typeof from.runId !== 'string' ||
+    from.runId === '' ||
+    typeof from.treeHash !== 'string' ||
+    !/^[a-f0-9]{40}$/.test(from.treeHash) ||
+    (from.manifestFile !== null && from.manifestFile !== MANIFEST_FILE) ||
+    typeof from.responseSetHash !== 'string' ||
+    !/^[a-f0-9]{64}$/.test(from.responseSetHash) ||
+    typeof from.responseCount !== 'number' ||
+    !Number.isInteger(from.responseCount) ||
+    from.responseCount < 1 ||
+    typeof from.copyMode !== 'string' ||
+    typeof from.reason !== 'string' ||
+    from.reason.trim() === '' ||
+    typeof from.derivedAt !== 'string' ||
+    !Number.isFinite(Date.parse(from.derivedAt)) ||
+    !Array.isArray(candidate.responses) ||
+    candidate.responses.length === 0
+  ) {
+    return null;
+  }
+  for (const response of candidate.responses) {
+    if (
+      typeof response !== 'object' ||
+      response === null ||
+      typeof response.file !== 'string' ||
+      !response.file.endsWith('.json') ||
+      response.file.includes('/') ||
+      response.file.includes('\\') ||
+      typeof response.sha256 !== 'string' ||
+      !/^[a-f0-9]{64}$/.test(response.sha256) ||
+      typeof response.modelId !== 'string' ||
+      response.modelId === '' ||
+      typeof response.questionId !== 'string' ||
+      response.questionId === ''
+    ) {
+      return null;
+    }
+  }
+  return candidate as DerivationRecord;
+}
+
+function responseDirectoryEntries(runId: string, label: string, problems: string[]): string[] {
+  const dir = resolveRunFile(runId, 'responses', { write: false });
+  if (!existsSync(dir)) {
+    problems.push(`${label} run ${runId} has no responses directory`);
+    return [];
+  }
+  const entries = readdirSync(dir, { withFileTypes: true }).sort((a, b) =>
+    a.name < b.name ? -1 : a.name > b.name ? 1 : 0,
+  );
+  const names: string[] = [];
+  for (const entry of entries) {
+    if (!entry.isFile() || !entry.name.endsWith('.json')) {
+      problems.push(`${label} responses/${entry.name} is not a regular JSON response file`);
+      continue;
+    }
+    names.push(entry.name);
+  }
+  return names;
+}
+
+function verifyResponseIdentity(
+  bytes: string,
+  expected: InheritedResponse,
+  sourceRunId: string,
+  label: string,
+  problems: string[],
+): void {
+  let response: { runId?: unknown; modelId?: unknown; questionId?: unknown };
+  try {
+    response = JSON.parse(bytes) as { runId?: unknown; modelId?: unknown; questionId?: unknown };
+  } catch (error) {
+    problems.push(`${label} response ${expected.file} is not valid JSON (${(error as Error).message})`);
+    return;
+  }
+  if (response.runId !== sourceRunId) {
+    problems.push(
+      `${label} response ${expected.file} is stamped ${JSON.stringify(response.runId)}, not derivation source ${sourceRunId}`,
+    );
+  }
+  if (response.modelId !== expected.modelId || response.questionId !== expected.questionId) {
+    problems.push(
+      `${label} response ${expected.file} identity ${JSON.stringify(response.modelId)} × ${JSON.stringify(response.questionId)} does not match the derivation record`,
+    );
+  }
+}
+
+function sameStrings(a: readonly string[], b: readonly string[]): boolean {
+  return a.length === b.length && a.every((value, index) => value === b[index]);
 }

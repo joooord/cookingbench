@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { runManifestV2Schema } from '@cookingbench/core';
 import { parse } from 'yaml';
 import { describe, expect, it } from 'vitest';
 import { REPO_ROOT } from '../src/dataset.js';
@@ -28,6 +29,10 @@ interface ProposedDecision {
 interface Requirement {
   id: string;
   statement: string;
+  canonicalPlanSection: string;
+  manifestFields: string[];
+  evidenceGate: string;
+  owner: string;
   status: 'closed' | 'partial' | 'open';
   enforcementPoints: string[];
   tests: string[];
@@ -136,6 +141,15 @@ function requirementIdsFromBrief(): string[] {
 }
 
 const REQUIRED_IDS = requirementIdsFromBrief();
+const MASTER_PLAN = readFileSync(
+  join(REPO_ROOT, 'docs/methodology/CookingBench-methodology-first-master-plan.md'),
+  'utf8',
+);
+const CANONICAL_PLAN_SECTIONS = new Set(
+  [...MASTER_PLAN.matchAll(/^#{1,4}\s+(.+)$/gm)].map((match) => match[1]!.trim()),
+);
+const V2_MANIFEST_FIELDS = new Set(Object.keys(runManifestV2Schema.shape));
+const WP0_GATE = 'M0.0 / WP-0 acceptance — independent Codex review';
 
 describe('WP-0 traceability matrix is acceptance-grade', () => {
   it('covers every WP-0 requirement exactly once', () => {
@@ -167,6 +181,29 @@ describe('WP-0 traceability matrix is acceptance-grade', () => {
         const path = point.split(/\s+—\s+/)[0]!.trim();
         expect(existsSync(join(REPO_ROOT, path)), `${req.id}: ${path} does not exist`).toBe(true);
       }
+    }
+  });
+
+  it('maps every requirement to a real canonical section, manifest field, gate and owner', () => {
+    const ownership = MASTER_PLAN.slice(MASTER_PLAN.indexOf('# Cross-stage ownership'));
+    for (const req of matrix.requirements) {
+      expect(
+        CANONICAL_PLAN_SECTIONS.has(req.canonicalPlanSection),
+        `${req.id}: no canonical heading named "${req.canonicalPlanSection}"`,
+      ).toBe(true);
+      expect(req.manifestFields.length, `${req.id}: no manifest fields mapped`).toBeGreaterThan(0);
+      expect(new Set(req.manifestFields).size, `${req.id}: duplicate manifest-field mapping`).toBe(
+        req.manifestFields.length,
+      );
+      for (const field of req.manifestFields) {
+        expect(V2_MANIFEST_FIELDS.has(field), `${req.id}: manifest v2 has no top-level field "${field}"`).toBe(
+          true,
+        );
+      }
+      expect(req.evidenceGate, `${req.id}: wrong or missing WP-0 evidence gate`).toBe(WP0_GATE);
+      expect(ownership.includes(req.owner), `${req.id}: owner "${req.owner}" is absent from the canonical ownership section`).toBe(
+        true,
+      );
     }
   });
 

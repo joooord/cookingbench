@@ -1,14 +1,16 @@
 import {
+  cpSync,
   existsSync,
   mkdirSync,
   readFileSync,
   readdirSync,
   rmSync,
+  symlinkSync,
   writeFileSync,
 } from 'node:fs';
 import { join, relative, resolve, sep } from 'node:path';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
-import { loadAnchors, readCalibration } from '../src/calibration.js';
+import { CalibrationError, loadAnchors, readCalibration } from '../src/calibration.js';
 import { DATA_DIR, REPO_ROOT, RUNS_DIR, loadModels, loadQuestions } from '../src/dataset.js';
 import {
   FirewallError,
@@ -18,6 +20,7 @@ import {
 } from '../src/firewall.js';
 import { PermitError, type PermitErrorCode } from '../src/permit.js';
 import {
+  ProtocolViolationError,
   attemptChargesUsd,
   hasResponse,
   listRuns,
@@ -32,8 +35,9 @@ import { mintTestGrant } from './support/grant.js';
 
 /**
  * Route-level proof for the READERS — the public site's eight filesystem
- * readers, its six PostgREST calls, and the medium/low-severity readers in the
- * runner that no other area covers.
+ * readers, the compatibility refusals that replaced its six anonymous
+ * PostgREST routes, and the medium/low-severity readers in the runner that no
+ * other area covers.
  *
  * `docs/wp-0/routes.yaml` makes the argument these tests exist to honour: READS
  * ARE ROUTES. A read is how untrusted content crosses the boundary and how a
@@ -59,8 +63,9 @@ import { mintTestGrant } from './support/grant.js';
  *
  * Offline by construction. `globalThis.fetch` is replaced for the whole file
  * with a recorder whose default answer is a thrown error, so "no provider was
- * contacted" is an assertion rather than an assumption, and the site's
- * PostgREST calls can be observed without a socket. `@supabase/supabase-js` is
+ * contacted" is an assertion rather than an assumption, and any regression
+ * that restores one of the site's former PostgREST calls is caught before a
+ * socket. `@supabase/supabase-js` is
  * mocked so that CONSTRUCTING a service-role client is itself an observable
  * event. Nothing under `data/runs` or `data/taste` is written: the only
  * filesystem writes are two scratch run directories, removed in `afterEach`,
@@ -279,6 +284,14 @@ function scratchRun(runId: string, files: Record<string, string>): void {
   }
 }
 
+/** A complete byte-identical historical release beneath an isolated runs root. */
+function historicalResolverTree(): string {
+  const tree = join(RUNS_DIR, SCRATCH);
+  mkdirSync(tree, { recursive: true });
+  cpSync(join(RUNS_DIR, FROZEN), join(tree, FROZEN), { recursive: true });
+  return tree;
+}
+
 function board(runId: string, generatedAt: string): string {
   return JSON.stringify({
     runId,
@@ -344,17 +357,46 @@ describe('web:data:board:select — getLatestReport', () => {
     // verdict can be what withholds it.
     expect(site.resolveApprovedRelease(tree)).toBeNull();
   });
+
+  it('treats a versioned register missing currentRun as corrupt, not as permission to restore the pin', () => {
+    const tree = historicalResolverTree();
+    writeFileSync(
+      join(tree, 'REGISTER.json'),
+      JSON.stringify({ registerVersion: 1, entries: {} }),
+    );
+    expect(site.resolveApprovedRelease(tree)).toBeNull();
+
+    // Control: an explicit null is a real register decision and permits the
+    // one fixed pre-register historical release. Missing and null are not the
+    // same state.
+    writeFileSync(
+      join(tree, 'REGISTER.json'),
+      JSON.stringify({ registerVersion: 1, entries: {}, currentRun: null }),
+    );
+    expect(site.resolveApprovedRelease(tree)?.runId).toBe(FROZEN);
+  });
+
+  it('refuses a linked register and a linked run directory instead of following either identity', () => {
+    const tree = historicalResolverTree();
+    const validRegister = JSON.stringify({ registerVersion: 1, entries: {}, currentRun: null });
+    const planted = join(tree, 'planted-register.json');
+    writeFileSync(planted, validRegister);
+    symlinkSync(planted, join(tree, 'REGISTER.json'));
+    expect(site.resolveApprovedRelease(tree)).toBeNull();
+
+    rmSync(join(tree, 'REGISTER.json'));
+    writeFileSync(join(tree, 'REGISTER.json'), validRegister);
+    rmSync(join(tree, FROZEN), { recursive: true, force: true });
+    symlinkSync(join(RUNS_DIR, FROZEN), join(tree, FROZEN));
+    expect(site.resolveApprovedRelease(tree)).toBeNull();
+  });
 });
 
 describe('web:data:analysis:read — getAnalysis', () => {
-  it('DEFECT — publishes a separation table from a run no approval ever named', () => {
-    // The separation table is where the site makes its strongest public claim:
-    // which model is *proven* better than which. `getAnalysis` reads it by run
-    // id with no approval check and no digest check, so the risk recorded
-    // against this route is real and stays open. Recorded here rather than
-    // papered over: the site's own callers only ever pass the approved report's
-    // run id, which is what keeps this unreachable from a URL today — a
-    // convention, not an enforcement point.
+  it('refuses a separation table from a run no approval ever named', () => {
+    // The separation table makes the site's strongest public claim: which
+    // model is proven better. A plausible file under a supplied run id is not
+    // evidence; only bytes held by the approved release snapshot may cross.
     scratchRun(SCRATCH, {
       'analysis.json': JSON.stringify({
         activeQuestions: 1,
@@ -366,10 +408,9 @@ describe('web:data:analysis:read — getAnalysis', () => {
         ],
       }),
     });
-    const planted = site.getAnalysis(SCRATCH);
-    expect(planted?.separation?.[0]?.separated).toBe(true);
-    // And the ranks the site derives from it follow the planted file.
-    expect(site.getTiedRanks(SCRATCH)?.get('lab/beta')).toBe(2);
+    expect(site.getAnalysis(SCRATCH)).toBeNull();
+    expect(site.getTiedRanks(SCRATCH)).toBeNull();
+    expect(site.getAnalysis(FROZEN)?.activeQuestions).toBeGreaterThan(0);
   });
 
   it('returns null on an unreadable analysis rather than a partial separation table', () => {
@@ -383,12 +424,11 @@ describe('web:data:analysis:read — getAnalysis', () => {
 });
 
 describe('web:data:run-config:read — getRunConfig', () => {
-  it('DEFECT — returns a config whose own runId contradicts the directory it came from', () => {
-    // `readBoard` in this same file refuses a board whose `runId` disagrees with
-    // the directory, precisely so a file copied in from another run cannot be
-    // served under this run's approval. The config reader makes no such check
-    // and is bound to no manifest, so the methodology labels the site prints —
-    // token caps, judge panel, methodology version — are whatever the file says.
+  it('refuses a copied config and serves only the one inside the approved envelope', () => {
+    // A config copied from the historical directory looks plausible and even
+    // names a real release, but it is neither part of SCRATCH's approval nor
+    // consistent with that directory. The methodology labels the site prints
+    // must come from the same verified snapshot as its board.
     scratchRun(SCRATCH, {
       'config.json': JSON.stringify({
         runId: FROZEN,
@@ -396,9 +436,11 @@ describe('web:data:run-config:read — getRunConfig', () => {
         methodologyVersion: 'v99',
       }),
     });
-    const config = site.getRunConfig(SCRATCH);
-    expect(config?.runId).toBe(FROZEN);
-    expect(config?.judgePanel).toEqual(['lab/a-panel-that-never-judged-anything']);
+    expect(site.getRunConfig(SCRATCH)).toBeNull();
+    expect(site.getRunConfig(FROZEN)?.runId).toBe(FROZEN);
+    expect(site.getRunConfig(FROZEN)?.judgePanel).not.toEqual([
+      'lab/a-panel-that-never-judged-anything',
+    ]);
   });
 });
 
@@ -430,28 +472,21 @@ describe('web:data:run-cost:read — getRunCost', () => {
 });
 
 describe('web:data:scores:read — getScores', () => {
-  it('DEFECT — serves hand-written scores with no check against the manifest that produced them', () => {
-    // These are the numbers the public reads. Nothing on this path binds them
-    // to the run manifest's digest, so the file is the authority: whatever is
-    // on disk is what the category and question pages render.
+  it('refuses hand-written scores and serves the complete approved score set', () => {
     scratchRun(SCRATCH, {
       'scores.json': JSON.stringify([
         { runId: SCRATCH, modelId: 'lab/alpha', questionId: 'tech-901', score: 100, graderType: 'keyword' },
       ]),
     });
-    expect(site.getScores(SCRATCH)[0]?.score).toBe(100);
-    // Absent scores read as an empty set rather than an error — worth recording
-    // because a page that renders "no data" and a page that renders forged data
-    // are the same code path here.
+    expect(site.getScores(SCRATCH)).toEqual([]);
     expect(site.getScores(OTHER)).toEqual([]);
+    expect(site.getScores(FROZEN)).toHaveLength(2576);
+    expect(site.getScores(FROZEN).every((score) => score.runId === FROZEN)).toBe(true);
   });
 });
 
 describe('web:data:responses:read — getResponses', () => {
-  it('DEFECT — renders a planted answer as a published one, with no lineage check', () => {
-    // `derive.ts` records a per-response content hash at derivation time and
-    // re-checks it on read; this reader, which is what the model and question
-    // pages actually display, checks nothing.
+  it('refuses a planted answer and serves the complete approved response set', () => {
     mkdirSync(join(RUNS_DIR, SCRATCH, 'responses'), { recursive: true });
     writeFileSync(
       join(RUNS_DIR, SCRATCH, 'responses', 'lab~2Falpha__tech-901.json'),
@@ -462,9 +497,11 @@ describe('web:data:responses:read — getResponses', () => {
         answerText: 'planted, and never bought from any provider',
       }),
     );
-    expect(site.getResponses(SCRATCH).map((r) => r.answerText)).toEqual([
-      'planted, and never bought from any provider',
-    ]);
+    expect(site.getResponses(SCRATCH)).toEqual([]);
+    const approved = site.getResponses(FROZEN);
+    expect(approved).toHaveLength(2576);
+    expect(approved.every((response) => response.runId === FROZEN)).toBe(true);
+    expect(approved.every((response) => response.answerText.trim() !== '')).toBe(true);
   });
 });
 
@@ -504,132 +541,41 @@ describe('web:data:models:read — getModelNames', () => {
 });
 
 /* ========================================================================== */
-/* apps/web/lib/supabase.ts — the six PostgREST calls the public site makes    */
+/* apps/web/lib/supabase.ts — six retired anonymous live-data routes           */
 /* ========================================================================== */
 
-const PROJECT = 'https://nvdkhatenkjmbyudwbgm.supabase.co';
-
-describe('web:supabase:vote:insert — castTasteVote', () => {
-  it('posts only to the ballot table, and reports a refused ballot as not cast', async () => {
-    // The recorded risk — an anonymous ballot carries no signature — is NOT
-    // enforced here and cannot be, since the check that exists is RLS inside
-    // the project. What IS assertable at this boundary is that no field of the
-    // ballot can retarget the request, and that a refusal is never reported as
-    // a save: the duel UI treats a vote as unconfirmed until the insert
-    // succeeds, and that contract is only meaningful if `false` means refused.
-    respond = () => new Response('[]', { status: 201 });
-    const cast = await siteDb.castTasteVote({
-      run_id: '../../admin',
-      question_id: 'q?select=*',
-      model_a: 'lab/alpha',
-      model_b: 'lab/beta',
-      winner: 'a',
-    });
-    expect(cast).toBe(true);
-    expect(httpCalls).toHaveLength(1);
-    expect(httpCalls[0]!.method).toBe('POST');
-    // The ballot above carries a traversal and a PostgREST operator in its
-    // fields. Neither reaches the URL: the target is the table, fixed.
-    expect(httpCalls[0]!.url.endsWith('/rest/v1/taste_votes')).toBe(true);
-    expect(httpCalls[0]!.url).not.toContain('admin');
-    expect(httpCalls[0]!.url).not.toContain('select=');
-
-    respond = () => new Response('denied', { status: 403 });
-    expect(await siteDb.castTasteVote({
-      run_id: 'r', question_id: 'q', model_a: 'a', model_b: 'b', winner: 'tie',
-    })).toBe(false);
-
-    respond = () => {
-      throw new Error('network down');
-    };
-    expect(await siteDb.castTasteVote({
-      run_id: 'r', question_id: 'q', model_a: 'a', model_b: 'b', winner: 'tie',
-    })).toBe(false);
-  });
-});
-
-describe('web:supabase:flight-ballot:insert — castFlightBallot', () => {
-  it('keeps a refused ballot apart from a recorded one, and sets no evidence class', async () => {
-    // Collapsing these into a boolean is how a recorded vote comes to look lost
-    // and a permanently-refused one comes to look retryable. `duplicate` means
-    // the ballot IS on the books; only `unreachable` may be retried.
+describe('web anonymous live-data compatibility refusals', () => {
+  it('returns refusal/null from all six public functions before fetch', async () => {
+    // WP-0 has no shared permit/authority boundary for anonymous browser
+    // access. A fixed URL and RLS are not that boundary, so these signatures
+    // remain only as honest compatibility refusals on the no-live-data branch.
+    // The recorder's default responder throws: any restored transport fails
+    // this case before it can be mistaken for a successful sentinel.
     const ballot = {
       flight_id: 'f1', round: 1, ballot_nonce: 'n1', track: 'taste', item_id: 'i1',
       model_left: 'lab/alpha', model_right: 'lab/beta', choice: 'left', both_seen: true,
       dwell_ms: 10, left_words: 5, right_words: 6, control_kind: 'none', session_id: null,
     };
-    respond = () => new Response(null, { status: 201 });
-    expect(await siteDb.castFlightBallot(ballot)).toBe('saved');
-    respond = () => new Response('conflict', { status: 409 });
-    expect(await siteDb.castFlightBallot(ballot)).toBe('duplicate');
-    respond = () => new Response('denied', { status: 403 });
-    expect(await siteDb.castFlightBallot(ballot)).toBe('rejected');
-    respond = () => new Response('boom', { status: 503 });
+
+    expect(await siteDb.castTasteVote({
+      run_id: 'r', question_id: 'q', model_a: 'a', model_b: 'b', winner: 'tie',
+    })).toBe(false);
+    expect(httpCalls).toEqual([]);
+
     expect(await siteDb.castFlightBallot(ballot)).toBe('unreachable');
+    expect(httpCalls).toEqual([]);
 
-    expect(httpCalls.every((c) => c.url === `${PROJECT}/rest/v1/taste_flight_ballots`)).toBe(true);
-    // The two columns that decide whether a ballot counts as evidence are never
-    // on the wire, so an anonymous caller cannot promote its own ballot out of
-    // `development`/`public` even before RLS is consulted.
-    const sent = JSON.parse(httpCalls[0]!.body!) as Record<string, unknown>;
-    expect(Object.hasOwn(sent, 'evidence_class')).toBe(false);
-    expect(Object.hasOwn(sent, 'cohort')).toBe(false);
-  });
-});
+    expect(await siteDb.castBallotReason('nonce-1', 3)).toBe('unreachable');
+    expect(httpCalls).toEqual([]);
 
-describe('web:supabase:ballot-reason:insert — castBallotReason', () => {
-  it('sends an index and a nonce, never free text from the public internet', async () => {
-    // The recorded risk calls this "free text from the public internet". It is
-    // not: the wire shape is a bounded index, which is why forged model ids
-    // cannot reach a rendered surface through this route the way they did on
-    // the v2 taste board.
-    respond = () => new Response(null, { status: 201 });
-    expect(await siteDb.castBallotReason('nonce-1', 3)).toBe('saved');
-    expect(httpCalls[0]!.url).toBe(`${PROJECT}/rest/v1/taste_ballot_reasons`);
-    expect(JSON.parse(httpCalls[0]!.body!)).toEqual({ ballot_nonce: 'nonce-1', reason_index: 3 });
-  });
-});
-
-describe('web:supabase:votes:read — getAllTasteVotes', () => {
-  it('reads the RLS-limited ballot view, and discards a partial read entirely', async () => {
-    // Low severity and low consequence, and the claim is scoped to match: the
-    // target is fixed, and a page that cannot get all of it gets none of it. A
-    // truncated ballot set produces a different Bradley-Terry fit and the board
-    // would render it without a word.
-    respond = () => new Response(JSON.stringify([{ id: '1' }]), { status: 200 });
-    expect(await siteDb.getAllTasteVotes()).toHaveLength(1);
-    expect(httpCalls[0]!.url).toContain('/rest/v1/taste_ballots');
-    // Not `taste_votes`: session_id and vote_ms stay server-side.
-    expect(httpCalls[0]!.url).not.toContain('/rest/v1/taste_votes?');
-
-    respond = () => new Response('denied', { status: 401 });
     expect(await siteDb.getAllTasteVotes()).toBeNull();
-  });
-});
+    expect(httpCalls).toEqual([]);
 
-describe('web:supabase:winrates:read — getTasteWinrates', () => {
-  it('reads the tally view only, and returns null rather than an empty ranking', async () => {
-    respond = () => new Response(JSON.stringify([{ model_id: 'lab/alpha', battles: 5, win_rate: 0.6 }]), { status: 200 });
-    expect(await siteDb.getTasteWinrates()).toHaveLength(1);
-    expect(httpCalls[0]!.url.endsWith('/rest/v1/taste_winrates?select=*')).toBe(true);
-    respond = () => new Response('[]', { status: 200 });
     expect(await siteDb.getTasteWinrates()).toBeNull();
-    respond = () => new Response('denied', { status: 500 });
-    expect(await siteDb.getTasteWinrates()).toBeNull();
-  });
-});
+    expect(httpCalls).toEqual([]);
 
-describe('web:supabase:flight-ballots:read — getFlightBallots', () => {
-  it('throws away every page when any page fails, rather than fitting a board on part of them', async () => {
-    // A full first page means there is a second; failing it must lose the lot.
-    const full = Array.from({ length: 1000 }, (_, i) => ({ id: String(i) }));
-    let page = 0;
-    respond = () => (page++ === 0
-      ? new Response(JSON.stringify(full), { status: 200 })
-      : new Response('gone', { status: 502 }));
     expect(await siteDb.getFlightBallots()).toBeNull();
-    expect(httpCalls).toHaveLength(2);
-    expect(httpCalls[0]!.url).toContain('/rest/v1/taste_flight_reads');
+    expect(httpCalls).toEqual([]);
   });
 });
 
@@ -652,11 +598,11 @@ describe('runner:store:attempts:read — readAttempts', () => {
     expectFirewallRefusal(() => readAttempts('../../etc'), 'INVALID_RUN_ID', /Invalid run id/);
   });
 
-  it('DEFECT — parses and trusts an attempt record bound to no manifest', () => {
+  it('refuses an attempt record bound to no manifest before it can count as spend', () => {
     // Attempt records are the idempotency ledger: they decide whether a cell has
-    // already been bought. Nothing binds one to the manifest under which it was
-    // written, so a hand-written record is counted as a settled charge — which
-    // is also how a fabricated one could suppress a real purchase.
+    // already been bought. A plausible JSON object is not evidence by itself:
+    // the reader now requires the exact stored manifest/digest, declared cell,
+    // deterministic filename/retry id and intact record checksum.
     mkdirSync(join(RUNS_DIR, SCRATCH, 'attempts'), { recursive: true });
     writeFileSync(
       join(RUNS_DIR, SCRATCH, 'attempts', 'planted.json'),
@@ -666,12 +612,8 @@ describe('runner:store:attempts:read — readAttempts', () => {
         settledAtIso: '2026-01-01T00:00:01Z', costUsd: 999, answerHash: null,
       }),
     );
-    const attempts = readAttempts(SCRATCH);
-    expect(attempts).toHaveLength(1);
-    // `readAttempt` refuses a record filed under the wrong id; this bulk reader
-    // never applies that check, so the mismatch survives into the charge total.
-    expect(attempts[0]!.retryId).toBe('not-even-the-filename');
-    expect(attemptChargesUsd(SCRATCH)).toBe(999);
+    expect(() => readAttempts(SCRATCH)).toThrow(/verifiable stored manifest/i);
+    expect(() => attemptChargesUsd(SCRATCH)).toThrow(ProtocolViolationError);
   });
 });
 
@@ -807,18 +749,32 @@ describe('runner:calibration:result:read — readCalibration', () => {
     expectFirewallRefusal(() => readCalibration('../../etc'), 'INVALID_RUN_ID', /Invalid run id/);
   });
 
-  it('DEFECT — a hand-written calibration.json reads as a passed gate', () => {
-    // The gate decides whether paid judging may start. Nothing binds this file
-    // to the judge calls that supposedly produced it, so writing it is the same
-    // as passing it — the same shape as the estimate-record defect.
+  it('refuses a hand-written pre-envelope calibration as gate evidence', () => {
+    // The gate decides whether paid judging may start. This is the sparse shape
+    // that used to pass by assertion alone; it now lacks every required binding
+    // and cannot be upgraded merely because it says `passed: true`.
     scratchRun(SCRATCH, {
       'calibration.json': JSON.stringify({
         judgeModel: 'panel-v1', judgePromptVersion: 'judge-v2',
         atIso: '2026-07-30T00:00:00Z', mae: 0, passed: true, judges: [],
       }),
     });
-    expect(readCalibration(SCRATCH)?.passed).toBe(true);
-    expect(readCalibration(SCRATCH)?.judges).toEqual([]);
+    expect(() => readCalibration(SCRATCH)).toThrow(CalibrationError);
+    try {
+      readCalibration(SCRATCH);
+    } catch (error) {
+      expect((error as CalibrationError).code).toBe('CALIBRATION_LEGACY_UNVERIFIED');
+    }
+  });
+
+  it('keeps published pre-envelope evidence readable but never gate-passing', () => {
+    const legacy = readCalibration('2026-07-v2.1');
+    expect(legacy?.calibrationVersion).toBe(0);
+    if (legacy?.calibrationVersion !== 0) throw new Error('expected legacy calibration evidence');
+    expect(legacy.verification).toBe('legacy-unverified');
+    expect(legacy.recordedPassed).toBe(true);
+    expect(legacy.passed).toBe(false);
+    expect(legacy.judges.length).toBeGreaterThan(0);
   });
 });
 

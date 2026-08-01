@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join, relative } from 'node:path';
+import ts from 'typescript';
 import { parse } from 'yaml';
 import { describe, expect, it } from 'vitest';
 import { REPO_ROOT } from '../src/dataset.js';
@@ -15,7 +16,7 @@ import { REPO_ROOT } from '../src/dataset.js';
  * from `sha256(file|kind|symbol)` where symbol came from auditor prose, which
  * invented 41 symbols that appear nowhere in the source.
  *
- * Three defects in the previous validator are closed here.
+ * Four defects in the previous validator are closed here.
  *
  *  1. THE SCANNER ONLY LOOKED FOR WRITES. Filesystem reads, which is how
  *     untrusted content crosses the boundary and how a traversal escapes a
@@ -36,6 +37,12 @@ import { REPO_ROOT } from '../src/dataset.js';
  *     same defect class as a traceability matrix that validates itself — it
  *     cannot fail when the route stops calling the helper. A closed risk must
  *     now name a test that CALLS the route's own function.
+ *
+ *  4. IT REDUCED A FILE TO A SET OF KINDS. One registered fs-read anywhere in
+ *     a file therefore covered every other read in that file, including reads
+ *     in functions the registry never named. The scanner now records each AST
+ *     call site and its enclosing symbol, follows named same-module delegates,
+ *     and requires every site to have an owning semantic route.
  *
  * The enforcement layer is not exempt from its own inventory. firewall.ts used
  * to be skipped "because it is the guard", which let the guard choose the scope
@@ -64,6 +71,16 @@ interface FalselyClosed {
   route: string;
   citedTest: string;
   reason: string;
+  retired?: boolean;
+}
+interface RetiredRoute {
+  key: string;
+  file: string;
+  formerFunction: string;
+  formerKind: string;
+  disposition: 'removed' | 'refusal';
+  proofTest: string;
+  reason: string;
 }
 interface Registry {
   pinnedCommit: string;
@@ -71,6 +88,7 @@ interface Registry {
   routeKinds: string[];
   riskKinds: string[];
   severities: string[];
+  retiredRoutes?: RetiredRoute[];
   falselyClosed: FalselyClosed[];
   routes: Route[];
 }
@@ -120,23 +138,278 @@ const registry = parse(
  * removes the whole class. A completeness check that cries wolf gets
  * suppressed.
  */
-const SINK_PATTERNS: ReadonlyArray<readonly [string, RegExp]> = [
-  [
-    'fs-write',
-    /(?<![.\w])(writeFileSync|appendFileSync|copyFileSync|linkSync|symlinkSync|renameSync|mkdirSync|createWriteStream|writeRunFileAtomic|writeOutputFileAtomic|appendRunFileLine)\s*\(/,
-  ],
-  ['fs-delete', /(?<![.\w])(rmSync|unlinkSync|rmdirSync)\s*\(/],
-  [
-    'fs-read',
-    /(?<![.\w])(readFileSync|readdirSync|createReadStream|opendirSync|readlinkSync|globSync|existsSync|statSync|lstatSync|realpathSync|accessSync)\s*\(/,
-  ],
-  // `.complete(` is the guarded transport: judge.ts and cli.ts reach the
-  // network only through it, and a scanner that insisted on a literal `fetch(`
-  // would call both of them network-free.
-  ['network-out', /(?<![.\w])fetch\s*\(|globalThis\.fetch\s*\(|(?<![.\w])new\s+Request\s*\(|\.complete\s*\(/],
-  ['db', /(?<![.\w])(createClient|serviceRoleClient)\s*\(|(?<!Array)(?<!Object)\.from\s*\(\s*['"`]/],
-  ['process-exec', /(?<![.\w])(execSync|spawnSync|execFileSync|execFile|spawn)\s*\(/],
-];
+const FS_WRITES = new Set([
+  'writeFileSync',
+  'appendFileSync',
+  'copyFileSync',
+  'linkSync',
+  'symlinkSync',
+  'renameSync',
+  'mkdirSync',
+  'createWriteStream',
+  'writeRunFileAtomic',
+  'writeOutputFileAtomic',
+  'appendRunFileLine',
+]);
+const FS_DELETES = new Set(['rmSync', 'unlinkSync', 'rmdirSync']);
+const FS_READS = new Set([
+  'readFileSync',
+  'readdirSync',
+  'createReadStream',
+  'opendirSync',
+  'readlinkSync',
+  'globSync',
+  'existsSync',
+  'statSync',
+  'lstatSync',
+  'realpathSync',
+  'accessSync',
+  // Cross-module project readers are boundary calls in their own right. The
+  // scanner follows same-module helpers transitively below, but must not build
+  // an unsound whole-program call graph merely to recognise these fixed APIs.
+  'readRunFile',
+  'readRunFileOrNull',
+  'readRunJsonEntries',
+]);
+const PROCESS_EXEC = new Set(['execSync', 'spawnSync', 'execFileSync', 'execFile', 'spawn']);
+
+export interface SinkSite {
+  kind: string;
+  /** Nearest named function/method/class that actually contains the call. */
+  symbol: string | null;
+  callee: string;
+  line: number;
+  column: number;
+}
+
+interface ModuleScan {
+  sites: SinkSite[];
+  /** named callable -> named same-module callables it invokes */
+  calls: Map<string, Set<string>>;
+}
+
+function propertyName(node: ts.PropertyName | ts.BindingName | undefined): string | null {
+  if (!node) return null;
+  if (ts.isIdentifier(node) || ts.isPrivateIdentifier(node)) return node.text;
+  if (ts.isStringLiteral(node) || ts.isNumericLiteral(node)) return node.text;
+  return null;
+}
+
+/**
+ * The semantic owner of a sink call.
+ *
+ * Anonymous callbacks are deliberately skipped: a `map(() => readFileSync())`
+ * inside `loadQuestions` is still a route through `loadQuestions`. Class
+ * constructors use the class name; named methods use the method name. A
+ * module-initialisation sink has no owner and therefore cannot be made to look
+ * covered by registering an unrelated function in the same file.
+ */
+function enclosingSymbol(node: ts.Node): string | null {
+  let current: ts.Node | undefined = node.parent;
+  while (current) {
+    if (ts.isFunctionDeclaration(current)) {
+      const name = propertyName(current.name);
+      if (name) return name;
+    } else if (
+      ts.isMethodDeclaration(current) ||
+      ts.isMethodSignature(current) ||
+      ts.isGetAccessorDeclaration(current) ||
+      ts.isSetAccessorDeclaration(current)
+    ) {
+      const name = propertyName(current.name);
+      if (name) return name;
+    } else if (ts.isConstructorDeclaration(current)) {
+      const owner = current.parent;
+      if (ts.isClassDeclaration(owner) || ts.isClassExpression(owner)) {
+        const name = propertyName(owner.name);
+        if (name) return name;
+      }
+      return 'constructor';
+    } else if (ts.isArrowFunction(current) || ts.isFunctionExpression(current)) {
+      const parent = current.parent;
+      if (ts.isVariableDeclaration(parent)) {
+        const name = propertyName(parent.name);
+        if (name) return name;
+      }
+      if (ts.isPropertyDeclaration(parent) || ts.isPropertyAssignment(parent)) {
+        const name = propertyName(parent.name);
+        if (name) return name;
+      }
+      // Anonymous callback: keep walking to the named route that owns it.
+    }
+    current = current.parent;
+  }
+  return null;
+}
+
+function callName(expression: ts.LeftHandSideExpression): string | null {
+  if (ts.isIdentifier(expression)) return expression.text;
+  if (ts.isPropertyAccessExpression(expression)) return expression.name.text;
+  return null;
+}
+
+function chainedDbKind(node: ts.CallExpression): 'db-read' | 'db-write' | 'db' {
+  const methods = new Set<string>();
+  let current: ts.Node = node;
+  while (current.parent) {
+    const parent = current.parent;
+    if (ts.isPropertyAccessExpression(parent) && parent.expression === current) {
+      methods.add(parent.name.text);
+      current = parent;
+      continue;
+    }
+    if (ts.isCallExpression(parent) && parent.expression === current) {
+      current = parent;
+      continue;
+    }
+    break;
+  }
+  if ([...methods].some((name) => ['insert', 'upsert', 'update', 'delete'].includes(name))) return 'db-write';
+  if (methods.has('select')) return 'db-read';
+  return 'db';
+}
+
+function sinkKind(node: ts.CallExpression | ts.NewExpression): string | null {
+  const callee = callName(node.expression);
+  if (!callee) return null;
+  if (FS_WRITES.has(callee)) return 'fs-write';
+  if (FS_DELETES.has(callee)) return 'fs-delete';
+  if (FS_READS.has(callee)) return 'fs-read';
+  if (PROCESS_EXEC.has(callee)) return 'process-exec';
+
+  if (callee === 'Request' && ts.isNewExpression(node)) return 'network-out';
+  if (callee === 'fetch' || callee === 'complete') return 'network-out';
+  if (callee === 'createClient' || callee === 'serviceRoleClient') return 'db';
+  if (callee === 'from' && ts.isCallExpression(node)) {
+    const first = node.arguments[0];
+    if (!first || (!ts.isStringLiteral(first) && !ts.isNoSubstitutionTemplateLiteral(first))) return null;
+    if (ts.isPropertyAccessExpression(node.expression)) {
+      const owner = node.expression.expression.getText();
+      if (owner === 'Array' || owner === 'Object') return null;
+    }
+    return chainedDbKind(node);
+  }
+  return null;
+}
+
+function callableName(node: ts.Node): string | null {
+  if (ts.isFunctionDeclaration(node)) return propertyName(node.name);
+  if (
+    ts.isMethodDeclaration(node) ||
+    ts.isGetAccessorDeclaration(node) ||
+    ts.isSetAccessorDeclaration(node)
+  ) {
+    return propertyName(node.name);
+  }
+  if (ts.isConstructorDeclaration(node)) {
+    const owner = node.parent;
+    return ts.isClassDeclaration(owner) || ts.isClassExpression(owner) ? propertyName(owner.name) : 'constructor';
+  }
+  if (
+    ts.isVariableDeclaration(node) &&
+    node.initializer &&
+    (ts.isArrowFunction(node.initializer) || ts.isFunctionExpression(node.initializer))
+  ) {
+    return propertyName(node.name);
+  }
+  if (
+    (ts.isPropertyDeclaration(node) || ts.isPropertyAssignment(node)) &&
+    node.initializer &&
+    (ts.isArrowFunction(node.initializer) || ts.isFunctionExpression(node.initializer))
+  ) {
+    return propertyName(node.name);
+  }
+  if (ts.isClassDeclaration(node) || ts.isClassExpression(node)) return propertyName(node.name);
+  return null;
+}
+
+/** Every sink call plus the same-module call graph used to assign ownership. */
+function scanModule(src: string, file = 'source.ts'): ModuleScan {
+  const scriptKind = file.endsWith('.tsx') ? ts.ScriptKind.TSX : ts.ScriptKind.TS;
+  const source = ts.createSourceFile(file, src, ts.ScriptTarget.Latest, true, scriptKind);
+  const localCallables = new Set<string>();
+  const localClasses = new Set<string>();
+  const classMembers = new Map<string, Set<string>>();
+  const lexicalEdges: Array<readonly [string, string]> = [];
+  const collect = (node: ts.Node): void => {
+    const name = callableName(node);
+    if (name) {
+      localCallables.add(name);
+      let parent = node.parent;
+      while (parent) {
+        const lexicalOwner = callableName(parent);
+        if (lexicalOwner && lexicalOwner !== name) {
+          lexicalEdges.push([lexicalOwner, name]);
+          break;
+        }
+        parent = parent.parent;
+      }
+    }
+    if (ts.isClassDeclaration(node) || ts.isClassExpression(node)) {
+      const className = propertyName(node.name);
+      if (className) {
+        localClasses.add(className);
+        const members = classMembers.get(className) ?? new Set<string>();
+        for (const member of node.members) {
+          const memberName = callableName(member);
+          if (memberName && memberName !== className) members.add(memberName);
+        }
+        classMembers.set(className, members);
+      }
+    }
+    ts.forEachChild(node, collect);
+  };
+  collect(source);
+
+  const found: SinkSite[] = [];
+  const calls = new Map<string, Set<string>>();
+  const link = (from: string, to: string): void => {
+    const destinations = calls.get(from) ?? new Set<string>();
+    destinations.add(to);
+    calls.set(from, destinations);
+  };
+  for (const [className, members] of classMembers) {
+    for (const member of members) link(className, member);
+  }
+  for (const [owner, nested] of lexicalEdges) link(owner, nested);
+  const visit = (node: ts.Node): void => {
+    if (ts.isCallExpression(node) || ts.isNewExpression(node)) {
+      const owner = enclosingSymbol(node);
+      // Only calls whose receiver proves same-module identity participate in
+      // ownership. `helper()` is a local binding, `this.helper()` is a method
+      // on the current local class, and `LocalClass.helper()` is a local static
+      // method. An arbitrary `client.helper()` must not borrow a same-named
+      // local helper's sink.
+      const target = ts.isIdentifier(node.expression)
+        ? node.expression.text
+        : ts.isPropertyAccessExpression(node.expression) &&
+            (node.expression.expression.kind === ts.SyntaxKind.ThisKeyword ||
+              (ts.isIdentifier(node.expression.expression) && localClasses.has(node.expression.expression.text)))
+          ? node.expression.name.text
+          : null;
+      if (owner && target && target !== owner && localCallables.has(target)) link(owner, target);
+      const kind = sinkKind(node);
+      if (kind) {
+        const position = source.getLineAndCharacterOfPosition(node.getStart(source));
+        found.push({
+          kind,
+          symbol: owner,
+          callee: node.expression.getText(source),
+          line: position.line + 1,
+          column: position.character + 1,
+        });
+      }
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(source);
+  return { sites: found, calls };
+}
+
+/** Every individual sink CALL, with the symbol that directly encloses it. */
+export function scanSinkSites(src: string, file = 'source.ts'): SinkSite[] {
+  return scanModule(src, file).sites;
+}
 
 const KINDS_FOR_SINK: Record<string, readonly string[]> = {
   'fs-write': ['fs-write'],
@@ -144,6 +417,8 @@ const KINDS_FOR_SINK: Record<string, readonly string[]> = {
   'fs-read': ['fs-read'],
   'network-out': ['network-out'],
   db: ['db-read', 'db-write'],
+  'db-read': ['db-read'],
+  'db-write': ['db-write'],
   'process-exec': ['process-exec'],
 };
 
@@ -199,29 +474,29 @@ export function executableLines(src: string): string[] {
 
 /** The sink kinds present in one source file. */
 export function scanSinks(src: string): Set<string> {
-  const found = new Set<string>();
-  for (const line of executableLines(src)) {
-    for (const [kind, pattern] of SINK_PATTERNS) if (pattern.test(line)) found.add(kind);
-  }
-  return found;
+  return new Set(scanSinkSites(src).map((site) => site.kind));
 }
 
-/**
- * Does this file DECLARE the named symbol?
- *
- * `src.includes(name)` was the old check, which a route could satisfy by
- * naming a word that happened to appear in a comment. The method form requires
- * an access modifier so that a CALL at the start of a line — `  writeResponse({`
- * in some other module — cannot masquerade as a declaration.
- */
-export function declaresSymbol(src: string, name: string): boolean {
-  const n = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const patterns = [
-    new RegExp(`^\\s*(?:export\\s+)?(?:default\\s+)?(?:async\\s+)?(?:function\\*?|class)\\s+${n}\\b`, 'm'),
-    new RegExp(`^\\s*(?:export\\s+)?(?:const|let|var)\\s+${n}\\b`, 'm'),
-    new RegExp(`^\\s*(?:public|private|protected|static|async|get|set)\\s+(?:async\\s+)?${n}\\s*\\(`, 'm'),
-  ];
-  return patterns.some((p) => p.test(src));
+/** Does this file DECLARE a callable with the named semantic route symbol? */
+export function declaresSymbol(src: string, name: string, file = 'source.ts'): boolean {
+  const source = ts.createSourceFile(
+    file,
+    src,
+    ts.ScriptTarget.Latest,
+    true,
+    file.endsWith('.tsx') ? ts.ScriptKind.TSX : ts.ScriptKind.TS,
+  );
+  let declared = false;
+  const visit = (node: ts.Node): void => {
+    if (declared) return;
+    if (callableName(node) === name) {
+      declared = true;
+      return;
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(source);
+  return declared;
 }
 
 /**
@@ -272,11 +547,11 @@ function helperBodies(lines: string[]): Map<string, string> {
  * Every named test case, with its body, and with one level of local helper
  * expansion.
  *
- * The expansion is not a loophole, it is how tests are written: ledger.test.ts
- * builds its subject through a two-line `ledgerFor()` that calls
- * `ReservationLedger.forTests`. Refusing that would have downgraded a dozen
- * genuinely-proved risks. It stays one level deep and stays inside the test
- * file, so it can only reach code the test itself already runs — it can never
+ * The expansion is not a loophole, it is how tests are written: small local
+ * factories commonly construct the real production subject. Refusing those
+ * would downgrade genuinely proved risks. Expansion stays one level deep and
+ * inside the test file, so it can only reach code the test itself already runs
+ * — it can never
  * reach across to a production helper the route merely happens to share, which
  * is the defect this whole check exists for. permit.test.ts's `verify()`
  * wrapper is expanded too, and its risks stay open regardless: the wrapper
@@ -373,8 +648,10 @@ const CASES_BY_NAME = new Map(CASES.map((c) => [c.name, c] as const));
 // --- the validator ----------------------------------------------------------
 
 interface ScanContext {
-  /** relative source path -> sink kinds found in it */
-  sinks: Map<string, Set<string>>;
+  /** relative source path -> every individual sink call found in it */
+  sinks: Map<string, SinkSite[]>;
+  /** relative source path -> same-module callable graph */
+  calls: Map<string, Map<string, Set<string>>>;
   /** relative source path -> file contents */
   sources: Map<string, string>;
   /** exact test name -> case */
@@ -382,18 +659,91 @@ interface ScanContext {
 }
 
 function realScan(roots: readonly string[]): ScanContext {
-  const sinks = new Map<string, Set<string>>();
+  const sinks = new Map<string, SinkSite[]>();
+  const calls = new Map<string, Map<string, Set<string>>>();
   const sources = new Map<string, string>();
   for (const root of roots) {
     for (const path of sourceFiles(join(REPO_ROOT, root))) {
       const rel = relative(REPO_ROOT, path);
       const src = readFileSync(path, 'utf8');
       sources.set(rel, src);
-      const found = scanSinks(src);
-      if (found.size) sinks.set(rel, found);
+      const scan = scanModule(src, rel);
+      if (scan.sites.length) sinks.set(rel, scan.sites);
+      calls.set(rel, scan.calls);
     }
   }
-  return { sinks, sources, cases: CASES_BY_NAME };
+  return { sinks, calls, sources, cases: CASES_BY_NAME };
+}
+
+interface RouteSinkMatching {
+  routeToSites: Map<number, Array<{ file: string; site: SinkSite }>>;
+  unmatchedSites: Array<{ file: string; site: SinkSite }>;
+}
+
+interface UnownedSinkGroup {
+  file: string;
+  symbol: string | null;
+  kind: string;
+  sites: SinkSite[];
+}
+
+function unownedSinkGroups(matching: RouteSinkMatching): UnownedSinkGroup[] {
+  const groups = new Map<string, UnownedSinkGroup>();
+  for (const { file, site } of matching.unmatchedSites) {
+    const key = `${file}\u0000${site.symbol ?? '<module>'}\u0000${site.kind}`;
+    const group = groups.get(key) ?? { file, symbol: site.symbol, kind: site.kind, sites: [] };
+    group.sites.push(site);
+    groups.set(key, group);
+  }
+  return [...groups.values()];
+}
+
+/**
+ * Bind each semantic route to the concrete sink sites it owns.
+ *
+ * Ownership is at (file, callable symbol, sink kind), not merely file+kind and
+ * not one row per low-level syscall. A function may make several reads as one
+ * semantic route. A wrapper also owns sinks reached through named same-module
+ * helpers, because it is independently callable and therefore is itself a
+ * boundary; unrelated functions in the same file remain unrelated.
+ */
+function matchRoutesToSinks(routes: readonly Route[], ctx: ScanContext): RouteSinkMatching {
+  const sites = [...ctx.sinks].flatMap(([file, values]) => values.map((site) => ({ file, site })));
+  const routeToSites = new Map<number, Array<{ file: string; site: SinkSite }>>();
+  const covered = new Set<SinkSite>();
+
+  const reachableSymbols = (file: string, root: string): Set<string> => {
+    const graph = ctx.calls.get(file) ?? new Map<string, Set<string>>();
+    const reached = new Set<string>();
+    const stack = [root];
+    while (stack.length > 0) {
+      const symbol = stack.pop()!;
+      if (reached.has(symbol)) continue;
+      reached.add(symbol);
+      for (const next of graph.get(symbol) ?? []) stack.push(next);
+    }
+    return reached;
+  };
+
+  for (const [routeIndex, route] of routes.entries()) {
+    const owners = reachableSymbols(route.file, route.function);
+    const owned = sites.filter(
+      ({ file, site }) =>
+        file === route.file &&
+        site.symbol !== null &&
+        owners.has(site.symbol) &&
+        (KINDS_FOR_SINK[site.kind] ?? []).includes(route.kind),
+    );
+    if (owned.length > 0) {
+      routeToSites.set(routeIndex, owned);
+      for (const { site } of owned) covered.add(site);
+    }
+  }
+
+  return {
+    routeToSites,
+    unmatchedSites: sites.filter(({ site }) => !covered.has(site)),
+  };
 }
 
 /**
@@ -405,29 +755,38 @@ function realScan(roots: readonly string[]): ScanContext {
 export function validateRegistry(reg: Registry, ctx: ScanContext): string[] {
   const problems: string[] = [];
   const say = (m: string) => problems.push(m);
+  const matching = matchRoutesToSinks(reg.routes, ctx);
 
   const seen = new Set<string>();
-  for (const route of reg.routes) {
+  const semanticSeen = new Set<string>();
+  for (const [routeIndex, route] of reg.routes.entries()) {
     if (seen.has(route.key)) say(`duplicate route key ${route.key}`);
     seen.add(route.key);
+
+    const semanticKey = `${route.file}\u0000${route.function}\u0000${route.kind}`;
+    if (semanticSeen.has(semanticKey)) {
+      say(`${route.key}: duplicate semantic route (${route.file}, ${route.function}, ${route.kind})`);
+    }
+    semanticSeen.add(semanticKey);
 
     if (!reg.routeKinds.includes(route.kind)) say(`${route.key}: unknown kind ${route.kind}`);
 
     const src = ctx.sources.get(route.file);
     if (src === undefined) {
       say(`${route.key}: ${route.file} is not a scanned source file`);
-    } else if (!declaresSymbol(src, route.function)) {
+    } else if (!declaresSymbol(src, route.function, route.file)) {
       say(`${route.key}: ${route.file} declares no symbol ${route.function}`);
     }
 
-    // Backward completeness: the route must resolve to a real sink of its own
-    // kind, in its own file. A phantom route is the failure mode a hand-kept
-    // registry drifts into — apps/web's ballot insert was filed as `db-write`
-    // when the file makes a `fetch` and holds no database sink at all.
-    const found = ctx.sinks.get(route.file) ?? new Set<string>();
-    const resolves = [...found].some((sink) => (KINDS_FOR_SINK[sink] ?? []).includes(route.kind));
-    if (src !== undefined && !resolves) {
-      say(`${route.key}: no ${route.kind} sink found in ${route.file} (found: ${[...found].join(', ') || 'none'})`);
+    // Backward completeness: the route owns a real sink of its kind, directly
+    // or through a named same-module helper. A sink elsewhere in the file is
+    // not evidence this route is real.
+    if (src !== undefined && !matching.routeToSites.has(routeIndex)) {
+      const inSymbol = (ctx.sinks.get(route.file) ?? []).filter((site) => site.symbol === route.function);
+      say(
+        `${route.key}: no reachable ${route.kind} sink found from ${route.function} in ${route.file}` +
+          ` (direct symbol contains: ${inSymbol.map((site) => site.kind).join(', ') || 'none'})`,
+      );
     }
 
     if (route.risks.length === 0) say(`${route.key}: no risks`);
@@ -466,13 +825,51 @@ export function validateRegistry(reg: Registry, ctx: ScanContext): string[] {
     }
   }
 
-  // Forward completeness: every sink kind in every scanned file has a route.
-  for (const [file, kinds] of ctx.sinks) {
-    for (const sink of kinds) {
-      const allowed = KINDS_FOR_SINK[sink] ?? [];
-      const covered = reg.routes.some((r) => r.file === file && allowed.includes(r.kind));
-      if (!covered) say(`unregistered ${sink} sink in ${file}`);
+  // A deleted route is not kept as a phantom current route merely to preserve
+  // history. Retirement has its own checked record: either the former symbol is
+  // absent, or it remains solely as a compatibility refusal with a test that
+  // calls it. In both cases the proof name and source file are real.
+  const retiredSeen = new Set<string>();
+  for (const retired of reg.retiredRoutes ?? []) {
+    if (retiredSeen.has(retired.key)) say(`duplicate retired route key ${retired.key}`);
+    retiredSeen.add(retired.key);
+    if (seen.has(retired.key)) say(`${retired.key}: route is both current and retired`);
+    if (!reg.routeKinds.includes(retired.formerKind)) {
+      say(`${retired.key}: unknown former kind ${retired.formerKind}`);
     }
+    const source = ctx.sources.get(retired.file);
+    if (source === undefined) {
+      say(`${retired.key}: retired source ${retired.file} is not scanned`);
+      continue;
+    }
+    const declared = declaresSymbol(source, retired.formerFunction, retired.file);
+    if (retired.disposition === 'removed' && declared) {
+      say(`${retired.key}: removed symbol ${retired.formerFunction} still exists`);
+    } else if (retired.disposition === 'refusal' && !declared) {
+      say(`${retired.key}: refusal symbol ${retired.formerFunction} no longer exists`);
+    } else if (retired.disposition !== 'removed' && retired.disposition !== 'refusal') {
+      say(`${retired.key}: unknown retirement disposition ${String(retired.disposition)}`);
+    }
+    const proof = ctx.cases.get(retired.proofTest);
+    if (!proof) {
+      say(`${retired.key}: no retirement proof named "${retired.proofTest}"`);
+    } else if (
+      retired.disposition === 'refusal' &&
+      !callsSymbol(proof.body, retired.formerFunction)
+    ) {
+      say(`${retired.key}: retirement proof never calls ${retired.formerFunction}`);
+    }
+    if (retired.reason.length < 40) say(`${retired.key}: retirement reason is not substantive`);
+  }
+
+  // Forward completeness: every concrete call site has at least one owning
+  // semantic route. Reporting the
+  // enclosing symbol and location makes the required registry change explicit.
+  for (const group of unownedSinkGroups(matching)) {
+    say(
+      `unregistered semantic sink route (${group.file}, ${group.symbol ?? '<module>'}, ${group.kind}) owns ` +
+        `${group.sites.length} call site(s): ${group.sites.map((site) => `${site.line}:${site.column} ${site.callee}`).join(', ')}`,
+    );
   }
 
   return problems;
@@ -506,38 +903,38 @@ describe('route registry is acceptance-grade', () => {
   });
 
   it('covers every filesystem, network and database sink under every scan root', () => {
-    const uncovered: string[] = [];
-    for (const [file, kinds] of ctx.sinks) {
-      for (const sink of kinds) {
-        const allowed = KINDS_FOR_SINK[sink] ?? [];
-        if (!registry.routes.some((r) => r.file === file && allowed.includes(r.kind))) {
-          uncovered.push(`${file}:${sink}`);
-        }
-      }
-    }
+    const matching = matchRoutesToSinks(registry.routes, ctx);
+    const uncovered = unownedSinkGroups(matching).map(
+      (group) => `${group.file}:${group.symbol ?? '<module>'}:${group.kind} (${group.sites.length} call site(s))`,
+    );
     // No exemption list. firewall.ts used to be skipped for being the guard,
     // which let the guard set the scope of the register that governs it.
     expect(uncovered, 'sinks with no registry route').toEqual([]);
   });
 
   it('resolves every registered route back to a real sink of that kind', () => {
-    const phantom: string[] = [];
-    for (const route of registry.routes) {
-      const found = ctx.sinks.get(route.file) ?? new Set<string>();
-      if (![...found].some((s) => (KINDS_FOR_SINK[s] ?? []).includes(route.kind))) phantom.push(route.key);
-    }
+    const matching = matchRoutesToSinks(registry.routes, ctx);
+    const phantom = registry.routes
+      .filter((_route, index) => !matching.routeToSites.has(index))
+      .map((route) => route.key);
     expect(phantom, 'routes that resolve to no sink').toEqual([]);
   });
 
   it('scans apps/web, not only the runner', () => {
     // The gap this revision closes: the web routes used to be hand-written and
-    // were never compared against the source, so five PostgREST calls and
-    // seven filesystem readers stayed invisible.
+    // were never compared against the source, so five further PostgREST calls
+    // and seven filesystem readers stayed invisible. The former anonymous
+    // PostgREST routes are now compatibility refusals: the source must still be
+    // scanned, while contributing no sink and remaining in retiredRoutes.
     expect(registry.scanRoots).toContain('apps/web');
     const webFiles = [...ctx.sinks.keys()].filter((f) => f.startsWith('apps/web/'));
     expect(webFiles.length, 'apps/web contributed no scanned sinks').toBeGreaterThan(0);
     expect(webFiles).toContain('apps/web/lib/data.ts');
-    expect(webFiles).toContain('apps/web/lib/supabase.ts');
+    expect(ctx.sources.has('apps/web/lib/supabase.ts')).toBe(true);
+    expect(webFiles).not.toContain('apps/web/lib/supabase.ts');
+    expect(
+      registry.retiredRoutes?.filter((route) => route.file === 'apps/web/lib/supabase.ts'),
+    ).toHaveLength(6);
     expect(registry.routes.some((r) => r.file === 'apps/web/lib/data.ts' && r.kind === 'fs-read')).toBe(true);
   });
 
@@ -546,7 +943,9 @@ describe('route registry is acceptance-grade', () => {
     expect(registry.routes.filter((r) => r.kind === 'fs-read').length).toBeGreaterThan(20);
     // Files that ONLY read had no route at all before this. dataset.ts is the
     // clearest case: it reads the bank every run scores against.
-    expect(ctx.sinks.get('packages/runner/src/dataset.ts')).toEqual(new Set(['fs-read']));
+    expect(new Set(ctx.sinks.get('packages/runner/src/dataset.ts')?.map((site) => site.kind))).toEqual(
+      new Set(['fs-read']),
+    );
     expect(registry.routes.some((r) => r.file === 'packages/runner/src/dataset.ts')).toBe(true);
   });
 
@@ -584,33 +983,47 @@ describe('route registry is acceptance-grade', () => {
   it('derives route status as open until every risk is closed', () => {
     // Reported here rather than stored, so the two cannot drift apart.
     const status = (r: Route) => (r.risks.every((x) => x.status === 'closed') ? 'closed' : 'open');
-    // A route with any open risk is open even if other risks are closed —
-    // leaderboard:write is closed for overwrite but open for publication.
+    // The board carries two independent risks. Its status is derived from both,
+    // never hand-written on the route, and a synthetic reopening moves it.
     const board = registry.routes.find((r) => r.key === 'runner:store:leaderboard:write')!;
-    expect(status(board)).toBe('open');
-    expect(board.risks.some((r) => r.status === 'closed')).toBe(true);
+    expect(board.risks).toHaveLength(2);
+    expect(status(board)).toBe('closed');
+    expect(Object.hasOwn(board as unknown as object, 'status')).toBe(false);
+    expect(
+      status({
+        ...board,
+        risks: [{ ...board.risks[0]!, status: 'open' }, ...board.risks.slice(1)],
+      }),
+    ).toBe('open');
   });
 
-  it('records every route it reopened, against a real route and a real test', () => {
+  it('records every route it reopened, against a current or explicitly retired route and a real test', () => {
     // The downgrades are the finding, so they are part of the artifact rather
     // than a commit message nobody reads back.
     expect(registry.falselyClosed.length).toBeGreaterThan(0);
     for (const entry of registry.falselyClosed) {
       const route = registry.routes.find((r) => r.key === entry.route);
-      expect(route, `falselyClosed names unknown route ${entry.route}`).toBeTruthy();
+      const retired = (registry.retiredRoutes ?? []).find((r) => r.key === entry.route);
+      expect(route ?? retired, `falselyClosed names unknown route ${entry.route}`).toBeTruthy();
       expect(CASES_BY_NAME.has(entry.citedTest), `falselyClosed cites unknown test "${entry.citedTest}"`).toBe(true);
-      // The claim must still hold: the test must genuinely not call the route.
-      const c = CASES_BY_NAME.get(entry.citedTest)!;
-      expect(
-        callsSymbol(c.body, route!.function),
-        `${entry.route}: the reopening reason is stale — "${entry.citedTest}" does call ${route!.function} now`,
-      ).toBe(false);
+      if (route) {
+        // The claim must still hold: the old test must genuinely not call the
+        // current route. A retired route instead proves its deletion above.
+        const c = CASES_BY_NAME.get(entry.citedTest)!;
+        expect(
+          callsSymbol(c.body, route.function),
+          `${entry.route}: the reopening reason is stale — "${entry.citedTest}" does call ${route.function} now`,
+        ).toBe(false);
+      } else {
+        expect(entry.retired, `${entry.route}: retired history is not marked retired`).toBe(true);
+      }
       expect(entry.reason.length, `${entry.route}: no reason given`).toBeGreaterThan(40);
     }
   });
 
   it('reports honest totals', () => {
     const risks = registry.routes.flatMap((r) => r.risks);
+    const matching = matchRoutesToSinks(registry.routes, ctx);
     const totals = {
       routes: registry.routes.length,
       risks: risks.length,
@@ -619,9 +1032,13 @@ describe('route registry is acceptance-grade', () => {
       openRoutes: registry.routes.filter((r) => r.risks.some((x) => x.status === 'open')).length,
       reopened: registry.falselyClosed.length,
       scannedFilesWithSinks: ctx.sinks.size,
+      sinkCallSites: [...ctx.sinks.values()].reduce((total, sites) => total + sites.length, 0),
+      matchedRoutes: matching.routeToSites.size,
+      phantomRoutes: registry.routes.length - matching.routeToSites.size,
+      unregisteredSinkCallSites: matching.unmatchedSites.length,
+      unregisteredSemanticRoutes: unownedSinkGroups(matching).length,
     };
     expect(totals.closedRisks + totals.openRisks).toBe(totals.risks);
-    expect(totals.openRoutes).toBeGreaterThan(0); // WP-0 is not complete
     console.log('route registry totals:', JSON.stringify(totals));
   });
 });
@@ -639,6 +1056,15 @@ describe('the registry validator cannot be talked round', () => {
     routes,
     falselyClosed,
   });
+  const sourceContext = (file: string, source: string): ScanContext => {
+    const scan = scanModule(source, file);
+    return {
+      sources: new Map([[file, source]]),
+      sinks: new Map([[file, scan.sites]]),
+      calls: new Map([[file, scan.calls]]),
+      cases: new Map(),
+    };
+  };
 
   it('rejects a closed risk whose test only exercises a helper', () => {
     // Verbatim the citation that certified writeAnalysis for a whole revision.
@@ -732,7 +1158,9 @@ describe('the registry validator cannot be talked round', () => {
       ]),
       ctx,
     );
-    expect(problems.some((p) => p.includes('no db-write sink found in apps/web/lib/supabase.ts'))).toBe(true);
+    expect(
+      problems.some((p) => p.includes('no reachable db-write sink found from castTasteVote')),
+    ).toBe(true);
   });
 
   it('rejects an open risk whose enforcement point reads as enforced', () => {
@@ -765,14 +1193,170 @@ describe('the registry validator cannot be talked round', () => {
     // every other scanned sink must be reported.
     const kept = registry.routes.filter((r) => r.key === 'runner:store:scores:write');
     const problems = validateRegistry(base(kept), ctx);
-    const missing = (kind: string, file: string) => `unregistered ${kind} sink in ${file}`;
-    expect(problems).toContain(missing('fs-read', 'apps/web/lib/data.ts'));
-    expect(problems).toContain(missing('network-out', 'apps/web/lib/supabase.ts'));
-    expect(problems).toContain(missing('fs-read', 'packages/runner/src/dataset.ts'));
-    expect(problems).toContain(missing('process-exec', 'packages/runner/src/derive.ts'));
-    expect(problems).toContain(missing('db', 'packages/runner/src/sync.ts'));
+    const missing = (kind: string, file: string) =>
+      problems.some(
+        (problem) =>
+          problem.startsWith(`unregistered semantic sink route (${file},`) && problem.includes(`, ${kind})`),
+      );
+    expect(missing('fs-read', 'apps/web/lib/data.ts')).toBe(true);
+    expect(missing('network-out', 'packages/runner/src/openrouter.ts')).toBe(true);
+    expect(missing('fs-read', 'packages/runner/src/dataset.ts')).toBe(true);
+    expect(missing('process-exec', 'packages/runner/src/derive.ts')).toBe(true);
+    expect(missing('db', 'packages/runner/src/sync.ts')).toBe(true);
     // …and the enforcement layer itself, which used to be exempt outright.
-    expect(problems).toContain(missing('fs-write', 'packages/runner/src/firewall.ts'));
+    expect(missing('fs-write', 'packages/runner/src/firewall.ts')).toBe(true);
+  });
+
+  it('does not let one function route cover a same-kind sink in another function', () => {
+    const file = 'fixture/two-readers.ts';
+    const source = [
+      `export function registered() { return readFileSync('a'); }`,
+      `export function omitted() { return readFileSync('b'); }`,
+    ].join('\n');
+    const synthetic = sourceContext(file, source);
+    const problems = validateRegistry(
+      base([
+        {
+          key: 'fixture:registered',
+          file,
+          function: 'registered',
+          kind: 'fs-read',
+          operation: 'read a',
+          risks: [
+            { risk: 'historical-overwrite', severity: 'high', status: 'open', enforcementPoint: 'NOT YET', test: null },
+          ],
+        },
+      ]),
+      synthetic,
+    );
+    expect(problems.some((p) => p.includes('(fixture/two-readers.ts, omitted, fs-read)'))).toBe(true);
+  });
+
+  it('does not let a sinkless named route borrow another function’s sink', () => {
+    const file = 'fixture/borrowed.ts';
+    const source = [
+      `export function claimed() { return 'no I/O'; }`,
+      `export function actual() { return readFileSync('evidence'); }`,
+    ].join('\n');
+    const synthetic = sourceContext(file, source);
+    const problems = validateRegistry(
+      base([
+        {
+          key: 'fixture:phantom',
+          file,
+          function: 'claimed',
+          kind: 'fs-read',
+          operation: 'invented read',
+          risks: [
+            { risk: 'historical-overwrite', severity: 'high', status: 'open', enforcementPoint: 'NOT YET', test: null },
+          ],
+        },
+      ]),
+      synthetic,
+    );
+    expect(problems.some((p) => p.includes('no reachable fs-read sink found from claimed'))).toBe(true);
+    expect(problems.some((p) => p.includes('(fixture/borrowed.ts, actual, fs-read)'))).toBe(true);
+  });
+
+  it('attributes a same-module helper sink to the independently callable wrapper', () => {
+    const file = 'fixture/delegated.ts';
+    const source = [
+      `function readEvidence() { return readFileSync('evidence'); }`,
+      `export function loadApproved() { return readEvidence(); }`,
+    ].join('\n');
+    const problems = validateRegistry(
+      base([
+        {
+          key: 'fixture:delegated',
+          file,
+          function: 'loadApproved',
+          kind: 'fs-read',
+          operation: 'load approved evidence',
+          risks: [
+            { risk: 'historical-overwrite', severity: 'high', status: 'open', enforcementPoint: 'NOT YET', test: null },
+          ],
+        },
+      ]),
+      sourceContext(file, source),
+    );
+    expect(problems.filter((p) => p.includes('sink'))).toEqual([]);
+  });
+
+  it('does not confuse an arbitrary receiver with a same-named local helper', () => {
+    const file = 'fixture/receiver-alias.ts';
+    const source = [
+      `function readEvidence() { return readFileSync('evidence'); }`,
+      `export function claimed(client: { readEvidence(): string }) { return client.readEvidence(); }`,
+    ].join('\n');
+    const problems = validateRegistry(
+      base([
+        {
+          key: 'fixture:receiver-alias',
+          file,
+          function: 'claimed',
+          kind: 'fs-read',
+          operation: 'external client read',
+          risks: [
+            { risk: 'historical-overwrite', severity: 'high', status: 'open', enforcementPoint: 'NOT YET', test: null },
+          ],
+        },
+      ]),
+      sourceContext(file, source),
+    );
+    expect(problems.some((p) => p.includes('no reachable fs-read sink found from claimed'))).toBe(true);
+    expect(problems.some((p) => p.includes('(fixture/receiver-alias.ts, readEvidence, fs-read)'))).toBe(true);
+  });
+
+  it('owns nested operation methods through their factory without treating reads as writes', () => {
+    const file = 'fixture/db-factory.ts';
+    const source = [
+      `export function makeOperations(db: any) {`,
+      `  return {`,
+      `    async readRows() { return db.from('rows').select('*'); },`,
+      `    async writeRows(rows: unknown[]) { return db.from('rows').upsert(rows); },`,
+      `  };`,
+      `}`,
+    ].join('\n');
+    const writeOnly = validateRegistry(
+      base([
+        {
+          key: 'fixture:db-write',
+          file,
+          function: 'makeOperations',
+          kind: 'db-write',
+          operation: 'write rows',
+          risks: [
+            { risk: 'historical-overwrite', severity: 'high', status: 'open', enforcementPoint: 'NOT YET', test: null },
+          ],
+        },
+      ]),
+      sourceContext(file, source),
+    );
+    expect(writeOnly.some((p) => p.includes('(fixture/db-factory.ts, readRows, db-read)'))).toBe(true);
+    expect(writeOnly.some((p) => p.includes('(fixture/db-factory.ts, writeRows, db-write)'))).toBe(false);
+  });
+
+  it('treats several same-kind calls in one callable as one semantic route', () => {
+    const file = 'fixture/two-sites.ts';
+    const source = `export function loadBoth() { return [readFileSync('a'), readFileSync('b')]; }`;
+    const synthetic = sourceContext(file, source);
+    const problems = validateRegistry(
+      base([
+        {
+          key: 'fixture:one-route',
+          file,
+          function: 'loadBoth',
+          kind: 'fs-read',
+          operation: 'read both',
+          risks: [
+            { risk: 'historical-overwrite', severity: 'high', status: 'open', enforcementPoint: 'NOT YET', test: null },
+          ],
+        },
+      ]),
+      synthetic,
+    );
+    expect(problems.filter((p) => p.includes('(fixture/two-sites.ts, loadBoth, fs-read)'))).toEqual([]);
+    expect(problems.some((p) => p.includes('no reachable fs-read sink found from loadBoth'))).toBe(false);
   });
 
   it('has a scanner that is not vacuous', () => {
@@ -781,7 +1365,8 @@ describe('the registry validator cannot be talked round', () => {
     expect(scanSinks("const a = readFileSync(p, 'utf8');")).toEqual(new Set(['fs-read']));
     expect(scanSinks('writeFileSync(p, x);')).toEqual(new Set(['fs-write']));
     expect(scanSinks('await fetch(url);')).toEqual(new Set(['network-out']));
-    expect(scanSinks("db.from('taste_votes').select()")).toEqual(new Set(['db']));
+    expect(scanSinks("db.from('taste_votes').select()")).toEqual(new Set(['db-read']));
+    expect(scanSinks("db.from('taste_votes').upsert(rows)")).toEqual(new Set(['db-write']));
     expect(scanSinks("execFileSync('git', args)")).toEqual(new Set(['process-exec']));
     expect(scanSinks('rmSync(p, { force: true });')).toEqual(new Set(['fs-delete']));
     // …and does not fire on the look-alikes that made it cry wolf before.
@@ -796,14 +1381,14 @@ describe('the registry validator cannot be talked round', () => {
     expect(callsSymbol("serviceRoleClient(g, 'result-sync', 'syncRun')", 'syncRun')).toBe(false);
     expect(callsSymbol('await syncRun(grant, id)', 'syncRun')).toBe(true);
     expect(callsSymbol('await client.complete(m, msgs, opts)', 'complete')).toBe(true);
-    expect(callsSymbol('ReservationLedger.forTests(g, RUN, {})', 'ReservationLedger')).toBe(true);
     expect(callsSymbol('expect(thing.completed).toBe(true)', 'complete')).toBe(false);
     // A call at the start of a line is not a declaration.
     expect(declaresSymbol('  writeResponse({ runId });', 'writeResponse')).toBe(false);
     expect(declaresSymbol('export function writeResponse(r: X): void {', 'writeResponse')).toBe(true);
-    expect(declaresSymbol('  async complete(', 'complete')).toBe(true);
-    expect(declaresSymbol('  static forCandidates(g, l) {', 'forCandidates')).toBe(true);
-    expect(declaresSymbol('const envPath = join(REPO_ROOT, ".env");', 'envPath')).toBe(true);
+    expect(declaresSymbol('class Client { async complete() {} }', 'complete')).toBe(true);
+    expect(declaresSymbol('class Client { static forCandidates(g, l) {} }', 'forCandidates')).toBe(true);
+    expect(declaresSymbol('const operations = { async upsertModels(rows) {} };', 'upsertModels')).toBe(true);
+    expect(declaresSymbol('const envPath = join(REPO_ROOT, ".env");', 'envPath')).toBe(false);
     expect(declaresSymbol('// mentions writeAnalysis in prose', 'writeAnalysis')).toBe(false);
   });
 

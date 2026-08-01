@@ -73,6 +73,7 @@ export const ACCEPTANCE_SUMMARY_PATH = join(REPO_ROOT, 'docs/wp-0/acceptance-sum
  * the set of acceptance inputs is a decision, not a directory listing.
  */
 const INPUT_FILES = [
+  'docs/methodology/CookingBench-methodology-first-master-plan.md',
   'docs/methodology/CookingBench-methodology-first-master-plan.sha256',
   'docs/methodology/WP-0-start-brief.md',
   'docs/wp-0/routes.yaml',
@@ -334,7 +335,7 @@ function tally(vocabulary: readonly string[], values: readonly string[]): { [key
 /**
  * Build the exact bytes of the committed acceptance summary.
  *
- * Pure with respect to everything except the four committed input files: same
+ * Pure with respect to everything except the five committed input files: same
  * inputs, same bytes, on any machine, in any directory, under any locale or
  * timezone.
  */
@@ -360,6 +361,14 @@ export function buildAcceptanceSummary(): string {
   const methodologyHash = /^[a-f0-9]{64}/.exec(sidecar.trim())?.[0];
   if (!methodologyHash) {
     throw new RegenerationError('The methodology sidecar does not start with a sha256 digest.');
+  }
+  const methodology = contents.get('docs/methodology/CookingBench-methodology-first-master-plan.md')!;
+  const actualMethodologyHash = sha256Of(methodology);
+  if (methodologyHash !== actualMethodologyHash) {
+    throw new RegenerationError(
+      `The methodology sidecar declares ${methodologyHash}, but the plan bytes hash to ${actualMethodologyHash}. ` +
+        'A checksum sidecar cannot be its own evidence.',
+    );
   }
 
   const documented = [...matrix.map((r) => r.id)].sort();

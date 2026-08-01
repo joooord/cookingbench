@@ -197,14 +197,11 @@ export const hashSchema = z.string().regex(/^[a-f0-9]{64}$/, 'expected a sha256 
  * WP-0 owns this. WP-1 may add referenced v3 domain-contract hashes and
  * schemas, but must not redefine the firewall, permit or release fields.
  */
-export const runManifestSchema = z.object({
-  manifestVersion: z.literal(1),
-
+const runManifestFields = {
   // Identity and lineage
   runId: runIdSchema,
   methodologyVersion: z.string().min(1),
   schemaVersion: z.string().min(1),
-  gitCommit: z.string().regex(/^[a-f0-9]{7,40}$/),
   /** Run ids this artifact derives from. Empty for a fresh run. */
   parentArtifacts: z.array(runIdSchema).default([]),
 
@@ -258,7 +255,43 @@ export const runManifestSchema = z.object({
   budgetCapUsd: z.number().nonnegative(),
   /** Isolated root for this run's outputs. Never a historical run directory. */
   outputRoot: z.string().min(1),
+};
+
+/**
+ * Historical envelope format. It remains parseable so committed runs and the
+ * permits bound to their canonical hashes do not become unreadable.
+ */
+export const runManifestV1Schema = z.object({
+  manifestVersion: z.literal(1),
+  // Historical v1 envelopes allowed an abbreviated source identity. It is
+  // retained only so already-committed artifacts remain readable.
+  gitCommit: z.string().regex(/^[a-f0-9]{7,40}$/),
+  ...runManifestFields,
 });
+
+/**
+ * TRACE-001 envelope format for every newly frozen run.
+ *
+ * `methodologyHash` binds the checked master-plan bytes and their committed
+ * checksum sidecar. `traceabilityVersion` binds the exact traceability matrix
+ * bytes. Both are content identities, hence the SHA-256 schema rather than a
+ * mutable display version.
+ */
+export const runManifestV2Schema = z.object({
+  manifestVersion: z.literal(2),
+  methodologyHash: hashSchema,
+  traceabilityVersion: hashSchema,
+  // A prefix is not a reproducible source identity: it can become ambiguous as
+  // history grows and it cannot be fetched or checked out without resolution.
+  gitCommit: z.string().regex(/^[a-f0-9]{40}$/, 'gitCommit must be a full 40-character commit id'),
+  ...runManifestFields,
+});
+
+/** Read format: v1 for history, v2 for all newly built and written manifests. */
+export const runManifestSchema = z.discriminatedUnion('manifestVersion', [
+  runManifestV1Schema,
+  runManifestV2Schema,
+]);
 
 /**
  * The only manifest type execution may use.
@@ -269,6 +302,32 @@ export const runManifestSchema = z.object({
  * into the schema means an incoherent manifest cannot be constructed at all.
  */
 export const validatedRunManifestSchema = runManifestSchema.superRefine((m, ctx) => {
+  // These fields are part of the signed execution envelope, so silently
+  // ignoring them is worse than not exposing them. V3 currently executes one
+  // response per cell and has no persisted semantics for conditional aborts.
+  // Refuse unsupported policy before any caller can turn the manifest into
+  // authority or construct a paid client.
+  if (m.generationSettings.repeats !== 1) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['generationSettings', 'repeats'],
+      message: 'v3 supports exactly one response per cell; repeats other than 1 are not implemented.',
+    });
+  }
+  if (m.generationSettings.repeatPolicy !== 'single') {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['generationSettings', 'repeatPolicy'],
+      message: "v3 supports only repeatPolicy 'single'; repeated-sampling semantics are not implemented.",
+    });
+  }
+  if (m.callPlan.abortOn.length > 0) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['callPlan', 'abortOn'],
+      message: 'v3 does not implement persisted abortOn semantics; the list must be empty.',
+    });
+  }
   const expected = isRankEligible(m.evidenceClass);
   if (m.rankEligible !== expected) {
     ctx.addIssue({
@@ -310,6 +369,8 @@ export function expectedOutputRoot(runId: string): string {
 }
 
 export type RunManifest = z.infer<typeof runManifestSchema>;
+export type RunManifestV1 = z.infer<typeof runManifestV1Schema>;
+export type RunManifestV2 = z.infer<typeof runManifestV2Schema>;
 
 /**
  * A manifest that has passed `validatedRunManifestSchema`.
@@ -325,6 +386,8 @@ export type RunManifest = z.infer<typeof runManifestSchema>;
  * alias below documents intent; it is the `parse` call that enforces it.
  */
 export type ValidatedRunManifest = RunManifest;
+/** A newly built/written manifest that has passed all shared invariants. */
+export type ValidatedRunManifestV2 = RunManifestV2;
 
 export function parseRunManifest(value: unknown): ValidatedRunManifest {
   return validatedRunManifestSchema.parse(value);
@@ -362,6 +425,96 @@ export function canonicalJson(value: unknown): string {
     return v;
   };
   return JSON.stringify(walk(value));
+}
+
+/** The manifest-derived identity every public board or analysis must carry. */
+export const publicResultStampSchema = z
+  .object({
+    runId: runIdSchema,
+    evidenceClass: evidenceClassSchema,
+    releaseState: releaseStateSchema,
+    rankEligible: z.boolean(),
+    manifestHash: hashSchema,
+    nonScoringBanner: z.string().min(1).nullable(),
+  })
+  .passthrough();
+
+export type PublicResultStamp = z.infer<typeof publicResultStampSchema>;
+
+/**
+ * Compare a public artifact to the exact stored execution envelope.
+ *
+ * Kept in core so the release gate and the website cannot develop two
+ * different ideas of what an artifact stamp means.
+ */
+export function publicResultMatchesManifest(
+  value: unknown,
+  manifest: ValidatedRunManifest,
+  expectedManifestHash: string,
+): boolean {
+  const parsed = publicResultStampSchema.safeParse(value);
+  if (!parsed.success) return false;
+  const expectedBanner =
+    manifest.evidenceClass === 'legacy-shadow' || manifest.evidenceClass === 'development-probe'
+      ? NON_SCORING_LABEL
+      : null;
+  return (
+    parsed.data.runId === manifest.runId &&
+    parsed.data.evidenceClass === manifest.evidenceClass &&
+    parsed.data.releaseState === manifest.releaseState &&
+    parsed.data.rankEligible === manifest.rankEligible &&
+    parsed.data.manifestHash === expectedManifestHash &&
+    parsed.data.nonScoringBanner === expectedBanner
+  );
+}
+
+/**
+ * The complete artifact vocabulary of one approved public release.
+ *
+ * Kept in core because both the runner that writes the atomic pointer and the
+ * website that consumes it must agree on the set. A second list in either
+ * package would turn adding a new public surface into a silent partial-release
+ * bug in the other one.
+ */
+export const PUBLIC_RELEASE_ARTIFACTS = Object.freeze([
+  'leaderboard.json',
+  'analysis.json',
+  'config.json',
+  'calibration.json',
+  'scores.json',
+  'manifest.json',
+  'manifest.sha256',
+  'manifest-digest.json',
+  'derivation.json',
+  'provenance.ndjson',
+  'release-checklist.json',
+  'responses',
+] as const);
+export type PublicReleaseArtifact = (typeof PUBLIC_RELEASE_ARTIFACTS)[number];
+
+export interface ResponseSetMember {
+  file: string;
+  sha256: string;
+}
+
+/**
+ * Canonical response-set evidence, shared by derivation and publication.
+ *
+ * The run id is inside the commitment, so copying an otherwise byte-identical
+ * directory beneath a different run does not inherit the source approval. The
+ * filename set is included as well as each content hash, so add/delete/rename
+ * operations all change the resulting digest. Callers hash the returned string
+ * with SHA-256; core remains pure and performs no filesystem or crypto I/O.
+ */
+export function canonicalResponseSet(runId: string, members: readonly ResponseSetMember[]): string {
+  const sorted = [...members].sort((a, b) =>
+    a.file < b.file ? -1 : a.file > b.file ? 1 : 0,
+  );
+  return canonicalJson({
+    kind: 'cookingbench/response-set',
+    sourceRunId: runId,
+    responses: sorted.map((member) => [member.file, member.sha256]),
+  });
 }
 
 /** RUN-001. A signed, single-use authorisation to do something dangerous. */

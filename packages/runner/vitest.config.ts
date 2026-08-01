@@ -22,5 +22,11 @@ export default defineConfig({
   test: {
     testTimeout: 30_000,
     hookTimeout: 30_000,
+    // Route and lifecycle tests deliberately exercise the fixed repository
+    // keyring, revocation policy and register. Parallel files can observe a
+    // sibling between its exact-byte mutation and restore, turning a valid
+    // policy into a transient parse failure. Run files serially; concurrency
+    // itself is still exercised inside the dedicated reservation tests.
+    fileParallelism: false,
   },
 });

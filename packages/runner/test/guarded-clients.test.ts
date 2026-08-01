@@ -3,10 +3,16 @@ import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { RUNS_DIR } from '../src/dataset.js';
 import { Firewall, FirewallError } from '../src/firewall.js';
-import { BudgetExceededError, CapBreachedError, ReservationLedger } from '../src/ledger.js';
+import {
+  BudgetExceededError,
+  CapBreachedError,
+  LedgerError,
+  ReservationLedger,
+} from '../src/ledger.js';
 import { OpenRouterClient, fetchCatalog, type GuardedCompletionOpts } from '../src/openrouter.js';
 import { serviceRoleClient } from '../src/supabase.js';
-import { mintTestGrant } from './support/grant.js';
+import { mintTestGrant, type MintOptions } from './support/grant.js';
+import { temporarilyRevokePermit } from './support/production-trust.js';
 
 /**
  * RUN-001 — the paid and privileged clients are constructible only from a
@@ -20,22 +26,29 @@ import { mintTestGrant } from './support/grant.js';
  */
 
 const RUN = '__test-clients-scratch';
+const OTHER_RUN = '__test-clients-other';
 const CELL = { modelId: 'openai/gpt-5.5', questionId: 'conv-001' };
+const revocationRestores: Array<() => void> = [];
 
 beforeEach(() => {
   // Not a real key and never sent anywhere: `fetch` is stubbed in every test
   // that reaches the transport. Without it `apiKey()` throws INSIDE the retry
-  // loop and the suite spends five backoffs discovering a configuration error.
+  // loop and the suite spends every configured backoff discovering a configuration error.
   process.env.OPENROUTER_API_KEY ??= 'test-key-not-used-offline';
 });
 
 afterEach(() => {
+  for (const restore of revocationRestores.splice(0).reverse()) restore();
   vi.useRealTimers(); // a leaked fake clock would hang the next file's backoffs
   vi.unstubAllGlobals();
+  activeLedger?.close();
+  activeLedger = null;
+  activeGrant = null;
   rmSync(join(RUNS_DIR, RUN), { recursive: true, force: true });
+  rmSync(join(RUNS_DIR, OTHER_RUN), { recursive: true, force: true });
 });
 
-function candidateGrant(budgetCapUsd = 10) {
+function candidateGrant(budgetCapUsd = 10, maxAttempts = 3) {
   return mintTestGrant({
     permitId: 'permit-client-001',
     kind: 'development-probe',
@@ -43,6 +56,7 @@ function candidateGrant(budgetCapUsd = 10) {
     cells: [CELL],
     budgetCapUsd,
     runId: RUN,
+    maxAttempts,
   });
 }
 
@@ -64,12 +78,38 @@ function judgeGrant() {
   });
 }
 
-/**
- * The ledger test seam: no lock file, because these tests are about the client.
- * `forGrant` — the production entry — cannot turn the lock off at all.
- */
+let activeLedger: ReservationLedger | null = null;
+let activeGrant: ReturnType<typeof candidateGrant> | null = null;
+
+/** A production ledger, reused only for the same grant inside one test. */
 function ledgerFor(grant: ReturnType<typeof candidateGrant>) {
-  return ReservationLedger.forTests(grant, RUN, { lock: false });
+  if (activeLedger && activeGrant === grant) return activeLedger;
+  activeLedger?.close();
+  activeLedger = ReservationLedger.forGrant(grant, RUN);
+  activeGrant = grant;
+  return activeLedger;
+}
+
+/** A grant whose clock and revocation list the test may change after verification. */
+function controlledGrant(overrides: Partial<MintOptions> = {}) {
+  const grant = mintTestGrant({
+    permitId: 'permit-client-controlled',
+    kind: 'development-probe',
+    capabilities: ['candidate-inference'],
+    cells: [CELL],
+    budgetCapUsd: 10,
+    runId: RUN,
+    ...overrides,
+  });
+  return {
+    grant,
+    revoke() {
+      revocationRestores.push(temporarilyRevokePermit(grant.permitId));
+    },
+    setNow(iso: string) {
+      vi.setSystemTime(iso);
+    },
+  };
 }
 
 /** A complete, well-formed call. Individual tests break exactly one field. */
@@ -113,6 +153,65 @@ describe('the paid client cannot be built without authorisation', () => {
     );
   });
 
+  it('refuses a ledger minted for another verified grant, permit, manifest or run', () => {
+    const grant = candidateGrant();
+    const ledger = ledgerFor(grant);
+
+    const anotherPermit = mintTestGrant({
+      permitId: 'permit-client-foreign',
+      kind: 'development-probe',
+      capabilities: ['candidate-inference'],
+      cells: [CELL],
+      budgetCapUsd: 10,
+      runId: RUN,
+    });
+    expect(() => OpenRouterClient.forCandidates(anotherPermit, ledger)).toThrow(LedgerError);
+    expect(() => OpenRouterClient.forCandidates(anotherPermit, ledger)).toThrow(
+      /cannot be shared across grants, permits, manifests or runs/,
+    );
+
+    // Same permit id and run, but a different signed manifest (the budget is
+    // part of it), is still a different authority and cannot inherit a ledger.
+    const anotherManifest = mintTestGrant({
+      permitId: grant.permitId,
+      kind: 'development-probe',
+      capabilities: ['candidate-inference'],
+      cells: [CELL],
+      budgetCapUsd: 9,
+      runId: RUN,
+    });
+    expect(() => OpenRouterClient.forCandidates(anotherManifest, ledger)).toThrow(
+      /LEDGER|exact verified grant|cannot be shared/i,
+    );
+
+    const otherRunGrant = mintTestGrant({
+      permitId: 'permit-client-other-run',
+      kind: 'development-probe',
+      capabilities: ['candidate-inference'],
+      cells: [CELL],
+      budgetCapUsd: 10,
+      runId: OTHER_RUN,
+    });
+    const otherRunLedger = ReservationLedger.forGrant(otherRunGrant, OTHER_RUN);
+    expect(() => OpenRouterClient.forCandidates(grant, otherRunLedger)).toThrow(
+      /cannot be shared across grants, permits, manifests or runs/,
+    );
+  });
+
+  it('refuses a ledger-shaped object that was not constructed by the ledger boundary', () => {
+    const grant = candidateGrant();
+    const fake = {
+      reserve: vi.fn(),
+      settle: vi.fn(),
+      releaseUncharged: vi.fn(),
+      retainUnreconciled: vi.fn(),
+    } as never;
+    expect(() => OpenRouterClient.forCandidates(grant, fake)).toThrow(LedgerError);
+    expect(() => OpenRouterClient.forCandidates(grant, fake)).toThrow(
+      /not constructed by ReservationLedger/,
+    );
+  });
+
   it('refuses the live catalog without catalog-read, before any request', async () => {
     const fetchSpy = vi.fn();
     vi.stubGlobal('fetch', fetchSpy);
@@ -132,6 +231,54 @@ describe('the paid client cannot be built without authorisation', () => {
     expect(() => serviceRoleClient(forged, 'publication', 'publishRun')).toThrow(
       /did not mint by verifying a signed permit/,
     );
+  });
+});
+
+describe('authority is fresh when network access is exercised', () => {
+  it('stops a completion revoked after client construction, before fetch', async () => {
+    const controlled = controlledGrant();
+    const ledger = ledgerFor(controlled.grant);
+    const client = OpenRouterClient.forCandidates(controlled.grant, ledger);
+    const fetchSpy = vi.fn();
+    vi.stubGlobal('fetch', fetchSpy);
+
+    controlled.revoke();
+    await expect(
+      client.complete('openai/gpt-5.5', [{ role: 'user', content: 'hi' }], opts()),
+    ).rejects.toMatchObject({ code: 'PERMIT_REVOKED' });
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(ledger.committedUsd).toBe(0);
+  });
+
+  it('stops a completion whose permit expires after client construction, before fetch', async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime('2026-07-31T12:00:00.000Z');
+    const controlled = controlledGrant({ notAfter: '2026-07-31T12:01:00.000Z' });
+    const ledger = ledgerFor(controlled.grant);
+    const client = OpenRouterClient.forCandidates(controlled.grant, ledger);
+    const fetchSpy = vi.fn();
+    vi.stubGlobal('fetch', fetchSpy);
+
+    controlled.setNow('2026-07-31T12:02:00.000Z');
+    await expect(
+      client.complete('openai/gpt-5.5', [{ role: 'user', content: 'hi' }], opts()),
+    ).rejects.toMatchObject({ code: 'PERMIT_EXPIRED' });
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(ledger.committedUsd).toBe(0);
+  });
+
+  it('stops a catalog read revoked after verification, before fetch', async () => {
+    const controlled = controlledGrant({
+      permitId: 'permit-catalog-controlled',
+      capabilities: ['catalog-read'],
+      cells: [],
+    });
+    const fetchSpy = vi.fn();
+    vi.stubGlobal('fetch', fetchSpy);
+
+    controlled.revoke();
+    await expect(fetchCatalog(controlled.grant)).rejects.toMatchObject({ code: 'PERMIT_REVOKED' });
+    expect(fetchSpy).not.toHaveBeenCalled();
   });
 });
 
@@ -404,8 +551,8 @@ describe('every completion is authorised and accounted for', () => {
  * BUDGET-001, the half that was falsely closed.
  *
  * One `reserve()` used to sit OUTSIDE the retry loop, so a single reservation
- * funded up to MAX_ATTEMPTS = 5 billable POSTs: the cap bound reservations, not
- * requests, and a run could spend five times its ceiling with every individual
+ * funded every configured billable POST: the cap bound reservations, not
+ * requests, and a run could multiply its ceiling by the retry count with every individual
  * check passing. And every failure was `release()`d in full, so a completion
  * that was generated, billed and lost in transit was recorded as free.
  *
@@ -423,7 +570,7 @@ describe('every billable attempt is reserved on its own', () => {
           throw error;
         },
       );
-      // 5 attempts of 15s x 2^n plus jitter never exceeds 500s of fake time.
+      // The supported test ceilings below fit comfortably inside this fake window.
       await vi.advanceTimersByTimeAsync(600_000);
       return (await settled)();
     } finally {
@@ -464,7 +611,7 @@ describe('every billable attempt is reserved on its own', () => {
     return readFileSync(path, 'utf8').trim().split('\n').filter(Boolean).map((l) => JSON.parse(l));
   }
 
-  it('reserves again for every retry, so five attempts cannot ride one reservation', async () => {
+  it('reserves again for every retry, so multiple attempts cannot ride one reservation', async () => {
     const fetchSpy = stubSequence(status(429), status(500), ok(0.02));
     const grant = candidateGrant(10);
     const ledger = ledgerFor(grant);
@@ -486,6 +633,57 @@ describe('every billable attempt is reserved on its own', () => {
     expect(ledger.openReservations).toBe(0);
     expect(ledger.settledUsd).toBeCloseTo(0.02, 10);
     expect(ledger.unreconciledUsd).toBeCloseTo(1, 10); // the 500 is still charged
+  });
+
+  it.each([1, 2, 4])(
+    'obeys the verified manifest retry ceiling exactly (%i provider attempt(s))',
+    async (maxAttempts) => {
+      const fetchSpy = stubSequence(status(429));
+      const grant = candidateGrant(10, maxAttempts);
+      const ledger = ledgerFor(grant);
+      const client = OpenRouterClient.forCandidates(grant, ledger);
+
+      await expect(
+        withBackoffsSkipped(() =>
+          client.complete(
+            'openai/gpt-5.5',
+            [{ role: 'user', content: 'hi' }],
+            // A caller-supplied lookalike is deliberately ignored: retry
+            // authority comes from the verified grant, not completion options.
+            { ...opts({ estimateUsd: 0.1 }), maxAttempts: 99 } as GuardedCompletionOpts,
+          ),
+        ),
+      ).rejects.toThrow(/OpenRouter 429/);
+
+      expect(grant.maxAttempts).toBe(maxAttempts);
+      expect(fetchSpy).toHaveBeenCalledTimes(maxAttempts);
+      expect(journal()).toHaveLength(maxAttempts);
+      expect(ledger.openReservations).toBe(0);
+      expect(ledger.chargedUsd).toBe(0); // all 429s were pre-generation
+    },
+  );
+
+  it('re-checks revocation after a retry backoff and sends no later attempt', async () => {
+    const controlled = controlledGrant();
+    const ledger = ledgerFor(controlled.grant);
+    const fetchSpy = vi.fn(async () => {
+      // The first attempt was authorised. Revocation lands while it is in
+      // flight; the next attempt must observe it after the backoff.
+      controlled.revoke();
+      return new Response('rate limited', { status: 429 });
+    });
+    vi.stubGlobal('fetch', fetchSpy);
+    const client = OpenRouterClient.forCandidates(controlled.grant, ledger);
+
+    await expect(
+      withBackoffsSkipped(() =>
+        client.complete('openai/gpt-5.5', [{ role: 'user', content: 'hi' }], opts({ estimateUsd: 1 })),
+      ),
+    ).rejects.toMatchObject({ code: 'PERMIT_REVOKED' });
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(ledger.openReservations).toBe(0);
+    expect(ledger.committedUsd).toBe(0); // 429 was provably pre-generation
   });
 
   it('stops a retry that no longer fits under the cap, before it is sent', async () => {
@@ -599,7 +797,7 @@ describe('every billable attempt is reserved on its own', () => {
     rmSync(join(RUNS_DIR, RUN), { recursive: true, force: true });
 
     // A socket that died with no errno is undici's `terminated`, and it happens
-    // AFTER the request is written just as often as before. Five attempts, five
+    // AFTER the request is written just as often as before. Three attempts, three
     // reservations, all retained: the conservative reading is the default.
     const dropped = ledgerFor(grant);
     stubSequence(networkError());
@@ -612,7 +810,7 @@ describe('every billable attempt is reserved on its own', () => {
         ),
       ),
     ).rejects.toThrow(/network error/);
-    expect(dropped.chargedUsd).toBeCloseTo(0.5, 10); // 5 attempts x $0.10
+    expect(dropped.chargedUsd).toBeCloseTo(0.3, 10); // signed limit: 3 attempts x $0.10
     expect(dropped.openReservations).toBe(0);
   });
 
@@ -659,6 +857,6 @@ describe('every billable attempt is reserved on its own', () => {
       ),
     ).rejects.toThrow(/OpenRouter 503/);
     expect(ledger.openReservations).toBe(0);
-    expect(ledger.chargedUsd).toBeCloseTo(0.5, 10); // 503 may follow generation
+    expect(ledger.chargedUsd).toBeCloseTo(0.3, 10); // three 503s may follow generation
   });
 });

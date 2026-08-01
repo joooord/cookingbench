@@ -13,7 +13,11 @@ import { hostname } from 'node:os';
 import { dirname, join } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { appendRunFileLine, resolveRunFile } from './firewall.js';
-import { assertVerifiedGrant, type VerifiedGrant } from './permit.js';
+import {
+  assertGrantForRun,
+  assertVerifiedGrant,
+  type VerifiedGrant,
+} from './permit.js';
 
 /**
  * BUDGET-001 — the reservation ledger.
@@ -108,7 +112,8 @@ export class CapBreachedError extends Error {
 
 export type LedgerErrorCode =
   | 'LEDGER_LOCKED'
-  | 'LEDGER_SEAM_CLOSED'
+  | 'LEDGER_GRANT_MISMATCH'
+  | 'LEDGER_INVALID_CAP'
   | 'LEDGER_CORRUPT'
   | 'LEDGER_CLOSED'
   | 'RESERVATION_UNKNOWN'
@@ -175,14 +180,19 @@ interface JournalEntry {
   reason?: string;
 }
 
-/** Is this a test process? Same test as permit.ts, for the same reason. */
-const UNDER_TEST =
-  process.env.VITEST === 'true' ||
-  process.env.VITEST_WORKER_ID !== undefined ||
-  process.env.NODE_ENV === 'test';
-
 const JOURNAL_FILE = 'spend.ndjson';
 const LOCK_FILE = 'spend.lock';
+
+function validatedSubCap(name: string, value: unknown): number | undefined {
+  if (value === undefined) return undefined;
+  if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) {
+    throw new LedgerError(
+      `${name} must be a finite non-negative number; got ${JSON.stringify(value)}.`,
+      'LEDGER_INVALID_CAP',
+    );
+  }
+  return value;
+}
 
 /** Bumped when the lock record's meaning changes. v1 had no identity at all. */
 const LOCK_VERSION = 2;
@@ -212,11 +222,13 @@ interface LockRecord {
  * The PRODUCTION options. Two numbers, both of which can only tighten.
  *
  * There is deliberately no `lock` flag and no `now` here. A safeguard whose
- * definition the caller chooses is not a safeguard: `{ lock: false }` on the
- * production boundary is an off switch for the two-runners guard, and an
- * injected clock is an off switch for anything time-based. Tests need both,
- * so the seam is split — see `ReservationLedger.forTests`, which production
- * code never calls and a test in ledger.test.ts proves it never calls.
+ * definition the caller chooses is not a safeguard: `{ lock: false }` is an
+ * off switch for the two-runners guard, and an injected clock is an off switch
+ * for time-based lock ownership. There is no environment-enabled test factory:
+ * `NODE_ENV=test` is caller-controlled, and JavaScript can reach a private
+ * constructor with `Reflect.construct`. The constructor itself therefore has
+ * the same narrow options as this production factory and always acquires the
+ * lock using the real clock.
  */
 export interface LedgerOptions {
   /**
@@ -231,13 +243,22 @@ export interface LedgerOptions {
   perModelCapUsd?: number;
 }
 
-/** Test-only additions. Never part of `LedgerOptions`; never reachable from `forGrant`. */
-interface TestSeamOptions extends LedgerOptions {
-  /** Set false to run without a lock file on disk. */
-  lock?: boolean;
-  /** Injected clock, so journal entries and lock ages are deterministic. */
-  now?: () => Date;
+/**
+ * Runtime identity carried by a ledger.
+ *
+ * TypeScript's `ReservationLedger` type is structural once it crosses a
+ * JavaScript boundary, so the client cannot prove ownership by inspecting a
+ * few public methods or copied fields. This module-private registry records the
+ * exact verified grant object from which each real ledger was constructed.
+ */
+interface LedgerBinding {
+  readonly grant: VerifiedGrant;
+  readonly permitId: string;
+  readonly manifestHash: string;
+  readonly runId: string;
 }
+
+const LEDGER_BINDINGS = new WeakMap<object, LedgerBinding>();
 
 export class ReservationLedger {
   readonly #grant: VerifiedGrant;
@@ -266,12 +287,21 @@ export class ReservationLedger {
   #lockDev: number | null = null;
   #closed = false;
 
-  private constructor(grant: VerifiedGrant, runId: string, opts: TestSeamOptions) {
+  private constructor(grant: VerifiedGrant, runId: string, opts: LedgerOptions) {
+    // Bind the ledger to the ONE run in the verified manifest before touching
+    // that run's filesystem. A valid grant plus a caller-selected run id is not
+    // authority for the selected run.
+    assertGrantForRun(grant, runId, 'ReservationLedger construction');
+    const totalSubCap = validatedSubCap('totalCapUsd', (opts as Record<string, unknown>).totalCapUsd);
+    const perModelSubCap = validatedSubCap(
+      'perModelCapUsd',
+      (opts as Record<string, unknown>).perModelCapUsd,
+    );
     this.#grant = grant;
     this.#runId = runId;
-    this.#totalCapUsd = Math.min(grant.budgetCapUsd, opts.totalCapUsd ?? Infinity);
-    this.#perModelCapUsd = Math.min(this.#totalCapUsd, opts.perModelCapUsd ?? Infinity);
-    this.#now = opts.now ?? (() => new Date());
+    this.#totalCapUsd = Math.min(grant.budgetCapUsd, totalSubCap ?? grant.budgetCapUsd);
+    this.#perModelCapUsd = Math.min(this.#totalCapUsd, perModelSubCap ?? this.#totalCapUsd);
+    this.#now = () => new Date();
     // Preflight the WRITE target before a single call is authorised. Without
     // this, a ledger for a frozen run constructs happily, authorises spend, and
     // only discovers the refusal when it tries to journal the first settlement
@@ -282,7 +312,16 @@ export class ReservationLedger {
     // reject, which is the failure mode this preflight exists to prevent.
     resolveRunFile(runId, JOURNAL_FILE, { write: true });
     this.#replayJournal();
-    if (opts.lock !== false) this.#acquireLock();
+    this.#acquireLock();
+    LEDGER_BINDINGS.set(
+      this,
+      Object.freeze({
+        grant,
+        permitId: grant.permitId,
+        manifestHash: grant.manifestHash,
+        runId,
+      }),
+    );
   }
 
   /**
@@ -292,40 +331,12 @@ export class ReservationLedger {
    */
   static forGrant(grant: VerifiedGrant, runId: string, opts: LedgerOptions = {}): ReservationLedger {
     assertVerifiedGrant(grant, 'ReservationLedger.forGrant');
-    // Spread deliberately narrow: only the two cap fields cross this boundary,
-    // so an object carrying `lock: false` from a production call site changes
-    // nothing rather than silently disabling the run lock.
+    // Copy deliberately narrow: only the two cap fields cross this boundary,
+    // so inherited or cast-only fields cannot reach the constructor.
     return new ReservationLedger(grant, runId, {
       totalCapUsd: opts.totalCapUsd,
       perModelCapUsd: opts.perModelCapUsd,
     });
-  }
-
-  /**
-   * TEST SEAM. Do not call from `packages/runner/src` — there is a test that
-   * greps for it and fails if production code ever does.
-   *
-   * Kept as a separate entry point rather than an extra field on
-   * `LedgerOptions` because a test flag reachable through the production
-   * boundary is a production flag with a comment on it. The lock and the clock
-   * are the two things a caller must not be able to choose.
-   */
-  static forTests(grant: VerifiedGrant, runId: string, opts: TestSeamOptions = {}): ReservationLedger {
-    // The GRANT being real was never the whole check. TestSeamOptions carry
-    // `lock` and `now`: a production caller holding a legitimate grant could
-    // take a ledger with the run lock disabled — two runners each spending the
-    // whole cap, the case BUDGET-001 exists to close — and a clock of its own
-    // choosing, which decides dead-holder lock takeover. "Only tests call it"
-    // was the only thing in the way, and that is a convention, not a check.
-    if (!UNDER_TEST) {
-      throw new LedgerError(
-        `ReservationLedger.forTests is a test seam and this is not a test process. Production ledgers come ` +
-          `from forGrant, which takes neither a lock flag nor a clock.`,
-        'LEDGER_SEAM_CLOSED',
-      );
-    }
-    assertVerifiedGrant(grant, 'ReservationLedger.forTests');
-    return new ReservationLedger(grant, runId, opts);
   }
 
   // --- durability ----------------------------------------------------------
@@ -613,6 +624,11 @@ export class ReservationLedger {
    * another chargeable request to the provider and must be authorised as one.
    */
   reserve(modelId: string, estimateUsd: number): Reservation {
+    // This is the last synchronous boundary before OpenRouter sends an
+    // attempt. Re-checking here means a revocation or expiry during a retry
+    // backoff stops the NEXT request, while settlement remains available for
+    // an attempt that was already sent and still has to be accounted for.
+    assertGrantForRun(this.#grant, this.#runId, `ReservationLedger.reserve(${modelId})`);
     if (this.#closed) {
       throw new LedgerError(
         `Ledger for run ${this.#runId} is closed; its lock has been released. Refusing to authorise further spend.`,
@@ -879,6 +895,43 @@ export class ReservationLedger {
       out[key] = this.#chargedForModel(key);
     }
     return out;
+  }
+}
+
+/**
+ * Prove that a value is a real ledger constructed from this exact grant.
+ *
+ * Comparing only `runId` would let two permits for the same run share a
+ * ledger; comparing only `permitId` would let a newly signed manifest reuse an
+ * old ledger. Exact grant identity plus the signed coordinates closes both,
+ * and the WeakMap rejects hand-built objects that merely look like ledgers.
+ */
+export function assertLedgerBoundToGrant(
+  value: unknown,
+  grant: VerifiedGrant,
+  context: string,
+): asserts value is ReservationLedger {
+  assertVerifiedGrant(grant, context);
+  const binding =
+    typeof value === 'object' && value !== null
+      ? LEDGER_BINDINGS.get(value)
+      : undefined;
+  if (
+    !binding ||
+    binding.grant !== grant ||
+    binding.permitId !== grant.permitId ||
+    binding.manifestHash !== grant.manifestHash ||
+    binding.runId !== grant.runId
+  ) {
+    const actual = binding
+      ? `permit ${binding.permitId}, manifest ${binding.manifestHash.slice(0, 12)}…, run ${binding.runId}`
+      : 'an object not constructed by ReservationLedger';
+    throw new LedgerError(
+      `${context} requires a ledger bound to this exact verified grant ` +
+        `(permit ${grant.permitId}, manifest ${grant.manifestHash.slice(0, 12)}…, run ${grant.runId}); received ${actual}. ` +
+        `A budget ledger cannot be shared across grants, permits, manifests or runs.`,
+      'LEDGER_GRANT_MISMATCH',
+    );
   }
 }
 

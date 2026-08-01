@@ -51,6 +51,48 @@ afterEach(() => {
 
 const CAPS = { maxTokens: 16000, maxTokensRecipe: 32000 };
 
+function seedAttemptManifest(runId: string): void {
+  const questions = loadQuestions();
+  const { manifest } = buildRunManifest(
+    {
+      manifestVersion: 1,
+      runId,
+      methodologyVersion: 'v3.0',
+      schemaVersion: '1',
+      parentArtifacts: [],
+      evidenceClass: 'development',
+      artifactOrigin: ['agent-authored'],
+      releaseState: 'draft',
+      rankEligible: false,
+      candidateRoutes: [
+        { modelId: 'a/one', provider: 'a', baseModelFamily: 'a-one' },
+        { modelId: 'openai/gpt-5.5', provider: 'openai', baseModelFamily: 'gpt-frontier' },
+        { modelId: 'x-ai/grok-4.5', provider: 'xai', baseModelFamily: 'grok-frontier' },
+      ],
+      judgeRoutes: [
+        { modelId: 'anthropic/claude-opus-4.8', provider: 'anthropic', baseModelFamily: 'claude-opus' },
+      ],
+      generationSettings: {
+        temperature: 0,
+        maxTokens: CAPS.maxTokens,
+        maxTokensRecipe: CAPS.maxTokensRecipe,
+        repeats: 1,
+        repeatPolicy: 'single',
+      },
+      callPlan: { concurrency: 4, maxAttempts: 3, abortOn: [] },
+      budgetCapUsd: 10,
+    },
+    questions,
+  );
+  writeRunManifest(runId, manifest, questions);
+}
+
+function manifestedRun(): string {
+  const runId = scratchRun();
+  seedAttemptManifest(runId);
+  return runId;
+}
+
 function batchConfig(runId: string, models: string[], overrides: Partial<RunConfig> = {}): RunConfig {
   return {
     runId,
@@ -238,34 +280,7 @@ describe('RUN-002 — a changed content hash fails rather than warns', () => {
     mergeRunConfig(batchConfig(runId, ['a/one']));
     expect(readRunConfig(runId).protocol?.content.manifestHash).toBeNull();
 
-    const questions = loadQuestions();
-    const { manifest } = buildRunManifest(
-      {
-        manifestVersion: 1,
-        runId,
-        methodologyVersion: 'v3.0',
-        schemaVersion: '1',
-        gitCommit: '980dfcb',
-        parentArtifacts: [],
-        evidenceClass: 'development',
-        artifactOrigin: ['agent-authored'],
-        releaseState: 'draft',
-        rankEligible: false,
-        candidateRoutes: [{ modelId: 'a/one', provider: 'a', baseModelFamily: 'a-one' }],
-        judgeRoutes: [{ modelId: 'x-ai/grok-4.5', provider: 'xai', baseModelFamily: 'grok-frontier' }],
-        generationSettings: {
-          temperature: 0,
-          maxTokens: CAPS.maxTokens,
-          maxTokensRecipe: CAPS.maxTokensRecipe,
-          repeats: 1,
-          repeatPolicy: 'single',
-        },
-        callPlan: { concurrency: 4, maxAttempts: 3, abortOn: [] },
-        budgetCapUsd: 10,
-      },
-      questions,
-    );
-    writeRunManifest(runId, manifest, questions);
+    seedAttemptManifest(runId);
 
     expect(() => mergeRunConfig(secondBatch(runId))).not.toThrow();
     const stored = readRunConfig(runId);
@@ -476,7 +491,7 @@ describe('RUN-002 — attempt ids are derived, never counted', () => {
   });
 
   it('recognises a replay of the same attempt across processes', () => {
-    const runId = scratchRun();
+    const runId = manifestedRun();
     const here = { ...coord, runId };
     const first = beginAttempt(here);
     expect(first.replay).toBe(false);
@@ -487,7 +502,7 @@ describe('RUN-002 — attempt ids are derived, never counted', () => {
   });
 
   it('books one charge, and refuses a second, different one', () => {
-    const runId = scratchRun();
+    const runId = manifestedRun();
     const here = { ...coord, runId };
     settleAttempt(here, { costUsd: 0.25 });
     settleAttempt(here, { costUsd: 0.25 }); // identical settlement is a no-op
@@ -502,19 +517,71 @@ describe('RUN-002 — attempt ids are derived, never counted', () => {
     // "Unreadable" must never collapse into "absent": that is the one reading
     // that licences a second charge for work already done, and it is reachable
     // by corrupting a single file.
-    const runId = scratchRun();
+    const runId = manifestedRun();
     const here = { ...coord, runId };
     const id = retryIdFor(here);
     beginAttempt(here);
+    const valid = JSON.parse(readFileSync(join(RUNS_DIR, runId, 'attempts', `${id}.json`), 'utf8')) as Record<string, unknown>;
     writeFileSync(join(RUNS_DIR, runId, 'attempts', `${id}.json`), '{not json');
     expect(() => beginAttempt(here)).toThrow(ProtocolViolationError);
     expect(() => settleAttempt(here, { costUsd: 1 })).toThrow(/unreadable/i);
 
     writeFileSync(
       join(RUNS_DIR, runId, 'attempts', `${id}.json`),
-      JSON.stringify({ ...here, retryId: 'atr_someone-elses', settledAtIso: null }),
+      JSON.stringify({ ...valid, retryId: 'atr_someone-elses' }),
     );
-    expect(() => beginAttempt(here)).toThrow(/wrong id/);
+    expect(() => beginAttempt(here)).toThrow(/retryId/);
+  });
+
+  it('refuses copied, stale or edited journal rows before any spend is counted', () => {
+    const runId = manifestedRun();
+    const here = { ...coord, runId };
+    settleAttempt(here, { costUsd: 0.25 });
+    const id = retryIdFor(here);
+    const path = join(RUNS_DIR, runId, 'attempts', `${id}.json`);
+    const valid = JSON.parse(readFileSync(path, 'utf8')) as Record<string, unknown>;
+
+    writeFileSync(path, JSON.stringify({ ...valid, modelId: 'unmanifested/model' }));
+    try {
+      readAttempts(runId);
+      throw new Error('expected an undeclared coordinate to refuse');
+    } catch (error) {
+      expect(error).toBeInstanceOf(ProtocolViolationError);
+      expect((error as ProtocolViolationError).code).toBe('ATTEMPT_COORDINATE_MISMATCH');
+    }
+
+    writeFileSync(path, JSON.stringify(valid));
+    const digestPath = join(RUNS_DIR, runId, 'manifest-digest.json');
+    const validDigest = JSON.parse(readFileSync(digestPath, 'utf8')) as {
+      itemIds: string[];
+      items: Record<string, unknown>;
+    };
+    const injectedDigest = structuredClone(validDigest);
+    injectedDigest.itemIds.push('zz-invented-item');
+    injectedDigest.items['zz-invented-item'] = injectedDigest.items[injectedDigest.itemIds[0]!]!;
+    writeFileSync(digestPath, JSON.stringify(injectedDigest));
+    expect(() => readAttempts(runId)).toThrow(/recomputes|item index/i);
+    writeFileSync(digestPath, JSON.stringify(validDigest));
+
+    // A row copied from a different manifest is not evidence for this run.
+    writeFileSync(path, JSON.stringify({ ...valid, manifestHash: 'f'.repeat(64) }));
+    expect(() => readAttempts(runId)).toThrow(/stale record|names manifest/i);
+    expect(() => attemptChargesUsd(runId)).toThrow(ProtocolViolationError);
+
+    // Restore the genuine row, then edit only its booked cost. The record's
+    // checksum makes a partial hand edit refuse rather than inflate spend.
+    writeFileSync(path, JSON.stringify(valid));
+    const edited = { ...valid, costUsd: 999 };
+    writeFileSync(path, JSON.stringify(edited));
+    expect(() => readAttempts(runId)).toThrow(/recordHash/);
+    expect(() => attemptChargesUsd(runId)).toThrow(ProtocolViolationError);
+
+    // Renaming a settled row out of the normal extension must not turn money
+    // already spent back into an empty journal.
+    writeFileSync(`${path}.bak`, JSON.stringify(valid));
+    rmSync(path);
+    expect(() => readAttempts(runId)).toThrow(/unexpected non-record/i);
+    expect(() => beginAttempt(here)).toThrow(ProtocolViolationError);
   });
 
   it('opens no attempt record inside a frozen historical run', () => {
@@ -545,7 +612,7 @@ describe('RUN-002 — a replayed retry stores one answer and books one charge', 
   }
 
   it('stores one answer and one charge when the same retry lands twice', () => {
-    const runId = scratchRun();
+    const runId = manifestedRun();
     writeResponse(response(runId));
     // The replay: same cell, same answer, same price. A duplicate delivery, a
     // resumed process, a re-run batch — all of them arrive here.
@@ -559,7 +626,7 @@ describe('RUN-002 — a replayed retry stores one answer and books one charge', 
   });
 
   it('refuses to overwrite a stored answer with a different one', () => {
-    const runId = scratchRun();
+    const runId = manifestedRun();
     writeResponse(response(runId));
     try {
       writeResponse(response(runId, { answerText: 'Something else entirely.' }));
@@ -573,14 +640,14 @@ describe('RUN-002 — a replayed retry stores one answer and books one charge', 
   });
 
   it('refuses a replay that charges a different price for the same answer', () => {
-    const runId = scratchRun();
+    const runId = manifestedRun();
     writeResponse(response(runId));
     expect(() => writeResponse(response(runId, { costUsd: 0.9 }))).toThrow(ProtocolViolationError);
     expect(attemptChargesUsd(runId)).toBeCloseTo(0.42, 10);
   });
 
   it('keeps distinct cells distinct', () => {
-    const runId = scratchRun();
+    const runId = manifestedRun();
     writeResponse(response(runId));
     writeResponse(response(runId, { questionId: 'conv-002', costUsd: 0.1 }));
     writeResponse(response(runId, { modelId: 'x-ai/grok-4.5', costUsd: 0.2 }));
@@ -591,7 +658,7 @@ describe('RUN-002 — a replayed retry stores one answer and books one charge', 
   it('re-writes an answer whose file was lost but whose attempt survived', () => {
     // Crash between the response write and the settlement, then resume: the
     // record must not become a tombstone that blocks the answer it is missing.
-    const runId = scratchRun();
+    const runId = manifestedRun();
     writeResponse(response(runId));
     rmSync(join(RUNS_DIR, runId, 'responses'), { recursive: true, force: true });
     mkdirSync(join(RUNS_DIR, runId, 'responses'), { recursive: true });

@@ -1,15 +1,27 @@
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { NON_SCORING_LABEL, canonicalJson, type Question } from '@cookingbench/core';
-import { RUNS_DIR, loadQuestions } from '../src/dataset.js';
-import { writeRunFileAtomic } from '../src/firewall.js';
+import {
+  NON_SCORING_LABEL,
+  canonicalJson,
+  type Question,
+  type RunConfig,
+  type Score,
+  type StoredResponse,
+} from '@cookingbench/core';
+import { analyzeRun, writeAnalysis, type RunAnalysis } from '../src/analyze.js';
+import { ADJUDICATION_QUEUE_FILE } from '../src/adjudicate.js';
+import { REPO_ROOT, RUNS_DIR, loadQuestions } from '../src/dataset.js';
+import { deriveRun } from '../src/derive.js';
+import { readProvenance, writeRunFileAtomic } from '../src/firewall.js';
 import { manifestHash, sha256Hex } from '../src/permit.js';
 import {
   ManifestError,
   assertRunIdentity,
   buildRunManifest,
+  readRunManifest,
   validatorDigest,
   verifyRunManifest,
   verifyRunManifestWithOverrides,
@@ -19,7 +31,9 @@ import {
   ANSWER_JOURNAL,
   BALLOT_JOURNAL,
   LifecycleError,
+  PUBLISHED_ARTIFACTS,
   REQUIRED_RELEASE_CHECK_IDS,
+  appendBallot,
   appendJournalEntry,
   assertPublicationAllowed,
   buildReleaseChecklist,
@@ -29,7 +43,9 @@ import {
   journalProblemsForRelease,
   readCurrentRun,
   readReleaseRegister,
+  publishedArtifactDigest,
   registerRun,
+  responseIdentity,
   runState,
   safeReadCurrentRun,
   setCurrentRun,
@@ -38,7 +54,16 @@ import {
   verifyJournal,
   type ReleaseChecklist,
 } from '../src/lifecycle.js';
+import { buildLeaderboard } from '../src/report.js';
+import {
+  mergeRunConfig,
+  readResponses,
+  writeLeaderboard,
+  writeResponse,
+  writeScores,
+} from '../src/store.js';
 import { resolveApprovedRelease } from '../../../apps/web/lib/data.js';
+import { mintTestGrant } from './support/grant.js';
 
 /**
  * RELEASE-002 and the DATA-002 gaps that hang off it.
@@ -77,7 +102,6 @@ function draft(runId: string, overrides: Record<string, unknown> = {}): Record<s
     runId,
     methodologyVersion: 'v3.0',
     schemaVersion: '1',
-    gitCommit: '980dfcb',
     parentArtifacts: [],
     evidenceClass: 'development',
     artifactOrigin: ['agent-authored'],
@@ -108,6 +132,249 @@ function seedRun(runId = RUN, overrides: Record<string, unknown> = {}): string {
   return manifestHash(manifest);
 }
 
+function publicationGrant(runId: string) {
+  const manifest = readRunManifest(runId);
+  return mintTestGrant({
+    permitId: `permit-release-${runId}`,
+    kind: 'publication',
+    capabilities: ['publication'],
+    runId,
+    manifest,
+  });
+}
+
+const PUBLIC_RELEASE = Object.freeze({
+  evidenceClass: 'public-release',
+  artifactOrigin: ['live-provider'],
+  releaseState: 'released',
+  rankEligible: true,
+});
+
+function seedPublicRelease(runId = RUN, overrides: Record<string, unknown> = {}): string {
+  return seedRun(runId, { ...PUBLIC_RELEASE, ...overrides });
+}
+
+/** Both public artifact writers, called exactly as an importing production caller can call them. */
+function publicArtifactWriters(runId: string, grant?: unknown) {
+  return [
+    {
+      file: 'analysis.json',
+      write: () => writeAnalysis(runId, { runId } as RunAnalysis, grant),
+    },
+    {
+      file: 'leaderboard.json',
+      write: () => writeLeaderboard(runId, { runId, rows: [] }, grant),
+    },
+  ] as const;
+}
+
+function writerRefusal(write: () => void): { code: string; message: string } {
+  try {
+    write();
+  } catch (error) {
+    const refusal = error as Error & { code?: string };
+    return { code: refusal.code ?? '(none)', message: refusal.message };
+  }
+  throw new Error('expected the public artifact writer to refuse');
+}
+
+let fixtureGitState: { gitDir: string | undefined; gitWorkTree: string | undefined } | null = null;
+let fixtureGitRoot: string | null = null;
+
+function useIsolatedFixtureGit(): void {
+  if (fixtureGitState !== null) throw new Error('fixture git is already active');
+  fixtureGitState = {
+    gitDir: process.env.GIT_DIR,
+    gitWorkTree: process.env.GIT_WORK_TREE,
+  };
+  fixtureGitRoot = mkdtempSync(join(tmpdir(), 'cookingbench-release-git-'));
+  const env = { ...process.env };
+  delete env.GIT_DIR;
+  delete env.GIT_WORK_TREE;
+  execFileSync('git', ['init', '--quiet', fixtureGitRoot], {
+    cwd: REPO_ROOT,
+    env,
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+  process.env.GIT_DIR = join(fixtureGitRoot, '.git');
+  process.env.GIT_WORK_TREE = REPO_ROOT;
+  execFileSync('git', ['config', 'user.name', 'CookingBench release fixture'], { cwd: REPO_ROOT });
+  execFileSync('git', ['config', 'user.email', 'release-fixture@invalid.local'], {
+    cwd: REPO_ROOT,
+  });
+}
+
+function commitFixtureRun(runId: string, message: string): void {
+  execFileSync('git', ['add', '-f', '--', `data/runs/${runId}`], { cwd: REPO_ROOT });
+  execFileSync('git', ['commit', '--quiet', '-m', message], { cwd: REPO_ROOT });
+}
+
+function fixtureRunConfig(runId: string, derivedFrom?: unknown): RunConfig {
+  return {
+    runId,
+    models: ['meta-llama/llama-4-maverick'],
+    temperature: 0,
+    maxTokens: 16000,
+    maxTokensRecipe: 32000,
+    budgetUsdTotal: 5,
+    budgetUsdPerModel: 5,
+    concurrency: 1,
+    judgeModel: 'x-ai/grok-4.5',
+    judgePanel: ['x-ai/grok-4.5'],
+    judgePromptVersion: 'judge-v2',
+    methodologyVersion: 'v3.0',
+    releaseState: 'draft',
+    ...(derivedFrom === undefined ? {} : { derivedFrom }),
+  } as unknown as RunConfig;
+}
+
+function fixtureResponse(runId: string): StoredResponse {
+  return {
+    runId,
+    modelId: 'meta-llama/llama-4-maverick',
+    questionId: 'tech-001',
+    answerText: 'Use a controlled low heat and verify the texture before serving.',
+    raw: { choices: [{ finish_reason: 'stop' }] },
+    tokensIn: 12,
+    tokensOut: 14,
+    costUsd: 0.01,
+    latencyMs: 5,
+    finishReason: 'stop',
+  };
+}
+
+/** Build a real released/current run through production writers for reader tests. */
+function buildProductionReleaseFixture(): ReturnType<typeof setCurrentRun> {
+  const questions = slice(['tech-001']);
+  const { manifest: sourceManifest } = buildRunManifest(
+    draft(OTHER, {
+      candidateRoutes: [
+        {
+          modelId: 'meta-llama/llama-4-maverick',
+          provider: 'meta',
+          baseModelFamily: 'llama-4',
+        },
+      ],
+    }),
+    questions,
+  );
+  writeRunManifest(OTHER, sourceManifest, questions);
+  mergeRunConfig(fixtureRunConfig(OTHER));
+  writeResponse(fixtureResponse(OTHER));
+
+  useIsolatedFixtureGit();
+  commitFixtureRun(OTHER, 'committed release-fixture source');
+  const derivation = deriveRun({
+    sourceRunId: OTHER,
+    targetRunId: RUN,
+    reason: 'release reader fixture',
+    now: new Date('2026-07-31T00:00:00Z'),
+  });
+
+  const { manifest } = buildRunManifest(
+    draft(RUN, { ...PUBLIC_RELEASE, parentArtifacts: [OTHER] }),
+    questions,
+  );
+  writeRunManifest(RUN, manifest, questions);
+  mergeRunConfig(fixtureRunConfig(RUN, derivation.record.derivedFrom));
+  writeRunFileAtomic(
+    RUN,
+    'calibration.json',
+    `${JSON.stringify({ atIso: '2026-07-31T00:00:00Z', costUsd: 0, passed: true }, null, 2)}\n`,
+  );
+
+  const inherited = readResponses(RUN);
+  for (const response of inherited) {
+    const id = responseIdentity(response);
+    appendJournalEntry(
+      RUN,
+      ANSWER_JOURNAL,
+      id,
+      { ...response, responseId: id, inheritedFrom: response.runId },
+      new Date('2026-07-31T00:00:00Z'),
+    );
+  }
+  appendBallot(
+    {
+      runId: RUN,
+      modelId: 'meta-llama/llama-4-maverick',
+      questionId: 'tech-001',
+      judgeModelId: 'x-ai/grok-4.5',
+      promptVersion: 'judge-v2',
+    },
+    { score: 90, findings: [] },
+  );
+
+  const scores: Score[] = [
+    {
+      runId: RUN,
+      modelId: 'meta-llama/llama-4-maverick',
+      questionId: 'tech-001',
+      score: 90,
+      graderType: questions[0]!.grader.type,
+      detail: { fixture: true },
+      judgeModel: 'x-ai/grok-4.5',
+    },
+  ];
+  writeScores(RUN, scores);
+  writeRunFileAtomic(
+    RUN,
+    ADJUDICATION_QUEUE_FILE,
+    `${JSON.stringify({ version: 1, runId: RUN, policy: {}, cases: [], population: [], queueHash: '' }, null, 2)}\n`,
+  );
+  const grant = publicationGrant(RUN);
+  writeAnalysis(RUN, analyzeRun(RUN, questions, inherited, scores), grant);
+  writeLeaderboard(
+    RUN,
+    buildLeaderboard(
+      RUN,
+      [
+        {
+          id: 'meta-llama/llama-4-maverick',
+          displayName: 'Fixture model',
+          provider: 'meta',
+          family: 'llama-4',
+        },
+      ],
+      questions,
+      inherited,
+      scores,
+      manifest.methodologyVersion,
+    ),
+    grant,
+  );
+
+  registerRun({ runId: RUN, manifest, actor: 'jordan', evidence: 'registered reader fixture' });
+  transitionRun({
+    runId: RUN,
+    to: 'audited',
+    actor: 'jordan',
+    evidence: 'audited reader fixture',
+  });
+  commitFixtureRun(RUN, 'audited release reader fixture');
+  const preRelease = buildReleaseChecklist(RUN);
+  expect(preRelease.items.filter((item) => item.verdict !== 'pass')).toEqual([]);
+  transitionRun({
+    runId: RUN,
+    to: 'released',
+    actor: 'jordan',
+    evidence: 'released reader fixture',
+    now: new Date('2026-07-31T00:00:00Z'),
+  });
+  commitFixtureRun(RUN, 'released reader fixture');
+  const pointer = setCurrentRun({
+    runId: RUN,
+    reviewedBy: 'jordan',
+    reviewEvidence: 'reviewed the full release envelope',
+    now: new Date('2026-07-31T00:00:00Z'),
+  });
+  expect(pointer.artifacts.map((artifact) => artifact.file).sort()).toEqual(
+    [...PUBLISHED_ARTIFACTS].sort(),
+  );
+  expect(readCurrentRun().runId).toBe(RUN);
+  return pointer;
+}
+
 beforeEach(() => {
   useRegisterFileForTest(REGISTER);
 });
@@ -117,6 +384,17 @@ afterEach(() => {
   rmSync(join(RUNS_DIR, RUN), { recursive: true, force: true });
   rmSync(join(RUNS_DIR, OTHER), { recursive: true, force: true });
   rmSync(join(RUNS_DIR, REGISTER), { force: true });
+  if (fixtureGitState !== null) {
+    if (fixtureGitState.gitDir === undefined) delete process.env.GIT_DIR;
+    else process.env.GIT_DIR = fixtureGitState.gitDir;
+    if (fixtureGitState.gitWorkTree === undefined) delete process.env.GIT_WORK_TREE;
+    else process.env.GIT_WORK_TREE = fixtureGitState.gitWorkTree;
+    fixtureGitState = null;
+  }
+  if (fixtureGitRoot !== null) {
+    rmSync(fixtureGitRoot, { recursive: true, force: true });
+    fixtureGitRoot = null;
+  }
 });
 
 // ---------------------------------------------------------------------------
@@ -314,21 +592,41 @@ describe('RELEASE-002 — publication validation is applied, and the run does no
   it('refuses a development artifact at every public path', () => {
     const hash = seedRun();
     registerRun({ runId: RUN, manifestHash: hash, actor: 'test', evidence: 'unit test' });
+    const probe = mintTestGrant({
+      permitId: 'permit-development-cannot-publish',
+      kind: 'development-probe',
+      capabilities: ['catalog-read'],
+      cells: [],
+      runId: RUN,
+      manifest: readRunManifest(RUN),
+    });
     expect(() =>
-      assertPublicationAllowed('public', { requestedRunId: RUN, permitRunId: RUN }),
-    ).toThrow(/do not match its manifest|evidenceClass/);
+      assertPublicationAllowed('public', { requestedRunId: RUN, grant: probe }),
+    ).toThrow(/stored manifest|neither publication nor result-sync|evidenceClass/);
   });
 
   it('refuses to act on one run under another run’s approval', () => {
-    seedRun();
+    seedRun(RUN, {
+      evidenceClass: 'public-release',
+      artifactOrigin: ['live-provider'],
+      releaseState: 'released',
+      rankEligible: true,
+    });
+    seedRun(OTHER, {
+      evidenceClass: 'public-release',
+      artifactOrigin: ['live-provider'],
+      releaseState: 'released',
+      rankEligible: true,
+    });
+    const otherGrant = publicationGrant(OTHER);
     // The permit says OTHER, the request says RUN. Neither `sync` nor `publish`
     // compared these before; an approval for one run acted on another.
     expect(() =>
-      assertPublicationAllowed('public', { requestedRunId: RUN, permitRunId: OTHER }),
+      assertPublicationAllowed('public', { requestedRunId: RUN, grant: otherGrant }),
     ).toThrow(/run identity disagrees/);
     // And "no permit" is not "any run".
     expect(() => assertPublicationAllowed('public', { requestedRunId: RUN })).toThrow(
-      /no permit run id was established/,
+      /no verified grant was established/,
     );
   });
 
@@ -356,6 +654,243 @@ describe('RELEASE-002 — publication validation is applied, and the run does no
     const verdict = assertPublicationAllowed('artifact', { requestedRunId: RUN });
     expect(verdict.nonScoringBanner).toBe(NON_SCORING_LABEL);
     expect(verdict.manifestHash).toMatch(/^[a-f0-9]{64}$/);
+  });
+});
+
+// ---------------------------------------------------------------------------
+
+describe('RELEASE-002 — public artifact writers exercise exact authority themselves', () => {
+  it('makes approval provenance a release gate, not an optional note', () => {
+    const approvalCheck = () =>
+      buildReleaseChecklist(RUN).items.find((item) => item.id === 'approval-provenance')!;
+
+    seedPublicRelease();
+    expect(approvalCheck()).toMatchObject({ verdict: 'fail' });
+    expect(approvalCheck().detail).toMatch(/absent or empty/);
+
+    // One authorised derived artifact does not imply approval for the other.
+    const grant = publicationGrant(RUN);
+    writeAnalysis(RUN, { runId: RUN } as RunAnalysis, grant);
+    const validEntry = readProvenance(RUN)[0]!;
+    expect(approvalCheck()).toMatchObject({ verdict: 'fail' });
+    expect(approvalCheck().detail).toMatch(/bench report/);
+
+    // A syntactically corrupt trail is an unknown approval state, never an
+    // empty-but-acceptable one.
+    writeRunFileAtomic(RUN, 'provenance.ndjson', '{ truncated\n');
+    expect(approvalCheck()).toMatchObject({ verdict: 'fail' });
+    expect(approvalCheck().detail).toMatch(/corrupt at line 1/);
+
+    // Parse-valid provenance for another manifest is equally ineligible.
+    writeRunFileAtomic(
+      RUN,
+      'provenance.ndjson',
+      `${canonicalJson({ ...validEntry, manifestHash: 'f'.repeat(64) })}\n`,
+    );
+    expect(approvalCheck()).toMatchObject({ verdict: 'fail' });
+    expect(approvalCheck().detail).toMatch(/bound to another run or manifest/);
+  });
+
+  it('refuses writeAnalysis and writeLeaderboard when no grant is supplied', () => {
+    seedPublicRelease();
+
+    for (const writer of publicArtifactWriters(RUN)) {
+      const refusal = writerRefusal(writer.write);
+      expect(refusal.code, writer.file).toBe('GRANT_NOT_MINTED');
+      expect(refusal.message, writer.file).toMatch(/did not mint by verifying a signed permit/);
+      expect(existsSync(join(RUNS_DIR, RUN, writer.file)), writer.file).toBe(false);
+    }
+    expect(readProvenance(RUN)).toEqual([]);
+  });
+
+  it('refuses copied lookalike authority at both writer boundaries', () => {
+    seedPublicRelease();
+    const minted = publicationGrant(RUN);
+    const copied = Object.freeze({ ...minted });
+    expect(copied).toEqual(minted); // same shape is deliberately not authority
+
+    for (const writer of publicArtifactWriters(RUN, copied)) {
+      const refusal = writerRefusal(writer.write);
+      expect(refusal.code, writer.file).toBe('GRANT_NOT_MINTED');
+      expect(refusal.message, writer.file).toMatch(/identity, not by shape/);
+      expect(existsSync(join(RUNS_DIR, RUN, writer.file)), writer.file).toBe(false);
+    }
+    expect(readProvenance(RUN)).toEqual([]);
+  });
+
+  it('refuses another run’s minted publication grant at both writer boundaries', () => {
+    seedPublicRelease(RUN);
+    seedPublicRelease(OTHER);
+    const otherGrant = publicationGrant(OTHER);
+
+    for (const writer of publicArtifactWriters(RUN, otherGrant)) {
+      const refusal = writerRefusal(writer.write);
+      expect(refusal.code, writer.file).toBe('PERMIT_RUN_MISMATCH');
+      expect(refusal.message, writer.file).toMatch(/does not carry across to another/);
+      expect(existsSync(join(RUNS_DIR, RUN, writer.file)), writer.file).toBe(false);
+    }
+    expect(readProvenance(RUN)).toEqual([]);
+  });
+
+  it('refuses a same-run grant bound to different manifest bytes', () => {
+    const storedHash = seedPublicRelease();
+    const differentManifest = buildRunManifest(
+      draft(RUN, { ...PUBLIC_RELEASE, budgetCapUsd: 4 }),
+      slice(ITEMS),
+    ).manifest;
+    const differentGrant = mintTestGrant({
+      permitId: 'permit-release-different-envelope',
+      kind: 'publication',
+      capabilities: ['publication'],
+      runId: RUN,
+      manifest: differentManifest,
+    });
+    expect(differentGrant.runId).toBe(RUN); // isolate manifest binding from run binding
+    expect(differentGrant.manifestHash).not.toBe(storedHash);
+
+    for (const writer of publicArtifactWriters(RUN, differentGrant)) {
+      const refusal = writerRefusal(writer.write);
+      expect(refusal.code, writer.file).toBe('MANIFEST_GRANT_MISMATCH');
+      expect(refusal.message, writer.file).toMatch(/binds .* but the stored manifest is/);
+      expect(existsSync(join(RUNS_DIR, RUN, writer.file)), writer.file).toBe(false);
+    }
+    expect(readProvenance(RUN)).toEqual([]);
+  });
+
+  it('stamps both artifacts from the stored manifest and records analyze/report provenance', () => {
+    const storedHash = seedPublicRelease();
+    const grant = publicationGrant(RUN);
+    expect(grant.manifestHash).toBe(storedHash);
+
+    // Hostile caller-supplied stamps are overwritten by the stored envelope.
+    writeAnalysis(
+      RUN,
+      {
+        runId: RUN,
+        evidenceClass: 'development',
+        releaseState: 'draft',
+        rankEligible: false,
+        manifestHash: 'caller-chosen',
+        nonScoringBanner: NON_SCORING_LABEL,
+      } as unknown as RunAnalysis,
+      grant,
+    );
+    writeLeaderboard(
+      RUN,
+      {
+        runId: RUN,
+        rows: [],
+        evidenceClass: 'development',
+        releaseState: 'draft',
+        rankEligible: false,
+        manifestHash: 'caller-chosen',
+        nonScoringBanner: NON_SCORING_LABEL,
+      },
+      grant,
+    );
+
+    const expectedStamp = {
+      runId: RUN,
+      evidenceClass: 'public-release',
+      releaseState: 'released',
+      rankEligible: true,
+      manifestHash: storedHash,
+      nonScoringBanner: null,
+    };
+    expect(JSON.parse(readFileSync(join(RUNS_DIR, RUN, 'analysis.json'), 'utf8'))).toMatchObject(
+      expectedStamp,
+    );
+    expect(JSON.parse(readFileSync(join(RUNS_DIR, RUN, 'leaderboard.json'), 'utf8'))).toMatchObject(
+      expectedStamp,
+    );
+
+    const provenance = readProvenance(RUN);
+    expect(provenance.map((entry) => entry.command)).toEqual(['bench analyze', 'bench report']);
+    for (const entry of provenance) {
+      expect(entry).toMatchObject({
+        receiptVersion: 1,
+        permitId: grant.permitId,
+        kind: 'publication',
+        runId: RUN,
+        manifestHash: storedHash,
+        signedPermit: grant.signedPermit,
+        signedPermitHash: grant.signedPermitHash,
+      });
+      expect(entry.capabilities).toContain('publication');
+      expect(entry.signedPermitHash).toBe(sha256Hex(canonicalJson(entry.signedPermit)));
+    }
+    expect(buildReleaseChecklist(RUN).items.find((item) => item.id === 'approval-provenance')).toMatchObject({
+      verdict: 'pass',
+    });
+  });
+
+  it('refuses a plausible hand-written receipt whose envelope was never signed', () => {
+    seedPublicRelease();
+    const grant = publicationGrant(RUN);
+    writeAnalysis(RUN, { runId: RUN } as RunAnalysis, grant);
+    writeLeaderboard(RUN, { runId: RUN, rows: [] }, grant);
+
+    const entries = readProvenance(RUN);
+    const forgedEnvelope = {
+      ...entries[0]!.signedPermit,
+      // Correct length and encoding, real permit body and real key id: only
+      // production signature verification distinguishes this from approval.
+      signature: Buffer.alloc(64, 7).toString('base64'),
+    };
+    const forgedHash = sha256Hex(canonicalJson(forgedEnvelope));
+    writeFileSync(
+      join(RUNS_DIR, RUN, 'provenance.ndjson'),
+      `${entries
+        .map((entry) => canonicalJson({ ...entry, signedPermit: forgedEnvelope, signedPermitHash: forgedHash }))
+        .join('\n')}\n`,
+    );
+
+    const check = buildReleaseChecklist(RUN).items.find((item) => item.id === 'approval-provenance')!;
+    expect(check.verdict).toBe('fail');
+    expect(check.detail).toMatch(/not authenticated.*PERMIT_BAD_SIGNATURE/);
+  });
+
+  it('refuses an authentic envelope signed for another run and manifest', () => {
+    seedPublicRelease(RUN);
+    seedPublicRelease(OTHER);
+    const grant = publicationGrant(RUN);
+    const wrongGrant = publicationGrant(OTHER);
+    writeAnalysis(RUN, { runId: RUN } as RunAnalysis, grant);
+    writeLeaderboard(RUN, { runId: RUN, rows: [] }, grant);
+
+    const entries = readProvenance(RUN);
+    writeFileSync(
+      join(RUNS_DIR, RUN, 'provenance.ndjson'),
+      `${entries
+        .map((entry) =>
+          canonicalJson({
+            ...entry,
+            signedPermit: wrongGrant.signedPermit,
+            signedPermitHash: wrongGrant.signedPermitHash,
+          }),
+        )
+        .join('\n')}\n`,
+    );
+
+    const check = buildReleaseChecklist(RUN).items.find((item) => item.id === 'approval-provenance')!;
+    expect(check.verdict).toBe('fail');
+    expect(check.detail).toMatch(/not authenticated.*PERMIT_MANIFEST_MISMATCH/);
+  });
+
+  it('refuses an authenticated receipt after the artifact bytes change', () => {
+    seedPublicRelease();
+    const grant = publicationGrant(RUN);
+    writeAnalysis(RUN, { runId: RUN } as RunAnalysis, grant);
+    writeLeaderboard(RUN, { runId: RUN, rows: [] }, grant);
+    expect(buildReleaseChecklist(RUN).items.find((item) => item.id === 'approval-provenance')).toMatchObject({
+      verdict: 'pass',
+    });
+
+    const analysisPath = join(RUNS_DIR, RUN, 'analysis.json');
+    writeFileSync(analysisPath, `${readFileSync(analysisPath, 'utf8')}\n`);
+    const check = buildReleaseChecklist(RUN).items.find((item) => item.id === 'approval-provenance')!;
+    expect(check.verdict).toBe('fail');
+    expect(check.detail).toMatch(/exact current bytes of analysis\.json/);
   });
 });
 
@@ -513,13 +1048,31 @@ describe('RELEASE-002 — the pointer, and publication that no reader sees half 
    * on, so it is tested against a register fixture, which is exactly the shape
    * the writer produces.
    */
-  function writeRegisterFixture(runId: string, hash: string, artifacts: Array<[string, string]>): void {
+  function writeRegisterFixture(
+    runId: string,
+    hash: string,
+    artifacts: Array<[string, string]>,
+    checklistDigest = 'c'.repeat(64),
+  ): void {
+    const registeredAt = '2026-07-30T00:00:00Z';
+    const auditedAt = '2026-07-30T12:00:00Z';
+    const releasedAt = '2026-07-31T00:00:00Z';
     writeFileSync(
       join(RUNS_DIR, REGISTER),
       JSON.stringify({
         registerVersion: 1,
         entries: {
-          [runId]: { runId, state: 'released', manifestHash: hash, updatedAt: '2026-07-31T00:00:00Z', history: [] },
+          [runId]: {
+            runId,
+            state: 'released',
+            manifestHash: hash,
+            updatedAt: releasedAt,
+            history: [
+              { from: null, to: 'draft', at: registeredAt, actor: 'jordan', evidence: 'registered fixture', journalled: true },
+              { from: 'draft', to: 'audited', at: auditedAt, actor: 'jordan', evidence: 'audited fixture', journalled: true },
+              { from: 'audited', to: 'released', at: releasedAt, actor: 'jordan', evidence: 'released fixture', journalled: true },
+            ],
+          },
         },
         currentRun: {
           runId,
@@ -527,7 +1080,7 @@ describe('RELEASE-002 — the pointer, and publication that no reader sees half 
           reviewedBy: 'jordan',
           reviewedAt: '2026-07-31T00:00:00Z',
           reviewEvidence: 'read the board and the analysis',
-          checklistDigest: 'c'.repeat(64),
+          checklistDigest,
           artifacts: artifacts.map(([file, sha256]) => ({ file, sha256 })),
         },
       }),
@@ -540,37 +1093,11 @@ describe('RELEASE-002 — the pointer, and publication that no reader sees half 
   });
 
   it('refuses a pointer whose pinned artifact has changed underneath it', () => {
-    const hash = seedRun();
+    buildProductionReleaseFixture();
     const board = join(RUNS_DIR, RUN, 'leaderboard.json');
-    // Written with plain fs, deliberately. The firewall freezes a directory the
-    // moment it holds a board, which is the DATA-001 guard doing its job; the
-    // scenario under test is a file replaced OUTSIDE the writers, which is how
-    // a mixed version would really arise.
-    writeFileSync(board, JSON.stringify({ runId: RUN, rows: [{ modelId: 'm' }] }));
-    // Every published artifact has to be pinned before any of them is checked,
-    // so the fixture pins the full set; only the board's bytes matter here.
-    writeRegisterFixture(RUN, hash, [
-      ['leaderboard.json', sha256Hex(readFileSync(board, 'utf8'))],
-      ...(['analysis.json', 'scores.json', 'manifest.json', 'release-checklist.json'] as const).map(
-        (file) => [file, 'unchecked-because-the-board-fails-first'] as [string, string],
-      ),
-    ]);
-    expect(() => readCurrentRun()).toThrow(/no longer present/);
-    for (const file of ['analysis.json', 'scores.json', 'release-checklist.json']) {
-      writeFileSync(join(RUNS_DIR, RUN, file), '{}');
-    }
-    // manifest.json is already there; pin the real digests for the rest.
-    writeRegisterFixture(
-      RUN,
-      hash,
-      (['leaderboard.json', 'analysis.json', 'scores.json', 'manifest.json', 'release-checklist.json'] as const).map(
-        (file) => [file, sha256Hex(readFileSync(join(RUNS_DIR, RUN, file), 'utf8'))] as [string, string],
-      ),
-    );
     expect(readCurrentRun().runId).toBe(RUN);
 
-    // Replacing one published file under a live pointer is precisely the mixed
-    // version a reader must never see.
+    // Mutate exactly the board after a genuinely resolvable baseline.
     writeFileSync(board, JSON.stringify({ runId: RUN, rows: [{ modelId: 'tampered' }] }));
     expect(() => readCurrentRun()).toThrow(/has changed since it was approved/);
     rmSync(board);
@@ -623,12 +1150,30 @@ describe('the website serves an approved release, not the newest timestamp', () 
     rmSync(tree, { recursive: true, force: true });
   });
 
-  function board(runId: string, generatedAt: string, rows = [{ modelId: 'm', overall: 90 }]): string {
+  function board(runId: string, generatedAt: string, rows = [{ modelId: 'm', overall: 90 }]): void {
     const dir = join(tree, runId);
     mkdirSync(dir, { recursive: true });
     const body = JSON.stringify({ runId, generatedAt, rows });
     writeFileSync(join(dir, 'leaderboard.json'), body);
-    return sha256Hex(body);
+  }
+
+  function completeRelease(): ReturnType<typeof setCurrentRun> {
+    const pointer = buildProductionReleaseFixture();
+    cpSync(join(RUNS_DIR, RUN), join(tree, RUN), { recursive: true });
+    return pointer;
+  }
+
+  function approvedPointer(
+    pointer: ReturnType<typeof setCurrentRun>,
+    artifacts: Array<{ file: string; sha256: string }> = pointer.artifacts,
+  ): unknown {
+    return { ...pointer, artifacts };
+  }
+
+  function copyHistoricalRelease(): string {
+    const runId = '2026-07-v2.1';
+    cpSync(join(RUNS_DIR, runId), join(tree, runId), { recursive: true });
+    return runId;
   }
 
   function register(entries: unknown, currentRun: unknown): void {
@@ -636,54 +1181,36 @@ describe('the website serves an approved release, not the newest timestamp', () 
   }
 
   it('serves the run the pointer names, even when another board is newer', () => {
-    const approved = board('approved-run', '2026-01-01T00:00:00Z');
+    const fixture = completeRelease();
     board('newer-but-unapproved', '2099-01-01T00:00:00Z');
     register(
-      { 'approved-run': { state: 'released', manifestHash: 'h' } },
-      {
-        runId: 'approved-run',
-        manifestHash: 'h',
-        reviewedBy: 'jordan',
-        reviewedAt: '2026-01-02T00:00:00Z',
-        checklistDigest: 'd',
-        artifacts: [{ file: 'leaderboard.json', sha256: approved }],
-      },
+      { [RUN]: { state: 'released', manifestHash: fixture.manifestHash } },
+      approvedPointer(fixture),
     );
     const release = resolveApprovedRelease(tree);
-    expect(release?.runId).toBe('approved-run');
+    expect(release?.runId).toBe(RUN);
     expect(release?.approval.kind).toBe('register');
   });
 
   it('serves nothing when the pinned artifact has been rebuilt under the pointer', () => {
-    const approved = board('approved-run', '2026-01-01T00:00:00Z');
+    const fixture = completeRelease();
     register(
-      { 'approved-run': { state: 'released', manifestHash: 'h' } },
-      {
-        runId: 'approved-run',
-        manifestHash: 'h',
-        reviewedBy: 'j',
-        reviewedAt: 'x',
-        checklistDigest: 'd',
-        artifacts: [{ file: 'leaderboard.json', sha256: approved }],
-      },
+      { [RUN]: { state: 'released', manifestHash: fixture.manifestHash } },
+      approvedPointer(fixture),
     );
-    board('approved-run', '2026-02-02T00:00:00Z'); // rebuilt: same run, new bytes
+    board(RUN, '2026-02-02T00:00:00Z'); // rebuilt: same run, new bytes
     expect(resolveApprovedRelease(tree)).toBeNull();
   });
 
   it('serves nothing when the register and the pointer disagree', () => {
-    const approved = board('approved-run', '2026-01-01T00:00:00Z');
-    const pointer = {
-      runId: 'approved-run',
-      manifestHash: 'h',
-      reviewedBy: 'j',
-      reviewedAt: 'x',
-      checklistDigest: 'd',
-      artifacts: [{ file: 'leaderboard.json', sha256: approved }],
-    };
-    register({ 'approved-run': { state: 'audited', manifestHash: 'h' } }, pointer);
+    const fixture = completeRelease();
+    const pointer = approvedPointer(fixture);
+    register(
+      { [RUN]: { state: 'audited', manifestHash: fixture.manifestHash } },
+      pointer,
+    );
     expect(resolveApprovedRelease(tree)).toBeNull();
-    register({ 'approved-run': { state: 'released', manifestHash: 'different' } }, pointer);
+    register({ [RUN]: { state: 'released', manifestHash: 'different' } }, pointer);
     expect(resolveApprovedRelease(tree)).toBeNull();
     register({}, pointer);
     expect(resolveApprovedRelease(tree)).toBeNull();
@@ -706,6 +1233,42 @@ describe('the website serves an approved release, not the newest timestamp', () 
     expect(resolveApprovedRelease(tree)).toBeNull();
   });
 
+  it('refuses a board-only or empty pointer rather than approving a vacuous envelope', () => {
+    const fixture = completeRelease();
+    const entries = {
+      [RUN]: { state: 'released', manifestHash: fixture.manifestHash },
+    };
+    register(entries, approvedPointer(fixture, fixture.artifacts.slice(0, 1)));
+    expect(resolveApprovedRelease(tree)).toBeNull();
+    register(entries, approvedPointer(fixture, []));
+    expect(resolveApprovedRelease(tree)).toBeNull();
+
+    const responseDir = join(tree, RUN, 'responses');
+    rmSync(join(responseDir, readdirSync(responseDir).sort()[0]!));
+    register(entries, approvedPointer(fixture));
+    expect(resolveApprovedRelease(tree)).toBeNull();
+  });
+
+  it('refuses a copied companion even when the pointer pins the copied bytes', () => {
+    const fixture = completeRelease();
+    const copiedConfig = join(tree, RUN, 'config.json');
+    writeFileSync(
+      copiedConfig,
+      readFileSync(join(RUNS_DIR, '2026-07-v2.1', 'config.json')),
+    );
+    const artifacts = fixture.artifacts.map((artifact) =>
+      artifact.file === 'config.json'
+        ? { ...artifact, sha256: sha256Hex(readFileSync(copiedConfig, 'utf8')) }
+        : artifact,
+    );
+    register(
+      { [RUN]: { state: 'released', manifestHash: fixture.manifestHash } },
+      approvedPointer(fixture, artifacts),
+    );
+    // The digest is valid, but config.json still names its source run.
+    expect(resolveApprovedRelease(tree)).toBeNull();
+  });
+
   it('serves the one pinned historical release, by content, when no register exists', () => {
     // The real tree: 2026-07-v2.1 is the published board and stays published,
     // and it is selected by a pinned digest rather than by being newest.
@@ -716,18 +1279,32 @@ describe('the website serves an approved release, not the newest timestamp', () 
   });
 
   it('lets the register withdraw the pinned historical release', () => {
-    const dir = join(tree, '2026-07-v2.1');
-    mkdirSync(dir, { recursive: true });
-    writeFileSync(join(dir, 'leaderboard.json'), readFileSync(join(RUNS_DIR, '2026-07-v2.1', 'leaderboard.json')));
-    expect(resolveApprovedRelease(tree)?.runId).toBe('2026-07-v2.1');
-    register({ '2026-07-v2.1': { state: 'quarantined', manifestHash: 'h' } }, null);
+    const runId = copyHistoricalRelease();
+    expect(resolveApprovedRelease(tree)?.runId).toBe(runId);
+    register({ [runId]: { state: 'quarantined', manifestHash: 'h' } }, null);
     expect(resolveApprovedRelease(tree)).toBeNull();
   });
 
-  it('refuses a pinned board whose bytes are not the ones that were approved', () => {
-    const dir = join(tree, '2026-07-v2.1');
-    mkdirSync(dir, { recursive: true });
-    writeFileSync(join(dir, 'leaderboard.json'), JSON.stringify({ runId: '2026-07-v2.1', rows: [{ modelId: 'x' }] }));
+  it('refuses any changed historical companion or response-set membership', () => {
+    const runId = copyHistoricalRelease();
+    const dir = join(tree, runId);
+    for (const file of ['leaderboard.json', 'analysis.json', 'config.json', 'calibration.json', 'scores.json']) {
+      const path = join(dir, file);
+      const approved = readFileSync(path);
+      writeFileSync(path, Buffer.concat([approved, Buffer.from('\n')]));
+      expect(resolveApprovedRelease(tree), `${file} changed but the release still resolved`).toBeNull();
+      writeFileSync(path, approved);
+    }
+
+    const responses = join(dir, 'responses');
+    const first = readdirSync(responses).sort()[0]!;
+    const firstPath = join(responses, first);
+    const approvedResponse = readFileSync(firstPath);
+    writeFileSync(firstPath, Buffer.concat([approvedResponse, Buffer.from('\n')]));
+    expect(resolveApprovedRelease(tree)).toBeNull();
+    writeFileSync(firstPath, approvedResponse);
+
+    writeFileSync(join(responses, 'copied-extra.json'), approvedResponse);
     expect(resolveApprovedRelease(tree)).toBeNull();
   });
 });

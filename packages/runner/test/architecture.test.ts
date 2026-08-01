@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { describe, expect, it } from 'vitest';
@@ -302,14 +303,6 @@ const ALLOWED_TRUST_INPUTS: AllowedTrustInput[] = [
       'and the clock remain fixed, so naming a different permit file changes what is checked, never what it is checked against.',
   },
   {
-    file: 'packages/runner/src/permit.ts',
-    symbol: 'verifyPermitForTests',
-    parameter: 'trustRoot',
-    why:
-      'The test seam. Split out of the production API precisely so trust inputs are not reachable through it, ' +
-      'and guarded at runtime by UNDER_TEST — see the seam cases below, which prove production never calls it.',
-  },
-  {
     file: 'packages/runner/src/firewall.ts',
     symbol: 'readHistoricalRegistryForTests',
     parameter: 'registryPath',
@@ -558,16 +551,37 @@ describe('the known remaining injectable parameters are not reachable in product
  * check and is recorded as such rather than described as "guarded".
  */
 const KNOWN_SEAMS: ReadonlyArray<{ file: string; symbol: string; guard: string | null; note?: string }> = [
-  { file: 'packages/runner/src/permit.ts', symbol: 'verifyPermitForTests', guard: 'UNDER_TEST' },
   { file: 'packages/runner/src/firewall.ts', symbol: 'readHistoricalRegistryForTests', guard: 'UNDER_TEST' },
-  { file: 'packages/runner/src/ledger.ts', symbol: 'forTests', guard: 'UNDER_TEST' },
   { file: 'packages/runner/src/lifecycle.ts', symbol: 'useRegisterFileForTest', guard: 'assertTestSeam' },
   { file: 'packages/runner/src/lifecycle.ts', symbol: 'clearRegisterFileForTest', guard: 'assertTestSeam' },
+  {
+    file: 'packages/runner/src/manifest.ts',
+    symbol: 'assertReproducibleGitIdentityForTests',
+    guard: 'assertTestSeam',
+  },
 ] as const;
 
 const SEAM_NAME = /(?:^|[a-z0-9_$])[Ff]or[Tt]ests?$/;
 
 describe('test seams are declared, guarded, and unreachable from production', () => {
+  it('does not expose a grant-minting test verifier in a fresh test-mode runtime', () => {
+    const loader = join(REPO_ROOT, 'packages/runner/node_modules/tsx/dist/loader.mjs');
+    const script =
+      "(async()=>{const m=await import('./packages/runner/src/permit.ts');" +
+      "process.stdout.write(JSON.stringify(Object.keys(m).filter(k=>/forTests|test.*permit|permit.*test/i.test(k))))})()";
+    const output = execFileSync(process.execPath, ['--import', loader, '--input-type=module', '--eval', script], {
+      cwd: REPO_ROOT,
+      encoding: 'utf8',
+      env: {
+        ...process.env,
+        NODE_ENV: 'test',
+        VITEST: 'true',
+        VITEST_WORKER_ID: 'fresh-runtime',
+      },
+    });
+    expect(JSON.parse(output)).toEqual([]);
+  });
+
   it('has no test seam that is not on the known list', () => {
     const found = DECLARATIONS.filter((d) => SEAM_NAME.test(d.symbol)).map((d) => `${d.file}:${d.symbol}`);
     const known = KNOWN_SEAMS.map((s) => `${s.file}:${s.symbol}`);
@@ -761,18 +775,9 @@ describe('authority is checked at runtime, not asserted by the type system', () 
    * `private` erases: `Reflect.construct(C, [forged])` and `new (C as any)(…)`
    * both reach it, so a constructor guarded only by its static factory is
    * guarded by nothing. firewall.ts and openrouter.ts both fixed this and say
-   * so in their comments; ledger.ts has not.
+   * so in their comments; ledger.ts now binds the grant and run there too.
    */
-  const CONSTRUCTORS_WITHOUT_RUNTIME_CHECK: ReadonlyArray<{ file: string; why: string }> = [
-    {
-      file: 'packages/runner/src/ledger.ts',
-      why:
-        'QUARANTINED. ReservationLedger\'s constructor takes the budget cap straight off the grant it is handed ' +
-        '(#totalCapUsd = min(grant.budgetCapUsd, …)) and asserts nothing. Both factories check, but the ' +
-        'constructor is reachable past them, so a forged grant sets its own ceiling — the exact bypass ' +
-        'Firewall\'s constructor was changed to close.',
-    },
-  ];
+  const CONSTRUCTORS_WITHOUT_RUNTIME_CHECK: ReadonlyArray<{ file: string; why: string }> = [];
 
   it('never leaves a private constructor as the only gate', () => {
     const privateCtors = SOURCES.flatMap((file) =>
@@ -894,6 +899,224 @@ describe('authority is checked at runtime, not asserted by the type system', () 
   });
 });
 
+describe('the CLI cannot substitute a parallel execution envelope', () => {
+  it('binds the verified grant to the stored run manifest before returning authority', () => {
+    const cli = sourceOf('packages/runner/src/cli.ts').code;
+    const declaration = DECLARATIONS.find(
+      (d) => d.file === 'packages/runner/src/cli.ts' && d.symbol === 'requireGrant',
+    );
+    expect(declaration).toBeDefined();
+    const body = bodyAfter('packages/runner/src/cli.ts', declaration!.line, 55);
+    const storedClaim = body.indexOf('resolveStoredManifestClaim(');
+    const verified = body.indexOf('verifyPermitFile(');
+    const storedBinding = body.indexOf('assertGrantMatchesStoredManifest(');
+    const returned = body.indexOf('return grant;');
+
+    expect(storedClaim).toBeGreaterThanOrEqual(0);
+    expect(verified).toBeGreaterThan(storedClaim);
+    expect(storedBinding).toBeGreaterThan(verified);
+    expect(returned).toBeGreaterThan(storedBinding);
+    // One loader means every permit-using command inherits the boundary. A
+    // second direct verifier in the CLI would be an unbound route around it.
+    expect(cli.match(/verifyPermitFile\(/g)).toHaveLength(1);
+    expect(cli).toMatch(/requireGrant\(\s*[^,]+,\s*manifest\s*\)/);
+    expect(cli).toMatch(/requireGrant\(\s*[^,]+,\s*runManifest\s*\)/);
+  });
+
+  it('hashes the methodology plan itself and refuses disagreement with its sidecar', () => {
+    const declaration = DECLARATIONS.find(
+      (d) => d.file === 'packages/runner/src/permit.ts' && d.symbol === 'frozenMethodologyHash',
+    );
+    expect(declaration).toBeDefined();
+    const body = bodyAfter('packages/runner/src/permit.ts', declaration!.line, 45);
+
+    expect(body).toMatch(/sha256Hex\(readFileSync\(METHODOLOGY_PLAN/);
+    expect(body).toMatch(/actual !== recorded/);
+    expect(body).toMatch(/throw new PermitError\(/);
+
+    // The CLI may expose the value for diagnostics, but it delegates to the
+    // permit module so there is one production definition of methodology.
+    const cli = sourceOf('packages/runner/src/cli.ts').code;
+    expect(cli).toMatch(/return permitMethodologyHash\(\)/);
+  });
+
+  it('checks reproducible git identity before a manifest write or paid authority return', () => {
+    const cli = sourceOf('packages/runner/src/cli.ts').code;
+    const grant = DECLARATIONS.find(
+      (d) => d.file === 'packages/runner/src/cli.ts' && d.symbol === 'requireGrant',
+    );
+    const freeze = DECLARATIONS.find(
+      (d) => d.file === 'packages/runner/src/cli.ts' && d.symbol === 'cmdManifest',
+    );
+    expect(grant).toBeDefined();
+    expect(freeze).toBeDefined();
+
+    const grantBody = bodyAfter('packages/runner/src/cli.ts', grant!.line, 65);
+    const storedBinding = grantBody.indexOf('assertGrantMatchesStoredManifest(');
+    const sourceIdentity = grantBody.indexOf('assertReproducibleGitIdentity(');
+    const returned = grantBody.indexOf('return grant;');
+    expect(sourceIdentity).toBeGreaterThan(storedBinding);
+    expect(returned).toBeGreaterThan(sourceIdentity);
+
+    const freezeBody = bodyAfter('packages/runner/src/cli.ts', freeze!.line, 70);
+    const freezeIdentity = freezeBody.indexOf('assertReproducibleGitIdentity(');
+    const manifestWrite = freezeBody.indexOf('writeRunManifest(');
+    expect(freezeIdentity).toBeGreaterThanOrEqual(0);
+    expect(manifestWrite).toBeGreaterThan(freezeIdentity);
+    expect(cli.match(/assertReproducibleGitIdentity\(/g)).toHaveLength(2);
+  });
+});
+
+describe('v3 execution refuses unsupported or ambiguous work before side effects', () => {
+  const cliSource = () => sourceOf('packages/runner/src/cli.ts').code;
+
+  it('keeps real candidate and judge execution outside the WP-0 offline harness', () => {
+    const cli = cliSource();
+    const runStart = cli.indexOf('async function cmdRun()');
+    const runEnd = cli.indexOf('\nfunction requireManifestedRun', runStart);
+    const run = cli.slice(runStart, runEnd);
+    const runOrigin = run.indexOf('const mock = manifest.artifactOrigin.includes(');
+    const runGuard = run.indexOf('if (!mock)', runOrigin);
+
+    expect(runOrigin).toBeGreaterThanOrEqual(0);
+    expect(runGuard).toBeGreaterThanOrEqual(0);
+    expect(run.slice(runGuard, runGuard + 80)).toMatch(/if\s*\(!mock\)\s*\{\s*fail\(/);
+    for (const sideEffect of [
+      'readAttempts(',
+      'requireGrant(',
+      'assertFreshEstimate(',
+      'redeemPermit(',
+      'recordProvenance(',
+      'ReservationLedger.forGrant(',
+      'OpenRouterClient.forCandidates(',
+      'mergeRunConfig(',
+      'client.complete(',
+      'writeResponse(',
+    ]) {
+      expect(run.indexOf(sideEffect), `${sideEffect} moved before the WP-0 paid-run refusal`).toBeGreaterThan(
+        runGuard,
+      );
+    }
+
+    const judgeStart = cli.indexOf('async function cmdJudge()');
+    const judgeEnd = cli.indexOf('\n/** A run\'s config', judgeStart);
+    const judge = cli.slice(judgeStart, judgeEnd);
+    const judgeOrigin = judge.indexOf('const mock = runManifest.artifactOrigin.includes(');
+    const judgeGuard = judge.indexOf('if (!mock)', judgeOrigin);
+
+    expect(judgeOrigin).toBeGreaterThanOrEqual(0);
+    expect(judgeGuard).toBeGreaterThanOrEqual(0);
+    expect(judge.slice(judgeGuard, judgeGuard + 80)).toMatch(/if\s*\(!mock\)\s*\{\s*fail\(/);
+    for (const sideEffect of [
+      'loadQuestions(',
+      'readResponses(',
+      'readScores(',
+      'requireGrant(',
+      'redeemPermit(',
+      'recordProvenance(',
+      'ReservationLedger.forGrant(',
+      'OpenRouterClient.forJudging(',
+      'writeRunConfig(',
+      'judgeAnswerPanel(',
+      'appendBallot(',
+      'writeScores(',
+    ]) {
+      expect(judge.indexOf(sideEffect), `${sideEffect} moved before the WP-0 paid-judge refusal`).toBeGreaterThan(
+        judgeGuard,
+      );
+    }
+  });
+
+  it('quarantines bench pilot at the first executable statement', () => {
+    const cli = cliSource();
+    const quarantine = DECLARATIONS.find(
+      (d) => d.file === 'packages/runner/src/cli.ts' && d.symbol === 'cmdPilot',
+    );
+    expect(quarantine).toBeDefined();
+    expect(bodyAfter('packages/runner/src/cli.ts', quarantine!.line, 12)).toMatch(
+      /function cmdPilot\(\)\s*[^\{]*\{\s*fail\(/,
+    );
+    const start = cli.indexOf('function cmdPilot()');
+    const end = cli.indexOf('\nconst COMMANDS', start + 1);
+    const body = cli.slice(start, end === -1 ? undefined : end);
+
+    // The dormant implementation has been deleted, not merely hidden behind a
+    // branch. The remaining command is one unconditional refusal and contains
+    // no input reader, grant path, client construction or artifact writer that
+    // a later edit could accidentally make reachable.
+    expect(body).toMatch(/function cmdPilot\(\)\s*[^\{]*\{\s*fail\(/);
+    for (const sideEffect of [
+      "arg(",
+      'readFileSync(',
+      'requireGrant(',
+      'redeemPermit(',
+      'OpenRouterClient.',
+      'writePilot(',
+    ]) {
+      expect(body, `${sideEffect} remains inside the disabled pilot`).not.toContain(sideEffect);
+    }
+  });
+
+  it('halts an ambiguous pending attempt before redemption, client construction or run writes', () => {
+    const cli = cliSource();
+    const start = cli.indexOf('async function cmdRun()');
+    const end = cli.indexOf('\nfunction requireManifestedRun', start);
+    const body = cli.slice(start, end);
+    const preflight = body.indexOf('readAttempts(');
+    const refusal = body.indexOf('if (ambiguousAttempt)');
+
+    expect(preflight).toBeGreaterThanOrEqual(0);
+    expect(refusal).toBeGreaterThan(preflight);
+    for (const sideEffect of [
+      'requireGrant(',
+      'redeemPermit(',
+      'OpenRouterClient.forCandidates(',
+      'mergeRunConfig(',
+      'client.complete(',
+      'writeResponse(',
+    ]) {
+      expect(body.indexOf(sideEffect), `${sideEffect} moved before ambiguous-attempt refusal`).toBeGreaterThan(refusal);
+    }
+  });
+
+  it('routes every attempt opening through the atomic replay refusal before provider calls', () => {
+    const cli = cliSource();
+    const helper = DECLARATIONS.find(
+      (d) => d.file === 'packages/runner/src/cli.ts' && d.symbol === 'beginFreshAttempt',
+    );
+    expect(helper).toBeDefined();
+    const helperBody = bodyAfter('packages/runner/src/cli.ts', helper!.line, 12);
+    expect(helperBody).toMatch(/beginAttempt\(/);
+    expect(helperBody).toMatch(/if\s*\(opened\.replay\)\s*throw new AttemptReconciliationRequiredError/);
+    // There is one raw beginAttempt call: the helper itself. A new direct call
+    // in cmdRun would restore the replay bypass.
+    expect(cli.match(/beginAttempt\(/g)).toHaveLength(1);
+
+    const runStart = cli.indexOf('async function cmdRun()');
+    const runEnd = cli.indexOf('\nfunction requireManifestedRun', runStart);
+    const run = cli.slice(runStart, runEnd);
+    expect(run).toMatch(
+      /initialOpened = beginFreshAttempt\(initialAttempt\);[\s\S]*?let result = await client\.complete/,
+    );
+    expect(run).toMatch(
+      /retryOpened = beginFreshAttempt\(retryAttempt\);[\s\S]*?result = await client\.complete/,
+    );
+    expect(run).toMatch(/if\s*\(activeAttempt\)[\s\S]*?new AttemptReconciliationRequiredError/);
+  });
+
+  it('parses the stored execution envelope before paid authority is exercised', () => {
+    const cli = cliSource();
+    const start = cli.indexOf('async function cmdRun()');
+    const end = cli.indexOf('\nfunction requireManifestedRun', start);
+    const body = cli.slice(start, end);
+    const parsed = body.indexOf('readRunManifest(');
+    expect(parsed).toBeGreaterThanOrEqual(0);
+    for (const paid of ['requireGrant(', 'redeemPermit(', 'OpenRouterClient.forCandidates(', 'client.complete(']) {
+      expect(body.indexOf(paid), `${paid} moved before manifest parsing`).toBeGreaterThan(parsed);
+    }
+  });
+});
+
 // ---------------------------------------------------------------------------
 // The same rules, proved at runtime through the real production entry points
 // ---------------------------------------------------------------------------
@@ -904,6 +1127,7 @@ describe('the production boundaries refuse the bypass at runtime', () => {
     // deliberate: the refusal must come from the OPTIONS, before anything in
     // the signed material is read.
     const inputs: Array<[string, Record<string, unknown>]> = [
+      ['expectedMethodologyHash', { expectedMethodologyHash: 'f'.repeat(64) }],
       ['keyringDir', { keyringDir: '/tmp/attacker-keys' }],
       ['revocationListPath', { revocationListPath: '/tmp/empty.json' }],
       ['now', { now: new Date('2020-01-01T12:00:00Z') }],
@@ -915,7 +1139,6 @@ describe('the production boundaries refuse the bypass at runtime', () => {
         verifyPermit({
           signedPermit: { permit: {}, signature: 'x', keyId: 'y' },
           manifest: {},
-          expectedMethodologyHash: 'f'.repeat(64),
           ...injection,
         } as never),
       ).toThrow(new RegExp(label));
@@ -925,7 +1148,6 @@ describe('the production boundaries refuse the bypass at runtime', () => {
     const smuggled = Object.create({ keyringDir: '/tmp/attacker-keys' }) as Record<string, unknown>;
     smuggled.signedPermit = { permit: {}, signature: 'x', keyId: 'y' };
     smuggled.manifest = {};
-    smuggled.expectedMethodologyHash = 'f'.repeat(64);
     let error: unknown;
     try {
       verifyPermit(smuggled as never);

@@ -1,18 +1,23 @@
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { RELEASE_STATES } from '@cookingbench/core';
+import {
+  hasJudgeConflict,
+  modelEntrySchema,
+  modelsFileSchema,
+  RELEASE_STATES,
+  UNKNOWN_BASE_MODEL,
+} from '@cookingbench/core';
 import { parse } from 'yaml';
 import { afterEach, describe, expect, it } from 'vitest';
 import { REPO_ROOT, RUNS_DIR } from '../src/dataset.js';
 import { isHistoricalRun } from '../src/firewall.js';
+import { identityIndex, panelSeats } from '../src/judge.js';
 
 /**
- * Two findings from the WP-0 self-review that ordinary behaviour tests cannot
- * catch, because in both cases the CODE was right and the STORY it told was
- * wrong. A comment that contradicts its own line, and a matrix that claims
- * coverage the roster does not supply, both survive any amount of black-box
- * testing — and both mislead the next reader in the direction of doing less
- * work, which is the expensive direction.
+ * Findings from the WP-0 self-review where behaviour and the acceptance story
+ * can drift independently. A comment that contradicts its own line, or a
+ * matrix that keeps describing an identity model the roster no longer uses,
+ * both survive an ordinary black-box test and mislead the next reader.
  *
  * So these read the source and the acceptance artifact, in the same spirit as
  * traceability.test.ts and route-inventory.test.ts.
@@ -92,65 +97,142 @@ describe('the release-state guard says what it does', () => {
 interface Requirement {
   id: string;
   status: 'closed' | 'partial' | 'open';
+  status_note?: string;
   gaps: string[];
 }
 
-describe('JUDGE-001 is only half proved on the real roster', () => {
+describe('JUDGE-001 uses declared base-model identity end to end', () => {
   const matrix = parse(readFileSync(join(REPO_ROOT, 'docs/wp-0/traceability.yaml'), 'utf8')) as {
     requirements: Requirement[];
   };
-  const roster = parse(readFileSync(join(REPO_ROOT, 'data/models.yaml'), 'utf8')) as Array<{
+  const roster = modelsFileSchema.parse(
+    parse(readFileSync(join(REPO_ROOT, 'data/models.yaml'), 'utf8')),
+  );
+  const identifyLive = identityIndex(roster);
+
+  const entry = (row: {
     id: string;
-    provider?: string;
+    provider: string;
+    baseModel: string;
     family?: string;
-  }>;
+  }) => modelEntrySchema.parse({ displayName: row.id, active: false, ...row });
 
-  it('declares the base-model-family arm as a gap until the registry can express it', () => {
-    // The matrix said `status: closed, gaps: []`. It should not have: the
-    // family arm of hasJudgeConflict cannot exclude a seat on the live roster,
-    // because no family spans two providers, so it is exercised only by a
-    // fabricated fixture in judge.test.ts. This test is the thing that keeps
-    // the admission honest — if the roster ever DOES gain a cross-provider
-    // family, the requirement may legitimately be closed and this fails.
-    const providersByFamily = new Map<string, Set<string>>();
-    for (const m of roster) {
-      if (!m.family || !m.provider) continue;
-      const set = providersByFamily.get(m.family) ?? new Set<string>();
-      set.add(m.provider.trim().toLowerCase());
-      providersByFamily.set(m.family, set);
-    }
-    const crossProvider = [...providersByFamily].filter(([, ps]) => ps.size > 1);
+  // The two conflict arms are deliberately separable. `origin/model-b` shares
+  // only the provider with `origin/model-a`; `reseller/model-a` shares only its
+  // base model. The independent rows keep the exact-seat assertions from
+  // passing merely because identity lookup failed and the panel failed closed.
+  const identityFixture = [
+    entry({
+      id: 'origin/model-a',
+      provider: 'Origin Lab',
+      family: 'origin-frontier',
+      baseModel: 'origin:model-a',
+    }),
+    entry({
+      id: 'origin/model-b',
+      provider: 'Origin Lab',
+      family: 'origin-mid',
+      baseModel: 'origin:model-b',
+    }),
+    entry({
+      id: 'reseller/model-a',
+      provider: 'Reseller',
+      family: 'reseller-frontier',
+      baseModel: 'origin:model-a',
+    }),
+    entry({
+      id: 'independent/one',
+      provider: 'Independent One',
+      baseModel: 'independent-one:model',
+    }),
+    entry({
+      id: 'independent/two',
+      provider: 'Independent Two',
+      baseModel: 'independent-two:model',
+    }),
+  ];
+  const identifyFixture = identityIndex(identityFixture);
+  const panel = ['origin/model-a', 'independent/one', 'independent/two'];
 
-    const judge = matrix.requirements.find((r) => r.id === 'JUDGE-001');
-    expect(judge, 'JUDGE-001 is missing from the matrix').toBeDefined();
-
-    if (crossProvider.length === 0) {
-      expect(judge!.status, 'no roster family spans two providers, so JUDGE-001 is not closed').not.toBe(
-        'closed',
+  it('declares a known base model for every active route', () => {
+    const active = roster.filter((model) => model.active);
+    expect(active.length).toBeGreaterThan(0); // vacuity guard
+    for (const model of active) {
+      expect(model.baseModel, `${model.id} is active with unknown identity`).not.toBe(
+        UNKNOWN_BASE_MODEL,
       );
-      expect(
-        judge!.gaps.some((g) => /famil/i.test(g)),
-        'JUDGE-001 must state the family-arm gap in words, not merely stop saying closed',
-      ).toBe(true);
-    } else {
-      expect(judge!.status, `families ${crossProvider.map(([f]) => f).join(', ')} span providers`).toBe(
-        'closed',
-      );
+      expect(identifyLive(model.id), `${model.id} is active without a usable identity`).toEqual({
+        provider: model.provider,
+        baseModelFamily: model.baseModel,
+      });
     }
   });
 
-  it('records that family is a marketing tier, not a base model', () => {
-    // `claude-frontier` covers three different base models. A rule that reads
-    // this field as `baseModelFamily` is reading a tier and calling it an
-    // identity, and the gap text has to say so or the next reader will trust it.
-    const familyToIds = new Map<string, string[]>();
-    for (const m of roster) {
-      if (!m.family) continue;
-      familyToIds.set(m.family, [...(familyToIds.get(m.family) ?? []), m.id]);
-    }
-    expect((familyToIds.get('claude-frontier') ?? []).length).toBeGreaterThan(2);
+  it('fails closed on a missing or unknown base-model identity', () => {
+    const incomplete = identityIndex([
+      ...identityFixture,
+      // Intentionally bypasses the roster schema: identityIndex is a runtime
+      // boundary used by fixtures and callers that may hand it an incomplete
+      // structural row. Missing identity must still buy no seat.
+      { id: 'unplaced/missing', provider: 'Unplaced', family: 'mystery' },
+      entry({
+        id: 'unplaced/unknown',
+        provider: 'Unplaced Elsewhere',
+        family: 'mystery',
+        baseModel: UNKNOWN_BASE_MODEL,
+      }),
+    ]);
 
+    expect(incomplete('unplaced/missing')).toBeUndefined();
+    expect(incomplete('unplaced/unknown')).toBeUndefined();
+    expect(panelSeats(panel, 'unplaced/missing', 'tech-001', incomplete)).toEqual([]);
+    expect(panelSeats(panel, 'unplaced/unknown', 'tech-001', incomplete)).toEqual([]);
+
+    // Fail closed in the other direction too: an unidentified seat cannot
+    // grade a candidate whose identity is known.
+    expect(
+      panelSeats(
+        ['unplaced/missing', 'unplaced/unknown', 'independent/two'],
+        'independent/one',
+        'tech-001',
+        incomplete,
+      ),
+    ).toEqual(['independent/two']);
+  });
+
+  it('detects a cross-provider rebadge by base identity alone', () => {
+    const original = identifyFixture('origin/model-a')!;
+    const rebadge = identifyFixture('reseller/model-a')!;
+    expect(rebadge.provider).not.toBe(original.provider);
+    expect(identityFixture.find((model) => model.id === 'reseller/model-a')!.family).not.toBe(
+      identityFixture.find((model) => model.id === 'origin/model-a')!.family,
+    );
+    expect(rebadge.baseModelFamily).toBe(original.baseModelFamily);
+    expect(hasJudgeConflict(rebadge, original)).toBe(true);
+    expect(panelSeats(panel, 'reseller/model-a', 'tech-001', identifyFixture)).toEqual([
+      'independent/one',
+      'independent/two',
+    ]);
+  });
+
+  it('detects provider identity independently of base identity', () => {
+    const original = identifyFixture('origin/model-a')!;
+    const sibling = identifyFixture('origin/model-b')!;
+    expect(sibling.provider).toBe(original.provider);
+    expect(sibling.baseModelFamily).not.toBe(original.baseModelFamily);
+    expect(hasJudgeConflict(sibling, original)).toBe(true);
+    expect(panelSeats(panel, 'origin/model-b', 'tech-001', identifyFixture)).toEqual([
+      'independent/one',
+      'independent/two',
+    ]);
+  });
+
+  it('records closure without demanding a naturally occurring live rebadge', () => {
     const judge = matrix.requirements.find((r) => r.id === 'JUDGE-001')!;
-    expect(judge.gaps.join(' ')).toMatch(/marketing tier/i);
+    expect(judge, 'JUDGE-001 is missing from the matrix').toBeDefined();
+    expect(judge.status).toBe('closed');
+    expect(judge.gaps).toEqual([]);
+    expect(judge.status_note).toMatch(/schema-valid fixture/i);
+    expect(judge.status_note).toMatch(/does not depend on.*live roster/i);
   });
 });

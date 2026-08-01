@@ -17,7 +17,7 @@ import {
   type ReleaseState,
   type ValidatedRunManifest,
 } from '@cookingbench/core';
-import { DATA_DIR } from './dataset.js';
+import { DATA_DIR, REPO_ROOT } from './dataset.js';
 
 /**
  * RUN-001 — permit verification, and the grant that verification mints.
@@ -54,21 +54,18 @@ import { DATA_DIR } from './dataset.js';
  *
  * The earlier version of this module took `keyringDir`, `revocationListPath` and
  * `now` as optional parameters, defaulted to the committed ones, and let
- * production callers pass their own. That is not a boundary: unattended code
+ * production callers pass their own — "injectable for testability". That is not a boundary: unattended code
  * could point the keyring at a key it had just minted, or move the clock past an
  * expiry, and every downstream check would pass honestly against inputs the
  * caller chose. A safeguard is meaningless when the thing it guards picks the
  * safeguard's definition.
  *
- * The seam is therefore SPLIT, on the same pattern as `ReservationLedger`:
- *
- *   - `verifyPermit` / `verifyPermitFile` are the PRODUCTION entry points. They
- *     take no trust inputs at all, and they REFUSE an options object carrying
- *     any — refusing rather than ignoring, because a silently-dropped
- *     `keyringDir` reads to the author as if it worked.
- *   - `verifyPermitForTests` is the test seam. Production source never calls it
- *     (there is a test that greps for that), and it additionally refuses to run
- *     outside a test process.
+ * `verifyPermit` / `verifyPermitFile` are the only verification entry points.
+ * They take no trust inputs at all, and they REFUSE an options object carrying
+ * any — refusing rather than ignoring, because a silently-dropped `keyringDir`
+ * reads to the author as if it worked. There is no environment-enabled test
+ * verifier in this runtime module: `NODE_ENV=test` is caller-controlled and
+ * therefore cannot turn a trust parameter into a safe one.
  *
  * Verification order matters and is deliberate: NOTHING in the permit body is
  * acted on before the signature over it is checked. Every field — kind,
@@ -80,7 +77,6 @@ export type PermitErrorCode =
   | 'PERMIT_MALFORMED'
   | 'GRANT_NOT_MINTED'
   | 'PERMIT_TRUST_INPUT_REJECTED'
-  | 'PERMIT_SEAM_CLOSED'
   | 'PERMIT_KEYRING_UNAVAILABLE'
   | 'PERMIT_UNKNOWN_KEY'
   | 'PERMIT_BAD_KEY'
@@ -91,10 +87,12 @@ export type PermitErrorCode =
   | 'PERMIT_RUN_MISMATCH'
   | 'PERMIT_NOT_YET_VALID'
   | 'PERMIT_EXPIRED'
+  | 'PERMIT_CAPABILITY_MISSING'
   | 'PERMIT_KIND_FORBIDS_CAPABILITY'
   | 'PERMIT_KIND_FORBIDS_EVIDENCE_CLASS'
   | 'PERMIT_CELLS_INCOHERENT'
   | 'PERMIT_BUDGET_EXCEEDS_MANIFEST'
+  | 'PERMIT_RESERVATION_SCOPE_UNSUPPORTED'
   | 'PERMIT_REVOCATION_UNAVAILABLE'
   | 'PERMIT_REVOKED'
   | 'PERMIT_EXHAUSTED';
@@ -125,7 +123,11 @@ export interface VerifiedGrant {
   readonly capabilities: readonly Capability[];
   readonly cells: ReadonlyArray<{ readonly modelId: string; readonly questionId: string }>;
   readonly budgetCapUsd: number;
+  /** WP-0 implements one reservation per billable provider call. */
+  readonly reservationScope: Permit['reservationScope'];
   readonly executionLimit: number;
+  /** Retry ceiling copied from the verified manifest, never from a call site. */
+  readonly maxAttempts: number;
   /** The one manifest this grant is bound to. */
   readonly manifestHash: string;
   /** The ONE run this authority is for. Everything downstream binds to it. */
@@ -135,9 +137,23 @@ export interface VerifiedGrant {
   readonly releaseState: ReleaseState;
   /** Which committed public key verified the signature. */
   readonly keyId: string;
+  /** Digest of the complete signed permit envelope that minted this grant. */
+  readonly signedPermitHash: string;
+  /** Exact signed envelope, deep-frozen for later provenance re-verification. */
+  readonly signedPermit: Readonly<{
+    readonly permit: Readonly<Record<string, unknown>>;
+    readonly signature: string;
+    readonly keyId: string;
+  }>;
   readonly notBeforeIso: string;
   readonly notAfterIso: string;
   readonly verifiedAtIso: string;
+}
+
+function deepFreezeJson<T>(value: T): T {
+  if (typeof value !== 'object' || value === null || Object.isFrozen(value)) return value;
+  for (const child of Object.values(value as Record<string, unknown>)) deepFreezeJson(child);
+  return Object.freeze(value);
 }
 
 /**
@@ -189,6 +205,47 @@ export const KEYRING_DIR = join(PERMITS_DIR, 'keys');
 export const REVOCATION_LIST = join(PERMITS_DIR, 'revoked.json');
 /** Committed, deliberately unusable permits that prove the production loader. */
 export const PERMIT_FIXTURES_DIR = join(PERMITS_DIR, 'fixtures');
+const METHODOLOGY_PLAN = join(
+  REPO_ROOT,
+  'docs/methodology/CookingBench-methodology-first-master-plan.md',
+);
+const METHODOLOGY_SIDECAR = join(
+  REPO_ROOT,
+  'docs/methodology/CookingBench-methodology-first-master-plan.sha256',
+);
+
+/**
+ * The methodology identity production verification uses.
+ *
+ * Both paths are fixed. The sidecar is evidence rather than the definition, so
+ * its digest must equal the actual plan bytes. A caller cannot nominate a
+ * convenient methodology hash that merely agrees with the permit it presents.
+ */
+export function frozenMethodologyHash(): string {
+  if (!existsSync(METHODOLOGY_PLAN) || !existsSync(METHODOLOGY_SIDECAR)) {
+    throw new PermitError(
+      'The frozen methodology plan or its checksum sidecar is absent; permit methodology cannot be established.',
+      'PERMIT_METHODOLOGY_MISMATCH',
+    );
+  }
+  const recorded = /^([a-f0-9]{64})(?:\s|$)/.exec(
+    readFileSync(METHODOLOGY_SIDECAR, 'utf8').trim(),
+  )?.[1];
+  if (recorded === undefined) {
+    throw new PermitError(
+      `The methodology sidecar ${METHODOLOGY_SIDECAR} does not start with a sha256 digest.`,
+      'PERMIT_METHODOLOGY_MISMATCH',
+    );
+  }
+  const actual = sha256Hex(readFileSync(METHODOLOGY_PLAN, 'utf8'));
+  if (actual !== recorded) {
+    throw new PermitError(
+      `Frozen methodology checksum mismatch: the sidecar records ${recorded.slice(0, 12)}… but the plan hashes to ${actual.slice(0, 12)}….`,
+      'PERMIT_METHODOLOGY_MISMATCH',
+    );
+  }
+  return actual;
+}
 
 /**
  * Where verification gets its answers from. Never a parameter of the production
@@ -212,21 +269,6 @@ const PRODUCTION_TRUST_ROOT: TrustRoot = Object.freeze({
   clock: () => new Date(),
   label: 'the committed repository trust root',
 });
-
-/**
- * Whether this process is a test runner, decided ONCE at module load.
- *
- * Read once on purpose: a value re-read per call could be flipped part-way
- * through a long-running production process. This is defence in depth around
- * the test seam, not a security boundary — an operator who controls the
- * environment controls this too, which is exactly what the module header says
- * signing does not defend against. The boundary that matters is that the
- * production API has no trust parameters to reach.
- */
-const UNDER_TEST =
-  process.env.VITEST === 'true' ||
-  process.env.VITEST_WORKER_ID !== undefined ||
-  process.env.NODE_ENV === 'test';
 
 /**
  * Load a committed Ed25519 public key.
@@ -371,8 +413,6 @@ export interface VerifyPermitInput {
   signedPermit: unknown;
   /** The manifest this permit must be bound to. Treated as untrusted; re-parsed. */
   manifest: unknown;
-  /** Hash of the frozen methodology revision the permit must name. */
-  expectedMethodologyHash: string;
   /**
    * The run the invoking command is acting on, when it knows it.
    *
@@ -390,11 +430,39 @@ export interface VerifiedPermit {
   manifest: ValidatedRunManifest;
 }
 
+/**
+ * Authenticated permit facts for retrospective provenance checks.
+ *
+ * This is deliberately NOT a grant and is never added to `MINTED`: proving
+ * what authorised a historical artifact must not recreate authority to spend,
+ * write or publish now.
+ */
+export interface VerifiedPermitReceipt {
+  readonly permitId: string;
+  readonly kind: PermitKind;
+  readonly capabilities: readonly Capability[];
+  readonly reservationScope: Permit['reservationScope'];
+  readonly manifestHash: string;
+  readonly runId: string;
+  readonly evidenceClass: EvidenceClass;
+  readonly releaseState: ReleaseState;
+  readonly keyId: string;
+  readonly signedPermitHash: string;
+  readonly signedPermit: VerifiedGrant['signedPermit'];
+  readonly notBeforeIso: string;
+  readonly notAfterIso: string;
+  readonly verifiedAtIso: string;
+}
+
+export interface VerifySignedPermitReceiptInput extends VerifyPermitInput {
+  /** Optional narrowing check; it can never add a capability to the permit. */
+  readonly requiredCapability?: Capability;
+}
+
 /** Exactly the keys a production caller may pass. Anything else is refused. */
 const PRODUCTION_INPUT_KEYS: ReadonlySet<string> = new Set([
   'signedPermit',
   'manifest',
-  'expectedMethodologyHash',
   'expectedRunId',
 ]);
 
@@ -403,6 +471,7 @@ const PRODUCTION_INPUT_KEYS: ReadonlySet<string> = new Set([
  * the parameters the previous version accepted from production callers.
  */
 const TRUST_INPUT_KEYS: ReadonlySet<string> = new Set([
+  'expectedMethodologyHash',
   'keyringDir',
   'revocationListPath',
   'revocationList',
@@ -453,16 +522,12 @@ function parseProductionInput(input: unknown, entry: string): VerifyPermitInput 
   }
 
   const o = input as Record<string, unknown>;
-  if (typeof o.expectedMethodologyHash !== 'string' || o.expectedMethodologyHash.length === 0) {
-    throw new PermitError(`${entry} requires expectedMethodologyHash.`, 'PERMIT_MALFORMED');
-  }
   if (o.expectedRunId !== undefined && typeof o.expectedRunId !== 'string') {
     throw new PermitError(`${entry} was given a non-string expectedRunId.`, 'PERMIT_MALFORMED');
   }
   return {
     signedPermit: o.signedPermit,
     manifest: o.manifest,
-    expectedMethodologyHash: o.expectedMethodologyHash,
     expectedRunId: o.expectedRunId as string | undefined,
   };
 }
@@ -475,7 +540,11 @@ function parseProductionInput(input: unknown, entry: string): VerifyPermitInput 
  * failure can be ignored by not reading the result is not a gate.
  */
 export function verifyPermit(input: VerifyPermitInput): VerifiedPermit {
-  return verifyAgainst(PRODUCTION_TRUST_ROOT, parseProductionInput(input, 'verifyPermit'));
+  const evidence = verifyEvidenceAgainst(
+    PRODUCTION_TRUST_ROOT,
+    parseProductionInput(input, 'verifyPermit'),
+  );
+  return mintVerifiedGrant(evidence, PRODUCTION_TRUST_ROOT);
 }
 
 /** Convenience for the CLI: read the envelope from disk, then verify it. */
@@ -484,10 +553,110 @@ export function verifyPermitFile(
   rest: Omit<VerifyPermitInput, 'signedPermit'>,
 ): VerifiedPermit {
   const parsed = parseProductionInput({ ...rest, signedPermit: null }, 'verifyPermitFile');
-  return verifyAgainst(PRODUCTION_TRUST_ROOT, {
+  const evidence = verifyEvidenceAgainst(PRODUCTION_TRUST_ROOT, {
     ...parsed,
     signedPermit: readPermitEnvelope(permitPath),
   });
+  return mintVerifiedGrant(evidence, PRODUCTION_TRUST_ROOT);
+}
+
+/**
+ * Re-authenticate the exact signed envelope recorded beside a historical
+ * artifact without minting executable authority.
+ *
+ * The keyring, revocation list, clock and frozen methodology are the same fixed
+ * repository trust root used by `verifyPermit`; none is caller-selectable.
+ */
+export function verifySignedPermitReceipt(
+  input: VerifySignedPermitReceiptInput,
+): VerifiedPermitReceipt {
+  const { permitInput, requiredCapability } = parseReceiptInput(input);
+  const evidence = verifyEvidenceAgainst(PRODUCTION_TRUST_ROOT, permitInput, {
+    requireCurrentValidity: false,
+  });
+  if (
+    requiredCapability !== undefined &&
+    !evidence.permit.capabilities.includes(requiredCapability)
+  ) {
+    throw new PermitError(
+      `Permit ${evidence.permit.permitId} does not carry required capability '${requiredCapability}'. ` +
+        `A retrospective check may narrow signed authority; it cannot add authority the approver did not sign.`,
+      'PERMIT_CAPABILITY_MISSING',
+    );
+  }
+  return Object.freeze({
+    permitId: evidence.permit.permitId,
+    kind: evidence.permit.kind,
+    capabilities: Object.freeze([...evidence.permit.capabilities]),
+    reservationScope: evidence.permit.reservationScope,
+    manifestHash: evidence.actualManifestHash,
+    runId: evidence.manifest.runId,
+    evidenceClass: evidence.manifest.evidenceClass,
+    releaseState: evidence.manifest.releaseState,
+    keyId: evidence.keyId,
+    signedPermitHash: sha256Hex(evidence.signedPermitJson),
+    signedPermit: evidence.signedPermit,
+    notBeforeIso: evidence.permit.notBefore,
+    notAfterIso: evidence.permit.notAfter,
+    verifiedAtIso: evidence.now.toISOString(),
+  });
+}
+
+const RECEIPT_INPUT_KEYS: ReadonlySet<string> = new Set([
+  ...PRODUCTION_INPUT_KEYS,
+  'requiredCapability',
+]);
+
+function parseReceiptInput(input: unknown): {
+  permitInput: VerifyPermitInput;
+  requiredCapability?: Capability;
+} {
+  if (typeof input !== 'object' || input === null) {
+    throw new PermitError(
+      'verifySignedPermitReceipt requires an options object.',
+      'PERMIT_MALFORMED',
+    );
+  }
+  const keys = new Set<string>();
+  for (const key in input as Record<string, unknown>) keys.add(key);
+  for (const key of Object.getOwnPropertyNames(input)) keys.add(key);
+  const trustKeys = [...keys].filter((key) => TRUST_INPUT_KEYS.has(key));
+  if (trustKeys.length > 0) {
+    throw new PermitError(
+      `verifySignedPermitReceipt was given trust input(s) [${trustKeys.join(', ')}]. ` +
+        `Retrospective verification uses ${PRODUCTION_TRUST_ROOT.label}; callers cannot select its keyring, revocation source, clock or methodology.`,
+      'PERMIT_TRUST_INPUT_REJECTED',
+    );
+  }
+  const unknown = [...keys].filter((key) => !RECEIPT_INPUT_KEYS.has(key));
+  if (unknown.length > 0) {
+    throw new PermitError(
+      `verifySignedPermitReceipt was given unknown option(s) [${unknown.join(', ')}].`,
+      'PERMIT_MALFORMED',
+    );
+  }
+  const o = input as Record<string, unknown>;
+  const allCapabilities = new Set<unknown>(Object.values(CAPABILITIES_FOR_PERMIT_KIND).flat());
+  if (
+    o.requiredCapability !== undefined &&
+    (typeof o.requiredCapability !== 'string' || !allCapabilities.has(o.requiredCapability))
+  ) {
+    throw new PermitError(
+      'verifySignedPermitReceipt was given an invalid requiredCapability.',
+      'PERMIT_MALFORMED',
+    );
+  }
+  return {
+    permitInput: parseProductionInput(
+      {
+        signedPermit: o.signedPermit,
+        manifest: o.manifest,
+        expectedRunId: o.expectedRunId,
+      },
+      'verifySignedPermitReceipt',
+    ),
+    requiredCapability: o.requiredCapability as Capability | undefined,
+  };
 }
 
 function readPermitEnvelope(permitPath: string): unknown {
@@ -505,54 +674,24 @@ function readPermitEnvelope(permitPath: string): unknown {
 }
 
 // ---------------------------------------------------------------------------
-// The test seam
+// Verification core — reached only through the fixed-trust entry points above
 // ---------------------------------------------------------------------------
 
-/** Trust inputs a test may choose. Deliberately not part of any production type. */
-export interface TestTrustRoot {
-  keyringDir: string;
-  revocationListPath: string;
-  /** A clock the test owns, so expiry is reachable without waiting for it. */
-  clock?: () => Date;
+interface VerifiedEvidence {
+  readonly permit: Permit;
+  readonly manifest: ValidatedRunManifest;
+  readonly keyId: string;
+  readonly actualManifestHash: string;
+  readonly now: Date;
+  readonly signedPermitJson: string;
+  readonly signedPermit: VerifiedGrant['signedPermit'];
 }
 
-/**
- * TEST SEAM. Do not call from `packages/runner/src` — there is a test that
- * greps for it and fails if production code ever does.
- *
- * Kept as a separate entry point rather than as optional fields on
- * `VerifyPermitInput`, because a test parameter reachable through the production
- * boundary is a production parameter with a comment on it. That is precisely
- * the defect this replaces: `keyringDir`, `revocationListPath` and `now` were
- * "injectable for testability" and reachable by every caller.
- */
-export function verifyPermitForTests(
-  trustRoot: TestTrustRoot,
+function verifyEvidenceAgainst(
+  trustRoot: TrustRoot,
   input: VerifyPermitInput,
-): VerifiedPermit {
-  if (!UNDER_TEST) {
-    throw new PermitError(
-      `verifyPermitForTests is a test seam and this is not a test process. Production verification uses ` +
-        `${PRODUCTION_TRUST_ROOT.label} and cannot be given a keyring, a revocation list or a clock.`,
-      'PERMIT_SEAM_CLOSED',
-    );
-  }
-  return verifyAgainst(
-    {
-      keyringDir: trustRoot.keyringDir,
-      revocationListPath: trustRoot.revocationListPath,
-      clock: trustRoot.clock ?? (() => new Date()),
-      label: 'a test-supplied trust root',
-    },
-    input,
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Verification core — reached only through one of the two entry points above
-// ---------------------------------------------------------------------------
-
-function verifyAgainst(trustRoot: TrustRoot, input: VerifyPermitInput): VerifiedPermit {
+  policy: { requireCurrentValidity?: boolean } = {},
+): VerifiedEvidence {
   const now = trustRoot.clock();
 
   // 1. Enough envelope structure to find the signature. Deliberately NOT the
@@ -642,9 +781,10 @@ function verifyAgainst(trustRoot: TrustRoot, input: VerifyPermitInput): Verified
       'PERMIT_MANIFEST_MISMATCH',
     );
   }
-  if (permit.methodologyHash !== input.expectedMethodologyHash) {
+  const expectedMethodologyHash = frozenMethodologyHash();
+  if (permit.methodologyHash !== expectedMethodologyHash) {
     throw new PermitError(
-      `Permit ${permit.permitId} names methodology ${permit.methodologyHash.slice(0, 12)}… but the frozen methodology is ${input.expectedMethodologyHash.slice(0, 12)}…. ` +
+      `Permit ${permit.permitId} names methodology ${permit.methodologyHash.slice(0, 12)}… but the frozen methodology is ${expectedMethodologyHash.slice(0, 12)}…. ` +
         `Approval was given against a specific protocol revision.`,
       'PERMIT_METHODOLOGY_MISMATCH',
     );
@@ -665,13 +805,13 @@ function verifyAgainst(trustRoot: TrustRoot, input: VerifyPermitInput): Verified
   // 8. Validity window.
   const notBefore = new Date(permit.notBefore);
   const notAfter = new Date(permit.notAfter);
-  if (now < notBefore) {
+  if ((policy.requireCurrentValidity ?? true) && now < notBefore) {
     throw new PermitError(
       `Permit ${permit.permitId} is not valid until ${permit.notBefore} (now ${now.toISOString()}).`,
       'PERMIT_NOT_YET_VALID',
     );
   }
-  if (now > notAfter) {
+  if ((policy.requireCurrentValidity ?? true) && now > notAfter) {
     throw new PermitError(
       `Permit ${permit.permitId} expired at ${permit.notAfter} (now ${now.toISOString()}).`,
       'PERMIT_EXPIRED',
@@ -734,6 +874,17 @@ function verifyAgainst(trustRoot: TrustRoot, input: VerifyPermitInput): Verified
   // 12. Budget. The manifest is the envelope; a permit may spend less than it,
   // never more. Both are still ceilings on ESTIMATES — the reservation ledger
   // (BUDGET-001) is what enforces actual spend.
+  // Only call-scoped reservations are implemented: the ledger reserves once
+  // around every potentially billable provider request. Accepting `run` or
+  // `model` while enforcing the same behaviour would make a signed control
+  // decorative, so unsupported scopes fail closed until they have distinct,
+  // specified semantics.
+  if (permit.reservationScope !== 'call') {
+    throw new PermitError(
+      `Permit ${permit.permitId} requests reservationScope '${permit.reservationScope}', but this runner implements only 'call'.`,
+      'PERMIT_RESERVATION_SCOPE_UNSUPPORTED',
+    );
+  }
   if (permit.budgetCapUsd > manifest.budgetCapUsd) {
     throw new PermitError(
       `Permit ${permit.permitId} caps spend at $${permit.budgetCapUsd} but run ${manifest.runId} declares $${manifest.budgetCapUsd}. A permit cannot raise the manifest's budget.`,
@@ -741,6 +892,38 @@ function verifyAgainst(trustRoot: TrustRoot, input: VerifyPermitInput): Verified
     );
   }
 
+  const signedPermitJson = canonicalJson(input.signedPermit);
+  const signedPermit = deepFreezeJson(
+    JSON.parse(signedPermitJson) as {
+      permit: Record<string, unknown>;
+      signature: string;
+      keyId: string;
+    },
+  );
+  return {
+    permit,
+    manifest,
+    keyId,
+    actualManifestHash,
+    now,
+    signedPermitJson,
+    signedPermit,
+  };
+}
+
+function mintVerifiedGrant(
+  evidence: VerifiedEvidence,
+  trustRoot: TrustRoot,
+): VerifiedPermit {
+  const {
+    permit,
+    manifest,
+    keyId,
+    actualManifestHash,
+    now,
+    signedPermitJson,
+    signedPermit,
+  } = evidence;
   const grant: VerifiedGrant = Object.freeze({
     permitId: permit.permitId,
     kind: permit.kind,
@@ -749,12 +932,16 @@ function verifyAgainst(trustRoot: TrustRoot, input: VerifyPermitInput): Verified
       permit.cells.map((c) => Object.freeze({ modelId: c.modelId, questionId: c.questionId })),
     ),
     budgetCapUsd: permit.budgetCapUsd,
+    reservationScope: permit.reservationScope,
     executionLimit: permit.executionLimit,
+    maxAttempts: manifest.callPlan.maxAttempts,
     manifestHash: actualManifestHash,
     runId: manifest.runId,
     evidenceClass: manifest.evidenceClass,
     releaseState: manifest.releaseState,
     keyId,
+    signedPermitHash: sha256Hex(signedPermitJson),
+    signedPermit,
     notBeforeIso: permit.notBefore,
     notAfterIso: permit.notAfter,
     verifiedAtIso: now.toISOString(),

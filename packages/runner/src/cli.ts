@@ -1,10 +1,9 @@
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
-import { basename, isAbsolute, join } from 'node:path';
-import { parse as parseYaml } from 'yaml';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { isAbsolute, join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import {
   blendJudgeScore,
   gradeDeterministic,
-  questionFileSchema,
   type Question,
   type RunConfig,
   type Score,
@@ -12,15 +11,24 @@ import {
 } from '@cookingbench/core';
 import { analyzeRun, tiedRanks, writeAnalysis } from './analyze.js';
 import { BudgetExceededError, ReservationLedger } from './ledger.js';
-import { PermitError, verifyPermitFile, type VerifiedGrant } from './permit.js';
+import {
+  PermitError,
+  frozenMethodologyHash as permitMethodologyHash,
+  verifyPermitFile,
+  type VerifiedGrant,
+} from './permit.js';
 import { redeemPermit } from './redemption.js';
 import {
   ManifestError,
+  assertManifestRouteIdentityMatchesRoster,
+  assertReproducibleGitIdentity,
   assertRunArtifactsMatchManifest,
+  assertGrantMatchesStoredManifest,
   assertRunIdentity,
   buildRunManifest,
   readRunDigest,
   readRunManifest,
+  resolveStoredManifestClaim,
   writeRunManifest,
 } from './manifest.js';
 import {
@@ -45,8 +53,10 @@ import { OpenRouterClient, fetchCatalog, type CompletionClient } from './openrou
 import { buildLeaderboard } from './report.js';
 import {
   beginAttempt,
+  readAttempts,
   settleAttempt,
   type AttemptCause,
+  type AttemptCoordinate,
   hasResponse,
   listRuns,
   mergeRunConfig,
@@ -58,15 +68,6 @@ import {
   writeRunConfig,
   writeScores,
 } from './store.js';
-
-// Minimal .env loader (repo root) — real values never override an explicit env.
-const envPath = join(REPO_ROOT, '.env');
-if (existsSync(envPath)) {
-  for (const line of readFileSync(envPath, 'utf8').split('\n')) {
-    const m = /^([A-Z0-9_]+)=(.*)$/.exec(line.trim());
-    if (m && process.env[m[1]!] === undefined) process.env[m[1]!] = m[2]!;
-  }
-}
 
 const DEFAULTS = {
   temperature: 0,
@@ -130,6 +131,33 @@ function isTransportFailure(result: {
   return Boolean(choice?.error) || choice?.finish_reason === 'error';
 }
 
+/**
+ * An attempt record is evidence that a provider call may already have been
+ * bought. A restart cannot infer from an absent answer whether the request was
+ * never sent, was billed and lost, or finished just before the process died.
+ * That state requires operator reconciliation; it is never an invitation to
+ * spend again automatically.
+ */
+class AttemptReconciliationRequiredError extends Error {
+  readonly code = 'ATTEMPT_RECONCILIATION_REQUIRED';
+
+  constructor(coord: AttemptCoordinate, retryId: string) {
+    super(
+      `ATTEMPT_RECONCILIATION_REQUIRED: ${coord.modelId} × ${coord.questionId} already has attempt ${retryId} ` +
+        `(${coord.cause}). Reconcile the provider charge and attempt record before resuming; ` +
+        `no replacement provider call was made.`,
+    );
+    this.name = 'AttemptReconciliationRequiredError';
+  }
+}
+
+/** Atomically opens a new attempt and refuses the race if another process won. */
+function beginFreshAttempt(coord: AttemptCoordinate) {
+  const opened = beginAttempt(coord);
+  if (opened.replay) throw new AttemptReconciliationRequiredError(coord, opened.retryId);
+  return opened;
+}
+
 function arg(name: string): string | undefined {
   const idx = process.argv.indexOf(`--${name}`);
   if (idx === -1) return undefined;
@@ -153,18 +181,13 @@ function fail(message: string): never {
 /**
  * The methodology revision a permit must have been issued against.
  *
- * Read from the committed sidecar rather than recomputed, so a local edit to
- * the vendored plan invalidates every permit instead of silently redefining
- * what was approved.
+ * The committed sidecar is evidence, not the definition: hash the actual plan
+ * bytes and refuse disagreement. Returning the sidecar alone let editing one
+ * line redefine which methodology every permit was checked against while the
+ * plan itself stayed unchanged.
  */
-function frozenMethodologyHash(): string {
-  const sidecar = join(REPO_ROOT, 'docs/methodology/CookingBench-methodology-first-master-plan.sha256');
-  if (!existsSync(sidecar)) {
-    fail(`Missing ${sidecar}. A permit is issued against a specific methodology revision; without the sidecar there is nothing to bind to.`);
-  }
-  const digest = /^[a-f0-9]{64}/.exec(readFileSync(sidecar, 'utf8').trim())?.[0];
-  if (!digest) fail(`${sidecar} does not start with a sha256 digest.`);
-  return digest;
+export function frozenMethodologyHash(): string {
+  return permitMethodologyHash();
 }
 
 /**
@@ -176,7 +199,7 @@ function frozenMethodologyHash(): string {
  * cheap `development-probe` permit that grants `catalog-read` and nothing else —
  * it authorises no inference, so it needs no cells and costs nothing to honour.
  */
-function requireGrant(context: string): VerifiedGrant {
+export function requireGrant(context: string, executingManifest?: unknown): VerifiedGrant {
   const permitPath = arg('permit');
   const manifestPath = arg('manifest');
   if (!permitPath || !manifestPath) {
@@ -196,17 +219,32 @@ function requireGrant(context: string): VerifiedGrant {
     fail(`Manifest ${resolvedManifest} is not valid JSON (${(e as Error).message}).`);
   }
   try {
-    const { grant } = verifyPermitFile(resolvedPermit, {
-      manifest,
-      expectedMethodologyHash: frozenMethodologyHash(),
-    });
+    // The caller's file identifies the intended stored run but never becomes
+    // the verification envelope. It must match that run byte-for-canonical-
+    // byte, including the recorded digest, and the stored object is what the
+    // signature verifier receives.
+    const storedManifest = resolveStoredManifestClaim(manifest, context);
+    const { grant } = verifyPermitFile(resolvedPermit, { manifest: storedManifest });
+    // `--manifest` is untrusted bootstrap input. The authority does not leave
+    // this function until the verified hash is also the exact manifest stored
+    // under the run it will act on (including that run's recorded digest).
+    // Every permit-using command comes through this one boundary, so an
+    // alternate same-run envelope cannot reach redemption, clients or writes.
+    assertGrantMatchesStoredManifest(grant, context, executingManifest);
+    // A signed manifest that names HEAD still is not reproducible when the
+    // executable/question/methodology bytes in this process are uncommitted.
+    // Hold authority here until checkout(manifest.gitCommit) would recreate
+    // the relevant working tree exactly.
+    assertReproducibleGitIdentity(storedManifest.gitCommit);
     console.log(
       `Permit ${grant.permitId} (${grant.kind}) verified with key '${grant.keyId}' — ` +
         `[${grant.capabilities.join(', ')}], cap $${grant.budgetCapUsd.toFixed(2)}, run ${grant.runId}.`,
     );
     return grant;
   } catch (e) {
-    if (e instanceof PermitError) fail(`${context} refused — ${e.code}: ${e.message}`);
+    if (e instanceof PermitError || e instanceof ManifestError) {
+      fail(`${context} refused — ${e.code}: ${e.message}`);
+    }
     throw e;
   }
 }
@@ -271,7 +309,7 @@ function stuffingAnswerFor(q: Question): string | null {
  */
 const CANARY = 'CANARY:cookingbench:';
 
-function checkCanaries(): string[] {
+export function checkCanaries(): string[] {
   const dir = join(DATA_DIR, 'questions');
   const missing: string[] = [];
   for (const file of readdirSync(dir).filter((f) => f.endsWith('.yaml'))) {
@@ -417,7 +455,7 @@ function checkReferenceAnswers(questions: Question[]): { problems: string[]; war
   return { problems, warnings };
 }
 
-function cmdValidate() {
+export function cmdValidate() {
   const questions = loadQuestions();
   const models = loadModels();
   const byCategory = new Map<string, number>();
@@ -534,7 +572,7 @@ async function cmdModelsCheck() {
  * whether it was a mock — was the command line, and nothing recorded it in a
  * form a permit could be signed against or a verifier could check afterwards.
  */
-function cmdManifest() {
+export function cmdManifest() {
   const runId = arg('run-id') ?? fail('manifest requires --run-id <id>');
   const draftPath = arg('draft');
   const mockDraft = flag('mock');
@@ -571,6 +609,15 @@ function cmdManifest() {
     if (built.manifest.runId !== runId) {
       fail(`Draft names run '${built.manifest.runId}' but --run-id says '${runId}'.`);
     }
+    // Kept at the CLI freeze boundary rather than inside buildRunManifest or
+    // writeRunManifest: tests and development may calculate envelopes in a
+    // dirty worktree, but a production freeze may never record HEAD as the
+    // identity of bytes that HEAD does not contain.
+    assertReproducibleGitIdentity(built.manifest.gitCommit);
+    // Mock envelopes use fixed in-process personas. Every real inference
+    // envelope must carry the independently declared provider/base identities
+    // from the committed roster; non-empty invented strings are not identity.
+    if (!mockDraft) assertManifestRouteIdentityMatchesRoster(built.manifest);
     const written = writeRunManifest(runId, built.manifest, questions);
     console.log(
       `${written.written ? '✓ Manifest written' : '✓ Manifest already present and identical'} for ${runId}: ` +
@@ -595,7 +642,6 @@ function mockDraftManifest(runId: string, questions: Question[]): Record<string,
     runId,
     methodologyVersion: DEFAULTS.methodologyVersion,
     schemaVersion: '1',
-    gitCommit: 'ffffff0',
     parentArtifacts: [],
     evidenceClass: 'development',
     artifactOrigin: ['mock'],
@@ -623,7 +669,7 @@ function mockDraftManifest(runId: string, questions: Question[]): Record<string,
   };
 }
 
-async function cmdRun() {
+export async function cmdRun() {
   const runId =
     arg('run-id') ??
     fail(
@@ -667,6 +713,43 @@ async function cmdRun() {
   const mock = manifest.artifactOrigin.includes('mock');
   const modelIds = manifest.candidateRoutes.map((r) => r.modelId);
 
+  // WP-0 proves the evidence boundary and the offline harness. It deliberately
+  // does not authorise real provider execution: the current paid runner has
+  // nested retry layers that are not yet fully expressed by, or durably
+  // recoverable from, the signed manifest. Pretending that work is covered by
+  // the WP-0 permit would turn a green boundary test into a false methodology
+  // claim. Real candidate calls return only after the protocol-safe runner
+  // introduces manifest-bound provider-attempt identities and write-ahead
+  // recovery in the later runner work package.
+  if (!mock) {
+    fail(
+      'PAID_INFERENCE_NOT_READY: WP-0 permits offline/mock execution only. ' +
+        'Real candidate inference remains disabled until the protocol-safe runner binds every billable attempt and retry to the manifest.',
+    );
+  }
+
+  // A task with an attempt record but no stored response is not resume-safe:
+  // the provider may already have charged for work whose answer was lost. Do
+  // this read-only reconciliation gate before permit redemption, client
+  // construction or config writes. The atomic check at beginFreshAttempt below
+  // closes the remaining race between this preflight and the actual request.
+  const tasks: Array<{ modelId: string; question: Question }> = [];
+  for (const modelId of modelIds) {
+    for (const question of questions) {
+      if (hasResponse(runId, modelId, question.id)) continue;
+      tasks.push({ modelId, question });
+    }
+  }
+  const pendingCells = new Set(tasks.map(({ modelId, question }) => `${modelId}\u0000${question.id}`));
+  const ambiguousAttempt = readAttempts(runId).find((attempt) =>
+    pendingCells.has(`${attempt.modelId}\u0000${attempt.questionId}`),
+  );
+  if (ambiguousAttempt) {
+    fail(
+      new AttemptReconciliationRequiredError(ambiguousAttempt, ambiguousAttempt.retryId).message,
+    );
+  }
+
   let client: CompletionClient;
   let spend: SpendReport = NO_SPEND;
   let ledger: ReservationLedger | null = null;
@@ -675,7 +758,7 @@ async function cmdRun() {
     client = new MockClient(questionsById);
   } else {
     const requested = Number(arg('budget') ?? manifest.budgetCapUsd);
-    if (!Number.isFinite(requested)) fail('--budget must be a number.');
+    if (!Number.isFinite(requested) || requested < 0) fail('--budget must be a finite non-negative number.');
     if (requested > manifest.budgetCapUsd) {
       fail(
         `--budget $${requested.toFixed(2)} exceeds the manifest's approved cap of $${manifest.budgetCapUsd.toFixed(2)}. ` +
@@ -684,6 +767,9 @@ async function cmdRun() {
     }
     const totalBudget = requested;
     const perModelBudget = Number(arg('per-model-budget') ?? (totalBudget / modelIds.length) * 2);
+    if (!Number.isFinite(perModelBudget) || perModelBudget < 0) {
+      fail('--per-model-budget must be a finite non-negative number.');
+    }
     // The guard checks a per-call worst case before every call, so a per-model
     // cap below that worst case refuses every call — and the run then reports
     // "✓ Run complete: 0 responses stored" as though it had succeeded. With a
@@ -701,9 +787,30 @@ async function cmdRun() {
           `or set --per-model-budget explicitly.`,
       );
     }
+    const grant = requireGrant('run', manifest);
+    try {
+      assertManifestRouteIdentityMatchesRoster(manifest);
+    } catch (error) {
+      if (error instanceof ManifestError) fail(`${error.code}: ${error.message}`);
+      throw error;
+    }
+    // RELEASE-002 point 6: requested, permit, manifest and artifact ids must be
+    // the same id. Checked before any catalogue request or permit redemption,
+    // so a mistyped flag neither leaks the planned roster nor burns approval.
+    try {
+      assertRunIdentity(
+        { requested: runId, permit: grant.runId, manifest: manifest.runId, artifact: runId },
+        `bench run (permit ${grant.permitId})`,
+      );
+    } catch (e) {
+      fail((e as Error).message);
+    }
     // Estimated against the MANIFEST's caps and item set, so the gate covers the
     // work that will actually be done rather than the flags that were typed.
-    const estimate = assertFreshEstimate(modelIds, questions, settings);
+    // The saved record is not trusted to report its own cost: it is recomputed
+    // against live catalogue pricing under this same verified grant. A run
+    // permit therefore needs `catalog-read` as well as candidate inference.
+    const estimate = await assertFreshEstimate(grant, modelIds, questions, settings);
     console.log(
       `Estimate on file: expected $${estimate.totalExpectedUsd.toFixed(2)} | worst case $${estimate.totalWorstCaseUsd.toFixed(2)} | hard cap $${totalBudget.toFixed(2)}`,
     );
@@ -724,18 +831,6 @@ async function cmdRun() {
         `⚠ Worst case ($${estimate.totalWorstCaseUsd.toFixed(2)}) exceeds the cap ($${totalBudget.toFixed(2)}). ` +
           `Expected is $${estimate.totalExpectedUsd.toFixed(2)}; the run will abort gracefully if actual spend reaches the cap.`,
       );
-    }
-    const grant = requireGrant('run');
-    // RELEASE-002 point 6: requested, permit, manifest and artifact ids must be
-    // the same id. Checked before the permit is redeemed, so a mistyped flag
-    // does not burn an approval.
-    try {
-      assertRunIdentity(
-        { requested: runId, permit: grant.runId, manifest: manifest.runId, artifact: runId },
-        `bench run (permit ${grant.permitId})`,
-      );
-    } catch (e) {
-      fail((e as Error).message);
     }
     // Point of no return: consume a use of the permit. Deliberately after the
     // run-id check above, so a mistyped flag does not burn an approval.
@@ -790,21 +885,16 @@ async function cmdRun() {
   // published config has to describe all of them.
   mergeRunConfig(config);
 
-  const tasks: Array<{ modelId: string; question: Question }> = [];
-  for (const modelId of modelIds) {
-    for (const question of questions) {
-      if (hasResponse(runId, modelId, question.id)) continue; // idempotent resume
-      tasks.push({ modelId, question });
-    }
-  }
   console.log(`Run ${runId}: ${tasks.length} calls to make (${modelIds.length} models × ${questions.length} questions, resume-aware)`);
 
   let done = 0;
   const failures: string[] = [];
   const haltedModels = new Set<string>();
+  const reconciliation = { required: null as AttemptReconciliationRequiredError | null };
   await pool(tasks, concurrency, async ({ modelId, question }) => {
     if (haltedModels.has(modelId)) return;
     const maxTokens = maxTokensFor(question, settings);
+    let activeAttempt: { coord: AttemptCoordinate; retryId: string } | null = null;
     try {
       // Worst-case for the next call at flagship pricing ($10/$50 per Mtok upper bound).
       const promptChars = buildMessages(question).reduce((n, m) => n + m.content.length, 0);
@@ -816,22 +906,14 @@ async function cmdRun() {
       // the money is spent, so a charge can always be attributed to the exact
       // coordinate and cause that incurred it.
       //
-      // What this does and does not promise, stated because the word
-      // "idempotent" is doing less work here than it appears to: the STORED
-      // answer is idempotent (writeResponse refuses a second, different answer
-      // or price for a settled cell). An INTERMEDIATE attempt cannot be, because
-      // if a process died between the provider charge and writeResponse the cell
-      // has no answer and the only way to make progress is to call again. What
-      // the record buys is that the re-charge is VISIBLE — beginAttempt reports
-      // the replay — rather than silently doubling the run's true cost.
+      // Stored answers are idempotent, but an intermediate attempt is
+      // ambiguous: a process can die after the provider charge and before the
+      // response write. A replay therefore REFUSES instead of buying a second
+      // answer. Human reconciliation must decide what happened to the first.
       const attempt = (cause: AttemptCause) => ({ runId, modelId, questionId: question.id, cause });
-      const opened = beginAttempt(attempt('initial'));
-      if (opened.replay) {
-        console.warn(
-          `  ⚠ ${modelId} × ${question.id}: re-running an attempt a previous process already ` +
-            `paid for (${opened.retryId}). The earlier charge stands; this one is additional.`,
-        );
-      }
+      const initialAttempt = attempt('initial');
+      const initialOpened = beginFreshAttempt(initialAttempt);
+      activeAttempt = { coord: initialAttempt, retryId: initialOpened.retryId };
       let result = await client.complete(modelId, buildMessages(question), {
         temperature: manifest.generationSettings.temperature,
         maxTokens,
@@ -839,7 +921,8 @@ async function cmdRun() {
         cell: { modelId, questionId: question.id },
         estimateUsd: worstCase,
       });
-      settleAttempt(attempt('initial'), { costUsd: result.costUsd });
+      settleAttempt(initialAttempt, { costUsd: result.costUsd });
+      activeAttempt = null;
       let totalCost = result.costUsd;
       // Empty/filtered completions are transport noise — retry before storing,
       // with extra token headroom on the second retry.
@@ -847,7 +930,9 @@ async function cmdRun() {
         // The two retries are DIFFERENT causes, so they derive different ids and
         // one cannot be mistaken for a replay of the other.
         const cause: AttemptCause = retry === 0 ? 'empty-response' : 'empty-response-headroom';
-        beginAttempt(attempt(cause));
+        const retryAttempt = attempt(cause);
+        const retryOpened = beginFreshAttempt(retryAttempt);
+        activeAttempt = { coord: retryAttempt, retryId: retryOpened.retryId };
         result = await client.complete(modelId, buildMessages(question), {
           temperature: manifest.generationSettings.temperature,
           maxTokens: retry === 0 ? maxTokens : maxTokens * 2,
@@ -855,7 +940,8 @@ async function cmdRun() {
           cell: { modelId, questionId: question.id },
           estimateUsd: worstCase,
         });
-        settleAttempt(attempt(cause), { costUsd: result.costUsd });
+        settleAttempt(retryAttempt, { costUsd: result.costUsd });
+        activeAttempt = null;
         totalCost += result.costUsd;
       }
       const stored: StoredResponse = {
@@ -882,6 +968,26 @@ async function cmdRun() {
         console.log(`  ${done}/${tasks.length} done — spent $${spend.settledUsd.toFixed(4)}`);
       }
     } catch (error) {
+      if (error instanceof AttemptReconciliationRequiredError) {
+        reconciliation.required ??= error;
+        for (const id of modelIds) haltedModels.add(id);
+        console.error(`  ✗ ${error.message}`);
+        return;
+      }
+      // A provider-path error after the durable open but before settlement is
+      // itself the ambiguous state the journal exists to expose. Stop the run;
+      // continuing would buy unrelated work while a possibly billed request is
+      // unresolved, and a blind restart would try this cell again.
+      if (activeAttempt) {
+        const errorForReconciliation = new AttemptReconciliationRequiredError(
+          activeAttempt.coord,
+          activeAttempt.retryId,
+        );
+        reconciliation.required ??= errorForReconciliation;
+        for (const id of modelIds) haltedModels.add(id);
+        console.error(`  ✗ ${errorForReconciliation.message} Cause: ${(error as Error).message}`);
+        return;
+      }
       if (error instanceof BudgetExceededError) {
         if (error.scope === 'total') {
           haltedModels.add(modelId);
@@ -902,6 +1008,7 @@ async function cmdRun() {
   // but leaving one on a clean exit would make that recovery routine rather
   // than exceptional.
   ledger?.close();
+  if (reconciliation.required) fail(reconciliation.required.message);
   if (done === 0 && tasks.length > 0) {
     fail(
       `No responses were stored despite ${tasks.length} task(s) queued — the run did nothing. ` +
@@ -958,10 +1065,10 @@ function requirePublicationVerdict(
   stage: 'artifact' | 'public',
   runId: string,
   command: string,
-  permitRunId?: string,
+  grant?: VerifiedGrant,
 ): ReturnType<typeof assertPublicationAllowed> {
   try {
-    return assertPublicationAllowed(stage, { requestedRunId: runId, permitRunId });
+    return assertPublicationAllowed(stage, { requestedRunId: runId, grant });
   } catch (e) {
     fail(`${command} refused — ${(e as Error).message}`);
   }
@@ -1022,10 +1129,21 @@ function cmdGrade() {
   else console.log(`Next: pnpm bench report --run ${runId}`);
 }
 
-async function cmdJudge() {
+export async function cmdJudge() {
   const runId = arg('run') ?? fail('judge requires --run <id>');
   const runManifest = requireManifestedRun(runId, 'judge');
   const config = requireRunConfig(runId, 'judge');
+  // As with candidate execution, mock-ness belongs to the immutable envelope;
+  // config.json and command-line flags cannot opt a run into or out of network
+  // execution. WP-0 closes the offline evidence boundary, while real judging
+  // waits for the later manifest-bound provider-attempt protocol.
+  const mock = runManifest.artifactOrigin.includes('mock');
+  if (!mock) {
+    fail(
+      'PAID_INFERENCE_NOT_READY: WP-0 permits offline/mock judging only. ' +
+        'Real judge calls remain disabled until every seat, repeat, retry and billable attempt is manifest-bound and restart-safe.',
+    );
+  }
   const questions = loadQuestions();
   const questionsById = new Map(questions.map((q) => [q.id, q]));
   const responses = readResponses(runId);
@@ -1045,7 +1163,7 @@ async function cmdJudge() {
   // The cap is settled BEFORE the client exists, because the calibration gate
   // below already makes paid calls and must be inside the same ledger.
   const judgeBudget = Number(arg('budget') ?? NaN);
-  if (!config.mock && !Number.isFinite(judgeBudget)) {
+  if (!mock && !Number.isFinite(judgeBudget)) {
     fail(
       `Judging ${pending.length} answers needs a cap: pass --budget <usd>. ` +
         `Rough worst case is ${pending.length * 3} seat calls (3× that if seats return unparseable output).`,
@@ -1054,7 +1172,15 @@ async function cmdJudge() {
 
   // Judging is paid work: it needs its own capability, its own reservation
   // ledger and the same cell authorisation candidate calls get.
-  const judgeGrant = config.mock ? null : requireGrant('judge');
+  const judgeGrant = mock ? null : requireGrant('judge', runManifest);
+  if (judgeGrant) {
+    try {
+      assertManifestRouteIdentityMatchesRoster(runManifest);
+    } catch (error) {
+      if (error instanceof ManifestError) fail(`${error.code}: ${error.message}`);
+      throw error;
+    }
+  }
   if (judgeGrant && judgeGrant.runId !== runId) {
     fail(`Permit ${judgeGrant.permitId} authorises run '${judgeGrant.runId}', not '${runId}'.`);
   }
@@ -1073,7 +1199,13 @@ async function cmdJudge() {
   // JUDGE-001. Conflict identity comes from the declared roster, not from the
   // slug prefix, and a model missing from the roster conflicts with everything
   // rather than being waved through as distinct.
-  const judgeIdentity = identityIndex(loadModels());
+  const judgeIdentity = identityIndex(
+    [...runManifest.candidateRoutes, ...runManifest.judgeRoutes].map((route) => ({
+      id: route.modelId,
+      provider: route.provider,
+      baseModel: route.baseModelFamily,
+    })),
+  );
 
   // The judging configuration of record. Written AFTER the calibration gate,
   // and unconditionally, because both details were wrong before: the write was
@@ -1094,7 +1226,7 @@ async function cmdJudge() {
 
   // Judge calibration gate: every panel seat must independently reproduce the
   // hand-scored anchors before any paid judging is accepted for this run.
-  if (!config.mock) {
+  if (!mock) {
     const { readCalibration, runCalibration } = await import('./calibration.js');
     const prior = readCalibration(runId);
     if (
@@ -1125,7 +1257,7 @@ async function cmdJudge() {
       console.log('✓ Calibration gate passed for all panel seats.');
     }
   }
-  if (!config.mock) {
+  if (!mock) {
     config.judgeModel = DEFAULTS.judgeModel;
     config.judgePanel = judgePanel;
     config.judgePromptVersion = JUDGE_PROMPT_VERSION;
@@ -1171,7 +1303,7 @@ async function cmdJudge() {
     }
     let judgeScore: number;
     let judgeDetail: Record<string, unknown>;
-    if (config.mock) {
+    if (mock) {
       judgeScore = mockJudgeScore(s.modelId, question);
       judgeDetail = { mockJudge: true };
     } else {
@@ -1226,7 +1358,7 @@ async function cmdJudge() {
       }
     }
     s.score = blendJudgeScore(question, judgeScore, detail.constraintScore);
-    s.judgeModel = config.mock
+    s.judgeModel = mock
       ? 'mock-judge'
       : ((judgeDetail as { judges?: string[] }).judges?.join('+') ?? config.judgeModel);
     s.detail = {
@@ -1246,7 +1378,7 @@ async function cmdJudge() {
     // event loop — the verdicts already paid for are on disk.
     checkpoint();
   }
-  if (!config.mock) {
+  if (!mock) {
     config.judgeCostUsd = Math.round(judgeSpend.settledUsd * 10000) / 10000;
     writeRunConfig(config);
     console.log(`  judge spend this pass: $${judgeSpend.settledUsd.toFixed(4)}`);
@@ -1274,13 +1406,18 @@ function requireRunConfig(runId: string, command: string): ReturnType<typeof rea
 
 function cmdReport() {
   const runId = arg('run') ?? fail('report requires --run <id>');
+  const reportManifest = requireManifestedRun(runId, 'report');
+  const reportGrant =
+    reportManifest.evidenceClass === 'public-release'
+      ? requireGrant('report', reportManifest)
+      : undefined;
   // RELEASE-002 point 5. Writing a board is an artifact write, not a
   // publication — a draft has to be able to produce the board its own review
   // reads — but it goes through the same gate, and the class it returns is
   // STAMPED on the board so no reader can mistake a development artifact for a
   // result. Nothing called this before; the capability was checked and the
   // artifact never was.
-  const verdict = requirePublicationVerdict('artifact', runId, 'report');
+  const verdict = requirePublicationVerdict('artifact', runId, 'report', reportGrant);
   const config = requireRunConfig(runId, 'report');
   const questions = loadQuestions();
   const responses = readResponses(runId);
@@ -1292,6 +1429,11 @@ function cmdReport() {
   const models = config.mock
     ? MOCK_MODELS.map((m) => ({ ...m }))
     : loadModels();
+  // The board is the final run-scoped write: legacy runs freeze as soon as a
+  // leaderboard appears, so the analysis it cites must be written first. This
+  // also makes `bench report` produce one coherent review bundle instead of
+  // inviting an impossible `bench analyze` after the directory has frozen.
+  writeAnalysis(runId, analyzeRun(runId, questions, responses, scores), reportGrant);
   const leaderboard = buildLeaderboard(
     runId,
     models,
@@ -1325,7 +1467,7 @@ function cmdReport() {
         'Re-run `bench judge` to fill the gaps, or pass --allow-incomplete to publish anyway.',
     );
   }
-  writeLeaderboard(runId, leaderboard);
+  writeLeaderboard(runId, leaderboard, reportGrant);
   if (verdict.nonScoringBanner) console.log(`\n${verdict.nonScoringBanner}`);
   console.log(
     `\nCookingBench — run ${runId} (methodology ${leaderboard.methodologyVersion}, ` +
@@ -1349,15 +1491,20 @@ function cmdRuns() {
 
 function cmdAnalyze() {
   const runId = arg('run') ?? fail('analyze requires --run <id>');
+  const analysisManifest = requireManifestedRun(runId, 'analyze');
+  const analysisGrant =
+    analysisManifest.evidenceClass === 'public-release'
+      ? requireGrant('analyze', analysisManifest)
+      : undefined;
   // analysis.json feeds the site's separation table and its tied ranks, so it
   // is a public-result path and takes the same gate as the board.
-  requirePublicationVerdict('artifact', runId, 'analyze');
+  requirePublicationVerdict('artifact', runId, 'analyze', analysisGrant);
   const questions = loadQuestions();
   const responses = readResponses(runId);
   const scores = readScores(runId);
   if (scores.length === 0) fail(`No scores for run ${runId} — grade it first`);
   const analysis = analyzeRun(runId, questions, responses, scores);
-  writeAnalysis(runId, analysis);
+  writeAnalysis(runId, analysis, analysisGrant);
 
   console.log(`\nItem analysis — run ${runId} (${analysis.models} models, ${analysis.questions} questions)`);
   console.log(`  all-perfect: ${analysis.allPerfect}   saturated (mean≥95, sd≤5): ${analysis.saturated}\n`);
@@ -1415,7 +1562,7 @@ async function cmdSync() {
   // machine. Syncing a run pushes its scores into the database the site reads,
   // so it is a public-result path and takes the full RELEASE-002 test —
   // including that the permit, the manifest and the request name one run.
-  if (runId) requirePublicationVerdict('public', runId, 'sync', grant.runId);
+  if (runId) requirePublicationVerdict('public', runId, 'sync', grant);
   redeemPermit(grant, 'bench sync');
   if (runId) recordProvenance(runId, grant, 'bench sync');
   const { syncDataset, syncRun } = await import('./sync.js');
@@ -1430,7 +1577,7 @@ async function cmdSync() {
 async function cmdPublish() {
   const runId = arg('run') ?? fail('publish requires --run <id>');
   const grant = requireGrant('publish');
-  const verdict = requirePublicationVerdict('public', runId, 'publish', grant.runId);
+  const verdict = requirePublicationVerdict('public', runId, 'publish', grant);
   redeemPermit(grant, 'bench publish');
   const { publishRun } = await import('./sync.js');
   await publishRun(grant, runId);
@@ -1517,208 +1664,20 @@ async function cmdTasteArchive() {
   await archiveTasteVotes(grant);
 }
 
-/** Both models comfortable here and the item separates nobody. */
-const SLACK_THRESHOLD = 90;
-/** Both models on the floor: the item, or its grader, is broken rather than hard. */
-const FLOOR_THRESHOLD = 20;
-
-interface PilotResult {
-  questionId: string;
-  ceiling: number;
-  mid: number;
-  verdict: 'admit' | 'reject-slack' | 'reject-floor';
-}
-
 /**
- * The pilot seats, taken from the newest published leaderboard rather than a
- * hardcoded pair, so the gate tracks the roster instead of drifting behind it:
- * the strongest model sets the ceiling, the middle of the table gives a second
- * opinion. Falls back to roster order when nothing has been published yet.
- */
-function pilotSeats(models: ReturnType<typeof loadModels>): { ceiling: string; mid: string } {
-  const active = models.filter((m) => m.active).map((m) => m.id);
-  // Newest published board wins, and a mock run is never a board — the same
-  // selection the site makes, for the same reason.
-  const boards = listRuns()
-    .map((runId) => ({ runId, path: join(RUNS_DIR, runId, 'leaderboard.json') }))
-    .filter(({ path }) => existsSync(path))
-    .map(({ runId, path }) => ({
-      runId,
-      board: JSON.parse(readFileSync(path, 'utf8')) as {
-        generatedAt: string;
-        rows: Array<{ modelId: string }>;
-      },
-    }))
-    .filter(({ runId }) => {
-      const configPath = join(RUNS_DIR, runId, 'config.json');
-      if (!existsSync(configPath)) return true;
-      return !(JSON.parse(readFileSync(configPath, 'utf8')) as { mock?: boolean }).mock;
-    })
-    .sort((a, b) => Date.parse(b.board.generatedAt) - Date.parse(a.board.generatedAt));
-  const ranked =
-    boards[0]?.board.rows.map((r) => r.modelId).filter((id) => active.includes(id)) ?? [];
-  const order = ranked.length > 0 ? ranked : active;
-  const ceiling = arg('ceiling') ?? order[0]!;
-  const mid = arg('mid') ?? order[Math.floor(order.length / 2)]!;
-  if (ceiling === mid) fail('Pilot needs two distinct models — pass --ceiling and --mid.');
-  return { ceiling, mid };
-}
-
-/** Admission records are artifacts too: every decision stays auditable. */
-function writePilot(sourceFile: string, results: PilotResult[]): void {
-  const dir = join(DATA_DIR, 'pilot');
-  mkdirSync(dir, { recursive: true });
-  const name = basename(sourceFile).replace(/\.ya?ml$/, '');
-  const path = join(dir, `${name}.json`);
-  writeFileSync(
-    path,
-    `${JSON.stringify({ source: sourceFile, at: new Date().toISOString(), results }, null, 2)}\n`,
-  );
-  console.log(`✓ Admission record written to data/pilot/${name}.json`);
-}
-
-
-/**
- * Pilot: prove a candidate question discriminates *before* it costs a full run.
+ * The legacy pilot is deliberately absent in v3.
  *
- * Two models, not a ladder, and the ceiling rather than the floor. If today's
- * strongest model aces a question it is slack no matter how badly the weakest
- * one does — and it will still be slack for whatever replaces them, which is
- * what stops the dataset decaying as the roster turns over. Selecting items
- * because the weakest model fails them just builds a small-model detector.
- *
- * Stage 0 (free, no calls) runs first: reference answer must score 100, a
- * failingAnswer must score low, and anything scoring 100 on keyword stuffing is
- * reported. Only survivors cost money.
+ * Keep the command as a visible refusal so old runbooks fail clearly, but do
+ * not retain dormant file readers, artifact writers or inference clients
+ * behind that refusal. Dead side effects are still maintenance and audit
+ * surface, and a future edit could accidentally make them reachable again.
  */
-async function cmdPilot() {
-  const file = arg('file') ?? fail('pilot requires --file <candidates.yaml>');
-  const path = isAbsolute(file) ? file : join(REPO_ROOT, file);
-  if (!existsSync(path)) fail(`No candidate file at ${path}`);
-  const parsed = questionFileSchema.safeParse(parseYaml(readFileSync(path, 'utf8')));
-  if (!parsed.success) fail(`Invalid candidate file:\n${parsed.error.message}`);
-  const candidates = parsed.data as Question[];
-
-  const corpus = loadQuestions();
-  const existing = new Set(corpus.map((q) => q.id));
-  for (const c of candidates) {
-    if (existing.has(c.id)) fail(`Candidate ${c.id} already exists in the dataset — pick a fresh id.`);
-    for (const dup of nearDuplicates(c, corpus)) {
-      console.log(
-        `  ⚠ ${c.id} resembles ${dup.id} (${dup.status}, ${Math.round(dup.overlap * 100)}% prompt overlap)` +
-          (dup.status === 'basics' ? ' — that item saturated, so this one probably will too' : ''),
-      );
-    }
-  }
-
-  console.log(`Piloting ${candidates.length} candidates from ${file}\n`);
-
-  // --- Stage 0: free rejection -------------------------------------------
-  const { problems, warnings } = checkReferenceAnswers(candidates);
-  for (const w of warnings) console.log(`  ⚠ ${w}`);
-  const brokenIds = new Set(problems.map((p) => p.split(':')[0]!));
-  for (const p of problems) console.error(`  ✗ ${p}`);
-  const survivors = candidates.filter((c) => !brokenIds.has(c.id));
-  console.log(
-    `\nStage 0 — ${candidates.length - survivors.length} rejected before any model was called, ${survivors.length} continue.`,
+export function cmdPilot(): never {
+  fail(
+    'pilot is disabled in v3: the legacy admission workflow was removed because it was not ' +
+      'bound to the v3 manifest, attempt journal and release protocol. No input is read, no ' +
+      'permit is loaded or redeemed, no client is constructed, and no artifact is written.',
   );
-  if (survivors.length === 0) {
-    writePilot(file, []);
-    return;
-  }
-
-  // --- Stage 1: ceiling + mid --------------------------------------------
-  const models = flag('mock') ? MOCK_MODELS.map((m) => ({ ...m })) : loadModels();
-  const seats = pilotSeats(models);
-  console.log(`Stage 1 — ${seats.ceiling} (ceiling) and ${seats.mid} (mid)\n`);
-
-  const mock = flag('mock');
-  const budgetArg = arg('budget');
-  if (!mock && budgetArg === undefined) fail('pilot requires --budget <usd> (hard cap).');
-  const cap = mock ? Infinity : Number(budgetArg);
-  if (!mock && !Number.isFinite(cap)) fail('--budget must be a number.');
-  // The pilot calls a ceiling model and a mid model on every candidate, so it
-  // is paid work and takes a permit like the rest. The ledger journals against
-  // the run the permit binds, since the pilot has no run id of its own.
-  const pilotGrant = mock ? null : requireGrant('pilot');
-  if (pilotGrant) redeemPermit(pilotGrant, 'bench pilot');
-  const pilotLedger = pilotGrant
-    ? ReservationLedger.forGrant(pilotGrant, pilotGrant.runId, { totalCapUsd: cap })
-    : null;
-  const pilotSpend: SpendReport = pilotLedger ?? NO_SPEND;
-  const mockClient = new MockClient(new Map(survivors.map((q) => [q.id, q])));
-  const client: CompletionClient =
-    pilotGrant && pilotLedger ? OpenRouterClient.forCandidates(pilotGrant, pilotLedger) : mockClient;
-  // Scoring a candidate's answer is judge inference, not candidate inference.
-  // One client for both would let a candidate-only permit buy judge calls —
-  // the two capabilities exist precisely because they are different approvals.
-  // Both clients share the one ledger, so the cap is shared too.
-  const judgeClient: CompletionClient =
-    pilotGrant && pilotLedger ? OpenRouterClient.forJudging(pilotGrant, pilotLedger) : mockClient;
-
-  const results: PilotResult[] = [];
-  try {
-  for (const q of survivors) {
-    const scores: Record<string, number> = {};
-    for (const modelId of [seats.ceiling, seats.mid]) {
-      const maxTokens = maxTokensFor(q, DEFAULTS);
-      const promptChars = buildMessages(q).reduce((n, m) => n + m.content.length, 0);
-      const result = await client.complete(modelId, buildMessages(q), {
-        temperature: DEFAULTS.temperature,
-        maxTokens,
-        reasoning: { effort: 'medium' },
-        cell: { modelId, questionId: q.id },
-        estimateUsd: (promptChars / 4) * 0.00001 + maxTokens * 0.00005,
-      });
-      const deterministic = gradeDeterministic(q, result.text);
-      if (q.grader.type === 'llm-judge') {
-        const judgeScore = mock
-          ? mockJudgeScore(modelId, q)
-          : await judgeAnswerPanel(
-              judgeClient,
-              DEFAULTS.judgePanel,
-              modelId,
-              q,
-              result.text,
-              identityIndex(models),
-            ).then(
-              (v) => v.score,
-            );
-        scores[modelId] = blendJudgeScore(q, judgeScore, deterministic?.score ?? null);
-      } else {
-        scores[modelId] = deterministic?.score ?? 0;
-      }
-    }
-    const ceiling = scores[seats.ceiling]!;
-    const mid = scores[seats.mid]!;
-    // Both models comfortable → nothing to measure. Both floored → the item or
-    // its grader is broken, not hard; either way it separates nobody.
-    const verdict =
-      ceiling >= SLACK_THRESHOLD && mid >= SLACK_THRESHOLD
-        ? 'reject-slack'
-        : ceiling <= FLOOR_THRESHOLD && mid <= FLOOR_THRESHOLD
-          ? 'reject-floor'
-          : 'admit';
-    results.push({ questionId: q.id, ceiling, mid, verdict });
-    const mark = verdict === 'admit' ? '✓' : '✗';
-    console.log(
-      `  ${mark} ${q.id.padEnd(10)} ceiling ${ceiling.toFixed(0).padStart(3)}  mid ${mid.toFixed(0).padStart(3)}  ${verdict}`,
-    );
-  }
-  } finally {
-    // A budget abort must not discard verdicts already paid for — the guard
-    // says "completed work is saved" and for the pilot that has to be true too.
-    if (results.length > 0) writePilot(file, results);
-    pilotLedger?.close();
-  }
-
-  const admitted = results.filter((r) => r.verdict === 'admit');
-  console.log(
-    `\n${admitted.length}/${candidates.length} admitted. Spend $${pilotSpend.settledUsd.toFixed(4)}.`,
-  );
-  if (admitted.length > 0) {
-    console.log('Admitted candidates still need the Stage 2 validity check before going active.');
-  }
 }
 
 
@@ -1741,9 +1700,10 @@ const COMMANDS: Record<string, () => void | Promise<void>> = {
   current: cmdCurrent,
 };
 
-const command = process.argv[2];
-if (!command || !(command in COMMANDS)) {
-  console.log(`CookingBench runner
+async function main(): Promise<void> {
+  const command = process.argv[2];
+  if (!command || !(command in COMMANDS)) {
+    console.log(`CookingBench runner
 
 Usage: pnpm bench <command> [options]
 
@@ -1764,22 +1724,28 @@ Commands:
   sync [--run <id>]              Upsert dataset (and optionally a run) to Supabase
   publish --run <id>             Make a synced run publicly readable
   taste-archive                  Snapshot all taste votes into data/taste/ (commit to preserve)
-  pilot --file <yaml> --budget <usd> [--mock] [--ceiling id] [--mid id]
-                                 Admission gate for candidate questions
+  pilot                           Disabled in v3; always refuses before reading inputs
   lifecycle --run <id> --actor <who> --evidence <where> [--to <state>] [--register true]
                                  Build the release checklist; with --to, move the run's lifecycle
   current [--run <id> --reviewer <who> --evidence <where>]
                                  Show, or set, the approved-release pointer the site reads
   runs                           List stored runs`);
-  process.exit(command ? 1 : 0);
+    process.exit(command ? 1 : 0);
+  }
+
+  // Awaiting the handler catches both synchronous throws and rejected
+  // promises, while keeping module import inert for tests and library tooling.
+  try {
+    await COMMANDS[command]!();
+  } catch (error) {
+    fail((error as Error).message);
+  }
 }
 
-// A SYNCHRONOUS throw never reached this handler: `Promise.resolve(f())`
-// evaluates `f()` first, so anything a synchronous command threw escaped as a
-// raw Node stack trace with the guard's message buried in it. Every command's
-// refusal is meant to be readable — that is most of what the guards are for.
-try {
-  Promise.resolve(COMMANDS[command]!()).catch((error) => fail((error as Error).message));
-} catch (error) {
-  fail((error as Error).message);
+// Importing the CLI is a read-only operation. Credentials come exclusively
+// from the invoking process environment, and command dispatch happens only
+// when this module is the actual executable entry point.
+const invokedPath = process.argv[1];
+if (invokedPath && resolve(invokedPath) === fileURLToPath(import.meta.url)) {
+  void main();
 }

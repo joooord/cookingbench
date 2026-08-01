@@ -1,20 +1,7 @@
 import type { Metadata } from 'next';
-import { Fraunces, IBM_Plex_Mono, Inter } from 'next/font/google';
 import Link from 'next/link';
 import { SiteNav } from '@/components/SiteNav';
 import './globals.css';
-
-const fraunces = Fraunces({
-  subsets: ['latin'],
-  variable: '--font-fraunces',
-  axes: ['opsz', 'SOFT', 'WONK'],
-});
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const plexMono = IBM_Plex_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-plex-mono',
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://cookingbench.com'),
@@ -45,7 +32,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${inter.variable} ${plexMono.variable}`}>
+    <html lang="en">
       <body className="font-sans antialiased">
         <header className="relative border-b border-hairline">
           <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">

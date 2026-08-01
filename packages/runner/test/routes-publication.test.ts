@@ -507,14 +507,21 @@ describe('runner:estimate:record:read — assertFreshEstimate', () => {
     });
     const record = await runEstimate(grant, MODEL_IDS, QUESTIONS, CAPS);
     vi.unstubAllGlobals();
-    return record;
+    return { record, grant };
   }
 
-  it('refuses to authorise a run with no estimate on file', () => {
+  it('refuses to authorise a run with no estimate on file', async () => {
     // Deny-by-default at the money boundary: an absent gate record is not a
     // free run, and deleting the file must not be a way to skip the gate.
     rmSync(ESTIMATE_PATH, { force: true });
-    expect(() => assertFreshEstimate(MODEL_IDS, QUESTIONS, CAPS)).toThrow(
+    const grant = mintTestGrant({
+      permitId: 'permit-estimate-absent',
+      kind: 'development-probe',
+      capabilities: ['catalog-read'],
+      cells: [],
+      runId: SCRATCH,
+    });
+    await expect(assertFreshEstimate(grant, MODEL_IDS, QUESTIONS, CAPS)).rejects.toThrow(
       /No cost estimate found\. Run `pnpm bench estimate` first\./,
     );
   });
@@ -524,18 +531,42 @@ describe('runner:estimate:record:read — assertFreshEstimate', () => {
     // silently diverge: estimating one model and running three, or estimating
     // at an 8k cap and running at 32k, is how a batch costs several times what
     // was approved. The hash covers models, items and both caps.
-    const record = await mintRecord();
-    expect(assertFreshEstimate(MODEL_IDS, QUESTIONS, CAPS).hash).toBe(record.hash);
+    const { record, grant } = await mintRecord();
+    stubCatalog();
+    await expect(assertFreshEstimate(grant, MODEL_IDS, QUESTIONS, CAPS)).resolves.toMatchObject({
+      hash: record.hash,
+    });
+    vi.unstubAllGlobals();
 
-    expect(() => assertFreshEstimate([...MODEL_IDS, 'lab/beta'], QUESTIONS, CAPS)).toThrow(
+    await expect(assertFreshEstimate(grant, [...MODEL_IDS, 'lab/beta'], QUESTIONS, CAPS)).rejects.toThrow(
       /The saved estimate does not match this run/,
     );
-    expect(() => assertFreshEstimate(MODEL_IDS, [QUESTIONS[0]!], CAPS)).toThrow(
+    await expect(assertFreshEstimate(grant, MODEL_IDS, [QUESTIONS[0]!], CAPS)).rejects.toThrow(
       /The saved estimate does not match this run/,
     );
-    expect(() =>
-      assertFreshEstimate(MODEL_IDS, QUESTIONS, { ...CAPS, maxTokensRecipe: 64000 }),
-    ).toThrow(/The saved estimate does not match this run/);
+    await expect(
+      assertFreshEstimate(grant, MODEL_IDS, QUESTIONS, { ...CAPS, maxTokensRecipe: 64000 }),
+    ).rejects.toThrow(/The saved estimate does not match this run/);
+  });
+
+  it('refuses to re-price the gate without catalog-read, before making a request', async () => {
+    await mintRecord();
+    const candidateOnly = mintTestGrant({
+      permitId: 'permit-estimate-read-nocatalog',
+      kind: 'development-probe',
+      capabilities: ['candidate-inference'],
+      cells: QUESTIONS.map((q) => ({ modelId: 'lab/alpha', questionId: q.id })),
+      runId: SCRATCH,
+    });
+    const fetchSpy = stubCatalog();
+    await asyncRefusal(
+      () => assertFreshEstimate(candidateOnly, MODEL_IDS, QUESTIONS, CAPS),
+      FirewallError,
+      'CAPABILITY_DENIED',
+      /does not grant 'catalog-read', required by fetchCatalog/,
+    );
+    expect(fetchSpy).not.toHaveBeenCalled();
+    vi.unstubAllGlobals();
   });
 
   it('refuses an estimate that has gone stale', async () => {
@@ -543,35 +574,27 @@ describe('runner:estimate:record:read — assertFreshEstimate', () => {
     // that no longer exists; accepting it would gate today's spend on last
     // week's arithmetic. The clock is moved rather than the file, so this is a
     // genuine record ageing, not a doctored one.
-    const record = await mintRecord();
+    const { record, grant } = await mintRecord();
     vi.useFakeTimers();
     vi.setSystemTime(new Date(Date.parse(record.atIso) + 25 * 60 * 60 * 1000));
-    expect(() => assertFreshEstimate(MODEL_IDS, QUESTIONS, CAPS)).toThrow(
+    await expect(assertFreshEstimate(grant, MODEL_IDS, QUESTIONS, CAPS)).rejects.toThrow(
       /The saved estimate is older than 24h/,
     );
     // And it is the age, not the identity: one hour earlier the same file passes.
     vi.setSystemTime(new Date(Date.parse(record.atIso) + 23 * 60 * 60 * 1000));
-    expect(assertFreshEstimate(MODEL_IDS, QUESTIONS, CAPS).hash).toBe(record.hash);
+    stubCatalog();
+    await expect(assertFreshEstimate(grant, MODEL_IDS, QUESTIONS, CAPS)).resolves.toMatchObject({
+      hash: record.hash,
+    });
+    vi.unstubAllGlobals();
   });
 
-  it('DEFECT — accepts a hand-written record, so the budget-bypass this risk names is NOT closed', async () => {
-    // Pinning the hole rather than papering over it. `estimateHash` covers the
-    // model ids, the item ids and the two token caps — and NOTHING ELSE. The
-    // money fields are outside it, the file carries no signature, and
-    // `assertFreshEstimate` JSON.parses whatever is on disk (estimate.ts:96)
-    // and hands the caller its `totalExpectedUsd` unexamined. cli.ts:705-720
-    // gates the entire paid run on that number.
-    //
-    // So anything that can write one gitignored file in data/ satisfies the
-    // pre-flight gate at any price. Stated at its true size: the reservation
-    // ledger still caps ACTUAL spend at the permit's budget, so this buys a run
-    // that the estimate would have refused to start, not unbounded money. That
-    // is still the whole purpose of the gate.
-    //
-    // This test must be INVERTED — not deleted — when the record is signed or
-    // its costs are recomputed at read time; until then no test in this file
-    // may be cited as closing runner:estimate:record:read.
-    const honest = await mintRecord();
+  it('refuses a hand-written low estimate after recomputing the priced work from the live catalogue', async () => {
+    // The saved file is a convenience record, never the authority for its own
+    // money fields. The run re-fetches the catalogue under its verified grant
+    // and recomputes the exact model/question/token-cap work before it can
+    // redeem a permit or create a candidate client.
+    const { record: honest, grant } = await mintRecord();
     expect(honest.totalExpectedUsd).toBeGreaterThan(1);
 
     writeFileSync(
@@ -585,9 +608,12 @@ describe('runner:estimate:record:read — assertFreshEstimate', () => {
       }),
     );
 
-    const forged = assertFreshEstimate(MODEL_IDS, QUESTIONS, CAPS);
-    expect(forged.totalExpectedUsd).toBe(0.01);
-    expect(forged.perModel).toEqual([]);
+    const fetchSpy = stubCatalog();
+    await expect(assertFreshEstimate(grant, MODEL_IDS, QUESTIONS, CAPS)).rejects.toThrow(
+      /no longer matches live catalogue pricing or its priced work/,
+    );
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    vi.unstubAllGlobals();
   });
 });
 

@@ -16,7 +16,7 @@ import type { RunConfig } from '@cookingbench/core';
 import type { RunAnalysis } from '../src/analyze.js';
 import { writeAnalysis } from '../src/analyze.js';
 import { runCalibration } from '../src/calibration.js';
-import { RUNS_DIR } from '../src/dataset.js';
+import { RUNS_DIR, loadQuestions } from '../src/dataset.js';
 import {
   FirewallError,
   readProvenance,
@@ -24,6 +24,7 @@ import {
   type FirewallErrorCode,
 } from '../src/firewall.js';
 import { ReservationLedger } from '../src/ledger.js';
+import { buildRunManifest, writeRunManifest } from '../src/manifest.js';
 import type { ChatMessage, CompletionClient, CompletionResult } from '../src/openrouter.js';
 import {
   mergeRunConfig,
@@ -162,6 +163,36 @@ function scratchConfig(): RunConfig {
       },
     ],
   };
+}
+
+function seedScratchManifest(): void {
+  const questions = loadQuestions().slice(0, 1);
+  const { manifest } = buildRunManifest(
+    {
+      manifestVersion: 1,
+      runId: SCRATCH,
+      methodologyVersion: 'v3.0',
+      schemaVersion: '1',
+      parentArtifacts: [],
+      evidenceClass: 'development',
+      artifactOrigin: ['agent-authored'],
+      releaseState: 'draft',
+      rankEligible: false,
+      candidateRoutes: [{ modelId: 'a/one', provider: 'a', baseModelFamily: 'one' }],
+      judgeRoutes: [],
+      generationSettings: {
+        temperature: 0,
+        maxTokens: 16000,
+        maxTokensRecipe: 32000,
+        repeats: 1,
+        repeatPolicy: 'single',
+      },
+      callPlan: { concurrency: 1, maxAttempts: 3, abortOn: [] },
+      budgetCapUsd: 0,
+    },
+    questions,
+  );
+  writeRunManifest(SCRATCH, manifest, questions);
 }
 
 /**
@@ -412,7 +443,7 @@ describe('runner:analyze:analysis:write — writeAnalysis', () => {
     );
     expect(frozenFingerprint()).toBe(before);
     // Control: the same object at an unpublished id is written without protest.
-    mkdirSync(join(RUNS_DIR, SCRATCH), { recursive: true });
+    seedScratchManifest();
     writeAnalysis(SCRATCH, { runId: SCRATCH } as unknown as RunAnalysis);
     expect(existsSync(join(RUNS_DIR, SCRATCH, 'analysis.json'))).toBe(true);
   });
@@ -427,7 +458,7 @@ describe('runner:analyze:analysis:write — writeAnalysis', () => {
     // rather than followed — this one route did not, and DATA-001 was recorded
     // as closed while it was open.
     const dir = join(RUNS_DIR, SCRATCH);
-    mkdirSync(dir, { recursive: true });
+    seedScratchManifest();
     const decoy = join(outsideDir, 'analysis-target.json');
     writeFileSync(decoy, 'untouched');
     symlinkSync(decoy, join(dir, 'analysis.json'));

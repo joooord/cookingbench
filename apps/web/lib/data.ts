@@ -1,9 +1,23 @@
 import { createHash } from 'node:crypto';
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { existsSync, lstatSync, readFileSync, readdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { parse } from 'yaml';
-import { questionFileSchema } from '@cookingbench/core';
-import type { CategoryId, Question, Score, StoredResponse } from '@cookingbench/core';
+import {
+  PUBLIC_RELEASE_ARTIFACTS,
+  canonicalJson,
+  canonicalResponseSet,
+  publicResultMatchesManifest,
+  questionFileSchema,
+  runIdSchema,
+  safeParseRunManifest,
+} from '@cookingbench/core';
+import type {
+  CategoryId,
+  Question,
+  Score,
+  StoredResponse,
+  ValidatedRunManifest,
+} from '@cookingbench/core';
 
 // Data source v1: committed run artifacts in the repo (fully reproducible from
 // git). The Supabase-backed source slots in here once runs are synced.
@@ -94,7 +108,13 @@ export interface ApprovedRelease {
   runId: string;
   /** How this run came to be the public result. */
   approval:
-    | { kind: 'register'; reviewedBy: string; reviewedAt: string; checklistDigest: string }
+    | {
+        kind: 'register';
+        reviewedBy: string;
+        reviewedAt: string;
+        manifestHash: string;
+        checklistDigest: string;
+      }
     | { kind: 'pinned-historical'; note: string };
 }
 
@@ -123,32 +143,414 @@ export const REGISTER_FILE = 'REGISTER.json';
  * It predates the manifest and the register, so there is no pointer to read for
  * it and there never will be — its directory is immutable.
  *
- * This is a PIN, not a fallback rule: it names one run id and one digest of one
- * file. It cannot promote a newer board, a rebuilt board, or a board that has
- * been edited, because any of those changes the digest. The register overrides
- * it in both directions — a `currentRun` pointer wins, and an entry putting
- * this run in any state other than `released` withdraws it.
+ * This is a PIN, not a fallback rule: it names one run id and fixed digests for
+ * every byte from that run the site consumes. The response corpus is one
+ * versioned tree-set commitment over all 2,576 filenames and content hashes.
+ * It cannot promote a newer board, a rebuilt board, or a copied companion file.
+ * The register overrides it in both directions — a `currentRun` pointer wins,
+ * and an entry putting this run in any state other than `released` withdraws it.
  */
 const PINNED_HISTORICAL_RELEASE = {
   runId: '2026-07-v2.1',
-  boardSha256: 'bf1ec6536daa12cf5d741e77c9e47ea04e1395df644ddef3709a32bd3bc39dde',
+  artifacts: [
+    { file: 'leaderboard.json', sha256: 'bf1ec6536daa12cf5d741e77c9e47ea04e1395df644ddef3709a32bd3bc39dde' },
+    { file: 'analysis.json', sha256: '7107619ef9a91410221331dc9a1a0666a7904f50b1a2473f9aebf1f055a47a25' },
+    { file: 'config.json', sha256: '958d00f3943a3c1bb0f832b4ec3c1437f4a5ce070ab0604c98374da413def9d8' },
+    { file: 'calibration.json', sha256: '74949349735eb974f5e1b8b2c9261d303136561a2de3494756d50507b072c057' },
+    { file: 'scores.json', sha256: '8ab6cd2d760ceea01202db8e52c52497a826ce9b12e1fb2b5aea547702f59745' },
+    { file: 'responses', sha256: '973a8ae6346edb147bbf480480ee6b5259d739a73bbb645bd2e0226320864a05' },
+  ],
   note:
-    'Released before the evidence register existed; pinned by content digest and reviewed in the ' +
+    'Released before the evidence register existed; every site-consumed artifact is pinned by content digest and reviewed in the ' +
     'published methodology. Any new release must go through data/runs/REGISTER.json.',
 } as const;
 
-const sha256Of = (path: string): string =>
-  createHash('sha256').update(readFileSync(path, 'utf8')).digest('hex');
+const HISTORICAL_ARTIFACTS = PINNED_HISTORICAL_RELEASE.artifacts.map((artifact) => artifact.file);
+const HASH_PATTERN = /^[a-f0-9]{64}$/;
+
+const sha256 = (bytes: string | Buffer): string =>
+  createHash('sha256').update(bytes).digest('hex');
+
+interface FileSnapshot {
+  kind: 'file';
+  sha256: string;
+  text: string;
+}
+
+interface ResponseSetSnapshot {
+  kind: 'response-set';
+  sha256: string;
+  files: Array<{ file: string; sha256: string; text: string }>;
+}
+
+type ArtifactSnapshot = FileSnapshot | ResponseSetSnapshot;
+
+interface ApprovedReleaseData {
+  release: ApprovedRelease;
+  analysis: RunAnalysisSummary;
+  config: RunConfig;
+  calibration: { costUsd?: unknown };
+  scores: Score[];
+  responses: StoredResponse[];
+}
+
+interface WebDerivationRecord {
+  derivationVersion?: unknown;
+  runId?: unknown;
+  derivedFrom?: {
+    runId?: unknown;
+    responseSetHash?: unknown;
+    responseCount?: unknown;
+    copyMode?: unknown;
+  };
+  responses?: Array<{
+    file?: unknown;
+    sha256?: unknown;
+    modelId?: unknown;
+    questionId?: unknown;
+  }>;
+}
+
+/** Verify the copied-response lineage using only the exact bytes held by this snapshot. */
+function derivedResponses(
+  targetRunId: string,
+  manifest: ValidatedRunManifest,
+  artifacts: Map<string, ArtifactSnapshot>,
+): StoredResponse[] | null {
+  const record = parsedFile<WebDerivationRecord>(artifacts, 'derivation.json');
+  const responseSet = artifacts.get('responses');
+  if (!record || !responseSet || responseSet.kind !== 'response-set') return null;
+  const sourceRunId = record.derivedFrom?.runId;
+  if (
+    record.derivationVersion !== 1 ||
+    record.runId !== targetRunId ||
+    typeof sourceRunId !== 'string' ||
+    !runIdSchema.safeParse(sourceRunId).success ||
+    record.derivedFrom?.copyMode !== 'copy' ||
+    record.derivedFrom?.responseCount !== responseSet.files.length ||
+    !Array.isArray(record.responses) ||
+    record.responses.length !== responseSet.files.length ||
+    manifest.parentArtifacts.length !== 1 ||
+    manifest.parentArtifacts[0] !== sourceRunId
+  ) {
+    return null;
+  }
+
+  const declared = new Map<string, NonNullable<WebDerivationRecord['responses']>[number]>();
+  for (const response of record.responses) {
+    if (
+      typeof response.file !== 'string' ||
+      !response.file.endsWith('.json') ||
+      typeof response.sha256 !== 'string' ||
+      !HASH_PATTERN.test(response.sha256) ||
+      typeof response.modelId !== 'string' ||
+      response.modelId === '' ||
+      typeof response.questionId !== 'string' ||
+      response.questionId === '' ||
+      declared.has(response.file)
+    ) {
+      return null;
+    }
+    declared.set(response.file, response);
+  }
+  if (declared.size !== responseSet.files.length) return null;
+  const members = [...declared.values()].map((entry) => ({
+    file: entry.file as string,
+    sha256: entry.sha256 as string,
+  }));
+  if (
+    typeof record.derivedFrom?.responseSetHash !== 'string' ||
+    record.derivedFrom.responseSetHash !== sha256(canonicalResponseSet(sourceRunId, members))
+  ) {
+    return null;
+  }
+
+  const responses: StoredResponse[] = [];
+  try {
+    for (const file of responseSet.files) {
+      const expected = declared.get(file.file);
+      if (!expected || expected.sha256 !== file.sha256) return null;
+      const response = JSON.parse(file.text) as StoredResponse;
+      if (
+        response.runId !== sourceRunId ||
+        response.modelId !== expected.modelId ||
+        response.questionId !== expected.questionId
+      ) {
+        return null;
+      }
+      responses.push(response);
+    }
+  } catch {
+    return null;
+  }
+  return responses;
+}
+
+/** Read once, then hash and parse these exact held bytes. Never check-then-reopen. */
+function snapshotArtifact(
+  runsDir: string,
+  runId: string,
+  file: string,
+): ArtifactSnapshot | null {
+  if (!runIdSchema.safeParse(runId).success) return null;
+  const runDir = join(runsDir, runId);
+  const path = join(runsDir, runId, file);
+  if (!existsSync(path)) return null;
+  try {
+    // A lexical run id is not a filesystem identity. Refuse an alias planted
+    // as the run directory before reading any of its children; otherwise a
+    // symlink named for an approved run could redirect the whole snapshot.
+    if (!lstatSync(runDir).isDirectory()) return null;
+    const identity = lstatSync(path);
+    if (file !== 'responses') {
+      if (!identity.isFile()) return null;
+      const text = readFileSync(path, 'utf8');
+      return { kind: 'file', sha256: sha256(text), text };
+    }
+
+    if (!identity.isDirectory()) return null;
+    const entries = readdirSync(path, { withFileTypes: true }).sort((a, b) =>
+      a.name < b.name ? -1 : a.name > b.name ? 1 : 0,
+    );
+    // A release with no answers is not evidence. This also prevents an empty
+    // tree from satisfying the pointer merely because its digest was supplied.
+    if (entries.length === 0) return null;
+    const files: ResponseSetSnapshot['files'] = [];
+    for (const entry of entries) {
+      if (!entry.isFile() || !entry.name.endsWith('.json')) return null;
+      const text = readFileSync(join(path, entry.name), 'utf8');
+      files.push({ file: entry.name, sha256: sha256(text), text });
+    }
+    return {
+      kind: 'response-set',
+      sha256: sha256(canonicalResponseSet(runId, files)),
+      files,
+    };
+  } catch {
+    return null;
+  }
+}
+
+/** Exact-set validation: missing, duplicate and unknown pins all refuse. */
+function snapshotPinnedArtifacts(
+  runsDir: string,
+  runId: string,
+  supplied: unknown,
+  required: readonly string[],
+): Map<string, ArtifactSnapshot> | null {
+  if (!Array.isArray(supplied)) return null;
+  const requiredSet = new Set(required);
+  const pins = new Map<string, string>();
+  for (const value of supplied) {
+    const pin = value as { file?: unknown; sha256?: unknown };
+    if (
+      typeof pin?.file !== 'string' ||
+      !requiredSet.has(pin.file) ||
+      typeof pin.sha256 !== 'string' ||
+      !HASH_PATTERN.test(pin.sha256) ||
+      pins.has(pin.file)
+    ) {
+      return null;
+    }
+    pins.set(pin.file, pin.sha256);
+  }
+  if (pins.size !== required.length || required.some((file) => !pins.has(file))) return null;
+
+  const snapshots = new Map<string, ArtifactSnapshot>();
+  for (const file of required) {
+    const snapshot = snapshotArtifact(runsDir, runId, file);
+    if (!snapshot || snapshot.sha256 !== pins.get(file)) return null;
+    snapshots.set(file, snapshot);
+  }
+  return snapshots;
+}
+
+function parsedFile<T>(artifacts: Map<string, ArtifactSnapshot>, file: string): T | null {
+  const snapshot = artifacts.get(file);
+  if (!snapshot || snapshot.kind !== 'file') return null;
+  try {
+    return JSON.parse(snapshot.text) as T;
+  } catch {
+    return null;
+  }
+}
+
+function buildApprovedData(
+  runId: string,
+  approval: ApprovedRelease['approval'],
+  artifacts: Map<string, ArtifactSnapshot>,
+): ApprovedReleaseData | null {
+  const report = parsedFile<LeaderboardReport>(artifacts, 'leaderboard.json');
+  if (!report || report.runId !== runId || !Array.isArray(report.rows) || report.rows.length === 0) return null;
+
+  const analysis = parsedFile<RunAnalysisSummary & { runId?: unknown }>(artifacts, 'analysis.json');
+  if (!analysis || analysis.runId !== runId) return null;
+  const config = parsedFile<RunConfig>(artifacts, 'config.json');
+  if (!config || config.runId !== runId) return null;
+  const calibration = parsedFile<{ costUsd?: unknown }>(artifacts, 'calibration.json');
+  if (!calibration || typeof calibration !== 'object' || Array.isArray(calibration)) return null;
+  const scores = parsedFile<Score[]>(artifacts, 'scores.json');
+  if (!Array.isArray(scores) || scores.length === 0 || scores.some((score) => score.runId !== runId)) return null;
+
+  let responses: StoredResponse[];
+  if (approval.kind === 'register') {
+    if (!HASH_PATTERN.test(approval.manifestHash) || !HASH_PATTERN.test(approval.checklistDigest)) return null;
+    const rawManifest = parsedFile<unknown>(artifacts, 'manifest.json');
+    const parsedManifest = safeParseRunManifest(rawManifest);
+    if (!parsedManifest.ok) return null;
+    const manifest = parsedManifest.manifest;
+    const computedManifestHash = sha256(canonicalJson(manifest));
+    if (
+      manifest.runId !== runId ||
+      computedManifestHash !== approval.manifestHash ||
+      manifest.evidenceClass !== 'public-release' ||
+      manifest.releaseState !== 'released' ||
+      manifest.rankEligible !== true
+    ) {
+      return null;
+    }
+
+    const persistedHash = artifacts.get('manifest.sha256');
+    if (
+      !persistedHash ||
+      persistedHash.kind !== 'file' ||
+      persistedHash.text.trim() !== computedManifestHash
+    ) {
+      return null;
+    }
+    const digest = parsedFile<Record<string, unknown>>(artifacts, 'manifest-digest.json');
+    if (
+      !digest ||
+      digest.bankHash !== manifest.bankHash ||
+      digest.promptHash !== manifest.promptHash ||
+      digest.judgePromptHash !== manifest.judgePromptHash ||
+      digest.validatorHash !== manifest.validatorHash ||
+      !Array.isArray(digest.itemIds) ||
+      digest.itemIds.length === 0
+    ) {
+      return null;
+    }
+
+    const checklist = parsedFile<{
+      checklistVersion?: unknown;
+      runId?: unknown;
+      manifestHash?: unknown;
+      complete?: unknown;
+      items?: Array<{ id?: unknown; verdict?: unknown }>;
+    }>(artifacts, 'release-checklist.json');
+    if (
+      !checklist ||
+      checklist.checklistVersion !== 1 ||
+      checklist.runId !== runId ||
+      checklist.manifestHash !== computedManifestHash ||
+      checklist.complete !== true ||
+      !Array.isArray(checklist.items) ||
+      checklist.items.length === 0 ||
+      checklist.items.some((item) => typeof item.id !== 'string' || item.verdict !== 'pass') ||
+      new Set(checklist.items.map((item) => item.id)).size !== checklist.items.length ||
+      sha256(canonicalJson(checklist)) !== approval.checklistDigest
+    ) {
+      return null;
+    }
+
+    if (
+      !publicResultMatchesManifest(report, manifest, computedManifestHash) ||
+      !publicResultMatchesManifest(analysis, manifest, computedManifestHash)
+    ) {
+      return null;
+    }
+
+    const provenance = artifacts.get('provenance.ndjson');
+    if (!provenance || provenance.kind !== 'file') return null;
+    let entries: Array<{
+      receiptVersion?: unknown;
+      runId?: unknown;
+      manifestHash?: unknown;
+      signedPermitHash?: unknown;
+      capabilities?: unknown;
+      command?: unknown;
+      artifact?: { file?: unknown; sha256?: unknown } | null;
+    }>;
+    try {
+      entries = provenance.text
+        .split('\n')
+        .filter((line) => line.trim() !== '')
+        .map((line) => JSON.parse(line));
+    } catch {
+      return null;
+    }
+    const receiptFor = (command: string, file: string): boolean => {
+      const snapshot = artifacts.get(file);
+      if (!snapshot || snapshot.kind !== 'file') return false;
+      return entries.some(
+        (entry) =>
+          entry.receiptVersion === 1 &&
+          entry.runId === runId &&
+          entry.manifestHash === computedManifestHash &&
+          typeof entry.signedPermitHash === 'string' &&
+          HASH_PATTERN.test(entry.signedPermitHash) &&
+          Array.isArray(entry.capabilities) &&
+          entry.capabilities.includes('publication') &&
+          entry.command === command &&
+          entry.artifact?.file === file &&
+          entry.artifact.sha256 === snapshot.sha256,
+      );
+    };
+    if (!receiptFor('bench report', 'leaderboard.json') || !receiptFor('bench analyze', 'analysis.json')) {
+      return null;
+    }
+
+    const inherited = derivedResponses(runId, manifest, artifacts);
+    if (!inherited) return null;
+    responses = inherited;
+  } else {
+    const responseSet = artifacts.get('responses');
+    if (!responseSet || responseSet.kind !== 'response-set' || responseSet.files.length === 0) return null;
+    responses = [];
+    try {
+      for (const file of responseSet.files) {
+        const response = JSON.parse(file.text) as StoredResponse;
+        if (response.runId !== runId) return null;
+        responses.push(response);
+      }
+    } catch {
+      return null;
+    }
+  }
+
+  return {
+    release: { report, runId, approval },
+    analysis,
+    config,
+    calibration,
+    scores,
+    responses,
+  };
+}
 
 function readRegister(runsDir: string): RegisterShape | null {
   const path = join(runsDir, REGISTER_FILE);
   if (!existsSync(path)) return null;
   try {
+    if (!lstatSync(path).isFile()) return { registerVersion: 0 };
     const parsed = readJson<RegisterShape>(path);
     // An unreadable or unversioned register is not an absent one. Falling back
     // to the pin on a MALFORMED register would let a corrupted file silently
     // restore a withdrawn board, so the caller is told nothing is approved.
-    return parsed && parsed.registerVersion === 1 ? parsed : { registerVersion: 0 };
+    if (
+      !parsed ||
+      typeof parsed !== 'object' ||
+      parsed.registerVersion !== 1 ||
+      !Object.prototype.hasOwnProperty.call(parsed, 'currentRun') ||
+      !parsed.entries ||
+      typeof parsed.entries !== 'object' ||
+      Array.isArray(parsed.entries) ||
+      !(parsed.currentRun === null ||
+        (typeof parsed.currentRun === 'object' && !Array.isArray(parsed.currentRun)))
+    ) {
+      return { registerVersion: 0 };
+    }
+    return parsed;
   } catch {
     return { registerVersion: 0 };
   }
@@ -158,38 +560,47 @@ function readRegister(runsDir: string): RegisterShape | null {
  * Resolve the approved release under `runsDir`. Root-parameterised so the
  * mechanism can be exercised offline against a scratch tree.
  */
-export function resolveApprovedRelease(runsDir: string): ApprovedRelease | null {
+function resolveApprovedReleaseData(runsDir: string): ApprovedReleaseData | null {
   const register = readRegister(runsDir);
   if (register && register.registerVersion !== 1) return null;
 
   const pointer = register?.currentRun ?? null;
-  if (pointer && typeof pointer.runId === 'string') {
+  if (pointer !== null) {
+    if (
+      typeof pointer.runId !== 'string' ||
+      typeof pointer.manifestHash !== 'string' ||
+      !HASH_PATTERN.test(pointer.manifestHash) ||
+      typeof pointer.reviewedBy !== 'string' ||
+      pointer.reviewedBy.trim() === '' ||
+      typeof pointer.reviewedAt !== 'string' ||
+      !Number.isFinite(Date.parse(pointer.reviewedAt)) ||
+      typeof pointer.checklistDigest !== 'string' ||
+      !HASH_PATTERN.test(pointer.checklistDigest)
+    ) {
+      return null;
+    }
     const entry = register?.entries?.[pointer.runId];
     // The pointer and the entry must agree. A pointer naming a run the register
     // does not show released is a register that has been half-edited.
     if (!entry || entry.state !== 'released' || entry.manifestHash !== pointer.manifestHash) return null;
-    // The board this function is about to serve must itself be pinned. Without
-    // this, a pointer carrying no `artifacts` array would skip the loop below
-    // entirely and the digest check would be decorative.
-    const pins = Array.isArray(pointer.artifacts) ? pointer.artifacts : [];
-    if (!pins.some((a) => a?.file === 'leaderboard.json')) return null;
-    for (const pinned of pins) {
-      if (typeof pinned?.file !== 'string' || typeof pinned?.sha256 !== 'string') return null;
-      const path = join(runsDir, pointer.runId, pinned.file);
-      if (!existsSync(path) || sha256Of(path) !== pinned.sha256) return null;
-    }
-    const report = readBoard(runsDir, pointer.runId);
-    if (!report) return null;
-    return {
-      report,
-      runId: pointer.runId,
-      approval: {
+    const artifacts = snapshotPinnedArtifacts(
+      runsDir,
+      pointer.runId,
+      pointer.artifacts,
+      PUBLIC_RELEASE_ARTIFACTS,
+    );
+    if (!artifacts) return null;
+    return buildApprovedData(
+      pointer.runId,
+      {
         kind: 'register',
         reviewedBy: String(pointer.reviewedBy ?? ''),
         reviewedAt: String(pointer.reviewedAt ?? ''),
+        manifestHash: String(pointer.manifestHash ?? ''),
         checklistDigest: String(pointer.checklistDigest ?? ''),
       },
-    };
+      artifacts,
+    );
   }
 
   // No pointer. The pin applies unless the register has withdrawn it.
@@ -197,34 +608,54 @@ export function resolveApprovedRelease(runsDir: string): ApprovedRelease | null 
     register?.entries?.[PINNED_HISTORICAL_RELEASE.runId] !== undefined &&
     register.entries[PINNED_HISTORICAL_RELEASE.runId]!.state !== 'released';
   if (withdrawn) return null;
-  const boardPath = join(runsDir, PINNED_HISTORICAL_RELEASE.runId, 'leaderboard.json');
-  if (!existsSync(boardPath) || sha256Of(boardPath) !== PINNED_HISTORICAL_RELEASE.boardSha256) return null;
-  const report = readBoard(runsDir, PINNED_HISTORICAL_RELEASE.runId);
-  if (!report) return null;
-  return {
-    report,
-    runId: PINNED_HISTORICAL_RELEASE.runId,
-    approval: { kind: 'pinned-historical', note: PINNED_HISTORICAL_RELEASE.note },
-  };
+  const artifacts = snapshotPinnedArtifacts(
+    runsDir,
+    PINNED_HISTORICAL_RELEASE.runId,
+    PINNED_HISTORICAL_RELEASE.artifacts,
+    HISTORICAL_ARTIFACTS,
+  );
+  return artifacts
+    ? buildApprovedData(
+        PINNED_HISTORICAL_RELEASE.runId,
+        { kind: 'pinned-historical', note: PINNED_HISTORICAL_RELEASE.note },
+        artifacts,
+      )
+    : null;
 }
 
-function readBoard(runsDir: string, runId: string): LeaderboardReport | null {
-  const path = join(runsDir, runId, 'leaderboard.json');
-  if (!existsSync(path)) return null;
+export function resolveApprovedRelease(runsDir: string): ApprovedRelease | null {
+  return resolveApprovedReleaseData(runsDir)?.release ?? null;
+}
+
+let cachedSiteData: { registerRevision: string; data: ApprovedReleaseData } | null = null;
+
+function registerRevision(runsDir: string): string {
+  const path = join(runsDir, REGISTER_FILE);
+  if (!existsSync(path)) return 'no-register';
   try {
-    const report = readJson<LeaderboardReport>(path);
-    // The board must name the run it was approved as. A file copied in from
-    // another run would otherwise be served under this run's approval.
-    if (report.runId !== runId || !Array.isArray(report.rows) || report.rows.length === 0) return null;
-    return report;
+    return lstatSync(path).isFile() ? sha256(readFileSync(path)) : 'invalid-register';
   } catch {
-    return null;
+    return 'invalid-register';
   }
+}
+
+/**
+ * One immutable snapshot per register revision. If files underneath a pointer
+ * are later replaced, these held approved bytes remain what pages serve; the
+ * replacement is never read. A pointer change invalidates the snapshot.
+ */
+function getApprovedReleaseData(): ApprovedReleaseData | null {
+  if (!existsSync(RUNS_DIR)) return null;
+  const revision = registerRevision(RUNS_DIR);
+  if (cachedSiteData?.registerRevision === revision) return cachedSiteData.data;
+  const data = resolveApprovedReleaseData(RUNS_DIR);
+  if (data) cachedSiteData = { registerRevision: revision, data };
+  return data;
 }
 
 /** The approved release, with its approval. Null means nothing is approved. */
 export function getApprovedRelease(): ApprovedRelease | null {
-  return existsSync(RUNS_DIR) ? resolveApprovedRelease(RUNS_DIR) : null;
+  return getApprovedReleaseData()?.release ?? null;
 }
 
 /**
@@ -258,13 +689,8 @@ export interface RunAnalysisSummary {
 }
 
 export function getAnalysis(runId: string): RunAnalysisSummary | null {
-  const path = join(RUNS_DIR, runId, 'analysis.json');
-  if (!existsSync(path)) return null;
-  try {
-    return readJson<RunAnalysisSummary>(path);
-  } catch {
-    return null;
-  }
+  const approved = getApprovedReleaseData();
+  return approved?.release.runId === runId ? approved.analysis : null;
 }
 
 /**
@@ -398,13 +824,8 @@ export interface RunConfig {
 }
 
 export function getRunConfig(runId: string): RunConfig | null {
-  const path = join(RUNS_DIR, runId, 'config.json');
-  if (!existsSync(path)) return null;
-  try {
-    return readJson<RunConfig>(path);
-  } catch {
-    return null;
-  }
+  const approved = getApprovedReleaseData();
+  return approved?.release.runId === runId ? approved.config : null;
 }
 
 /**
@@ -438,7 +859,9 @@ export function getRunCost(report: LeaderboardReport): RunCost {
   // add up by hand.
   const candidateUsd = report.rows.reduce((sum, r) => sum + (finite(r.costUsd) ?? 0), 0);
 
-  const config = getRunConfig(report.runId);
+  const approved = getApprovedReleaseData();
+  const releaseData = approved?.release.runId === report.runId ? approved : null;
+  const config = releaseData?.config ?? null;
   let judgeUsd = finite(config?.judgeCostUsd);
   if (judgeUsd === null) {
     // Fallback for artifacts written before the run config carried a judge
@@ -450,15 +873,7 @@ export function getRunCost(report: LeaderboardReport): RunCost {
     }
   }
 
-  let calibrationUsd: number | null = null;
-  const calibrationPath = join(RUNS_DIR, report.runId, 'calibration.json');
-  if (existsSync(calibrationPath)) {
-    try {
-      calibrationUsd = finite(readJson<{ costUsd?: number }>(calibrationPath).costUsd);
-    } catch {
-      calibrationUsd = null;
-    }
-  }
+  const calibrationUsd = finite(releaseData?.calibration.costUsd);
 
   return {
     candidateUsd: money(candidateUsd),
@@ -519,18 +934,13 @@ export function getPublicQuestions(): Question[] {
 }
 
 export function getScores(runId: string): Score[] {
-  const path = join(RUNS_DIR, runId, 'scores.json');
-  if (!existsSync(path)) return [];
-  return readJson<Score[]>(path);
+  const approved = getApprovedReleaseData();
+  return approved?.release.runId === runId ? [...approved.scores] : [];
 }
 
 export function getResponses(runId: string): StoredResponse[] {
-  const dir = join(RUNS_DIR, runId, 'responses');
-  if (!existsSync(dir)) return [];
-  return readdirSync(dir)
-    .filter((f) => f.endsWith('.json'))
-    .sort()
-    .map((f) => readJson<StoredResponse>(join(dir, f)));
+  const approved = getApprovedReleaseData();
+  return approved?.release.runId === runId ? [...approved.responses] : [];
 }
 
 export function modelSlug(modelId: string): string {

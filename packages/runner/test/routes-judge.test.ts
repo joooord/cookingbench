@@ -151,6 +151,9 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.unstubAllGlobals();
+  activeLedger?.close();
+  activeLedger = null;
+  activeGrant = null;
   rmSync(join(RUNS_DIR, RUN), { recursive: true, force: true });
 });
 
@@ -183,10 +186,18 @@ function candidateGrant() {
   });
 }
 
+let activeLedger: ReservationLedger | null = null;
+let activeGrant: ReturnType<typeof judgeGrant> | null = null;
+
 function ledgerFor(grant: ReturnType<typeof judgeGrant>) {
-  // No run lock: these tests are about the routes, not about the lock. The
-  // production entry (`forGrant`) cannot turn it off at all.
-  return ReservationLedger.forTests(grant, RUN, { lock: false });
+  // Exercise the production lock. Reuse one ledger when a test constructs two
+  // clients from the same grant; a different grant closes the previous runner
+  // before opening its own, exactly as sequential CLI invocations would.
+  if (activeLedger && activeGrant === grant) return activeLedger;
+  activeLedger?.close();
+  activeLedger = ReservationLedger.forGrant(grant, RUN);
+  activeGrant = grant;
+  return activeLedger;
 }
 
 interface Transport {
@@ -511,7 +522,6 @@ describe('a panel verdict from a non-rank-eligible class cannot reach a publishe
         runId: RUN,
         methodologyVersion: 'v3.0',
         schemaVersion: '1',
-        gitCommit: '980dfcb',
         parentArtifacts: [],
         evidenceClass: grant.evidenceClass,
         artifactOrigin: ['archived'],

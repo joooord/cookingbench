@@ -53,9 +53,9 @@ function grantFor(budgetCapUsd: number) {
   });
 }
 
-/** The test seam, used everywhere the lock is not itself the subject. */
+/** The production ledger; each test gets an isolated run directory. */
 function unlocked(budgetCapUsd: number, opts: { perModelCapUsd?: number; totalCapUsd?: number } = {}) {
-  return ReservationLedger.forTests(grantFor(budgetCapUsd), RUN, { lock: false, ...opts });
+  return ReservationLedger.forGrant(grantFor(budgetCapUsd), RUN, opts);
 }
 
 function journalLines(): Array<Record<string, unknown>> {
@@ -268,7 +268,7 @@ describe('settlement can never authorise more than the cap', () => {
   it('refuses to authorise anything after the ledger is closed', () => {
     // Closing releases the run lock, so another runner may already be spending
     // against this cap. A late in-flight task must not reserve into that.
-    const ledger = ReservationLedger.forTests(grantFor(10), RUN, { lock: false });
+    const ledger = ReservationLedger.forGrant(grantFor(10), RUN);
     ledger.close();
     expect(() => ledger.reserve('openai/gpt-5.5', 0.1)).toThrow(LedgerError);
     expect(() => ledger.reserve('openai/gpt-5.5', 0.1)).toThrow(/closed/);
@@ -278,10 +278,14 @@ describe('settlement can never authorise more than the cap', () => {
 describe('the cap comes from the permit', () => {
   it('lets an operator sub-cap lower the ceiling but never raise it', () => {
     const grant = grantFor(10);
-    expect(ReservationLedger.forTests(grant, RUN, { lock: false, totalCapUsd: 2 }).capUsd).toBe(2);
+    const lowered = ReservationLedger.forGrant(grant, RUN, { totalCapUsd: 2 });
+    expect(lowered.capUsd).toBe(2);
+    lowered.close();
     // A caller-supplied number that could raise the approved cap would make the
     // permit's budget advisory.
-    expect(ReservationLedger.forTests(grant, RUN, { lock: false, totalCapUsd: 999 }).capUsd).toBe(10);
+    const clamped = ReservationLedger.forGrant(grant, RUN, { totalCapUsd: 999 });
+    expect(clamped.capUsd).toBe(10);
+    clamped.close();
   });
 
   it('cannot be built from anything but a verified grant', () => {
@@ -289,13 +293,24 @@ describe('the cap comes from the permit', () => {
     expect(() => ReservationLedger.forGrant(forged, RUN)).toThrow(
       /did not mint by verifying a signed permit/,
     );
-    expect(() => ReservationLedger.forTests(forged, RUN, { lock: false })).toThrow(
-      /did not mint by verifying a signed permit/,
+  });
+
+  it('cannot be redirected to a run other than the one in its verified manifest', () => {
+    expect(() => ReservationLedger.forGrant(grantFor(1), '__test-ledger-other')).toThrow(
+      /authorises run '__test-ledger-scratch', not '__test-ledger-other'/,
     );
   });
 
   it('refuses to spend against a published run', () => {
-    expect(() => ReservationLedger.forGrant(grantFor(1), '2026-07-v2.1')).toThrow(
+    const historicalGrant = mintTestGrant({
+      permitId: 'permit-ledger-historical',
+      kind: 'development-probe',
+      capabilities: ['candidate-inference'],
+      cells: [{ modelId: 'openai/gpt-5.5', questionId: 'conv-001' }],
+      budgetCapUsd: 1,
+      runId: '2026-07-v2.1',
+    });
+    expect(() => ReservationLedger.forGrant(historicalGrant, '2026-07-v2.1')).toThrow(
       /historical and immutable/,
     );
   });
@@ -321,14 +336,40 @@ describe('the cap comes from the permit', () => {
     }
   });
 
-  it('keeps the test seam out of production code', () => {
-    // A seam nothing in src/ calls is a seam that cannot be an off switch. This
-    // is the check that keeps it that way as the runner grows.
-    const srcDir = join(REPO_ROOT, 'packages/runner/src');
-    const offenders = readdirSync(srcDir)
-      .filter((f) => f.endsWith('.ts') && f !== 'ledger.ts')
-      .filter((f) => /ReservationLedger\.forTests|forTests\(/.test(readFileSync(join(srcDir, f), 'utf8')));
-    expect(offenders, 'production code reached the ledger test seam').toEqual([]);
+  it.each([
+    ['NaN', Number.NaN],
+    ['positive infinity', Number.POSITIVE_INFINITY],
+    ['negative infinity', Number.NEGATIVE_INFINITY],
+    ['a negative number', -0.01],
+    ['a numeric string', '0.10'],
+    ['null', null],
+  ])('refuses %s as either runtime cap before it can poison every comparison', (_label, value) => {
+    const grant = grantFor(1);
+    for (const opts of [{ totalCapUsd: value }, { perModelCapUsd: value }]) {
+      expect(() => ReservationLedger.forGrant(grant, RUN, opts as never)).toThrowError(
+        expect.objectContaining({ code: 'LEDGER_INVALID_CAP' }),
+      );
+      expect(existsSync(DIR)).toBe(false);
+    }
+  });
+
+  it('validates caps inside the runtime constructor, not only in the typed factory', () => {
+    const grant = grantFor(1);
+    expect(() =>
+      Reflect.construct(ReservationLedger as unknown as new (...args: unknown[]) => ReservationLedger, [
+        grant,
+        RUN,
+        { totalCapUsd: Number.NaN },
+      ]),
+    ).toThrowError(expect.objectContaining({ code: 'LEDGER_INVALID_CAP' }));
+    expect(existsSync(DIR)).toBe(false);
+  });
+
+  it('exports no environment-enabled factory that can disable the lock', () => {
+    expect((ReservationLedger as unknown as Record<string, unknown>).forTests).toBeUndefined();
+    const source = readFileSync(join(REPO_ROOT, 'packages/runner/src/ledger.ts'), 'utf8');
+    expect(source).not.toMatch(/static\s+forTests\s*\(/);
+    expect(source).not.toMatch(/process\.env\.(?:NODE_ENV|VITEST|VITEST_WORKER_ID)/);
   });
 });
 
@@ -337,6 +378,7 @@ describe('spend survives the process', () => {
     const first = unlocked(1);
     first.settle(first.reserve('openai/gpt-5.5', 0.6), 0.6);
     expect(existsSync(JOURNAL)).toBe(true);
+    first.close();
 
     const resumed = unlocked(1);
     expect(resumed.settledUsd).toBeCloseTo(0.6, 10);
@@ -349,6 +391,7 @@ describe('spend survives the process', () => {
     // hand the cap back money that may already have been taken.
     const first = unlocked(1);
     first.retainUnreconciled(first.reserve('openai/gpt-5.5', 0.7), 'unreadable 200');
+    first.close();
 
     const resumed = unlocked(1);
     expect(resumed.settledUsd).toBe(0);
@@ -362,7 +405,9 @@ describe('spend survives the process', () => {
     const first = unlocked(1);
     first.releaseUncharged(first.reserve('openai/gpt-5.5', 0.9), 'ENOTFOUND');
     expect(journalLines()).toHaveLength(1); // still audited...
-    expect(unlocked(1).chargedUsd).toBe(0); // ...but not charged
+    first.close();
+    const resumed = unlocked(1);
+    expect(resumed.chargedUsd).toBe(0); // ...but not charged
   });
 
   it('appends rather than replaces, so no earlier entry can be lost', () => {

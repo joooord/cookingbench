@@ -20,18 +20,17 @@
 #     permits are expired or revoked fixtures — see data/permits/fixtures);
 #   - `bench validate` and the regeneration check read committed files only.
 #
-# The egress is NOT physically removed. A GitHub-hosted runner talks to the
-# Actions service over the same interface, so dropping outbound traffic would
-# kill the job rather than harden it. What is enforced instead is the thing that
-# makes egress useless: no credential is present, and the "no secrets" step
-# below fails the build if one ever is. If this ever moves to a self-hosted
-# runner, run the post-install steps in a `--network none` container and delete
-# this paragraph.
+# Every post-install command that interprets project code runs in a child Linux
+# network namespace with no interface. The Actions runner stays connected in
+# its parent namespace, while typechecking, tests, validation, regeneration and
+# the production web build have no route to the internet. A probe first proves
+# that isolation is real; a namespace that accidentally retained egress fails
+# the job rather than lending its name to a false "offline" claim.
 #
 # NO DEPLOYMENT, NO PUBLICATION
 #
-# This workflow builds nothing, deploys nothing and writes nothing back to the
-# repository. `permissions: contents: read` is the whole grant, and
+# This workflow builds the site locally, deploys nothing and writes nothing back
+# to the repository. `permissions: contents: read` is the whole grant, and
 # `persist-credentials: false` means no usable token is left in the checkout's
 # git config for a later step to pick up. Vercel deployment is not driven from
 # here and must not be.
@@ -170,6 +169,12 @@ jobs:
       # From here on: no network, no secrets, no database, no model calls.
       # ---------------------------------------------------------------------
 
+      - name: Prove the acceptance namespace has no network
+        run: |
+          set -euo pipefail
+          sudo env "PATH=$PATH" "HOME=$HOME" unshare --net --fork -- \
+            node -e "fetch('https://example.com', { signal: AbortSignal.timeout(3000) }).then(() => { console.error('network namespace still has egress'); process.exit(1); }, () => console.log('network namespace is offline'))"
+
       - name: Typecheck every package
         run: |
           set -euo pipefail
@@ -182,22 +187,27 @@ jobs:
             echo "  Add the new package to this step rather than switching to a recursive command."
             exit 1
           fi
-          pnpm --filter @cookingbench/core typecheck
-          pnpm --filter @cookingbench/runner typecheck
-          pnpm --filter web typecheck
+          offline() { sudo env "PATH=$PATH" "HOME=$HOME" unshare --net --fork -- "$@"; }
+          offline pnpm --filter @cookingbench/core typecheck
+          offline pnpm --filter @cookingbench/runner typecheck
+          offline pnpm --filter web typecheck
 
       - name: Run the test suite
         # Injected mocks throughout; every paid or live-data path is deny-by-
         # default and there is no permit here to lift it.
         run: |
           set -euo pipefail
-          pnpm --filter @cookingbench/core test
-          pnpm --filter @cookingbench/runner test
+          offline() { sudo env "PATH=$PATH" "HOME=$HOME" unshare --net --fork -- "$@"; }
+          offline pnpm --filter @cookingbench/core test
+          offline pnpm --filter @cookingbench/runner test
+
+      - name: Build the public site without network access
+        run: sudo env "PATH=$PATH" "HOME=$HOME" unshare --net --fork -- pnpm --filter web build
 
       - name: Validate the dataset
         # Free, offline, and the gate that makes a broken grader uncommittable:
         # every referenceAnswer must score 100 against its own grader.
-        run: pnpm bench validate
+        run: sudo env "PATH=$PATH" "HOME=$HOME" unshare --net --fork -- pnpm bench validate
 
       - name: Check the acceptance artifacts regenerate byte-identically
         # TRACE-001. docs/wp-0/acceptance-summary.json is derived from the route
@@ -205,7 +215,7 @@ jobs:
         # moved without the summary being regenerated, the committed acceptance
         # numbers describe a repository that no longer exists — so this fails
         # the build and names the line that drifted.
-        run: pnpm --filter @cookingbench/runner exec tsx src/regenerate.ts --check
+        run: sudo env "PATH=$PATH" "HOME=$HOME" unshare --net --fork -- pnpm --filter @cookingbench/runner exec tsx src/regenerate.ts --check
 
       - name: Fail if the build modified the working tree
         # Nothing above is allowed to write to the repository. A test that

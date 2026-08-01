@@ -1,9 +1,15 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, lstatSync, readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
 import {
+  PUBLIC_RELEASE_ARTIFACTS,
   RELEASE_STATES,
   canPublish,
   canonicalJson,
+  canonicalResponseSet,
+  publicResultMatchesManifest,
+  runIdSchema,
   safeParseRunManifest,
+  type PublicReleaseArtifact,
   type ReleaseState,
   type Score,
   type StoredResponse,
@@ -17,10 +23,13 @@ import {
 } from './adjudicate.js';
 import { loadQuestions } from './dataset.js';
 import {
+  Firewall,
+  PROVENANCE_COMMAND_POLICY,
   appendRunFileLine,
   assertPublishable,
   isHistoricalRun,
   nonScoringBanner,
+  readProvenance,
   resolveOutputPath,
   resolveRunFile,
   writeOutputFileAtomic,
@@ -31,6 +40,8 @@ import {
   MANIFEST_FILE,
   MANIFEST_HASH_FILE,
   ManifestError,
+  assertArtifactWriteAllowed,
+  assertGrantMatchesStoredManifest,
   assertRunIdentity,
   assertTestSeam,
   computeContentDigest,
@@ -42,7 +53,12 @@ import {
   type RecordedManifestHash,
   type VerificationReport,
 } from './manifest.js';
-import { manifestHash, sha256Hex } from './permit.js';
+import {
+  assertVerifiedGrant,
+  manifestHash,
+  sha256Hex,
+  verifySignedPermitReceipt,
+} from './permit.js';
 import { readResponses, readScores } from './store.js';
 
 /**
@@ -887,6 +903,11 @@ export const RELEASE_CHECKS = Object.freeze([
     id: 'journals-intact',
     statement: 'The append-only answer and ballot journals exist, hold entries, and verify end to end.',
   },
+  {
+    id: 'approval-provenance',
+    statement:
+      'The run carries a parse-valid approval trail bound to this exact manifest, including the board and analysis writes.',
+  },
   { id: 'board-present', statement: 'A leaderboard exists for this run and names it.' },
   { id: 'analysis-present', statement: 'An analysis exists for this run and names it.' },
   {
@@ -957,13 +978,14 @@ interface ReleaseEvidence {
   recordedHash: RecordedManifestHash;
   verification: VerificationReport;
   digest: ContentDigest | null;
-  registerState: ReleaseState | null;
+  lifecycle: { ok: boolean; detail: string };
   identity: { ok: boolean; detail: string };
   status: StatusReport | null;
   statusProblem: string | null;
   stale: StaleScoreVerdict | null;
   staleProblem: string | null;
   journalProblems: string[];
+  provenance: { ok: boolean; detail: string };
   adjudication: AdjudicationEvidence;
   board: { ok: boolean; detail: string };
   analysis: { ok: boolean; detail: string };
@@ -1006,7 +1028,7 @@ function gatherReleaseEvidence(runId: string): ReleaseEvidence {
     // able to soften it into an in-progress audit.
     verification: verifyRunManifest(runId, { expectComplete: true }),
     digest,
-    registerState: registerEntry(runId)?.state ?? null,
+    lifecycle: auditedLifecycleEvidence(runId),
     identity: checkArtifactIdentity(runId, manifest, scores.scores),
     status: status.report,
     statusProblem: status.problem,
@@ -1015,10 +1037,116 @@ function gatherReleaseEvidence(runId: string): ReleaseEvidence {
     // The journal list is FIXED. It used to be a parameter, so a caller could
     // pass `journals: []` and collect a green "journals intact" over nothing.
     journalProblems: [ANSWER_JOURNAL, BALLOT_JOURNAL].flatMap((j) => journalProblemsForRelease(runId, j)),
+    provenance: checkApprovalProvenance(runId, manifest),
     adjudication,
-    board: checkArtifactNamesRun(runId, 'leaderboard.json', 'rows'),
-    analysis: checkArtifactNamesRun(runId, 'analysis.json', null),
+    board: checkArtifactNamesRun(runId, 'leaderboard.json', 'rows', manifest),
+    analysis: checkArtifactNamesRun(runId, 'analysis.json', null, manifest),
     committed: committedEvidence(runId),
+  };
+}
+
+/**
+ * Prove that this lifecycle passed through review, rather than treating the
+ * register's current state as the review itself.
+ *
+ * A released run necessarily no longer has state `audited`, so an exact-state
+ * check made the real `released -> current` path impossible. Conversely, merely
+ * accepting state `released` would trust a hand-edited register. The durable
+ * evidence is the attributed, contiguous transition history written by
+ * `registerRun` and `transitionRun`; validate that history from its origin and
+ * require it to contain the audit transition.
+ */
+function auditedLifecycleEvidence(runId: string): { ok: boolean; detail: string } {
+  let entry: RegisterEntry | null;
+  try {
+    entry = registerEntry(runId);
+  } catch (e) {
+    return { ok: false, detail: `The release register could not be read: ${(e as Error).message}` };
+  }
+  if (entry === null) {
+    return {
+      ok: false,
+      detail: 'The run is not in the release register, so no review has been recorded for it.',
+    };
+  }
+  if (entry.runId !== runId) {
+    return {
+      ok: false,
+      detail: `The register entry stored under '${runId}' identifies itself as ${JSON.stringify(entry.runId)}.`,
+    };
+  }
+  if (!Array.isArray(entry.history) || entry.history.length === 0) {
+    return {
+      ok: false,
+      detail: `Register state '${entry.state}' carries no lifecycle history proving how it was reached.`,
+    };
+  }
+
+  let previous: ReleaseState | null = null;
+  let audited = false;
+  for (const [index, raw] of entry.history.entries()) {
+    const record = raw as Partial<LifecycleTransitionRecord> | null;
+    if (
+      record === null ||
+      typeof record !== 'object' ||
+      !isReleaseState(record.to) ||
+      (record.from !== null && !isReleaseState(record.from)) ||
+      typeof record.at !== 'string' ||
+      record.at.trim() === '' ||
+      Number.isNaN(Date.parse(record.at)) ||
+      typeof record.actor !== 'string' ||
+      record.actor.trim() === '' ||
+      typeof record.evidence !== 'string' ||
+      record.evidence.trim() === '' ||
+      typeof record.journalled !== 'boolean'
+    ) {
+      return { ok: false, detail: `Lifecycle history record ${index + 1} is malformed or unattributed.` };
+    }
+    if (record.from !== previous) {
+      return {
+        ok: false,
+        detail: `Lifecycle history record ${index + 1} starts at ${JSON.stringify(record.from)}, not the preceding state ${JSON.stringify(previous)}.`,
+      };
+    }
+    if (previous === null) {
+      if (record.to !== 'draft') {
+        return {
+          ok: false,
+          detail: `Lifecycle history begins at '${record.to}', not the required registered state 'draft'.`,
+        };
+      }
+    } else if (!(LIFECYCLE_TRANSITIONS[previous] as readonly ReleaseState[]).includes(record.to)) {
+      return {
+        ok: false,
+        detail: `Lifecycle history contains the illegal transition '${previous}' -> '${record.to}'.`,
+      };
+    }
+    if (record.from === 'draft' && record.to === 'audited') audited = true;
+    previous = record.to;
+  }
+
+  const last = entry.history[entry.history.length - 1]!;
+  if (previous !== entry.state || last.at !== entry.updatedAt) {
+    return {
+      ok: false,
+      detail: `Register state '${entry.state}' is not the state and timestamp reached by its lifecycle history.`,
+    };
+  }
+  if (entry.state !== 'audited' && entry.state !== 'released') {
+    return {
+      ok: false,
+      detail: `Register state '${entry.state}' is not eligible for release review, even though history is present.`,
+    };
+  }
+  if (!audited) {
+    return {
+      ok: false,
+      detail: `Register state '${entry.state}' was reached without a recorded 'draft' -> 'audited' review.`,
+    };
+  }
+  return {
+    ok: true,
+    detail: `Register state '${entry.state}' is backed by ${entry.history.length} contiguous, attributed transition(s), including 'draft' -> 'audited'.`,
   };
 }
 
@@ -1073,10 +1201,7 @@ function judgeCheck(id: ReleaseCheckId, e: ReleaseEvidence): { verdict: Checklis
       );
 
     case 'lifecycle-audited':
-      if (e.registerState === null) {
-        return verdict(false, 'The run is not in the release register, so no review has been recorded for it.');
-      }
-      return verdict(e.registerState === 'audited', `register state '${e.registerState}'.`);
+      return verdict(e.lifecycle.ok, e.lifecycle.detail);
 
     case 'coverage-complete':
       if (e.status === null) return NOT_CHECKED(e.statusProblem ?? 'Coverage could not be established.');
@@ -1110,6 +1235,9 @@ function judgeCheck(id: ReleaseCheckId, e: ReleaseEvidence): { verdict: Checklis
           : e.journalProblems.join(' '),
       );
 
+    case 'approval-provenance':
+      return verdict(e.provenance.ok, e.provenance.detail);
+
     case 'board-present':
       return verdict(e.board.ok, e.board.detail);
 
@@ -1119,6 +1247,122 @@ function judgeCheck(id: ReleaseCheckId, e: ReleaseEvidence): { verdict: Checklis
     case 'artifacts-committed':
       return verdict(e.committed.ok, e.committed.detail);
   }
+}
+
+function checkApprovalProvenance(
+  runId: string,
+  manifest: ValidatedRunManifest | null,
+): { ok: boolean; detail: string } {
+  if (manifest === null) {
+    return { ok: false, detail: 'No readable manifest exists to bind provenance to.' };
+  }
+  const expectedManifestHash = manifestHash(manifest);
+  let entries: ReturnType<typeof readProvenance>;
+  try {
+    entries = readProvenance(runId);
+  } catch (e) {
+    return { ok: false, detail: (e as Error).message };
+  }
+  if (entries.length === 0) {
+    return { ok: false, detail: 'provenance.ndjson is absent or empty.' };
+  }
+
+  // Every line must re-prove the approval it summarises. The envelope hash and
+  // the copied permit fields are useful indexes, but none is authority: only a
+  // signature accepted now by the fixed repository keyring, revocation source,
+  // methodology and clock is. This entry point deliberately returns facts, not
+  // a runtime grant.
+  for (const [index, entry] of entries.entries()) {
+    let authenticated: ReturnType<typeof verifySignedPermitReceipt>;
+    try {
+      authenticated = verifySignedPermitReceipt({
+        signedPermit: entry.signedPermit,
+        manifest,
+        expectedRunId: runId,
+        requiredCapability: PROVENANCE_COMMAND_POLICY[entry.command].capability,
+      });
+    } catch (error) {
+      const code = (error as Error & { code?: string }).code;
+      return {
+        ok: false,
+        detail:
+          `Provenance entry ${index + 1} (${entry.command}) is not authenticated by the production permit boundary` +
+          `${code ? ` [${code}]` : ''}: ${(error as Error).message}`,
+      };
+    }
+
+    const sameCapabilities =
+      entry.capabilities.length === authenticated.capabilities.length &&
+      entry.capabilities.every((capability, capabilityIndex) =>
+        capability === authenticated.capabilities[capabilityIndex]
+      );
+    const summariesMatch =
+      entry.permitId === authenticated.permitId &&
+      entry.kind === authenticated.kind &&
+      entry.keyId === authenticated.keyId &&
+      entry.signedPermitHash === authenticated.signedPermitHash &&
+      entry.manifestHash === authenticated.manifestHash &&
+      entry.runId === authenticated.runId &&
+      entry.reservationScope === authenticated.reservationScope &&
+      sameCapabilities;
+    if (!summariesMatch) {
+      return {
+        ok: false,
+        detail:
+          `Provenance entry ${index + 1} (${entry.command}) has caller-written summary fields that do not match its authenticated signed envelope; it is bound to another run or manifest.`,
+      };
+    }
+
+    const verifiedAt = Date.parse(entry.verifiedAtIso);
+    const recordedAt = Date.parse(entry.recordedAtIso);
+    const notBefore = Date.parse(authenticated.notBeforeIso);
+    const notAfter = Date.parse(authenticated.notAfterIso);
+    if (
+      verifiedAt < notBefore ||
+      verifiedAt > notAfter ||
+      recordedAt < verifiedAt ||
+      recordedAt > notAfter
+    ) {
+      return {
+        ok: false,
+        detail:
+          `Provenance entry ${index + 1} (${entry.command}) records verification or artifact time outside the authenticated permit window.`,
+      };
+    }
+  }
+
+  const requiredReceipts = [
+    { command: 'bench report', file: 'leaderboard.json' },
+    { command: 'bench analyze', file: 'analysis.json' },
+  ] as const;
+
+  for (const { command, file } of requiredReceipts) {
+    const receipts = entries.filter(
+      (entry) => entry.command === command && entry.artifact?.file === file,
+    );
+    if (receipts.length === 0) {
+      return {
+        ok: false,
+        detail: `No authenticated ${command} receipt covers ${file}.`,
+      };
+    }
+    let currentDigest: string;
+    try {
+      currentDigest = publishedArtifactDigest(runId, file);
+    } catch (error) {
+      return { ok: false, detail: `Approval receipt for ${file} cannot be checked: ${(error as Error).message}` };
+    }
+    if (!receipts.some((entry) => entry.artifact?.sha256 === currentDigest)) {
+      return {
+        ok: false,
+        detail: `No authenticated ${command} receipt covers the exact current bytes of ${file}.`,
+      };
+    }
+  }
+  return {
+    ok: true,
+    detail: `${entries.length} authenticated entr${entries.length === 1 ? 'y' : 'ies'} bound to ${expectedManifestHash.slice(0, 12)}…, including exact-byte board and analysis publication receipts.`,
+  };
 }
 
 function summariseCounts(status: StatusReport): string {
@@ -1141,6 +1385,7 @@ function checkArtifactNamesRun(
   runId: string,
   file: string,
   requiredArrayField: string | null,
+  manifest: ValidatedRunManifest | null,
 ): { ok: boolean; detail: string } {
   const path = resolveRunFile(runId, file, { write: false });
   if (!existsSync(path)) return { ok: false, detail: `${file} does not exist.` };
@@ -1152,6 +1397,18 @@ function checkArtifactNamesRun(
   }
   if (parsed?.runId !== runId) {
     return { ok: false, detail: `${file} names run ${JSON.stringify(parsed?.runId)}, not '${runId}'.` };
+  }
+  if (manifest === null) {
+    return { ok: false, detail: `${file} cannot be bound because the run manifest is unreadable.` };
+  }
+  const expectedManifestHash = manifestHash(manifest);
+  if (!publicResultMatchesManifest(parsed, manifest, expectedManifestHash)) {
+    return {
+      ok: false,
+      detail:
+        `${file} does not carry the exact run, manifest hash, evidence class, release state, ` +
+        `rank eligibility and banner derived from manifest ${expectedManifestHash.slice(0, 12)}….`,
+    };
   }
   if (requiredArrayField !== null) {
     const rows = parsed[requiredArrayField];
@@ -1456,6 +1713,54 @@ export function writeReleaseChecklist(runId: string, checklist: ReleaseChecklist
   return writeRunFileAtomic(runId, RELEASE_CHECKLIST_FILE, `${JSON.stringify(checklist, null, 2)}\n`);
 }
 
+function readStoredReleaseChecklist(runId: string): { checklist: ReleaseChecklist; bytes: string } {
+  const path = resolveRunFile(runId, RELEASE_CHECKLIST_FILE, { write: false });
+  if (!existsSync(path) || !lstatSync(path).isFile()) {
+    throw new LifecycleError(
+      `Run ${runId} has no regular ${RELEASE_CHECKLIST_FILE} to pin as the review record.`,
+      'CHECKLIST_INCOMPLETE',
+    );
+  }
+  const bytes = readFileSync(path, 'utf8');
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(bytes);
+  } catch (error) {
+    throw new LifecycleError(
+      `${RELEASE_CHECKLIST_FILE} for ${runId} is not valid JSON (${(error as Error).message}).`,
+      'CHECKLIST_INCOMPLETE',
+    );
+  }
+  const checklist = parsed as Partial<ReleaseChecklist> | null;
+  if (
+    checklist === null ||
+    typeof checklist !== 'object' ||
+    checklist.checklistVersion !== 1 ||
+    checklist.runId !== runId ||
+    typeof checklist.generatedAt !== 'string' ||
+    !Number.isFinite(Date.parse(checklist.generatedAt)) ||
+    (checklist.manifestHash !== null &&
+      (typeof checklist.manifestHash !== 'string' || !/^[a-f0-9]{64}$/.test(checklist.manifestHash))) ||
+    typeof checklist.complete !== 'boolean' ||
+    !Array.isArray(checklist.items)
+  ) {
+    throw new LifecycleError(
+      `${RELEASE_CHECKLIST_FILE} for ${runId} has a malformed identity, timestamp or item set.`,
+      'CHECKLIST_INCOMPLETE',
+    );
+  }
+  const typed = checklist as ReleaseChecklist;
+  const shortfall = checklistShortfall(typed);
+  if (!typed.complete || shortfall.length > 0) {
+    throw new LifecycleError(
+      `${RELEASE_CHECKLIST_FILE} for ${runId} is not a complete fixed checklist:\n` +
+        shortfall.map((problem) => `  - ${problem}`).join('\n'),
+      'CHECKLIST_INCOMPLETE',
+    );
+  }
+  return { checklist: typed, bytes };
+}
+
 // ---------------------------------------------------------------------------
 // M4.7 — the release register: lifecycle state and the reviewed current-run pointer
 // ---------------------------------------------------------------------------
@@ -1570,25 +1875,73 @@ export interface CurrentRunPointer {
  * a caller-supplied list would mean the run being published chose which of its
  * own files were covered.
  */
-export const PUBLISHED_ARTIFACTS: readonly string[] = Object.freeze([
-  'leaderboard.json',
-  'analysis.json',
-  'scores.json',
-  MANIFEST_FILE,
-  RELEASE_CHECKLIST_FILE,
-]);
+export const PUBLISHED_ARTIFACTS: readonly PublicReleaseArtifact[] = PUBLIC_RELEASE_ARTIFACTS;
 
-function pinArtifacts(runId: string): PinnedArtifact[] {
-  return PUBLISHED_ARTIFACTS.map((file) => {
-    const path = resolveRunFile(runId, file, { write: false });
-    if (!existsSync(path)) {
+const PUBLISHED_ARTIFACT_NAMES = new Set<string>(PUBLISHED_ARTIFACTS);
+
+/**
+ * Digest one member of the release envelope.
+ *
+ * `responses` is a set rather than a file. Its commitment reuses the same
+ * canonical response-set identity as derivation: sorted filenames plus the
+ * digest of every exact file, with the run id inside the hash. Only a non-empty
+ * flat directory of regular JSON files is a response set. Accepting an empty
+ * directory would make "all zero responses were approved" a vacuous success;
+ * accepting links or nested directories would make the set the site reads
+ * differ from the set the pointer pins.
+ */
+export function publishedArtifactDigest(runId: string, file: PublicReleaseArtifact): string {
+  if (!PUBLISHED_ARTIFACT_NAMES.has(file)) {
+    throw new LifecycleError(`Unknown public-release artifact ${JSON.stringify(file)}.`, 'REGISTER_INVALID');
+  }
+  const path = resolveRunFile(runId, file, { write: false });
+  if (!existsSync(path)) {
+    throw new LifecycleError(
+      `Run ${runId} has no ${file}; it is no longer present or was never produced. A release cannot approve an artifact that does not exist.`,
+      'ARTIFACT_MISSING',
+    );
+  }
+
+  const identity = lstatSync(path);
+  if (file !== 'responses') {
+    if (!identity.isFile()) {
       throw new LifecycleError(
-        `Run ${runId} has no ${file}. A release pins every published artifact by digest; one that does not exist cannot be pinned, and an unpinned file can change under a live pointer.`,
-        'ARTIFACT_MISSING',
+        `${runId}/${file} is not a regular file and cannot be part of a public release.`,
+        'ARTIFACT_CHANGED',
       );
     }
-    return { file, sha256: sha256Hex(readFileSync(path, 'utf8')) };
+    return sha256Hex(readFileSync(path, 'utf8'));
+  }
+
+  if (!identity.isDirectory()) {
+    throw new LifecycleError(`${runId}/responses is not a directory.`, 'ARTIFACT_CHANGED');
+  }
+  const entries = readdirSync(path, { withFileTypes: true }).sort((a, b) =>
+    a.name < b.name ? -1 : a.name > b.name ? 1 : 0,
+  );
+  if (entries.length === 0) {
+    throw new LifecycleError(
+      `${runId}/responses is empty; an empty response set is not publication evidence.`,
+      'ARTIFACT_MISSING',
+    );
+  }
+  const members = entries.map((entry) => {
+    if (!entry.isFile() || !entry.name.endsWith('.json')) {
+      throw new LifecycleError(
+        `${runId}/responses contains unsupported entry ${JSON.stringify(entry.name)}; only regular JSON files are published.`,
+        'ARTIFACT_CHANGED',
+      );
+    }
+    return {
+      file: entry.name,
+      sha256: sha256Hex(readFileSync(join(path, entry.name), 'utf8')),
+    };
   });
+  return sha256Hex(canonicalResponseSet(runId, members));
+}
+
+function pinArtifacts(runId: string): PinnedArtifact[] {
+  return PUBLISHED_ARTIFACTS.map((file) => ({ file, sha256: publishedArtifactDigest(runId, file) }));
 }
 
 export interface ReleaseRegister {
@@ -1824,6 +2177,94 @@ export function transitionRun(input: TransitionInput): TransitionResult {
     );
   }
 
+  // Recovery for the one safe partial state: the immutable marker landed, but
+  // the atomic register replacement failed. The register is still audited and
+  // the run is frozen. Replaying the same decision completes only the external
+  // pointer after proving the checklist and append-only transition record that
+  // were written before the marker; it performs no further run-scoped write.
+  if (input.to === 'released') {
+    const markerPath = resolveRunFile(input.runId, 'RELEASED', { write: false });
+    if (existsSync(markerPath)) {
+      let marker: {
+        markerVersion?: unknown;
+        runId?: unknown;
+        manifestHash?: unknown;
+        from?: unknown;
+        to?: unknown;
+        releasedAt?: unknown;
+        actor?: unknown;
+        evidence?: unknown;
+        journalled?: unknown;
+      };
+      try {
+        marker = JSON.parse(readFileSync(markerPath, 'utf8'));
+      } catch (error) {
+        throw new LifecycleError(
+          `The release marker for ${input.runId} is not valid JSON (${(error as Error).message}).`,
+          'REGISTER_INVALID',
+        );
+      }
+      if (
+        marker.markerVersion !== 1 ||
+        marker.runId !== input.runId ||
+        marker.manifestHash !== entry.manifestHash ||
+        marker.from !== from ||
+        marker.to !== 'released' ||
+        marker.actor !== input.actor ||
+        marker.evidence !== input.evidence ||
+        typeof marker.releasedAt !== 'string' ||
+        !Number.isFinite(Date.parse(marker.releasedAt)) ||
+        typeof marker.journalled !== 'boolean'
+      ) {
+        throw new LifecycleError(
+          `The existing release marker for ${input.runId} does not describe this exact audited-to-released decision.`,
+          'REGISTER_INVALID',
+        );
+      }
+      const stored = readStoredReleaseChecklist(input.runId);
+      if (stored.checklist.manifestHash !== entry.manifestHash) {
+        throw new LifecycleError(
+          `The stored checklist does not bind the manifest named by the interrupted release marker.`,
+          'CHECKLIST_MISMATCH',
+        );
+      }
+      const expectedId = identity('life', {
+        runId: input.runId,
+        from,
+        to: 'released',
+        at: marker.releasedAt,
+      });
+      const journalEntry = readJournal(input.runId, LIFECYCLE_JOURNAL).find(
+        (candidate) => candidate.id === expectedId,
+      );
+      const body = journalEntry?.body as Partial<TransitionInput> & { from?: unknown } | undefined;
+      if (
+        !journalEntry ||
+        body?.from !== from ||
+        body.to !== 'released' ||
+        body.actor !== input.actor ||
+        body.evidence !== input.evidence
+      ) {
+        throw new LifecycleError(
+          `The interrupted release marker has no matching append-only lifecycle decision.`,
+          'JOURNAL_CORRUPT',
+        );
+      }
+      entry.state = 'released';
+      entry.updatedAt = marker.releasedAt;
+      entry.history.push({
+        from,
+        to: 'released',
+        at: marker.releasedAt,
+        actor: input.actor,
+        evidence: input.evidence,
+        journalled: marker.journalled,
+      });
+      writeRegister(register);
+      return { entry, checklist: stored.checklist };
+    }
+  }
+
   let checklist: ReleaseChecklist | null = null;
   if (input.to === 'released') {
     checklist = buildReleaseChecklist(input.runId, now);
@@ -1856,6 +2297,33 @@ export function transitionRun(input: TransitionInput): TransitionResult {
     now,
   );
 
+  // Freeze BEFORE publishing the released register state. If this write
+  // fails, the authoritative register remains audited and the run remains
+  // ineligible; the unsafe inverse is a register that says released while the
+  // directory is still writable. Every run-scoped evidence write is complete
+  // above this point, so the marker cannot lock out unfinished release work.
+  if (input.to === 'released') {
+    writeRunFileAtomic(
+      input.runId,
+      'RELEASED',
+      `${JSON.stringify(
+        {
+          markerVersion: 1,
+          runId: input.runId,
+          manifestHash: entry.manifestHash,
+          from,
+          to: input.to,
+          releasedAt: now.toISOString(),
+          actor: input.actor,
+          evidence: input.evidence,
+          journalled,
+        },
+        null,
+        2,
+      )}\n`,
+    );
+  }
+
   entry.state = input.to;
   entry.updatedAt = now.toISOString();
   entry.history.push({
@@ -1872,17 +2340,6 @@ export function transitionRun(input: TransitionInput): TransitionResult {
   }
 
   writeRegister(register);
-
-  if (input.to === 'released') {
-    // Written LAST, and only after the register says released: this marker is
-    // what the firewall reads to freeze the directory, so writing it earlier
-    // would lock the run out of recording its own transition.
-    writeRunFileAtomic(
-      input.runId,
-      'RELEASED',
-      `${JSON.stringify({ runId: input.runId, manifestHash: entry.manifestHash, releasedAt: entry.updatedAt, actor: input.actor }, null, 2)}\n`,
-    );
-  }
 
   return { entry, checklist };
 }
@@ -1943,6 +2400,17 @@ export function setCurrentRun(input: SetCurrentRunInput): CurrentRunPointer {
       'CHECKLIST_INCOMPLETE',
     );
   }
+  // The rebuilt checklist proves the release still holds NOW. The pointer,
+  // however, must digest the exact checklist FILE it pins, not a second object
+  // with a different generatedAt/detail string. Otherwise the runner approves
+  // one checklist while the website correctly refuses the other.
+  const storedChecklist = readStoredReleaseChecklist(input.runId);
+  if (storedChecklist.checklist.manifestHash !== entry.manifestHash) {
+    throw new LifecycleError(
+      `Stored ${RELEASE_CHECKLIST_FILE} binds ${String(storedChecklist.checklist.manifestHash).slice(0, 12)}… but the release register binds ${entry.manifestHash.slice(0, 12)}….`,
+      'CHECKLIST_MISMATCH',
+    );
+  }
   // Only a manifest that is itself publishable may be pointed at. The register
   // state and the manifest are two different assertions and both must hold: a
   // 'released' entry over a 'development' manifest is a register that has been
@@ -1955,7 +2423,7 @@ export function setCurrentRun(input: SetCurrentRunInput): CurrentRunPointer {
     reviewedBy: input.reviewedBy,
     reviewedAt: now.toISOString(),
     reviewEvidence: input.reviewEvidence,
-    checklistDigest: sha256Hex(canonicalJson(checklist)),
+    checklistDigest: sha256Hex(canonicalJson(storedChecklist.checklist)),
     artifacts: pinArtifacts(input.runId),
   };
   register.currentRun = pointer;
@@ -1975,6 +2443,24 @@ export function readCurrentRun(): CurrentRunPointer {
       'NO_CURRENT_RUN',
     );
   }
+  if (
+    !runIdSchema.safeParse(pointer.runId).success ||
+    typeof pointer.manifestHash !== 'string' ||
+    !/^[a-f0-9]{64}$/.test(pointer.manifestHash) ||
+    typeof pointer.checklistDigest !== 'string' ||
+    !/^[a-f0-9]{64}$/.test(pointer.checklistDigest) ||
+    typeof pointer.reviewedBy !== 'string' ||
+    pointer.reviewedBy.trim() === '' ||
+    typeof pointer.reviewedAt !== 'string' ||
+    !Number.isFinite(Date.parse(pointer.reviewedAt)) ||
+    typeof pointer.reviewEvidence !== 'string' ||
+    pointer.reviewEvidence.trim() === ''
+  ) {
+    throw new LifecycleError(
+      'The current-run pointer has a malformed run, manifest, checklist or review identity.',
+      'REGISTER_INVALID',
+    );
+  }
   const entry = register.entries[pointer.runId];
   if (!entry || entry.state !== 'released' || entry.manifestHash !== pointer.manifestHash) {
     throw new LifecycleError(
@@ -1986,8 +2472,25 @@ export function readCurrentRun(): CurrentRunPointer {
   // absent or emptied `artifacts` array the easiest possible bypass of the
   // check below — the loop simply would not run — so the pin set is required to
   // name every published artifact before any of them is compared.
-  const pinnedFiles = new Set((pointer.artifacts ?? []).map((a) => a?.file));
-  const unpinned = PUBLISHED_ARTIFACTS.filter((f) => !pinnedFiles.has(f));
+  const supplied = Array.isArray(pointer.artifacts) ? pointer.artifacts : [];
+  const pins = new Map<string, PinnedArtifact>();
+  for (const pinned of supplied) {
+    if (
+      !pinned ||
+      typeof pinned.file !== 'string' ||
+      !PUBLISHED_ARTIFACT_NAMES.has(pinned.file) ||
+      typeof pinned.sha256 !== 'string' ||
+      !/^[a-f0-9]{64}$/.test(pinned.sha256) ||
+      pins.has(pinned.file)
+    ) {
+      throw new LifecycleError(
+        `The current-run pointer for ${pointer.runId} contains a malformed, duplicate or unknown artifact pin.`,
+        'REGISTER_INVALID',
+      );
+    }
+    pins.set(pinned.file, pinned);
+  }
+  const unpinned = PUBLISHED_ARTIFACTS.filter((file) => !pins.has(file));
   if (unpinned.length > 0) {
     throw new LifecycleError(
       `The current-run pointer for ${pointer.runId} pins no digest for [${unpinned.join(', ')}]. ` +
@@ -1998,22 +2501,75 @@ export function readCurrentRun(): CurrentRunPointer {
   // Every pinned artifact must still hash to what was approved. This is the
   // reader half of atomicity: a file replaced under a live pointer is refused
   // rather than served beside the ones that were not replaced.
-  for (const pinned of pointer.artifacts) {
-    const path = resolveRunFile(pointer.runId, pinned.file, { write: false });
-    if (!existsSync(path)) {
-      throw new LifecycleError(
-        `The approved release names ${pinned.file}, which is no longer present in ${pointer.runId}.`,
-        'ARTIFACT_MISSING',
-      );
-    }
-    const actual = sha256Hex(readFileSync(path, 'utf8'));
+  for (const file of PUBLISHED_ARTIFACTS) {
+    const pinned = pins.get(file)!;
+    const actual = publishedArtifactDigest(pointer.runId, file);
     if (actual !== pinned.sha256) {
       throw new LifecycleError(
-        `${pointer.runId}/${pinned.file} has changed since it was approved (${pinned.sha256.slice(0, 12)}… → ${actual.slice(0, 12)}…). ` +
+        `${pointer.runId}/${file} has changed since it was approved (${pinned.sha256.slice(0, 12)}… → ${actual.slice(0, 12)}…). ` +
           `Serving it would show a mixture of two releases.`,
         'ARTIFACT_CHANGED',
       );
     }
+  }
+
+  // The pins prove byte identity; these checks prove what the bytes MEAN. A
+  // random JSON object can be pinned perfectly and still not be a manifest or
+  // a completed checklist, so publication re-parses the held envelope and
+  // binds every semantic identity back to the pointer.
+  const manifest = readRunManifest(pointer.runId);
+  const computedManifestHash = manifestHash(manifest);
+  if (computedManifestHash !== pointer.manifestHash) {
+    throw new LifecycleError(
+      `The current-run pointer binds manifest ${pointer.manifestHash.slice(0, 12)}… but manifest.json means ${computedManifestHash.slice(0, 12)}….`,
+      'CHECKLIST_MISMATCH',
+    );
+  }
+  const persistedManifestHash = readFileSync(
+    resolveRunFile(pointer.runId, MANIFEST_HASH_FILE, { write: false }),
+    'utf8',
+  ).trim();
+  if (persistedManifestHash !== computedManifestHash) {
+    throw new LifecycleError(
+      `${MANIFEST_HASH_FILE} does not record the manifest the current pointer approved.`,
+      'CHECKLIST_MISMATCH',
+    );
+  }
+  const storedChecklist = readStoredReleaseChecklist(pointer.runId);
+  if (
+    storedChecklist.checklist.manifestHash !== computedManifestHash ||
+    sha256Hex(canonicalJson(storedChecklist.checklist)) !== pointer.checklistDigest
+  ) {
+    throw new LifecycleError(
+      `The current-run pointer's checklist digest does not describe the exact completed checklist it pins.`,
+      'CHECKLIST_MISMATCH',
+    );
+  }
+  for (const file of ['leaderboard.json', 'analysis.json'] as const) {
+    let artifact: unknown;
+    try {
+      artifact = JSON.parse(
+        readFileSync(resolveRunFile(pointer.runId, file, { write: false }), 'utf8'),
+      );
+    } catch (error) {
+      throw new LifecycleError(
+        `${file} is not a parseable public artifact (${(error as Error).message}).`,
+        'ARTIFACT_CHANGED',
+      );
+    }
+    if (!publicResultMatchesManifest(artifact, manifest, computedManifestHash)) {
+      throw new LifecycleError(
+        `${file} is pinned but its public stamp does not match the approved manifest.`,
+        'CHECKLIST_MISMATCH',
+      );
+    }
+  }
+  const provenance = checkApprovalProvenance(pointer.runId, manifest);
+  if (!provenance.ok) {
+    throw new LifecycleError(
+      `The pinned approval trail is not sufficient: ${provenance.detail}`,
+      'CHECKLIST_INCOMPLETE',
+    );
   }
   return pointer;
 }
@@ -2054,8 +2610,8 @@ export function safeReadCurrentRun():
 export interface PublicationClaims {
   /** The run id the caller was asked to act on. */
   requestedRunId: string;
-  /** `grant.runId`, where a permit is in play. Required for stage 'public'. */
-  permitRunId?: string;
+  /** Runtime authority. A copied id or object is deliberately insufficient. */
+  grant?: unknown;
 }
 
 export interface PublicationVerdict {
@@ -2072,6 +2628,33 @@ export function assertPublicationAllowed(
 ): PublicationVerdict {
   const runId = claims.requestedRunId;
   const context = `${stage === 'public' ? 'publication' : 'artifact write'} for run ${runId}`;
+  if (stage === 'artifact') {
+    const verdict = assertArtifactWriteAllowed(runId, 'leaderboard.json', claims.grant);
+    return {
+      runId,
+      manifest: verdict.manifest,
+      manifestHash: verdict.manifestHash,
+      nonScoringBanner: verdict.nonScoringBanner,
+    };
+  }
+
+  if (claims.grant === undefined) {
+    throw new LifecycleError(
+      `${context} refused: no verified grant was established. Publication authority is a runtime fact, not a caller-supplied run id.`,
+      'NOT_PUBLISHABLE',
+    );
+  }
+  const grant = assertVerifiedGrant(claims.grant, context);
+  assertGrantMatchesStoredManifest(grant, context);
+  if (!grant.capabilities.includes('publication') && !grant.capabilities.includes('result-sync')) {
+    throw new LifecycleError(
+      `${context} refused: permit ${grant.permitId} grants neither publication nor result-sync.`,
+      'NOT_PUBLISHABLE',
+    );
+  }
+  const publicCapability = grant.capabilities.includes('publication') ? 'publication' : 'result-sync';
+  Firewall.fromVerifiedPermit(grant).requireCapability(publicCapability, context);
+
   // PARSE, never trust: the manifest is read off disk and re-validated here
   // rather than taken from a caller, so no branded object and no `as any` can
   // reach this decision.
@@ -2080,19 +2663,12 @@ export function assertPublicationAllowed(
   assertRunIdentity(
     {
       requested: runId,
-      permit: claims.permitRunId ?? runId,
+      permit: grant.runId,
       manifest: manifest.runId,
       artifact: runId,
     },
     context,
   );
-  if (stage === 'public' && claims.permitRunId === undefined) {
-    throw new LifecycleError(
-      `${context} refused: no permit run id was established. Publication is authorised for one run, and "no permit" is not "any run".`,
-      'NOT_PUBLISHABLE',
-    );
-  }
-
   const verification = verifyRunManifest(runId, { expectComplete: stage === 'public' });
   if (!verification.ok) {
     throw new LifecycleError(

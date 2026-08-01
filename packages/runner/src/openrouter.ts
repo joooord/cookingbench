@@ -1,6 +1,10 @@
 import type { Capability, ModelPricing } from '@cookingbench/core';
 import { Firewall, FirewallError, type CellKind } from './firewall.js';
-import { type Reservation, type ReservationLedger } from './ledger.js';
+import {
+  assertLedgerBoundToGrant,
+  type Reservation,
+  type ReservationLedger,
+} from './ledger.js';
 import { assertVerifiedGrant, type VerifiedGrant } from './permit.js';
 
 const API_BASE = 'https://openrouter.ai/api/v1';
@@ -97,7 +101,6 @@ function apiKey(): string {
 }
 
 const RETRYABLE = new Set([408, 429, 500, 502, 503, 504]);
-const MAX_ATTEMPTS = 5;
 
 /* -------------------------------------------------------------------------- */
 /* BUDGET-001 — pricing an ATTEMPT                                            */
@@ -210,10 +213,13 @@ function provablyUnsent(error: unknown): boolean {
  * the construction site rather than checked somewhere downstream.
  */
 export class OpenRouterClient implements CompletionClient {
+  readonly #grant: VerifiedGrant;
   readonly #firewall: Firewall;
   readonly #ledger: ReservationLedger;
   readonly #capability: Capability;
   readonly #cellKind: CellKind;
+  /** Signed execution policy, copied from the verified manifest. */
+  readonly #maxAttempts: number;
 
   private constructor(
     grant: VerifiedGrant,
@@ -226,8 +232,14 @@ export class OpenRouterClient implements CompletionClient {
     assertVerifiedGrant(grant, 'OpenRouterClient construction');
     this.#firewall = Firewall.fromVerifiedPermit(grant);
     this.#firewall.requireCapability(capability, `OpenRouterClient(${capability})`);
+    // A ledger from another permit may have a different cap, journal and run.
+    // The TypeScript type cannot prove provenance at runtime, so require the
+    // module-private identity recorded by ReservationLedger's constructor.
+    assertLedgerBoundToGrant(ledger, grant, 'OpenRouterClient construction');
+    this.#grant = grant;
     this.#ledger = ledger;
     this.#capability = capability;
+    this.#maxAttempts = grant.maxAttempts;
     // Fixed at construction, never taken from the call. A client built for
     // judging cannot be talked into spending a candidate cell by an argument.
     this.#cellKind = cellKind;
@@ -247,9 +259,9 @@ export class OpenRouterClient implements CompletionClient {
    * Authorise, then reserve and resolve ONE RESERVATION PER BILLABLE ATTEMPT.
    *
    * The defect this shape replaces: a single `reserve()` sat outside the retry
-   * loop, so one reservation funded up to MAX_ATTEMPTS = 5 POSTs. The cap bound
-   * reservations rather than requests, and a run could spend five times its
-   * ceiling with every individual check passing. BUDGET-001 says concurrent
+   * loop, so one reservation funded every POST. The cap bound
+   * reservations rather than requests, and a run could multiply its ceiling by
+   * the retry count with every individual check passing. BUDGET-001 says concurrent
    * requests AND RETRIES cannot exceed the cap; a retry is another chargeable
    * request to the provider, so it is authorised as one.
    *
@@ -263,6 +275,7 @@ export class OpenRouterClient implements CompletionClient {
     opts: GuardedCompletionOpts,
   ): Promise<CompletionResult> {
     const context = `completion for ${modelId}`;
+    assertLedgerBoundToGrant(this.#ledger, this.#grant, context);
     this.#firewall.requireCapability(this.#capability, context);
 
     // The two fields are typed as required; the type is erased, so they are
@@ -312,7 +325,7 @@ export class OpenRouterClient implements CompletionClient {
 
     // Resolved once, before any money is reserved. Inside the loop a missing
     // key threw from `post()` and was classified as a transport failure, so a
-    // configuration error spent five backoffs pretending to be a network fault.
+    // configuration error spent every configured backoff pretending to be a network fault.
     const key = apiKey();
     return this.#requestWithAccounting(key, modelId, messages, opts, estimateUsd);
   }
@@ -365,7 +378,7 @@ export class OpenRouterClient implements CompletionClient {
     declaredEstimateUsd: number,
   ): Promise<CompletionResult> {
     let lastError: Error | undefined;
-    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    for (let attempt = 1; attempt <= this.#maxAttempts; attempt++) {
       // Recomputed per attempt rather than hoisted, so an attempt that raises
       // the token budget or changes pricing assumptions reserves for the
       // request it is about to send. Deliberately OUTSIDE the try below: a
@@ -391,7 +404,7 @@ export class OpenRouterClient implements CompletionClient {
           this.#ledger.retainUnreconciled(reservation, `transport failed after send, cost unknown: ${message}`);
         }
         lastError = new Error(`OpenRouter network error for ${modelId}: ${message}`);
-        if (attempt === MAX_ATTEMPTS) break;
+        if (attempt === this.#maxAttempts) break;
         await sleep(backoffMs(2000, attempt));
         continue;
       }
@@ -409,7 +422,7 @@ export class OpenRouterClient implements CompletionClient {
         this.#resolveFailedResponse(reservation, res.status, body);
         lastError = new Error(`OpenRouter ${res.status} for ${modelId}: ${body.slice(0, 300)}`);
         if (!RETRYABLE.has(res.status)) throw lastError;
-        if (attempt === MAX_ATTEMPTS) break;
+        if (attempt === this.#maxAttempts) break;
         // 429s are per-minute rate limits — a couple of seconds is never enough.
         await sleep(backoffMs(res.status === 429 ? 15000 : 2000, attempt));
         continue;
@@ -439,7 +452,7 @@ export class OpenRouterClient implements CompletionClient {
         lastError = new Error(
           `OpenRouter returned an unreadable body for ${modelId}: ${(error as Error).message}`,
         );
-        if (attempt === MAX_ATTEMPTS) break;
+        if (attempt === this.#maxAttempts) break;
         await sleep(backoffMs(2000, attempt));
         continue;
       }

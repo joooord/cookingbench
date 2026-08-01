@@ -20,7 +20,7 @@ import {
   safeParseRunManifest,
   validatedRunManifestSchema,
 } from '@cookingbench/core';
-import { RUNS_DIR } from '../src/dataset.js';
+import { RUNS_DIR, loadQuestions } from '../src/dataset.js';
 import * as firewallModule from '../src/firewall.js';
 import {
   Firewall,
@@ -39,6 +39,7 @@ import {
   undeclaredPublishedRuns,
 } from '../src/firewall.js';
 import { writeLeaderboard, writeResponse, writeScores } from '../src/store.js';
+import { buildRunManifest, writeRunManifest } from '../src/manifest.js';
 import { assertArchiveGrows } from '../src/taste.js';
 import { mintTestGrant } from './support/grant.js';
 
@@ -49,13 +50,56 @@ import { mintTestGrant } from './support/grant.js';
 
 const SCRATCH = '__test-firewall-scratch';
 
+function seedScratchManifest(
+  modelIds: string[] = ['openai/gpt-5.5'],
+  extraQuestionIds: string[] = [],
+): void {
+  const questions = loadQuestions();
+  const base = questions[0]!;
+  for (const id of extraQuestionIds) {
+    if (!questions.some((question) => question.id === id)) questions.push({ ...base, id });
+  }
+  const { manifest } = buildRunManifest(
+    {
+      manifestVersion: 1,
+      runId: SCRATCH,
+      methodologyVersion: 'v3.0',
+      schemaVersion: '1',
+      parentArtifacts: [],
+      evidenceClass: 'development',
+      artifactOrigin: ['agent-authored'],
+      releaseState: 'draft',
+      rankEligible: false,
+      candidateRoutes: modelIds.map((modelId, index) => ({
+        modelId,
+        provider: `fixture-${index}`,
+        baseModelFamily: `fixture-family-${index}`,
+      })),
+      judgeRoutes: [
+        { modelId: 'judge/fixture', provider: 'judge', baseModelFamily: 'judge-fixture' },
+      ],
+      generationSettings: {
+        temperature: 0,
+        maxTokens: 16000,
+        maxTokensRecipe: 32000,
+        repeats: 1,
+        repeatPolicy: 'single',
+      },
+      callPlan: { concurrency: 1, maxAttempts: 3, abortOn: [] },
+      budgetCapUsd: 0,
+    },
+    questions,
+  );
+  writeRunManifest(SCRATCH, manifest, questions);
+}
+
 /** Minimal manifest that parses; individual tests override fields. */
 const manifestFixture = {
   manifestVersion: 1,
   runId: 'r-1',
   methodologyVersion: 'v3.0',
   schemaVersion: '1',
-  gitCommit: '980dfcb',
+  gitCommit: '980dfcb5e3ff920fe1a3231121a6115e3fa48dcb',
   parentArtifacts: [],
   evidenceClass: 'development',
   artifactOrigin: ['synthetic'],
@@ -328,7 +372,7 @@ describe('RELEASE-001 — origin never upgrades eligibility', () => {
     runId: 'r-1',
     methodologyVersion: 'v3.0',
     schemaVersion: '1',
-    gitCommit: '980dfcb',
+    gitCommit: '980dfcb5e3ff920fe1a3231121a6115e3fa48dcb',
     parentArtifacts: [],
     evidenceClass: 'confirmatory-pilot' as const,
     artifactOrigin: ['live-provider' as const],
@@ -492,7 +536,7 @@ describe('DATA-002 — coherence is enforced at parse, not by an optional call',
     runId: 'r-1',
     methodologyVersion: 'v3.0',
     schemaVersion: '1',
-    gitCommit: '980dfcb',
+    gitCommit: '980dfcb5e3ff920fe1a3231121a6115e3fa48dcb',
     parentArtifacts: [],
     evidenceClass: 'development',
     artifactOrigin: ['synthetic'],
@@ -535,6 +579,31 @@ describe('DATA-002 — coherence is enforced at parse, not by an optional call',
     }
   });
 
+  it('refuses execution-policy fields that v3 does not implement', () => {
+    const unsupported = [
+      {
+        ...ok,
+        generationSettings: { ...ok.generationSettings, repeats: 2 },
+      },
+      {
+        ...ok,
+        generationSettings: { ...ok.generationSettings, repeatPolicy: 'fixed-repeats' },
+      },
+      {
+        ...ok,
+        generationSettings: { ...ok.generationSettings, repeatPolicy: 'creative-sampling' },
+      },
+      {
+        ...ok,
+        callPlan: { ...ok.callPlan, abortOn: ['provider-error'] },
+      },
+    ];
+
+    for (const manifest of unsupported) {
+      expect(validatedRunManifestSchema.safeParse(manifest).success).toBe(false);
+    }
+  });
+
   it('hashes deterministically regardless of key order', () => {
     expect(canonicalJson({ b: 1, a: { d: 2, c: 3 } })).toBe(canonicalJson({ a: { c: 3, d: 2 }, b: 1 }));
   });
@@ -569,6 +638,7 @@ describe('adversarial — the bypasses Codex found in the first firewall', () =>
   it('refuses a nested responses symlink inside a legitimate run', () => {
     const dir = join(RUNS_DIR, SCRATCH);
     mkdirSync(dir, { recursive: true });
+    seedScratchManifest();
     const link = join(dir, 'responses');
     rmSync(link, { recursive: true, force: true });
     symlinkSync(join(RUNS_DIR, '2026-07-v2.1', 'responses'), link);
@@ -596,6 +666,7 @@ describe('adversarial — the bypasses Codex found in the first firewall', () =>
     // silently overwrote the other.
     const dir = join(RUNS_DIR, SCRATCH);
     mkdirSync(join(dir, 'responses'), { recursive: true });
+    seedScratchManifest(['a/x:y', 'a/x__y']);
     const base = {
       runId: SCRATCH,
       questionId: 'conv-001',
@@ -701,6 +772,7 @@ describe('adversarial round 2 — bypasses Codex reproduced on 3edf98c', () => {
 
   it('has an injective response filename across tuple boundaries', () => {
     const dir = mk();
+    seedScratchManifest(['a/b', 'a/b__c', 'm'], ['c__d', 'd', '\u{1F600}', '\u{1F680}']);
     const base = { runId: SCRATCH, raw: {}, tokensIn: 0, tokensOut: 0, costUsd: 0, latencyMs: 0 };
     // ("a/b","c__d") vs ("a/b__c","d") both produced a~2Fb__c__d.json.
     writeResponse({ ...base, modelId: 'a/b', questionId: 'c__d', answerText: 'left' });
@@ -757,6 +829,23 @@ describe('adversarial round 2 — bypasses Codex reproduced on 3edf98c', () => {
     writeFileSync(join(dir, 'leaderboard.json'), '{}');
     expect(isHistoricalRun(SCRATCH)).toBe(true);
     expect(() => writeScores(SCRATCH, [])).toThrow(FirewallError);
+  });
+
+  it('does not mistake a board for the release boundary of a manifest-era run', () => {
+    seedScratchManifest();
+    const dir = join(RUNS_DIR, SCRATCH);
+    writeFileSync(join(dir, 'leaderboard.json'), '{}');
+
+    // The exact manifest + sidecar establish a modern assembling run. Its
+    // explicit RELEASED marker (or lifecycle policy), not the just-written
+    // board, is the freeze point, so a bytes-last provenance append can land.
+    expect(isHistoricalRun(SCRATCH)).toBe(false);
+    expect(() => writeScores(SCRATCH, [])).not.toThrow();
+
+    // A merely present or drifted manifest must not disable the conservative
+    // legacy-board fallback.
+    writeFileSync(join(dir, 'manifest.sha256'), `${'0'.repeat(64)}\n`);
+    expect(isHistoricalRun(SCRATCH)).toBe(true);
   });
 
   it('treats an unrecognised release state as frozen', () => {

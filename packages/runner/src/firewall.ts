@@ -9,20 +9,30 @@ import {
   renameSync,
   writeFileSync,
 } from 'node:fs';
-import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
+import { basename, dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import {
+  CAPABILITIES,
   NON_SCORING_LABEL,
+  PERMIT_KINDS,
   canonicalJson,
   canPublish,
   parseHistoricalRegistry,
   runIdSchema,
+  signedPermitSchema,
   type Capability,
   type EvidenceClass,
+  type PermitKind,
   safeParseRunManifest,
   type ValidatedRunManifest,
 } from '@cookingbench/core';
 import { DATA_DIR, RUNS_DIR } from './dataset.js';
-import { assertVerifiedGrant, type VerifiedGrant } from './permit.js';
+import {
+  assertGrantForRun,
+  assertGrantStillValid,
+  assertVerifiedGrant,
+  sha256Hex,
+  type VerifiedGrant,
+} from './permit.js';
 
 /**
  * WP-0 evidence firewall — RUN-001, RUN-001A, DATA-001, RELEASE-002.
@@ -273,16 +283,42 @@ function declaredFrozen(): ReadonlySet<string> {
  */
 const RESUMABLE_RELEASE_STATES: ReadonlySet<string> = new Set(['draft', 'audited']);
 
+/**
+ * Distinguish an assembling manifest-era run from a legacy directory whose
+ * only publication signal is a board.
+ *
+ * A modern run records both the complete parsed manifest and its canonical
+ * digest. Merely planting a file called manifest.json is therefore not enough
+ * to disable the conservative legacy-board freeze.
+ */
+function hasVerifiedManifestIdentity(realRunDir: string): boolean {
+  const manifestPath = join(realRunDir, 'manifest.json');
+  const digestPath = join(realRunDir, 'manifest.sha256');
+  if (!existsSync(manifestPath) || !existsSync(digestPath)) return false;
+  try {
+    if (!lstatSync(manifestPath).isFile() || !lstatSync(digestPath).isFile()) return false;
+    const parsed = safeParseRunManifest(JSON.parse(readFileSync(manifestPath, 'utf8')));
+    if (!parsed.ok) return false;
+    if (parsed.manifest.runId !== basename(realRunDir)) return false;
+    const recorded = readFileSync(digestPath, 'utf8').trim();
+    return /^[a-f0-9]{64}$/.test(recorded) && recorded === sha256Hex(canonicalJson(parsed.manifest));
+  } catch {
+    return false;
+  }
+}
+
 function isReleasedOnDisk(realRunDir: string): boolean {
   if (existsSync(join(realRunDir, RELEASED_MARKER))) return true;
   const hasBoard = existsSync(join(realRunDir, 'leaderboard.json'));
   const configPath = join(realRunDir, 'config.json');
 
-  // Missing policy metadata plus a published board must FREEZE, not unlock.
-  // The earlier version only consulted the board when config.json existed, so
-  // a board with no config was considered writable — fail-open in exactly the
-  // case with the least information.
-  if (!existsSync(configPath)) return hasBoard;
+  // A bare board freezes a LEGACY run whose policy cannot otherwise be
+  // established. Manifest-era runs deliberately write the board before its
+  // exact-byte approval receipt and before the explicit RELEASED marker; the
+  // board cannot freeze that final, authorised assembly step. A malformed or
+  // unbound manifest remains legacy for this purpose and therefore fails
+  // closed.
+  if (!existsSync(configPath)) return hasBoard && !hasVerifiedManifestIdentity(realRunDir);
 
   try {
     const config = JSON.parse(readFileSync(configPath, 'utf8')) as { releaseState?: string };
@@ -741,11 +777,14 @@ export class Firewall {
   /** TRACE-001: what a run artifact should record about its authorisation. */
   provenance(): {
     permitId: string;
-    kind: string;
+    kind: PermitKind;
     keyId: string;
+    signedPermitHash: string;
+    signedPermit: VerifiedGrant['signedPermit'];
     manifestHash: string;
     runId: string;
     capabilities: readonly Capability[];
+    reservationScope: VerifiedGrant['reservationScope'];
     verifiedAtIso: string;
   } | null {
     if (!this.#grant) return null;
@@ -754,9 +793,12 @@ export class Firewall {
       permitId: g.permitId,
       kind: g.kind,
       keyId: g.keyId,
+      signedPermitHash: g.signedPermitHash,
+      signedPermit: g.signedPermit,
       manifestHash: g.manifestHash,
       runId: g.runId,
       capabilities: g.capabilities,
+      reservationScope: g.reservationScope,
       verifiedAtIso: g.verifiedAtIso,
     };
   }
@@ -772,6 +814,12 @@ export class Firewall {
         'NO_PERMIT',
       );
     }
+    // A grant that was valid when this firewall was constructed may expire or
+    // be revoked during a long run. Authority is therefore checked again at
+    // the moment the capability is exercised. Keeping this in the shared
+    // boundary covers every outbound and privileged route that calls
+    // requireCapability, including catalog reads and every inference attempt.
+    assertGrantStillValid(this.#grant, context);
     if (!this.has(capability)) {
       throw new FirewallError(
         `Permit ${this.#grant.permitId} (${this.#grant.kind}) does not grant '${capability}', required by ${context}. Granted: [${this.#grant.capabilities.join(', ')}].`,
@@ -867,17 +915,35 @@ export function nonScoringBanner(evidenceClass: EvidenceClass): string | null {
 // TRACE-001 — the approval trail, written into the run
 // ---------------------------------------------------------------------------
 
+export const PROVENANCE_COMMAND_POLICY = Object.freeze({
+  'bench run': Object.freeze({ capability: 'candidate-inference', artifact: null }),
+  'bench judge': Object.freeze({ capability: 'judge-inference', artifact: null }),
+  'bench sync': Object.freeze({ capability: 'result-sync', artifact: null }),
+  'bench analyze': Object.freeze({ capability: 'publication', artifact: 'analysis.json' }),
+  'bench report': Object.freeze({ capability: 'publication', artifact: 'leaderboard.json' }),
+} satisfies Record<string, { capability: Capability; artifact: string | null }>);
+
+export type ProvenanceCommand = keyof typeof PROVENANCE_COMMAND_POLICY;
+
 /** One unit of authorised work, as recorded in the run's own artifacts. */
 export interface ProvenanceEntry {
+  receiptVersion: 1;
   permitId: string;
-  kind: string;
+  kind: PermitKind;
   keyId: string;
+  /** Hash of the signed envelope verified before this receipt was minted. */
+  signedPermitHash: string;
+  /** Exact envelope, so retrospective verification checks a signature rather than trusting the hash above. */
+  signedPermit: VerifiedGrant['signedPermit'];
   manifestHash: string;
   runId: string;
   capabilities: readonly Capability[];
+  reservationScope: VerifiedGrant['reservationScope'];
   verifiedAtIso: string;
   /** The command that exercised the authority, e.g. `bench run`. */
-  command: string;
+  command: ProvenanceCommand;
+  /** Exact artifact bytes created by this exercise, when it creates one file. */
+  artifact: { file: string; sha256: string } | null;
   recordedAtIso: string;
 }
 
@@ -906,9 +972,23 @@ const PROVENANCE_FILE = 'provenance.ndjson';
  * Canonical JSON per line so two records of the same authorisation are
  * byte-identical regardless of field order.
  */
-export function recordProvenance(runId: string, grant: VerifiedGrant, command: string): ProvenanceEntry {
-  assertVerifiedGrant(grant, `recordProvenance(${command})`);
-  const base = Firewall.fromVerifiedPermit(grant).provenance();
+export function recordProvenance(
+  runId: string,
+  grant: VerifiedGrant,
+  command: ProvenanceCommand,
+  artifact: { file: string; sha256: string } | null = null,
+): ProvenanceEntry {
+  assertGrantForRun(grant, runId, `recordProvenance(${command})`);
+  const firewall = Firewall.fromVerifiedPermit(grant);
+  if (!Object.hasOwn(PROVENANCE_COMMAND_POLICY, command)) {
+    throw new FirewallError(
+      `recordProvenance was given unknown command ${JSON.stringify(command)}. Receipt policy is fixed by the runner.`,
+      'REGISTRY_INVALID',
+    );
+  }
+  const policy = PROVENANCE_COMMAND_POLICY[command];
+  firewall.requireCapability(policy.capability, `recordProvenance(${command})`);
+  const base = firewall.provenance();
   if (!base) {
     // Unreachable: fromVerifiedPermit on a minted grant always carries one.
     // Stated rather than assumed, because a silent null here would write an
@@ -918,7 +998,43 @@ export function recordProvenance(runId: string, grant: VerifiedGrant, command: s
       'NO_PERMIT',
     );
   }
-  const entry: ProvenanceEntry = { ...base, command, recordedAtIso: new Date().toISOString() };
+  if (
+    (policy.artifact === null && artifact !== null) ||
+    (policy.artifact !== null && artifact?.file !== policy.artifact) ||
+    (artifact !== null && !/^[a-f0-9]{64}$/.test(artifact.sha256))
+  ) {
+    throw new FirewallError(
+      `recordProvenance(${command}) was given an artifact receipt outside its fixed command policy.`,
+      'REGISTRY_INVALID',
+    );
+  }
+  let verifiedArtifact: ProvenanceEntry['artifact'] = null;
+  if (artifact !== null) {
+    const path = resolveRunFile(runId, artifact.file, { write: false });
+    if (!existsSync(path) || !lstatSync(path).isFile()) {
+      throw new FirewallError(
+        `recordProvenance(${command}) cannot receipt missing or non-file artifact ${artifact.file}.`,
+        'REGISTRY_INVALID',
+      );
+    }
+    const actual = sha256Hex(readFileSync(path, 'utf8'));
+    if (actual !== artifact.sha256) {
+      throw new FirewallError(
+        `recordProvenance(${command}) was given digest ${artifact.sha256.slice(0, 12)}… for ${artifact.file}, but the stored bytes hash to ${actual.slice(0, 12)}….`,
+        'REGISTRY_INVALID',
+      );
+    }
+    // Store a new object populated from the bytes just read, never the
+    // caller-owned receipt object, even though equality was required above.
+    verifiedArtifact = { file: artifact.file, sha256: actual };
+  }
+  const entry: ProvenanceEntry = {
+    receiptVersion: 1,
+    ...base,
+    command,
+    artifact: verifiedArtifact,
+    recordedAtIso: new Date().toISOString(),
+  };
   appendRunFileLine(runId, PROVENANCE_FILE, canonicalJson(entry));
   return entry;
 }
@@ -931,8 +1047,9 @@ export function readProvenance(runId: string): ProvenanceEntry[] {
     .split('\n')
     .filter((l) => l.trim() !== '')
     .map((line, i) => {
+      let value: unknown;
       try {
-        return JSON.parse(line) as ProvenanceEntry;
+        value = JSON.parse(line);
       } catch {
         // Refusing is the only safe reading: an unparseable trail means we do
         // not know what authorised this run, and "assume nothing did" is how an
@@ -942,5 +1059,66 @@ export function readProvenance(runId: string): ProvenanceEntry[] {
           'REGISTRY_INVALID',
         );
       }
+      const entry = value as Partial<ProvenanceEntry> | null;
+      const capabilities = entry?.capabilities;
+      const validDate = (date: unknown) =>
+        typeof date === 'string' && date.trim() !== '' && Number.isFinite(Date.parse(date));
+      if (
+        typeof entry !== 'object' ||
+        entry === null ||
+        typeof entry.permitId !== 'string' ||
+        entry.permitId.trim() === '' ||
+        typeof entry.kind !== 'string' ||
+        !(PERMIT_KINDS as readonly string[]).includes(entry.kind) ||
+        typeof entry.keyId !== 'string' ||
+        entry.keyId.trim() === '' ||
+        entry.receiptVersion !== 1 ||
+        !signedPermitSchema.safeParse(entry.signedPermit).success ||
+        typeof entry.signedPermitHash !== 'string' ||
+        !/^[a-f0-9]{64}$/.test(entry.signedPermitHash) ||
+        sha256Hex(canonicalJson(entry.signedPermit)) !== entry.signedPermitHash ||
+        typeof entry.manifestHash !== 'string' ||
+        !/^[a-f0-9]{64}$/.test(entry.manifestHash) ||
+        typeof entry.runId !== 'string' ||
+        !runIdSchema.safeParse(entry.runId).success ||
+        !Array.isArray(capabilities) ||
+        capabilities.length === 0 ||
+        new Set(capabilities).size !== capabilities.length ||
+        capabilities.some(
+          (capability) =>
+            typeof capability !== 'string' ||
+            !(CAPABILITIES as readonly string[]).includes(capability),
+        ) ||
+        entry.reservationScope !== 'call' ||
+        typeof entry.command !== 'string' ||
+        !Object.hasOwn(PROVENANCE_COMMAND_POLICY, entry.command) ||
+        !(
+          entry.artifact === null ||
+          (typeof entry.artifact === 'object' &&
+            entry.artifact !== null &&
+            typeof entry.artifact.file === 'string' &&
+            /^[A-Za-z0-9][A-Za-z0-9._-]{0,159}$/.test(entry.artifact.file) &&
+            typeof entry.artifact.sha256 === 'string' &&
+            /^[a-f0-9]{64}$/.test(entry.artifact.sha256))
+        ) ||
+        !validDate(entry.verifiedAtIso) ||
+        !validDate(entry.recordedAtIso)
+      ) {
+        throw new FirewallError(
+          `Provenance trail for run ${runId} has an invalid entry at line ${i + 1}. Refusing an approval record whose identity, capabilities or timestamps cannot be established.`,
+          'REGISTRY_INVALID',
+        );
+      }
+      const policy = PROVENANCE_COMMAND_POLICY[entry.command as ProvenanceCommand];
+      if (
+        (policy.artifact === null && entry.artifact !== null) ||
+        (policy.artifact !== null && entry.artifact?.file !== policy.artifact)
+      ) {
+        throw new FirewallError(
+          `Provenance trail for run ${runId} has an artifact receipt that does not match ${entry.command} at line ${i + 1}.`,
+          'REGISTRY_INVALID',
+        );
+      }
+      return entry as ProvenanceEntry;
     });
 }

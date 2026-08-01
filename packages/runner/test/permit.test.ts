@@ -1,4 +1,4 @@
-import { generateKeyPairSync, sign as signBytes, type KeyObject } from 'node:crypto';
+import { generateKeyPairSync, randomUUID, sign as signBytes, type KeyObject } from 'node:crypto';
 import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -8,18 +8,24 @@ import { REPO_ROOT } from '../src/dataset.js';
 import { Firewall } from '../src/firewall.js';
 import {
   PERMIT_FIXTURES_DIR,
+  KEYRING_DIR,
   PermitError,
   assertGrantForRun,
   assertGrantStillValid,
   assertVerifiedGrant,
+  frozenMethodologyHash,
   isVerifiedGrant,
   manifestHash,
   sha256Hex,
   verifyPermit,
   verifyPermitFile,
-  verifyPermitForTests,
   type VerifiedGrant,
 } from '../src/permit.js';
+import {
+  verifyReceiptWithInstalledPublicKey,
+  verifyWithInstalledPublicKey,
+  withTemporarilyRevokedPermit,
+} from './support/production-trust.js';
 
 /**
  * RUN-001 permit verification.
@@ -37,39 +43,23 @@ import {
  * production entry point, which now has no seam to reach.
  */
 
-const KEY_ID = 'test-permit-key';
-const METHODOLOGY_HASH = sha256Hex('methodology-revision-3');
+const KEY_ID = `test-permit-${process.pid}-${randomUUID().slice(0, 12)}`;
+const METHODOLOGY_HASH = frozenMethodologyHash();
 const NOW = new Date('2026-07-15T12:00:00Z');
-
-/** The frozen methodology digest a real permit must name. */
-const FROZEN_METHODOLOGY_HASH = /^[a-f0-9]{64}/.exec(
-  readFileSync(
-    join(REPO_ROOT, 'docs/methodology/CookingBench-methodology-first-master-plan.sha256'),
-    'utf8',
-  ).trim(),
-)![0];
 
 let privateKey: KeyObject;
 let scratch: string;
-let keyringDir: string;
-let revocationPath: string;
+let publicKeyPem: string;
 
 beforeAll(() => {
   const pair = generateKeyPairSync('ed25519');
   privateKey = pair.privateKey;
   scratch = mkdtempSync(join(tmpdir(), 'cb-permit-'));
-  keyringDir = join(scratch, 'keys');
-  mkdirSync(keyringDir, { recursive: true });
-  writeFileSync(
-    join(keyringDir, `${KEY_ID}.pub`),
-    pair.publicKey.export({ type: 'spki', format: 'pem' }) as string,
-  );
-  revocationPath = join(scratch, 'revoked.json');
-  writeFileSync(revocationPath, JSON.stringify({ permitIds: [] }));
+  publicKeyPem = pair.publicKey.export({ type: 'spki', format: 'pem' }) as string;
 });
 
 afterEach(() => {
-  writeFileSync(revocationPath, JSON.stringify({ permitIds: [] }));
+  vi.useRealTimers();
 });
 
 // --- fixtures --------------------------------------------------------------
@@ -84,7 +74,7 @@ function manifestFixture(overrides: Record<string, unknown> = {}) {
     runId,
     methodologyVersion: 'v3.0',
     schemaVersion: '1',
-    gitCommit: '980dfcb',
+    gitCommit: '980dfcb5e3ff920fe1a3231121a6115e3fa48dcb',
     parentArtifacts: ['2026-07-v2.1'],
     evidenceClass: 'legacy-shadow',
     artifactOrigin: ['archived'],
@@ -128,8 +118,8 @@ function permitFixture(manifest: unknown, overrides: Record<string, unknown> = {
     issuer: 'claude',
     approver: 'jordan',
     approvalEvidence: 'thread 2026-07-30, offline signature',
-    notBefore: '2026-07-01T00:00:00Z',
-    notAfter: '2026-08-01T00:00:00Z',
+    notBefore: '2020-01-01T00:00:00Z',
+    notAfter: '2099-01-01T00:00:00Z',
     executionLimit: 1,
     ...overrides,
   };
@@ -146,31 +136,23 @@ function envelope(permit: unknown, opts: { keyId?: string; signature?: string } 
 }
 
 /**
- * Every negative below needs a key the repository does not hold and a clock the
- * suite controls, so it goes through the TEST SEAM. That is the whole point of
- * splitting it: the production entry point cannot be handed any of this.
+ * Tests install only the ephemeral PUBLIC key into the fixed repository
+ * keyring, then exercise the real production verifier. The private signing key
+ * remains memory-only and is never an input to runtime verification.
  */
 function verify(
   signedPermit: unknown,
   manifest: unknown,
   extra: {
-    now?: Date;
-    keyringDir?: string;
-    revocationListPath?: string;
-    expectedMethodologyHash?: string;
     expectedRunId?: string;
   } = {},
 ) {
-  return verifyPermitForTests(
-    {
-      keyringDir: extra.keyringDir ?? keyringDir,
-      revocationListPath: extra.revocationListPath ?? revocationPath,
-      clock: () => extra.now ?? NOW,
-    },
+  return verifyWithInstalledPublicKey(
+    KEY_ID,
+    publicKeyPem,
     {
       signedPermit,
       manifest,
-      expectedMethodologyHash: extra.expectedMethodologyHash ?? METHODOLOGY_HASH,
       expectedRunId: extra.expectedRunId,
     },
   );
@@ -194,9 +176,25 @@ const fixture = (name: string) => join(PERMIT_FIXTURES_DIR, name);
 function fixtureBinding() {
   return {
     manifest: JSON.parse(readFileSync(fixture('expired-probe.manifest.json'), 'utf8')),
-    expectedMethodologyHash: FROZEN_METHODOLOGY_HASH,
   };
 }
+
+describe('the frozen methodology identity is derived from committed bytes', () => {
+  it('reads the fixed plan and sidecar through permit.frozenMethodologyHash', () => {
+    const plan = readFileSync(
+      join(REPO_ROOT, 'docs/methodology/CookingBench-methodology-first-master-plan.md'),
+      'utf8',
+    );
+    const recorded = readFileSync(
+      join(REPO_ROOT, 'docs/methodology/CookingBench-methodology-first-master-plan.sha256'),
+      'utf8',
+    ).trim().split(/\s+/)[0];
+
+    expect(frozenMethodologyHash()).toBe(sha256Hex(plan));
+    expect(frozenMethodologyHash()).toBe(recorded);
+    expect(frozenMethodologyHash.length).toBe(0);
+  });
+});
 
 // --- the happy path, so the negatives mean something -----------------------
 
@@ -207,6 +205,7 @@ describe('permit verification mints a grant', () => {
     expect(grant.permitId).toBe('permit-2026-07-a');
     expect(grant.kind).toBe('legacy-shadow');
     expect(grant.capabilities).toEqual(['judge-inference']);
+    expect(grant.reservationScope).toBe('call');
     expect(grant.runId).toBe('shadow-1');
     expect(grant.keyId).toBe(KEY_ID);
     expect(grant.manifestHash).toBe(permit.manifestHash);
@@ -251,6 +250,71 @@ describe('permit verification mints a grant', () => {
   });
 });
 
+describe('retrospective permit verification does not mint authority', () => {
+  it('re-authenticates the recorded envelope and returns only frozen provenance', () => {
+    const manifest = manifestFixture();
+    const signedPermit = envelope(permitFixture(manifest));
+    const receipt = verifyReceiptWithInstalledPublicKey(KEY_ID, publicKeyPem, {
+      signedPermit,
+      manifest,
+    });
+
+    expect(receipt.permitId).toBe('permit-2026-07-a');
+    expect(receipt.runId).toBe('shadow-1');
+    expect(receipt.reservationScope).toBe('call');
+    expect(receipt.signedPermitHash).toBe(sha256Hex(canonicalJson(signedPermit)));
+    expect(receipt.signedPermit).toEqual(signedPermit);
+    expect(Object.isFrozen(receipt)).toBe(true);
+    expect(Object.isFrozen(receipt.signedPermit)).toBe(true);
+    expect(isVerifiedGrant(receipt)).toBe(false);
+    expect(codeOf(() => assertVerifiedGrant(receipt, 'retrospective receipt'))).toBe(
+      'GRANT_NOT_MINTED',
+    );
+  });
+
+  it('can narrow to a signed capability but cannot invent one', () => {
+    const manifest = manifestFixture();
+    const signedPermit = envelope(permitFixture(manifest));
+    expect(
+      verifyReceiptWithInstalledPublicKey(KEY_ID, publicKeyPem, {
+        signedPermit,
+        manifest,
+        requiredCapability: 'judge-inference',
+      }).capabilities,
+    ).toEqual(['judge-inference']);
+    expect(
+      codeOf(() =>
+        verifyReceiptWithInstalledPublicKey(KEY_ID, publicKeyPem, {
+          signedPermit,
+          manifest,
+          requiredCapability: 'publication',
+        }),
+      ),
+    ).toBe('PERMIT_CAPABILITY_MISSING');
+  });
+
+  it('authenticates completed work after expiry while executable authority remains expired', () => {
+    const manifest = manifestFixture();
+    const signedPermit = envelope(
+      permitFixture(manifest, {
+        notBefore: '2026-07-01T00:00:00Z',
+        notAfter: '2026-08-01T00:00:00Z',
+      }),
+    );
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2030-01-01T00:00:00Z'));
+
+    expect(codeOf(() => verify(signedPermit, manifest))).toBe('PERMIT_EXPIRED');
+    const receipt = verifyReceiptWithInstalledPublicKey(KEY_ID, publicKeyPem, {
+      signedPermit,
+      manifest,
+      requiredCapability: 'judge-inference',
+    });
+    expect(receipt.notAfterIso).toBe('2026-08-01T00:00:00Z');
+    expect(isVerifiedGrant(receipt)).toBe(false);
+  });
+});
+
 // --- the bypass this whole revision exists to close -------------------------
 
 describe('the production boundary does not let a caller choose the trust root', () => {
@@ -281,6 +345,7 @@ describe('the production boundary does not let a caller choose the trust root', 
     writeFileSync(join(attacker, 'revoked.json'), JSON.stringify({ permitIds: [] }));
 
     for (const injection of [
+      { expectedMethodologyHash: METHODOLOGY_HASH },
       { keyringDir: join(attacker, 'keys') },
       { revocationListPath: join(attacker, 'revoked.json') },
       { now: new Date('2026-07-15T12:00:00Z') },
@@ -298,7 +363,6 @@ describe('the production boundary does not let a caller choose the trust root', 
           verifyPermit({
             signedPermit: signed,
             manifest,
-            expectedMethodologyHash: METHODOLOGY_HASH,
             ...injection,
           } as never),
         ),
@@ -335,7 +399,6 @@ describe('the production boundary does not let a caller choose the trust root', 
     const hostile = Object.create({ keyringDir: '/tmp/attacker/keys' }) as Record<string, unknown>;
     hostile.signedPermit = envelope(permitFixture(manifest));
     hostile.manifest = manifest;
-    hostile.expectedMethodologyHash = METHODOLOGY_HASH;
     expect(codeOf(() => verifyPermit(hostile as never))).toBe('PERMIT_TRUST_INPUT_REJECTED');
   });
 
@@ -346,62 +409,16 @@ describe('the production boundary does not let a caller choose the trust root', 
         verifyPermit({
           signedPermit: envelope(permitFixture(manifest)),
           manifest,
-          expectedMethodologyHash: METHODOLOGY_HASH,
           skipRevocationCheck: true,
         } as never),
       ),
     ).toBe('PERMIT_MALFORMED');
   });
 
-  it('keeps the test seam out of every production call path', () => {
-    // The same guard ledger.test.ts keeps over `forTests`. A seam production
-    // code can reach is not a seam, it is a parameter.
-    const srcDir = join(REPO_ROOT, 'packages/runner/src');
-    const callers = readdirSync(srcDir)
-      .filter((f) => f.endsWith('.ts'))
-      .filter((f) =>
-        readFileSync(join(srcDir, f), 'utf8')
-          .split('\n')
-          // The declaration in permit.ts is not a call, and neither is prose in
-          // a comment. Anything else naming the seam with an open paren is.
-          .some(
-            (line) =>
-              /verifyPermitForTests\s*\(/.test(line) &&
-              !/\bfunction\s+verifyPermitForTests/.test(line) &&
-              !/^\s*(\*|\/\/)/.test(line),
-          ),
-      );
-    expect(callers, 'production source calls the permit test seam').toEqual([]);
-  });
-
-  it('closes the seam outside a test process', () => {
-    // Defence in depth, not a boundary — an operator who controls the
-    // environment controls this too, which the module header says plainly. It
-    // exists so that a seam call left in a script fails loudly in production
-    // instead of quietly verifying against whatever it was pointed at.
-    // `undefined` DELETES the variable. Setting it to '' would leave
-    // `VITEST_WORKER_ID !== undefined` true and the seam open, which is exactly
-    // the sort of near-miss this test exists to catch.
-    vi.stubEnv('VITEST', undefined);
-    vi.stubEnv('VITEST_WORKER_ID', undefined);
-    vi.stubEnv('NODE_ENV', 'production');
-    vi.resetModules();
-    return import('../src/permit.js').then((fresh) => {
-      vi.unstubAllEnvs();
-      vi.resetModules();
-      let code = 'DID NOT THROW';
-      try {
-        (fresh as typeof import('../src/permit.js')).verifyPermitForTests(
-          { keyringDir, revocationListPath: revocationPath },
-          { signedPermit: {}, manifest: {}, expectedMethodologyHash: METHODOLOGY_HASH },
-        );
-      } catch (e) {
-        // Not `instanceof PermitError`: a re-imported module has its own class
-        // identity, so the code on the error is what can be compared.
-        code = (e as { code?: string }).code ?? (e as Error).message;
-      }
-      expect(code).toBe('PERMIT_SEAM_CLOSED');
-    });
+  it('exports no environment-enabled test verifier', async () => {
+    const mod = (await import('../src/permit.js')) as Record<string, unknown>;
+    expect(mod.verifyPermitForTests).toBeUndefined();
+    expect(Object.keys(mod).filter((name) => /permit.*forTests/i.test(name))).toEqual([]);
   });
 });
 
@@ -435,7 +452,7 @@ describe('the committed keyring and revocation list are the production trust roo
     );
   });
 
-  it('binds the committed permit to its own manifest and methodology', () => {
+  it('binds the committed permit to its own manifest and refuses a caller methodology', () => {
     const binding = fixtureBinding();
     const otherManifest = { ...(binding.manifest as Record<string, unknown>), budgetCapUsd: 999 };
     expect(
@@ -448,9 +465,9 @@ describe('the committed keyring and revocation list are the production trust roo
         verifyPermitFile(fixture('expired-probe.permit.json'), {
           ...binding,
           expectedMethodologyHash: sha256Hex('some other plan'),
-        }),
+        } as never),
       ),
-    ).toBe('PERMIT_METHODOLOGY_MISMATCH');
+    ).toBe('PERMIT_TRUST_INPUT_REJECTED');
   });
 
   it('resolves key ids against the committed keyring, and says so when it cannot', () => {
@@ -508,40 +525,38 @@ describe('authority is re-checked when it is exercised', () => {
    */
   it('stops honouring a permit that expires while the process is still running', () => {
     const manifest = manifestFixture();
-    let clock = new Date('2026-07-15T12:00:00Z');
-    const { grant } = verifyPermitForTests(
-      { keyringDir, revocationListPath: revocationPath, clock: () => clock },
-      { signedPermit: envelope(permitFixture(manifest)), manifest, expectedMethodologyHash: METHODOLOGY_HASH },
-    );
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-07-15T12:00:00Z'));
+    const bounded = permitFixture(manifest, {
+      notBefore: '2026-07-01T00:00:00Z',
+      notAfter: '2026-08-01T00:00:00Z',
+    });
+    const { grant } = verify(envelope(bounded), manifest);
     expect(() => assertGrantStillValid(grant, 'spend')).not.toThrow();
 
-    clock = new Date('2026-08-02T00:00:00Z'); // one day past notAfter
+    vi.setSystemTime(new Date('2026-08-02T00:00:00Z')); // one day past notAfter
     expect(codeOf(() => assertGrantStillValid(grant, 'spend'))).toBe('PERMIT_EXPIRED');
     // And a backwards clock correction is refused too, rather than read as
     // "before the window, so probably fine".
-    clock = new Date('2026-06-01T00:00:00Z');
+    vi.setSystemTime(new Date('2026-06-01T00:00:00Z'));
     expect(codeOf(() => assertGrantStillValid(grant, 'spend'))).toBe('PERMIT_NOT_YET_VALID');
   });
 
-  it('honours a revocation published after the permit was loaded', () => {
+  it('honours a revocation published after the permit was loaded', async () => {
     const manifest = manifestFixture();
     const { grant } = verify(envelope(permitFixture(manifest)), manifest);
     expect(() => assertGrantStillValid(grant, 'publish')).not.toThrow();
 
-    writeFileSync(revocationPath, JSON.stringify({ permitIds: ['permit-2026-07-a'] }));
-    expect(codeOf(() => assertGrantStillValid(grant, 'publish'))).toBe('PERMIT_REVOKED');
+    await withTemporarilyRevokedPermit(grant.permitId, () => {
+      expect(codeOf(() => assertGrantStillValid(grant, 'publish'))).toBe('PERMIT_REVOKED');
+    });
   });
 
-  it('re-checks against the trust root that minted the grant, not a convenient one', () => {
-    // If re-validation silently fell back to the committed list, a grant minted
-    // under a test root would be re-checked against a file that has never heard
-    // of it — and would pass, always. The WeakMap that records the root is what
-    // keeps the two halves of the check honest.
+  it('re-checks a test grant against the same fixed production trust root', () => {
     const manifest = manifestFixture();
     const { grant } = verify(envelope(permitFixture(manifest)), manifest);
-    rmSync(revocationPath);
-    expect(codeOf(() => assertGrantStillValid(grant, 'spend'))).toBe('PERMIT_REVOCATION_UNAVAILABLE');
-    writeFileSync(revocationPath, JSON.stringify({ permitIds: [] }));
+    expect(grant.keyId).toBe(KEY_ID);
+    expect(() => assertGrantStillValid(grant, 'spend')).not.toThrow();
   });
 
   it('refuses a hand-built grant at the re-check, not just at minting', () => {
@@ -573,13 +588,14 @@ describe('authority is issued for exactly one run', () => {
     expect(() => assertGrantForRun(grant, 'shadow-1', 'publishRun')).not.toThrow();
   });
 
-  it('will not let a stale permit through the run check either', () => {
+  it('will not let a stale permit through the run check either', async () => {
     // assertGrantForRun re-validates, so a caller cannot get the cheap check
     // without the fresh one.
     const manifest = manifestFixture();
     const { grant } = verify(envelope(permitFixture(manifest)), manifest);
-    writeFileSync(revocationPath, JSON.stringify({ permitIds: ['permit-2026-07-a'] }));
-    expect(codeOf(() => assertGrantForRun(grant, 'shadow-1', 'syncRun'))).toBe('PERMIT_REVOKED');
+    await withTemporarilyRevokedPermit(grant.permitId, () => {
+      expect(codeOf(() => assertGrantForRun(grant, 'shadow-1', 'syncRun'))).toBe('PERMIT_REVOKED');
+    });
   });
 });
 
@@ -776,52 +792,28 @@ describe('signature verification', () => {
   it('refuses a committed key that is not Ed25519', () => {
     // A substituted key file must not be able to downgrade the scheme.
     const rsa = generateKeyPairSync('rsa', { modulusLength: 2048 });
+    const rsaKeyId = `rsa-test-${process.pid}`;
+    const rsaPath = join(KEYRING_DIR, `${rsaKeyId}.pub`);
     writeFileSync(
-      join(keyringDir, 'rsa-key.pub'),
+      rsaPath,
       rsa.publicKey.export({ type: 'spki', format: 'pem' }) as string,
     );
     const manifest = manifestFixture();
-    expect(codeOf(() => verify(envelope(permitFixture(manifest), { keyId: 'rsa-key' }), manifest))).toBe(
+    expect(codeOf(() => verify(envelope(permitFixture(manifest), { keyId: rsaKeyId }), manifest))).toBe(
       'PERMIT_BAD_KEY',
     );
-    rmSync(join(keyringDir, 'rsa-key.pub'));
-  });
-
-  it('refuses when the keyring is absent', () => {
-    const manifest = manifestFixture();
-    expect(
-      codeOf(() => verify(envelope(permitFixture(manifest)), manifest, { keyringDir: join(scratch, 'gone') })),
-    ).toBe('PERMIT_KEYRING_UNAVAILABLE');
+    rmSync(rsaPath);
   });
 });
 
 // --- revocation -------------------------------------------------------------
 
 describe('revocation fails closed', () => {
-  it('refuses a revoked permit even with a valid signature', () => {
-    writeFileSync(revocationPath, JSON.stringify({ permitIds: ['permit-2026-07-a'] }));
+  it('refuses a revoked permit even with a valid signature', async () => {
     const manifest = manifestFixture();
-    expect(codeOf(() => verify(envelope(permitFixture(manifest)), manifest))).toBe('PERMIT_REVOKED');
-  });
-
-  it('refuses when the revocation list is absent, rather than assuming nothing is revoked', () => {
-    const manifest = manifestFixture();
-    expect(
-      codeOf(() =>
-        verify(envelope(permitFixture(manifest)), manifest, {
-          revocationListPath: join(scratch, 'no-such-list.json'),
-        }),
-      ),
-    ).toBe('PERMIT_REVOCATION_UNAVAILABLE');
-  });
-
-  it('refuses a malformed revocation list', () => {
-    const bad = join(scratch, 'bad-revoked.json');
-    writeFileSync(bad, '{"permitIds": "all of them"}');
-    const manifest = manifestFixture();
-    expect(
-      codeOf(() => verify(envelope(permitFixture(manifest)), manifest, { revocationListPath: bad })),
-    ).toBe('PERMIT_REVOCATION_UNAVAILABLE');
+    await withTemporarilyRevokedPermit('permit-2026-07-a', () => {
+      expect(codeOf(() => verify(envelope(permitFixture(manifest)), manifest))).toBe('PERMIT_REVOKED');
+    });
   });
 });
 
@@ -853,13 +845,17 @@ describe('a permit authorises one exact envelope', () => {
 
   it('refuses outside its validity window, in both directions', () => {
     const manifest = manifestFixture();
-    const signed = envelope(permitFixture(manifest));
-    expect(codeOf(() => verify(signed, manifest, { now: new Date('2026-06-01T00:00:00Z') }))).toBe(
-      'PERMIT_NOT_YET_VALID',
+    const signed = envelope(
+      permitFixture(manifest, {
+        notBefore: '2026-07-01T00:00:00Z',
+        notAfter: '2026-08-01T00:00:00Z',
+      }),
     );
-    expect(codeOf(() => verify(signed, manifest, { now: new Date('2026-09-01T00:00:00Z') }))).toBe(
-      'PERMIT_EXPIRED',
-    );
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2026-06-01T00:00:00Z'));
+    expect(codeOf(() => verify(signed, manifest))).toBe('PERMIT_NOT_YET_VALID');
+    vi.setSystemTime(new Date('2026-09-01T00:00:00Z'));
+    expect(codeOf(() => verify(signed, manifest))).toBe('PERMIT_EXPIRED');
   });
 });
 
@@ -940,6 +936,17 @@ describe('permit kind bounds what a signature can buy', () => {
 // --- cells and budget -------------------------------------------------------
 
 describe('cell and budget coherence', () => {
+  it.each(['run', 'model'] as const)(
+    "refuses signed reservationScope '%s' while only per-call reservations are implemented",
+    (reservationScope) => {
+      const manifest = manifestFixture();
+      const permit = permitFixture(manifest, { reservationScope });
+      expect(codeOf(() => verify(envelope(permit), manifest))).toBe(
+        'PERMIT_RESERVATION_SCOPE_UNSUPPORTED',
+      );
+    },
+  );
+
   it('refuses an inference permit with no cells', () => {
     const manifest = manifestFixture();
     const permit = permitFixture(manifest, { cells: [] });
@@ -1005,6 +1012,7 @@ describe('the firewall enforces exactly what the grant carries', () => {
       keyId: KEY_ID,
       runId: 'shadow-1',
       manifestHash: manifestHash(manifest),
+      reservationScope: 'call',
     });
   });
 

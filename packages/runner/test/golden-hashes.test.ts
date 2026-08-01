@@ -19,12 +19,12 @@ import { manifestHash, sha256Hex } from '../src/permit.js';
  * Offline: pure arithmetic over literals.
  */
 
-const GOLDEN_MANIFEST = {
+const GOLDEN_MANIFEST_V1 = {
   manifestVersion: 1,
   runId: 'golden-1',
   methodologyVersion: 'v3.0',
   schemaVersion: '1',
-  gitCommit: '980dfcb',
+  gitCommit: '980dfcb5e3ff920fe1a3231121a6115e3fa48dcb',
   parentArtifacts: [],
   evidenceClass: 'legacy-shadow',
   artifactOrigin: ['archived'],
@@ -48,11 +48,18 @@ const GOLDEN_MANIFEST = {
   outputRoot: 'data/runs/golden-1',
 };
 
+const GOLDEN_MANIFEST = {
+  ...GOLDEN_MANIFEST_V1,
+  manifestVersion: 2,
+  methodologyHash: 'e'.repeat(64),
+  traceabilityVersion: 'f'.repeat(64),
+};
+
 const GOLDEN_PERMIT = {
   permitVersion: 1,
   permitId: 'permit-golden-0001',
   kind: 'legacy-shadow',
-  manifestHash: 'b76aa27b0d5dcbc653407d928b60b4794a417a4ec51b3d4478fc8828ac7702f6',
+  manifestHash: '__V2_MANIFEST_DIGEST__',
   methodologyHash: 'a7536af86893a477938b8f055b56324be1af9de9b16f7efd51f47bbfb5f79ec7',
   capabilities: ['judge-inference'],
   cells: [{ modelId: 'x-ai/grok-4.5', questionId: 'flav-002' }],
@@ -66,10 +73,15 @@ const GOLDEN_PERMIT = {
   executionLimit: 1,
 };
 
-const MANIFEST_DIGEST = 'b76aa27b0d5dcbc653407d928b60b4794a417a4ec51b3d4478fc8828ac7702f6';
-const PERMIT_DIGEST = '5d1adbc6296717fe3e8b731b835f1624c2ad15b2263abba4713489f8bc9c92e5';
+const MANIFEST_V1_DIGEST = 'b76aa27b0d5dcbc653407d928b60b4794a417a4ec51b3d4478fc8828ac7702f6';
+const MANIFEST_DIGEST = '__V2_MANIFEST_DIGEST__';
+const PERMIT_DIGEST = '__V2_PERMIT_DIGEST__';
 
 describe('the canonical forms a signature covers are frozen', () => {
+  it('keeps the historical v1 manifest canonical identity stable', () => {
+    expect(manifestHash(GOLDEN_MANIFEST_V1)).toBe(MANIFEST_V1_DIGEST);
+  });
+
   it('hashes the golden manifest to its recorded digest', () => {
     expect(manifestHash(GOLDEN_MANIFEST)).toBe(MANIFEST_DIGEST);
   });
@@ -132,9 +144,12 @@ describe('the canonical forms a signature covers are frozen', () => {
     // legal — `${value}-x` breaks a 64-hex digest or a closed enum, so the
     // schema refuses it and the field never gets varied at all.
     const LEGAL_ALTERNATIVES: Record<string, unknown[]> = {
-      gitCommit: ['980dfcc'],
+      manifestVersion: [1],
+      gitCommit: ['0'.repeat(40)],
       evidenceClass: ['development'], // still rankEligible:false, so still coherent
       releaseState: ['audited'],
+      methodologyHash: ['0'.repeat(64)],
+      traceabilityVersion: ['0'.repeat(64)],
       bankHash: ['0'.repeat(64)],
       promptHash: ['0'.repeat(64)],
       judgePromptHash: ['0'.repeat(64)],
@@ -162,13 +177,11 @@ describe('the canonical forms a signature covers are frozen', () => {
       // case, or the test silently passes on a field it never varied.
       if (accepted === 0) schemaPinned.push(key);
     }
-    // Two fields are pinned by the schema rather than by the digest, and both
-    // are pinned harder for it. `manifestVersion` is z.literal(1) — no other
-    // legal value exists. `rankEligible` is derived from `evidenceClass`, so
-    // flipping it produces an incoherent manifest the schema refuses outright,
-    // which is exactly the invariant it is supposed to carry. Anything else
-    // appearing here means a field stopped being varied and needs a look.
-    expect(schemaPinned).toEqual(['manifestVersion', 'rankEligible']);
+    // `rankEligible` is derived from `evidenceClass`, so flipping it produces
+    // an incoherent manifest the schema refuses outright. It is pinned harder
+    // than hashing can pin it. Anything else appearing here means a field
+    // stopped being varied and needs a look.
+    expect(schemaPinned).toEqual(['rankEligible']);
     expect(
       manifestHash({ ...GOLDEN_MANIFEST, runId: 'golden-2', outputRoot: 'data/runs/golden-2' }),
     ).not.toBe(MANIFEST_DIGEST);

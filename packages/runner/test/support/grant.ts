@@ -1,9 +1,12 @@
-import { generateKeyPairSync, sign as signBytes } from 'node:crypto';
-import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
-import { join } from 'node:path';
-import { canonicalJson, type Capability, type PermitKind } from '@cookingbench/core';
-import { manifestHash, sha256Hex, verifyPermitForTests, type VerifiedGrant } from '../../src/permit.js';
+import { generateKeyPairSync, randomUUID, sign as signBytes } from 'node:crypto';
+import {
+  canonicalJson,
+  type Capability,
+  type PermitKind,
+  type ValidatedRunManifest,
+} from '@cookingbench/core';
+import { frozenMethodologyHash, manifestHash, type VerifiedGrant } from '../../src/permit.js';
+import { verifyWithInstalledPublicKey } from './production-trust.js';
 
 /**
  * Mint a REAL verified grant for tests.
@@ -14,23 +17,16 @@ import { manifestHash, sha256Hex, verifyPermitForTests, type VerifiedGrant } fro
  * that needs a grant now goes through actual Ed25519 verification against an
  * ephemeral keypair, so the tests exercise the same path production does.
  *
- * The keypair lives in a temp directory for the process lifetime. No repository
- * key is read and no private key is ever written into the repo.
+ * The private key exists in memory only. For one synchronous production
+ * verification its public half is installed in the fixed repository keyring,
+ * then removed in `finally`. No caller chooses a trust root or clock.
  */
 
-const KEY_ID = 'ephemeral-test-key';
-export const TEST_METHODOLOGY_HASH = sha256Hex('test-methodology');
+const KEY_ID = `ephemeral-test-${process.pid}-${randomUUID().slice(0, 12)}`;
+export const TEST_METHODOLOGY_HASH = frozenMethodologyHash();
 
 const pair = generateKeyPairSync('ed25519');
-const scratch = mkdtempSync(join(tmpdir(), 'cb-grant-'));
-const keyringDir = join(scratch, 'keys');
-mkdirSync(keyringDir, { recursive: true });
-writeFileSync(
-  join(keyringDir, `${KEY_ID}.pub`),
-  pair.publicKey.export({ type: 'spki', format: 'pem' }) as string,
-);
-const revocationListPath = join(scratch, 'revoked.json');
-writeFileSync(revocationListPath, JSON.stringify({ permitIds: [] }));
+const publicKeyPem = pair.publicKey.export({ type: 'spki', format: 'pem' }) as string;
 
 /** Evidence class each permit kind is allowed to bind, plus its lifecycle. */
 const CLASS_FOR_KIND: Record<PermitKind, { evidenceClass: string; releaseState: string; rankEligible: boolean }> = {
@@ -49,9 +45,16 @@ export interface MintOptions {
   budgetCapUsd?: number;
   runId?: string;
   executionLimit?: number;
+  /** Signed-manifest retry ceiling exercised by the production client. */
+  maxAttempts?: number;
+  /** Validity controls for exercise-time expiry checks. */
+  notBefore?: string;
+  notAfter?: string;
+  /** Bind the grant to an exact stored-manifest fixture instead of synthesising one. */
+  manifest?: ValidatedRunManifest;
 }
 
-export function mintTestGrant(opts: MintOptions): VerifiedGrant {
+export function mintTestGrantWithManifest(opts: MintOptions) {
   const cells = opts.cells ?? [];
   const runId = opts.runId ?? 'test-run';
   const budgetCapUsd = opts.budgetCapUsd ?? 10;
@@ -65,12 +68,12 @@ export function mintTestGrant(opts: MintOptions): VerifiedGrant {
     baseModelFamily: modelId.split('/')[1] || modelId,
   }));
 
-  const manifest = {
+  const generatedManifest = {
     manifestVersion: 1,
     runId,
     methodologyVersion: 'v3.0',
     schemaVersion: '1',
-    gitCommit: '980dfcb',
+    gitCommit: '980dfcb5e3ff920fe1a3231121a6115e3fa48dcb',
     parentArtifacts: [],
     evidenceClass: shape.evidenceClass,
     artifactOrigin: shape.rankEligible ? ['live-provider'] : ['archived'],
@@ -89,10 +92,12 @@ export function mintTestGrant(opts: MintOptions): VerifiedGrant {
       repeats: 1,
       repeatPolicy: 'single',
     },
-    callPlan: { concurrency: 4, maxAttempts: 3, abortOn: [] },
+    callPlan: { concurrency: 4, maxAttempts: opts.maxAttempts ?? 3, abortOn: [] },
     budgetCapUsd,
     outputRoot: `data/runs/${runId}`,
-  };
+  } as const;
+  const manifest = opts.manifest ?? generatedManifest;
+  const manifestBudget = manifest.budgetCapUsd;
 
   const permit = {
     permitVersion: 1,
@@ -102,22 +107,19 @@ export function mintTestGrant(opts: MintOptions): VerifiedGrant {
     methodologyHash: TEST_METHODOLOGY_HASH,
     capabilities: opts.capabilities,
     cells,
-    budgetCapUsd,
+    budgetCapUsd: Math.min(budgetCapUsd, manifestBudget),
     reservationScope: 'call',
     issuer: 'test',
     approver: 'test',
     approvalEvidence: 'unit test',
-    notBefore: '2020-01-01T00:00:00Z',
-    notAfter: '2099-01-01T00:00:00Z',
+    notBefore: opts.notBefore ?? '2020-01-01T00:00:00Z',
+    notAfter: opts.notAfter ?? '2099-01-01T00:00:00Z',
     executionLimit: opts.executionLimit ?? 1,
   };
 
-  // The TEST SEAM, not the production entry point. `verifyPermit` no longer
-  // accepts a keyring or a revocation list from any caller — that parameter was
-  // the RUN-001 bypass — so an ephemeral-key helper has to say out loud that it
-  // is a test.
-  const { grant } = verifyPermitForTests(
-    { keyringDir, revocationListPath },
+  const verified = verifyWithInstalledPublicKey(
+    KEY_ID,
+    publicKeyPem,
     {
       signedPermit: {
         permit,
@@ -127,8 +129,11 @@ export function mintTestGrant(opts: MintOptions): VerifiedGrant {
         keyId: KEY_ID,
       },
       manifest,
-      expectedMethodologyHash: TEST_METHODOLOGY_HASH,
     },
   );
-  return grant;
+  return { grant: verified.grant, manifest: verified.manifest };
+}
+
+export function mintTestGrant(opts: MintOptions): VerifiedGrant {
+  return mintTestGrantWithManifest(opts).grant;
 }
