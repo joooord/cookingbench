@@ -2,13 +2,14 @@ import { CATEGORIES, type CategoryId } from '@cookingbench/core';
 import { getLatestReport, getPublicQuestions, getResponses, getScores } from '@/lib/data';
 import { formatScore, scoreColor } from '@/lib/format';
 import { CategoryChip } from '@/components/CategoryChip';
+import Link from 'next/link';
 
 export const revalidate = 3600;
 
 export const metadata = {
-  title: 'Questions',
+  title: 'Current question bank and archived answers',
   description:
-    'Every public CookingBench question, its reference answer, and what each AI model actually said.',
+    'The current repaired CookingBench question bank shown beside archived v2.1 answers, with an explicit version boundary.',
 };
 
 export default function QuestionsPage() {
@@ -26,10 +27,25 @@ export default function QuestionsPage() {
         The questions
       </h1>
       <p className="mt-4 max-w-2xl text-lg text-ink-soft">
-        Every question, its reference answer, and what each model actually said. The whole
-        dataset is public — we don&rsquo;t pretend to have a secret hold-out. Contamination
-        shows up as saturation, and saturated items get demoted out of the scored set.
+        The current repaired question bank, shown beside answers preserved from the July v2.1
+        run. The whole dataset is public; future confirmatory questions will be sealed until use.
       </p>
+
+      <aside className="mt-8 max-w-3xl border-y-2 border-paprika py-5" aria-label="Version boundary">
+        <p className="font-mono text-[0.68rem] uppercase tracking-[0.14em] text-paprika">
+          Important version boundary
+        </p>
+        <p className="mt-3 text-sm leading-relaxed text-ink-soft">
+          Prompts, references and scoring rules on this page come from the current repaired bank;
+          model answers and original scores come from the archived v2.1 run. Some items—including
+          flav-014 and rgen-004—changed after that run, so this is not a reconstruction of the exact
+          historical instrument. The frozen response corpus remains independently verifiable in the{' '}
+          <Link href="/corpus/2026-07-v2-1" className="text-paprika underline underline-offset-4">
+            corpus record
+          </Link>
+          .
+        </p>
+      </aside>
 
       <div className="mt-12 space-y-16">
         {questions.map((question) => {

@@ -1,290 +1,212 @@
 import Link from 'next/link';
-import { CATEGORIES, CATEGORY_IDS } from '@cookingbench/core';
-import { getLatestReport, getRunCost, getStandings, modelSlug } from '@/lib/data';
-import { CATEGORY_COLORS, formatScore, scoreColor } from '@/lib/format';
-import { getTasteWinrates } from '@/lib/supabase';
+import type { ReactNode } from 'react';
+import {
+  ArchivedResultNotice,
+  ConstructTable,
+  FactStrip,
+  ResearchStatusChip,
+  TextLink,
+} from '@/components/ResearchPrimitives';
+import { getV21Snapshot, V21_RECORD } from '@/lib/research';
 
 export const revalidate = 3600;
 
-export default async function LeaderboardPage() {
-  const report = getLatestReport();
-  const methodology = report?.methodologyVersion ?? 'v1';
-  const isV2 = methodology !== 'v1';
-  const winrates = await getTasteWinrates();
-  const taste = new Map(
-    (winrates ?? []).filter((w) => w.battles >= 5).map((w) => [w.model_id, w]),
+const arrow = (
+  <svg viewBox="0 0 20 20" aria-hidden="true" className="h-4 w-4" fill="none">
+    <path d="M4 10h11M11 6l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+function PrimaryLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="inline-flex items-center justify-center gap-3 border border-ink bg-ink px-5 py-3 text-sm text-paper transition-colors hover:border-paprika hover:bg-paprika"
+    >
+      {children}
+      {arrow}
+    </Link>
   );
-  const showTaste = taste.size > 0;
-  // Models nothing on the board is proven to beat. The row order stays as it is
-  // — readers expect a sorted table — but calling the top row "the winner" when
-  // five models share first place is the one claim this page must not make.
-  // Same source as the model pages: see getStandings.
-  const standings = report ? getStandings(report) : null;
-  const tiedFirst = standings?.tested ? standings.first : [];
-  const sharedFirst = tiedFirst.length > 1;
-  // Only a *tested* first place earns the highlight. On a run with no
-  // separation data the places are just row order, and colouring the top row
-  // would assert the win the paired bootstrap has not been run to support.
-  const provenFirst = (modelId: string) =>
-    standings?.tested === true && standings.byModel.get(modelId)?.place === 1;
-  const cost = report ? getRunCost(report) : null;
+}
+
+function SecondaryLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="inline-flex items-center justify-center gap-3 border border-ink px-5 py-3 text-sm transition-colors hover:border-paprika hover:text-paprika"
+    >
+      {children}
+      {arrow}
+    </Link>
+  );
+}
+
+export default function HomePage() {
+  const snapshot = getV21Snapshot();
+  const corpus = snapshot?.corpus;
+
   return (
     <div>
-      <section className="py-16">
-        <h1
-          className="font-display font-semibold tracking-tight"
-          style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', letterSpacing: '-0.02em', lineHeight: 1.05 }}
-        >
-          Which AI model is the best{' '}
-          <em className="text-paprika not-italic underline decoration-2 underline-offset-8">chef</em>?
-        </h1>
-        <p className="mt-6 max-w-2xl text-lg text-ink-soft">
-          CookingBench scores models on the things that actually go wrong in a kitchen:
-          scaling quantities, converting units, food safety, substitutions, technique,
-          flavour logic and nutrition math.
-        </p>
+      <section className="grid gap-12 py-16 sm:py-24 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
+        <div>
+          <h1
+            className="max-w-4xl font-display font-semibold tracking-tight"
+            style={{ fontSize: 'clamp(3.6rem, 9vw, 8.5rem)', letterSpacing: '-0.055em', lineHeight: 0.86 }}
+          >
+            Can AI <em className="text-paprika not-italic">cook?</em>
+          </h1>
+          <p className="mt-9 max-w-2xl text-xl leading-relaxed text-ink-soft sm:text-2xl">
+            Cooking joins physical truth with human judgement. A good answer must be safe,
+            feasible and technically sound—but it must also understand flavour, culture,
+            occasion and the person being fed.
+          </p>
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <PrimaryLink href="/research/v2-1-autopsy">Read the benchmark autopsy</PrimaryLink>
+            <SecondaryLink href="/corpus/2026-07-v2-1">Explore the preserved responses</SecondaryLink>
+          </div>
+        </div>
+
+        <div className="border-y border-ink py-5">
+          <p className="font-mono text-[0.68rem] uppercase tracking-[0.14em] text-ink-soft">
+            The test, in one sequence
+          </p>
+          <ol className="mt-4">
+            {[
+              ['01', 'Can it survive physics?', 'Heat · time · ratios · safety'],
+              ['02', 'Can it predict experience?', 'Flavour · texture · aroma'],
+              ['03', 'Can it respond to a person?', 'Culture · occasion · care'],
+            ].map(([number, question, dimensions]) => (
+              <li key={number} className="grid grid-cols-[2.5rem_1fr] border-t border-hairline py-4">
+                <span className="font-mono text-xs text-paprika">{number}</span>
+                <div>
+                  <p className="font-display text-lg">{question}</p>
+                  <p className="mt-1 font-mono text-[0.68rem] uppercase tracking-wider text-ink-soft">
+                    {dimensions}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
       </section>
 
-      {report === null ? (
-        <p className="border-t border-hairline py-12 text-ink-soft">
-          No published runs yet — the first leaderboard lands soon.
-        </p>
-      ) : (
-        <section className="pb-12">
-          <div className="flex items-baseline justify-between border-b-2 border-ink pb-3">
-            <h2 className="font-display text-xl font-medium">
-              Leaderboard <span className="text-ink-soft">· run {report.runId}</span>
-              <span className="ml-3 rounded-sm border border-hairline px-2 py-0.5 align-middle text-xs text-ink-soft">
-                methodology {methodology}
-              </span>
+      <ArchivedResultNotice />
+
+      <section className="grid gap-px border-x border-b border-hairline bg-hairline lg:grid-cols-2">
+        <article className="bg-paper p-7 sm:p-10">
+          <ResearchStatusChip tone="observed">What the benchmark exposed</ResearchStatusChip>
+          <h2 className="mt-6 max-w-xl font-display text-3xl font-semibold leading-tight sm:text-4xl">
+            A leaderboard can be reproducible and still measure the wrong thing.
+          </h2>
+          <p className="mt-5 max-w-xl leading-relaxed text-ink-soft">
+            Some questions separated no models. Others spread scores for the wrong reason.
+            One safety item gave zero to correct warnings because the answers named the ingredient
+            they were telling the user to avoid. The autopsy shows how saturation, semantic scoring
+            failures and concentrated influence can create unjustified rank precision.
+          </p>
+          <p className="mt-7 text-sm"><TextLink href="/research/v2-1-autopsy">Read the forensic audit</TextLink></p>
+        </article>
+
+        <article className="bg-paper-tint p-7 sm:p-10">
+          <ResearchStatusChip tone="proposed">Why cooking matters</ResearchStatusChip>
+          <h2 className="mt-6 max-w-xl font-display text-3xl font-semibold leading-tight sm:text-4xl">
+            Cooking is where physics becomes personal.
+          </h2>
+          <p className="mt-5 max-w-xl leading-relaxed text-ink-soft">
+            Heat, time, ratios and microbiology constrain what can work. Flavour, culture,
+            memory and care shape whether the result is worth eating. Because both live inside
+            the same task, cooking offers an unusually rich way to study what AI understands—and
+            what it only sounds as if it understands.
+          </p>
+          <p className="mt-7 text-sm"><TextLink href="/research/can-ai-cook">Read “Can AI cook?”</TextLink></p>
+        </article>
+      </section>
+
+      <section className="py-20 sm:py-28">
+        <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.14em] text-paprika">The next instrument</p>
+            <h2 className="mt-4 font-display text-4xl font-semibold tracking-tight sm:text-5xl">
+              What would culinary intelligence require?
             </h2>
-            <span className="tabular text-xs text-ink-soft">
-              {new Date(report.generatedAt).toISOString().slice(0, 10)}
-            </span>
           </div>
-          {sharedFirst && (
-            <p className="mt-3 text-sm text-ink-soft">
-              <span className="font-medium text-ink">
-                {tiedFirst.length} models are tied for first.
-              </span>{' '}
-              Rows are sorted by Overall, but the gaps at the top are smaller than the
-              measurement error: no model on this board is shown to beat any of the top{' '}
-              {tiedFirst.length}. Places come from a paired bootstrap over per-question
-              score differences —{' '}
-              <Link
-                href="/methodology#separation"
-                className="underline decoration-hairline underline-offset-4 hover:text-paprika"
-              >
-                how this is measured
-              </Link>
-              .
-            </p>
-          )}
-          <table className="mt-4 w-full border-collapse text-sm">
-            <thead>
-              <tr className="border-b border-hairline text-left text-xs uppercase tracking-wider text-ink-soft">
-                <th className="py-3 pr-2 font-normal">#</th>
-                <th className="py-3 pr-4 font-normal">Model</th>
-                <th className="py-3 pr-4 font-normal">Overall</th>
-                {isV2 ? (
-                  <>
-                    <th className="py-3 pr-4 font-normal" title="Mean score on difficulty ≥ 4 questions — compound chains, traps, buried constraints">
-                      Frontier
-                    </th>
-                    <th className="hidden py-3 pr-4 font-normal sm:table-cell" title="Saturated v1 items kept as a regression gate — excluded from Overall">
-                      Basics
-                    </th>
-                  </>
-                ) : (
-                  <th className="py-3 pr-4 font-normal" title="Mean score on difficulty-3 questions only — compound math, unit traps, multi-constraint requests">
-                    Hard set
-                  </th>
-                )}
-                {showTaste && (
-                  <th className="hidden py-3 pr-4 font-normal sm:table-cell" title="Human blind-vote win rate from the Taste Test — full Bradley-Terry standings on the Taste Board">
-                    <Link href="/taste" className="underline decoration-hairline underline-offset-4 hover:text-paprika">
-                      Taste
-                    </Link>
-                  </th>
-                )}
-                <th className="hidden py-3 pr-4 font-normal md:table-cell">Categories</th>
-                <th
-                  className="py-3 text-right font-normal"
-                  title="Candidate spend on this model's answers. Judging and calibration are run-level costs and are broken out below the table."
-                >
-                  Model cost
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {report.rows.map((row, i) => (
-                <tr key={row.modelId} className="border-b border-hairline hover:bg-paper-tint">
-                  <td className="tabular py-4 pr-2 text-ink-soft">{i + 1}</td>
-                  <td className="py-4 pr-4">
-                    <Link href={`/models/${modelSlug(row.modelId)}`} className="hover:text-paprika">
-                      <span
-                        className={
-                          provenFirst(row.modelId) ? 'font-semibold text-paprika' : 'font-medium'
-                        }
-                      >
-                        {row.displayName}
-                      </span>
-                      <span className="ml-2 text-xs text-ink-soft">{row.provider}</span>
-                    </Link>
-                    {sharedFirst && provenFirst(row.modelId) && (
-                      <span
-                        className="ml-2 rounded-sm border border-hairline px-1.5 py-0.5 align-middle text-[10px] uppercase tracking-wider text-ink-soft"
-                        title={`Statistically tied for first with ${tiedFirst.length - 1} other model(s) — no model on this board is shown to beat it`}
-                      >
-                        =1st
-                      </span>
-                    )}
-                  </td>
-                  <td className="py-4 pr-4">
-                    <span
-                      className="tabular text-base font-medium"
-                      style={{ color: scoreColor(row.overall) }}
-                    >
-                      {formatScore(row.overall)}
-                    </span>
-                    {row.overallCi && (
-                      <span
-                        className="tabular ml-1 text-xs text-ink-soft"
-                        title="95% bootstrap confidence interval over questions"
-                      >
-                        ±{((row.overallCi[1] - row.overallCi[0]) / 2).toFixed(1)}
-                      </span>
-                    )}
-                  </td>
-                  {isV2 ? (
-                    <>
-                      <td className="py-4 pr-4">
-                        <span
-                          className="tabular text-sm"
-                          style={{ color: scoreColor(row.frontier ?? 0) }}
-                        >
-                          {row.frontier == null ? '—' : formatScore(row.frontier)}
-                        </span>
-                      </td>
-                      <td className="hidden py-4 pr-4 sm:table-cell">
-                        <span className="tabular text-sm text-ink-soft">
-                          {row.basics == null ? '—' : formatScore(row.basics)}
-                        </span>
-                        {(row.incidents ?? 0) > 0 && (
-                          <span
-                            className="ml-1 text-xs text-saffron-ink"
-                            title={`${row.incidents} responses stayed empty/filtered after retries (transport noise, scored 0)`}
-                          >
-                            ⚠{row.incidents}
-                          </span>
-                        )}
-                      </td>
-                    </>
-                  ) : (
-                    <td className="py-4 pr-4">
-                      <span
-                        className="tabular text-sm"
-                        style={{ color: scoreColor(row.hardSet ?? 0) }}
-                      >
-                        {row.hardSet == null ? '—' : formatScore(row.hardSet)}
-                      </span>
-                    </td>
-                  )}
-                  {showTaste && (
-                    <td className="hidden py-4 pr-4 sm:table-cell">
-                      <span className="tabular text-sm text-ink-soft">
-                        {taste.has(row.modelId)
-                          ? `${taste.get(row.modelId)!.win_rate.toFixed(0)}%`
-                          : '—'}
-                      </span>
-                    </td>
-                  )}
-                  <td className="hidden py-4 pr-4 md:table-cell">
-                    <div className="flex h-3 w-full max-w-72 gap-px">
-                      {CATEGORY_IDS.map((category) => {
-                        const value = row.categories[category];
-                        return (
-                          <div
-                            key={category}
-                            title={`${CATEGORIES[category].name}: ${formatScore(value)}`}
-                            className="flex-1 bg-paper-tint"
-                          >
-                            <div
-                              style={{
-                                height: '100%',
-                                width: `${value ?? 0}%`,
-                                background: CATEGORY_COLORS[category],
-                              }}
-                            />
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </td>
-                  <td className="tabular py-4 text-right text-ink-soft">
-                    ${row.costUsd.toFixed(2)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {cost && (
-            // The per-model column only ever covered candidate spend, but the
-            // header said "Run cost" — so the page advertised 2026-07-v2.1 as a
-            // $26.93 run when judging and calibration took it to $41.61. Every
-            // component is named, and an unrecorded one says so rather than
-            // being counted as zero.
-            <p className="mt-4 text-xs leading-relaxed text-ink-soft">
-              <span className="text-ink">Run cost</span> ·{' '}
-              <span className="tabular">${cost.candidateUsd.toFixed(2)}</span> candidate answers
-              {' + '}
-              {cost.judgeUsd === null ? (
-                <span title="This run's artifacts predate judge-cost recording — the spend is unknown, not zero">
-                  judge panel not recorded
-                </span>
-              ) : (
-                <>
-                  <span className="tabular">${cost.judgeUsd.toFixed(2)}</span> judge panel
-                </>
-              )}
-              {' + '}
-              {cost.calibrationUsd === null ? (
-                <span title="No calibration artifact was written for this run — the spend is unknown, not zero">
-                  calibration not recorded
-                </span>
-              ) : (
-                <>
-                  <span className="tabular">${cost.calibrationUsd.toFixed(2)}</span> calibration gate
-                </>
-              )}
-              {' = '}
-              <span className="tabular text-ink">
-                {cost.complete ? '' : '≥ '}${cost.knownUsd.toFixed(2)}
-              </span>{' '}
-              {cost.complete ? 'total' : 'total recorded'}. The Model cost column is candidate
-              spend only.
-            </p>
-          )}
+          <p className="max-w-2xl text-lg leading-relaxed text-ink-soft">
+            There may be no single cooking ability. The next CookingBench will test a profile
+            of connected capabilities and report uncertainty rather than forcing every difference
+            into one rank.
+          </p>
+        </div>
+        <div className="mt-10"><ConstructTable /></div>
+      </section>
+
+      {corpus ? (
+        <section className="border-y-2 border-ink py-12 sm:py-16">
+          <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+            <div>
+              <ResearchStatusChip tone="observed">Preserved primary material</ResearchStatusChip>
+              <h2 className="mt-5 font-display text-4xl font-semibold tracking-tight">
+                The answers remain valuable even when the scores do not.
+              </h2>
+            </div>
+            <div>
+              <p className="text-lg leading-relaxed text-ink-soft">
+                v2.1 contains every planned model–prompt response and no empty answer text.
+                That does not validate the original ranking. It does preserve the primary material
+                needed for blinded adjudication, alternative scoring and independent analysis.
+              </p>
+              <div className="mt-7"><TextLink href="/corpus/2026-07-v2-1">Open the corpus record</TextLink></div>
+            </div>
+          </div>
+          <div className="mt-10">
+            <FactStrip
+              facts={[
+                { value: corpus.models.toLocaleString('en-GB'), label: 'model versions' },
+                { value: corpus.prompts.toLocaleString('en-GB'), label: 'prompts per model' },
+                { value: corpus.responses.toLocaleString('en-GB'), label: 'response artifacts' },
+                { value: corpus.codePoints.toLocaleString('en-GB'), label: 'answer-text Unicode code points' },
+              ]}
+            />
+          </div>
+        </section>
+      ) : (
+        <section className="border-y-2 border-paprika py-10 text-ink-soft">
+          The pinned v2.1 evidence could not be verified, so corpus figures are withheld.
         </section>
       )}
 
-      <section className="border-t border-hairline py-12">
-        <h2 className="font-display text-xl font-medium">Categories</h2>
-        <div className="mt-6 grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-4">
-          {CATEGORY_IDS.map((id) => (
-            <Link
-              key={id}
-              href={`/categories/${id}`}
-              className="group bg-paper p-5 transition-colors hover:bg-paper-tint"
-            >
-              <div className="h-1 w-8" style={{ background: CATEGORY_COLORS[id] }} />
-              <h3 className="mt-3 font-medium group-hover:text-paprika">{CATEGORIES[id].name}</h3>
-              <p className="mt-1 text-xs leading-relaxed text-ink-soft">
-                {CATEGORIES[id].description}
-              </p>
-            </Link>
-          ))}
+      <section className="grid gap-10 py-20 sm:py-28 lg:grid-cols-[1fr_0.8fr] lg:items-center">
+        <div>
+          <ResearchStatusChip tone="proposed">Scientific programme</ResearchStatusChip>
+          <h2 className="mt-5 max-w-3xl font-display text-4xl font-semibold tracking-tight sm:text-5xl">
+            The next run starts with better questions, better judging and a frozen claim.
+          </h2>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">
+            CookingBench will treat question design as the instrument, validate AI judges against
+            blinded expert judgements, measure dimensions separately and publish sensitivity—not
+            declare a winner simply because a table can be sorted.
+          </p>
+          <div className="mt-8"><PrimaryLink href="/research/can-ai-cook#programme">See the research programme</PrimaryLink></div>
         </div>
+        <blockquote className="border-l-2 border-paprika pl-7 font-display text-3xl leading-snug text-ink-soft">
+          “Calories are survival. Flavour is art. Care is relationship. Cooking is where they meet.”
+        </blockquote>
+      </section>
+
+      <section className="border-t border-hairline py-14">
+        <div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-end">
+          <div>
+            <p className="font-mono text-xs uppercase tracking-wider text-ink-soft">Historical result · July 2026</p>
+            <h2 className="mt-3 font-display text-3xl font-semibold">CookingBench v2.1</h2>
+            <p className="mt-3 max-w-2xl text-ink-soft">
+              Original published scores, uncertainty, the unresolved leading group and every known
+              limitation—preserved without silently rewriting the record.
+            </p>
+          </div>
+          <SecondaryLink href="/results/2026-07-v2-1">View archived result</SecondaryLink>
+        </div>
+        <p className="mt-8 font-mono text-[0.68rem] text-ink-soft">
+          Archive record {V21_RECORD.runId} · response digest {V21_RECORD.corpusDigest.slice(0, 16)}…
+        </p>
       </section>
     </div>
   );

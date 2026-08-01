@@ -4,11 +4,11 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 const NAV = [
-  { href: '/', label: 'Leaderboard' },
-  { href: '/tastetest', label: 'Taste Test' },
-  { href: '/taste', label: 'Taste Board' },
-  { href: '/questions', label: 'Questions' },
-  { href: '/methodology', label: 'Methodology' },
+  { href: '/research', label: 'Research' },
+  { href: '/benchmark', label: 'Benchmark' },
+  { href: '/results', label: 'Results' },
+  { href: '/tastetest', label: 'Compare' },
+  { href: '/about', label: 'About' },
 ] as const;
 
 export function SiteNav() {

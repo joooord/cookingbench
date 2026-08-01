@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { extname, join, relative } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { REPO_ROOT } from '../src/dataset.js';
@@ -44,5 +44,23 @@ describe('web typography stays network-independent', () => {
     expect(css).toMatch(/--font-display:[^;]*\bserif\s*;/);
     expect(css).toMatch(/--font-sans:[^;]*\bsans-serif\s*;/);
     expect(css).toMatch(/--font-mono:[^;]*\bmonospace\s*;/);
+  });
+
+  it('self-hosts the three type families named in the visual specification', () => {
+    const css = readFileSync(join(WEB_ROOT, 'app/globals.css'), 'utf8');
+    const expected = [
+      ['Fraunces', 'fraunces-latin-variable.woff2'],
+      ['Inter', 'inter-latin-variable.woff2'],
+      ['IBM Plex Mono', 'ibm-plex-mono-latin-400.woff2'],
+      ['IBM Plex Mono', 'ibm-plex-mono-latin-500.woff2'],
+    ] as const;
+
+    for (const [family, filename] of expected) {
+      const path = join(WEB_ROOT, 'public/fonts', filename);
+      expect(existsSync(path), `${filename} is missing from the public font bundle`).toBe(true);
+      expect(statSync(path).size, `${filename} is empty`).toBeGreaterThan(0);
+      expect(css).toContain(`font-family: '${family}'`);
+      expect(css).toContain(`url('/fonts/${filename}')`);
+    }
   });
 });

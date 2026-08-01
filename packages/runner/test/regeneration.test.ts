@@ -329,12 +329,12 @@ describe('the summary reports the acceptance state honestly', () => {
     const summary = JSON.parse(buildAcceptanceSummary()) as {
       acceptance: { wp0Complete: boolean; blockers: string[] };
       requirements: { totals: { closed: number; declared: number } };
-      routes: { totals: { openRisks: number; falselyClosed: number } };
+      routes: { totals: { openRisks: number; falselyClosedStillOpen: number } };
     };
     const shouldBeComplete =
       summary.requirements.totals.closed === summary.requirements.totals.declared &&
       summary.routes.totals.openRisks === 0 &&
-      summary.routes.totals.falselyClosed === 0;
+      summary.routes.totals.falselyClosedStillOpen === 0;
     expect(summary.acceptance.wp0Complete).toBe(shouldBeComplete);
     expect(summary.acceptance.blockers.length === 0).toBe(summary.acceptance.wp0Complete);
     if (!shouldBeComplete) {

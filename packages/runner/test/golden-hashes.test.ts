@@ -24,7 +24,7 @@ const GOLDEN_MANIFEST_V1 = {
   runId: 'golden-1',
   methodologyVersion: 'v3.0',
   schemaVersion: '1',
-  gitCommit: '980dfcb5e3ff920fe1a3231121a6115e3fa48dcb',
+  gitCommit: '980dfcb',
   parentArtifacts: [],
   evidenceClass: 'legacy-shadow',
   artifactOrigin: ['archived'],
@@ -51,6 +51,7 @@ const GOLDEN_MANIFEST_V1 = {
 const GOLDEN_MANIFEST = {
   ...GOLDEN_MANIFEST_V1,
   manifestVersion: 2,
+  gitCommit: '980dfcb5e3ff920fe1a3231121a6115e3fa48dcb',
   methodologyHash: 'e'.repeat(64),
   traceabilityVersion: 'f'.repeat(64),
 };
@@ -59,7 +60,7 @@ const GOLDEN_PERMIT = {
   permitVersion: 1,
   permitId: 'permit-golden-0001',
   kind: 'legacy-shadow',
-  manifestHash: '__V2_MANIFEST_DIGEST__',
+  manifestHash: 'eb1366ae2cffd7dbce63e7d7fde1d5b2d860df25cd583a96dc915d56b9048a9f',
   methodologyHash: 'a7536af86893a477938b8f055b56324be1af9de9b16f7efd51f47bbfb5f79ec7',
   capabilities: ['judge-inference'],
   cells: [{ modelId: 'x-ai/grok-4.5', questionId: 'flav-002' }],
@@ -74,8 +75,8 @@ const GOLDEN_PERMIT = {
 };
 
 const MANIFEST_V1_DIGEST = 'b76aa27b0d5dcbc653407d928b60b4794a417a4ec51b3d4478fc8828ac7702f6';
-const MANIFEST_DIGEST = '__V2_MANIFEST_DIGEST__';
-const PERMIT_DIGEST = '__V2_PERMIT_DIGEST__';
+const MANIFEST_DIGEST = 'eb1366ae2cffd7dbce63e7d7fde1d5b2d860df25cd583a96dc915d56b9048a9f';
+const PERMIT_DIGEST = '61d44f7ff84fb0aef1b1acacfae5656db1845508515dcd6768ad0d48a70f85c8';
 
 describe('the canonical forms a signature covers are frozen', () => {
   it('keeps the historical v1 manifest canonical identity stable', () => {

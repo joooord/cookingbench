@@ -1,47 +1,14 @@
 import Link from 'next/link';
 import { TASTE_CLAIM_EXCLUSION, TASTE_MEASUREMENT_CLAIM } from '@cookingbench/core';
-import { TastingFlight, type TrackOption } from '@/components/TastingFlight';
-import { trackAvailability } from './flight';
-
-// Availability is read from the committed fixture bank, so this page could be
-// static — but a flight is minted per visit and the picker must never be served
-// from a cache that predates a bank change.
-export const dynamic = 'force-dynamic';
+import { TastingFlight } from '@/components/TastingFlight';
 
 export const metadata = {
   title: 'Tasting Flight',
   description:
-    'Five blind rounds, about three minutes. Read two culinary proposals, say which you would rather cook, serve or eat. Names stay hidden until the flight ends.',
-};
-
-const TRACK_COPY: Record<string, { label: string; blurb: string }> = {
-  rescue: {
-    label: 'Rescue',
-    blurb: 'Something has gone wrong and the clock is running. Which plan would you follow?',
-  },
-  flavour: {
-    label: 'Flavour',
-    blurb: 'A dish needs a direction. Which one would you rather eat, with a sensory card for each?',
-  },
-  service: {
-    label: 'Service',
-    blurb: 'Getting it hot, together and on time for a table of people.',
-  },
-  surprise: {
-    label: 'Surprise',
-    blurb: 'Constraints that should not work, and what a cook does with them.',
-  },
+    'The Tasting Flight is paused while CookingBench rebuilds its blind-comparison method and ballot evidence trail. Explore the existing Taste archive in the meantime.',
 };
 
 export default function TastingFlightPage() {
-  const tracks: TrackOption[] = trackAvailability().map((t) => ({
-    track: t.track,
-    label: TRACK_COPY[t.track]?.label ?? t.track,
-    blurb: TRACK_COPY[t.track]?.blurb ?? '',
-    available: t.available,
-    ...(t.reason ? { reason: t.reason } : {}),
-  }));
-
   return (
     <div className="py-16">
       <h1
@@ -55,39 +22,33 @@ export default function TastingFlightPage() {
         flight
       </h1>
 
-      {/*
-        M5.1. The claim is rendered verbatim from the frozen constant in
-        packages/core, not retyped here, so the page and the analysis cannot
-        drift into two different promises. The exclusion is part of the claim
-        and sits in the same block as it, not in a footnote further down.
-      */}
-      <div className="mt-6 max-w-2xl border-l-2 border-paprika pl-5">
-        <p className="text-lg leading-relaxed">{TASTE_MEASUREMENT_CLAIM}</p>
-        <p className="mt-2 text-lg leading-relaxed text-ink-soft">{TASTE_CLAIM_EXCLUSION}</p>
-      </div>
-
       <p className="mt-6 max-w-2xl text-ink-soft">
-        Five numbered rounds, about three minutes. Every proposal is between 120
-        and 160 words, so length cannot win. Sides are assigned at random and no
-        voice appears twice in one flight. Nothing is named until the whole
-        flight ends.
+        This is where cooks and curious readers will compare culinary proposals
+        without seeing which model wrote them. It is paused today so the page
+        never asks for a judgement it cannot faithfully save.
       </p>
 
-      <TastingFlight tracks={tracks} />
+      <TastingFlight />
 
       <section className="mt-16 border-t border-hairline pt-6">
-        <h2 className="font-display text-lg font-medium">What happens to your ballots</h2>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-soft">
-          They are recorded as <strong>development evidence</strong> and are analysed
-          separately from every published score. The Tasting Flight currently runs on
-          authored fixture proposals rather than model answers, and the statistical
-          thresholds a Taste ranking would need have not been set — so no ordering is
-          published from these ballots, by design rather than by omission. The{' '}
+        <h2 className="font-display text-lg font-medium">What the next flight is designed to measure</h2>
+        {/*
+          M5.1. The claim is rendered verbatim from the frozen constant in
+          packages/core, not retyped here, so the page and the analysis cannot
+          drift into two different promises. The exclusion is part of the same
+          block rather than being hidden in a distant footnote.
+        */}
+        <div className="mt-4 max-w-2xl border-l-2 border-paprika pl-5">
+          <p className="text-base leading-relaxed">{TASTE_MEASUREMENT_CLAIM}</p>
+          <p className="mt-2 text-base leading-relaxed text-ink-soft">{TASTE_CLAIM_EXCLUSION}</p>
+        </div>
+        <p className="mt-5 max-w-2xl text-sm leading-relaxed text-ink-soft">
+          The{' '}
           <Link href="/taste" className="text-paprika hover:underline">
             taste board
           </Link>{' '}
-          shows the position, length and control diagnostics as they stand, and says what
-          is still blocking.
+          keeps the existing archive visible, including its limits and diagnostics,
+          while this collection surface is offline.
         </p>
       </section>
     </div>

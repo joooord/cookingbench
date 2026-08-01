@@ -324,7 +324,7 @@ requirements:
       - "M4.1 — content hashes describe what actually runs > separates a scoring-key change from a prompt change"
       - "M4.1 — content hashes describe what actually runs > makes an edited reference answer invalidate the judge prompt"
       - "M4.1 — content hashes describe what actually runs > changes the token cap and sees it, because the cap is not provider-neutral"
-      - "DATA-002 — a command writes the manifest, and it must be true > fills the content hashes and produces a manifest that parses"
+      - "DATA-002 — a command writes the manifest, and it must be true > builds v2 and binds the exact fixed methodology and traceability documents"
       - "DATA-002 — a command writes the manifest, and it must be true > checks a declared hash instead of correcting it"
       - "DATA-002 — a command writes the manifest, and it must be true > refuses a manifest whose declared hashes do not describe the supplied items"
       - "DATA-002 — a command writes the manifest, and it must be true > is idempotent for the same envelope and immutable for a different one"
@@ -381,7 +381,8 @@ requirements:
       - packages/runner/src/lifecycle.ts — the release checklist scope is fixed and derived from the run, with no parameter that removes a check
       - packages/runner/src/lifecycle.ts — the release register decides which run is publicly current, and its reader takes no caller-supplied path
       - packages/runner/src/manifest.ts — assertArtifactWriteAllowed binds a writer grant to the exact stored run manifest
-      - packages/runner/src/analyze.ts and packages/runner/src/store.ts — writeAnalysis and writeLeaderboard require exact publication authority, stamp from the stored manifest, and record their own provenance
+      - packages/runner/src/analyze.ts — writeAnalysis requires exact publication authority, stamps from the stored manifest, and records its own provenance
+      - packages/runner/src/store.ts — writeLeaderboard requires exact publication authority, stamps from the stored manifest, and records its own provenance
       - packages/runner/src/lifecycle.ts — approval-provenance is a fixed checklist item and refuses absent, corrupt, incomplete or wrong-manifest trails
       - packages/runner/src/sync.ts — publishRun requires the publication capability, distinct from result-sync, and acts only on the grant's run
       - apps/web/lib/data.ts — the site serves every public artifact from one register-approved, digest-pinned snapshot rather than the newest generatedAt
@@ -572,7 +573,8 @@ requirements:
       - packages/runner/src/redemption.ts — the redemption record links permit, key, manifest, capabilities, command and time
       - packages/runner/src/firewall.ts — recordProvenance appends the authorising approval to the RUN's own artifacts, once per authorisation
       - packages/runner/src/cli.ts — `bench run`, `bench judge` and `bench sync` each record their own provenance line after redeeming
-      - packages/runner/src/analyze.ts and packages/runner/src/store.ts — `bench analyze` and `bench report` append approval provenance at the public-artifact write boundary
+      - packages/runner/src/analyze.ts — `bench analyze` appends approval provenance at the public-artifact write boundary
+      - packages/runner/src/store.ts — `bench report` appends approval provenance at the public-artifact write boundary
       - packages/runner/src/lifecycle.ts — the fixed approval-provenance release check makes the trail mandatory and binds it to the stored manifest
       - packages/runner/src/regenerate.ts — the acceptance summary is regenerated from the committed artifacts and checked byte-for-byte
     tests:

@@ -1,5 +1,42 @@
 @import 'tailwindcss';
 
+/*
+ * The original CookingBench faces are served by this app, not fetched during
+ * a build or from a third party in a visitor's browser. These are the Latin
+ * subsets produced by the site's previous Next.js font build.
+ */
+@font-face {
+  font-family: 'Fraunces';
+  src: url('/fonts/fraunces-latin-variable.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-latin-variable.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('/fonts/ibm-plex-mono-latin-400.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('/fonts/ibm-plex-mono-latin-500.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
 @theme {
   /* Paper & ink — flat editorial palette, hairline borders, zero shadows */
   --color-paper: #faf6ef;
@@ -29,9 +66,7 @@
   --color-caramel: #9c6b2f;
   --color-charcoal: #44403c;
 
-  /* Network-independent typography. Prefer the original faces when they are
-     already installed, then retain the same editorial / neutral / technical
-     character with native fonts on macOS, Windows and Linux. */
+  /* Self-hosted primary faces with resilient system fallbacks. */
   --font-display: "Fraunces", "Iowan Old Style", Charter, "Bitstream Charter", "Sitka Text", Cambria, Georgia, ui-serif, serif;
   --font-sans: "Inter", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
