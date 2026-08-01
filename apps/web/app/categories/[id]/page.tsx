@@ -4,6 +4,7 @@ import { CATEGORIES, CATEGORY_IDS, type CategoryId } from '@cookingbench/core';
 import { getLatestReport, getPublicQuestions, getScores, modelSlug } from '@/lib/data';
 import { CATEGORY_COLORS, formatScore, scoreColor } from '@/lib/format';
 import { ScoreBar } from '@/components/ScoreBar';
+import { ArchivedResultNotice } from '@/components/ResearchPrimitives';
 
 export const revalidate = 3600;
 
@@ -16,8 +17,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   if (!CATEGORY_IDS.includes(id as CategoryId)) return {};
   const meta = CATEGORIES[id as CategoryId];
   return {
-    title: meta.name,
-    description: `How AI models score on ${meta.name.toLowerCase()}: ${meta.description}`,
+    title: `${meta.name} — archived v2.1 category record`,
+    description: `${meta.name} in the archived CookingBench v2.1 study: original per-question scores, preserved as historical evidence. ${meta.description}`,
   };
 }
 
@@ -30,14 +31,18 @@ export default async function CategoryPage({ params }: { params: Promise<{ id: s
   const questions = getPublicQuestions().filter((q) => q.category === category);
   const scores = report ? getScores(report.runId) : [];
 
-  const ranked = (report?.rows ?? [])
+  // Sorted for a stable reading order only. Per-category means were never
+  // tested for separation (analysis.json has no category scope), so ordinal
+  // numbering here would be an untested ranking — the exact claim the erratum
+  // prohibits deriving from these scores.
+  const rows = (report?.rows ?? [])
     .filter((row) => row.categories[category] !== undefined)
     .sort((a, b) => (b.categories[category] ?? 0) - (a.categories[category] ?? 0));
 
   return (
     <div className="py-16">
       <p className="text-sm text-ink-soft">
-        <Link href="/" className="hover:text-paprika">Leaderboard</Link> / categories
+        <Link href="/results/2026-07-v2-1" className="hover:text-paprika">Archived v2.1 result</Link> / categories
       </p>
       <div className="mt-4 h-1.5 w-12" style={{ background: CATEGORY_COLORS[category] }} />
       <h1
@@ -48,27 +53,39 @@ export default async function CategoryPage({ params }: { params: Promise<{ id: s
       </h1>
       <p className="mt-4 max-w-2xl text-lg text-ink-soft">{meta.description}</p>
 
+      <div className="mt-8 max-w-2xl">
+        <ArchivedResultNotice />
+      </div>
+
       {report && (
         <section className="mt-12 max-w-2xl">
-          <h2 className="border-b-2 border-ink pb-3 font-display text-xl font-medium">Ranking</h2>
-          <ol>
-            {ranked.map((row, i) => (
+          <h2 className="border-b-2 border-ink pb-3 font-display text-xl font-medium">
+            Original v2.1 category means{' '}
+            <span className="text-sm font-normal text-ink-soft">(archived, not a ranking)</span>
+          </h2>
+          <p className="mt-3 text-sm text-ink-soft">
+            Sorted by score for readability. Category means were never tested for statistical
+            separation — over as few as a dozen questions, an ordering at this granularity
+            would be noise presented as precision.
+          </p>
+          <ul>
+            {rows.map((row) => (
               <li
                 key={row.modelId}
                 className="flex items-center justify-between gap-6 border-b border-hairline py-4"
               >
-                <span className="flex items-baseline gap-3">
-                  <span className="tabular text-sm text-ink-soft">{i + 1}</span>
-                  <Link href={`/models/${modelSlug(row.modelId)}`} className="text-sm font-medium hover:text-paprika">
-                    {row.displayName}
-                  </Link>
-                </span>
+                <Link
+                  href={`/results/2026-07-v2-1/models/${modelSlug(row.modelId)}`}
+                  className="text-sm font-medium hover:text-paprika"
+                >
+                  {row.displayName}
+                </Link>
                 <span className="w-56">
                   <ScoreBar score={row.categories[category]!} color={CATEGORY_COLORS[category]} />
                 </span>
               </li>
             ))}
-          </ol>
+          </ul>
         </section>
       )}
 
@@ -90,7 +107,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ id: s
                 </tr>
               </thead>
               <tbody>
-                {ranked.map((row) => (
+                {rows.map((row) => (
                   <tr key={row.modelId} className="border-t border-hairline">
                     <td className="py-2 pr-4">{row.displayName}</td>
                     {questions.map((q) => {

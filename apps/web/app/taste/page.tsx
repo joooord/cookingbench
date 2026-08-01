@@ -142,8 +142,10 @@ export default async function TasteBoardPage() {
 
         {flightRows === null ? (
           <p className="mt-4 text-sm text-ink-soft">
-            The ballot record could not be read in full, so nothing is shown. A partial read
-            would produce a different fit and look exactly like a complete one.
+            Live ballot reads are intentionally offline while the flight is rebuilt under the
+            new methodology, so nothing is shown here. (This is the designed pause, not a
+            failed read — a partial read would produce a different fit and look exactly like
+            a complete one, which is why the page refuses rather than guessing.)
           </p>
         ) : ballots.length === 0 ? (
           <p className="mt-4 max-w-2xl text-ink-soft">
@@ -279,7 +281,8 @@ export default async function TasteBoardPage() {
           <ul className="mt-3 max-w-2xl list-disc space-y-2 pl-5 text-sm leading-relaxed text-ink-soft">
             <li>
               The minimum ballot counts and precision thresholds a Taste ordering would need
-              are <strong>{TASTE_PUBLICATION_THRESHOLDS.status.replace(/-/g, ' ')}</strong>.
+              still <strong>require preregistration</strong> — they are provisional until
+              frozen in advance.
               The provisional figures are {TASTE_PUBLICATION_THRESHOLDS.minBallotsPerAxis}{' '}
               ballots and {TASTE_PUBLICATION_THRESHOLDS.minFlightsPerAxis} flights per axis,
               with every voice above{' '}

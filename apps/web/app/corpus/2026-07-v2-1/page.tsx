@@ -74,7 +74,7 @@ export default function CorpusPage() {
             ['Run id', V21_RECORD.runId],
             ['Response content digest', V21_RECORD.corpusDigest],
             ['Git response tree', V21_RECORD.responseTree],
-            ['Digest scope', 'Sorted response filenames and content in the immutable v2.1 response set.'],
+            ['Digest scope', 'sha256 over the concatenated contents of the response files in filename-sorted order: find … | sort | xargs cat | sha256sum.'],
             ['Score status', 'Known unreliable as a ranking; preserved separately from answers.'],
             ['Audit status', 'Agent-produced, unblinded classifications; independent human validation pending.'],
           ].map(([term, value]) => (

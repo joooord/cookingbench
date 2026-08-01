@@ -30,17 +30,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/taste`, lastModified, changeFrequency: 'daily', priority: 0.8 },
     { url: `${BASE}/questions`, lastModified, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${BASE}/methodology`, lastModified, changeFrequency: 'monthly', priority: 0.6 },
+    // Archived category records only. The legacy /models/* URLs now redirect
+    // permanently to the archived profiles, so only the destination is
+    // advertised — a sitemap pointing search engines at the rank-bearing
+    // legacy pages was how the disowned framing kept leaking out.
     ...CATEGORY_IDS.map((id) => ({
       url: `${BASE}/categories/${id}`,
       lastModified,
-      changeFrequency: 'weekly' as const,
-      priority: 0.7,
-    })),
-    ...(report?.rows ?? []).map((row) => ({
-      url: `${BASE}/models/${modelSlug(row.modelId)}`,
-      lastModified,
-      changeFrequency: 'weekly' as const,
-      priority: 0.7,
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
     })),
     ...(report?.runId === '2026-07-v2.1' ? report.rows : []).map((row) => ({
       url: `${BASE}/results/2026-07-v2-1/models/${modelSlug(row.modelId)}`,

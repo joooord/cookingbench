@@ -84,7 +84,7 @@ export default async function OpenGraphImage() {
               &nbsp;board
             </span>
             <span style={{ fontSize: 40, fontWeight: 400, color: '#57534e', marginTop: 18, letterSpacing: -1 }}>
-              AI chefs ranked by blind human votes
+              What blind readers preferred — and what that can claim
             </span>
           </div>
           <div style={{ marginTop: 'auto', fontSize: 26, color: '#57534e' }}>

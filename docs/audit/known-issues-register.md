@@ -46,7 +46,17 @@ verified against tip `309f43f` on 2026-08-01; each verification records how.
 |---|---|---|
 | KI-013 | Case-sensitive dimension matching could let an authored `dimension: Context` silently dodge the context cap | Unconfirmed — trigger is authoring, not code |
 | KI-014 | `INFLECTIONS` includes `'n'`, so required synonym `no` matches `non-dairy` | Unconfirmed harm |
-| KI-015 | Site ranks are screening-derived: the homepage "=1st" badge and model-page ranks quote `analysis.separation`, which `analyze.ts` itself labels "SCREENING … nothing in `separation` may be quoted as an ordering"; the confirmatory places in the same artifact are unused by the site | Open as a claims/code tension — needs a decision, not just a patch |
+| KI-015 | Site ranks are screening-derived: model-page places quote `analysis.separation`, which `analyze.ts` itself labels "SCREENING … nothing in `separation` may be quoted as an ordering"; the committed v2.1 artifact has no `confirmatory` block, so the site could not quote one without deriving a new artifact | Open as a governance decision. Mitigated 2026-08-01: /methodology reworded to screening vocabulary (no "proven"), legacy /models pages redirected to archived profiles, /categories reframed without ordinals — remaining places are presented as archived history, not claims |
+
+## Additional items from the 2026-08-01 full review (fleet-verified)
+
+| ID | Concern | State |
+|---|---|---|
+| KI-016 | ~1,500 lines of the retired Tasting Flight survive as dead code (`app/tastetest/actions.ts`, `flight.ts`, `fixtures/`, `ProposalCard.tsx`, `BriefLabel.tsx`); `castBallotAction` still composes a ballot whose save always fails with a retryable message, so rewiring a UI to it would resurrect exactly the vote-stranding flow the pause exists to prevent | Open — park or neuter before any Stage-5 wiring |
+| KI-017 | Test support (`test/support/production-trust.ts`) writes ephemeral keys into the committed keyring and rewrites `revoked.json` in place during test runs; a hard-killed worker leaves residue that silently widens the local trust root (CI catches it; local runs do not) | Open |
+| KI-018 | The absent-revocation-list fail-closed branch (`PERMIT_REVOCATION_UNAVAILABLE`) became untestable when the injectable seam was removed — no test can exercise it, so a refactor to "absent = nothing revoked" would pass the suite | Open |
+| KI-019 | `dd91382` (codex round 3) was pushed with CI red — committed `node_modules` symlink, unfilled golden-hash placeholders, a traceability citation naming a nonexistent test; all repaired by `309f43f`, which is the true acceptance point. Recorded so the audit trail dates the 10/10-closed claim to the commit where it became verifiable | Recorded (historical) |
+| KI-020 | RELEASE-002-D1 was flipped from `awaiting-decision` to accepted inside the same unverified implementation commit, against the handoff's stated intent that the owner decide; the implementation itself is sound (verified) | Open — owner should countersign the decision record |
 
 ## How to use this file
 

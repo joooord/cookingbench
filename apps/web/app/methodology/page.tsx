@@ -75,13 +75,19 @@ export default function MethodologyPage() {
         // is and which run was scored under it, or the two drift apart with
         // nothing on either page to catch it.
         <p className="mt-6 max-w-[42rem] text-sm leading-relaxed text-ink-soft">
-          The published leaderboard — run <span className="tabular">{report.runId}</span> — was
-          scored under methodology <strong>{methodologyVersion}</strong>, and this page describes
-          that methodology as it now stands: the roster and judge seats below are read from that
-          run, and the grader corrections from the July audit are set out in the erratum at the
-          foot of the page. The run id carries the revision suffix; the methodology version does
-          not. A further revision, splitting the item-admission gate from the craft score, is
-          planned but not built — nothing published here has been scored under it.
+          The archived board — run <span className="tabular">{report.runId}</span> — was scored
+          under methodology <strong>{methodologyVersion}</strong>, and this page describes that
+          methodology as it stood. A retrospective audit found the derived scores unreliable:
+          they remain visible as a historical record, but they{' '}
+          <strong>must not be cited as a ranking of culinary ability</strong> — see{' '}
+          <a href="/research/v2-1-autopsy" className="text-paprika hover:underline">
+            the autopsy
+          </a>{' '}
+          and the corpus-and-scores erratum in the repository. The roster and judge seats below
+          are read from that run, and the grader corrections from the July audit are set out in
+          the erratum at the foot of the page. The next methodology is being rebuilt
+          measurement-first under the Revision 3 research programme — nothing published here has
+          been scored under it.
         </p>
       )}
 
@@ -158,12 +164,12 @@ export default function MethodologyPage() {
             measures precision — facts, math, constraints, technique. But a benchmark
             that stops there is a metrics test, not a flavour test. The{' '}
             <a href="/tastetest" className="text-paprika hover:underline">Taste Test</a>{' '}
-            is the second axis: blind, side-by-side human votes on paired answers,
-            arena-style. Every ballot is kept forever and a Bradley-Terry rating is
-            fitted to the full history on the{' '}
-            <a href="/taste" className="text-paprika hover:underline">Taste Board</a>;
-            with enough battles the human win rate also appears as its own leaderboard
-            column — never folded into the precision score.
+            is the second axis: blind, side-by-side human preference. Ballot collection is
+            currently <strong>paused</strong> while the flight is rebuilt under the new
+            methodology — the archived duel ballots are preserved in the repository, and the{' '}
+            <a href="/taste" className="text-paprika hover:underline">Taste Board</a> explains
+            what a future Taste ordering would be allowed to claim. Taste evidence is never
+            folded into the precision score.
           </p>
           <p className="mt-4">
             Every question scores 0–100. The <strong>Overall</strong> score is the plain mean
@@ -194,23 +200,28 @@ export default function MethodologyPage() {
           {separation && (
             <p className="mt-4">
               On run {separation.runId}, {separation.separated} of {separation.total} model
-              pairs separate. {separation.tiedFirst > 1 ? (
+              pairs clear that <strong>uncorrected</strong> 95% screen — a screening figure,
+              not a confirmatory ordering: at a family of {separation.total} tests, several
+              pairs would be expected to clear it by chance even on a roster of identical
+              models. {separation.tiedFirst > 1 ? (
                 <>
                   {separation.tiedFirst} models share first place: nothing on the board is
-                  shown to beat any of them.
+                  shown ahead of any of them even at the uncorrected level.
                 </>
               ) : (
-                <>The top of the board is genuinely ordered.</>
+                <>The top of the board clears the screen.</>
               )}{' '}
               This is also why the site never advertises a single winner from a lead of a
               tenth of a point.
             </p>
           )}
           <p className="mt-4">
-            Ranks are computed as one plus the number of models <em>proven</em> better, over
-            all pairs rather than adjacent ones. Statistical ties do not chain: A tied with B
-            and B tied with C says nothing about A against C, and following such a chain down
-            this board would merge almost the whole roster into a single place.
+            The archived board&apos;s places are one plus the number of models shown ahead at
+            that uncorrected level, over all pairs rather than adjacent ones. Statistical ties
+            do not chain: A tied with B and B tied with C says nothing about A against C, and
+            following such a chain down this board would merge almost the whole roster into a
+            single place. A multiplicity-corrected ordering would separate fewer pairs still —
+            which is one reason these places are archived history, not a claim.
           </p>
         </section>
 
@@ -269,8 +280,8 @@ export default function MethodologyPage() {
             <strong>no published score has been changed by a human review</strong>. We are
             recruiting professional chefs and nutritionists for it. The{' '}
             <a href="/tastetest" className="text-paprika hover:underline">Taste Test</a> is
-            the third signal and is already running — blind human votes, reported beside the
-            precision score and never folded into it.
+            the third signal; its ballot collection is paused during the rebuild, and any
+            future taste evidence stays beside the precision score, never folded into it.
           </p>
         </section>
 

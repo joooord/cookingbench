@@ -247,21 +247,23 @@ Reject your own draft if any of these is true.
 | The canonical answer is incomplete rather than wrong | Checklist. Everyone completes checklists. |
 | The right answer is "ask a clarifying question" | Rewards needless questioning (M1.6). |
 | The right answer is "refuse / bin it / see a professional" | Safety theatre scores without reasoning. Invert it: make over-caution wrong too. |
-| The prompt shares >50% of its content words with an existing item | Splits one item's signal across two. `bench pilot` warns. |
+| The prompt shares >50% of its content words with an existing item | Splits one item's signal across two. `bench validate` warns on near-duplicates. |
 | Bare keyword stuffing scores 100 on the deterministic part | The item measures token presence. |
 
 ### Verification before admission
 
 1. `bench validate` — reference answer scores 100 against its own grader, a
-   `failingAnswer` scores ≤ 40.
-2. `bench pilot --file <candidates.yaml> --budget <usd>` — Stage 0 is free.
-   Stage 1 runs a **ceiling** model and a mid model and rejects if both score
-   ≥ 90. Ceiling-first, so items survive roster turnover instead of becoming a
-   small-model detector. ~$0.30 per judged candidate.
-3. Human review of anything Stage 1 admits. Stage 2 — *is the low scorer
-   actually wrong, or is the grader?* — **is not built**, and this pattern
-   creates exactly the answers that need it: a confidently-argued wrong answer
-   is what both a failing model and a broken grader produce.
+   `failingAnswer` scores ≤ 40. This is the only automated admission step that
+   currently runs, and it is free and offline.
+2. **There is no automated paid admission step.** `bench pilot` is disabled for
+   v3 (master plan M0.1; `cmdPilot` refuses unconditionally, and
+   `test/cli-boundaries.test.ts` asserts it). Any candidate inference on draft
+   items needs a Development Probe permit under the master plan's Stage 3
+   protocol — a named, bounded, non-scoring human approval, not a CLI flag.
+3. Human review of everything. The old pilot's Stage 2 question — *is the low
+   scorer actually wrong, or is the grader?* — remains the right question, and
+   this pattern creates exactly the answers that need it: a confidently-argued
+   wrong answer is what both a failing model and a broken grader produce.
 
 ### The provenance caveat (M3.9)
 

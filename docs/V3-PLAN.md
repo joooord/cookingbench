@@ -1,5 +1,14 @@
 # CookingBench v3 — plan
 
+> **SUPERSEDED (2026-07-30).** This blueprint is source material for, and is
+> superseded by, `docs/methodology/CookingBench-methodology-first-master-plan.md`
+> (Revision 3, frozen — sha256 sidecar). Where the two conflict, the master plan
+> governs: in particular this document's Gate/Craft/Taste tier design, its
+> "start collecting taste volume now" sequencing and its `bench pilot` admission
+> step are all replaced (the master plan defines seven never-blended evidence
+> layers, pauses ballot collection for the Tasting Flight rebuild, and disables
+> `bench pilot` under the no-run rule M0.1). Do not execute the sequencing below.
+
 Written 2026-07-29, after the grader audit. The goal for v3 is a change of
 subject, not just a change of difficulty: **the leaderboard should rank cooking
 judgement and flavour, with arithmetic as a gate rather than a differentiator.**

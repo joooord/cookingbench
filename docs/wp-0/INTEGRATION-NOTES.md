@@ -3,6 +3,20 @@
 Appended by each workstream, never overwritten. Each section says what the
 integration pass must wire up or repair for that workstream's code.
 
+> **Completion ledger (2026-08-01).** The integration pass (through codex
+> round 3, `dd91382`, green at `309f43f`) completed most of the prescriptions
+> below; the sections themselves are left as written, per the header rule.
+> Resolved: judge.ts `criterionAttentionHint` wiring; `questionSchema`
+> ZodEffects consumers; taste.ts migration to `db.readTasteVotes`; cli.ts cell
+> objects on every `client.complete` call; apps/web reading the release
+> register instead of newest-`generatedAt`; the CLAUDE.md env-var sentence
+> (updated 2026-08-01). Still open: `revocationListUrl` remains in
+> `permitSchema` (evidence.ts) against §6's removal instruction; the
+> `bench taste-analyse` and `taste-fixtures --check` commands are unbuilt; the
+> `fitDavidson` iteration-cap defect (KI-012 in
+> `docs/audit/known-issues-register.md`); and the v3 grading-mode wiring is
+> deliberately blocked on KI-001/KI-002 (see the register).
+
 ## packages/core — v3 domain contract (schema.ts, types.ts, constructs.ts)
 
 No new CLI command. The contract is types, zod schemas and pure predicates; every

@@ -100,8 +100,8 @@ export default function HomePage() {
           </h2>
           <p className="mt-5 max-w-xl leading-relaxed text-ink-soft">
             Some questions separated no models. Others spread scores for the wrong reason.
-            One safety item gave zero to correct warnings because the answers named the ingredient
-            they were telling the user to avoid. The autopsy shows how saturation, semantic scoring
+            One flavour item with a safety constraint gave zero to correct warnings because the
+            answers named the ingredient they were telling the user to avoid. The autopsy shows how saturation, semantic scoring
             failures and concentrated influence can create unjustified rank precision.
           </p>
           <p className="mt-7 text-sm"><TextLink href="/research/v2-1-autopsy">Read the forensic audit</TextLink></p>

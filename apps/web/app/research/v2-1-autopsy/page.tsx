@@ -104,8 +104,11 @@ export default function AutopsyPage() {
             </div>
             <EvidenceNote label="Correction to the archived artifact">
               The committed analysis reports {snapshot.analysis.effectiveItemsArtifact.toFixed(1)} effective items
-              because it calculates from rounded item standard deviations. Recalculation from unrounded scores gives
-              approximately 24.0. The archive is not rewritten; the discrepancy is disclosed.
+              because it computes the concentration index over variance shares rounded to three
+              decimals before storage. Recalculation from unrounded scores gives approximately
+              24.0. The SD-above-one tile quotes the committed artifact; from unrounded scores
+              it reads 65 (one item&apos;s SD rounds down to exactly 1.0). The archive is not
+              rewritten; the discrepancies are disclosed.
             </EvidenceNote>
           </section>
 
@@ -195,7 +198,7 @@ export default function AutopsyPage() {
                 </caption>
                 <thead>
                   <tr className="border-y border-hairline text-left font-mono text-[0.68rem] uppercase tracking-wider text-ink-soft">
-                    {['Published order', 'Published', '12 negative-discrimination items excluded', 'All keyword items excluded', 'Judge component only'].map((label) => (
+                    {['Published order', 'Published (unrounded raw-score order)', '12 negative-discrimination items excluded', 'All keyword items excluded', 'Judge component only'].map((label) => (
                       <th key={label} scope="col" className="py-3 pr-5 font-normal">{label}</th>
                     ))}
                   </tr>
@@ -212,6 +215,10 @@ export default function AutopsyPage() {
               </table>
             </div>
             <p className="mt-4 text-sm leading-relaxed text-ink-soft">
+              The archived board&apos;s own row order breaks the 96.0 three-way tie differently:
+              it sorts on the one-decimal rounded overall, so its #1/#2 are insertion order,
+              while this table&apos;s &ldquo;Published&rdquo; column uses full-precision means.
+              Neither ordering is supported as a ranking — that is the point.
               Exploratory only. Items were selected after observing the scores. No row in this table
               is a corrected leaderboard and none should be read as one.
             </p>

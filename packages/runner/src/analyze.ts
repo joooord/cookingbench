@@ -99,8 +99,9 @@ export interface RunAnalysis {
    *
    * In 2026-07-v2.1 this is the difference between publishing "GPT-5.6 Sol Pro
    * is the best cook" off a 0.01-point lead and reporting the truth: the top
-   * three are inseparable (P≈0.52), and exactly one adjacent pair in a
-   * fourteen-model table is genuinely apart.
+   * three are inseparable (P≈0.52), and under per-pair seeding NO adjacent
+   * pair in the fourteen-model table clears 0.95 (the borderline qwen>mistral
+   * pair reads 0.941 — see the seeding note below).
    */
   separation: PairSeparation[];
   /**

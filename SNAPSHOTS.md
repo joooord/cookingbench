@@ -35,7 +35,10 @@ branch (`claude/peaceful-bardeen-bo2h6q`) and the working branch
 - Real spend: **$26.93** candidates + **$14.19** judging + **$0.49**
   calibration = **$41.61**.
 - Headline result: five models statistically tied for first. 48 of 91 model
-  pairs separate, uncorrected for multiplicity.
+  pairs separate, uncorrected for multiplicity. (Historical — the derived
+  scores were subsequently disowned by
+  `docs/errata/2026-07-v2.1-corpus-and-scores.md` and are not citable as a
+  ranking.)
 
 Also preserved: `2026-06-v1` (methodology v1, saturated), `2026-06-v2`
 (13 models, panel-judged), `canary`, `canary2`, all 26 taste ballots in
@@ -46,7 +49,8 @@ migrations 0001–0007 as applied to the live project.
 
 Recorded rather than fixed, because run artifacts are immutable and the defects
 are part of the honest record. **Do not rewrite this snapshot to fix them** —
-v2.2 supersedes it as a new run id.
+the v3 methodology-first programme supersedes it (the scores were disowned by
+the erratum rather than re-run; any successor result will carry a new run id).
 
 1. **Declared rubric weights never reach the judge.** `attentionHints()` in
    `packages/runner/src/judge.ts` passes criterion names and descriptions but

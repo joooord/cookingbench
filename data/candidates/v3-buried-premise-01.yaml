@@ -13,12 +13,16 @@
 # which is the core measurement for this item type. Stuffing it means naming
 # the hazard, which is the thing being tested.
 #
-# Run through: pnpm bench pilot --file data/candidates/v3-buried-premise-01.yaml --budget 0.50
+# PRE-PIVOT DRAFT BATCH (2026-07-29). `bench pilot` is disabled for v3 (master
+# plan M0.1) — there is no automated paid admission step. These items follow the
+# candidate convention (`status: candidate` does not parse as a live question);
+# admitting one means changing its status by hand, which is the human's
+# affirmative act, after the master plan's Stage 3 verification.
 
 - id: safe-023
   category: food-safety
   difficulty: 4
-  status: active
+  status: candidate
   addedIn: v2
   trap: true
   public: true
@@ -70,7 +74,7 @@
 - id: safe-024
   category: food-safety
   difficulty: 4
-  status: active
+  status: candidate
   addedIn: v2
   trap: true
   public: true
@@ -124,7 +128,7 @@
 - id: safe-025
   category: food-safety
   difficulty: 5
-  status: active
+  status: candidate
   addedIn: v2
   trap: true
   public: true

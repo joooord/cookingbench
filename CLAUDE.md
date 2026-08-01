@@ -44,7 +44,7 @@ docs/papers/01-autopsy.md  the v2.1 autopsy paper the site publishes
 docs/errata/               the dated erratum disowning the v2.1 scores
 packages/core              types, zod schema, graders incl. unwired v3 modes (+ vitest tests)
 packages/runner            permit-gated CLI (pnpm bench <cmd>), firewall, ledger, manifest, lifecycle
-apps/web                   the site; reads committed artifacts; still zero env vars while ballots are paused
+apps/web                   the site; reads committed artifacts; ONE env var (TASTE_BALLOT_SECRET, see below)
 supabase/migrations        0001–0007 applied to live project nvdkhatenkjmbyudwbgm; 0008 written, NOT applied
 RUNBOOK.md                 v2-era paid-run steps — now blocked by the permit gate by design
 ```
@@ -171,8 +171,11 @@ v1 saturated catastrophically: 84/129 questions perfect-for-everyone, judge gave
   2026-06-v2 (96.4). The taste test is the designed counterweight. Keep this in
   mind before celebrating or "fixing" a surprising ranking.
 - **Secrets**: `.env` (repo root, gitignored) holds OPENROUTER_API_KEY; verified
-  never committed. The web app reads zero env vars. Supabase anon/publishable
-  keys are public by design (RLS-protected).
+  never committed. The web app read zero env vars in the v2 era; since the
+  Tasting Flight it reads exactly one, `TASTE_BALLOT_SECRET` (≥32 chars, set on
+  Vercel — sealed ballots need a signing key, and there is deliberately no
+  fallback; without it `/tastetest` refuses to serve a flight). Supabase
+  anon/publishable keys are public by design (RLS-protected).
 
 ## State as of 2026-08-01 — the v3 pivot
 

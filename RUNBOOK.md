@@ -454,9 +454,12 @@ run could hijack. Setting it rebuilds the checklist, requires the register to
 say `released`, requires the manifest itself to be publishable, and pins every
 published artifact by digest.
 
-> **Known gap:** `apps/web` still selects a board by newest `generatedAt`. The
-> pointer exists and is written; the site does not yet read it. Recorded against
-> RELEASE-002 in `docs/wp-0/traceability.yaml`.
+> **Closed (codex round 3):** `apps/web/lib/data.ts` now serves only the run
+> named by `data/runs/REGISTER.json`'s `currentRun` pointer — checklist-digest
+> and per-artifact digest verified — falling back to the digest-pinned
+> historical `2026-07-v2.1`. A half-edited register serves nothing rather than
+> the wrong thing. Enforcement point recorded against RELEASE-002 in
+> `docs/wp-0/traceability.yaml`.
 
 ---
 
@@ -563,9 +566,10 @@ pnpm bench models --check \
 ## Appendix C — what is deliberately not here
 
 - **`bench pilot`.** `RUN-001` requires the v2 admission gate to be **disabled**
-  for v3. The command still exists behind a permit and no test asserts it is
-  disabled — recorded as an open risk in `docs/wp-0/routes.yaml`
-  (`runner:cli:pilot:record:write`). Do not use it for v3 work.
+  for v3. Since codex round 3 `cmdPilot` refuses unconditionally before reading
+  any input — it loads no permit and takes no flags — and
+  `test/cli-boundaries.test.ts` asserts the refusal. Do not use it for v3 work;
+  candidate inference needs a Development Probe permit under the master plan.
 - **Re-grading a published run.** `data/runs/**` is immutable; the graders were
   corrected forward and `2026-06-v2` stands as published with an erratum on
   `/methodology`. Derived work uses a new run id and an isolated output root.
