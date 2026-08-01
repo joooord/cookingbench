@@ -1,0 +1,252 @@
+# Scenario-family registry — WP-6a
+#
+# M1.8 requires stating the universe of generalisation BEFORE sampling. This
+# file is that statement for Stage 3 authoring. Every candidate item's
+# `classification.scenarioFamily` must be one of these ids; the `bench
+# candidates` validator enforces membership and warns when one family carries
+# more than four candidate items (M3.7: variants of one scenario are not
+# independent evidence — the failure `effectiveItems` measured at 24.2).
+#
+# `scenarioFamily` is a free string in the schema; this registry is the
+# authority for which strings are legal. It is a candidate-side control, not a
+# schema change.
+#
+# COORDINATES (M1.8): each family declares the kitchen context it samples
+# (domestic | professional | resource-limited), the region/terminology it
+# leans on, and its dietary/constraint axis. `currentKitchen: true` marks a
+# family whose items carry dated/regulatory material and therefore need
+# provenance.currentKitchen asOf/jurisdiction/next-review metadata — these are
+# kept OUT of stable culinary reasoning, per M1.8.
+#
+# `blueprintFamily` maps to the master plan's 8-family Craft blueprint so
+# coverage can be checked. `evidenceLayer` is the primary layer items here
+# instantiate. KitchenPlan and Interactive families note that their items map
+# to a nearest CATEGORY_IDS category (technique/recipe-generation) and carry
+# their true family here — extending the category enum is a WP-1 question.
+
+version: 1
+families:
+  # ------------------------------------------------------------------ theory
+  - id: heat-transfer-and-carryover
+    blueprintFamily: applied-theory
+    evidenceLayer: craft-prose
+    context: domestic
+    region: general
+    axis: technique
+    summary: >
+      Predicting how heat moves and continues after the heat source is removed —
+      carryover, thermal mass, residual cooking. Mechanism must change a decision.
+  - id: emulsion-and-fat-behaviour
+    blueprintFamily: applied-theory
+    evidenceLayer: craft-prose
+    context: domestic
+    region: general
+    axis: technique
+    summary: Why emulsions hold or break; what one changed variable does to them.
+  - id: protein-and-moisture
+    blueprintFamily: applied-theory
+    evidenceLayer: craft-prose
+    context: domestic
+    region: general
+    axis: technique
+    summary: Denaturation, brining, water-holding; transferring a principle to an unfamiliar protein.
+  - id: browning-and-aroma-extraction
+    blueprintFamily: applied-theory
+    evidenceLayer: craft-prose
+    context: domestic
+    region: general
+    axis: flavour
+    summary: Maillard, caramelisation and fat-soluble vs water-soluble aroma; predicting the sensory consequence of a technique change.
+
+  # --------------------------------------------------------------- diagnosis
+  - id: baked-good-structural-failure
+    blueprintFamily: diagnosis-recovery
+    evidenceLayer: craft-prose
+    context: domestic
+    region: general
+    axis: technique
+    summary: >
+      Symptoms of a failed bake (macaron, cake, bread crumb) where everything
+      described is correct except one detail. Blaming a correct step is the critical fault.
+  - id: sauce-and-emulsion-rescue
+    blueprintFamily: diagnosis-recovery
+    evidenceLayer: craft-prose
+    context: domestic
+    region: general
+    axis: diagnosis
+    summary: Split/seized/broken sauces; ranked causes, the rescue, and the stopping rule.
+  - id: seasoning-and-balance-diagnosis
+    blueprintFamily: diagnosis-recovery
+    evidenceLayer: craft-prose
+    context: domestic
+    region: general
+    axis: flavour
+    summary: A dish that is "off"; identifying which correction matters most to the diner, not listing all.
+  - id: service-pressure-triage
+    blueprintFamily: diagnosis-recovery
+    evidenceLayer: craft-prose
+    context: professional
+    region: general
+    axis: diagnosis
+    summary: Allocating a limited error budget under service pressure; which defect to accept.
+
+  # -------------------------------------------------------------- adaptation
+  - id: single-substitution-well
+    blueprintFamily: adaptation-lateral
+    evidenceLayer: craft-prose
+    context: domestic
+    region: general
+    axis: adaptation
+    summary: Add exactly one element, or remove exactly one, and defend the choice — not accumulation.
+  - id: scarcity-pantry
+    blueprintFamily: adaptation-lateral
+    evidenceLayer: craft-prose
+    context: resource-limited
+    region: general
+    axis: adaptation
+    summary: A very small pantry / minimal equipment; meet the goal with what is there, technique only.
+  - id: allergen-and-diet-reconstruction
+    blueprintFamily: adaptation-lateral
+    evidenceLayer: craft-prose
+    context: domestic
+    region: general
+    axis: adaptation
+    summary: >
+      Rebuild a dish under a hard dietary constraint (allergy, coeliac, kosher,
+      renal) where the constraint hides inside a technique step, done well not just safely.
+
+  # ------------------------------------------------ kitchenplan (maps to technique/rgen category)
+  - id: multi-dish-shared-equipment
+    blueprintFamily: kitchenplan
+    evidenceLayer: kitchen-plan
+    context: domestic
+    region: general
+    axis: planning
+    summary: >
+      Several dishes finishing together through one oven/hob, fragile holding
+      windows. Compile, schedule and audit. At least two WP-6a items live here (plan requirement).
+  - id: plan-repair-smallest-change
+    blueprintFamily: kitchenplan
+    evidenceLayer: kitchen-plan
+    context: domestic
+    region: general
+    axis: planning
+    summary: A plan with a missing/unsafe/impossible edge; repair with the smallest viable change.
+  - id: state-probe-at-minute-x
+    blueprintFamily: kitchenplan
+    evidenceLayer: kitchen-plan
+    context: professional
+    region: general
+    axis: planning
+    summary: What exists, where, and in what state at minute X; re-plan after one condition changes.
+
+  # --------------------------------------------- interactive (maps to technique/rgen category)
+  - id: preference-ambiguity-pair
+    blueprintFamily: interactive-ambiguity
+    evidenceLayer: interactive-kitchen
+    context: domestic
+    region: general
+    axis: communication
+    summary: >
+      Paired clear/ambiguous prompts on PREFERENCE ambiguity. The clear twin
+      penalises needless questioning; the ambiguous one penalises reckless guessing.
+  - id: safety-ambiguity-pair
+    blueprintFamily: interactive-ambiguity
+    evidenceLayer: interactive-kitchen
+    context: domestic
+    region: general
+    axis: communication
+    summary: Paired clear/ambiguous prompts where the ambiguity is a SAFETY matter; one clarification then a fixed answer.
+  - id: mid-cook-change-recovery
+    blueprintFamily: interactive-ambiguity
+    evidenceLayer: interactive-kitchen
+    context: domestic
+    region: general
+    axis: communication
+    summary: A new observation (aroma/texture) or a disclosed allergy after the plan; recover, preserving unaffected components.
+
+  # ----------------------------------------------------------------- flavour
+  - id: flavour-construction-under-absence
+    blueprintFamily: flavour-sensory
+    evidenceLayer: craft-prose
+    context: domestic
+    region: general
+    axis: flavour
+    summary: Build flavour when a common lever is forbidden (allium-free, no acid, anosmia); contrast via other means.
+  - id: unusual-combination-defence
+    blueprintFamily: flavour-sensory
+    evidenceLayer: craft-prose
+    context: domestic
+    region: general
+    axis: flavour
+    summary: Defend or reject an unusual pairing on reasoning, not novelty.
+  - id: wine-and-strong-flavour-matching
+    blueprintFamily: flavour-sensory
+    evidenceLayer: craft-prose
+    context: domestic
+    region: general
+    axis: flavour
+    summary: Match a drink to a big-flavoured dish; the obvious "big wine" answer is the trap.
+
+  # ----------------------------------------------------------------- history
+  - id: preservation-and-trade-origins
+    blueprintFamily: history-context
+    evidenceLayer: craft-prose
+    context: domestic
+    region: mixed
+    axis: history
+    summary: How climate/preservation/trade shaped a dish; documented history vs a popular weak origin story.
+  - id: authenticity-and-responsible-adaptation
+    blueprintFamily: history-context
+    evidenceLayer: craft-prose
+    context: domestic
+    region: mixed
+    axis: history
+    summary: When "authenticity" is the wrong frame; adapt while accurately describing what changed. Uncertainty is part of the answer.
+  - id: contested-origin-uncertainty
+    blueprintFamily: history-context
+    evidenceLayer: craft-prose
+    context: domestic
+    region: mixed
+    axis: history
+    summary: A genuinely contested origin where flagging source disagreement IS the expected answer.
+
+  # ----------------------------------------------------------------- capstone
+  - id: dinner-for-a-mixed-table
+    blueprintFamily: capstone
+    evidenceLayer: craft-prose
+    context: domestic
+    region: general
+    axis: planning
+    summary: >
+      Multi-turn case combining planning, safety/allergen constraint and flavour
+      for a table with conflicting needs — at least three axes at once.
+  - id: restaurant-special-under-constraints
+    blueprintFamily: capstone
+    evidenceLayer: craft-prose
+    context: professional
+    region: general
+    axis: planning
+    summary: A professional special combining cost, technique, service timing and a dietary line; safety non-compensatory.
+
+  # -------------------------------------------------- current kitchen (dated/regulatory)
+  - id: current-storage-guidance
+    blueprintFamily: diagnosis-recovery
+    evidenceLayer: fundamentals-gate
+    context: domestic
+    region: uk
+    axis: safety
+    currentKitchen: true
+    summary: >
+      Storage/reheating/recall guidance that is jurisdiction- and date-specific.
+      Items here MUST carry asOf/jurisdiction/next-review and are kept out of stable reasoning items.
+
+# ------------------------------------------------------------------ coverage
+# 26 families declared, ≥25 required. Blueprint coverage:
+#   applied-theory 4 | diagnosis-recovery 4 (+1 current) | adaptation-lateral 3
+#   kitchenplan 3 | interactive-ambiguity 3 | flavour-sensory 3
+#   history-context 3 | capstone 2
+# Context spread: domestic (majority), professional 4, resource-limited 1.
+# The resource-limited count is deliberately called out as thin — WP-6a waves
+# should add at least two more resource-limited families before sealing, per
+# M1.8's requirement to represent resource-limited kitchens.

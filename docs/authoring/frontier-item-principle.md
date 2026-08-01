@@ -1,11 +1,30 @@
-# The frontier-item principle
+# The canonical-trap pattern
 
 *Make the canonical answer the wrong one, and make the reason a fact the model
 can state but has not integrated.*
 
-Status: authoring guidance. Evidence: run `2026-07-v2.1` (14 models × 184
-questions), read from `data/runs/2026-07-v2.1/{analysis,scores}.json` and the
-stored answers in `responses/`. Nothing under `data/runs/` was modified.
+Status: authoring guidance for **prose canonical-trap items** — one pattern
+among several, not the house style for the whole bank. Adopted as an
+M3.2-adjacent authoring guide by decision-log entry 8 (2026-08-01), scoped
+here. It does **not** apply to Fundamentals, KitchenPlan or Interactive items,
+which have their own templates in `templates.md` and cannot be built this way
+(the trap pattern by construction produces neither settled-fact regression
+material nor state/plan tasks). The umbrella guide is `authoring-guide.md`;
+read it first for the pattern-to-family map and the shared rules.
+
+> **Naming note.** "Canonical-trap" is a *design pattern*. "Chef Frontier" is a
+> *reporting stratum* (M3.7), assigned as a hypothesis and certified later. An
+> item can be one without the other. This document was previously titled "the
+> frontier-item principle"; the two senses of "frontier" were conflated and the
+> pattern sense has been renamed to remove the collision.
+
+Evidence: run `2026-07-v2.1` (14 models × 184 questions), read from
+`data/runs/2026-07-v2.1/{analysis,scores}.json` and the stored answers in
+`responses/`. Nothing under `data/runs/` was modified. Note the validity-first
+rule in `authoring-guide.md`: the *pattern* is informed by this cohort's
+observed failures, but an individual item's admission may never cite model
+failure — the defeating fact and its mechanism are argued from culinary canon,
+not from a score.
 
 ---
 
@@ -246,24 +265,48 @@ Reject your own draft if any of these is true.
 | The trap requires missing a stated cue | Attention test. Already saturated. |
 | The canonical answer is incomplete rather than wrong | Checklist. Everyone completes checklists. |
 | The right answer is "ask a clarifying question" | Rewards needless questioning (M1.6). |
-| The right answer is "refuse / bin it / see a professional" | Safety theatre scores without reasoning. Invert it: make over-caution wrong too. |
+| The right answer is *refusal alone* — "bin it / see a professional" with nothing more | Safety theatre scores without reasoning. See the reconciliation below: refusal may be the correct *action*, but it is never the whole *answer*. |
 | The prompt shares >50% of its content words with an existing item | Splits one item's signal across two. `bench validate` warns on near-duplicates. |
 | Bare keyword stuffing scores 100 on the deterministic part | The item measures token presence. |
 
+**Reconciling the refusal disqualifier with valid safe-fallback (ambiguity F).**
+The master plan makes "stop, restart or choose a safe fallback" a *valid correct
+move* (M1.3). That does not contradict the disqualifier, because the disqualifier
+targets items where refusal *alone* scores full marks. An item whose correct
+action is to discard or stop is a good item **iff** its rubric requires more than
+the refusal: the *mechanism* (why — the botulism/​*Listeria*/carryover reasoning)
+and a *constructive continuation* (the rule for next time, or what can be
+salvaged). And it must ship a bare-refusal adversarial fixture (an
+`adversarialCases` entry of kind `verbose-non-answer` at `expect: at-most`) so an
+answer that only says "throw it out, see a doctor" cannot reach the top band.
+`safe-023` (garlic confit) is the worked example: discard is correct, but the
+item rewards naming the anaerobic-low-acid mechanism and giving the fridge/​freeze
+rule, and penalises a bare "bin it". So authored: over-caution with no reasoning
+is wrong, *and* correct caution with reasoning is right.
+
 ### Verification before admission
 
-1. `bench validate` — reference answer scores 100 against its own grader, a
-   `failingAnswer` scores ≤ 40. This is the only automated admission step that
-   currently runs, and it is free and offline.
+1. `bench candidates` — the offline candidate gate (WP-6a). Parses the item
+   against the full schema, checks scenario-family membership, provenance,
+   canary, near-duplicates against the live bank, the self-satisfiable-group
+   defect class, and runs every worked example and adversarial fixture through
+   the deterministic graders. **Note the judge-first caveat:** on a judge-only
+   item the deterministic checks have little to bite on, so `bench candidates`
+   verifies structure and fixtures, not the judgement itself — the judgement is
+   verified by human review (step 3), never skipped silently.
 2. **There is no automated paid admission step.** `bench pilot` is disabled for
    v3 (master plan M0.1; `cmdPilot` refuses unconditionally, and
    `test/cli-boundaries.test.ts` asserts it). Any candidate inference on draft
    items needs a Development Probe permit under the master plan's Stage 3
    protocol — a named, bounded, non-scoring human approval, not a CLI flag.
-3. Human review of everything. The old pilot's Stage 2 question — *is the low
-   scorer actually wrong, or is the grader?* — remains the right question, and
-   this pattern creates exactly the answers that need it: a confidently-argued
-   wrong answer is what both a failing model and a broken grader produce.
+   Multi-model *authoring* (WP-6a M3b) is likewise permit-gated spend.
+3. Blind independent human solve + review (M3.4). The author cannot be the final
+   certifier. The old pilot's Stage 2 question — *is the low scorer actually
+   wrong, or is the grader?* — remains the right question, and this pattern
+   creates exactly the answers that need it: a confidently-argued wrong answer
+   is what both a failing model and a broken grader produce. This step is
+   blocked until the specialist seats are filled; drafts park at
+   `verificationState: draft` until then.
 
 ### The provenance caveat (M3.9)
 
@@ -279,8 +322,19 @@ an item cannot then supply clean confirmatory evidence on it.
 
 ---
 
-## 6. Current drafts on this pattern
+## 6. Current drafts
 
-`data/candidates/v3-canonical-trap-{01,02,03}-*.yaml` — twelve items, all
-`status: candidate`, all `authoringProvenance: agent-draft`. Not admitted. Not
-in `data/questions/`. Read the header of each file before running anything.
+All under `data/candidates/`, all `status: candidate`, none admitted, none in
+`data/questions/`. Read each file's header before running anything.
+
+| file | items | shape |
+|---|---|---|
+| `v3-canonical-trap-01-safety-substitution.yaml` | safe-101, safe-102, subs-101, subs-102 | fully v3, this pattern |
+| `v3-canonical-trap-02-technique-scaling.yaml` | tech-101, tech-102, qty-101, conv-101 | fully v3, this pattern |
+| `v3-canonical-trap-03-flavour-nutrition-generation.yaml` | flav-101, flav-102, nutr-101, rgen-101 | fully v3, this pattern |
+| `v3-buried-premise-01.yaml` | safe-023, safe-024, safe-025 | **pre-v3 shape** (v2 rubric, keyword groups, no judgePack/provenance). Salvage input, not this pattern — being re-authored as safe-103/104/105 in WP-6a and this file then retired. |
+
+The buried-premise trio is the *buried-premise* pattern (benign stated question,
+hazard as settled background), not the canonical-trap pattern; it is listed here
+only because it shares the directory. It does not pass the v3 candidate gate as
+written.
