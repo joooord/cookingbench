@@ -270,7 +270,7 @@ export default function AutopsyPage() {
               ))}
             </dl>
             <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm">
-              <a href="https://github.com/joooord/cookingbench/blob/c7645cba44c3d456f065adea46027d586d19ceed/docs/papers/01-autopsy.md" className="underline decoration-hairline underline-offset-4 hover:text-paprika">
+              <a href="https://github.com/joooord/cookingbench/blob/9f4b249e56fbdbe7c30b19aa6a10906563a15925/docs/papers/01-autopsy.md" className="underline decoration-hairline underline-offset-4 hover:text-paprika">
                 Read the repository draft
               </a>
               <TextLink href="/corpus/2026-07-v2-1">Verify the corpus</TextLink>
