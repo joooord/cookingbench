@@ -3,61 +3,89 @@
 Orientation for future Claude instances (and humans). Read this before touching
 anything; it encodes several lessons that were paid for in API credits.
 
+**Read the v3 pivot section first (State as of 2026-08-01).** On 30–31 July 2026
+the project stopped rank-bearing testing, disowned the published v2.1 scores by
+erratum, froze a methodology-first master plan, and rebuilt the site as a
+research programme. Several sections below describe the v2 era; they are kept
+because the lessons hold, but the *operating rules* changed. The canonical
+governing documents are now:
+
+- `docs/methodology/CookingBench-methodology-first-master-plan.md` — Revision 3,
+  frozen (sha256 sidecar). Codex owns the plan; Claude implements; the roadmap
+  is stages 0–9 with evidence gates. Supersedes `docs/V3-PLAN.md`.
+- `docs/errata/2026-07-v2.1-corpus-and-scores.md` — the corpus is sound, the
+  scores are disowned. Do not cite the v2.1 leaderboard as a ranking.
+- `docs/wp-0/HANDOFF-round-3.md` + `docs/wp-0/INTEGRATION-NOTES.md` — what WP-0
+  built and what it deliberately left open.
+- `docs/papers/01-autopsy.md` — why the v2.1 ordering was an instrument artefact.
+
 ## What this is
 
-CookingBench benchmarks how well AI models cook — quantities, conversions, food
-safety, substitutions, technique, flavour, nutrition, recipe generation — and
-publishes a leaderboard at **cookingbench.com** (Next.js on Vercel). Scores are
-reproducible from artifacts committed to this repo. Two axes, kept separate on
-purpose ("metrics test vs flavour test"):
-
-- **Precision** — deterministic graders + an LLM judge *panel* (see below).
-- **Taste** — humans blind-voting on paired answers at `/tastetest`.
+CookingBench asks how well AI models cook — and, since the pivot, publishes the
+evidence, uncertainty and failures together at **cookingbench.com** (Next.js on
+Vercel) rather than a single leaderboard. The 2026-07-v2.1 run survives as a
+preserved corpus (2,576 answers, every model complete) that anyone can regrade;
+its derived scores are archived as historical, not authoritative. The long-term
+structure separates evidence classes (Fundamentals Gate, KitchenPlan,
+Interactive Kitchen, Craft, Palate, Public Taste, Kitchen Outcome) that are
+never silently blended.
 
 ## Repo map
 
 ```
 data/questions/*.yaml      the dataset (184 items, schema in packages/core/src/schema.ts)
-data/calibration/anchors.yaml  hand-scored answers every judge must reproduce
-data/runs/<run-id>/        immutable run artifacts: config, responses/, scores, leaderboard, analysis, calibration
-packages/core              types, zod schema, deterministic graders (+ vitest tests)
-packages/runner            CLI pipeline (pnpm bench <cmd>), OpenRouter client, judge, calibration, analyze
-apps/web                   the site; reads committed run artifacts, NO env vars or secrets
-supabase/migrations        DB schema incl. taste_votes (applied to live project nvdkhatenkjmbyudwbgm)
-RUNBOOK.md                 step-by-step for a paid run
+data/calibration/anchors.yaml  hand-scored answers every judge must reproduce (now 67 anchors, held-out split)
+data/runs/<run-id>/        immutable run artifacts (CI pins the git tree hash of data/runs and data/taste)
+data/permits/              permit trust root: verification keys, revocation list, unusable fixtures
+docs/methodology/          the frozen Revision 3 master plan (+ sha256) and WP-0 brief
+docs/wp-0/                 WP-0 handoff, integration notes, route registry, traceability matrix
+docs/audit/                the hostile-review defect register and judge-disagreement audit
+docs/papers/01-autopsy.md  the v2.1 autopsy paper the site publishes
+docs/errata/               the dated erratum disowning the v2.1 scores
+packages/core              types, zod schema, graders incl. unwired v3 modes (+ vitest tests)
+packages/runner            permit-gated CLI (pnpm bench <cmd>), firewall, ledger, manifest, lifecycle
+apps/web                   the site; reads committed artifacts; still zero env vars while ballots are paused
+supabase/migrations        0001–0007 applied to live project nvdkhatenkjmbyudwbgm; 0008 written, NOT applied
+RUNBOOK.md                 v2-era paid-run steps — now blocked by the permit gate by design
 ```
 
-Branches: the default branch is `claude/peaceful-bardeen-bo2h6q` — **that is what
-Vercel deploys** (user redeploys manually). Development happens on a session
-branch which the user merges (or has previously authorised merging directly).
+Branches (as of 2026-08-01): **production deploys from `v3/wp-0-live`** via a
+manual `vercel` CLI promote on the `cookingbench-web` Vercel project — there is
+no git-push auto-deploy. The GitHub default branch is still
+`claude/peaceful-bardeen-bo2h6q`, which now holds the *old* site and stale
+orientation — do not base new work on it without rebasing onto the v3 lineage
+(`v3/wp-0-live` descends cleanly from it). GitHub Actions CI (offline
+acceptance, no secrets, corpus tree-hash pinning) runs on `v3/**` and
+`claude/**` pushes.
 
-## The pipeline
+## The pipeline — now permit-gated
 
-```
-pnpm bench validate                  # dataset sanity
-pnpm bench models --check            # verify OpenRouter slugs (ids drift! v1 shipped 6 wrong guesses)
-pnpm bench estimate [--models a,b] [--limit N]   # REQUIRED gate before any paid run
-pnpm bench run --budget <usd> --models a,b --run-id <id>   # resume-aware per (model,question)
-pnpm bench grade --run <id>          # deterministic; preserves prior judge results
-pnpm bench judge --run <id>          # panel judging; calibration gate runs first
-pnpm bench analyze --run <id>        # saturation/discrimination ratchet — run after EVERY run
-pnpm bench report --run <id>         # leaderboard.json + table
-git add data/runs/<id> && commit && push   # publish; site picks newest leaderboard by generatedAt
-```
+The v2 command sequence still exists, but since WP-0 every command that spends
+money, writes run artifacts or touches the live database requires a **verified
+grant** minted from an Ed25519-signed permit (`packages/runner/src/permit.ts`):
+`estimate`, `models --check`, `run`, `judge`, `report`, `analyze`, `sync`,
+`publish`, `taste-archive`. `bench pilot` is disabled for v3 and refuses before
+reading inputs. New commands: `manifest` (freeze the execution envelope before
+a run), `lifecycle` (release checklist and state moves), `current` (the
+approved-release pointer the site reads).
 
-Key invariants:
-- The **estimate gate** hashes the exact (models × questions × token caps) set.
-  `estimate` flags must match `run` flags (`--models`, `--limit`) or run refuses.
-- `run` refuses if worst-case estimate > `--budget`. Worst case assumes full
-  token caps; **actuals land at 3–30% of worst case**. Batch per model with a
-  budget just above that batch's worst case, and watch real spend between
-  batches: `GET https://openrouter.ai/api/v1/credits` with the API key.
-- Run artifacts are **immutable** once published. Never regrade old runs; a
-  leaderboard.json without `methodologyVersion` is treated as v1 by the site.
-- Don't commit toy runs: the site shows the **newest** `generatedAt` across
-  `data/runs/*`. A regenerated mock run would hijack the homepage.
+**No approver key exists yet, by design.** The only committed key is an
+expired fixture, so every capability fails closed. Minting a real permit is a
+human act: Jordan generates an Ed25519 keypair offline (instructions in
+`data/permits/keys/README.md`), commits only the `.pub`, and signs permit JSON
+over `canonicalJson`. The no-run rule (master plan M0.1): no rank-bearing
+candidate batch before Stage 6 sign-off; earlier calls need a named, bounded,
+non-scoring permit.
 
-## Methodology v2 (current) — why it looks like this
+Still-true v2 invariants worth keeping:
+- OpenRouter slugs rot — always `models --check` before estimating.
+- Worst-case estimates run ~6–8x above actuals; budget against expected.
+- Run artifacts are **immutable** once published — CI now enforces this by
+  pinning the git tree hashes of `data/runs` and `data/taste`. Changing either
+  is a deliberate, reviewed decision that must update the CI constants too.
+- Never regrade old runs; derive a new artifact under a new run id.
+
+## Methodology v2 (historical — superseded by the master plan) — why it looked like this
 
 v1 saturated catastrophically: 84/129 questions perfect-for-everyone, judge gave
 5/5 on 800/970 criteria, top four models within 0.7 points. v2's answers:
@@ -146,7 +174,69 @@ v1 saturated catastrophically: 84/129 questions perfect-for-everyone, judge gave
   never committed. The web app reads zero env vars. Supabase anon/publishable
   keys are public by design (RLS-protected).
 
-## State as of 2026-07-29
+## State as of 2026-08-01 — the v3 pivot
+
+What happened on 30 July – 1 August, in order:
+
+1. **The audits.** Read-only hostile review of the v2.1 artifacts found the
+   ordering was an instrument artefact: 12 active items anti-correlated with
+   ability carrying 15.4% of variance; keyword items carrying 47.5% of all
+   variance; 73 judge flags never adjudicated; `flav-014` zeroing nine models
+   for naming an ingredient its own prompt supplies. Written up as
+   `docs/papers/01-autopsy.md` (published on the site) and
+   `docs/audit/*`. The erratum disowns the scores; the corpus stands.
+2. **The master plan.** Codex authored Revision 3
+   (`docs/methodology/...master-plan.md`, hash-frozen): stages 0–9, evidence
+   classes, permits, no-run rule, KitchenPlan, Culinary JudgeBench, Tasting
+   Flight. Claude implements; Codex reviews. Numerical thresholds are candidate
+   rules to be justified before sealed evidence is opened.
+3. **WP-0, the evidence firewall** (branch `v3/wp-0-evidence-firewall`, then
+   codex round 3): path confinement with leaf resolution, Ed25519 permits with
+   a WeakSet-minted `VerifiedGrant`, atomic spend ledger, run manifests,
+   provenance trail, release lifecycle, 91-route registry with per-risk test
+   citations, requirement traceability (10/10 closed at tip), offline CI.
+   The handoff docs record what "closed" does and does not claim.
+4. **The site redesign** (`v3/wp-0-live`, deployed 1 Aug via CLI promote):
+   research-programme framing — autopsy, corpus record, archived results with
+   tie-aware presentation, research essays. The old duel is replaced by a
+   Tasting Flight that is **intentionally disconnected** from ballot
+   collection; migration 0008 (`taste_flight_ballots` + fixture sources) is
+   written but NOT applied, and re-enabling needs `TASTE_BALLOT_SECRET` set on
+   Vercel (≥32 chars, no fallback — the ballot blinding is signed).
+
+Operational facts a future session needs:
+
+- **Tests**: `pnpm -r test` green at tip (492 core + 1037 runner); CI is
+  the offline acceptance gate and passed on `309f43f`.
+- **The known-defect register is not closed.** `docs/audit/integration-defects.md`
+  records 15 confirmed defects from the adversarial sweep; the WP-0
+  traceability matrix tracks WP-0 requirements only, so "10/10 closed" does
+  NOT mean these are fixed. Verified still open at tip: the keyword
+  hedged-containment carve-out scores 100 for "always contains peanut butter —
+  serve it to everyone" (a prescription excused as a warning); the
+  safety-confirmation rule is satisfied by the mere presence of any
+  deterministic evidence (graders/index.ts:409-414, and a test now asserts
+  that behaviour); a `critical` criterion abstained/"unclear" by every seat
+  vanishes without breach or escalation (dimension.ts:269 and judge.ts
+  aggregateDimension). The v3 grading modes are **unwired** (nothing calls
+  routeCascade/routeDimensionMode/aggregateDimension from the runner), so the
+  latter two are latent, not live — but wire nothing until they are fixed.
+- **fitDavidson** (packages/core/src/stats.ts) spuriously refuses to converge
+  once one model is undefeated past ~600 observations (fixed iteration cap
+  behaves as a data-size limit). Recorded in INTEGRATION-NOTES; will bite any
+  real Taste bank.
+- **Supabase**: migrations through 0007 + policy fix applied; `taste_votes`
+  holds 34 ballots, 8 of them (all on 2026-07-v2.1 pairs, 29–30 July) newer
+  than the 26 archived in `data/taste/votes.ndjson`. Archiving them means a
+  reviewed decision: `bench taste-archive` needs a permit AND
+  `SUPABASE_SERVICE_ROLE_KEY`, and the CI `data/taste` tree pin must be
+  updated in the same commit.
+- **Do not** hand-edit anything under `data/` (CI tree pins), reuse a
+  published run id, or re-enable ballot collection without applying 0008 and
+  running its foot-of-file verification (`information_schema.views.is_updatable`
+  — the 0006 lesson).
+
+## State as of 2026-07-29 (v2 era — kept for the lessons; operating rules superseded above)
 
 ### The grader audit — read this before touching the graders
 
@@ -300,16 +390,14 @@ Two consequences worth knowing before touching `analyze.ts`:
   **empty** — `nutr-036`, the one v2 suspect, is no longer flagged by the newer
   roster. Re-read it before assuming it is fixed.
 
-### Open items
+### Open items (2026-07-29 list — superseded by the master plan's stages)
 
-- **Author the v3 content.** The admission gate is built and the ratchet is
-  measured; 33 all-perfect actives are waiting to be demoted and replaced.
-- 159 of 184 items have no `failingAnswer`, so their graders are untested
-  against a wrong answer. 50 still score 100 on bare keyword stuffing.
-- `bench sync` is unblocked but never yet run successfully end to end.
-- 73 flagged judge disagreements in this run (81 in v2) await human review.
-- `data/taste/votes.ndjson` now holds all **26** ballots, pulled from the live
-  table — `bench taste-archive` itself still needs `SUPABASE_SERVICE_ROLE_KEY`,
-  which is not in `.env`. 26 ballots across 3 sessions is not a ranking.
-- Branch `claude/cookingbench-code-review-70c3hx` is ~25 commits ahead of the
-  deploy branch. **Database changes are live; code changes are not.**
+This list predates the pivot. Its concerns were absorbed as follows: v3 content
+authoring → Stage 3 (question system) under the frontier-item principle;
+failingAnswer coverage and keyword stuffing → the autopsy made these moot for
+rank (keyword graders are being replaced, not patched); `bench sync` → now
+permit-gated; the 73 flagged judge disagreements → audited (agent-level, unblinded) in
+`docs/audit/judge-disagreements.md`, with independent human annotation still
+required before any published claim; taste
+ballots → the Tasting Flight rebuild (Stage 5). The branch note is stale: the
+code-review branch was merged and superseded by the `v3/*` lineage.
