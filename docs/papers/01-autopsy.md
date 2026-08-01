@@ -108,7 +108,12 @@ cross-judge disagreement > 15 (11.6%); candidates cost $26.93 and judging $14.19
 (`data/runs/2026-07-v2.1/scores.json`, `responses/*.json`). The board as
 published (`leaderboard.json`): GPT-5.4 Mini 96.0, GPT-5.6 Sol Pro 96.0, Grok
 4.5 96.0, GPT-5.6 Terra Pro 95.4, Claude Fable 5 94.1, then nine more down to
-Llama 4 Maverick at 84.5.
+Llama 4 Maverick at 84.5. One reconciliation this paper owes the careful
+reader: `report.ts` sorts on the one-decimal *rounded* overall, so the row
+order inside the 96.0 trio is insertion order, not measurement — at full
+precision the active means run Sol Pro 96.04, Mini 96.04, Grok 95.99, which is
+the order §4.6's tables use. Neither ordering is supported as a ranking; that
+is §4.6's point.
 
 ---
 
@@ -157,8 +162,9 @@ every figure are listed in §8.
 ### 4.1 The instrument is much thinner than it looks
 
 102 active items produce an effective item count of **24.2**
-(`analysis.json:effectiveItems`). 42 active items have zero variance
-share — every model scores identically. 33 are perfect for all 14 models
+(`analysis.json:effectiveItems`). 42 active items have zero rounded variance
+share; 33 of them score identically for every model, and the other nine have
+spread whose share merely rounds to 0.000. 33 are perfect for all 14 models
 (`activeAllPerfect`). Only 64 have a standard deviation above 1
 (`activeWithSignal`).
 
@@ -521,17 +527,20 @@ and that removing the items it damaged permutes the entire top four of a
 published leaderboard. The damage falls on a recognisable class of behaviour —
 warning about hidden allergens, advising on cross-contamination, naming what is
 being replaced — and the correlation between a model's mean answer length and its
-contradiction count is ρ = 0.50 across 14 models.
+contradiction count is ρ = 0.50 across 14 models (Spearman, over per-answer mean
+word counts; character- or token-based variants run higher still).
 
 **It does not show that the de-noised ordering is correct.** Both orderings sit
 inside a five-way tie the run's own paired bootstrap reports. Anyone quoting
 "GPT-5.4 Mini is really first" from this paper has misread it.
 
-**It does not show that the damaged models are better.** The per-model
-correlation between overall score and contradiction count is ρ = 0.09 —
-essentially nil. This is not a systematic bias in favour of weak models; it is a
-large, roughly arbitrary perturbation that becomes decisive only because the
-underlying differences are smaller than it.
+**It does not show that the damaged models are better.** The per-model rank
+correlation between overall score and contradiction count is ρ = 0.09
+(Spearman) — essentially nil, though the linear (Pearson) coefficient is
+larger, so "nil" is a claim about rank association specifically. This is not a
+systematic bias in favour of weak models; it is a large, roughly arbitrary
+perturbation that becomes decisive only because the underlying differences are
+smaller than it.
 
 **It does not show that deterministic grading is unsound in general.** On the
 verifiable layer it is right, and the numeric grader produced no negatively
@@ -613,3 +622,10 @@ Run artifacts under `data/runs/` are immutable and were read only. Nothing in
 this paper regrades, alters or supersedes the published run: `2026-07-v2.1`
 stands as published, and the corrections described here are carried by the next
 run, not backdated onto this one.
+
+**Amended 2026-08-01**, after independent duplicate recomputation of every
+quantitative claim from the committed artifacts: §4.1's zero-variance gloss now
+distinguishes rounded-zero share (42) from literally identical scores (33);
+§2 now reconciles the rounded row order with §4.6's full-precision order; §6
+now states the correlation method and length metric. No number the argument
+rests on changed.
