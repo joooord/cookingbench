@@ -1,9 +1,7 @@
 {
   "acceptance": {
-    "blockers": [
-      "6 registered route risk(s) are open"
-    ],
-    "wp0Complete": false
+    "blockers": [],
+    "wp0Complete": true
   },
   "generatedBy": "packages/runner/src/regenerate.ts",
   "inputs": [
@@ -21,11 +19,11 @@
     },
     {
       "path": "docs/wp-0/routes.yaml",
-      "sha256": "0d2272d5d02c44fb22839561fccee80a80ef2e88d5e3184fe89b3b9c16432ce2"
+      "sha256": "c63aa2bb00375b2e52ec1b0c5681862783ccf0d5debe2af6fddee99c0ce9cc5d"
     },
     {
       "path": "docs/wp-0/traceability.yaml",
-      "sha256": "ec972eb679971d2d18b3b603c22c4f0d72d0e0c8af2bfb9dd6717e01785147e4"
+      "sha256": "aad56e0b9262d17889f50a6f562435570e3e105617ae79fc0cca2133fc7f2d32"
     }
   ],
   "mandatoryTests": {
@@ -36,12 +34,12 @@
   "requirements": {
     "byId": [
       {
-        "digest": "3ff58ea653e496dc",
-        "enforcementPoints": 9,
+        "digest": "2a86db25e4d838ee",
+        "enforcementPoints": 10,
         "gaps": 0,
         "id": "BUDGET-001",
         "status": "closed",
-        "tests": 18
+        "tests": 19
       },
       {
         "digest": "3b55212cc4f7967e",
@@ -84,7 +82,7 @@
         "tests": 21
       },
       {
-        "digest": "fd018221b01a9197",
+        "digest": "03e2c7e701b0f496",
         "enforcementPoints": 13,
         "gaps": 0,
         "id": "RUN-001",
@@ -92,20 +90,20 @@
         "tests": 24
       },
       {
-        "digest": "574114609684aa80",
-        "enforcementPoints": 6,
+        "digest": "693e6972c16d3c49",
+        "enforcementPoints": 9,
         "gaps": 0,
         "id": "RUN-001A",
         "status": "closed",
         "tests": 28
       },
       {
-        "digest": "1db76c77c026460c",
-        "enforcementPoints": 5,
+        "digest": "0839a8924d092c85",
+        "enforcementPoints": 6,
         "gaps": 0,
         "id": "RUN-002",
         "status": "closed",
-        "tests": 23
+        "tests": 26
       },
       {
         "digest": "ed417cae8bffe00a",
@@ -141,11 +139,11 @@
       "TRACE-001"
     ],
     "totals": {
-      "citedTests": 185,
+      "citedTests": 187,
       "closed": 10,
       "declared": 10,
       "documented": 10,
-      "enforcementPoints": 72,
+      "enforcementPoints": 77,
       "gaps": 0,
       "open": 0,
       "partial": 0
@@ -155,14 +153,14 @@
     "openRisksByKind": {
       "budget-bypass": 0,
       "historical-overwrite": 0,
-      "path-escape": 2,
+      "path-escape": 0,
       "secret-exposure": 0,
       "unauthorised-inference": 0,
       "unauthorised-publish": 0,
-      "unverified-input": 4
+      "unverified-input": 0
     },
     "openRisksBySeverity": {
-      "high": 6,
+      "high": 0,
       "low": 0,
       "medium": 0
     },
@@ -172,17 +170,10 @@
       "fs-delete": 1,
       "fs-read": 56,
       "fs-write": 26,
-      "network-out": 14,
+      "network-out": 8,
       "process-exec": 3
     },
-    "routesWithOpenHighSeverityRisk": [
-      "runner:cli:judge:config-read",
-      "runner:cli:manifest:draft-read",
-      "runner:firewall:run-file:read",
-      "runner:firewall:run-json:read",
-      "runner:manifest:source-identity:verify",
-      "runner:permit:methodology:read"
-    ],
+    "routesWithOpenHighSeverityRisk": [],
     "scanRoots": [
       "apps/web",
       "packages/core/src",
@@ -192,10 +183,10 @@
       "closedRisks": 122,
       "falselyClosed": 13,
       "falselyClosedStillOpen": 0,
-      "files": 22,
-      "openRisks": 6,
-      "risks": 128,
-      "routes": 106
+      "files": 21,
+      "openRisks": 0,
+      "risks": 122,
+      "routes": 100
     }
   },
   "summaryVersion": 1
