@@ -49,10 +49,12 @@ supabase/migrations        0001–0007 applied to live project nvdkhatenkjmbyudw
 RUNBOOK.md                 v2-era paid-run steps — now blocked by the permit gate by design
 ```
 
-Branches (as of 2026-08-01): **production deploys from `v3/wp-0-live`** via a
-manual `vercel` CLI promote on the `cookingbench-web` Vercel project — there is
-no git-push auto-deploy. The GitHub default branch is still
-`claude/peaceful-bardeen-bo2h6q`, which now holds the *old* site and stale
+Branches (as of 2026-08-02): **production deploys from `v3/wp-0-live` via the
+Vercel git integration** — the Vercel project's Production Branch was repointed
+from `claude/peaceful-bardeen-bo2h6q` to `v3/wp-0-live`, so a push to
+`v3/wp-0-live` now auto-deploys to `cookingbench.com` (the earlier manual
+`vercel` CLI promote is no longer needed). The GitHub default branch may still
+be `claude/peaceful-bardeen-bo2h6q`, which holds the *old* site and stale
 orientation — do not base new work on it without rebasing onto the v3 lineage
 (`v3/wp-0-live` descends cleanly from it). GitHub Actions CI (offline
 acceptance, no secrets, corpus tree-hash pinning) runs on `v3/**` and
