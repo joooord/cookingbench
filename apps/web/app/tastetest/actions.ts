@@ -59,12 +59,34 @@ export type CastBallotResult =
   | { ok: false; retryable: boolean; reason: string };
 
 /**
+ * WP-0 PAUSE GUARD (KI-016). Ballot collection is intentionally disconnected:
+ * the Supabase writers are refusal stubs that can never save, so if a future
+ * UI were rewired to these actions every write would end in a *retryable*
+ * failure — the visitor invited to retry a save that cannot succeed, which is
+ * the exact vote-stranding the pause exists to prevent. Both write actions
+ * (castBallotAction and attachReasonAction) refuse up front while this is
+ * true. Flip to false only in the Stage 5 rebuild, alongside applying
+ * migration 0008 and setting TASTE_BALLOT_SECRET. Typed `boolean` (not the
+ * literal `true`) so the pipelines below stay live for the type-checker while
+ * unreachable at runtime.
+ */
+const BALLOT_COLLECTION_PAUSED: boolean = true;
+
+/**
  * Record the primary vote. Deliberately does NOT accept a reason code: M5.3
  * requires the reason to be asked only after the primary vote has locked, and
  * accepting both in one call would make it possible to build a UI that asks
  * them together — which is the thing the requirement forbids.
  */
 export async function castBallotAction(input: CastBallotInput): Promise<CastBallotResult> {
+  if (BALLOT_COLLECTION_PAUSED) {
+    return {
+      ok: false,
+      retryable: false,
+      reason: 'Ballot collection is paused while the Tasting Flight is rebuilt. Nothing was recorded.',
+    };
+  }
+
   const choice = input?.choice;
   if (!(TASTE_CHOICES as readonly string[]).includes(choice)) {
     return { ok: false, retryable: false, reason: 'Unrecognised choice.' };
@@ -155,6 +177,11 @@ export async function attachReasonAction(
   round: number,
   reasonIndex: number,
 ): Promise<{ ok: boolean; reason?: string }> {
+  if (BALLOT_COLLECTION_PAUSED) {
+    // Same KI-016 guard as the primary vote: castBallotReason is a refusal
+    // stub during the pause, so this write can never succeed either.
+    return { ok: false, reason: 'Ballot collection is paused while the Tasting Flight is rebuilt. Nothing was recorded.' };
+  }
   if (!Number.isInteger(reasonIndex) || reasonIndex < 0 || reasonIndex > 2) {
     return { ok: false, reason: 'Unrecognised reason.' };
   }

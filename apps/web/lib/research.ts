@@ -1,4 +1,5 @@
-import { getAnalysis, getLatestReport, getResponses } from '@/lib/data';
+import { getAnalysis, getLatestReport } from '@/lib/data';
+import corpusFacts from '@/lib/v21-corpus-facts.json';
 
 export const V21_RUN_ID = '2026-07-v2.1';
 
@@ -40,9 +41,22 @@ export interface V21Snapshot {
 let cachedSnapshot: V21Snapshot | null | undefined;
 
 /**
- * Read every public fact through the release-pinned data reader. The function
- * deliberately returns null if the approved release is not the named archive:
- * a versioned research page must never silently inherit figures from a later run.
+ * Read every public fact through the release-pinned data reader — except the
+ * seven corpus aggregates, which are precomputed once into
+ * `v21-corpus-facts.json` because the corpus they summarise is immutable (its
+ * git tree hash is pinned in CI): re-reading 2,576 response files on every
+ * build to re-derive seven constants was pure waste. Be precise about what
+ * guards what: the REAL binding to the corpus is
+ * packages/runner/test/corpus-facts.test.ts, which recomputes every number and
+ * the content digest from the actual response files in CI. The runtime check
+ * below (facts digest === V21_RECORD.corpusDigest) is a lighter tripwire — it
+ * catches a facts file pasted in from a different corpus era, but both values
+ * are committed constants, so it cannot detect corpus drift on its own. If the
+ * corpus is ever deliberately changed (a reviewed tree-pin update), regenerate
+ * this file in the same commit or the CI test goes red. The function still
+ * returns null if the approved release is not the named archive: a versioned
+ * research page must never silently inherit figures from a later run.
+ * (/questions still reads the real responses — it displays them.)
  */
 export function getV21Snapshot(): V21Snapshot | null {
   if (cachedSnapshot !== undefined) return cachedSnapshot;
@@ -53,39 +67,22 @@ export function getV21Snapshot(): V21Snapshot | null {
     return cachedSnapshot;
   }
 
-  const responses = getResponses(V21_RUN_ID);
   const analysis = getAnalysis(V21_RUN_ID);
-  if (responses.length === 0 || !analysis) {
+  if (!analysis || corpusFacts.corpusDigest !== V21_RECORD.corpusDigest) {
     cachedSnapshot = null;
     return cachedSnapshot;
-  }
-
-  const models = new Set<string>();
-  const prompts = new Set<string>();
-  let emptyAnswers = 0;
-  let contentFilterFinishes = 0;
-  let codePoints = 0;
-  let utf8Bytes = 0;
-
-  for (const response of responses) {
-    models.add(response.modelId);
-    prompts.add(response.questionId);
-    if (response.answerText.trim() === '') emptyAnswers += 1;
-    if (response.finishReason === 'content_filter') contentFilterFinishes += 1;
-    codePoints += Array.from(response.answerText).length;
-    utf8Bytes += Buffer.byteLength(response.answerText, 'utf8');
   }
 
   cachedSnapshot = {
     report,
     corpus: {
-      responses: responses.length,
-      models: models.size,
-      prompts: prompts.size,
-      emptyAnswers,
-      contentFilterFinishes,
-      codePoints,
-      utf8Bytes,
+      responses: corpusFacts.responses,
+      models: corpusFacts.models,
+      prompts: corpusFacts.prompts,
+      emptyAnswers: corpusFacts.emptyAnswers,
+      contentFilterFinishes: corpusFacts.contentFilterFinishes,
+      codePoints: corpusFacts.codePoints,
+      utf8Bytes: corpusFacts.utf8Bytes,
     },
     analysis: {
       activeQuestions: analysis.activeQuestions,

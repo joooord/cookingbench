@@ -49,16 +49,21 @@ supabase/migrations        0001–0007 applied to live project nvdkhatenkjmbyudw
 RUNBOOK.md                 v2-era paid-run steps — now blocked by the permit gate by design
 ```
 
-Branches (as of 2026-08-02): **production deploys from `v3/wp-0-live` via the
-Vercel git integration** — the Vercel project's Production Branch was repointed
-from `claude/peaceful-bardeen-bo2h6q` to `v3/wp-0-live`, so a push to
-`v3/wp-0-live` now auto-deploys to `cookingbench.com` (the earlier manual
-`vercel` CLI promote is no longer needed). The GitHub default branch may still
-be `claude/peaceful-bardeen-bo2h6q`, which holds the *old* site and stale
-orientation — do not base new work on it without rebasing onto the v3 lineage
-(`v3/wp-0-live` descends cleanly from it). GitHub Actions CI (offline
-acceptance, no secrets, corpus tree-hash pinning) runs on `v3/**` and
-`claude/**` pushes.
+Branches (as of 2026-08-11): **`v3/wp-0-live` is both the GitHub default branch
+and the Vercel Production Branch** — a push to it auto-deploys to
+`cookingbench.com` via the git integration (the earlier manual `vercel` CLI
+promote is no longer needed). The old default, `claude/peaceful-bardeen-bo2h6q`,
+is frozen at the pre-pivot snapshot; do not base new work on it. GitHub Actions
+CI (offline acceptance, no secrets, corpus tree-hash pinning) runs on `v3/**`
+and `claude/**` pushes.
+
+**Deploy discipline (auto-deploy is NOT gated on CI):** Vercel ships a push to
+`v3/wp-0-live` even if GitHub Actions is red. So: land work on a `claude/**`
+session branch first, wait for CI green on that exact commit, then fast-forward
+`v3/wp-0-live` to it (`git push origin <sha>:v3/wp-0-live`). Never push
+untested commits straight to `v3/wp-0-live`. (Recorded as RISK-11 in
+`docs/controls/risk-register.md`; GitHub branch protection requiring the CI
+check would make this structural — owner action, not yet taken.)
 
 ## The pipeline — now permit-gated
 
