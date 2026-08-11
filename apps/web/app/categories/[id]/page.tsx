@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   if (!CATEGORY_IDS.includes(id as CategoryId)) return {};
   const meta = CATEGORIES[id as CategoryId];
   return {
-    title: `${meta.name} — archived v2.1 category record`,
+    title: `${meta.name} · archived v2.1 category record`,
     description: `${meta.name} in the archived CookingBench v2.1 study: original per-question scores, preserved as historical evidence. ${meta.description}`,
   };
 }
@@ -33,7 +33,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ id: s
 
   // Sorted for a stable reading order only. Per-category means were never
   // tested for separation (analysis.json has no category scope), so ordinal
-  // numbering here would be an untested ranking — the exact claim the erratum
+  // numbering here would be an untested ranking - the exact claim the erratum
   // prohibits deriving from these scores.
   const rows = (report?.rows ?? [])
     .filter((row) => row.categories[category] !== undefined)
@@ -65,7 +65,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ id: s
           </h2>
           <p className="mt-3 text-sm text-ink-soft">
             Sorted by score for readability. Category means were never tested for statistical
-            separation — over as few as a dozen questions, an ordering at this granularity
+            separation; over as few as a dozen questions, an ordering at this granularity
             would be noise presented as precision.
           </p>
           <ul>

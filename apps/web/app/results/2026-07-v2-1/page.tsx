@@ -10,7 +10,7 @@ import { getStandings, modelSlug } from '@/lib/data';
 import { getV21Snapshot, V21_RECORD } from '@/lib/research';
 
 export const metadata: Metadata = {
-  title: 'CookingBench v2.1 — archived preliminary result',
+  title: 'CookingBench v2.1 · archived preliminary result',
   description:
     'The original CookingBench v2.1 scores preserved as a historical record, with uncertainty, scoring limitations and no claim of one definitive best AI cook.',
   alternates: { canonical: '/results/2026-07-v2-1' },
@@ -35,7 +35,7 @@ export default function ArchivedResultPage() {
           CookingBench v2.1
         </h1>
         <p className="mt-6 max-w-3xl text-xl leading-relaxed text-ink-soft">
-          Original published scores, preserved as historical evidence—not a current claim that one
+          Original published scores, preserved as historical evidence, not a current claim that one
           model was the best cook.
         </p>
       </header>
@@ -97,10 +97,10 @@ export default function ArchivedResultPage() {
                   </td>
                   <td className="py-4 pr-4 font-mono">{formatScore(row.overall)}</td>
                   <td className="py-4 pr-4 font-mono text-ink-soft">
-                    {row.overallCi ? `${row.overallCi[0].toFixed(1)}–${row.overallCi[1].toFixed(1)}` : '—'}
+                    {row.overallCi ? `${row.overallCi[0].toFixed(1)}–${row.overallCi[1].toFixed(1)}` : 'n/a'}
                   </td>
                   <td className="py-4 pr-4 font-mono text-ink-soft">
-                    {row.frontier == null ? '—' : formatScore(row.frontier)}
+                    {row.frontier == null ? 'n/a' : formatScore(row.frontier)}
                   </td>
                   <td className="py-4 text-xs text-ink-soft">
                     {leadingGroup.has(row.modelId) ? 'Unresolved leading group' : 'Historical score only'}
@@ -119,8 +119,8 @@ export default function ArchivedResultPage() {
         </div>
         <div>
           <p className="leading-relaxed text-ink-soft">
-            Excluding all 12 active items with negative observed top–bottom discrimination—six
-            keyword and six LLM-judge—reordered all four members of the unrounded raw-score top four
+            Excluding all 12 active items with negative observed top–bottom discrimination (six
+            keyword and six LLM-judge) reordered all four members of the unrounded raw-score top four
             without changing that group’s membership. Other defensible scoring choices produce other
             orders. This is evidence of sensitivity, not a corrected ranking.
           </p>

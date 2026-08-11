@@ -23,7 +23,7 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
  *
  * Everything the client sends is untrusted. The only thing it holds that the
  * server cares about is the sealed token, and the token is the sole source of
- * truth for which models, which item and which nonce a round refers to — the
+ * truth for which models, which item and which nonce a round refers to - the
  * client cannot name them because it has never seen them. That is what makes
  * the ballot honest rather than merely blinded.
  */
@@ -62,7 +62,7 @@ export type CastBallotResult =
  * WP-0 PAUSE GUARD (KI-016). Ballot collection is intentionally disconnected:
  * the Supabase writers are refusal stubs that can never save, so if a future
  * UI were rewired to these actions every write would end in a *retryable*
- * failure — the visitor invited to retry a save that cannot succeed, which is
+ * failure - the visitor invited to retry a save that cannot succeed, which is
  * the exact vote-stranding the pause exists to prevent. Both write actions
  * (castBallotAction and attachReasonAction) refuse up front while this is
  * true. Flip to false only in the Stage 5 rebuild, alongside applying
@@ -76,7 +76,7 @@ const BALLOT_COLLECTION_PAUSED: boolean = true;
  * Record the primary vote. Deliberately does NOT accept a reason code: M5.3
  * requires the reason to be asked only after the primary vote has locked, and
  * accepting both in one call would make it possible to build a UI that asks
- * them together — which is the thing the requirement forbids.
+ * them together - which is the thing the requirement forbids.
  */
 export async function castBallotAction(input: CastBallotInput): Promise<CastBallotResult> {
   if (BALLOT_COLLECTION_PAUSED) {
@@ -107,7 +107,7 @@ export async function castBallotAction(input: CastBallotInput): Promise<CastBall
     return {
       ok: false,
       retryable: false,
-      reason: 'This flight has expired. Start a fresh one — nothing was recorded.',
+      reason: 'This flight has expired. Start a fresh one. Nothing was recorded.',
     };
   }
 
@@ -140,7 +140,7 @@ export async function castBallotAction(input: CastBallotInput): Promise<CastBall
   });
 
   if (outcome === 'saved' || outcome === 'duplicate') {
-    // A duplicate means the row is already on the books — the vote is recorded,
+    // A duplicate means the row is already on the books - the vote is recorded,
     // so the reader has earned the receipt and must not be asked to retry.
     return {
       ok: true,
@@ -197,7 +197,7 @@ export async function attachReasonAction(
     return { ok: false, reason: 'Unrecognised reason.' };
   }
   const outcome = await castBallotReason(context.nonce, reasonIndex);
-  // A duplicate is a double-tap, not a failure — the reason is already on the
+  // A duplicate is a double-tap, not a failure - the reason is already on the
   // books and re-asking would look like the first answer did not register.
   return outcome === 'saved' || outcome === 'duplicate'
     ? { ok: true }

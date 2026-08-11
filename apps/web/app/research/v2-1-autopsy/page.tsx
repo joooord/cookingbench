@@ -192,7 +192,7 @@ export default function AutopsyPage() {
             <p className="mt-6 leading-relaxed">
               Post-hoc reanalyses do not reveal the “real” winner. They test whether the published
               order survives defensible changes. Here, removing all 12 active items with negative
-              observed top–bottom discrimination—six keyword and six LLM-judge—reordered all four
+              observed top–bottom discrimination (six keyword and six LLM-judge) reordered all four
               members of the unrounded raw-score top four without changing that four-model membership.
             </p>
             <div className="mt-7 overflow-x-auto border-t border-ink">
@@ -222,7 +222,7 @@ export default function AutopsyPage() {
               The archived board&apos;s own row order breaks the 96.0 three-way tie differently:
               it sorts on the one-decimal rounded overall, so its #1/#2 are insertion order,
               while this table&apos;s &ldquo;Published&rdquo; column uses full-precision means.
-              Neither ordering is supported as a ranking — that is the point.
+              Neither ordering is supported as a ranking; that is the point.
               Exploratory only. Items were selected after observing the scores. No row in this table
               is a corrected leaderboard and none should be read as one.
             </p>

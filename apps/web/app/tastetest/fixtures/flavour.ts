@@ -1,7 +1,7 @@
 import type { FixtureItem } from './types';
 
 /**
- * Flavour track — five authored rounds, three voices each.
+ * Flavour track - five authored rounds, three voices each.
  *
  * The author sets deliberately OVERLAP in a ring (ash–brine–cinder–dill–ember–
  * fennel–gale–hearth–juniper–kelp–ash). Disjoint sets would be easier to write
@@ -87,7 +87,7 @@ export const flavourItems: FixtureItem[] = [
         sensory: {
           identity: 'A spiced butter dish; the harissa is warm and floral rather than fiery.',
           aroma: 'Rose and orange over toasted chilli, with a green pistachio note underneath.',
-          balance: 'Sweet and fat-forward, gentle heat, acid only from the zest — the weak point.',
+          balance: 'Sweet and fat-forward, gentle heat, acid only from the zest: the weak point.',
           texture: 'Glossy and slippery with a hard crunch from the nuts, everything hot.',
           progression: 'Sweet and buttery, then a slow build of heat that finishes warm, not sharp.',
           failure: 'Harissa strength varies fourfold between brands; taste before it hits the tray.',
@@ -119,7 +119,7 @@ export const flavourItems: FixtureItem[] = [
     proposals: [
       {
         authorId: 'fixture/ember',
-        body: 'Gooseberries, and almost nothing else. Simmer three hundred grams with a splash of water and a pinch of salt until they burst, then beat in a knob of butter and only as much sugar as it takes to stop the sauce being painful — usually far less than a recipe will tell you, because the fish is doing the balancing. Leave it deliberately coarse. Spoon it beside the mackerel rather than over it so the skin stays crisp, and serve both warm. The pairing is old for the same reason it is good: mackerel is rich to the point of cloying by the third mouthful, and a sharp fruit resets the palate every time. If gooseberries are out of season, sharp rhubarb behaves similarly; anything sweeter does not.',
+        body: 'Gooseberries, and almost nothing else. Simmer three hundred grams with a splash of water and a pinch of salt until they burst, then beat in a knob of butter and only as much sugar as it takes to stop the sauce being painful, usually far less than a recipe will tell you, because the fish is doing the balancing. Leave it deliberately coarse. Spoon it beside the mackerel rather than over it so the skin stays crisp, and serve both warm. The pairing is old for the same reason it is good: mackerel is rich to the point of cloying by the third mouthful, and a sharp fruit resets the palate every time. If gooseberries are out of season, sharp rhubarb behaves similarly; anything sweeter does not.',
         sensory: {
           identity: 'Fish and sharp fruit. The sauce exists to make the third mouthful as good as the first.',
           aroma: 'Grilled skin dominates; the sauce smells green and faintly floral behind it.',
@@ -145,7 +145,7 @@ export const flavourItems: FixtureItem[] = [
       },
       {
         authorId: 'fixture/gale',
-        body: 'A cold, sharp cucumber salad, dressed at the last second. Slice cucumber thinly, salt it for ten minutes and squeeze out the water — skip that and the dressing dilutes and the whole thing goes limp on the plate. Fold through crème fraîche loosened with cider vinegar, a decent amount of freshly grated horseradish, and dill. Contains dairy. It should taste of horseradish before it tastes of cream. Serve it cold against the hot fish so the temperature difference does as much work as the flavour does, and keep it in a separate bowl so nobody gets a soggy fish. This is the least fashionable answer of the three and the one I would actually cook on a Tuesday, which seems worth admitting.',
+        body: 'A cold, sharp cucumber salad, dressed at the last second. Slice cucumber thinly, salt it for ten minutes and squeeze out the water; skip that and the dressing dilutes and the whole thing goes limp on the plate. Fold through crème fraîche loosened with cider vinegar, a decent amount of freshly grated horseradish, and dill. Contains dairy. It should taste of horseradish before it tastes of cream. Serve it cold against the hot fish so the temperature difference does as much work as the flavour does, and keep it in a separate bowl so nobody gets a soggy fish. This is the least fashionable answer of the three and the one I would actually cook on a Tuesday, which seems worth admitting.',
         sensory: {
           identity: 'A cold, hot-tasting salad set against hot, rich fish.',
           aroma: 'Horseradish and dill, with vinegar sitting just underneath.',
@@ -173,7 +173,7 @@ export const flavourItems: FixtureItem[] = [
           identity: 'The same soup, deepened and cut; no new ingredient announces itself.',
           aroma: 'Smoked paprika and caramelised onion, with vinegar sharp on the steam.',
           balance: 'Acid is the correction; salt is adjusted only after it has gone in.',
-          texture: 'Unchanged — thick and homogeneous, hot, no added contrast.',
+          texture: 'Unchanged: thick and homogeneous, hot, no added contrast.',
           progression: 'Rounder opening, savoury middle, a clean sharp finish that resets the spoon.',
           failure: 'Vinegar added over heat boils off and the soup is flat again in ten minutes.',
           restraint: 'No garnish, no cream, no chilli. This is a correction, not a redesign.',
@@ -184,7 +184,7 @@ export const flavourItems: FixtureItem[] = [
         body: 'Make a tarka and pour it over each bowl at the table. Heat two tablespoons of ghee or oil until it shimmers, add a teaspoon of cumin seed and wait for it to sizzle and darken by a shade, then mustard seed until it pops, then a dried chilli and eight curry leaves, which will spit. Ten seconds later, off the heat, a pinch of asafoetida if you have it. The whole thing takes ninety seconds and must be poured while it is still audible. Do not stir it in. The soup underneath stays exactly as it was; what changes is that every spoonful passes through a layer of hot spiced fat on the way up. A wedge of lemon on the side does the acid part.',
         sensory: {
           identity: 'An unchanged soup wearing a loud hat; the tarka is the whole intervention.',
-          aroma: 'Enormous — curry leaf and toasted cumin arriving before the bowl does.',
+          aroma: 'Enormous: curry leaf and toasted cumin arriving before the bowl does.',
           balance: 'Fat and aromatics carry it; acid delegated to a lemon wedge on the side.',
           texture: 'Thick soup under a thin slick of hot fat, with seeds and leaves to bite.',
           progression: 'Aromatic first, earthy through the middle, a mild chilli warmth at the end.',
@@ -194,7 +194,7 @@ export const flavourItems: FixtureItem[] = [
       },
       {
         authorId: 'fixture/juniper',
-        body: 'Two tablespoons of white miso, slaked in a little of the hot soup first so it does not sit in lumps, stirred in off the heat. Then fifty grams of butter browned until the solids are the colour of a hazelnut, poured in, and the zest of a whole lemon grated over at the end. The miso brings the savoury depth that long-cooked lentils lose; the browned butter brings the roast note the pot never got; the zest keeps the whole thing from being heavy. Do not boil it after the miso goes in — you lose most of what you added, and it can catch on the base. Taste before salting. Miso is salt, and this is the point where an otherwise good soup usually gets ruined.',
+        body: 'Two tablespoons of white miso, slaked in a little of the hot soup first so it does not sit in lumps, stirred in off the heat. Then fifty grams of butter browned until the solids are the colour of a hazelnut, poured in, and the zest of a whole lemon grated over at the end. The miso brings the savoury depth that long-cooked lentils lose; the browned butter brings the roast note the pot never got; the zest keeps the whole thing from being heavy. Do not boil it after the miso goes in; you lose most of what you added, and it can catch on the base. Taste before salting. Miso is salt, and this is the point where an otherwise good soup usually gets ruined.',
         sensory: {
           identity: 'Deep and rounded, with a citrus edge; least like the soup it started as.',
           aroma: 'Nut-brown butter and lemon oil; the miso is savoury rather than smelt.',
@@ -217,7 +217,7 @@ export const flavourItems: FixtureItem[] = [
     proposals: [
       {
         authorId: 'fixture/juniper',
-        body: 'Bay. Bring the cream and milk to just below a simmer with six fresh bay leaves — Laurus nobilis, the culinary one, not ornamental cherry laurel — take it off, cover, and leave it for thirty minutes before straining onto the eggs. It is closer to almond and warm resin than to a stew, and almost nobody identifies it, which is most of the pleasure. Use fewer leaves if they are fresh off a vigorous tree; six dried ones is a different quantity from six fat green ones. Bake as usual in a low oven in a water bath and pull it while the centre still moves. Serve at room temperature rather than fridge-cold, because cold flattens aromatics and you have gone to the trouble of putting one in.',
+        body: 'Bay. Bring the cream and milk to just below a simmer with six fresh bay leaves (Laurus nobilis, the culinary one, not ornamental cherry laurel), take it off, cover, and leave it for thirty minutes before straining onto the eggs. It is closer to almond and warm resin than to a stew, and almost nobody identifies it, which is most of the pleasure. Use fewer leaves if they are fresh off a vigorous tree; six dried ones is a different quantity from six fat green ones. Bake as usual in a low oven in a water bath and pull it while the centre still moves. Serve at room temperature rather than fridge-cold, because cold flattens aromatics and you have gone to the trouble of putting one in.',
         sensory: {
           identity: 'A savoury-herbal custard that reads as almond; the source stays unidentified.',
           aroma: 'Warm resin and something almond-like; nothing about it says leaf.',
@@ -243,7 +243,7 @@ export const flavourItems: FixtureItem[] = [
       },
       {
         authorId: 'fixture/ash',
-        body: 'Burnt honey. Cook four tablespoons of honey alone in a small pan until it darkens well past amber and starts to smoke very slightly — it will smell briefly of caramel and then of something harder — then kill it immediately with the hot cream, standing back, because it will erupt. Whisk until smooth, add a wide strip of orange peel, and infuse fifteen minutes before straining onto the eggs. Reduce the sugar in the base by roughly the same volume as the honey. The result is bittersweet rather than sweet and it holds up after a heavy meal, where a sweeter custard would be refused. Take the honey too far and it is genuinely acrid, so have the cream measured and to hand before you start.',
+        body: 'Burnt honey. Cook four tablespoons of honey alone in a small pan until it darkens well past amber and starts to smoke very slightly (it will smell briefly of caramel and then of something harder), then kill it immediately with the hot cream, standing back, because it will erupt. Whisk until smooth, add a wide strip of orange peel, and infuse fifteen minutes before straining onto the eggs. Reduce the sugar in the base by roughly the same volume as the honey. The result is bittersweet rather than sweet and it holds up after a heavy meal, where a sweeter custard would be refused. Take the honey too far and it is genuinely acrid, so have the cream measured and to hand before you start.',
         sensory: {
           identity: 'Bittersweet and dark; the burnt note is the flavour, not an accident.',
           aroma: 'Caramel with an edge of scorch, and orange oil sitting over it.',

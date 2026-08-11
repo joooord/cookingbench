@@ -4,7 +4,7 @@ export const size = { width: 180, height: 180 };
 export const contentType = 'image/png';
 
 // Same toque mark as icon.svg, rendered to PNG for Apple devices (no rounded
-// corners — iOS applies its own mask).
+// corners - iOS applies its own mask).
 export default function AppleIcon() {
   return new ImageResponse(
     (

@@ -32,7 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/methodology`, lastModified, changeFrequency: 'monthly', priority: 0.6 },
     // Archived category records only. The legacy /models/* URLs now redirect
     // permanently to the archived profiles, so only the destination is
-    // advertised — a sitemap pointing search engines at the rank-bearing
+    // advertised - a sitemap pointing search engines at the rank-bearing
     // legacy pages was how the disowned framing kept leaking out.
     ...CATEGORY_IDS.map((id) => ({
       url: `${BASE}/categories/${id}`,

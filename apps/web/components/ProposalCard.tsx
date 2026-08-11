@@ -38,7 +38,7 @@ const SENSORY_ROWS: ReadonlyArray<[keyof SensoryCard, string]> = [
  *
  * **The card is NOT `role="button"`.** It contains a description list, which is
  * not valid button content, and a role without complete keyboard semantics is
- * worse than no role — it promises a control that Enter and Space do not
+ * worse than no role - it promises a control that Enter and Space do not
  * operate. Every keyboard and screen-reader path goes through the real
  * `<button>`s in the ballot fieldset below, which is where the accessible name
  * for each side lives. The pointer handler is a convenience on top of that, not
@@ -74,7 +74,7 @@ export function ProposalCard({
     // below the fold, and a ballot cast without ever scrolling to it is not a
     // comparison. IntersectionObserver is absent in some embedded webviews, in
     // which case the signal stays false and the ballot is excluded in analysis
-    // — recorded and counted, never silently promoted to "seen".
+    // - recorded and counted, never silently promoted to "seen".
     if (typeof IntersectionObserver === 'undefined') return;
     const observer = new IntersectionObserver(
       (entries) => {
@@ -130,7 +130,7 @@ export function ProposalCard({
           {/*
             Gate 5 requires participants to understand that the card PREDICTS
             rather than measures. Saying so once at the top of the page is not
-            enough — the reader is looking at this list when the thought occurs.
+            enough - the reader is looking at this list when the thought occurs.
           */}
           <p className="mt-1 text-xs text-ink-soft">
             Written before anyone cooked it. A prediction, not a measurement.

@@ -24,7 +24,7 @@ export default function MethodologyPage() {
   for (const q of questions) counts.set(q.category, (counts.get(q.category) ?? 0) + 1);
 
   // Read from the published run rather than hardcoded, so these numbers cannot
-  // drift away from the board they describe — that drift is exactly how a
+  // drift away from the board they describe - that drift is exactly how a
   // methodology page starts lying.
   const report = getLatestReport();
   const analysis = report ? getAnalysis(report.runId) : null;
@@ -75,18 +75,18 @@ export default function MethodologyPage() {
         // is and which run was scored under it, or the two drift apart with
         // nothing on either page to catch it.
         <p className="mt-6 max-w-[42rem] text-sm leading-relaxed text-ink-soft">
-          The archived board — run <span className="tabular">{report.runId}</span> — was scored
+          The archived board (run <span className="tabular">{report.runId}</span>) was scored
           under methodology <strong>{methodologyVersion}</strong>, and this page describes that
           methodology as it stood. A retrospective audit found the derived scores unreliable:
           they remain visible as a historical record, but they{' '}
-          <strong>must not be cited as a ranking of culinary ability</strong> — see{' '}
+          <strong>must not be cited as a ranking of culinary ability</strong>: see{' '}
           <a href="/research/v2-1-autopsy" className="text-paprika hover:underline">
             the autopsy
           </a>{' '}
           and the corpus-and-scores erratum in the repository. The roster and judge seats below
           are read from that run, and the grader corrections from the July audit are set out in
           the erratum at the foot of the page. The next methodology is being rebuilt
-          measurement-first under the Revision 3 research programme — nothing published here has
+          measurement-first under the Revision 3 research programme; nothing published here has
           been scored under it.
         </p>
       )}
@@ -97,7 +97,7 @@ export default function MethodologyPage() {
           <p className="mt-4">
             Cooking is an unusually good probe of model reliability: it mixes hard
             arithmetic (scaling, conversions, nutrition math), regulated facts (food-safety
-            temperatures), and judgement (technique, flavour). Models visibly differ here —
+            temperatures), and judgement (technique, flavour). Models visibly differ here,
             and crucially, <strong>new versions of the same model family sometimes regress on
             quantities and volumes</strong> while improving elsewhere. CookingBench makes that
             measurable.
@@ -109,7 +109,7 @@ export default function MethodologyPage() {
           <p className="mt-4">
             {questions.length} hand-written questions across {CATEGORY_IDS.length} categories.
             Most are graded deterministically; the rest by a reference-anchored LLM judge.
-            <strong> The entire dataset is public</strong> — we don&rsquo;t pretend to have a
+            <strong> The entire dataset is public</strong>: we don&rsquo;t pretend to have a
             secret hold-out. Contamination defence is mechanical instead: after every run,
             item analysis demotes saturated questions to a separate Basics tier (a regression
             gate excluded from the Overall score) and the active set is refreshed with harder,
@@ -142,31 +142,31 @@ export default function MethodologyPage() {
             {panel.length > 0 ? (
               <>
                 {' '}
-                — on run {report?.runId} the seats were{' '}
-                {new Intl.ListFormat('en-GB', { type: 'conjunction' }).format(panel)}
+                (on run {report?.runId} the seats were{' '}
+                {new Intl.ListFormat('en-GB', { type: 'conjunction' }).format(panel)})
               </>
             ) : null}
             . Each answer is scored by two of the seats; a judge never scores a model from
             its own maker (self-preference bias), and which seat sits out is deterministic
             by hash, so every published score is reproducible. Judges are fact-checkers, not
-            mark-givers: each compares the answer to a reference and lists concrete faults
-            — typed critical, major or minor — and code maps those to deductions
+            mark-givers: each compares the answer to a reference and lists concrete faults,
+            typed critical, major or minor, and code maps those to deductions
             (−40/−15/−5 from 100). Never awarding points removes the grade-inflation
             ceiling that saturated v1. Judges are blind to which model wrote the answer,
             cross-judge disagreements over 15 points are flagged for human review, and
             every panel seat must independently pass a calibration gate (reproducing
             hand-scored anchor answers) before a run is accepted. For constrained recipe
-            generation the panel score is blended with deterministic constraint checks —
+            generation the panel score is blended with deterministic constraint checks,
             e.g. an allergen appearing in a &ldquo;nut-free&rdquo; recipe.
           </p>
           <p className="mt-4">
             <strong>Precision and taste are scored separately.</strong> Everything above
-            measures precision — facts, math, constraints, technique. But a benchmark
+            measures precision: facts, math, constraints, technique. But a benchmark
             that stops there is a metrics test, not a flavour test. The{' '}
             <a href="/tastetest" className="text-paprika hover:underline">Taste Test</a>{' '}
             is the second axis: blind, side-by-side human preference. Ballot collection is
             currently <strong>paused</strong> while the flight is rebuilt under the new
-            methodology — the archived duel ballots are preserved in the repository, and the{' '}
+            methodology; the archived duel ballots are preserved in the repository, and the{' '}
             <a href="/taste" className="text-paprika hover:underline">Taste Board</a> explains
             what a future Taste ordering would be allowed to claim. Taste evidence is never
             folded into the precision score.
@@ -174,7 +174,7 @@ export default function MethodologyPage() {
           <p className="mt-4">
             Every question scores 0–100. The <strong>Overall</strong> score is the plain mean
             over active questions, with a 95% bootstrap confidence interval over questions
-            shown as ±. <strong>Frontier</strong> is the mean over difficulty-4+ items —
+            shown as ±. <strong>Frontier</strong> is the mean over difficulty-4+ items:
             compound multi-step chains where errors compound, dangerous-premise traps,
             buried-constraint briefs and locale traps (a UK pint, an Australian tablespoon).
             <strong> Basics</strong> is the saturated tier every model should ace; a dip
@@ -193,14 +193,14 @@ export default function MethodologyPage() {
             one model on its own. Two of them overlapping neither proves nor disproves that
             one model beats the other, so an ordering cannot be read off the Overall column.
             Because every model answers the same questions, the honest comparison is{' '}
-            <strong>paired</strong> — resample the per-question score <em>differences</em>,
+            <strong>paired</strong>: resample the per-question score <em>differences</em>,
             which cancels out how hard the questions happen to be. A pair counts as
             separated when one model still leads in at least 95% of 4,000 resamples.
           </p>
           {separation && (
             <p className="mt-4">
               On run {separation.runId}, {separation.separated} of {separation.total} model
-              pairs clear that <strong>uncorrected</strong> 95% screen — a screening figure,
+              pairs clear that <strong>uncorrected</strong> 95% screen, a screening figure,
               not a confirmatory ordering: at a family of {separation.total} tests, several
               pairs would be expected to clear it by chance even on a roster of identical
               models. {separation.tiedFirst > 1 ? (
@@ -220,7 +220,7 @@ export default function MethodologyPage() {
             that uncorrected level, over all pairs rather than adjacent ones. Statistical ties
             do not chain: A tied with B and B tied with C says nothing about A against C, and
             following such a chain down this board would merge almost the whole roster into a
-            single place. A multiplicity-corrected ordering would separate fewer pairs still —
+            single place. A multiplicity-corrected ordering would separate fewer pairs still,
             which is one reason these places are archived history, not a claim.
           </p>
         </section>
@@ -246,7 +246,7 @@ export default function MethodologyPage() {
                 at all.
               </li>
               <li>
-                <strong>Effective item count: {saturation.effectiveItems}</strong> — weighting
+                <strong>Effective item count: {saturation.effectiveItems}</strong>: weighting
                 each question by its share of the variance, the active set does the work of
                 about that many equally-informative questions. That gap is the honest measure
                 of how much room the benchmark has left, and closing it means writing harder
@@ -255,8 +255,8 @@ export default function MethodologyPage() {
             </ul>
           )}
           <p className="mt-4">
-            Saturated items are demoted to the Basics tier — kept as a regression gate,
-            excluded from Overall — and replaced. Candidate questions must pass an admission
+            Saturated items are demoted to the Basics tier (kept as a regression gate,
+            excluded from Overall) and replaced. Candidate questions must pass an admission
             gate before they count: a reference answer that scores full marks against its own
             grader, a deliberately wrong answer that does not, and a pilot against a
             frontier model, which rejects the question if the strongest model finds it easy.
@@ -293,8 +293,8 @@ export default function MethodologyPage() {
             {config?.maxTokens && config?.maxTokensRecipe ? (
               <>
                 {' '}
-                — {config.maxTokens.toLocaleString('en-GB')} tokens for most questions and{' '}
-                {config.maxTokensRecipe.toLocaleString('en-GB')} for recipe generation. The
+                ({config.maxTokens.toLocaleString('en-GB')} tokens for most questions and{' '}
+                {config.maxTokensRecipe.toLocaleString('en-GB')} for recipe generation). The
                 split is not cosmetic: some providers count hidden reasoning against that cap
                 and others do not, so one flat cap truncated the answers of the ones that do
                 while leaving their rivals untouched
@@ -331,13 +331,13 @@ export default function MethodologyPage() {
               {cost.complete ? (
                 <>
                   {' '}
-                  — <span className="tabular">${cost.knownUsd.toFixed(2)}</span> in total.
+                  (<span className="tabular">${cost.knownUsd.toFixed(2)}</span> in total).
                 </>
               ) : (
                 <>
                   {' '}
-                  — at least <span className="tabular">${cost.knownUsd.toFixed(2)}</span> in
-                  total, the unrecorded parts being unknown rather than free.
+                  (at least <span className="tabular">${cost.knownUsd.toFixed(2)}</span> in
+                  total, the unrecorded parts being unknown rather than free).
                 </>
               )}{' '}
               The leaderboard&rsquo;s per-model cost column covers candidate answers only, so
@@ -348,7 +348,7 @@ export default function MethodologyPage() {
 
         <section>
           <h2 className="border-b-2 border-ink pb-2 font-display text-xl font-medium">
-            Erratum — run 2026-06-v2
+            Erratum · run 2026-06-v2
           </h2>
           <p className="mt-4">
             The keyword grader used to treat a forbidden term as a violation wherever it

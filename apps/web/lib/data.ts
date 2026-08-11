@@ -80,7 +80,7 @@ function readJson<T>(path: string): T {
 }
 
 /**
- * RELEASE-002 — which board the site serves is an APPROVAL, not a heuristic.
+ * RELEASE-002 - which board the site serves is an APPROVAL, not a heuristic.
  *
  * What this replaces: the site read every `data/runs/*​/leaderboard.json`,
  * discarded the obviously wrong ones and served whichever had the newest
@@ -88,7 +88,7 @@ function readJson<T>(path: string): T {
  * been patched around rather than fixed:
  *
  *  - `bench report` restamps `generatedAt` on every rebuild, so regenerating any
- *    board — including a mock one, whose files are tracked — moved the homepage.
+ *    board - including a mock one, whose files are tracked - moved the homepage.
  *    The patch was "skip config.mock".
  *  - A ten-question canary is a real, non-mock run whose timestamp is by
  *    definition the newest. The patch was a 50% coverage floor.
@@ -100,7 +100,7 @@ function readJson<T>(path: string): T {
  * `bench current` only for a run that is registered, released, and passing the
  * full fixed release checklist. The pointer pins every published artifact by
  * digest, so a file replaced underneath a live pointer is refused rather than
- * served beside the ones that were not replaced — the reader half of atomic
+ * served beside the ones that were not replaced - the reader half of atomic
  * publication.
  */
 export interface ApprovedRelease {
@@ -141,13 +141,13 @@ export const REGISTER_FILE = 'REGISTER.json';
  * `2026-07-v2.1` is published, `evidenceClass: historical`, `releaseState:
  * released`, and RELEASE-002 says in terms that it may remain publicly visible.
  * It predates the manifest and the register, so there is no pointer to read for
- * it and there never will be — its directory is immutable.
+ * it and there never will be - its directory is immutable.
  *
  * This is a PIN, not a fallback rule: it names one run id and fixed digests for
  * every byte from that run the site consumes. The response corpus is one
  * versioned tree-set commitment over all 2,576 filenames and content hashes.
  * It cannot promote a newer board, a rebuilt board, or a copied companion file.
- * The register overrides it in both directions — a `currentRun` pointer wins,
+ * The register overrides it in both directions - a `currentRun` pointer wins,
  * and an entry putting this run in any state other than `released` withdraws it.
  */
 const PINNED_HISTORICAL_RELEASE = {
@@ -727,7 +727,7 @@ export function getTiedRanks(runId: string): Map<string, number> | null {
 /**
  * A model's place on the board, from the one rank source.
  *
- * `sharedWith` is how many models hold this same place — 1 means the model
+ * `sharedWith` is how many models hold this same place - 1 means the model
  * holds it alone. Anything rendering a rank must branch on this rather than
  * printing the number bare, or a joint first place reads as an outright win.
  */
@@ -754,7 +754,7 @@ export interface Standings {
  * The board was taught about ties (`getTiedRanks`) but the model pages were
  * not, so they kept computing `rows.indexOf(row) + 1`: a model badged "=1st"
  * on the homepage was headed "rank #2" on its own page and in the description
- * Google indexed. Two derivations of the same number is the defect — this
+ * Google indexed. Two derivations of the same number is the defect - this
  * function exists so there is only one.
  *
  * Falls back to row order when the run has no separation data, which is every
@@ -837,11 +837,11 @@ export function getRunConfig(runId: string): RunConfig | null {
  * `knownUsd` as a lower bound whenever `complete` is false.
  */
 export interface RunCost {
-  /** Candidate model spend — the sum of the board's per-model column. */
+  /** Candidate model spend - the sum of the board's per-model column. */
   candidateUsd: number;
   /** Judge panel spend for the whole run. */
   judgeUsd: number | null;
-  /** Calibration gate spend — the anchor replay every seat runs before judging. */
+  /** Calibration gate spend - the anchor replay every seat runs before judging. */
   calibrationUsd: number | null;
   /** Sum of the components that are known. */
   knownUsd: number;
@@ -887,7 +887,7 @@ export function getRunCost(report: LeaderboardReport): RunCost {
 /**
  * id → display name for the roster, so pages can name a judge seat without
  * hardcoding it. The methodology page named the panel by hand and went stale
- * the moment the Qwen seat was replaced by Grok 4.5 — it went on claiming a
+ * the moment the Qwen seat was replaced by Grok 4.5 - it went on claiming a
  * panel that had not judged the published run.
  *
  * Deliberately shape-checked rather than parsed through the core schema: this
@@ -906,7 +906,7 @@ export function getModelNames(): Map<string, string> {
       if (typeof id === 'string' && typeof displayName === 'string') names.set(id, displayName);
     }
   } catch {
-    // An unreadable roster costs nice names, nothing else — callers fall back
+    // An unreadable roster costs nice names, nothing else - callers fall back
     // to the slug, which is still true.
   }
   return names;
@@ -918,7 +918,7 @@ export function getQuestions(): Question[] {
   for (const file of readdirSync(dir).filter((f) => f.endsWith('.yaml')).sort()) {
     // Parse through the schema rather than casting. `status`, `trap` and
     // `addedIn` are zod defaults, so a bare cast leaves them undefined on every
-    // item that relies on the default — the site only reads `status` to test
+    // item that relies on the default - the site only reads `status` to test
     // for 'basics', which is always written explicitly, so it happens to work.
     // That is luck, not design, and the next field with a default would break
     // silently. The runner already loads questions this way.

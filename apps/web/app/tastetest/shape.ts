@@ -3,7 +3,7 @@ import type { SensoryCard, TimelineStep } from './fixtures/types';
 /**
  * The wire shape between the server flight builder and the client.
  *
- * It lives in its own module — rather than beside the builder in `flight.ts` —
+ * It lives in its own module - rather than beside the builder in `flight.ts`  - 
  * because `flight.ts` is `import 'server-only'` and holds the key material and
  * the unblinded author ids. A client component that needs these types must not
  * be able to reach that module even accidentally through a type import that a

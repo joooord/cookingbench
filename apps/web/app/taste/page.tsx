@@ -18,7 +18,7 @@ import { getLatestReport, modelSlug } from '@/lib/data';
 import { scoreColor } from '@/lib/format';
 import { getAllTasteVotes, getFlightBallots, type FlightBallotRead } from '@/lib/supabase';
 
-// Recomputed from the ballot record on each revalidation — the ballots, not
+// Recomputed from the ballot record on each revalidation - the ballots, not
 // the board, are the permanent record.
 export const revalidate = 60;
 
@@ -33,7 +33,7 @@ const MIN_BATTLES = 5;
 /**
  * Map the public read view onto the analysis type.
  *
- * `dwellMs` and `sessionId` are absent BY DESIGN — the view withholds them so a
+ * `dwellMs` and `sessionId` are absent BY DESIGN - the view withholds them so a
  * per-browser id plus per-round timings cannot be used to reconstruct one
  * visitor's sitting. That means this page cannot run `admitTasteBallots` or the
  * abuse screen; both need the base table and a service-role reader. The page
@@ -75,7 +75,7 @@ function Effect({
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <span className="font-medium">{name}</span>
         <span className="tabular text-sm">
-          {estimate.n === 0 ? '—' : `${(estimate.share * 100).toFixed(1)}%`}
+          {estimate.n === 0 ? 'n/a' : `${(estimate.share * 100).toFixed(1)}%`}
           {estimate.ci95 && (
             <span className="ml-2 text-xs text-ink-soft">
               95% CI {(estimate.ci95[0] * 100).toFixed(1)}–{(estimate.ci95[1] * 100).toFixed(1)}%
@@ -86,7 +86,7 @@ function Effect({
       <p className="mt-1 text-xs text-ink-soft">
         {what} Neutral is 50%.{' '}
         {estimate.refusal
-          ? `Not yet measurable — ${estimate.refusal}.`
+          ? `Not yet measurable: ${estimate.refusal}.`
           : estimate.detected
             ? 'The interval excludes 50%: this effect is real and blocks any ordering.'
             : 'The interval covers 50%.'}{' '}
@@ -129,7 +129,7 @@ export default async function TasteBoardPage() {
       </div>
 
       {/* ------------------------------------------------------------------ */}
-      {/* v3 — development evidence, and why there is no ordering            */}
+      {/* v3 - development evidence, and why there is no ordering            */}
       {/* ------------------------------------------------------------------ */}
 
       <section className="mt-14 border-t-2 border-ink pt-6">
@@ -144,12 +144,12 @@ export default async function TasteBoardPage() {
           <p className="mt-4 text-sm text-ink-soft">
             Live ballot reads are intentionally offline while the flight is rebuilt under the
             new methodology, so nothing is shown here. (This is the designed pause, not a
-            failed read — a partial read would produce a different fit and look exactly like
+            failed read: a partial read would produce a different fit and look exactly like
             a complete one, which is why the page refuses rather than guessing.)
           </p>
         ) : ballots.length === 0 ? (
           <p className="mt-4 max-w-2xl text-ink-soft">
-            No flights recorded yet — be the first to{' '}
+            No flights recorded yet; be the first to{' '}
             <Link href="/tastetest" className="text-paprika hover:underline">
               judge a five-round tasting flight
             </Link>
@@ -217,7 +217,7 @@ export default async function TasteBoardPage() {
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
                   <span className="font-medium">Identical-answer control</span>
                   <span className="tabular text-sm">
-                    {identical.pass === null ? '—' : `${(identical.pass * 100).toFixed(0)}% pass`}
+                    {identical.pass === null ? 'n/a' : `${(identical.pass * 100).toFixed(0)}% pass`}
                   </span>
                 </div>
                 <p className="mt-1 text-xs text-ink-soft">
@@ -234,7 +234,7 @@ export default async function TasteBoardPage() {
             <p className="mt-2 max-w-2xl text-sm text-ink-soft">
               Ratings are fitted per axis before any overall, and only over a connected graph.
               A phantom opponent shrinks small samples but must never join two clusters that
-              were never compared — that would manufacture an ordering rather than measure one.
+              were never compared; that would manufacture an ordering rather than measure one.
             </p>
             <table className="mt-3 w-full max-w-2xl border-collapse text-sm">
               <thead>
@@ -262,7 +262,7 @@ export default async function TasteBoardPage() {
                           'yes'
                         ) : (
                           <span className="text-paprika">
-                            no — {graph.components.length} components
+                            no: {graph.components.length} components
                           </span>
                         )}
                       </td>
@@ -281,12 +281,12 @@ export default async function TasteBoardPage() {
           <ul className="mt-3 max-w-2xl list-disc space-y-2 pl-5 text-sm leading-relaxed text-ink-soft">
             <li>
               The minimum ballot counts and precision thresholds a Taste ordering would need
-              still <strong>require preregistration</strong> — they are provisional until
+              still <strong>require preregistration</strong>; they are provisional until
               frozen in advance.
               The provisional figures are {TASTE_PUBLICATION_THRESHOLDS.minBallotsPerAxis}{' '}
               ballots and {TASTE_PUBLICATION_THRESHOLDS.minFlightsPerAxis} flights per axis,
               with every voice above{' '}
-              {TASTE_PUBLICATION_THRESHOLDS.minBallotsPerModelPerAxis} comparisons — but no
+              {TASTE_PUBLICATION_THRESHOLDS.minBallotsPerModelPerAxis} comparisons, but no
               amount of data clears this while the thresholds themselves are unsimulated.
             </li>
             <li>
@@ -309,7 +309,7 @@ export default async function TasteBoardPage() {
       </section>
 
       {/* ------------------------------------------------------------------ */}
-      {/* v2 — the archived duel record                                      */}
+      {/* v2 - the archived duel record                                      */}
       {/* ------------------------------------------------------------------ */}
 
       <LegacyBoard votes={legacyVotes} rows={rows} />
@@ -321,7 +321,7 @@ export default async function TasteBoardPage() {
  * The v2 duel board, archived.
  *
  * It stays because the ballots are a permanent record and their scale must not
- * move under them — but it is fenced off and labelled, because its three-outcome
+ * move under them - but it is fenced off and labelled, because its three-outcome
  * vocabulary cannot be reconciled with the v3 ballot. "Tie" there means either
  * "equally excellent" or "equally poor" and nobody can now say which, so the two
  * vote sets are never pooled and the v2 numbers are never restated in v3 terms.
@@ -355,7 +355,7 @@ function LegacyBoard({
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ink-soft">
         The original three-outcome duel: two answers, pick one or call it too close. Kept
         exactly as cast. It is <strong>not</strong> pooled with the Tasting Flight above and
-        never will be — its &ldquo;too close to call&rdquo; conflates two answers the v3 ballot
+        never will be: its &ldquo;too close to call&rdquo; conflates two answers the v3 ballot
         keeps apart, and there is no way to recover which was meant.
       </p>
 

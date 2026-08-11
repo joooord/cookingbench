@@ -57,7 +57,7 @@ export default function HomePage() {
           </h1>
           <p className="mt-9 max-w-2xl text-xl leading-relaxed text-ink-soft sm:text-2xl">
             Cooking joins physical truth with human judgement. A good answer must be safe,
-            feasible and technically sound—but it must also understand flavour, culture,
+            feasible and technically sound, but it must also understand flavour, culture,
             occasion and the person being fed.
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -76,7 +76,7 @@ export default function HomePage() {
               ['02', 'Can it predict experience?', 'Flavour · texture · aroma'],
               ['03', 'Can it respond to a person?', 'Culture · occasion · care'],
             ].map(([number, question, dimensions]) => (
-              <li key={number} className="grid grid-cols-[2.5rem_1fr] border-t border-hairline py-4">
+              <li key={number} className="grid grid-cols-[2.5rem_1fr] items-baseline border-t border-hairline py-4">
                 <span className="font-mono text-xs text-paprika">{number}</span>
                 <div>
                   <p className="font-display text-lg">{question}</p>
@@ -115,7 +115,7 @@ export default function HomePage() {
           <p className="mt-5 max-w-xl leading-relaxed text-ink-soft">
             Heat, time, ratios and microbiology constrain what can work. Flavour, culture,
             memory and care shape whether the result is worth eating. Because both live inside
-            the same task, cooking offers an unusually rich way to study what AI understands—and
+            the same task, cooking offers an unusually rich way to study what AI understands, and
             what it only sounds as if it understands.
           </p>
           <p className="mt-7 text-sm"><TextLink href="/research/can-ai-cook">Read “Can AI cook?”</TextLink></p>
@@ -182,7 +182,7 @@ export default function HomePage() {
           </h2>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">
             CookingBench will treat question design as the instrument, validate AI judges against
-            blinded expert judgements, measure dimensions separately and publish sensitivity—not
+            blinded expert judgements, measure dimensions separately and publish sensitivity, not
             declare a winner simply because a table can be sorted.
           </p>
           <div className="mt-8"><PrimaryLink href="/research/can-ai-cook#programme">See the research programme</PrimaryLink></div>
@@ -199,7 +199,7 @@ export default function HomePage() {
             <h2 className="mt-3 font-display text-3xl font-semibold">CookingBench v2.1</h2>
             <p className="mt-3 max-w-2xl text-ink-soft">
               Original published scores, uncertainty, the unresolved leading group and every known
-              limitation—preserved without silently rewriting the record.
+              limitation, preserved without silently rewriting the record.
             </p>
           </div>
           <SecondaryLink href="/results/2026-07-v2-1">View archived result</SecondaryLink>

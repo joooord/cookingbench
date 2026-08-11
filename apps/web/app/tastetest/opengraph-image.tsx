@@ -3,9 +3,9 @@ import { ImageResponse } from 'next/og';
 // The card cannot promise more than the measurement claim does. A share image
 // reading "two AI chefs" would be wrong twice over: the Tasting Flight runs on
 // authored fixture proposals, and what it measures is which one a reader would
-// rather cook — not which tastes better.
+// rather cook - not which tastes better.
 export const alt =
-  'CookingBench Tasting Flight — five blind rounds, two proposals each, you pick the one you would rather cook';
+  'CookingBench Tasting Flight · five blind rounds, two proposals each, you pick the one you would rather cook';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -104,7 +104,7 @@ export default function OpenGraphImage() {
             </span>
           </div>
           <div style={{ marginTop: 'auto', fontSize: 26, color: '#57534e' }}>
-            cookingbench.com/tastetest — blind, about three minutes
+            cookingbench.com/tastetest · blind, about three minutes
           </div>
         </div>
         <div

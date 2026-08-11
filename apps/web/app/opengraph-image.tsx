@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og';
 import { getLatestReport, getTiedRanks } from '@/lib/data';
 import { formatScore } from '@/lib/format';
 
-export const alt = 'CookingBench — which AI model is the best chef?';
+export const alt = 'CookingBench · which AI model is the best chef?';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -11,7 +11,7 @@ const TIED = '#c8401a';
 
 export default function OpenGraphImage() {
   let rows: Array<{ name: string; score: string; place: string; color: string }> = [];
-  let caption = 'cookingbench.com — quantities · conversions · food safety · technique · flavour';
+  let caption = 'cookingbench.com: quantities · conversions · food safety · technique · flavour';
   try {
     const report = getLatestReport();
     // The card is the most-shared artifact on the site, so it is the worst
@@ -30,7 +30,7 @@ export default function OpenGraphImage() {
       };
     });
     if (tiedFirst.length > 1) {
-      caption = `cookingbench.com — ${tiedFirst.length} models statistically tied for first`;
+      caption = `cookingbench.com: ${tiedFirst.length} models statistically tied for first`;
     }
   } catch {
     // Fall back to the plain card if run data is unavailable at build time.

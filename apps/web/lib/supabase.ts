@@ -17,7 +17,7 @@ export interface TasteVote {
   model_a: string;
   model_b: string;
   winner: 'a' | 'b' | 'tie';
-  /** Anonymous per-browser UUID (localStorage) — analysis-grade, not auth. */
+  /** Anonymous per-browser UUID (localStorage) - analysis-grade, not auth. */
   session_id?: string | null;
   /** Milliseconds from pair shown to vote cast. */
   vote_ms?: number | null;
@@ -49,7 +49,7 @@ export async function getTasteWinrates(): Promise<TasteWinrate[] | null> {
 }
 
 /* -------------------------------------------------------------------------- */
-/* v3 — Tasting Flight ballots (migration 0008)                               */
+/* v3 - Tasting Flight ballots (migration 0008)                               */
 /* -------------------------------------------------------------------------- */
 
 /**
@@ -101,7 +101,7 @@ export async function castBallotReason(
   return 'unreachable';
 }
 
-/** A row of `taste_flight_reads` — the view, so no session_id and no dwell. */
+/** A row of `taste_flight_reads` - the view, so no session_id and no dwell. */
 export interface FlightBallotRead {
   id: string;
   created_at: string;

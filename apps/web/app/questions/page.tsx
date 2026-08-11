@@ -37,8 +37,8 @@ export default function QuestionsPage() {
         </p>
         <p className="mt-3 text-sm leading-relaxed text-ink-soft">
           Prompts, references and scoring rules on this page come from the current repaired bank;
-          model answers and original scores come from the archived v2.1 run. Some items—including
-          flav-014 and rgen-004—changed after that run, so this is not a reconstruction of the exact
+          model answers and original scores come from the archived v2.1 run. Some items, including
+          flav-014 and rgen-004, changed after that run, so this is not a reconstruction of the exact
           historical instrument. The frozen response corpus remains independently verifiable in the{' '}
           <Link href="/corpus/2026-07-v2-1" className="text-paprika underline underline-offset-4">
             corpus record
@@ -61,7 +61,7 @@ export default function QuestionsPage() {
                   difficulty {'●'.repeat(question.difficulty)}{'○'.repeat(Math.max(0, 5 - question.difficulty))}
                 </span>
                 {question.status === 'basics' && (
-                  <span className="rounded-sm border border-hairline px-1.5 py-0.5 text-xs text-ink-soft" title="Saturated item — runs as a regression gate, excluded from Overall">
+                  <span className="rounded-sm border border-hairline px-1.5 py-0.5 text-xs text-ink-soft" title="Saturated item: runs as a regression gate, excluded from Overall">
                     basics
                   </span>
                 )}
@@ -89,7 +89,7 @@ export default function QuestionsPage() {
                       );
                       const row = report?.rows.find((r) => r.modelId === score.modelId);
                       // A response that never arrived, or never got a verdict, is
-                      // missing data — not a bad answer. Showing it as "0.0" reads
+                      // missing data - not a bad answer. Showing it as "0.0" reads
                       // as the model failing the question when the pipeline failed.
                       const detail = score.detail as
                         | { judgePending?: boolean; emptyAnswer?: boolean }
@@ -107,11 +107,11 @@ export default function QuestionsPage() {
                                 className="tabular whitespace-nowrap text-sm text-ink-soft"
                                 title={
                                   detail?.judgePending
-                                    ? 'No judge verdict for this answer — excluded from the score'
+                                    ? 'No judge verdict for this answer; excluded from the score'
                                     : 'The model returned no text (transport failure), scored 0'
                                 }
                               >
-                                {detail?.judgePending ? '— unjudged' : '0.0 · no answer'}
+                                {detail?.judgePending ? 'unjudged' : '0.0 · no answer'}
                               </span>
                             ) : (
                               <span
@@ -124,7 +124,7 @@ export default function QuestionsPage() {
                           </div>
                           <p className="mt-2 whitespace-pre-wrap text-xs leading-relaxed text-ink-soft">
                             {noAnswer ? (
-                              <em>No response — the model returned no text.</em>
+                              <em>No response: the model returned no text.</em>
                             ) : (
                               <>
                                 {(response?.answerText ?? '').slice(0, 600)}

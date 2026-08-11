@@ -11,8 +11,8 @@ export type { FixtureItem, FixtureProposal, SensoryCard, TimelineStep } from './
  * `service` and `surprise` are declared and EMPTY. That is deliberate and
  * visible: `trackAvailability()` reports them as unavailable with a reason, the
  * track picker shows them disabled, and `buildFlight` refuses them outright.
- * The alternative — quietly serving a four-round flight, or silently falling
- * back to another track — would change the protocol without changing the label
+ * The alternative - quietly serving a four-round flight, or silently falling
+ * back to another track - would change the protocol without changing the label
  * on the data, which is the failure mode this whole stage exists to avoid.
  */
 export const fixtureBank: Record<TasteTrack, FixtureItem[]> = {
@@ -25,7 +25,7 @@ export const fixtureBank: Record<TasteTrack, FixtureItem[]> = {
 /**
  * De-duplicate by item id. "No repeated question within a flight" (M5.4) is
  * enforced by drawing distinct items, which only works if the pool genuinely
- * holds distinct ids — a copy-pasted item with the same id would let one
+ * holds distinct ids - a copy-pasted item with the same id would let one
  * question appear twice in a flight and look like two independent readings.
  * Later duplicates are dropped rather than merged, and the first wins.
  */

@@ -38,7 +38,7 @@
 }
 
 @theme {
-  /* Paper & ink — flat editorial palette, hairline borders, zero shadows */
+  /* Paper & ink - flat editorial palette, hairline borders, zero shadows */
   --color-paper: #faf6ef;
   --color-paper-tint: #f3ecdf;
   --color-paper-bright: #fffcf6;
@@ -46,7 +46,7 @@
   --color-ink-soft: #57534e;
   --color-hairline: #e4ddd0;
 
-  /* Fills — swatches, score bars, category rules. Graphical objects, 3:1. */
+  /* Fills - swatches, score bars, category rules. Graphical objects, 3:1. */
   --color-paprika: #c8401a;
   --color-saffron: #d98e2b;
   --color-olive: #7a8b3f;
@@ -55,7 +55,7 @@
   /* Text-safe counterparts, all >= 4.5:1 on both paper and paper-tint.
      The vivid saffron reads 2.48:1 and the olive 3.49:1 as small text, and
      because scoreColor() maps low scores to olive, the worst performers were
-     always the least legible — with the incidents marker, the one element the
+     always the least legible - with the incidents marker, the one element the
      methodology insists must be visible, worst of all at 12px saffron. */
   --color-paprika-ink: #b03714;
   --color-saffron-ink: #8f5d0e;
@@ -79,7 +79,7 @@ html {
    * Root guard against horizontal overflow. On a phone, a single element wider
    * than the viewport (a wide data table, an unbreakable digest) makes mobile
    * browsers widen the whole layout viewport, and then every column renders
-   * clipped off the right edge. `clip` — not `hidden` — prevents that without
+   * clipped off the right edge. `clip` - not `hidden` - prevents that without
    * establishing a scroll container, so `position: sticky` (the desktop paper
    * TOC) still works and the tables' own `overflow-x-auto` wrappers still
    * scroll horizontally inside their boxes. Real fixes still belong at the

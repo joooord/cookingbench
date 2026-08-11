@@ -22,13 +22,13 @@ import type { BuiltFlight, PublicRound, PublicSide, RoundIdentity } from './shap
 export type { BuiltFlight, PublicRound, PublicSide, RoundIdentity } from './shape';
 
 /**
- * M5.4 — the flight is built, sealed and opened here, and nowhere else.
+ * M5.4 - the flight is built, sealed and opened here, and nowhere else.
  *
  * The single hard requirement this file exists to meet is that **model identity
  * is unavailable to the client before a recorded decision**. Signing alone does
  * not achieve that: a signed token is still readable, and "hidden" identities
  * sitting in base64 in the page source would be a blind test in name only. So
- * the flight is *sealed* — AES-256-GCM — and the client receives an opaque
+ * the flight is *sealed* - AES-256-GCM - and the client receives an opaque
  * string plus the proposal text, with no author ids anywhere in the payload.
  *
  * The seal also carries expiry and one nonce per round, which is what makes the
@@ -44,7 +44,7 @@ export type { BuiltFlight, PublicRound, PublicSide, RoundIdentity } from './shap
  * The `server-only` package is not a dependency of this app, so the usual
  * `import 'server-only'` marker is unavailable. This module holds key material
  * and the unblinded author ids, and a bundler that pulled it into a client
- * chunk would ship both — so it refuses to initialise in a browser instead.
+ * chunk would ship both - so it refuses to initialise in a browser instead.
  * `node:crypto` would fail to resolve there anyway; this makes the reason
  * legible rather than leaving it to a module-resolution error.
  */
@@ -69,7 +69,7 @@ export class FlightUnavailableError extends Error {
 
 /**
  * The site otherwise reads no environment variables at all, and that is a
- * deliberate property worth protecting — but a sealed ballot needs a key and
+ * deliberate property worth protecting - but a sealed ballot needs a key and
  * there is nowhere else to put one.
  *
  * There is no development fallback. A hardcoded default key would mean every
@@ -88,7 +88,7 @@ function ballotKey(): Buffer {
       'The Taste Test is not configured on this deployment.',
     );
   }
-  // scrypt is deliberately expensive — that is the point of it for a password,
+  // scrypt is deliberately expensive - that is the point of it for a password,
   // and entirely wrong to pay per request. Casting one ballot opens the seal
   // and mints a receipt, so an uncached derivation would be two full scrypts on
   // the hot path; a 400-flight loop took minutes before this cache existed.
@@ -143,7 +143,7 @@ export function sealFlight(flight: SealedFlight): string {
 /**
  * Open a sealed flight, or return null.
  *
- * Every failure path — malformed, wrong key, tampered, expired, wrong version —
+ * Every failure path - malformed, wrong key, tampered, expired, wrong version  - 
  * returns null rather than throwing or distinguishing itself, because the
  * distinction is only useful to someone probing the seal.
  */
@@ -169,7 +169,7 @@ export function openFlight(token: unknown): SealedFlight | null {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Receipts — the reveal must be earned                                       */
+/* Receipts - the reveal must be earned                                       */
 /* -------------------------------------------------------------------------- */
 
 /**
@@ -177,7 +177,7 @@ export function openFlight(token: unknown): SealedFlight | null {
  * specific choice. The reveal endpoint demands one per round.
  *
  * Without this, a visitor could request the flight, skip voting entirely and
- * ask for the identities — and every subsequent round of that flight would be
+ * ask for the identities - and every subsequent round of that flight would be
  * unblinded. Gate 5 requires that identity be unavailable *before a recorded
  * decision*, and the recorded decision is the thing being proved here.
  */
@@ -190,7 +190,7 @@ export function mintReceipt(flightId: string, round: number, choice: TasteChoice
 function receiptValid(flightId: string, round: number, presented: unknown): boolean {
   if (typeof presented !== 'string' || presented.length === 0) return false;
   const offered = Buffer.from(presented, 'base64url');
-  // The choice is not known here, so accept a receipt matching any of them —
+  // The choice is not known here, so accept a receipt matching any of them  - 
   // the receipt proves *a* recorded decision, which is what the gate asks for.
   for (const choice of ['left', 'right', 'equal', 'neither', 'abstain'] as const) {
     const expected = Buffer.from(mintReceipt(flightId, round, choice), 'base64url');
@@ -233,12 +233,12 @@ const IDENTICAL_CONTROL_RATE = 0.2;
 /**
  * Item-level admissibility. An item that fails any of these is not served, and
  * a track without five admissible items is refused outright rather than served
- * short — a four-round "five-round flight" is a silent protocol change.
+ * short - a four-round "five-round flight" is a silent protocol change.
  */
 function admissibleItem(item: FixtureItem): string | null {
   // M5.4's safety and hard-constraint prefilter. An item with no recorded
   // review is refused, so "nobody looked at it" cannot present as "looked at
-  // and fine" — the same fail-closed reading the calibration gate uses.
+  // and fine" - the same fail-closed reading the calibration gate uses.
   if (item.safety?.reviewed !== true || !item.safety.reviewer) {
     return 'no recorded safety review';
   }
@@ -294,13 +294,13 @@ export function trackAvailability(): TrackAvailability[] {
 /**
  * Assign one author pair per round with **no author used twice in the flight**
  * (M5.4). This is a bipartite matching, not a shuffle, and a greedy pass
- * genuinely fails on the fixture bank's overlapping author sets — the last
+ * genuinely fails on the fixture bank's overlapping author sets - the last
  * round can be left with both of its authors already spent. So: seeded
  * randomised order, then backtracking, then refuse.
  *
  * Refusing matters more than it looks. Quietly permitting a repeat would put
  * one author in two rounds of the same flight, and every ballot in that flight
- * shares a reader — the session cluster then carries a duplicated model and the
+ * shares a reader - the session cluster then carries a duplicated model and the
  * clustered bootstrap under-counts its dependence.
  */
 function assignPairs(
@@ -367,7 +367,7 @@ export function buildFlight(track: unknown, seed?: number): BuiltFlight {
     );
   }
 
-  // At most one control round, and never round 1 — a reader meeting two
+  // At most one control round, and never round 1 - a reader meeting two
   // identical cards as their first impression learns the wrong thing about
   // what the flight is asking.
   const controlRound = rand() < IDENTICAL_CONTROL_RATE ? 2 + Math.floor(rand() * 4) : 0;
@@ -426,7 +426,7 @@ export function buildFlight(track: unknown, seed?: number): BuiltFlight {
 
 export interface CastContext {
   flightId: string;
-  /** Server-derived, from the seal — never the number the client sent. */
+  /** Server-derived, from the seal - never the number the client sent. */
   round: number;
   track: TasteTrack;
   itemId: string;
@@ -465,7 +465,7 @@ export function roundContext(token: unknown, round: unknown): CastContext | null
 
 /**
  * The reveal. Refuses unless every round of the flight presents a valid
- * receipt — five recorded decisions, then and only then the names.
+ * receipt - five recorded decisions, then and only then the names.
  */
 export function revealFlight(token: unknown, receipts: unknown): RoundIdentity[] | null {
   const flight = openFlight(token);
@@ -485,7 +485,7 @@ export function revealFlight(token: unknown, receipts: unknown): RoundIdentity[]
 
 /**
  * Fixture voices are named, not numbered, so the reveal reads as a reveal.
- * They are NOT models and the UI says so — attributing authored fixture prose
+ * They are NOT models and the UI says so - attributing authored fixture prose
  * to a real model would be a fabricated model contact in the permanent record.
  */
 export function displayNameFor(authorId: string): string {

@@ -13,7 +13,7 @@ export default function AboutPage() {
         <h1 className="font-display text-5xl font-semibold tracking-tight sm:text-7xl">About CookingBench</h1>
         <p className="mt-7 max-w-3xl text-xl leading-relaxed text-ink-soft">
           An open research programme asking how much culinary intelligence language models can
-          reconstruct—and building an instrument honest enough to admit when it cannot tell.
+          reconstruct, and building an instrument honest enough to admit when it cannot tell.
         </p>
       </header>
 

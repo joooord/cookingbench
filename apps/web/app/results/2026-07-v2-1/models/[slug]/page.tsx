@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const row = snapshot?.report.rows.find((candidate) => candidate.modelId === modelIdFromSlug(slug));
   if (!row) return {};
   return {
-    title: `${row.displayName} — archived CookingBench v2.1 profile`,
+    title: `${row.displayName} · archived CookingBench v2.1 profile`,
     description: `${row.displayName} in the archived CookingBench v2.1 study: original culinary-reasoning profile, uncertainty, preserved answers and known scoring limitations.`,
     alternates: { canonical: `/results/2026-07-v2-1/models/${slug}` },
   };
@@ -71,7 +71,7 @@ export default async function ArchivedModelPage({ params }: { params: Promise<{ 
         </div>
         <div className="bg-paper p-6">
           <p className="font-mono text-[0.68rem] uppercase tracking-wider text-ink-soft">Frontier subset</p>
-          <p className="mt-3 font-mono text-2xl">{row.frontier == null ? '—' : formatScore(row.frontier)}</p>
+          <p className="mt-3 font-mono text-2xl">{row.frontier == null ? 'n/a' : formatScore(row.frontier)}</p>
         </div>
       </section>
 

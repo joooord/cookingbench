@@ -2,7 +2,7 @@ import type { CategoryId } from '@cookingbench/core';
 
 /**
  * Flat score scale: paprika (poor) → saffron → olive → herb green (excellent).
- * Returns the text-safe variants — this is used for score numerals far more
+ * Returns the text-safe variants - this is used for score numerals far more
  * often than for fills, and a score is the last thing that should be hard to
  * read. Use scoreFill() where the colour is a bar or swatch.
  */
@@ -33,5 +33,5 @@ export const CATEGORY_COLORS: Record<CategoryId, string> = {
 };
 
 export function formatScore(score: number | undefined): string {
-  return score === undefined ? '—' : score.toFixed(1);
+  return score === undefined ? 'n/a' : score.toFixed(1);
 }

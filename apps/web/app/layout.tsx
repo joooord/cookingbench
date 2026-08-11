@@ -6,8 +6,8 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://cookingbench.com'),
   title: {
-    default: 'CookingBench — can AI cook?',
-    template: '%s — CookingBench',
+    default: 'CookingBench · can AI cook?',
+    template: '%s · CookingBench',
   },
   description:
     'An open research programme testing culinary reasoning across physical constraint, sensory judgement, culture and care.',
@@ -63,7 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="mx-auto flex max-w-6xl flex-col justify-between gap-5 px-6 py-10 text-sm text-ink-soft sm:flex-row sm:items-end">
             <p className="max-w-2xl leading-relaxed">
               CookingBench is an open research programme asking what AI can understand about
-              cooking—and publishing the evidence, uncertainty and failures together. v2.1 is an
+              cooking, and publishing the evidence, uncertainty and failures together. v2.1 is an
               archived preliminary study, not a definitive ranking.
             </p>
             <div className="flex flex-wrap gap-x-5 gap-y-2">

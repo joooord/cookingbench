@@ -9,7 +9,7 @@ export function generateStaticParams() {
 }
 
 // The pre-pivot model pages presented the disowned v2.1 scores in the present
-// tense — "joint 1st of 14" in the very meta description search engines quote —
+// tense - "joint 1st of 14" in the very meta description search engines quote  - 
 // while the archived profiles at /results/2026-07-v2-1/models/<slug> carry the
 // same numbers under their real standing. Two live pages telling contradictory
 // stories about one number is the defect; the archived profile is the one that

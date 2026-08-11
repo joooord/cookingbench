@@ -41,7 +41,7 @@ export default function CanAiCookPage() {
           A model can describe the Maillard reaction without smelling dinner and recommend
           hospitality without loving anyone. It can have read thousands of cuisines without
           hunger, muscle memory, family history or responsibility for the person who eats.
-          What kind of culinary judgement can language reconstruct—and where does it fail?
+          What kind of culinary judgement can language reconstruct, and where does it fail?
         </p>
       </div>
 
@@ -139,7 +139,7 @@ export default function CanAiCookPage() {
         <h2 className="mt-6 font-display text-4xl font-semibold">Can AI cook?</h2>
         <p className="mt-5 max-w-3xl text-lg leading-relaxed text-ink-soft">
           Not yet answered. The next CookingBench should make the question sharper rather than the
-          claim louder—and produce an answer that remains credible after the scoring system itself is audited.
+          claim louder, and produce an answer that remains credible after the scoring system itself is audited.
         </p>
         <div className="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-sm">
           <TextLink href="/research/v2-1-autopsy">See what the first instrument taught us</TextLink>

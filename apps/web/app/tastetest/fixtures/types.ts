@@ -5,7 +5,7 @@ import type { TasteTrack } from '@cookingbench/core';
  *
  * WP-7: "Build against synthetic and archived fixtures until measurement gates
  * pass." Nothing here is a model output. Every proposal is written by hand, and
- * every author id is a `fixture/…` voice that exists only in this bank — a real
+ * every author id is a `fixture/…` voice that exists only in this bank - a real
  * model id would put an invented model contact into the permanent ballot
  * record, which is precisely what the evidence firewall is for. Migration 0008
  * pins every anonymous ballot to `evidence_class = 'development'` so that even
@@ -14,7 +14,7 @@ import type { TasteTrack } from '@cookingbench/core';
 
 /**
  * M5.2's matched sensory card. Every field is required for a flavour round and
- * both sides render the same seven rows in the same order — a card with a
+ * both sides render the same seven rows in the same order - a card with a
  * missing row on one side is a visible asymmetry and the loader refuses it.
  *
  * The card is a PREDICTION about how a dish would eat. It is written before

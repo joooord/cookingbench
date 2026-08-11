@@ -10,7 +10,7 @@ export const V21_RECORD = {
   corpusDigest: 'cc5b5db1988921298ff72cf034ced530820d18a821009b15f56e9dfee9f40e8b',
   responseTree: '0e574bdf2ec63ca55067d0dd12bd0756eddec420',
   title:
-    'CookingBench did not reliably discover the best AI cook—but it exposed how a benchmark can manufacture a convincing model ranking.',
+    'CookingBench did not reliably discover the best AI cook, but it exposed how a benchmark can manufacture a convincing model ranking.',
   centralFinding:
     'CookingBench v2.1 did not support a unique fine-grained ordering of its leading models. Saturation, concentrated itemwise dispersion and a reproduced semantic scoring failure made the published ordering more precise than the instrument warranted.',
   positionThesis:
@@ -41,7 +41,7 @@ export interface V21Snapshot {
 let cachedSnapshot: V21Snapshot | null | undefined;
 
 /**
- * Read every public fact through the release-pinned data reader — except the
+ * Read every public fact through the release-pinned data reader - except the
  * seven corpus aggregates, which are precomputed once into
  * `v21-corpus-facts.json` because the corpus they summarise is immutable (its
  * git tree hash is pinned in CI): re-reading 2,576 response files on every
@@ -49,14 +49,14 @@ let cachedSnapshot: V21Snapshot | null | undefined;
  * guards what: the REAL binding to the corpus is
  * packages/runner/test/corpus-facts.test.ts, which recomputes every number and
  * the content digest from the actual response files in CI. The runtime check
- * below (facts digest === V21_RECORD.corpusDigest) is a lighter tripwire — it
+ * below (facts digest === V21_RECORD.corpusDigest) is a lighter tripwire - it
  * catches a facts file pasted in from a different corpus era, but both values
  * are committed constants, so it cannot detect corpus drift on its own. If the
  * corpus is ever deliberately changed (a reviewed tree-pin update), regenerate
  * this file in the same commit or the CI test goes red. The function still
  * returns null if the approved release is not the named archive: a versioned
  * research page must never silently inherit figures from a later run.
- * (/questions still reads the real responses — it displays them.)
+ * (/questions still reads the real responses - it displays them.)
  */
 export function getV21Snapshot(): V21Snapshot | null {
   if (cachedSnapshot !== undefined) return cachedSnapshot;
@@ -135,7 +135,7 @@ export const NEXT_PROGRAMME = [
   },
   {
     stage: 'Build',
-    work: 'Author difficult items around causal culinary reasoning, adaptation, history, culture and care—not trivia alone.',
+    work: 'Author difficult items around causal culinary reasoning, adaptation, history, culture and care, not trivia alone.',
     evidence: 'A versioned item bank with adversarial paraphrases and known failure modes',
   },
   {
