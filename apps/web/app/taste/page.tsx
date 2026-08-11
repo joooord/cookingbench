@@ -449,7 +449,7 @@ function LegacyBoard({
                       if (r.modelId === c.modelId) {
                         return (
                           <td key={c.modelId} className="p-2 text-center text-ink-soft">
-                            &mdash;
+                            &middot;
                           </td>
                         );
                       }

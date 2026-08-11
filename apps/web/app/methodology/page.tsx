@@ -356,15 +356,15 @@ export default function MethodologyPage() {
             correct answer actually takes. Two in particular: a refutation using a contracted
             auxiliary (<em>&ldquo;you haven&rsquo;t dodged a bullet&rdquo;</em>), and naming a
             banned ingredient in order to rule it out (<em>&ldquo;many vegan butters use
-            coconut oil &mdash; look for soy-based brands&rdquo;</em>). Separately, an answer
+            coconut oil: look for soy-based brands&rdquo;</em>). Separately, an answer
             that came back empty was handed to the judge panel, which deducted once for
-            producing nothing and floored at 60 &mdash; so silence scored better than a poor
+            producing nothing and floored at 60, so silence scored better than a poor
             answer.
           </p>
           <p className="mt-4">
             The effect was not small. Three questions&rsquo; own hand-written reference
             answers scored 0 against their own graders, and on one item 12 of 13 models were
-            zeroed on the constraint check &mdash; three of them while the judge panel scored
+            zeroed on the constraint check, three of them while the judge panel scored
             them 100. Eighteen answers in run 2026-06-v2 were marked wrong when they were
             right.
           </p>
